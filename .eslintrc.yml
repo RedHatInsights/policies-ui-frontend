@@ -55,7 +55,6 @@ rules:
   react/jsx-curly-spacing:
     - error
     - always
-    - children: true
     - allowMultiline: false
     - spacing:
       - objectLiterals:
@@ -71,6 +70,7 @@ rules:
   new-cap: 2
   no-bitwise: 2
   no-caller: 2
+  no-console: off
   no-mixed-spaces-and-tabs: 2
   no-multiple-empty-lines:
     - error
