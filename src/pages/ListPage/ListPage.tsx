@@ -1,21 +1,98 @@
 import * as React from 'react';
-import { PureComponent } from 'react';
+import { Table, TableHeader, TableBody, IRow, IActions } from '@patternfly/react-table';
+import { OutlinedCheckCircleIcon, OutlinedCircleIcon } from '@patternfly/react-icons';
 
-class ListPage extends PureComponent {
+import { PageHeader, Main, Section, PageHeaderTitle } from '@redhat-cloud-services/frontend-components';
+
+type ListPageProps = {};
+type ListPageState = {
+    columns: string[];
+    rows: IRow[];
+    actions: IActions;
+};
+
+class ListPage extends React.Component<ListPageProps, ListPageState> {
+
+    constructor(props: ListPageProps) {
+        super(props);
+        this.state = {
+            columns: [
+                'Name', 'Conditions', 'Actions', 'Is Active?'
+            ],
+            rows: [
+                {
+                    cells: [
+                        'Etiam sollicitudin diam id lectus mollis tempor.',
+                        'Donec at magna ac augue sollicitudin tempus.',
+                        'N/A',
+                        <><OutlinedCheckCircleIcon/></>
+                    ]
+                },
+                {
+                    cells: [
+                        'Proin vehicula ex sit amet iaculis sagittis.',
+                        'Etiam at quam ut velit ornare vestibulum.',
+                        'N/A',
+                        <><OutlinedCircleIcon/></>
+                    ]
+                },
+                {
+                    cells: [
+                        'Maecenas a ipsum at metus vulputate eleifend et at justo.',
+                        'Integer scelerisque purus tempus tellus gravida dictum.',
+                        'N/A',
+                        <><OutlinedCheckCircleIcon/></>
+                    ]
+                },
+                {
+                    cells: [
+                        'Etiam dignissim lectus non tellus mattis, eu mattis dolor mattis.',
+                        'Donec suscipit lorem eu erat vestibulum, at hendrerit tellus feugiat.',
+                        'N/A',
+                        <><OutlinedCheckCircleIcon/></>
+                    ]
+                },
+                {
+                    cells: [
+                        'Donec venenatis ex sit amet massa porta sagittis.',
+                        'Vestibulum imperdiet orci vel mauris aliquet dictum.',
+                        'N/A',
+                        <><OutlinedCircleIcon/></>
+                    ]
+                }
+            ],
+            actions: [
+                {
+                    title: 'Edit',
+                    onClick: () => alert('Edit')
+                },
+                {
+                    title: 'Clone',
+                    onClick: () => alert('Clone')
+                },
+                {
+                    title: 'Delete',
+                    onClick: () => alert('Delete')
+                }
+            ]
+        };
+    }
 
     render() {
         return (
-            <div>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus tempus leo a maximus consectetur.
-            Suspendisse imperdiet rhoncus convallis. Donec finibus ipsum nec luctus facilisis. Sed augue magna,
-            ornare eu tristique vitae, placerat in diam. Suspendisse in accumsan nibh.
-            Donec tempor efficitur scelerisque. Maecenas vehicula mi sit amet est ullamcorper,
-            quis rutrum quam suscipit. Curabitur maximus nisl vel tellus iaculis rhoncus. Ut laoreet elit mauris.
-            Sed lobortis auctor scelerisque. In interdum arcu posuere malesuada fermentum. Donec sed metus vestibulum,
-            viverra velit id, porta mi. Praesent bibendum sem elit, eu ullamcorper purus ornare vitae.
-            Morbi faucibus posuere arcu, et dictum lorem facilisis non. Cras dapibus sapien sed magna condimentum,
-            eu rhoncus sem hendrerit. Pellentesque eget felis a leo vehicula sagittis.
-            </div>
+            <>
+                <PageHeader>
+                    <PageHeaderTitle title="Custom policies"/>
+                </PageHeader>
+                <Main>
+                    <Section>
+                        <Table aria-label="Custom policies list" cells={ this.state.columns } rows={ this.state.rows } actions={ this.state.actions }>
+                            <TableHeader/>
+                            <TableBody/>
+                        </Table>
+                    </Section>
+                </Main>
+            </>
         );
     }
 }
