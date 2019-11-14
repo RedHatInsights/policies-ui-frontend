@@ -2,6 +2,7 @@ import * as React from 'react';
 import { RouteProps, Route, Switch, Redirect } from 'react-router';
 
 import ListPage from './pages/ListPage/ListPage';
+import { AddCustomPolicyPage } from './pages/AddCustomPolicyPage';
 
 interface Path {
     path: string;
@@ -11,9 +12,14 @@ interface Path {
 
 const pathRoutes: Path[] = [
     {
-        path: '/',
+        path: '/list',
         component: ListPage,
         rootClass: 'list'
+    },
+    {
+        path: '/add',
+        component: AddCustomPolicyPage,
+        rootClass: 'add-custom-policies'
     }
 ];
 
@@ -43,7 +49,7 @@ export const Routes: React.FunctionComponent<RoutesProps> = () => {
             { pathRoutes.map(pathRoute => (
                 <InsightsRoute key={ pathRoute.path } rootClass={ pathRoute.rootClass } component={ pathRoute.component } path={ pathRoute.path }/>
             )) }
-            <Redirect to="/"/>
+            <Redirect to="/list"/>
         </Switch>
     );
 };

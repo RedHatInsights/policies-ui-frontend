@@ -12,7 +12,6 @@ class App extends React.PureComponent<RouteComponentProps> {
         insights.chrome.init();
         insights.chrome.identifyApp('insights');
         this.appNav = insights.chrome.on('APP_NAVIGATION', (event: any) => this.props.history.push(`/${event.navId}`));
-        console.log(this.appNav);
     }
 
     componentWillUnmount() {
