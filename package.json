@@ -81,8 +81,8 @@
     "build": "webpack --config config/prod.webpack.config.js",
     "test": "jest --verbose",
     "lint": "npm-run-all lint:*",
-    "lint:js": "eslint config src",
-    "lint:js:fix": "eslint config src --fix",
+    "lint:js": "eslint --ext js,ts,tsx config src",
+    "lint:js:fix": "eslint --ext js,ts,tsx config src --fix",
     "lint:sass": "stylelint 'src/**/*.scss' --config .stylelintrc.json",
     "prod": "NODE_ENV=production webpack-dev-server --config config/dev.webpack.config.js",
     "server:ctr": "node src/server/generateServerKey.js",
@@ -90,7 +90,8 @@
     "build:prod": "NODE_ENV=production webpack --config config/prod.webpack.config.js",
     "deploy": "npm-run-all build:prod lint test",
     "verify": "npm-run-all build lint test",
-    "nightly": "npm run deploy"
+    "nightly": "npm run deploy",
+    "proxy": "SPANDX_CONFIG=\"./profiles/local-frontend.js\" bash $PROXY_PATH/scripts/run.sh"
   },
   "insights": {
     "appname": "custom-policies"
