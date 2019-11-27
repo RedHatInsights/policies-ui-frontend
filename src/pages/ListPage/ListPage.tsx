@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Table, TableHeader, TableBody, IRow, IActions } from '@patternfly/react-table';
-import { CheckCircleIcon,  OutlinedCircleIcon, PlusCircleIcon } from '@patternfly/react-icons';
+import { CheckCircleIcon,  PlusCircleIcon } from '@patternfly/react-icons';
 
 import { PageHeader, Main, Section, PageHeaderTitle } from '@redhat-cloud-services/frontend-components';
 import { Policy } from '../../types/Policy';
