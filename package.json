@@ -28,14 +28,17 @@
     "@redhat-cloud-services/frontend-components": "0.0.5",
     "@redhat-cloud-services/frontend-components-utilities": "0.0.10",
     "classnames": "^2.2.6",
+    "csstips": "^1.2.0",
     "react": "^16.11.0",
     "react-content-loader": "^3.4.2",
     "react-dom": "^16.11.0",
+    "react-flexview": "^4.0.4",
     "react-redux": "^5.1.2",
     "react-router-dom": "^4.3.1",
     "redux": "^4.0.4",
     "redux-logger": "^3.0.6",
-    "redux-promise-middleware": "^5.1.1"
+    "redux-promise-middleware": "^5.1.1",
+    "typestyle": "^2.0.4"
   },
   "devDependencies": {
     "@babel/core": "^7.7.2",
