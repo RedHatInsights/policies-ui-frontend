@@ -1,66 +1,31 @@
 import * as React from 'react';
 import { Table, TableHeader, TableBody, IRow, IActions } from '@patternfly/react-table';
-import { OutlinedCheckCircleIcon, OutlinedCircleIcon } from '@patternfly/react-icons';
+import { CheckCircleIcon,  OutlinedCircleIcon, PlusCircleIcon } from '@patternfly/react-icons';
 
 import { PageHeader, Main, Section, PageHeaderTitle } from '@redhat-cloud-services/frontend-components';
+import { Policy } from '../../types/Policy';
+import { Link } from 'react-router-dom';
 
 type ListPageProps = {};
 type ListPageState = {
     columns: string[];
     rows: IRow[];
     actions: IActions;
+    rawData: Policy[];
 };
 
 class ListPage extends React.Component<ListPageProps, ListPageState> {
 
+    API = 'http://localhost:8080/api/v1/policies/';
+
     constructor(props: ListPageProps) {
         super(props);
+
         this.state = {
             columns: [
-                'Name', 'Conditions', 'Actions', 'Is Active?'
+                'Name', 'Description', 'Conditions', 'Actions', 'Is active?'
             ],
-            rows: [
-                {
-                    cells: [
-                        'Etiam sollicitudin diam id lectus mollis tempor.',
-                        'Donec at magna ac augue sollicitudin tempus.',
-                        'N/A',
-                        <><OutlinedCheckCircleIcon/></>
-                    ]
-                },
-                {
-                    cells: [
-                        'Proin vehicula ex sit amet iaculis sagittis.',
-                        'Etiam at quam ut velit ornare vestibulum.',
-                        'N/A',
-                        <><OutlinedCircleIcon/></>
-                    ]
-                },
-                {
-                    cells: [
-                        'Maecenas a ipsum at metus vulputate eleifend et at justo.',
-                        'Integer scelerisque purus tempus tellus gravida dictum.',
-                        'N/A',
-                        <><OutlinedCheckCircleIcon/></>
-                    ]
-                },
-                {
-                    cells: [
-                        'Etiam dignissim lectus non tellus mattis, eu mattis dolor mattis.',
-                        'Donec suscipit lorem eu erat vestibulum, at hendrerit tellus feugiat.',
-                        'N/A',
-                        <><OutlinedCheckCircleIcon/></>
-                    ]
-                },
-                {
-                    cells: [
-                        'Donec venenatis ex sit amet massa porta sagittis.',
-                        'Vestibulum imperdiet orci vel mauris aliquet dictum.',
-                        'N/A',
-                        <><OutlinedCircleIcon/></>
-                    ]
-                }
-            ],
+            rows: [],
             actions: [
                 {
                     title: 'Edit',
@@ -74,9 +39,31 @@ class ListPage extends React.Component<ListPageProps, ListPageState> {
                     title: 'Delete',
                     onClick: () => alert('Delete')
                 }
-            ]
+            ],
+            rawData: []
         };
     }
+
+    rows = (): IRow[] => {
+        if (!this.state.rawData) {
+            return this.state.rows;
+        }
+        else {
+            let rows: IRow[] = [];
+            this.state.rawData.map(value =>
+                rows.push({
+                    cells: [
+                        value.name,
+                        value.description,
+                        value.conditions,
+                        value.actions,
+                        value.isEnabled ? <><CheckCircleIcon color={ 'green' } size={ 'md' }/></> : <></>
+                    ]
+                })
+            );
+            return rows;
+        }
+    };
 
     render() {
         return (
@@ -86,16 +73,27 @@ class ListPage extends React.Component<ListPageProps, ListPageState> {
                 </PageHeader>
                 <Main>
                     <Section>
-                        <Table aria-label="Custom policies list" cells={ this.state.columns } rows={ this.state.rows } actions={ this.state.actions }>
+                        <Table aria-label="Custom policies list" cells={ this.state.columns } rows={ this.rows() } actions={ this.state.actions }>
                             <TableHeader/>
                             <TableBody/>
                         </Table>
+                    </Section>
+                    <Section>
+                        <div/>
+                        <Link to="/add" className="btn btn-primary"><PlusCircleIcon size={ 'lg' }/>Add new Policy</Link>
                     </Section>
                 </Main>
             </>
         );
     }
-}
 
+    componentDidMount() {
+        let customerId = 1;
+        fetch(this.API + '' + customerId)
+        .then(response => response.json())
+        .then(data => this.setState({ rawData: data }));
+    }
+
+}
 
 export default ListPage;

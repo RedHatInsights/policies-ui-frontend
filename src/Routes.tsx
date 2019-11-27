@@ -2,7 +2,7 @@ import * as React from 'react';
 import { RouteProps, Route, Switch, Redirect } from 'react-router';
 
 import ListPage from './pages/ListPage/ListPage';
-import { AddCustomPolicyPage } from './pages/AddCustomPolicyPage';
+import AddCustomPolicyPage from './pages/AddCustomPolicyPage';
 
 interface Path {
     path: string;
