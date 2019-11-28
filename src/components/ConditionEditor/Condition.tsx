@@ -2,7 +2,7 @@ import * as React from 'react';
 import { TextInput, FormSelect, FormSelectOption, Flex, FlexItem } from '@patternfly/react-core';
 
 type KeyValue = {
-    [key: string]: string
+    [key: string]: string;
 };
 
 interface ConditionProps {
@@ -14,7 +14,7 @@ interface ConditionProps {
 }
 
 interface SelectWithValuesProps {
-    "aria-label": string;
+    'aria-label': string;
     values: KeyValue;
 }
 

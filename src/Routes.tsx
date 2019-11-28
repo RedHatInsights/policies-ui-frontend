@@ -41,7 +41,7 @@ const InsightsRoute: React.FunctionComponent<InsightsRouteProps> = (props: Insig
     return (<Route { ...rest }/>);
 };
 
-interface RoutesProps {}
+type RoutesProps = {};
 
 export const Routes: React.FunctionComponent<RoutesProps> = () => {
     return (

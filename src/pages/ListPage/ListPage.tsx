@@ -49,7 +49,7 @@ class ListPage extends React.Component<ListPageProps, ListPageState> {
             return this.state.rows;
         }
         else {
-            let rows: IRow[] = [];
+            const rows: IRow[] = [];
             this.state.rawData.map(value =>
                 rows.push({
                     cells: [
@@ -88,7 +88,7 @@ class ListPage extends React.Component<ListPageProps, ListPageState> {
     }
 
     componentDidMount() {
-        let customerId = 1;
+        const customerId = 1;
         fetch(this.API + '' + customerId)
         .then(response => response.json())
         .then(data => this.setState({ rawData: data }));

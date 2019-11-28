@@ -1,4 +1,4 @@
-parser: babel-eslint
+parser: '@typescript-eslint/parser'
 env:
   browser: true
   node: true
@@ -7,7 +7,7 @@ settings:
   react:
     version: '16.0'
 extends:
-  - 'eslint:recommended'
+  - 'plugin:@typescript-eslint/recommended'
   - 'prettier'
   - 'plugin:react/recommended'
 parserOptions:
@@ -26,6 +26,10 @@ globals:
   shallow: true
   React: true
 rules:
+  '@typescript-eslint/explicit-function-return-type':
+    - off
+  '@typescript-eslint/no-explicit-any':
+    - off
   array-bracket-spacing:
     - error
     - always
