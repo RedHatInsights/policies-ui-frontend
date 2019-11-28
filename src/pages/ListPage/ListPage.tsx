@@ -5,6 +5,7 @@ import { CheckCircleIcon,  PlusCircleIcon } from '@patternfly/react-icons';
 import { PageHeader, Main, Section, PageHeaderTitle } from '@redhat-cloud-services/frontend-components';
 import { Policy } from '../../types/Policy';
 import { Link } from 'react-router-dom';
+import { getPolicies } from '../../services/Api';
 
 type ListPageProps = {};
 type ListPageState = {
@@ -15,8 +16,6 @@ type ListPageState = {
 };
 
 class ListPage extends React.Component<ListPageProps, ListPageState> {
-
-    API = '/api/custom-policies/v1.0/policies/';
 
     constructor(props: ListPageProps) {
         super(props);
@@ -88,9 +87,9 @@ class ListPage extends React.Component<ListPageProps, ListPageState> {
     }
 
     componentDidMount() {
-        const customerId = 1;
-        fetch(this.API + '' + customerId)
-        .then(response => response.json())
+        const customerId = '1';
+        getPolicies(customerId)
+        .then(response => response.data)
         .then(data => this.setState({ rawData: data }));
     }
 

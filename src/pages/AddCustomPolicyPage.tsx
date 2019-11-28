@@ -15,6 +15,7 @@ import { PageHeader, Main, Section, PageHeaderTitle } from '@redhat-cloud-servic
 
 import { Policy } from '../types/Policy';
 import { Link } from 'react-router-dom';
+import { createPolicy } from '../services/Api';
 
 type AddPageProps = {};
 type AddPageState = {
@@ -25,18 +26,14 @@ type AddPageState = {
 
 class AddCustomPolicyPage extends React.Component<AddPageProps, AddPageState> {
 
-    API = '/api/custom-policies/v1.0/policies/';
-
     constructor(props: AddPageProps) {
         super(props);
         this.state = {
             isValid: false,
             policy: {
-                id: 'na',
-                description: '',
+                customerid: '1',
                 conditions: '',
                 name: '',
-                actions: '',
                 isEnabled: false },
             ddOpen: false
         };
@@ -118,18 +115,12 @@ class AddCustomPolicyPage extends React.Component<AddPageProps, AddPageState> {
     };
 
     testPolicy = () => {
-        const d = JSON.stringify(this.state.policy);
-        fetch(this.API + '' + '1', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                Accept: 'application/json'
-            },
-            body: d
-        })
-        .then(response => response.json())
+        createPolicy(this.state.policy)
         .then(() => this.setState({ isValid: true }))
-        .catch(reason  => console.log(reason));
+        .catch(reason  => {
+            console.log(reason);
+            this.setState({ isValid: false });
+        });
 
     };
 
@@ -158,6 +149,6 @@ class AddCustomPolicyPage extends React.Component<AddPageProps, AddPageState> {
         });
     }
 
-};
+}
 
 export default AddCustomPolicyPage;
