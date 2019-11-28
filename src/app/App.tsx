@@ -2,7 +2,7 @@ import * as React from 'react';
 import { RouteComponentProps, withRouter } from 'react-router';
 import { Routes } from '../Routes';
 
-declare var insights: any;
+declare const insights: any;
 
 class App extends React.PureComponent<RouteComponentProps> {
 

@@ -20,7 +20,7 @@ type AddPageProps = {};
 type AddPageState = {
     policy: Policy;
     isValid: boolean;
-    ddOpen : any;
+    ddOpen: boolean;
 };
 
 class AddCustomPolicyPage extends React.Component<AddPageProps, AddPageState> {
@@ -118,7 +118,7 @@ class AddCustomPolicyPage extends React.Component<AddPageProps, AddPageState> {
     };
 
     testPolicy = () => {
-        let d = JSON.stringify(this.state.policy);
+        const d = JSON.stringify(this.state.policy);
         fetch(this.API + '' + '1', {
             method: 'POST',
             headers: {
