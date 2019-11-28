@@ -16,7 +16,7 @@ type ListPageState = {
 
 class ListPage extends React.Component<ListPageProps, ListPageState> {
 
-    API = '/api/v1/policies/';
+    API = '/api/custom-policies/v1.0/policies/';
 
     constructor(props: ListPageProps) {
         super(props);

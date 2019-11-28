@@ -15,6 +15,6 @@ routes[`/apps/${APP_ID}`]            = { host: `https://localhost:${FRONTEND_POR
 // https://github.com/RedHatInsights/cloud-services-config#testing-your-changes-locally
 routes[`/beta/config`]               = { host: `http://localhost:8889` };
 
-routes[`/api/v1/policies`] = { host: `http://localhost:${API_PORT}` };
+routes[`/api/custom-policies/v1.0`] = { host: `http://localhost:${API_PORT}` };
 
 module.exports = { routes };

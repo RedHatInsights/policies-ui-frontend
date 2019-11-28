@@ -25,7 +25,7 @@ type AddPageState = {
 
 class AddCustomPolicyPage extends React.Component<AddPageProps, AddPageState> {
 
-    API = '/api/v1/policies/';
+    API = '/api/custom-policies/v1.0/policies/';
 
     constructor(props: AddPageProps) {
         super(props);
