@@ -5,7 +5,7 @@ import { CheckCircleIcon,  PlusCircleIcon } from '@patternfly/react-icons';
 import { PageHeader, Main, Section, PageHeaderTitle } from '@redhat-cloud-services/frontend-components';
 import { Policy } from '../../types/Policy';
 import { Link } from 'react-router-dom';
-import { getPolicies } from '../../services/Api';
+import { deletePolicy, getPolicies } from '../../services/Api';
 
 type ListPageProps = {};
 type ListPageState = {
@@ -13,6 +13,7 @@ type ListPageState = {
     rows: IRow[];
     actions: IActions;
     rawData: Policy[];
+    needsUpdate: boolean;
 };
 
 class ListPage extends React.Component<ListPageProps, ListPageState> {
@@ -22,7 +23,7 @@ class ListPage extends React.Component<ListPageProps, ListPageState> {
 
         this.state = {
             columns: [
-                'Name', 'Description', 'Conditions', 'Actions', 'Is active?'
+                'id', 'Name', 'Description', 'Conditions', 'Actions', 'Is active?'
             ],
             rows: [],
             actions: [
@@ -36,10 +37,16 @@ class ListPage extends React.Component<ListPageProps, ListPageState> {
                 },
                 {
                     title: 'Delete',
-                    onClick: () => alert('Delete')
+                    onClick: (event, rowId, rowData) => {
+                        alert('Delete ' + rowId + ' : ' + rowData.cells);
+                        if (rowData.cells) {
+                            this.deletePolicy(rowData.cells[0]);
+                        }
+                    }
                 }
             ],
-            rawData: []
+            rawData: [],
+            needsUpdate: false
         };
     }
 
@@ -52,6 +59,7 @@ class ListPage extends React.Component<ListPageProps, ListPageState> {
             this.state.rawData.map(value =>
                 rows.push({
                     cells: [
+                        value.id,
                         value.name,
                         value.description,
                         value.conditions,
@@ -90,9 +98,16 @@ class ListPage extends React.Component<ListPageProps, ListPageState> {
         const customerId = '1';
         getPolicies(customerId)
         .then(response => response.data)
-        .then(data => this.setState({ rawData: data }));
+        .then(data => this.setState({ rawData: data, needsUpdate: false }));
     }
 
+    deletePolicy(cell: any) {
+        const customerId = '1';
+        deletePolicy(customerId, cell)
+        .then(response => response.status)
+        .then((data => { alert('Code: ' + data);
+            this.setState ({ needsUpdate: true });}));
+    }
 }
 
 export default ListPage;

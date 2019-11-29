@@ -17,6 +17,8 @@ export const getFacts = () => newRequest<Fact[]>('GET', urls.facts);
 
 export const getPolicies = (customerId: string) => newRequest<Policy[]>('GET', urls.policies(customerId));
 
-export const createPolicy = (policy: Policy) => newRequest<void>('POST', urls.policies(policy.customerid), {}, policy);
+export const createPolicy = (policy: Policy) => newRequest<void>('POST', urls.policies(policy.customerid), { alsoStore: true }, policy);
+export const verifyPolicy = (policy: Policy) => newRequest<void>('POST', urls.policies(policy.customerid), {}, policy);
 
 export const getCustomerPolicy = (customerId: string, policyId: string) => newRequest<Policy>('GET', urls.customerPolicy(customerId, policyId));
+export const deletePolicy = (customerId: string, policyId: string) => newRequest<Policy>('DELETE', urls.customerPolicy(customerId, policyId));
