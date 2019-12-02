@@ -17,7 +17,7 @@ const styleVerticallyScaped15 = style(verticallySpaced(15));
 
 export const ConditionBlock: React.FunctionComponent<ConditionBlockProps> = (props: React.PropsWithChildren<ConditionBlockProps>) => {
     const decoratedChildren = React.Children.map(props.children, (child) => {
-        let key = null;
+        let key: React.Key | undefined = undefined;
         if (React.isValidElement(child)) {
             key = child.props.key;
         }
