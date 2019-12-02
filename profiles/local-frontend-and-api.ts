@@ -1,5 +1,3 @@
-/*global module*/
-
 const SECTION = 'insights';
 const APP_ID = 'custom-policies';
 const FRONTEND_PORT = 8002;
