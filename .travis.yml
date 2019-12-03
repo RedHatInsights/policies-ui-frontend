@@ -2,16 +2,17 @@ language: node_js
 sudo: required
 node_js:
 - '10'
-install:
-- npm ci
-jobs:
-  include:
-  - stage: Lint
-    script: npm run lint
-  - stage: Test
-    script: npm run test && npx codecov
-#  - stage: Deploy
-#    script: npm run deploy && curl -sSL https://raw.githubusercontent.com/RedHatInsights/insights-frontend-builder-common/master/src/bootstrap.sh | bash -s
+cache:
+  yarn: true
+  directories:
+    - node_modules
+install: yarn --frozen-lockfile --non-interactive || (echo 'package.json is not in sync with yarn.lock, check that you include yarn.lock' && false)
+script:
+- yarn  
+- yarn lint  
+- yarn build 
+- yarn test --forceExit --maxWorkers=4
+##    script: npm run deploy && curl -sSL https://raw.githubusercontent.com/RedHatInsights/insights-frontend-builder-common/master/src/bootstrap.sh | bash -s
 #env:
 #  global:
 #  - REPO="git@github.com:RedHatInsights/insights-frontend-starter-app-build"
