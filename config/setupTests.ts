@@ -4,6 +4,7 @@ import React from 'react';
 
 configure({ adapter: new Adapter() });
 
+declare const global: any;
 global.shallow = shallow;
 global.render = render;
 global.mount = mount;

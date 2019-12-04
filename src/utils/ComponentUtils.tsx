@@ -8,7 +8,7 @@ export const join: (
     return elements.reduce((joined, element, index) => {
         joined.push(element);
 
-        let key = null;
+        let key: React.Key | null = null;
         if (React.isValidElement<React.ReactElement<unknown>>(element)) {
             key = element.props.key;
         }
