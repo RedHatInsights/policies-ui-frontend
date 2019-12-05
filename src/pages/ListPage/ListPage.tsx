@@ -105,8 +105,10 @@ class ListPage extends React.Component<ListPageProps, ListPageState> {
         const customerId = '1';
         deletePolicy(customerId, cell)
         .then(response => response.status)
-        .then((data => { alert('Code: ' + data);
-            this.setState ({ needsUpdate: true });}));
+        .then(data => {
+            alert('Code: ' + data);
+            this.setState ({ needsUpdate: true });
+        });
     }
 }
 

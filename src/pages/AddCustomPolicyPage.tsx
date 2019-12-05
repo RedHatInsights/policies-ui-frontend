@@ -30,7 +30,9 @@ type AddPageState = {
 
 class AddCustomPolicyPage extends React.Component<AddPageProps, AddPageState> {
 
-    possibleActions = [ 'email', 'webhook', 'sms', 'slack' ];
+    //    possibleActions = [ 'email', 'webhook', 'sms', 'slack' ];
+    possibleActions = [ 'email', 'webhook', 'sms' ];
+    actionHints = [ 'email address', 'target URL', 'phone number' ];
 
     constructor(props: AddPageProps) {
         super(props);
@@ -52,15 +54,16 @@ class AddCustomPolicyPage extends React.Component<AddPageProps, AddPageState> {
     render() {
         const actionCheck = this.possibleActions.map((action, key) =>
 
-            <FormGroup fieldId={ 'action-' + key } label={ action } isRequired={ false }  >
+            <>
                 <Checkbox id={ 'check-' + key } label={ action }
                     onChange={ value => this.toggleAction(action, value, key) }
                     isChecked={ this.state.checkStates[key] } />
                 <TextInput id={ 'action-ti-' + key }
                     value={ this.state.actionProps[key] }
                     isDisabled={ !this.state.checkStates[key] }
+                    placeholder={ ' Put the ' + this.actionHints[key] + ' here.' }
                     onChange= { value => this.actionsOnChangeHandler(key, value) }/>
-            </FormGroup>
+            </>
         );
 
         return (
@@ -98,10 +101,13 @@ class AddCustomPolicyPage extends React.Component<AddPageProps, AddPageState> {
                                     onChange={ value => this.onChangeHandler(-1, 'conditions', value) }/>
                             </FormGroup>
                             <FormGroup fieldId={ 'isActive' } label={ 'Enabled?' }>
-                                <Checkbox id={ 'isActive' } default={ false }/>
+                                <Checkbox id={ 'isActive' } default={ false }
+                                    onChange={ value => this.onChangeHandler(-1, 'enabled', '' + value) }/>
                             </FormGroup>
-                            { actionCheck }
-                            <FormGroup fieldId={ 'severity' } label={ 'Severity' } >
+                            <FormGroup fieldId={ 'actions-group'  } label={ 'Actions' } isRequired={ true }  >
+                                { actionCheck }
+                            </FormGroup>
+                            <FormGroup fieldId={ 'severity' } label={ 'Severity' } disabled={ true }>
                                 <Dropdown
                                     toggle={ <DropdownToggle onToggle={ this.onToggle }>Severity</DropdownToggle> }
                                     position={ DropdownPosition.right }
@@ -147,8 +153,8 @@ class AddCustomPolicyPage extends React.Component<AddPageProps, AddPageState> {
         verifyPolicy(this.state.policy)
         .then(() => this.setState({ isValid: true, messages: 'Policy is valid' }))
         .catch(reason  => {
-            console.log(reason);
-            this.setState({ isValid: false, messages: reason });
+            console.log(reason.response.status + ' => ' + reason.response.data.msg);
+            this.setState({ isValid: false, messages: reason.response.data.msg });
         });
 
     };
@@ -156,10 +162,9 @@ class AddCustomPolicyPage extends React.Component<AddPageProps, AddPageState> {
     storePolicy = () => {
         this.fillActions();
         createPolicy(this.state.policy)
-        .then(() => this.setState({ isValid: true, messages: 'Policy stored' }))
+        .then(() => this.setState({ isValid: false, messages: 'Policy stored' }))
         .catch(reason  => {
-            console.log(reason);
-            this.setState({ isValid: false, messages: reason });
+            this.setState({ isValid: false, messages: reason.response.data.msg });
         });
 
     };
@@ -178,6 +183,9 @@ class AddCustomPolicyPage extends React.Component<AddPageProps, AddPageState> {
                         break;
                     case 'conditions':
                         tmp.conditions = value.trim();
+                        break;
+                    case 'enabled':
+                        tmp.isEnabled = value.trim() === 'true';
                         break;
                     default:
                         console.log('TODO');
@@ -232,6 +240,11 @@ class AddCustomPolicyPage extends React.Component<AddPageProps, AddPageState> {
                     tmp = tmp + action.toUpperCase() + ' ' + this.state.actionProps[key] + ';';
                 }
             });
+
+            if (tmp.endsWith(';')) {
+                tmp = tmp.substr(0, tmp.length - 1);
+            }
+
             oldPol.actions = tmp;
             return { policy: oldPol };
         });
