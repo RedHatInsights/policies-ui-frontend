@@ -44,7 +44,7 @@ export const ActionsForm = (props: ActionsFormProps) => {
                         */ }
                         <CardBody className="pf-c-form">
                             <FormGroup fieldId={ `actions.${index}.type` } label="Type">
-                                <FormSelect id={ `actions.${index}.type` } name={ `actions.${index}.type` } defaultValue="medium">
+                                <FormSelect id={ `actions.${index}.type` } name={ `actions.${index}.type` }>
                                     <FormSelectOption value="" label="Select an Action type"/>
                                     { Object.values(ActionType).map(type => <FormSelectOption
                                         key={ type }
