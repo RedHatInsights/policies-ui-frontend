@@ -1,6 +1,6 @@
 import axios, { Method } from 'axios';
 import Config from '../config/Config';
-import { Policy } from '../types/Policy';
+import { Policy } from '../types/Policy/Policy';
 import { Fact } from '../types/Fact';
 
 const urls = Config.apis.urls;
