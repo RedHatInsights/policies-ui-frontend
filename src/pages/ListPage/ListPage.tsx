@@ -3,7 +3,7 @@ import { Table, TableHeader, TableBody, IRow, IActions } from '@patternfly/react
 import { CheckCircleIcon,  PlusCircleIcon } from '@patternfly/react-icons';
 
 import { PageHeader, Main, Section, PageHeaderTitle } from '@redhat-cloud-services/frontend-components';
-import { Policy } from '../../types/Policy';
+import { Policy } from '../../types/Policy/Policy';
 import { Link } from 'react-router-dom';
 import { getPolicies } from '../../services/Api';
 
