@@ -6,6 +6,7 @@ import { PageHeader, Main, Section, PageHeaderTitle } from '@redhat-cloud-servic
 import { Policy } from '../../types/Policy';
 import { Link } from 'react-router-dom';
 import { deletePolicy, getPolicies } from '../../services/Api';
+import CpContext from '../../utils/CPContext';
 
 type ListPageProps = {};
 type ListPageState = {
@@ -17,6 +18,8 @@ type ListPageState = {
 };
 
 class ListPage extends React.Component<ListPageProps, ListPageState> {
+
+    static contextType = CpContext;
 
     constructor(props: ListPageProps) {
         super(props);
@@ -95,14 +98,14 @@ class ListPage extends React.Component<ListPageProps, ListPageState> {
     }
 
     componentDidMount() {
-        const customerId = '1';
+        const customerId = this.context.accountNumber;
         getPolicies(customerId)
         .then(response => response.data)
         .then(data => this.setState({ rawData: data, needsUpdate: false }));
     }
 
     deletePolicy(cell: any) {
-        const customerId = '1';
+        const customerId = this.context.accountNumber;
         deletePolicy(customerId, cell)
         .then(response => response.status)
         .then(data => {

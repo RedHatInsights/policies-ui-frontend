@@ -16,6 +16,7 @@ import { PageHeader, Main, Section, PageHeaderTitle } from '@redhat-cloud-servic
 import { Policy } from '../types/Policy';
 import { Link } from 'react-router-dom';
 import { createPolicy, verifyPolicy } from '../services/Api';
+import CpContext from '../utils/CPContext';
 
 type AddPageProps = {};
 type AddPageState = {
@@ -34,12 +35,14 @@ class AddCustomPolicyPage extends React.Component<AddPageProps, AddPageState> {
     possibleActions = [ 'email', 'webhook', 'sms' ];
     actionHints = [ 'email address', 'target URL', 'phone number' ];
 
+    static contextType = CpContext;
+
     constructor(props: AddPageProps) {
         super(props);
         this.state = {
             isValid: false,
             policy: {
-                customerid: '1',
+                customerid: this.context.accountNumber,
                 conditions: '',
                 name: '',
                 isEnabled: false },
@@ -209,7 +212,7 @@ class AddCustomPolicyPage extends React.Component<AddPageProps, AddPageState> {
         this.setState({
             ddOpen: ddState
         });
-    }
+    };
 
     toggleAction(name: string, value: boolean, key: number) {
         console.log(name + ' - ' + value + ' - ' + key);
