@@ -1,5 +1,4 @@
-import { FormGroup } from '@patternfly/react-core';
-import { TextInput } from '../../Formik/Patternfly';
+import { FormTextInput } from '../../Formik/Patternfly';
 import * as React from 'react';
 import { ActionFormProps } from './ActionFormProps';
 
@@ -9,15 +8,9 @@ export const ActionEmailForm = (props: ActionFormProps) => {
     const messageNameOrId = `${props.prefix}.message`;
     return (
         <>
-            <FormGroup fieldId={ toNameOrId } label="Email" isRequired>
-                <TextInput type="text" name={ toNameOrId } id={ toNameOrId }/>
-            </FormGroup>
-            <FormGroup fieldId={ subjectNameOrId } label="Subject" isRequired>
-                <TextInput type="text" name={ subjectNameOrId } id={ subjectNameOrId }/>
-            </FormGroup>
-            <FormGroup fieldId={ messageNameOrId } label="Message" isRequired>
-                <TextInput type="text" name={ messageNameOrId } id={ messageNameOrId }/>
-            </FormGroup>
+            <FormTextInput type="text" name={ toNameOrId } id={ toNameOrId } label="Email" isRequired/>
+            <FormTextInput type="text" name={ subjectNameOrId } id={ subjectNameOrId } label="Subject" isRequired/>
+            <FormTextInput type="text" name={ messageNameOrId } id={ messageNameOrId } label="Message" isRequired/>
         </>
     );
 };

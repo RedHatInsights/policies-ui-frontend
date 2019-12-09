@@ -1,11 +1,11 @@
 import * as React from 'react';
 import { useField } from 'formik';
-import { FormGroup, FormSelect as PFFormSelect } from '@patternfly/react-core';
+import { FormGroup, TextInput as PFTextInput } from '@patternfly/react-core';
 
 import { onChangePFAdapter } from './Common';
 
 // Todo: Check correct typing for the props
-export const FormSelect = (props: any) => {
+export const FormTextInput = (props: any) => {
     const [ field, meta ] = useField({ ...props });
     const isValid = !meta.error || !meta.touched;
 
@@ -17,14 +17,13 @@ export const FormSelect = (props: any) => {
             isValid={ isValid }
             label={ props.label }
         >
-            <PFFormSelect
+            <PFTextInput
                 { ...props }
                 { ...field }
-                onChange={ onChangePFAdapter<string | number>(field) }
+                value={ field.value || '' }
                 isValid={ isValid }
-            >
-                { props.children }
-            </PFFormSelect>
+                onChange={ onChangePFAdapter<string | number>(field) }
+            />
         </FormGroup>
     );
 };

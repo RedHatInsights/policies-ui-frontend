@@ -8,7 +8,6 @@ import {
     CardActions,
     CardBody,
     CardHead,
-    FormGroup,
     FormSelectOption,
     Title
 } from '@patternfly/react-core';
@@ -43,15 +42,13 @@ export const ActionsForm = (props: ActionsFormProps) => {
                         It looks like We should not use Card inside the Form as it breaks the layout.
                         */ }
                         <CardBody className="pf-c-form">
-                            <FormGroup fieldId={ `actions.${index}.type` } label="Type">
-                                <FormSelect id={ `actions.${index}.type` } name={ `actions.${index}.type` }>
-                                    <FormSelectOption value="" label="Select an Action type"/>
-                                    { Object.values(ActionType).map(type => <FormSelectOption
-                                        key={ type }
-                                        label={ capitalize(type) }
-                                        value={ type }/>)}
-                                </FormSelect>
-                            </FormGroup>
+                            <FormSelect id={ `actions.${index}.type` } name={ `actions.${index}.type` } label="Type">
+                                <FormSelectOption value="" label="Select an Action type"/>
+                                { Object.values(ActionType).map(type => <FormSelectOption
+                                    key={ type }
+                                    label={ capitalize(type) }
+                                    value={ type }/>)}
+                            </FormSelect>
                             <ActionForm action={ action } prefix={ `actions.${index}` }/>
                         </CardBody>
                     </Card>

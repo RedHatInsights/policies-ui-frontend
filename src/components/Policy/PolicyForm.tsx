@@ -1,19 +1,13 @@
 import * as React from 'react';
-import {
-    ActionGroup,
-    Button,
-    capitalize,
-    Form,
-    FormGroup,
-    FormSelectOption
-} from '@patternfly/react-core';
-import { Formik, FormikProps, FormikHelpers, FieldArray, ArrayHelpers } from 'formik';
+import { ActionGroup, Button, Form } from '@patternfly/react-core';
+import { ArrayHelpers, FieldArray, Formik, FormikHelpers, FormikProps } from 'formik';
 import { Link } from 'react-router-dom';
 import { DeepPartial } from 'ts-essentials';
 
-import { TextInput, FormSelect, Switch } from '../Formik/Patternfly';
-import { Policy, Severity } from '../../types/Policy';
+import { FormTextInput, Switch } from '../Formik/Patternfly';
+import { Policy } from '../../types/Policy';
 import { ActionsForm } from './ActionsForm';
+import { PolicyFormSchema } from '../../schemas/CreatePolicy/PolicySchema';
 
 type FormType = DeepPartial<Policy>;
 
@@ -37,12 +31,13 @@ export const PolicyForm: React.FunctionComponent<PolicyFormProps> = (props: Poli
 
     const onSubmit = (policy: FormType, formikHelpers: FormikHelpers<FormType>) => {
         formikHelpers.setSubmitting(false);
+        const transformedPolicy = PolicyFormSchema.cast(policy);
         switch (state.action) {
             case 'create':
-                props.create(policy);
+                props.create(transformedPolicy);
                 break;
             case 'verify':
-                props.verify(policy);
+                props.verify(transformedPolicy);
                 setState(prevState => ({ ...prevState, isVerified: true }));
                 break;
             default:
@@ -53,7 +48,12 @@ export const PolicyForm: React.FunctionComponent<PolicyFormProps> = (props: Poli
     };
 
     return (
-        <Formik<DeepPartial<Policy>> initialValues={ props.initialValue } onSubmit={ onSubmit }>
+        <Formik<DeepPartial<Policy>>
+            initialValues={ props.initialValue }
+            validateOnMount={ true }
+            onSubmit={ onSubmit }
+            validationSchema={ PolicyFormSchema }
+        >
             {(props: FormikProps<FormType>) => {
 
                 React.useEffect(() => {
@@ -70,29 +70,16 @@ export const PolicyForm: React.FunctionComponent<PolicyFormProps> = (props: Poli
                     setState(prevState => ({ ...prevState, action: 'create' }));
                 };
 
+                console.log('props.isValid', props.isValid);
+                console.log('props.values', props.values);
+                console.log('props.errors', props.errors);
+
                 return (
                     <Form onSubmit={ props.handleSubmit } isHorizontal>
-                        <FormGroup fieldId="name" label="Name" isRequired>
-                            <TextInput type="text" name="name" id="name" placeholder="Name of the policy"/>
-                            {props.errors.name && props.touched.name && props.errors.name}
-                        </FormGroup>
-                        <FormGroup fieldId="description" label="Description">
-                            <TextInput type="text" id="description" name="description" placeholder="A short description"/>
-                        </FormGroup>
-                        <FormGroup fieldId="condition" label="Condition text">
-                            <TextInput type="text" id="condition" name="condition" placeholder={ '"a" == "b"' }/>
-                        </FormGroup>
-                        <FormGroup fieldId="isEnabled" label="Enabled?">
-                            <Switch type="checkbox" id="isEnabled" name="isEnabled" labelOff="Disabled" label="Enabled" />
-                        </FormGroup>
-                        <FormGroup fieldId="severity" label="Severity">
-                            <FormSelect id="severity" name="severity">
-                                { Object.values(Severity).map(severity => <FormSelectOption
-                                    key={ severity }
-                                    label={ capitalize(severity) }
-                                    value={ severity }/>)}
-                            </FormSelect>
-                        </FormGroup>
+                        <FormTextInput isRequired={ true } label="Name" type="text" name="name" id="name" placeholder="Name of the policy"/>
+                        <FormTextInput label="Description" type="text" id="description" name="description" placeholder="A short description"/>
+                        <FormTextInput label="Condition text" type="text" id="condition" name="condition" placeholder={ '"a" == "b"' }/>
+                        <Switch type="checkbox" id="isEnabled" name="isEnabled" labelOff="Disabled" labelOn="Enabled" label="Enabled?"/>
                         <FieldArray name="actions">
                             { (helpers: ArrayHelpers) => {
                                 return <ActionsForm actions={ props.values.actions } arrayHelpers={ helpers }/>;
