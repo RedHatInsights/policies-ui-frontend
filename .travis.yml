@@ -19,3 +19,10 @@ script:
 #  - REPO_DIR="insights-frontend-starter-app-build"
 #  - BRANCH=${TRAVIS_PULL_REQUEST_BRANCH:-$TRAVIS_BRANCH}
 #  - NODE_OPTIONS="--max-old-space-size=4096 --max_old_space_size=4096"
+notifications:
+  irc:
+    channels:
+      - chat.freenode.net#custom-policies-ui-travis
+    on_success: change
+    on_failure: change
+#
