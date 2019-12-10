@@ -27,7 +27,13 @@ const AddCustomPolicyPage: React.FunctionComponent<AddPageProps> = (_props: AddP
             </PageHeader>
             <Main>
                 <Section>
-                    <PolicyForm verify={ verify } create={ create } initialValue={ { actions: [{}]} }/>
+                    <PolicyForm
+                        isOpen={ true }
+                        close={ () => console.log('closing') }
+                        verify={ verify }
+                        create={ create }
+                        initialValue={ { actions: [{}]} }
+                    />
                 </Section>
             </Main>
         </>

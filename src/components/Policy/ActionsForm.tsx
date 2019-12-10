@@ -7,7 +7,7 @@ import {
     Card,
     CardActions,
     CardBody,
-    CardHead,
+    CardHead, CardHeader,
     FormSelectOption,
     Title
 } from '@patternfly/react-core';
@@ -29,15 +29,16 @@ export const ActionsForm = (props: ActionsFormProps) => {
             { props.actions?.map((action, index) => (
                 <React.Fragment key={ index }>
                     <Card isHoverable>
-                        { props.actions?.length && props.actions.length > 1 ? (
-                            <CardHead>
-                                <CardActions>
+                        <CardHead>
+                            <CardActions>
+                                { props.actions?.length && props.actions.length > 1 ? (
                                     <Button variant="plain" aria-label="Action" onClick={ props.arrayHelpers.handleRemove(index) }>
                                         <TimesIcon/>
                                     </Button>
-                                </CardActions>
-                            </CardHead>
-                        ) : null}
+                                ) : null}
+                            </CardActions>
+                            <CardHeader>Action #{ index + 1 }</CardHeader>
+                        </CardHead>
                         { /* Adding this pf-c-form class is a hack (i think).
                         It looks like We should not use Card inside the Form as it breaks the layout.
                         */ }
