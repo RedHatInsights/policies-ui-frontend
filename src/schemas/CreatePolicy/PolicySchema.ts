@@ -30,7 +30,7 @@ const ActionSchemaSelector: ({ type }: { type: ActionType }) => Yup.Schema<any> 
 
 export const PolicyFormSchema = Yup.object().shape({
     actions: Yup.array(Yup.lazy(ActionSchemaSelector)).required('Add at least one action'),
-    condition: Yup.string().required('Write a condition').trim(),
+    conditions: Yup.string().required('Write a condition').trim(),
     description: Yup.string().notRequired().trim(),
     isEnabled: Yup.boolean().notRequired(),
     name: Yup.string().required('Write a name for this Custom policy').trim(),

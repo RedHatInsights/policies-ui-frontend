@@ -87,8 +87,7 @@ class ListPage extends React.Component<ListPageProps, ListPageState> {
     }
 
     componentDidMount() {
-        const customerId = '1';
-        getPolicies(customerId)
+        getPolicies()
         .then(response => response.data)
         .then(data => this.setState({ rawData: data }));
     }

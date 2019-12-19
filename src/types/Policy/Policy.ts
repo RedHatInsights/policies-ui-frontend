@@ -5,7 +5,7 @@ export interface Policy {
     id?: string;
     actions?: Action[];
     conditions: string;
-    customerid: string;
+    customerid?: string;
     description?: string;
     isEnabled?: boolean;
     name: string;
