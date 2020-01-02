@@ -15,8 +15,8 @@ const newRequest = <T>(method: Method, url: string, queryParams?: any, data?: an
 
 export const getFacts = () => newRequest<Fact[]>('GET', urls.facts);
 
-export const getPolicies = (customerId: string) => newRequest<Policy[]>('GET', urls.policies(customerId));
+export const getPolicies = () => newRequest<Policy[]>('GET', urls.policies);
 
-export const createPolicy = (policy: Policy) => newRequest<void>('POST', urls.policies(policy.customerid), {}, policy);
+export const createPolicy = (policy: Policy) => newRequest<void>('POST', urls.policies, {}, policy);
 
-export const getCustomerPolicy = (customerId: string, policyId: string) => newRequest<Policy>('GET', urls.customerPolicy(customerId, policyId));
+export const getCustomerPolicy = (policyId: string) => newRequest<Policy>('GET', urls.customerPolicy(policyId));

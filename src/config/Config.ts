@@ -11,8 +11,8 @@ const Config = {
         urls: {
             base: apiBaseUrl,
             facts: withBaseUrl('facts'),
-            policies: (customerId: string) => withBaseUrl(`policies/${customerId}`),
-            customerPolicy: (customerId: string, policyId: string) => withBaseUrl(`policies/${customerId}/policy/${policyId}`)
+            policies: withBaseUrl(`policies`),
+            customerPolicy: (policyId: string) => withBaseUrl(`policies/${policyId}`)
         }
     }
 };

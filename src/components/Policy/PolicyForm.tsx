@@ -78,7 +78,7 @@ export const PolicyForm: React.FunctionComponent<PolicyFormProps> = (props: Poli
                     <Form onSubmit={ props.handleSubmit } isHorizontal>
                         <FormTextInput isRequired={ true } label="Name" type="text" name="name" id="name" placeholder="Name of the policy"/>
                         <FormTextInput label="Description" type="text" id="description" name="description" placeholder="A short description"/>
-                        <FormTextInput label="Condition text" type="text" id="condition" name="condition" placeholder={ '"a" == "b"' }/>
+                        <FormTextInput label="Condition text" type="text" id="conditions" name="conditions" placeholder={ '"a" == "b"' }/>
                         <Switch type="checkbox" id="isEnabled" name="isEnabled" labelOff="Disabled" labelOn="Enabled" label="Enabled?"/>
                         <FieldArray name="actions">
                             { (helpers: ArrayHelpers) => {
