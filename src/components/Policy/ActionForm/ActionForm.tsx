@@ -8,7 +8,8 @@ import { ActionSmsForm } from './ActionSmsForm';
 import { ActionWebhookForm } from './ActionWebhookForm';
 
 export const ActionForm = (props: ActionFormProps) => {
-    switch (props.action?.type) {
+    const actionType = props.action?.type || undefined;
+    switch (actionType) {
         case ActionType.ALERT:
             return <ActionAlertForm { ...props }/>;
         case ActionType.EMAIL:
@@ -22,6 +23,6 @@ export const ActionForm = (props: ActionFormProps) => {
         case undefined:
             return null;
         default:
-            throw new Error('Unexpected action type');
+            throw new Error('Unexpected action type:[' + props.action?.type + ']');
     }
 };
