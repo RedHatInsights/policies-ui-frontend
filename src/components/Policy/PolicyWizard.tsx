@@ -63,6 +63,7 @@ export const PolicyWizard: React.FunctionComponent<PolicyWizardProps> = (props: 
     const onSubmit = (policy: FormType, formikHelpers: FormikHelpers<FormType>) => {
         formikHelpers.setSubmitting(false);
 
+        setSubmitAction(SubmitActionEnum.NONE);
         switch (submitAction) {
             case SubmitActionEnum.CREATE:
                 props.onCreate(PolicyFormSchema.cast(policy));
@@ -73,8 +74,6 @@ export const PolicyWizard: React.FunctionComponent<PolicyWizardProps> = (props: 
             default:
                 throw new Error('Unexpected action');
         }
-
-        setSubmitAction(SubmitActionEnum.NONE);
     };
 
     const FormikBinding = (formikProps: FormikProps<FormType>) => {
