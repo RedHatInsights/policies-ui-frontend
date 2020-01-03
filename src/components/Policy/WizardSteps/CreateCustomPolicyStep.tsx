@@ -1,13 +1,14 @@
 import * as React from 'react';
-import { Form, Radio, WizardStep } from '@patternfly/react-core';
+import { Form, Radio } from '@patternfly/react-core';
 import { Policy } from '../../../types/Policy';
+import { AlwaysValid, WizardStepExtended } from './WizardStepExtended';
 
 interface CreateCustomPolicyState {
     copyPolicy: boolean;
     copyFrom?: Policy;
 }
 
-const CreateCustomPolicy: React.FunctionComponent = () => {
+const CreateCustomPolicyStep: React.FunctionComponent = () => {
     const [ state, setState ] = React.useState<CreateCustomPolicyState>({
         copyPolicy: false
     });
@@ -43,8 +44,9 @@ const CreateCustomPolicy: React.FunctionComponent = () => {
     );
 };
 
-export const createCustomPolicyStep: (stepOverrides: Partial<WizardStep>) => WizardStep = (stepOverrides) => ({
+export const createCustomPolicyStep: (stepOverrides?: Partial<WizardStepExtended>) => WizardStepExtended = (stepOverrides) => ({
     name: 'Create Custom Policy',
-    component: <CreateCustomPolicy/>,
+    component: <CreateCustomPolicyStep/>,
+    validationSchema: AlwaysValid,
     ...stepOverrides
 });

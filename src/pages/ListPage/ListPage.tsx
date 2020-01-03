@@ -1,11 +1,12 @@
 import * as React from 'react';
 import { Table, TableHeader, TableBody, IRow, IActions } from '@patternfly/react-table';
-import { CheckCircleIcon,  PlusCircleIcon } from '@patternfly/react-icons';
+import { CheckCircleIcon, PlusCircleIcon, TimesIcon } from '@patternfly/react-icons';
 
 import { PageHeader, Main, Section, PageHeaderTitle } from '@redhat-cloud-services/frontend-components';
 import { Policy } from '../../types/Policy/Policy';
-import { Link } from 'react-router-dom';
 import { getPolicies } from '../../services/Api';
+import { PolicyWizard } from '../../components/Policy/PolicyWizard';
+import { Button } from '@patternfly/react-core';
 
 type ListPageProps = {};
 type ListPageState = {
@@ -13,6 +14,7 @@ type ListPageState = {
     rows: IRow[];
     actions: IActions;
     rawData: Policy[];
+    customPolicyWizardIsOpen: boolean;
 };
 
 class ListPage extends React.Component<ListPageProps, ListPageState> {
@@ -39,7 +41,8 @@ class ListPage extends React.Component<ListPageProps, ListPageState> {
                     onClick: () => alert('Delete')
                 }
             ],
-            rawData: []
+            rawData: [],
+            customPolicyWizardIsOpen: false
         };
     }
 
@@ -64,6 +67,18 @@ class ListPage extends React.Component<ListPageProps, ListPageState> {
         }
     };
 
+    openCustomPolicyWizard = () => {
+        this.setState({
+            customPolicyWizardIsOpen: true
+        });
+    };
+
+    closeCustomPolicyWizard = () => {
+        this.setState({
+            customPolicyWizardIsOpen: false
+        });
+    }
+
     render() {
         return (
             <>
@@ -79,9 +94,13 @@ class ListPage extends React.Component<ListPageProps, ListPageState> {
                     </Section>
                     <Section>
                         <div/>
-                        <Link to="/add" className="btn btn-primary"><PlusCircleIcon size={ 'lg' }/>Add new Policy</Link>
+                        <Button onClick={ this.openCustomPolicyWizard } variant="link" icon={ <PlusCircleIcon /> }>Add new Policy</Button>
                     </Section>
                 </Main>
+                <PolicyWizard
+                    isOpen={ this.state.customPolicyWizardIsOpen }
+                    onClose={ this.closeCustomPolicyWizard }
+                    initialValue={ { actions: [{}]} }/>
             </>
         );
     }

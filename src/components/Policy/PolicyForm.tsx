@@ -8,7 +8,7 @@ import { Policy } from '../../types/Policy';
 import { ActionsForm } from './ActionsForm';
 import { PolicyFormSchema } from '../../schemas/CreatePolicy/PolicySchema';
 import { WizardStep } from '@patternfly/react-core';
-import { createCustomPolicyStep } from './WizardSteps/CreateCustomPolicy';
+import { createCustomPolicyStep } from './WizardSteps/CreateCustomPolicyStep';
 
 type FormType = DeepPartial<Policy>;
 

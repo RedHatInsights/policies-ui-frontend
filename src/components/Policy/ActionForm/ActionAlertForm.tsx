@@ -9,14 +9,14 @@ export const ActionAlertForm = (props: ActionFormProps) => {
     const messageNameOrId = `${props.prefix}.message`;
     return (
         <>
-            <FormSelect id={ severityNameOrId } name={ severityNameOrId } label="Severity">
+            <FormSelect isDisabled={ props.isReadOnly } id={ severityNameOrId } name={ severityNameOrId } label="Severity">
                 <FormSelectOption label="Select a severity level"/>
                 { Object.values(Severity).map(severity => <FormSelectOption
                     key={ severity }
                     label={ capitalize(severity) }
                     value={ severity }/>)}
             </FormSelect>
-            <FormTextInput type="text" label="Message" isRequired name={ messageNameOrId } id={ messageNameOrId }/>
+            <FormTextInput isReadOnly={ props.isReadOnly } type="text" label="Message" isRequired name={ messageNameOrId } id={ messageNameOrId }/>
         </>
     );
 };

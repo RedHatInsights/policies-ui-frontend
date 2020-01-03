@@ -9,8 +9,8 @@ export const ActionSmsForm = (props: ActionFormProps) => {
 
     return (
         <>
-            <FormTextInput type="number" name={ numberNameOrId } id={ numberNameOrId } label="Number" isRequired/>
-            <FormTextInput type="text" name={ messageNameOrId } id={ messageNameOrId } label="Message" isRequired/>
+            <FormTextInput isReadOnly={ props.isReadOnly } type="number" name={ numberNameOrId } id={ numberNameOrId } label="Number" isRequired/>
+            <FormTextInput isReadOnly={ props.isReadOnly } type="text" name={ messageNameOrId } id={ messageNameOrId } label="Message" isRequired/>
         </>
     );
 };
