@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Table, TableHeader, TableBody, IRow, IActions } from '@patternfly/react-table';
-import { CheckCircleIcon, PlusCircleIcon, TimesIcon } from '@patternfly/react-icons';
+import { CheckCircleIcon, PlusCircleIcon } from '@patternfly/react-icons';
 
 import { PageHeader, Main, Section, PageHeaderTitle } from '@redhat-cloud-services/frontend-components';
 import { Policy } from '../../types/Policy/Policy';
@@ -77,7 +77,14 @@ class ListPage extends React.Component<ListPageProps, ListPageState> {
         this.setState({
             customPolicyWizardIsOpen: false
         });
-    }
+    };
+
+    onCreate = () => {
+        console.log('create');
+        this.setState({
+            customPolicyWizardIsOpen: false
+        });
+    };
 
     render() {
         return (
@@ -97,10 +104,11 @@ class ListPage extends React.Component<ListPageProps, ListPageState> {
                         <Button onClick={ this.openCustomPolicyWizard } variant="link" icon={ <PlusCircleIcon /> }>Add new Policy</Button>
                     </Section>
                 </Main>
+                { this.state.customPolicyWizardIsOpen &&
                 <PolicyWizard
-                    isOpen={ this.state.customPolicyWizardIsOpen }
+                    onCreate={ this.onCreate }
                     onClose={ this.closeCustomPolicyWizard }
-                    initialValue={ { actions: [{}]} }/>
+                    initialValue={ { actions: [{}]} }/> }
             </>
         );
     }

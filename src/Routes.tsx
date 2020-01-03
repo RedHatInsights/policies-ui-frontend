@@ -2,7 +2,6 @@ import * as React from 'react';
 import { RouteProps, Route, Switch, Redirect } from 'react-router';
 
 import ListPage from './pages/ListPage/ListPage';
-import AddCustomPolicyPage from './pages/AddCustomPolicyPage';
 
 interface Path {
     path: string;
@@ -15,11 +14,6 @@ const pathRoutes: Path[] = [
         path: '/list',
         component: ListPage,
         rootClass: 'list'
-    },
-    {
-        path: '/add',
-        component: AddCustomPolicyPage,
-        rootClass: 'add-custom-policies'
     }
 ];
 

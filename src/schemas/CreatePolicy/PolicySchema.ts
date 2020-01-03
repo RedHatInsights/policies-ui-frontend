@@ -1,6 +1,5 @@
 import { ActionType } from '../../types/Policy/Actions';
 import * as Yup from 'yup';
-import { Severity } from '../../types/Policy';
 import {
     ActionAlertSchema,
     ActionEmailSchema, ActionSchema,
