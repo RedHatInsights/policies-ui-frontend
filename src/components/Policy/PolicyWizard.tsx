@@ -90,7 +90,8 @@ export const PolicyWizard: React.FunctionComponent<PolicyWizardProps> = (props: 
 
         const stepsValidated = steps.map(step => ({
             ...step,
-            enableNext: formikProps.isValid
+            enableNext: formikProps.isValid,
+            canJumpTo: (step.id as number) <= currentStep
         }));
 
         const onSave = () => {
