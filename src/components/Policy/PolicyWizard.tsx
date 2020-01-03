@@ -99,7 +99,7 @@ export const PolicyWizard: React.FunctionComponent<PolicyWizardProps> = (props: 
         };
 
         return (
-            <Form isHorizontal id="my-form-id">
+            <Form isHorizontal>
                 <Wizard
                     isOpen={ true }
                     onSave={ onSave }
