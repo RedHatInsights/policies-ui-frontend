@@ -31,7 +31,9 @@ const buildSteps: () => WizardStepExtended[] = () => {
         createCustomPolicyStep({
             hideBackButton: true
         }),
-        createDetailsStep(),
+        createDetailsStep({
+            hideBackButton: true
+        }),
         createConditionsStep(),
         createActionsStep(),
         createReviewStep({
@@ -39,9 +41,20 @@ const buildSteps: () => WizardStepExtended[] = () => {
         })
     ].map((step, index) => ({
         ... step,
-        id: index,
-        canJumpTo: true
+        id: index
     }));
+};
+
+const canJumpTo = (id: number, isValid: boolean, currentStep: number, maxStep: number) => {
+    if (id === currentStep) {
+        return true;
+    }
+
+    if (id === 0) {
+        return false;
+    }
+
+    return isValid ? id <= maxStep : id <= currentStep;
 };
 
 export const PolicyWizard: React.FunctionComponent<PolicyWizardProps> = (props: PolicyWizardProps) => {
@@ -90,7 +103,7 @@ export const PolicyWizard: React.FunctionComponent<PolicyWizardProps> = (props: 
         const stepsValidated = steps.map(step => ({
             ...step,
             enableNext: formikProps.isValid,
-            canJumpTo: (step.id as number) <= currentStep
+            canJumpTo: canJumpTo(step.id as number, formikProps.isValid, currentStep, maxStep)
         }));
 
         const onSave = () => {
