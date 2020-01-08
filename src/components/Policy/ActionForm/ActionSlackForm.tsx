@@ -8,9 +8,9 @@ export const ActionSlackForm = (props: ActionFormProps) => {
     const roomNameOrId = `${props.prefix}.room`;
     return (
         <>
-            <FormTextInput type="text" label="Account" isRequired name={ accountNameOrId } id={ accountNameOrId }/>
-            <FormTextInput type="text" label="Token" isRequired name={ tokenNameOrId } id={ tokenNameOrId }/>
-            <FormTextInput type="text" label="Room" isRequired name={ roomNameOrId } id={ roomNameOrId }/>
+            <FormTextInput isReadOnly={ props.isReadOnly } type="text" label="Account" isRequired name={ accountNameOrId } id={ accountNameOrId }/>
+            <FormTextInput isReadOnly={ props.isReadOnly } type="text" label="Token" isRequired name={ tokenNameOrId } id={ tokenNameOrId }/>
+            <FormTextInput isReadOnly={ props.isReadOnly } type="text" label="Room" isRequired name={ roomNameOrId } id={ roomNameOrId }/>
         </>
     );
 };

@@ -1,6 +1,5 @@
 import { ActionType } from '../../types/Policy/Actions';
 import * as Yup from 'yup';
-import { Severity } from '../../types/Policy';
 import {
     ActionAlertSchema,
     ActionEmailSchema, ActionSchema,
@@ -28,11 +27,18 @@ const ActionSchemaSelector: ({ type }: { type: ActionType }) => Yup.Schema<any> 
     throw new Error('Unknown action type. Implement the new type in the schema selector');
 };
 
-export const PolicyFormSchema = Yup.object().shape({
-    actions: Yup.array(Yup.lazy(ActionSchemaSelector)).required('Add at least one action'),
-    conditions: Yup.string().required('Write a condition').trim(),
+export const PolicyFormDetails = Yup.object().shape({
     description: Yup.string().notRequired().trim(),
     isEnabled: Yup.boolean().notRequired(),
-    name: Yup.string().required('Write a name for this Custom policy').trim(),
-    severity: Yup.string().oneOf(Object.values(Severity)).notRequired().trim()
+    name: Yup.string().required('Write a name for this Custom policy').trim()
 });
+
+export const PolicyFormActions = Yup.object().shape({
+    actions: Yup.array(Yup.lazy(ActionSchemaSelector)).required('Add at least one action')
+});
+
+export const PolicyFormConditions = Yup.object().shape({
+    conditions: Yup.string().required('Write a condition').trim()
+});
+
+export const PolicyFormSchema = Yup.object().concat(PolicyFormDetails).concat(PolicyFormActions).concat(PolicyFormConditions);
