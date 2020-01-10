@@ -8,7 +8,7 @@ import { ActionsForm } from '../ActionsForm';
 
 const ActionsStep = () => {
     return (
-        <Form isHorizontal>
+        <Form>
             <FieldArray name="actions">
                 { (helpers: FieldArrayRenderProps) => {
                     return <ActionsForm actions={ helpers.form.values.actions } arrayHelpers={ helpers }/>;

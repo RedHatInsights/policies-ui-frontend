@@ -7,7 +7,7 @@ import { PolicyFormConditions } from '../../../schemas/CreatePolicy/PolicySchema
 
 const ConditionsStep = () => {
     return (
-        <Form isHorizontal>
+        <Form>
             <FormTextInput isRequired={ true } label="Condition text" type="text" id="conditions" name="conditions" placeholder={ '"a" == "b"' }/>
         </Form>
     );
