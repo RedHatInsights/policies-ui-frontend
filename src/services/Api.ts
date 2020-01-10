@@ -1,22 +1,39 @@
-import axios, { Method } from 'axios';
 import Config from '../config/Config';
 import { Policy } from '../types/Policy/Policy';
+import { useQuery } from 'react-fetching-library';
 import { Fact } from '../types/Fact';
+import { Page } from './Page';
 
 const urls = Config.apis.urls;
 
-const newRequest = <T>(method: Method, url: string, queryParams?: any, data?: any) =>
-    axios.request<T>({
-        method,
-        url,
-        data,
-        params: queryParams
-    });
+type Method = 'GET' | 'HEAD' | 'POST' | 'PUT' | 'PATCH' | 'DELETE' | 'OPTIONS';
 
-export const getFacts = () => newRequest<Fact[]>('GET', urls.facts);
+const useNewQuery = <T>(method: Method, url: string, initFetch?: boolean, queryParams?: any, data?: any) => useQuery({
+    method,
+    endpoint: url + (queryParams ? '?' + new URLSearchParams(queryParams).toString() : ''),
+    body: data
+}, initFetch);
 
-export const getPolicies = () => newRequest<Policy[]>('GET', urls.policies);
+const queryParamsPaginated = (queryParams?: any, page?: Page) => {
+    if (!page) {
+        page = Page.defaultPage();
+    }
 
-export const createPolicy = (policy: Policy) => newRequest<void>('POST', urls.policies, {}, policy);
+    if (!queryParams) {
+        queryParams = { };
+    }
 
-export const getCustomerPolicy = (policyId: string) => newRequest<Policy>('GET', urls.customerPolicy(policyId));
+    queryParams.page = page.index - 1;
+    queryParams.pageSize = page.size;
+    return queryParams;
+};
+
+const useNewPaginatedQuery = <T>(method: Method, url: string, page?: Page, initFetch?: boolean, queryParams?: any, data?: any) =>
+    useNewQuery<T>(method, url, initFetch, queryParamsPaginated(queryParams, page), data);
+
+export const useGetFactsQuery = (initFetch?: boolean) => useNewQuery<Fact[]>('GET', urls.facts, initFetch);
+export const useGetPoliciesQuery = (page?: Page, initFetch?: boolean) =>
+    useNewPaginatedQuery<Policy[]>('GET', urls.policies, page, initFetch);
+export const useCreatePolicyQuery = (policy: Policy, initFetch?: boolean) => useNewQuery<void>('POST', urls.policies, initFetch, {}, policy);
+export const useGetCustomerPolicyQuery = (policyId: string, initFetch?: boolean) =>
+    useNewQuery<Policy>('GET', urls.customerPolicy(policyId), initFetch);
