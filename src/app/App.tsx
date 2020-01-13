@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { createClient, ClientContextProvider } from 'react-fetching-library';
 import { RouteComponentProps, withRouter } from 'react-router';
 import { Routes } from '../Routes';
 
@@ -19,8 +20,13 @@ class App extends React.PureComponent<RouteComponentProps> {
     }
 
     render() {
+
+        const client = createClient();
+
         return (
-            <Routes/>
+            <ClientContextProvider client={ client }>
+                <Routes/>
+            </ClientContextProvider>
         );
     }
 

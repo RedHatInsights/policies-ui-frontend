@@ -18,13 +18,15 @@ export const Switch = (props: any) => {
             isValid={ isValid }
             label={ props.label }
         >
-            <PFSwitch
-                isChecked={ field.checked  }
-                { ...restProps }
-                { ...field }
-                label={ label }
-                onChange={ onChangePFAdapter<boolean>(field) }
-            />
+            <div>
+                <PFSwitch
+                    isChecked={ field.checked  }
+                    { ...restProps }
+                    { ...field }
+                    label={ label }
+                    onChange={ onChangePFAdapter<boolean>(field) }
+                />
+            </div>
         </FormGroup>
     );
 };

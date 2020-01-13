@@ -11,16 +11,16 @@ const ReviewStep = () => {
 
     return (
         <>
-            <Form isHorizontal>
+            <Form>
                 <FormTextInput isReadOnly label="Name" type="text" name="name" id="name"/>
                 <FormTextInput isReadOnly label="Description" type="text" id="description" name="description"/>
-                <Switch isDisabled type="checkbox" id="isEnabled" name="isEnabled" labelOff="Disabled" labelOn="Enabled" label="Enabled?"/>
                 <FormTextInput isReadOnly label="Condition text" type="text" id="conditions" name="conditions"/>
                 <FieldArray name="actions">
                     { (helpers: FieldArrayRenderProps) => {
                         return <ActionsForm isReadOnly actions={ helpers.form.values.actions } arrayHelpers={ helpers }/>;
                     } }
                 </FieldArray>
+                <Switch type="checkbox" id="isEnabled" name="isEnabled" label="Activate Policy?"/>
             </Form>
         </>
     );

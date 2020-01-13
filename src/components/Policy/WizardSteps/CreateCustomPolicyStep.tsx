@@ -1,7 +1,9 @@
 import * as React from 'react';
-import { Form, Radio } from '@patternfly/react-core';
+import { Button, Form, InputGroup, Radio, TextInput } from '@patternfly/react-core';
 import { Policy } from '../../../types/Policy';
 import { AlwaysValid, WizardStepExtended } from './WizardStepExtended';
+import { PolicyTable } from '../PolicyTable';
+import { useGetPoliciesQuery } from '../../../services/Api';
 
 interface CreateCustomPolicyState {
     copyPolicy: boolean;
@@ -9,36 +11,50 @@ interface CreateCustomPolicyState {
 }
 
 const CreateCustomPolicyStep: React.FunctionComponent = () => {
-    const [ state, setState ] = React.useState<CreateCustomPolicyState>({
-        copyPolicy: false
-    });
+    const [ copyPolicy, setCopyPolicy ] = React.useState<boolean>(false);
 
     const createFromScratch = () => {
-        setState({ copyPolicy: false });
+        setCopyPolicy(false);
     };
 
     const copyExisting = () => {
-        setState({ copyPolicy: true });
+        setCopyPolicy(true);
     };
+
+    const { loading, payload, query, error } = useGetPoliciesQuery(undefined, false);
+
+    React.useEffect(() => {
+        if (copyPolicy && !payload) {
+            query();
+        }
+    }, [ copyPolicy ]);
 
     return (
         <>
             <Form>
                 <span>Define a new custom policy:</span>
                 <Radio
-                    isChecked={ !state.copyPolicy }
+                    isChecked={ !copyPolicy }
                     name="from-scratch"
                     id="create-new-custom-policy-from-scratch"
                     onChange={ createFromScratch }
                     label="From scratch"
                 />
                 <Radio
-                    isChecked={ state.copyPolicy }
+                    isChecked={ copyPolicy }
                     name="as-copy"
                     id="create-new-custom-policy-as-copy"
                     onChange={ copyExisting }
                     label="As a copy of existing Custom Policy"
                 />
+                {copyPolicy && <>
+                    <InputGroup>
+                        <TextInput aria-label="Filter by name" placeholder="Filter by name"/>
+                        <Button aria-label="Filter">Filter</Button>
+                    </InputGroup>
+                    <PolicyTable loading={ loading } policies={ payload } hasError={ error }/>
+                </>
+                }
             </Form>
         </>
     );

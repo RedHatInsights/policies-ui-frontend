@@ -111,7 +111,7 @@ export const PolicyWizard: React.FunctionComponent<PolicyWizardProps> = (props: 
         };
 
         return (
-            <Form isHorizontal>
+            <Form>
                 <Wizard
                     isOpen={ true }
                     onSave={ onSave }

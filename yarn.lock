@@ -1332,13 +1332,6 @@
   resolved "https://registry.yarnpkg.com/@types/anymatch/-/anymatch-1.3.1.tgz#336badc1beecb9dacc38bea2cf32adf627a8421a"
   integrity sha512-/+CRPXpBDpo2RK9C68N3b2cOvO0Cf5B9aPijHsoDQTHivnGSObdOF2BRQOYjojWTDy6nQvMjmqRXIxH55VjxxA==
 
-"@types/axios@^0.14.0":
-  version "0.14.0"
-  resolved "https://registry.yarnpkg.com/@types/axios/-/axios-0.14.0.tgz#ec2300fbe7d7dddd7eb9d3abf87999964cafce46"
-  integrity sha1-7CMA++fX3d1+udOr+HmZlkyvzkY=
-  dependencies:
-    axios "*"
-
 "@types/babel__core@^7.1.0":
   version "7.1.3"
   resolved "https://registry.yarnpkg.com/@types/babel__core/-/babel__core-7.1.3.tgz#e441ea7df63cd080dfcd02ab199e6d16a735fc30"
@@ -2351,7 +2344,7 @@ aws4@^1.8.0:
   resolved "https://registry.yarnpkg.com/aws4/-/aws4-1.8.0.tgz#f0e003d9ca9e7f59c7a508945d7b2ef9a04a542f"
   integrity sha512-ReZxvNHIOv88FlT7rxcXIIC0fPt4KZqZbOlivyWtXLt8ESx84zd3kMC6iK5jVeS2qt+g7ftS7ye4fi06X5rtRQ==
 
-axios@*, axios@^0.19.0:
+axios@^0.19.0:
   version "0.19.0"
   resolved "https://registry.yarnpkg.com/axios/-/axios-0.19.0.tgz#8e09bff3d9122e133f7b8101c8fbdd00ed3d2ab8"
   integrity sha512-1uvKqKQta3KBxIz14F2v06AEHZ/dIoeKfbTRkK1E5oqjDnuEerLmYTgJB5AiQZHJcljpg1TuRzdjDR06qNk0DQ==
@@ -9511,12 +9504,22 @@ react-fast-compare@^2.0.1:
   resolved "https://registry.yarnpkg.com/react-fast-compare/-/react-fast-compare-2.0.4.tgz#e84b4d455b0fec113e0402c329352715196f81f9"
   integrity sha512-suNP+J1VU1MWFKcyt7RtjiSWUjvidmQSlqu+eHslq+342xCbGTYmC0mEhPCOHxlW0CywylOC1u2DFAT+bv4dBw==
 
+react-fetching-library@^1.5.13:
+  version "1.5.13"
+  resolved "https://registry.yarnpkg.com/react-fetching-library/-/react-fetching-library-1.5.13.tgz#2da2e7e465352560444e8f95f6bb7ae9f108f370"
+  integrity sha512-OYcotQ+StU/GzCvFVFtjiKlS9GllmIrN7BIpm6T7PN90tb2Vy4q55yrtzM0/Z6L5ZwImEfiv7/Yxs+wM5nFnKQ==
+
 react-flexview@^4.0.4:
   version "4.0.4"
   resolved "https://registry.yarnpkg.com/react-flexview/-/react-flexview-4.0.4.tgz#71dd3b7d1385c680720694becc80666260f6d5da"
   integrity sha512-vclPtC4EjNnagEuC3KSXyr8YPtNE0gwxqO8CtJ4IsWe+eVtzetm6d0eNQ2cL+Ws7b/FazlieyoPGBGlBPvuTpw==
   dependencies:
     prop-types "^15.5.6"
+
+react-id-generator@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/react-id-generator/-/react-id-generator-3.0.0.tgz#20fba0a12355924f1d7b4bfe2ac262c0ad02c7ef"
+  integrity sha512-egmdswpzA/z8UlignCZKmJqrO0EaqmW13M8756wE+V/6NtYf0CdvDjkGpat/Q/djXfg7F/C0267Gff1RHgpfIQ==
 
 react-is@^16.10.2, react-is@^16.6.0, react-is@^16.7.0, react-is@^16.8.1, react-is@^16.8.4, react-is@^16.8.6, react-is@^16.9.0:
   version "16.11.0"
