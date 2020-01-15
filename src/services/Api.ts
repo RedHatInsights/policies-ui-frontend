@@ -28,8 +28,12 @@ const queryParamsPaginated = (queryParams?: any, page?: Page) => {
     return queryParams;
 };
 
-const useNewPaginatedQuery = <T>(method: Method, url: string, page?: Page, initFetch?: boolean, queryParams?: any, data?: any) =>
-    useNewQuery<T>(method, url, initFetch, queryParamsPaginated(queryParams, page), data);
+const useNewPaginatedQuery = <T>(method: Method, url: string, page?: Page, initFetch?: boolean, queryParams?: any, data?: any) => {
+    const result = useNewQuery<T>(method, url, initFetch, queryParamsPaginated(queryParams, page), data);
+    const itemCount = result.headers?.get('TotalCount');
+
+    return { count: (itemCount ? +itemCount : itemCount) as number, ...result };
+};
 
 export const useGetFactsQuery = (initFetch?: boolean) => useNewQuery<Fact[]>('GET', urls.facts, initFetch);
 export const useGetPoliciesQuery = (page?: Page, initFetch?: boolean) =>

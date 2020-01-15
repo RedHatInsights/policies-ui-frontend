@@ -13,11 +13,12 @@ import { Policy } from '../../types/Policy';
 import { CheckCircleIcon, ExclamationCircleIcon } from '@patternfly/react-icons';
 
 interface PolicyTableProps {
-    policies?: Policy[];
     actions?: IActions;
-    loading?: boolean;
     hasError?: boolean;
+    loading?: boolean;
     onSelect?: OnSelect;
+    policies?: Policy[];
+    httpStatus?: number;
 }
 
 const loading = (): IRow[] => [{
@@ -37,7 +38,44 @@ const loading = (): IRow[] => [{
     ]
 }];
 
-const error = (): IRow[] => [{
+interface ErrorContentProps {
+    title: string;
+    content: string;
+}
+
+const ErrorContent: React.FunctionComponent<ErrorContentProps> = (props) => {
+    return (
+        <>
+            <EmptyStateIcon icon={ ExclamationCircleIcon }/>
+            <Title size="lg">{ props.title }</Title>
+            <EmptyStateBody>{ props.content }</EmptyStateBody>
+        </>
+    );
+};
+
+const errorContent = (httpStatus?: number) => {
+    console.log(httpStatus);
+    switch (httpStatus) {
+        case 404:
+            return <ErrorContent
+                title="Not found"
+                content="The request did not provide any results, try to remove some filters and try again"
+            />;
+        case 500:
+            return <ErrorContent
+                title="Internal server error"
+                content="The server was unable to process the request, please try again."
+            />;
+        case undefined:
+        case null:
+            return <ErrorContent
+                title="Unable to connect"
+                content="There was an error retrieving data. Check your connection and try again."
+            />;
+    }
+};
+
+const error = (httpStatus?: number): IRow[] => [{
     heightAuto: true,
     showSelect: false,
     cells: [
@@ -46,11 +84,7 @@ const error = (): IRow[] => [{
             title: (
                 <Bullseye>
                     <EmptyState variant={ EmptyStateVariant.small }>
-                        <EmptyStateIcon icon={ ExclamationCircleIcon }/>
-                        <Title size="lg">Unable to connect</Title>
-                        <EmptyStateBody>
-                            There was an error retrieving data. Check your connection and try again.
-                        </EmptyStateBody>
+                        { errorContent(httpStatus) }
                     </EmptyState>
                 </Bullseye>
             )
@@ -89,12 +123,12 @@ export const PolicyTable: React.FunctionComponent<PolicyTableProps> = (props) =>
         },
         {
             title: 'Conditions',
-            transforms: [ sortable ]
+            transforms: [ ]
 
         },
         {
             title: 'Actions',
-            transforms: [ sortable ]
+            transforms: [ ]
 
         },
         {
@@ -104,7 +138,7 @@ export const PolicyTable: React.FunctionComponent<PolicyTableProps> = (props) =>
         }
     ];
 
-    const rows = props.hasError ? error() : props.loading ? loading() : policiesToRows(props.policies);
+    const rows = props.hasError ? error(props.httpStatus) : props.loading ? loading() : policiesToRows(props.policies);
     const actions = props.hasError || props.loading ? undefined : props.actions;
     const onSelect = props.hasError || props.loading ? undefined : props.onSelect;
 

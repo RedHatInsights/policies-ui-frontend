@@ -16,6 +16,8 @@ interface TablePolicyToolbarProps {
     onPaginationChanged?: OnPaginationPageChangedHandler;
     onPaginationSizeChanged?: OnPaginationSizeChangedHandler;
     page: number;
+    perPage: number;
+    count?: number;
 }
 
 const toolbarClassName = style({
@@ -44,8 +46,9 @@ export const PolicyToolbar: React.FunctionComponent<TablePolicyToolbarProps> = (
                 </ToolbarItem>
             </ToolbarGroup>
             <Pagination
-                itemCount={ 35 }
+                itemCount={ props.count || 0 }
                 page={ props.page }
+                perPage={ props.perPage }
                 onSetPage={ props.onPaginationChanged }
                 onFirstClick={ props.onPaginationChanged }
                 onPreviousClick={ props.onPaginationChanged }
