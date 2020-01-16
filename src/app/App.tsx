@@ -2,8 +2,7 @@ import * as React from 'react';
 import { createClient, ClientContextProvider } from 'react-fetching-library';
 import { RouteComponentProps, withRouter } from 'react-router';
 import { Routes } from '../Routes';
-import { Bullseye } from '@patternfly/react-core';
-import { Spinner } from '@patternfly/react-core/dist/js/experimental';
+import { AppSkeleton } from '../components/AppSkeleton/AppSkeleton';
 
 declare const insights: any;
 
@@ -36,9 +35,7 @@ const App: React.FunctionComponent<RouteComponentProps> = (props) => {
 
     if (!account) {
         return (
-            <Bullseye>
-                <Spinner size="xl"/>
-            </Bullseye>
+            <AppSkeleton/>
         );
     }
 
