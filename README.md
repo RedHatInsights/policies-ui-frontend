@@ -38,7 +38,20 @@ Start the proxy by running:
 yarn proxy
 ```
 
-### Serving modified configuration of Cloud Services
+## Deploying
+
+Deployments come from the `.travis/custom_release.sh` file. Push to certain branches to deploy to certain environments:
+
+### Pushing to master
+
+Anytime a build of the master branch happens, Travis builds and pushes a new commit to the ci-beta & qa-beta branch in your build repo. Pull requests on master will not be deployed until they are merged, but they will be built to assure linting, snapshots, etc. are working as expected.
+
+master -> qa-beta & ci-beta
+prod-beta -> prod-beta
+master-stable -> qa-stable & ci-stable
+prod-stable -> prod-stable
+
+## Serving modified configuration of Cloud Services
 
 [cloud-services-config](https://github.com/RedHatInsights/cloud-services-config)'s main.yml contains
 the source of truth for the Cloud Services apps. For our application, the modified version can
