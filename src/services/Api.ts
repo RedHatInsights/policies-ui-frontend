@@ -2,7 +2,7 @@ import Config from '../config/Config';
 import { Policy } from '../types/Policy/Policy';
 import { useQuery } from 'react-fetching-library';
 import { Fact } from '../types/Fact';
-import { Page } from './Page';
+import { Page } from '../types/Page';
 
 const urls = Config.apis.urls;
 
@@ -25,6 +25,12 @@ const queryParamsPaginated = (queryParams?: any, page?: Page) => {
 
     queryParams.page = page.index - 1;
     queryParams.pageSize = page.size;
+
+    if (page.sort) {
+        queryParams.sortColumn = page.sort.column;
+        queryParams.sortDirection = page.sort.direction;
+    }
+
     return queryParams;
 };
 

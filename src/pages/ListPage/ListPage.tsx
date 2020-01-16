@@ -1,11 +1,11 @@
 import * as React from 'react';
 import { IActions } from '@patternfly/react-table';
-import { PageHeader, Main, Section, PageHeaderTitle } from '@redhat-cloud-services/frontend-components';
+import { Main, PageHeader, PageHeaderTitle, Section } from '@redhat-cloud-services/frontend-components';
 
 import { PolicyWizard } from '../../components/Policy/PolicyWizard';
 import { PolicyTable } from '../../components/Policy/PolicyTable';
 import { useGetPoliciesQuery } from '../../services/Api';
-import { Page } from '../../services/Page';
+import { Direction, Page, Sort } from '../../types/Page';
 import { PolicyToolbar } from '../../components/Policy/TableToolbar/PolicyTableToolbar';
 
 type ListPageProps = {};
@@ -30,8 +30,10 @@ const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
     const [ isCustomPolicyWizardOpen, setCustomPolicyWizardOpen ] = React.useState<boolean>(false);
     const [ currentPage, setCurrentPage ] = React.useState<number>(1);
     const [ itemsPerPage, setItemsPerPage ] = React.useState<number>(Page.defaultPage().size);
+    const [ sort, setSort ] = React.useState<Sort>();
 
-    const { loading, payload: policies, error, status, count } = useGetPoliciesQuery(Page.of(currentPage, itemsPerPage));
+    const { loading, payload: policies, error, status, count } =
+        useGetPoliciesQuery(Page.of(currentPage, itemsPerPage, sort));
 
     const openCustomPolicyWizard = () => {
         setCustomPolicyWizardOpen(true);
@@ -55,6 +57,10 @@ const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
         setItemsPerPage(perPage);
     };
 
+    const onSort = (index: number, column: string, direction: Direction) => {
+        setSort(Sort.by(column, direction));
+    };
+
     return (
         <>
             <PageHeader>
@@ -76,6 +82,8 @@ const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
                         loading={ loading }
                         hasError={ error }
                         onSelect={ () => console.log('selected') }
+                        onSort={ onSort }
+                        sortBy={ sort }
                         httpStatus={ status }
                     />
                 </Section>

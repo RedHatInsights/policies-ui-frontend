@@ -1,23 +1,30 @@
 import * as React from 'react';
-import { Table, TableHeader, TableBody, IRow, IActions, ICell, sortable, OnSelect } from '@patternfly/react-table';
 import {
-    Bullseye,
-    EmptyState,
-    EmptyStateBody,
-    EmptyStateIcon,
-    EmptyStateVariant,
-    Title
-} from '@patternfly/react-core';
+    IActions,
+    ICell,
+    IRow,
+    ISortBy,
+    OnSelect,
+    sortable,
+    SortByDirection,
+    Table,
+    TableBody,
+    TableHeader
+} from '@patternfly/react-table';
+import { Bullseye, EmptyState, EmptyStateBody, EmptyStateIcon, EmptyStateVariant, Title } from '@patternfly/react-core';
 import { Spinner } from '@patternfly/react-core/dist/js/experimental';
 import { Policy } from '../../types/Policy';
 import { CheckCircleIcon, ExclamationCircleIcon } from '@patternfly/react-icons';
+import { Direction, Sort } from '../../types/Page';
 
 interface PolicyTableProps {
     actions?: IActions;
     hasError?: boolean;
     loading?: boolean;
     onSelect?: OnSelect;
+    onSort?: (index: number, column: string, direction: Direction) => void;
     policies?: Policy[];
+    sortBy?: Sort;
     httpStatus?: number;
 }
 
@@ -54,7 +61,6 @@ const ErrorContent: React.FunctionComponent<ErrorContentProps> = (props) => {
 };
 
 const errorContent = (httpStatus?: number) => {
-    console.log(httpStatus);
     switch (httpStatus) {
         case 404:
             return <ErrorContent
@@ -109,34 +115,62 @@ const policiesToRows = (policies?: Policy[]): IRow[] => {
     return [];
 };
 
+type Cell = ICell & {
+    column?: string;
+};
+
 export const PolicyTable: React.FunctionComponent<PolicyTableProps> = (props) => {
 
-    const columns: ICell[] = [
-        {
-            title: 'Name',
-            transforms: [ sortable ]
-        },
-        {
-            title: 'Description',
-            transforms: [ sortable ]
+    const transformSortable = props.onSort ? [ sortable ] : [];
 
+    const namedColumns: Record<string, Cell> = {
+        name: {
+            title: 'Name',
+            transforms: transformSortable,
+            column: 'name'
         },
-        {
+        description: {
+            title: 'Description',
+            transforms: transformSortable,
+            column: 'description'
+        },
+        conditions: {
             title: 'Conditions',
             transforms: [ ]
-
         },
-        {
+        actions: {
             title: 'Actions',
             transforms: [ ]
-
         },
-        {
+        isActive: {
             title: 'Is active?',
-            transforms: [ sortable ]
-
+            transforms: transformSortable,
+            column: 'is_enabled'
         }
-    ];
+    };
+
+    const columns: Cell[] = Object.values(namedColumns);
+
+    const onSort = (_event, index: number, direction: SortByDirection) => {
+        if (props.onSort) {
+            const column = columns[index - 1].column;
+            if (column) {
+                props.onSort(index, column, direction === SortByDirection.asc ? Direction.ASCENDING : Direction.DESCENDING);
+            }
+        }
+    };
+
+    const toISortBy = (sort?: Sort): ISortBy | undefined => {
+        let iSortBy: ISortBy | undefined = undefined;
+        if (sort) {
+            iSortBy = {
+                index: columns.indexOf(namedColumns[sort.column]) + 1, // sort index are 1-based
+                direction: sort.direction === Direction.ASCENDING ? 'asc' : 'desc'
+            };
+        }
+
+        return iSortBy;
+    };
 
     const rows = props.hasError ? error(props.httpStatus) : props.loading ? loading() : policiesToRows(props.policies);
     const actions = props.hasError || props.loading ? undefined : props.actions;
@@ -149,6 +183,8 @@ export const PolicyTable: React.FunctionComponent<PolicyTableProps> = (props) =>
             rows={ rows }
             actions={ actions }
             onSelect={ onSelect }
+            onSort={ onSort }
+            sortBy={ toISortBy(props.sortBy) }
         >
             <TableHeader/>
             <TableBody/>
