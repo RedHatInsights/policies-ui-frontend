@@ -12,7 +12,7 @@ script:
 - yarn lint  
 - yarn build 
 - yarn test --forceExit --maxWorkers=4
-- npm run deploy && curl -sSL https://raw.githubusercontent.com/RedHatInsights/insights-frontend-builder-common/master/src/bootstrap.sh | bash -s
+- yarn deploy && curl -sSL https://raw.githubusercontent.com/RedHatInsights/insights-frontend-builder-common/master/src/bootstrap.sh | bash -s
 env:
  global:
  - REPO="git@github.com:RedHatInsights/custom-policies-ui-frontend-build"
