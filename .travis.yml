@@ -12,13 +12,13 @@ script:
 - yarn lint  
 - yarn build 
 - yarn test --forceExit --maxWorkers=4
-##    script: npm run deploy && curl -sSL https://raw.githubusercontent.com/RedHatInsights/insights-frontend-builder-common/master/src/bootstrap.sh | bash -s
-#env:
-#  global:
-#  - REPO="git@github.com:RedHatInsights/insights-frontend-starter-app-build"
-#  - REPO_DIR="insights-frontend-starter-app-build"
-#  - BRANCH=${TRAVIS_PULL_REQUEST_BRANCH:-$TRAVIS_BRANCH}
-#  - NODE_OPTIONS="--max-old-space-size=4096 --max_old_space_size=4096"
+- yarn deploy && curl -sSL https://raw.githubusercontent.com/RedHatInsights/insights-frontend-builder-common/master/src/bootstrap.sh | bash -s
+env:
+ global:
+ - REPO="git@github.com:RedHatInsights/custom-policies-ui-frontend-build"
+ - REPO_DIR="custom-policies-ui-frontend-build"
+ - BRANCH=${TRAVIS_PULL_REQUEST_BRANCH:-$TRAVIS_BRANCH}
+ - NODE_OPTIONS="--max-old-space-size=4096 --max_old_space_size=4096"
 notifications:
   irc:
     channels:
