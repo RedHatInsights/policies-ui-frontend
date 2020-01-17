@@ -27,7 +27,7 @@ globals:
   render: true
   shallow: true
   React: true
-rules:
+rules: # Todo: Remove javascript rules that are duplicated on typescript
   '@typescript-eslint/explicit-function-return-type':
     - off
   '@typescript-eslint/no-explicit-any':
@@ -44,7 +44,6 @@ rules:
     - 2
     - after: true
   comma-style: 2
-  camelcase: 2
   curly:
     - error
     - all

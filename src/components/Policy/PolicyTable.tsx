@@ -142,7 +142,7 @@ export const PolicyTable: React.FunctionComponent<PolicyTableProps> = (props) =>
             title: 'Actions',
             transforms: [ ]
         },
-        isActive: {
+        is_enabled: { // eslint-disable-line @typescript-eslint/camelcase
             title: 'Is active?',
             transforms: transformSortable,
             column: 'is_enabled'
