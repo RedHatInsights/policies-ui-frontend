@@ -1,18 +1,22 @@
 import Config from '../config/Config';
 import { Policy } from '../types/Policy/Policy';
-import { useQuery } from 'react-fetching-library';
+import { Action, useMutation, useQuery } from 'react-fetching-library';
 import { Fact } from '../types/Fact';
 import { Page } from '../types/Page';
+import { toServerPolicy } from '../utils/PolicyAdapter';
 
 const urls = Config.apis.urls;
 
 type Method = 'GET' | 'HEAD' | 'POST' | 'PUT' | 'PATCH' | 'DELETE' | 'OPTIONS';
 
-const useNewQuery = <T>(method: Method, url: string, initFetch?: boolean, queryParams?: any, data?: any) => useQuery({
+const createAction = (method: Method, url: string, queryParams?: any, data?: any): Action => ({
     method,
     endpoint: url + (queryParams ? '?' + new URLSearchParams(queryParams).toString() : ''),
     body: data
-}, initFetch);
+});
+
+const useNewQuery = <T>(method: Method, url: string, initFetch?: boolean, queryParams?: any, data?: any) =>
+    useQuery(createAction(method, url, queryParams, data), initFetch);
 
 const queryParamsPaginated = (queryParams?: any, page?: Page) => {
     if (!page) {
@@ -42,8 +46,15 @@ const useNewPaginatedQuery = <T>(method: Method, url: string, page?: Page, initF
 };
 
 export const useGetFactsQuery = (initFetch?: boolean) => useNewQuery<Fact[]>('GET', urls.facts, initFetch);
+
 export const useGetPoliciesQuery = (page?: Page, initFetch?: boolean) =>
     useNewPaginatedQuery<Policy[]>('GET', urls.policies, page, initFetch);
-export const useCreatePolicyQuery = (policy: Policy, initFetch?: boolean) => useNewQuery<void>('POST', urls.policies, initFetch, {}, policy);
+
+export const useCreatePolicyMutation = () => {
+    return useMutation((policy: Policy) => {
+        return createAction('POST', urls.policies, { alsoStore: true }, toServerPolicy(policy));
+    });
+};
+
 export const useGetCustomerPolicyQuery = (policyId: string, initFetch?: boolean) =>
     useNewQuery<Policy>('GET', urls.customerPolicy(policyId), initFetch);

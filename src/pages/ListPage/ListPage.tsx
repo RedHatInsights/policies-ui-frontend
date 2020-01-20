@@ -2,11 +2,11 @@ import * as React from 'react';
 import { IActions } from '@patternfly/react-table';
 import { Main, PageHeader, PageHeaderTitle, Section } from '@redhat-cloud-services/frontend-components';
 
-import { PolicyWizard } from '../../components/Policy/PolicyWizard';
 import { PolicyTable } from '../../components/Policy/PolicyTable';
 import { useGetPoliciesQuery } from '../../services/Api';
 import { Direction, Page, Sort } from '../../types/Page';
 import { PolicyToolbar } from '../../components/Policy/TableToolbar/PolicyTableToolbar';
+import { CreatePolicyWizard } from './CreatePolicyWizard';
 
 type ListPageProps = {};
 
@@ -27,10 +27,10 @@ const tableActions: IActions = [
 
 const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
 
-    const [ isCustomPolicyWizardOpen, setCustomPolicyWizardOpen ] = React.useState<boolean>(false);
     const [ currentPage, setCurrentPage ] = React.useState<number>(1);
     const [ itemsPerPage, setItemsPerPage ] = React.useState<number>(Page.defaultPage().size);
     const [ sort, setSort ] = React.useState<Sort>();
+    const [ isCustomPolicyWizardOpen, setCustomPolicyWizardOpen ] = React.useState<boolean>(false);
 
     const { loading, payload: policies, error, status, count } =
         useGetPoliciesQuery(Page.of(currentPage, itemsPerPage, sort));
@@ -40,11 +40,6 @@ const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
     };
 
     const closeCustomPolicyWizard = () => {
-        setCustomPolicyWizardOpen(false);
-    };
-
-    const onCreate = () => {
-        console.log('Create');
         setCustomPolicyWizardOpen(false);
     };
 
@@ -88,11 +83,10 @@ const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
                     />
                 </Section>
             </Main>
-            { isCustomPolicyWizardOpen &&
-            <PolicyWizard
-                onCreate={ onCreate }
-                onClose={ closeCustomPolicyWizard }
-                initialValue={ { actions: [{}]} }/> }
+            <CreatePolicyWizard
+                close={ closeCustomPolicyWizard }
+                isOpen={ isCustomPolicyWizardOpen }
+            />
         </>
     );
 };

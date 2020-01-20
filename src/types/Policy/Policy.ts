@@ -1,5 +1,4 @@
 import { Action } from './Actions';
-import { Severity } from './Severity';
 
 export interface Policy {
     id?: string;
@@ -9,5 +8,14 @@ export interface Policy {
     description?: string;
     isEnabled?: boolean;
     name: string;
-    severity?: Severity;
+}
+
+export interface ServerPolicy {
+    id?: string;
+    actions?: string;
+    conditions: string;
+    customerid?: string;
+    description?: string;
+    is_enabled?: boolean; // eslint-disable-line @typescript-eslint/camelcase, camelcase
+    name: string;
 }

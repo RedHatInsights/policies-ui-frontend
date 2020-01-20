@@ -8,8 +8,8 @@ import { PolicyFormDetails } from '../../../schemas/CreatePolicy/PolicySchema';
 const DetailsStep = () => {
     return (
         <Form>
-            <FormTextInput isRequired={ true } label="Name" type="text" name="name" id="name" placeholder="Name of the policy"/>
-            <FormTextInput label="Description" type="text" id="description" name="description" placeholder="A short description"/>
+            <FormTextInput isRequired={ true } label="Name" type="text" name="name" id="name"/>
+            <FormTextInput label="Description" type="text" id="description" name="description"/>
         </Form>
     );
 };

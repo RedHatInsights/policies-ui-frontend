@@ -23,7 +23,7 @@ enum SubmitActionEnum {
 interface PolicyWizardProps {
     initialValue: FormType;
     onClose: () => void;
-    onCreate: (policy: FormType) => void;
+    onCreate: (policy: Policy) => void;
 }
 
 const buildSteps: () => WizardStepExtended[] = () => {
@@ -79,7 +79,7 @@ export const PolicyWizard: React.FunctionComponent<PolicyWizardProps> = (props: 
         setSubmitAction(SubmitActionEnum.NONE);
         switch (submitAction) {
             case SubmitActionEnum.CREATE:
-                props.onCreate(PolicyFormSchema.cast(policy));
+                props.onCreate(PolicyFormSchema.cast(policy) as Policy);
                 break;
             case SubmitActionEnum.VERIFY:
                 console.log('Nothing hooked to VERIFY yet...');

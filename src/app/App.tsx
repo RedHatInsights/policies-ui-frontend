@@ -1,15 +1,18 @@
 import * as React from 'react';
 import { createClient, ClientContextProvider } from 'react-fetching-library';
 import { RouteComponentProps, withRouter } from 'react-router';
+import { NotificationsPortal } from '@redhat-cloud-services/frontend-components-notifications';
 import { Routes } from '../Routes';
 import { AppSkeleton } from '../components/AppSkeleton/AppSkeleton';
 
 declare const insights: any;
 
 interface Account {
-  accountNumber: string;
-  username: string;
+    accountNumber: string;
+    username: string;
 }
+
+import '@redhat-cloud-services/frontend-components-notifications/index.css';
 
 const App: React.FunctionComponent<RouteComponentProps> = (props) => {
 
@@ -41,6 +44,7 @@ const App: React.FunctionComponent<RouteComponentProps> = (props) => {
 
     return (
         <ClientContextProvider client={ createClient() }>
+            <NotificationsPortal/>
             <Routes/>
         </ClientContextProvider>
     );
