@@ -1,23 +1,14 @@
 import { ActionType } from '../../types/Policy/Actions';
 import * as Yup from 'yup';
 import {
-    ActionAlertSchema,
     ActionEmailSchema, ActionSchema,
-    ActionSlackSchema,
-    ActionSmsSchema,
     ActionWebhookSchema
 } from './Actions';
 
 const ActionSchemaSelector: ({ type }: { type: ActionType }) => Yup.Schema<any> = ({ type }) => {
     switch (type) {
-        case ActionType.ALERT:
-            return ActionAlertSchema;
         case ActionType.EMAIL:
             return ActionEmailSchema;
-        case ActionType.SLACK:
-            return ActionSlackSchema;
-        case ActionType.SMS:
-            return ActionSmsSchema;
         case ActionType.WEBHOOK:
             return ActionWebhookSchema;
         case undefined:
