@@ -2,34 +2,48 @@ import * as React from 'react';
 import { createClient, ClientContextProvider } from 'react-fetching-library';
 import { RouteComponentProps, withRouter } from 'react-router';
 import { Routes } from '../Routes';
+import { AppSkeleton } from '../components/AppSkeleton/AppSkeleton';
 
 declare const insights: any;
 
-class App extends React.PureComponent<RouteComponentProps> {
+interface Account {
+  accountNumber: string;
+  username: string;
+}
 
-    appNav: any;
+const App: React.FunctionComponent<RouteComponentProps> = (props) => {
 
-    componentDidMount() {
+    const [ account, setAccount ] = React.useState<Account | undefined>(undefined);
+
+    React.useEffect(() => {
         insights.chrome.init();
         insights.chrome.identifyApp('custom-policies');
-        this.appNav = insights.chrome.on('APP_NAVIGATION', (event: any) => this.props.history.push(`/${event.navId}`));
-    }
+        const appNav = insights.chrome.on('APP_NAVIGATION', (event: any) => props.history.push(`/${event.navId}`));
+        return () => {
+            appNav();
+        };
+    });
 
-    componentWillUnmount() {
-        this.appNav();
-    }
+    React.useEffect(() => {
+        insights.chrome.auth.getUser().then((userAccount: any) => {
+            setAccount({
+                accountNumber: userAccount.identity.account_number,
+                username: userAccount.identity.username
+            });
+        });
+    });
 
-    render() {
-
-        const client = createClient();
-
+    if (!account) {
         return (
-            <ClientContextProvider client={ client }>
-                <Routes/>
-            </ClientContextProvider>
+            <AppSkeleton/>
         );
     }
 
-}
+    return (
+        <ClientContextProvider client={ createClient() }>
+            <Routes/>
+        </ClientContextProvider>
+    );
+};
 
 export default withRouter(App);
