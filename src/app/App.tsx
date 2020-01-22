@@ -25,7 +25,7 @@ const App: React.FunctionComponent<RouteComponentProps> = (props) => {
         return () => {
             appNav();
         };
-    });
+    }, []);
 
     React.useEffect(() => {
         insights.chrome.auth.getUser().then((userAccount: any) => {
@@ -34,7 +34,7 @@ const App: React.FunctionComponent<RouteComponentProps> = (props) => {
                 username: userAccount.identity.username
             });
         });
-    });
+    }, []);
 
     if (!account) {
         return (
