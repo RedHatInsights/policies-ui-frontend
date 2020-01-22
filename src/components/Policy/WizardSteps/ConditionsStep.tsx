@@ -8,7 +8,9 @@ import { PolicyFormConditions } from '../../../schemas/CreatePolicy/PolicySchema
 const ConditionsStep = () => {
     return (
         <Form>
-            <FormTextInput isRequired={ true } label="Condition text" type="text" id="conditions" name="conditions" placeholder={ '"a" == "b"' }/>
+            <FormTextInput isRequired={ true } label="Condition text"
+                type="text" id="conditions" name="conditions"
+                placeholder={ 'arch = "x86_64"' }/>
         </Form>
     );
 };
