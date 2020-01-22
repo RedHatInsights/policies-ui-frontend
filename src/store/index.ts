@@ -1,6 +1,7 @@
 import { Middleware } from 'redux';
 import ReducerRegistry from '@redhat-cloud-services/frontend-components-utilities/files/ReducerRegistry';
 import promiseMiddleware from 'redux-promise-middleware';
+import { notifications } from '@redhat-cloud-services/frontend-components-notifications';
 
 let registry: any;
 
@@ -15,6 +16,9 @@ export function init (...middleware: Middleware[]) {
     ]);
 
     //If you want to register all of your reducers, this is good place.
+    registry.register({
+        notifications
+    });
     /*
      *  registry.register({
      *    someName: (state, action) => ({...state})

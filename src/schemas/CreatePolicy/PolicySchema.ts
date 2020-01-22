@@ -34,7 +34,7 @@ export const PolicyFormDetails = Yup.object().shape({
 });
 
 export const PolicyFormActions = Yup.object().shape({
-    actions: Yup.array(Yup.lazy(ActionSchemaSelector)).required('Add at least one action')
+    actions: Yup.array(Yup.lazy(ActionSchemaSelector))
 });
 
 export const PolicyFormConditions = Yup.object().shape({
