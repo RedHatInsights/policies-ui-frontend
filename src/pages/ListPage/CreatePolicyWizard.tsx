@@ -18,7 +18,7 @@ interface AlertProps {
 export const CreatePolicyWizard: React.FunctionComponent<CreatePolicyWizardProps> = (props) => {
     const query = useCreatePolicyMutation();
 
-    const onCreate = (policy: Policy) => {
+    const onSave = (policy: Policy) => {
         query.mutate(policy).then((res) => {
             switch (res.status) {
                 case HttpStatus.CREATED:
@@ -45,9 +45,10 @@ export const CreatePolicyWizard: React.FunctionComponent<CreatePolicyWizardProps
         <>
             { props.isOpen &&
             <PolicyWizard
-                initialValue={ { actions: [{}]} }
+                initialValue={ { } }
                 onClose={ props.close }
-                onCreate={ onCreate }
+                onSave={ onSave }
+                isLoading={ query.loading }
             /> }
         </>
     );

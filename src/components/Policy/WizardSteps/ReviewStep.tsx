@@ -7,7 +7,11 @@ import { Form } from '@patternfly/react-core';
 import { ActionsForm } from '../ActionsForm';
 import { PolicyFormSchema } from '../../../schemas/CreatePolicy/PolicySchema';
 
-const ReviewStep = () => {
+export interface ReviewStepProps {
+    loading: boolean;
+}
+
+const ReviewStep: React.FunctionComponent<ReviewStepProps> = (props) => {
 
     return (
         <>
@@ -20,15 +24,15 @@ const ReviewStep = () => {
                         return <ActionsForm isReadOnly actions={ helpers.form.values.actions } arrayHelpers={ helpers }/>;
                     } }
                 </FieldArray>
-                <Switch type="checkbox" id="isEnabled" name="isEnabled" label="Activate Policy?"/>
+                <Switch isDisabled={ props.loading } type="checkbox" id="isEnabled" name="isEnabled" label="Activate Policy?"/>
             </Form>
         </>
     );
 };
 
-export const createReviewStep: (stepOverrides?: Partial<WizardStepExtended>) => WizardStepExtended = (stepOverrides) => ({
+export const createReviewStep: (loading: boolean, stepOverrides?: Partial<WizardStepExtended>) => WizardStepExtended = (loading, stepOverrides) => ({
     name: 'Review',
-    component: <ReviewStep/>,
+    component: <ReviewStep loading={ loading }/>,
     validationSchema: PolicyFormSchema,
     ...stepOverrides
 });

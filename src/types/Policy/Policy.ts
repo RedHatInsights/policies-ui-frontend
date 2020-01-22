@@ -1,7 +1,7 @@
 import { Action } from './Actions';
 
 export interface Policy {
-    id?: string;
+    id?: number;
     actions?: Action[];
     conditions: string;
     customerid?: string;
@@ -11,7 +11,7 @@ export interface Policy {
 }
 
 export interface ServerPolicy {
-    id?: string;
+    id?: number;
     actions?: string;
     conditions: string;
     customerid?: string;

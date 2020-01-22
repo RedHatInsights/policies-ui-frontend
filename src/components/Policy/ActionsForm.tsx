@@ -32,11 +32,9 @@ export const ActionsForm = (props: ActionsFormProps) => {
                     <Card isHoverable>
                         <CardHead>
                             <CardActions>
-                                { !props.isReadOnly && props.actions?.length && props.actions.length > 1 ? (
-                                    <Button variant="plain" aria-label="Action" onClick={ props.arrayHelpers.handleRemove(index) }>
-                                        <TimesIcon/>
-                                    </Button>
-                                ) : null}
+                                <Button variant="plain" aria-label="Action" onClick={ props.arrayHelpers.handleRemove(index) }>
+                                    <TimesIcon/>
+                                </Button>
                             </CardActions>
                             <CardHeader>Action #{ index + 1 }</CardHeader>
                         </CardHead>
