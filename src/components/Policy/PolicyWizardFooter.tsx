@@ -33,7 +33,12 @@ export const PolicyWizardFooter: React.FunctionComponent<PolicyWizardFooterProps
                     const wcProps = _wizardContextProps as WizardContextProps;
                     return (
                         <>
-                            <Button variant={ ButtonVariant.primary } type="submit" onClick={ wcProps.onNext } isDisabled={ props.isLoading }>
+                            <Button
+                                variant={ ButtonVariant.primary }
+                                type="submit"
+                                onClick={ wcProps.onNext }
+                                isDisabled={ props.isLoading || !wcProps.activeStep.enableNext }
+                            >
                                 { wcProps.activeStep.nextButtonText || 'Next' }
                             </Button>
                             { !wcProps.activeStep.hideBackButton && (
