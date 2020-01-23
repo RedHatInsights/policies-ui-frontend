@@ -7,7 +7,7 @@ export const ActionWebhookForm = (props: ActionFormProps) => {
 
     return (
         <>
-            <FormTextInput isReadOnly={ props.isReadOnly } type="text" name={ endpointNameOrId } id={ endpointNameOrId } label="Message" isRequired/>
+            <FormTextInput isReadOnly={ props.isReadOnly } type="text" name={ endpointNameOrId } id={ endpointNameOrId } label="Endpoint" isRequired/>
         </>
     );
 };
