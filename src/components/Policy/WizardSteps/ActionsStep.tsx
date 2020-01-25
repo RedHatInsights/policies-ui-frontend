@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Form } from '@patternfly/react-core';
 
-import { WizardStepExtended } from './WizardStepExtended';
+import { WizardStepExtended } from '../PolicyWizardTypes';
 import { PolicyFormActions } from '../../../schemas/CreatePolicy/PolicySchema';
 import { FieldArray, FieldArrayRenderProps } from 'formik';
 import { ActionsForm } from '../ActionsForm';

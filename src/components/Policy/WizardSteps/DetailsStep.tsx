@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Form } from '@patternfly/react-core';
 
 import { FormTextInput } from '../../Formik/Patternfly';
-import { WizardStepExtended } from './WizardStepExtended';
+import { WizardStepExtended } from '../PolicyWizardTypes';
 import { PolicyFormDetails } from '../../../schemas/CreatePolicy/PolicySchema';
 
 const DetailsStep = () => {

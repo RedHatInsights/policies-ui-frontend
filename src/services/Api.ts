@@ -56,5 +56,11 @@ export const useCreatePolicyMutation = () => {
     });
 };
 
+export const useVerifyPolicyMutation = () => {
+    return useMutation((policy: Policy) => {
+        return createAction('POST', urls.policies, { alsoStore: false }, toServerPolicy(policy));
+    });
+};
+
 export const useGetCustomerPolicyQuery = (policyId: string, initFetch?: boolean) =>
     useNewQuery<Policy>('GET', urls.customerPolicy(policyId), initFetch);
