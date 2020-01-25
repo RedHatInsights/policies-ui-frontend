@@ -66,8 +66,8 @@ const enableNext = (isValid: boolean, isLoading: boolean) => {
 };
 
 const isStepValid = (step: WizardStepExtended, wizardContext: Omit<WizardContext, 'isValid'>, values: FormType) => {
-    if (step.isContextValid) {
-        return step.isContextValid(wizardContext, values);
+    if (step.isValid) {
+        return step.isValid(wizardContext, values);
     }
 
     return wizardContext.isFormValid;

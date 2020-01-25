@@ -9,7 +9,7 @@ export type FormType = DeepPartial<Policy>;
 
 export type WizardStepExtended = WizardStep & {
   validationSchema: Yup.Schema<unknown>;
-  isContextValid?: (context: WizardContext, values: DeepReadonly<FormType>) => boolean;
+  isValid?: (context: WizardContext, values: DeepReadonly<FormType>) => boolean;
 };
 
 export const AlwaysValid = Yup.object();

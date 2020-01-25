@@ -82,7 +82,7 @@ export const createConditionsStep: (stepOverrides?: Partial<WizardStepExtended>)
     name: 'Conditions',
     component: <ConditionsStep/>,
     validationSchema: PolicyFormConditions,
-    isContextValid: (context, values) => {
+    isValid: (context, values) => {
         if (values.conditions === context.verifyResponse.conditions) {
             return context.verifyResponse.isValid;
         }
