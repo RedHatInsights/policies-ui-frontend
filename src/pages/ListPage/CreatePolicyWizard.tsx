@@ -6,7 +6,7 @@ import * as HttpStatus from 'http-status-codes';
 import { addSuccessNotification, addDangerNotification } from '../../utils/AlertUtils';
 
 interface CreatePolicyWizardProps {
-    close: () => void;
+    close: (policyCreated: boolean) => void;
     isOpen: boolean;
 }
 
@@ -23,7 +23,7 @@ export const CreatePolicyWizard: React.FunctionComponent<CreatePolicyWizardProps
             switch (res.status) {
                 case HttpStatus.CREATED:
                     addSuccessNotification('Created', `Policy "${policy.name}" created`);
-                    props.close();
+                    props.close(true);
                     break;
                 case HttpStatus.OK:
                     addSuccessNotification('Validated', `Policy "${policy.name}" validated`);
@@ -46,7 +46,7 @@ export const CreatePolicyWizard: React.FunctionComponent<CreatePolicyWizardProps
             { props.isOpen &&
             <PolicyWizard
                 initialValue={ { } }
-                onClose={ props.close }
+                onClose={ () => { props.close(false); } }
                 onSave={ onSave }
                 isLoading={ query.loading }
             /> }

@@ -32,14 +32,17 @@ const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
     const [ sort, setSort ] = React.useState<Sort>();
     const [ isCustomPolicyWizardOpen, setCustomPolicyWizardOpen ] = React.useState<boolean>(false);
 
-    const { loading, payload: policies, error, status, count } =
-        useGetPoliciesQuery(Page.of(currentPage, itemsPerPage, sort));
+    const getPoliciesQuery = useGetPoliciesQuery(Page.of(currentPage, itemsPerPage, sort));
 
     const openCustomPolicyWizard = () => {
         setCustomPolicyWizardOpen(true);
     };
 
-    const closeCustomPolicyWizard = () => {
+    const closeCustomPolicyWizard = (policyCreated: boolean) => {
+        if (policyCreated) {
+            getPoliciesQuery.query();
+        }
+
         setCustomPolicyWizardOpen(false);
     };
 
@@ -69,17 +72,17 @@ const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
                         onPaginationSizeChanged={ changeItemsPerPage }
                         page={ currentPage }
                         perPage={ itemsPerPage }
-                        count={ count }
+                        count={ getPoliciesQuery.count }
                     />
                     <PolicyTable
-                        policies={ policies }
+                        policies={ getPoliciesQuery.payload }
                         actions={ tableActions }
-                        loading={ loading }
-                        hasError={ error }
+                        loading={ getPoliciesQuery.loading }
+                        hasError={ getPoliciesQuery.error }
                         onSelect={ () => console.log('selected') }
                         onSort={ onSort }
                         sortBy={ sort }
-                        httpStatus={ status }
+                        httpStatus={ getPoliciesQuery.status }
                     />
                 </Section>
             </Main>
