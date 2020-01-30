@@ -4,9 +4,15 @@ import {
     WizardFooter,
     WizardContextConsumer,
     WizardStep,
-    ButtonVariant, Bullseye
+    ButtonVariant
 } from '@patternfly/react-core';
 import { Spinner } from '@patternfly/react-core/dist/js/experimental';
+import { style } from 'typestyle';
+
+const loadingClassName = style({
+    marginTop: 'auto',
+    marginBottom: 14
+});
 
 // Copied from: https://github.com/patternfly/patternfly-react/blob/master/packages/patternfly-4/react-core/src/components/Wizard/Wizard.tsx#L451-L457
 // Todo: https://github.com/patternfly/patternfly-react/issues/3545
@@ -56,10 +62,10 @@ export const PolicyWizardFooter: React.FunctionComponent<PolicyWizardFooterProps
                                 </Button>
                             )}
                             { props.isLoading && (
-                                <Bullseye>
+                                <div className={ loadingClassName }>
                                     { props.loadingText } &nbsp;
                                     <Spinner size="md" />
-                                </Bullseye>
+                                </div>
                             )}
                         </>
                     );

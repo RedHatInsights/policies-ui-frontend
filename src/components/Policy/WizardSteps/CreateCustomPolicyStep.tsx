@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Button, Form, InputGroup, Radio, TextInput } from '@patternfly/react-core';
 import { Policy } from '../../../types/Policy';
-import { AlwaysValid, WizardStepExtended } from './WizardStepExtended';
+import { AlwaysValid, WizardStepExtended } from '../PolicyWizardTypes';
 import { PolicyTable } from '../PolicyTable';
 import { useGetPoliciesQuery } from '../../../services/Api';
 

@@ -1,21 +1,20 @@
 import * as React from 'react';
 import { FieldArray, FieldArrayRenderProps } from 'formik';
 
-import { WizardStepExtended } from './WizardStepExtended';
+import { WizardContext, WizardStepExtended } from '../PolicyWizardTypes';
 import { FormTextInput, Switch } from '../../Formik/Patternfly';
 import { Form } from '@patternfly/react-core';
 import { ActionsForm } from '../ActionsForm';
 import { PolicyFormSchema } from '../../../schemas/CreatePolicy/PolicySchema';
+import { useContext } from 'react';
 
-export interface ReviewStepProps {
-    loading: boolean;
-}
-
-const ReviewStep: React.FunctionComponent<ReviewStepProps> = (props) => {
+const ReviewStep: React.FunctionComponent = () => {
+    const context = useContext(WizardContext);
 
     return (
         <>
             <Form>
+                <Switch isDisabled={ context.isLoading } type="checkbox" id="isEnabled" name="isEnabled" label="Activate Policy?"/>
                 <FormTextInput isReadOnly label="Name" type="text" name="name" id="name"/>
                 <FormTextInput isReadOnly label="Description" type="text" id="description" name="description"/>
                 <FormTextInput isReadOnly label="Condition text" type="text" id="conditions" name="conditions"/>
@@ -24,15 +23,14 @@ const ReviewStep: React.FunctionComponent<ReviewStepProps> = (props) => {
                         return <ActionsForm isReadOnly actions={ helpers.form.values.actions } arrayHelpers={ helpers }/>;
                     } }
                 </FieldArray>
-                <Switch isDisabled={ props.loading } type="checkbox" id="isEnabled" name="isEnabled" label="Activate Policy?"/>
             </Form>
         </>
     );
 };
 
-export const createReviewStep: (loading: boolean, stepOverrides?: Partial<WizardStepExtended>) => WizardStepExtended = (loading, stepOverrides) => ({
+export const createReviewStep: (stepOverrides?: Partial<WizardStepExtended>) => WizardStepExtended = (stepOverrides) => ({
     name: 'Review',
-    component: <ReviewStep loading={ loading }/>,
+    component: <ReviewStep/>,
     validationSchema: PolicyFormSchema,
     ...stepOverrides
 });
