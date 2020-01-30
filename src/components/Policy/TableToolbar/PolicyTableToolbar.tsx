@@ -6,7 +6,8 @@ import { ExportIcon } from '@patternfly/react-icons';
 import { KebabMenu } from './KebabMenu';
 import { FilterBy } from './FilterBy';
 
-type OnPaginationPageChangedHandler = (event: React.SyntheticEvent<HTMLButtonElement>, page: number) => void;
+type OnPaginationPageChangedHandler = (
+    event: React.SyntheticEvent<HTMLButtonElement> | React.MouseEvent | React.KeyboardEvent | MouseEvent, page: number) => void;
 type OnPaginationSizeChangedHandler = (event: React.MouseEvent | React.KeyboardEvent | MouseEvent, perPage: number) => void;
 
 interface TablePolicyToolbarProps {
