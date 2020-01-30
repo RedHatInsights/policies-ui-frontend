@@ -88,16 +88,18 @@ interface FormikBindingProps {
 const FormikBinding: React.FunctionComponent<FormikBindingProps> = (props) => {
 
     const formikProps = useFormikContext<FormType>();
+    const formikValidateForm = formikProps.validateForm;
+    const formikHandleSubmit = formikProps.handleSubmit;
 
     React.useEffect(() => {
-        formikProps.validateForm();
-    }, [ props.currentStep ]);
+        formikValidateForm();
+    }, [ props.currentStep, formikValidateForm ]);
 
     React.useEffect(() => {
         if (props.submitAction !== WizardActionType.NONE) {
-            formikProps.handleSubmit();
+            formikHandleSubmit();
         }
-    }, [ props.submitAction ]);
+    }, [ props.submitAction, formikHandleSubmit ]);
 
     const wizardContext: WizardContext = {
         isLoading: props.isLoading,

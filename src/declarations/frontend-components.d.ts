@@ -1,3 +1,6 @@
+import * as React from 'react';
+import { ICell } from '@patternfly/react-table';
+
 declare module '@redhat-cloud-services/frontend-components' {
     export class PageHeader extends React.Component<{
         className?: string;
@@ -33,6 +36,14 @@ declare module '@redhat-cloud-services/frontend-components' {
         size?: 'xs' | 'sm' | 'md' | 'lg';
         isDark?: boolean;
     }> {
+    }
+
+    export class SkeletonTable extends React.Component<{
+        colSize?: number;
+        rowSize?: number;
+        columns: (ICell | string)[];
+    }> {
+
     }
 
     export class Spinner extends React.Component<{

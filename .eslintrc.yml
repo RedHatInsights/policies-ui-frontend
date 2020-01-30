@@ -69,6 +69,7 @@ rules: # Todo: Remove javascript rules that are duplicated on typescript
         - never
   react/prop-types: off
   react-hooks/rules-of-hooks: error
+  react-hooks/exhaustive-deps: error
   key-spacing: 2
   keyword-spacing: 2
   linebreak-style:

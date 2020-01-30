@@ -1,11 +1,13 @@
-import { Policy, ServerPolicy } from '../types/Policy/Policy';
+import parseJSON from 'date-fns/parseJSON';
+
+import { Policy, ServerPolicyRequest, ServerPolicyResponse } from '../types/Policy/Policy';
 import { ActionType } from '../types/Policy/Actions';
 
 const assertUnreachable = (_x: never): never => {
     throw new Error('Unreachable');
 };
 
-export const toServerPolicy = (policy: Policy): ServerPolicy => {
+export const toServerPolicy = (policy: Policy): ServerPolicyRequest => {
 
     return {
         ...policy,
@@ -24,6 +26,19 @@ export const toServerPolicy = (policy: Policy): ServerPolicy => {
             }
 
             return encodedAction;
-        }).join(';')
+        }).join(';'),
+        mtime: policy.mtime ? policy.mtime.toUTCString() : undefined
     };
+};
+
+export const toPolicy = (serverPolicy: ServerPolicyResponse): Policy => {
+    return {
+        ...serverPolicy,
+        actions: [],
+        mtime: parseJSON(serverPolicy.mtime)
+    };
+};
+
+export const toPolicies = (serverPolicies: ServerPolicyResponse[]): Policy[] => {
+    return serverPolicies.map(toPolicy);
 };

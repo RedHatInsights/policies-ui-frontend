@@ -3,7 +3,7 @@ import { useContext } from 'react';
 import { IActions } from '@patternfly/react-table';
 import { Main, PageHeader, PageHeaderTitle, Section } from '@redhat-cloud-services/frontend-components';
 
-import { PolicyTable } from '../../components/Policy/PolicyTable';
+import { PolicyTable } from '../../components/Policy/Table/PolicyTable';
 import { useGetPoliciesQuery } from '../../services/Api';
 import { Direction, Page, Sort } from '../../types/Page';
 import { PolicyToolbar } from '../../components/Policy/TableToolbar/PolicyTableToolbar';
@@ -19,8 +19,8 @@ const tableActions: IActions = [
         onClick: () => alert('Edit')
     },
     {
-        title: 'Clone',
-        onClick: () => alert('Clone')
+        title: 'Duplicate',
+        onClick: () => alert('Duplicate')
     },
     {
         title: 'Delete',
@@ -39,11 +39,13 @@ const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
 
     const { canReadAll, canWriteAll } = useContext(RbacContext);
 
+    const { query: getPoliciesQueryReload } = getPoliciesQuery;
+
     React.useEffect(() => {
         if (canReadAll) {
-            getPoliciesQuery.query();
+            getPoliciesQueryReload();
         }
-    }, [ canReadAll, getPoliciesQuery.query ]);
+    }, [ canReadAll, getPoliciesQueryReload ]);
 
     const openCustomPolicyWizard = () => {
         setCustomPolicyWizardOpen(true);
@@ -90,7 +92,6 @@ const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
                         actions={ tableActions }
                         loading={ getPoliciesQuery.loading }
                         error={ policyTableError(canReadAll, getPoliciesQuery.error, getPoliciesQuery.status) }
-                        onSelect={ () => console.log('selected') }
                         onSort={ onSort }
                         sortBy={ sort }
                     />
