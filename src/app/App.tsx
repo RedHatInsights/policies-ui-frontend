@@ -49,8 +49,6 @@ const App: React.FunctionComponent<RouteComponentProps> = (props) => {
         );
     }
 
-    console.log(rbac);
-
     return (
         <ClientContextProvider client={ createClient() }>
             <RbacContext.Provider value={ rbac }>

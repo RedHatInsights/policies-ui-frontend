@@ -81,8 +81,6 @@ const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
         setSort(Sort.by(column, direction));
     };
 
-    console.log('read,write', canReadAll, canWriteAll);
-
     return (
         <>
             <PageHeader>
