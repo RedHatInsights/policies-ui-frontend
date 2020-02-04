@@ -14,24 +14,24 @@ import {
 import { Bullseye, EmptyState, EmptyStateBody, EmptyStateIcon, EmptyStateVariant, Title } from '@patternfly/react-core';
 import { Spinner } from '@patternfly/react-core/dist/js/experimental';
 import { Policy } from '../../types/Policy';
-import { CheckCircleIcon, ExclamationCircleIcon } from '@patternfly/react-icons';
+import { CheckCircleIcon } from '@patternfly/react-icons';
 import { Direction, Sort } from '../../types/Page';
+import { IconType } from '@patternfly/react-icons/dist/js/createIcon';
 
 interface PolicyTableProps {
     actions?: IActions;
-    hasError?: boolean;
-    errorType?: PolicyTableError;
+    error?: ErrorContentProps;
     loading?: boolean;
     onSelect?: OnSelect;
     onSort?: (index: number, column: string, direction: Direction) => void;
     policies?: Policy[];
     sortBy?: Sort;
-    httpStatus?: number;
 }
 
-export enum PolicyTableError {
-    HTTP_ERROR,
-    NO_PERMISSION_ERROR
+export interface ErrorContentProps {
+    icon: IconType;
+    title: string;
+    content: string;
 }
 
 const loading = (): IRow[] => [{
@@ -51,55 +51,17 @@ const loading = (): IRow[] => [{
     ]
 }];
 
-interface ErrorContentProps {
-    title: string;
-    content: string;
-}
-
 const ErrorContent: React.FunctionComponent<ErrorContentProps> = (props) => {
     return (
         <>
-            <EmptyStateIcon icon={ ExclamationCircleIcon }/>
+            <EmptyStateIcon icon={ props.icon }/>
             <Title size="lg">{ props.title }</Title>
             <EmptyStateBody>{ props.content }</EmptyStateBody>
         </>
     );
 };
 
-const httpErrorContent = (httpStatus?: number) => {
-    switch (httpStatus) {
-        case 404:
-            return <ErrorContent
-                title="Not found"
-                content="The request did not provide any results, try to remove some filters and try again"
-            />;
-        case 500:
-            return <ErrorContent
-                title="Internal server error"
-                content="The server was unable to process the request, please try again."
-            />;
-        case undefined:
-        case null:
-            return <ErrorContent
-                title="Unable to connect"
-                content="There was an error retrieving data. Check your connection and try again."
-            />;
-    }
-};
-
-const errorContent = (errorType: PolicyTableError, httpStatus?: number) => {
-    switch (errorType) {
-        case PolicyTableError.HTTP_ERROR:
-            return httpErrorContent(httpStatus);
-        case PolicyTableError.NO_PERMISSION_ERROR:
-            return <ErrorContent
-                title="No permission to view this page"
-                content="You do not have permission to view this page"
-            />;
-    }
-};
-
-const error = (errorType?: PolicyTableError, httpStatus?: number): IRow[] => [{
+const errorRow = (props: ErrorContentProps): IRow[] => [{
     heightAuto: true,
     showSelect: false,
     cells: [
@@ -108,9 +70,7 @@ const error = (errorType?: PolicyTableError, httpStatus?: number): IRow[] => [{
             title: (
                 <Bullseye>
                     <EmptyState variant={ EmptyStateVariant.small }>
-                        { errorType ? errorContent(errorType, httpStatus) : (
-                            <ErrorContent title="Unknown error" content="Unknown error when trying to access"/>
-                        ) }
+                        <ErrorContent { ...props }/>
                     </EmptyState>
                 </Bullseye>
             )
@@ -192,9 +152,10 @@ export const PolicyTable: React.FunctionComponent<PolicyTableProps> = (props) =>
         return iSortBy;
     };
 
-    const rows = props.hasError ? error(props.errorType, props.httpStatus) : props.loading ? loading() : policiesToRows(props.policies);
-    const actions = props.hasError || props.loading ? undefined : props.actions;
-    const onSelect = props.hasError || props.loading ? undefined : props.onSelect;
+    const rows = props.error ? errorRow(props.error) : props.loading ? loading() : policiesToRows(props.policies);
+    // Do not show actions or checkboxes if there is any error or is loading;
+    const actions = props.error || props.loading ? undefined : props.actions;
+    const onSelect = props.error || props.loading ? undefined : props.onSelect;
 
     return (
         <Table
