@@ -20,12 +20,18 @@ import { Direction, Sort } from '../../types/Page';
 interface PolicyTableProps {
     actions?: IActions;
     hasError?: boolean;
+    errorType?: PolicyTableError;
     loading?: boolean;
     onSelect?: OnSelect;
     onSort?: (index: number, column: string, direction: Direction) => void;
     policies?: Policy[];
     sortBy?: Sort;
     httpStatus?: number;
+}
+
+export enum PolicyTableError {
+    HTTP_ERROR,
+    NO_PERMISSION_ERROR
 }
 
 const loading = (): IRow[] => [{
@@ -60,7 +66,7 @@ const ErrorContent: React.FunctionComponent<ErrorContentProps> = (props) => {
     );
 };
 
-const errorContent = (httpStatus?: number) => {
+const httpErrorContent = (httpStatus?: number) => {
     switch (httpStatus) {
         case 404:
             return <ErrorContent
@@ -81,7 +87,19 @@ const errorContent = (httpStatus?: number) => {
     }
 };
 
-const error = (httpStatus?: number): IRow[] => [{
+const errorContent = (errorType: PolicyTableError, httpStatus?: number) => {
+    switch (errorType) {
+        case PolicyTableError.HTTP_ERROR:
+            return httpErrorContent(httpStatus);
+        case PolicyTableError.NO_PERMISSION_ERROR:
+            return <ErrorContent
+                title="No permission to view this page"
+                content="You do not have permission to view this page"
+            />;
+    }
+};
+
+const error = (errorType?: PolicyTableError, httpStatus?: number): IRow[] => [{
     heightAuto: true,
     showSelect: false,
     cells: [
@@ -90,7 +108,9 @@ const error = (httpStatus?: number): IRow[] => [{
             title: (
                 <Bullseye>
                     <EmptyState variant={ EmptyStateVariant.small }>
-                        { errorContent(httpStatus) }
+                        { errorType ? errorContent(errorType, httpStatus) : (
+                            <ErrorContent title="Unknown error" content="Unknown error when trying to access"/>
+                        ) }
                     </EmptyState>
                 </Bullseye>
             )
@@ -172,7 +192,7 @@ export const PolicyTable: React.FunctionComponent<PolicyTableProps> = (props) =>
         return iSortBy;
     };
 
-    const rows = props.hasError ? error(props.httpStatus) : props.loading ? loading() : policiesToRows(props.policies);
+    const rows = props.hasError ? error(props.errorType, props.httpStatus) : props.loading ? loading() : policiesToRows(props.policies);
     const actions = props.hasError || props.loading ? undefined : props.actions;
     const onSelect = props.hasError || props.loading ? undefined : props.onSelect;
 

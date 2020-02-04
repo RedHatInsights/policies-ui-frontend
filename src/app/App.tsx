@@ -3,6 +3,7 @@ import { createClient, ClientContextProvider } from 'react-fetching-library';
 import { RouteComponentProps, withRouter } from 'react-router';
 import { NotificationsPortal } from '@redhat-cloud-services/frontend-components-notifications';
 
+import Config from '../config/Config';
 import { fetchRBAC } from '../utils/RbacUtils';
 import { RbacContext } from '../components/RbacContext';
 import { Routes } from '../Routes';
@@ -25,7 +26,7 @@ const App: React.FunctionComponent<RouteComponentProps> = (props) => {
 
     React.useEffect(() => {
         insights.chrome.init();
-        insights.chrome.identifyApp('custom-policies');
+        insights.chrome.identifyApp(Config.appId);
         const appNav = insights.chrome.on('APP_NAVIGATION', (event: any) => props.history.push(`/${event.navId}`));
         return () => {
             appNav();

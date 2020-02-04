@@ -1,13 +1,13 @@
 import * as React from 'react';
+import { useContext } from 'react';
 import { IActions } from '@patternfly/react-table';
 import { Main, PageHeader, PageHeaderTitle, Section } from '@redhat-cloud-services/frontend-components';
 
-import { PolicyTable } from '../../components/Policy/PolicyTable';
+import { PolicyTable, PolicyTableError } from '../../components/Policy/PolicyTable';
 import { useGetPoliciesQuery } from '../../services/Api';
 import { Direction, Page, Sort } from '../../types/Page';
 import { PolicyToolbar } from '../../components/Policy/TableToolbar/PolicyTableToolbar';
 import { CreatePolicyWizard } from './CreatePolicyWizard';
-import { useContext } from 'react';
 import { RbacContext } from '../../components/RbacContext';
 
 type ListPageProps = {};
@@ -26,6 +26,18 @@ const tableActions: IActions = [
         onClick: () => alert('Delete')
     }
 ];
+
+const errorType = (canReadAll: boolean, queryError: boolean) => {
+    if (!canReadAll) {
+        return PolicyTableError.NO_PERMISSION_ERROR;
+    }
+
+    if (queryError) {
+        return PolicyTableError.HTTP_ERROR;
+    }
+
+    return undefined;
+};
 
 const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
 
@@ -91,6 +103,7 @@ const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
                         actions={ tableActions }
                         loading={ getPoliciesQuery.loading }
                         hasError={ canReadAll ? getPoliciesQuery.error : true }
+                        errorType={ errorType(canReadAll, getPoliciesQuery.error) }
                         onSelect={ () => console.log('selected') }
                         onSort={ onSort }
                         sortBy={ sort }

@@ -1,6 +1,7 @@
 import { AccessApi, AccessPagination } from '@redhat-cloud-services/rbac-client';
 import axios from 'axios';
 import { Rbac } from '../types/Rbac';
+import Config from '../config/Config';
 
 const BASE_PATH = '/api/rbac/v1';
 
@@ -49,7 +50,7 @@ export const fetchRBAC = (): Promise<Rbac> => {
     const instance = axios.create();
 
     return new AccessApi(undefined, BASE_PATH, instance)
-    .getPrincipalAccess('custom-policies')
+    .getPrincipalAccess(Config.appId)
     .then(response => new RawRbac(response.data))
     .then(rawRbac => ({
         canReadAll: rawRbac.canReadAll(),
