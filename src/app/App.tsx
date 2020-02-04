@@ -21,7 +21,7 @@ import { Rbac } from '../types/Rbac';
 
 const App: React.FunctionComponent<RouteComponentProps> = (props) => {
 
-    const [ _account, setAccount ] = React.useState<Account | undefined>(undefined);
+    const [ , setAccount ] = React.useState<Account | undefined>(undefined);
     const [ rbac, setRbac ] = React.useState<Rbac | undefined>(undefined);
 
     React.useEffect(() => {

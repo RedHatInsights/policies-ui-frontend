@@ -6,7 +6,7 @@ const apiBaseUrl = `/api/custom-policies/${apiVersion}`;
 const withBaseUrl = (path: string) => `${apiBaseUrl}/${path}`;
 
 const Config = {
-    appId: 'custom-policies-x',
+    appId: 'custom-policies',
     apis: {
         version: apiVersion,
         urls: {
