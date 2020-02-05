@@ -3,13 +3,12 @@ import { useContext } from 'react';
 import { IActions } from '@patternfly/react-table';
 import { Main, PageHeader, PageHeaderTitle, Section } from '@redhat-cloud-services/frontend-components';
 
-import { ErrorContentProps, PolicyTable } from '../../components/Policy/PolicyTable';
+import { PolicyTable } from '../../components/Policy/PolicyTable';
 import { useGetPoliciesQuery } from '../../services/Api';
 import { Direction, Page, Sort } from '../../types/Page';
 import { PolicyToolbar } from '../../components/Policy/TableToolbar/PolicyTableToolbar';
 import { CreatePolicyWizard } from './CreatePolicyWizard';
 import { RbacContext } from '../../components/RbacContext';
-import { ExclamationCircleIcon } from '@patternfly/react-icons';
 import { policyTableError } from './PolicyTableError';
 
 type ListPageProps = {};
