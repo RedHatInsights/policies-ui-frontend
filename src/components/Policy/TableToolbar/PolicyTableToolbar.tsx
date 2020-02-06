@@ -36,7 +36,7 @@ export const PolicyToolbar: React.FunctionComponent<TablePolicyToolbarProps> = (
                 <FilterBy/>
             </ToolbarGroup>
             <ToolbarGroup>
-                <ToolbarItem><Button onClick={ props.onCreatePolicy }>Create policy</Button></ToolbarItem>
+                <ToolbarItem><Button onClick={ props.onCreatePolicy } isDisabled={ !props.onCreatePolicy }>Create policy</Button></ToolbarItem>
                 <ToolbarItem>
                     <Button onClick={ props.onExport } variant="plain" aria-label="Export">
                         <ExportIcon/>

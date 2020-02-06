@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useContext } from 'react';
 import { IActions } from '@patternfly/react-table';
 import { Main, PageHeader, PageHeaderTitle, Section } from '@redhat-cloud-services/frontend-components';
 
@@ -7,6 +8,8 @@ import { useGetPoliciesQuery } from '../../services/Api';
 import { Direction, Page, Sort } from '../../types/Page';
 import { PolicyToolbar } from '../../components/Policy/TableToolbar/PolicyTableToolbar';
 import { CreatePolicyWizard } from './CreatePolicyWizard';
+import { RbacContext } from '../../components/RbacContext';
+import { policyTableError } from './PolicyTableError';
 
 type ListPageProps = {};
 
@@ -32,7 +35,15 @@ const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
     const [ sort, setSort ] = React.useState<Sort>();
     const [ isCustomPolicyWizardOpen, setCustomPolicyWizardOpen ] = React.useState<boolean>(false);
 
-    const getPoliciesQuery = useGetPoliciesQuery(Page.of(currentPage, itemsPerPage, sort));
+    const getPoliciesQuery = useGetPoliciesQuery(Page.of(currentPage, itemsPerPage, sort), false);
+
+    const { canReadAll, canWriteAll } = useContext(RbacContext);
+
+    React.useEffect(() => {
+        if (canReadAll) {
+            getPoliciesQuery.query();
+        }
+    }, [ canReadAll, getPoliciesQuery.query ]);
 
     const openCustomPolicyWizard = () => {
         setCustomPolicyWizardOpen(true);
@@ -67,7 +78,7 @@ const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
             <Main>
                 <Section>
                     <PolicyToolbar
-                        onCreatePolicy={ openCustomPolicyWizard }
+                        onCreatePolicy={ canWriteAll ? openCustomPolicyWizard : undefined }
                         onPaginationChanged={ changePage }
                         onPaginationSizeChanged={ changeItemsPerPage }
                         page={ currentPage }
@@ -78,11 +89,10 @@ const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
                         policies={ getPoliciesQuery.payload }
                         actions={ tableActions }
                         loading={ getPoliciesQuery.loading }
-                        hasError={ getPoliciesQuery.error }
+                        error={ policyTableError(canReadAll, getPoliciesQuery.error, getPoliciesQuery.status) }
                         onSelect={ () => console.log('selected') }
                         onSort={ onSort }
                         sortBy={ sort }
-                        httpStatus={ getPoliciesQuery.status }
                     />
                 </Section>
             </Main>

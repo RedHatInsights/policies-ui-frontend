@@ -4,6 +4,9 @@ import { Policy } from '../../../types/Policy';
 import { AlwaysValid, WizardStepExtended } from '../PolicyWizardTypes';
 import { PolicyTable } from '../PolicyTable';
 import { useGetPoliciesQuery } from '../../../services/Api';
+import { policyTableError } from '../../../pages/ListPage/PolicyTableError';
+import { useContext } from 'react';
+import { RbacContext } from '../../RbacContext';
 
 interface CreateCustomPolicyState {
     copyPolicy: boolean;
@@ -21,7 +24,9 @@ const CreateCustomPolicyStep: React.FunctionComponent = () => {
         setCopyPolicy(true);
     };
 
-    const { loading, payload, query, error } = useGetPoliciesQuery(undefined, false);
+    const { loading, payload, query, error, status } = useGetPoliciesQuery(undefined, false);
+
+    const { canReadAll } = useContext(RbacContext);
 
     React.useEffect(() => {
         if (copyPolicy && !payload) {
@@ -52,7 +57,7 @@ const CreateCustomPolicyStep: React.FunctionComponent = () => {
                         <TextInput aria-label="Filter by name" placeholder="Filter by name"/>
                         <Button aria-label="Filter">Filter</Button>
                     </InputGroup>
-                    <PolicyTable loading={ loading } policies={ payload } hasError={ error }/>
+                    <PolicyTable loading={ loading } policies={ payload } error={ policyTableError(canReadAll, error, status) }/>
                 </>
                 }
             </Form>

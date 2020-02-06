@@ -2,6 +2,10 @@ import * as React from 'react';
 import { createClient, ClientContextProvider } from 'react-fetching-library';
 import { RouteComponentProps, withRouter } from 'react-router';
 import { NotificationsPortal } from '@redhat-cloud-services/frontend-components-notifications';
+
+import Config from '../config/Config';
+import { fetchRBAC } from '../utils/RbacUtils';
+import { RbacContext } from '../components/RbacContext';
 import { Routes } from '../Routes';
 import { AppSkeleton } from '../components/AppSkeleton/AppSkeleton';
 
@@ -13,14 +17,16 @@ interface Account {
 }
 
 import '@redhat-cloud-services/frontend-components-notifications/index.css';
+import { Rbac } from '../types/Rbac';
 
 const App: React.FunctionComponent<RouteComponentProps> = (props) => {
 
-    const [ account, setAccount ] = React.useState<Account | undefined>(undefined);
+    const [ , setAccount ] = React.useState<Account | undefined>(undefined);
+    const [ rbac, setRbac ] = React.useState<Rbac | undefined>(undefined);
 
     React.useEffect(() => {
         insights.chrome.init();
-        insights.chrome.identifyApp('custom-policies');
+        insights.chrome.identifyApp(Config.appId);
         const appNav = insights.chrome.on('APP_NAVIGATION', (event: any) => props.history.push(`/${event.navId}`));
         return () => {
             appNav();
@@ -33,10 +39,11 @@ const App: React.FunctionComponent<RouteComponentProps> = (props) => {
                 accountNumber: userAccount.identity.account_number,
                 username: userAccount.identity.username
             });
+            fetchRBAC().then(setRbac);
         });
     }, []);
 
-    if (!account) {
+    if (!rbac) {
         return (
             <AppSkeleton/>
         );
@@ -44,8 +51,10 @@ const App: React.FunctionComponent<RouteComponentProps> = (props) => {
 
     return (
         <ClientContextProvider client={ createClient() }>
-            <NotificationsPortal/>
-            <Routes/>
+            <RbacContext.Provider value={ rbac }>
+                <NotificationsPortal/>
+                <Routes/>
+            </RbacContext.Provider>
         </ClientContextProvider>
     );
 };
