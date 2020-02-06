@@ -3,7 +3,7 @@ import { PolicyWizard } from '../../components/Policy/PolicyWizard';
 import { Policy } from '../../types/Policy';
 import { useCreatePolicyMutation, useVerifyPolicyMutation } from '../../services/Api';
 import * as HttpStatus from 'http-status-codes';
-import { addSuccessNotification, addDangerNotification } from '../../utils/AlertUtils';
+import { addSuccessNotification } from '../../utils/AlertUtils';
 import { CreatePolicyResponse, VerifyPolicyResponse } from '../../components/Policy/PolicyWizardTypes';
 
 interface CreatePolicyWizardProps {
