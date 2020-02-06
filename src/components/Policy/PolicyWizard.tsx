@@ -4,6 +4,7 @@ import { Formik, FormikHelpers, useFormikContext } from 'formik';
 
 import { Policy } from '../../types/Policy';
 import {
+    CreatePolicyResponse,
     FormType,
     VerifyPolicyResponse,
     WizardActionType,
@@ -21,7 +22,7 @@ import { PolicyWizardFooter } from './PolicyWizardFooter';
 interface PolicyWizardProps {
     initialValue: FormType;
     onClose: () => void;
-    onSave: (policy: Policy) => void;
+    onSave: (policy: Policy) => Promise<CreatePolicyResponse>;
     onVerify: (policy: Policy) => Promise<VerifyPolicyResponse>;
     isLoading: boolean;
 }
@@ -81,6 +82,7 @@ interface FormikBindingProps {
     setSubmitAction: (action: WizardActionType) => void;
     steps: WizardStepExtended[];
     verifyResponse: VerifyPolicyResponse;
+    createResponse: CreatePolicyResponse;
     onMove: WizardStepFunctionType;
     onClose: () => void;
 }
@@ -103,7 +105,8 @@ const FormikBinding: React.FunctionComponent<FormikBindingProps> = (props) => {
         isLoading: props.isLoading,
         isFormValid: formikProps.isValid,
         triggerAction: props.setSubmitAction,
-        verifyResponse: props.verifyResponse
+        verifyResponse: props.verifyResponse,
+        createResponse: props.createResponse
     };
 
     const isValid = isStepValid(props.steps[props.currentStep], wizardContext, formikProps.values);
@@ -151,6 +154,11 @@ export const PolicyWizard: React.FunctionComponent<PolicyWizardProps> = (props: 
         isValid: false
     });
 
+    const [ createResponse, setCreateResponse ] =
+    React.useState<CreatePolicyResponse>({
+        created: false
+    });
+
     const onMove: WizardStepFunctionType = (current, _previous) => {
         const currentStep = current.id as number;
         setCurrentStep(currentStep);
@@ -169,7 +177,7 @@ export const PolicyWizard: React.FunctionComponent<PolicyWizardProps> = (props: 
         formikHelpers.setValues(transformedPolicy);
         switch (submitAction) {
             case WizardActionType.SAVE:
-                props.onSave(transformedPolicy);
+                props.onSave(transformedPolicy).then(setCreateResponse);
                 break;
             case WizardActionType.VERIFY:
                 props.onVerify(transformedPolicy).then(setVerifyResponse);
@@ -196,6 +204,7 @@ export const PolicyWizard: React.FunctionComponent<PolicyWizardProps> = (props: 
                     setSubmitAction={ setSubmitAction }
                     steps={ steps }
                     verifyResponse={ verifyResponse }
+                    createResponse={ createResponse }
                     onClose={ props.onClose }
                     onMove={ onMove }
                 />

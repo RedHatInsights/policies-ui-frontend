@@ -26,12 +26,18 @@ export interface VerifyPolicyResponse {
     conditions?: string;
 }
 
+export interface CreatePolicyResponse {
+    created: boolean;
+    error?: string;
+}
+
 export interface WizardContext {
   isLoading: boolean;
   isFormValid: boolean;
   isValid?: boolean;
   triggerAction: (action: WizardActionType) => void;
   verifyResponse: VerifyPolicyResponse;
+  createResponse: CreatePolicyResponse;
 }
 
 export const WizardContext = React.createContext<WizardContext>({
@@ -42,5 +48,8 @@ export const WizardContext = React.createContext<WizardContext>({
     },
     verifyResponse: {
         isValid: false
+    },
+    createResponse: {
+        created: false
     }
 });
