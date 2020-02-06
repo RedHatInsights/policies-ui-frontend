@@ -1,13 +1,15 @@
 import { ErrorContentProps } from '../../components/Policy/PolicyTable';
 import { ExclamationCircleIcon } from '@patternfly/react-icons';
 
+const noPermissionProps = {
+    icon: ExclamationCircleIcon,
+    title: 'No permission to view this page',
+    content: 'You do not have permission to view this page'
+};
+
 export const policyTableError = (canReadAll: boolean, requestHasError?: boolean, httpCode?: number): ErrorContentProps | undefined => {
     if (!canReadAll) {
-        return {
-            icon: ExclamationCircleIcon,
-            title: 'No permission to view this page',
-            content: 'You do not have permission to view this page'
-        };
+        return noPermissionProps;
     }
 
     if (requestHasError) {
@@ -22,8 +24,10 @@ export const policyTableError = (canReadAll: boolean, requestHasError?: boolean,
                 return {
                     icon: ExclamationCircleIcon,
                     title: 'Refresh your brower',
-                    content: 'We lost your session while in the application, refresh your browser and try again'
+                    content: 'Your session expired while using the application, Refresh your browser and try again'
                 };
+            case 403:
+                return noPermissionProps;
             case 500:
                 return {
                     icon: ExclamationCircleIcon,
