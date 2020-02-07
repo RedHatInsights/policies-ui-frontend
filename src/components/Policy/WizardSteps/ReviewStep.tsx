@@ -20,7 +20,7 @@ const ReviewStep: React.FunctionComponent = () => {
                 <FormTextInput isReadOnly label="Condition text" type="text" id="conditions" name="conditions"/>
                 <FieldArray name="actions">
                     { (helpers: FieldArrayRenderProps) => {
-                        return <ActionsForm isReadOnly actions={ helpers.form.values.actions } arrayHelpers={ helpers }/>;
+                        return <ActionsForm id="actions" name="actions" isReadOnly actions={ helpers.form.values.actions } arrayHelpers={ helpers }/>;
                     } }
                 </FieldArray>
             </Form>

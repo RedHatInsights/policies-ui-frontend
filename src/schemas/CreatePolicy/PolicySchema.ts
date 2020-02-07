@@ -1,9 +1,7 @@
-import { ActionType } from '../../types/Policy/Actions';
+import { Action, ActionType } from '../../types/Policy/Actions';
 import * as Yup from 'yup';
-import {
-    ActionEmailSchema, ActionSchema,
-    ActionWebhookSchema
-} from './Actions';
+import { ActionEmailSchema, ActionSchema, ActionWebhookSchema } from './Actions';
+import { ValidationError } from 'yup';
 
 const ActionSchemaSelector: ({ type }: { type: ActionType }) => Yup.Schema<any> = ({ type }) => {
     switch (type) {
@@ -25,7 +23,36 @@ export const PolicyFormDetails = Yup.object().shape({
 });
 
 export const PolicyFormActions = Yup.object().shape({
-    actions: Yup.array(Yup.lazy(ActionSchemaSelector))
+    actions: Yup.array(Yup.lazy(ActionSchemaSelector)).test(
+        'one-email',
+        'Only one Email action type is allowed',
+        (actions: Action[] | undefined) => {
+            const emailIndexes = actions && actions.reduce<number[]>((indexes, action, index) => {
+                if (action.type === ActionType.EMAIL) {
+                    return indexes.concat([ index ]);
+                }
+
+                return indexes;
+            }, []);
+            if (!emailIndexes || emailIndexes.length <= 1) {
+                return true;
+            }
+
+            const validationError = new ValidationError(
+                '',
+                '',
+                'actions',
+                ''
+            );
+
+            validationError.inner = emailIndexes.map(index => new ValidationError(
+                'Only one Email action is allowed',
+                'email',
+                `actions.${index}.type`
+            ));
+            return validationError;
+        }
+    )
 });
 
 export const PolicyFormConditions = Yup.object().shape({
