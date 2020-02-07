@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Button, Form, InputGroup, Radio, TextInput } from '@patternfly/react-core';
 import { Policy } from '../../../types/Policy';
 import { AlwaysValid, WizardStepExtended } from '../PolicyWizardTypes';
-import { PolicyTable } from '../PolicyTable';
+import { PolicyTable } from '../Table/PolicyTable';
 import { useGetPoliciesQuery } from '../../../services/Api';
 import { policyTableError } from '../../../pages/ListPage/PolicyTableError';
 import { useContext } from 'react';
@@ -32,7 +32,7 @@ const CreateCustomPolicyStep: React.FunctionComponent = () => {
         if (copyPolicy && !payload) {
             query();
         }
-    }, [ copyPolicy ]);
+    }, [ copyPolicy, payload, query ]);
 
     return (
         <>

@@ -27,11 +27,10 @@ const App: React.FunctionComponent<RouteComponentProps> = (props) => {
     React.useEffect(() => {
         insights.chrome.init();
         insights.chrome.identifyApp(Config.appId);
-        const appNav = insights.chrome.on('APP_NAVIGATION', (event: any) => props.history.push(`/${event.navId}`));
         return () => {
-            appNav();
+            insights.chrome.on('APP_NAVIGATION', (event: any) => props.history.push(`/${event.navId}`));
         };
-    }, []);
+    }, [ props.history ]);
 
     React.useEffect(() => {
         insights.chrome.auth.getUser().then((userAccount: any) => {

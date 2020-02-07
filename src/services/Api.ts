@@ -1,9 +1,10 @@
 import Config from '../config/Config';
-import { Policy } from '../types/Policy/Policy';
+import { Policy, ServerPolicyResponse } from '../types/Policy/Policy';
 import { Action, useMutation, useQuery } from 'react-fetching-library';
 import { Fact } from '../types/Fact';
 import { Page } from '../types/Page';
-import { toServerPolicy } from '../utils/PolicyAdapter';
+import { toPolicies, toServerPolicy } from '../utils/PolicyAdapter';
+import { UsePaginatedQueryResponse, useTransformPaginatedQueryResponse } from '../utils/ApiUtils';
 
 const urls = Config.apis.urls;
 
@@ -38,17 +39,22 @@ const queryParamsPaginated = (queryParams?: any, page?: Page) => {
     return queryParams;
 };
 
-const useNewPaginatedQuery = <T>(method: Method, url: string, page?: Page, initFetch?: boolean, queryParams?: any, data?: any) => {
-    const result = useNewQuery<T>(method, url, initFetch, queryParamsPaginated(queryParams, page), data);
-    const itemCount = result.headers?.get('TotalCount');
+const useNewPaginatedQuery =
+    <T>(method: Method, url: string, page?: Page, initFetch?: boolean, queryParams?: any, data?: any): UsePaginatedQueryResponse<T> => {
+        const result = useNewQuery<T>(method, url, initFetch, queryParamsPaginated(queryParams, page), data);
+        const itemCount = result.headers?.get('TotalCount');
 
-    return { count: (itemCount ? +itemCount : itemCount) as number, ...result };
-};
+        return { count: (itemCount ? +itemCount : itemCount) as number, ...result };
+    };
 
 export const useGetFactsQuery = (initFetch?: boolean) => useNewQuery<Fact[]>('GET', urls.facts, initFetch);
 
-export const useGetPoliciesQuery = (page?: Page, initFetch?: boolean) =>
-    useNewPaginatedQuery<Policy[]>('GET', urls.policies, page, initFetch);
+export const useGetPoliciesQuery = (page?: Page, initFetch?: boolean): UsePaginatedQueryResponse<Policy[]> => {
+    return useTransformPaginatedQueryResponse(
+        useNewPaginatedQuery<ServerPolicyResponse[]>('GET', urls.policies, page, initFetch),
+        toPolicies
+    );
+};
 
 export const useCreatePolicyMutation = () => {
     return useMutation((policy: Policy) => {

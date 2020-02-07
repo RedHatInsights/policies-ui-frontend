@@ -1,4 +1,4 @@
-import { ErrorContentProps } from '../../components/Policy/PolicyTable';
+import { ErrorContentProps } from '../../components/Policy/Table/PolicyTable';
 import { ExclamationCircleIcon } from '@patternfly/react-icons';
 
 const noPermissionProps = {
