@@ -11,7 +11,7 @@ const ActionsStep = () => {
         <Form>
             <FieldArray name="actions">
                 { (helpers: FieldArrayRenderProps) => {
-                    return <ActionsForm actions={ helpers.form.values.actions } arrayHelpers={ helpers }/>;
+                    return <ActionsForm id="actions" name="actions" actions={ helpers.form.values.actions } arrayHelpers={ helpers }/>;
                 } }
             </FieldArray>
         </Form>

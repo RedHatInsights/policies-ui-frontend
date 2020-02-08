@@ -17,19 +17,20 @@ import { FormSelect } from '../Formik/Patternfly';
 import { ActionForm } from './ActionForm/ActionForm';
 
 interface ActionsFormProps {
+    id: string;
+    name: string;
     arrayHelpers: ArrayHelpers;
     actions?: (DeepPartial<Action>| undefined)[];
     isReadOnly?: boolean;
 }
 
-export const ActionsForm = (props: ActionsFormProps) => {
-
+export const ActionsForm: React.FunctionComponent<ActionsFormProps> = (props) => {
     return (
         <>
             <Title headingLevel="h4" size="2xl">Actions</Title>
             { props.actions?.map((action, index) => (
                 <React.Fragment key={ index }>
-                    <Card isHoverable>
+                    <Card>
                         <CardHead>
                             <CardActions>
                                 <Button variant="plain" aria-label="Action" onClick={ props.arrayHelpers.handleRemove(index) }>
