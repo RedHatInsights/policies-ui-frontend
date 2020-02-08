@@ -3,10 +3,17 @@ import { FieldArray, FieldArrayRenderProps } from 'formik';
 
 import { WizardContext, WizardStepExtended } from '../PolicyWizardTypes';
 import { FormTextInput, Switch } from '../../Formik/Patternfly';
-import { Form } from '@patternfly/react-core';
+import { Form, Split, SplitItem } from '@patternfly/react-core';
 import { ActionsForm } from '../ActionsForm';
 import { PolicyFormSchema } from '../../../schemas/CreatePolicy/PolicySchema';
 import { useContext } from 'react';
+import { GlobalDangerColor100 } from '../../../utils/PFColors';
+import { ExclamationCircleIcon } from '@patternfly/react-icons';
+import { style } from 'typestyle';
+
+const exclamationClassName = style({
+    marginRight: 5
+});
 
 const ReviewStep: React.FunctionComponent = () => {
     const context = useContext(WizardContext);
@@ -23,6 +30,14 @@ const ReviewStep: React.FunctionComponent = () => {
                         return <ActionsForm id="actions" name="actions" isReadOnly actions={ helpers.form.values.actions } arrayHelpers={ helpers }/>;
                     } }
                 </FieldArray>
+                { context.createResponse.error && (
+                    <Split>
+                        <SplitItem>
+                            <ExclamationCircleIcon className={ exclamationClassName } color={ GlobalDangerColor100 }/>
+                        </SplitItem>
+                        <SplitItem> { context.createResponse.error } </SplitItem>
+                    </Split>
+                ) }
             </Form>
         </>
     );

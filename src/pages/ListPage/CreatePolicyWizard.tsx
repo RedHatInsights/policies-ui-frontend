@@ -3,8 +3,8 @@ import { PolicyWizard } from '../../components/Policy/PolicyWizard';
 import { Policy } from '../../types/Policy';
 import { useCreatePolicyMutation, useVerifyPolicyMutation } from '../../services/Api';
 import * as HttpStatus from 'http-status-codes';
-import { addSuccessNotification, addDangerNotification } from '../../utils/AlertUtils';
-import { VerifyPolicyResponse } from '../../components/Policy/PolicyWizardTypes';
+import { addSuccessNotification } from '../../utils/AlertUtils';
+import { CreatePolicyResponse, VerifyPolicyResponse } from '../../components/Policy/PolicyWizardTypes';
 
 interface CreatePolicyWizardProps {
     close: (policyCreated: boolean) => void;
@@ -15,25 +15,23 @@ export const CreatePolicyWizard: React.FunctionComponent<CreatePolicyWizardProps
     const saveMutation = useCreatePolicyMutation();
     const verifyMutation = useVerifyPolicyMutation();
 
-    const onSave = (policy: Policy) => {
-        saveMutation.mutate(policy).then((res) => {
+    const onSave = (policy: Policy): Promise<CreatePolicyResponse> => {
+        return saveMutation.mutate(policy).then((res) => {
             switch (res.status) {
                 case HttpStatus.CREATED:
                     addSuccessNotification('Created', `Policy "${policy.name}" created`);
                     props.close(true);
-                    break;
-                case HttpStatus.OK:
-                    addSuccessNotification('Validated', `Policy "${policy.name}" validated`);
-                    break;
+                    return {
+                        created: true
+                    };
                 case HttpStatus.BAD_REQUEST:
-                    addDangerNotification('Failed validation', `Policy "${policy.name}" is invalid`);
-                    break;
                 case HttpStatus.CONFLICT:
-                    addDangerNotification('Failed creation', `Failed to persist Policy "${policy.name}"`);
-                    break;
                 case HttpStatus.INTERNAL_SERVER_ERROR:
                 default:
-                    addDangerNotification('Error', `An internal server error occurred when processing Policy "${policy.name}"`);
+                    return {
+                        created: false,
+                        error: res.payload?.msg || `Unknown Error when trying to create the policy: (Code ${res.status})`
+                    };
             }
         });
     };
@@ -47,18 +45,13 @@ export const CreatePolicyWizard: React.FunctionComponent<CreatePolicyWizardProps
                         conditions: policy.conditions
                     };
                 case HttpStatus.BAD_REQUEST:
+                default:
                     return {
                         isValid: false,
-                        error: res.payload.msg,
+                        error: res.payload?.msg || `Unknown Error when trying to validate: (Code ${res.status})`,
                         conditions: policy.conditions
                     };
             }
-
-            return {
-                isValid: false,
-                error: res.payload || `Unknown Error when trying to validate: (Code ${res.status})`,
-                conditions: policy.conditions
-            };
         });
     };
 
