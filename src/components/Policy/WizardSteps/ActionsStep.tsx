@@ -13,7 +13,7 @@ const ActionsStep = () => {
 
     // I should not need this. Might be a bug or I'm doing something wrong.
     // Quick debugging turns out that "formik.errors" has an empty action array
-    // Todo: Check if this is a bug or i'm doing something wrong
+    // https://github.com/jaredpalmer/formik/issues/2279
     React.useEffect(() => {
         validateForm();
     }, [ validateForm, actionsLength ]);
