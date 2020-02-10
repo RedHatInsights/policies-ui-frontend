@@ -1,6 +1,5 @@
 import { createClient, RequestInterceptor } from 'react-fetching-library';
-
-declare const insights: any;
+import insights from '../utils/Insights';
 
 const refreshAuthTokenInterceptor: RequestInterceptor = (_client) => (action) => {
     return insights.chrome.auth.getUser().then(() => action);

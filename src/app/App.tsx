@@ -10,19 +10,12 @@ import { Routes } from '../Routes';
 import { AppSkeleton } from '../components/AppSkeleton/AppSkeleton';
 import { client } from './FetchingConfiguration';
 
-declare const insights: any;
-
-interface Account {
-    accountNumber: string;
-    username: string;
-}
-
 import '@redhat-cloud-services/frontend-components-notifications/index.css';
 import { Rbac } from '../types/Rbac';
+import insights from '../utils/Insights';
 
 const App: React.FunctionComponent<RouteComponentProps> = (props) => {
 
-    const [ , setAccount ] = React.useState<Account | undefined>(undefined);
     const [ rbac, setRbac ] = React.useState<Rbac | undefined>(undefined);
 
     React.useEffect(() => {
@@ -34,11 +27,7 @@ const App: React.FunctionComponent<RouteComponentProps> = (props) => {
     }, [ props.history ]);
 
     React.useEffect(() => {
-        insights.chrome.auth.getUser().then((userAccount: any) => {
-            setAccount({
-                accountNumber: userAccount.identity.account_number,
-                username: userAccount.identity.username
-            });
+        insights.chrome.auth.getUser().then(() => {
             fetchRBAC().then(setRbac);
         });
     }, []);
