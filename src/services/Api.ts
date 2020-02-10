@@ -68,5 +68,11 @@ export const useVerifyPolicyMutation = () => {
     });
 };
 
-export const useGetCustomerPolicyQuery = (policyId: string, initFetch?: boolean) =>
-    useNewQuery<Policy>('GET', urls.customerPolicy(policyId), initFetch);
+export const useDeletePolicyMutation = () => {
+    return useMutation((policy: Policy) => {
+        return createAction('DELETE', urls.policy(policy.id));
+    });
+};
+
+export const useGetPolicyQuery = (policyId: string, initFetch?: boolean) =>
+    useNewQuery<Policy>('GET', urls.policy(policyId), initFetch);

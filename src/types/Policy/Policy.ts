@@ -1,7 +1,7 @@
 import { Action } from './Actions';
 
 export interface Policy {
-    id?: number;
+    id: number;
     actions?: Action[];
     conditions: string;
     customerid?: string;
