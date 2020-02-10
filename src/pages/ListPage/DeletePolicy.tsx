@@ -20,9 +20,13 @@ export const DeletePolicy: React.FunctionComponent<DeletePolicyProps> = (props) 
     }, [ onClose ]);
 
     const deletePolicy = React.useCallback(() => {
-        mutate(policy!).then(() => {
-            onClose(true);
-        });
+        if (policy) {
+            mutate(policy).then(() => {
+                onClose(true);
+            });
+        }
+
+        throw Error('Policy has not been set');
     }, [ mutate, policy, onClose ]);
 
     const actions = React.useMemo(() => [
