@@ -67,7 +67,7 @@ curl https://raw.githubusercontent.com/josejulio/cloud-services-config/custom-po
 and start serving the file with any http server on port 8889.
 
 ```shell
-npx http-server -p 8889 cloud-services-config
+npx http-server -p 8889 cloud-services-config -a ::1
 ```
 
 Note: This is a temporal step, We are testing this file locally. For more info read
