@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { createClient, ClientContextProvider } from 'react-fetching-library';
+import { ClientContextProvider } from 'react-fetching-library';
 import { RouteComponentProps, withRouter } from 'react-router';
 import { NotificationsPortal } from '@redhat-cloud-services/frontend-components-notifications';
 
@@ -8,6 +8,7 @@ import { fetchRBAC } from '../utils/RbacUtils';
 import { RbacContext } from '../components/RbacContext';
 import { Routes } from '../Routes';
 import { AppSkeleton } from '../components/AppSkeleton/AppSkeleton';
+import { client } from './FetchingConfiguration';
 
 declare const insights: any;
 
@@ -49,7 +50,7 @@ const App: React.FunctionComponent<RouteComponentProps> = (props) => {
     }
 
     return (
-        <ClientContextProvider client={ createClient() }>
+        <ClientContextProvider client={ client }>
             <RbacContext.Provider value={ rbac }>
                 <NotificationsPortal/>
                 <Routes/>
