@@ -15,6 +15,7 @@ import * as React from 'react';
 import { TimesIcon } from '@patternfly/react-icons';
 import { FormSelect } from '../Formik/Patternfly';
 import { ActionForm } from './ActionForm/ActionForm';
+import insights from '../../utils/Insights';
 
 interface ActionsFormProps {
     id: string;
@@ -45,7 +46,9 @@ export const ActionsForm: React.FunctionComponent<ActionsFormProps> = (props) =>
                         <CardBody className="pf-c-form">
                             <FormSelect isDisabled={ props.isReadOnly } id={ `actions.${index}.type` } name={ `actions.${index}.type` } label="Type">
                                 <FormSelectOption value="" label="Select an Action type"/>
-                                { Object.values(ActionType).map(type => <FormSelectOption
+                                { Object.values(ActionType)
+                                .filter(actionType => insights.chrome.isBeta() || actionType !== ActionType.WEBHOOK)
+                                .map(type => <FormSelectOption
                                     key={ type }
                                     label={ capitalize(type) }
                                     value={ type }/>)}

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { createClient, ClientContextProvider } from 'react-fetching-library';
+import { ClientContextProvider } from 'react-fetching-library';
 import { RouteComponentProps, withRouter } from 'react-router';
 import { NotificationsPortal } from '@redhat-cloud-services/frontend-components-notifications';
 
@@ -8,20 +8,14 @@ import { fetchRBAC } from '../utils/RbacUtils';
 import { RbacContext } from '../components/RbacContext';
 import { Routes } from '../Routes';
 import { AppSkeleton } from '../components/AppSkeleton/AppSkeleton';
-
-declare const insights: any;
-
-interface Account {
-    accountNumber: string;
-    username: string;
-}
+import { client } from './FetchingConfiguration';
 
 import '@redhat-cloud-services/frontend-components-notifications/index.css';
 import { Rbac } from '../types/Rbac';
+import insights from '../utils/Insights';
 
 const App: React.FunctionComponent<RouteComponentProps> = (props) => {
 
-    const [ , setAccount ] = React.useState<Account | undefined>(undefined);
     const [ rbac, setRbac ] = React.useState<Rbac | undefined>(undefined);
 
     React.useEffect(() => {
@@ -33,11 +27,7 @@ const App: React.FunctionComponent<RouteComponentProps> = (props) => {
     }, [ props.history ]);
 
     React.useEffect(() => {
-        insights.chrome.auth.getUser().then((userAccount: any) => {
-            setAccount({
-                accountNumber: userAccount.identity.account_number,
-                username: userAccount.identity.username
-            });
+        insights.chrome.auth.getUser().then(() => {
             fetchRBAC().then(setRbac);
         });
     }, []);
@@ -49,7 +39,7 @@ const App: React.FunctionComponent<RouteComponentProps> = (props) => {
     }
 
     return (
-        <ClientContextProvider client={ createClient() }>
+        <ClientContextProvider client={ client }>
             <RbacContext.Provider value={ rbac }>
                 <NotificationsPortal/>
                 <Routes/>
