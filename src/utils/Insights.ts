@@ -51,4 +51,14 @@ type InsightsType = {
 
 declare const insights: InsightsType;
 
-export default insights;
+const insightPromise: Promise<InsightsType> = new Promise<InsightsType>(async (resolve) => {
+    while (!window.hasOwnProperty('insights')) {
+        await new Promise(timeout => setTimeout(timeout, 250));
+    }
+
+    resolve(insights);
+});
+
+export const getInsights = (): Promise<InsightsType> => {
+    return insightPromise;
+};

@@ -12,23 +12,29 @@ import { client } from './FetchingConfiguration';
 
 import '@redhat-cloud-services/frontend-components-notifications/index.css';
 import { Rbac } from '../types/Rbac';
-import insights from '../utils/Insights';
+import { getInsights } from '../utils/Insights';
 
 const App: React.FunctionComponent<RouteComponentProps> = (props) => {
 
     const [ rbac, setRbac ] = React.useState<Rbac | undefined>(undefined);
 
     React.useEffect(() => {
-        insights.chrome.init();
-        insights.chrome.identifyApp(Config.appId);
+        getInsights().then((insights) => {
+            insights.chrome.init();
+            insights.chrome.identifyApp(Config.appId);
+        });
         return () => {
-            insights.chrome.on('APP_NAVIGATION', (event: any) => props.history.push(`/${event.navId}`));
+            getInsights().then((insights) => {
+                insights.chrome.on('APP_NAVIGATION', (event: any) => props.history.push(`/${event.navId}`));
+            });
         };
     }, [ props.history ]);
 
     React.useEffect(() => {
-        insights.chrome.auth.getUser().then(() => {
-            fetchRBAC().then(setRbac);
+        getInsights().then(insights => {
+            insights.chrome.auth.getUser().then(() => {
+                fetchRBAC().then(setRbac);
+            });
         });
     }, []);
 
