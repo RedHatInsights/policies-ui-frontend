@@ -1,7 +1,7 @@
 import { Action } from './Actions';
 
 export interface Policy {
-    id?: number;
+    id: number;
     actions?: Action[];
     conditions: string;
     customerid?: string;
@@ -22,4 +22,5 @@ export interface ServerPolicyResponse {
     name: string;
 }
 
+export type PolicyWithOptionalId = Partial<Pick<Policy, 'id'>> & Omit<Policy, 'id'>;
 export type ServerPolicyRequest = Partial<ServerPolicyResponse>;

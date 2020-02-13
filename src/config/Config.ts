@@ -13,7 +13,7 @@ const Config = {
             base: apiBaseUrl,
             facts: withBaseUrl('facts'),
             policies: withBaseUrl(`policies`),
-            customerPolicy: (policyId: string) => withBaseUrl(`policies/${policyId}`)
+            policy: (policyId: string | number): string => withBaseUrl(`policies/${policyId}`)
         }
     }
 };

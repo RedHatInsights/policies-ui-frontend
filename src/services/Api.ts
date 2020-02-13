@@ -1,5 +1,5 @@
 import Config from '../config/Config';
-import { Policy, ServerPolicyResponse } from '../types/Policy/Policy';
+import { Policy, PolicyWithOptionalId, ServerPolicyResponse } from '../types/Policy/Policy';
 import { Action, useMutation, useQuery } from 'react-fetching-library';
 import { Fact } from '../types/Fact';
 import { Page } from '../types/Page';
@@ -57,16 +57,22 @@ export const useGetPoliciesQuery = (page?: Page, initFetch?: boolean): UsePagina
 };
 
 export const useCreatePolicyMutation = () => {
-    return useMutation((policy: Policy) => {
+    return useMutation((policy: PolicyWithOptionalId) => {
         return createAction('POST', urls.policies, { alsoStore: true }, toServerPolicy(policy));
     });
 };
 
 export const useVerifyPolicyMutation = () => {
-    return useMutation((policy: Policy) => {
+    return useMutation((policy: PolicyWithOptionalId) => {
         return createAction('POST', urls.policies, { alsoStore: false }, toServerPolicy(policy));
     });
 };
 
-export const useGetCustomerPolicyQuery = (policyId: string, initFetch?: boolean) =>
-    useNewQuery<Policy>('GET', urls.customerPolicy(policyId), initFetch);
+export const useDeletePolicyMutation = () => {
+    return useMutation((policy: Policy) => {
+        return createAction('DELETE', urls.policy(policy.id));
+    });
+};
+
+export const useGetPolicyQuery = (policyId: string, initFetch?: boolean) =>
+    useNewQuery<Policy>('GET', urls.policy(policyId), initFetch);

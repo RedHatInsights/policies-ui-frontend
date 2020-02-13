@@ -1,13 +1,13 @@
 import parseJSON from 'date-fns/parseJSON';
 
-import { Policy, ServerPolicyRequest, ServerPolicyResponse } from '../types/Policy/Policy';
+import { Policy, PolicyWithOptionalId, ServerPolicyRequest, ServerPolicyResponse } from '../types/Policy/Policy';
 import { ActionType } from '../types/Policy/Actions';
 
 const assertUnreachable = (_x: never): never => {
     throw new Error('Unreachable');
 };
 
-export const toServerPolicy = (policy: Policy): ServerPolicyRequest => {
+export const toServerPolicy = (policy: PolicyWithOptionalId): ServerPolicyRequest => {
 
     return {
         ...policy,

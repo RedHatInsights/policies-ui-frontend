@@ -10,23 +10,11 @@ import { PolicyToolbar } from '../../components/Policy/TableToolbar/PolicyTableT
 import { CreatePolicyWizard } from './CreatePolicyWizard';
 import { RbacContext } from '../../components/RbacContext';
 import { policyTableError } from './PolicyTableError';
+import { Policy } from '../../types/Policy';
+import { DeletePolicy } from './DeletePolicy';
+import { IRowData } from '@patternfly/react-table';
 
 type ListPageProps = {};
-
-const tableActions: IActions = [
-    {
-        title: 'Edit',
-        onClick: () => alert('Edit')
-    },
-    {
-        title: 'Duplicate',
-        onClick: () => alert('Duplicate')
-    },
-    {
-        title: 'Delete',
-        onClick: () => alert('Delete')
-    }
-];
 
 const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
 
@@ -34,12 +22,45 @@ const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
     const [ itemsPerPage, setItemsPerPage ] = React.useState<number>(Page.defaultPage().size);
     const [ sort, setSort ] = React.useState<Sort>();
     const [ isCustomPolicyWizardOpen, setCustomPolicyWizardOpen ] = React.useState<boolean>(false);
+    const [ policyToDelete, setPolicyToDelete ] = React.useState<Policy | undefined>(undefined);
 
     const getPoliciesQuery = useGetPoliciesQuery(Page.of(currentPage, itemsPerPage, sort), false);
 
     const { canReadAll, canWriteAll } = useContext(RbacContext);
 
     const { query: getPoliciesQueryReload } = getPoliciesQuery;
+
+    const onCloseDeletePolicy = React.useCallback((deleted: boolean) => {
+        if (deleted) {
+            getPoliciesQueryReload();
+        }
+
+        setPolicyToDelete(undefined);
+    }, [ getPoliciesQueryReload, setPolicyToDelete ]);
+
+    const getPolicyFromPayload =  React.useCallback(
+        (id: number) => getPoliciesQuery.payload?.find(policy => policy.id === id),
+        [ getPoliciesQuery.payload ]);
+
+    const tableActions: IActions = React.useMemo<IActions>(() => [
+        {
+            title: 'Edit',
+            onClick: () => alert('Edit')
+        },
+        {
+            title: 'Duplicate',
+            onClick: () => alert('Duplicate')
+        },
+        {
+            title: 'Delete',
+            onClick: (_event: React.MouseEvent, _rowIndex: number, rowData: IRowData) => {
+                const policy = getPolicyFromPayload(rowData.id);
+                if (policy) {
+                    setPolicyToDelete(policy);
+                }
+            }
+        }
+    ], [ setPolicyToDelete, getPolicyFromPayload ]);
 
     React.useEffect(() => {
         if (canReadAll) {
@@ -101,6 +122,7 @@ const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
                 close={ closeCustomPolicyWizard }
                 isOpen={ isCustomPolicyWizardOpen }
             />
+            <DeletePolicy onClose={ onCloseDeletePolicy } policy={ policyToDelete }/>
         </>
     );
 };
