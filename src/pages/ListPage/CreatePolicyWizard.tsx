@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { PolicyWizard } from '../../components/Policy/PolicyWizard';
-import { Policy } from '../../types/Policy';
 import { useCreatePolicyMutation, useVerifyPolicyMutation } from '../../services/Api';
 import * as HttpStatus from 'http-status-codes';
 import { addSuccessNotification } from '../../utils/AlertUtils';
 import { CreatePolicyResponse, VerifyPolicyResponse } from '../../components/Policy/PolicyWizardTypes';
+import { PolicyWithOptionalId } from '../../types/Policy/Policy';
 
 interface CreatePolicyWizardProps {
     close: (policyCreated: boolean) => void;
@@ -15,7 +15,7 @@ export const CreatePolicyWizard: React.FunctionComponent<CreatePolicyWizardProps
     const saveMutation = useCreatePolicyMutation();
     const verifyMutation = useVerifyPolicyMutation();
 
-    const onSave = (policy: Policy): Promise<CreatePolicyResponse> => {
+    const onSave = (policy: PolicyWithOptionalId): Promise<CreatePolicyResponse> => {
         return saveMutation.mutate(policy).then((res) => {
             switch (res.status) {
                 case HttpStatus.CREATED:
@@ -36,7 +36,7 @@ export const CreatePolicyWizard: React.FunctionComponent<CreatePolicyWizardProps
         });
     };
 
-    const onVerify = (policy: Policy): Promise<VerifyPolicyResponse> => {
+    const onVerify = (policy: PolicyWithOptionalId): Promise<VerifyPolicyResponse> => {
         return verifyMutation.mutate(policy).then((res) => {
             switch (res.status) {
                 case HttpStatus.OK:

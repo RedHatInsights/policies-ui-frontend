@@ -22,4 +22,5 @@ export interface ServerPolicyResponse {
     name: string;
 }
 
+export type PolicyWithOptionalId = Partial<Pick<Policy, 'id'>> & Omit<Policy, 'id'>;
 export type ServerPolicyRequest = Partial<ServerPolicyResponse>;

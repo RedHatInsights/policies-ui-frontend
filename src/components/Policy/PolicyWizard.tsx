@@ -18,12 +18,13 @@ import { createActionsStep } from './WizardSteps/ActionsStep';
 import { createReviewStep } from './WizardSteps/ReviewStep';
 import { PolicyFormSchema } from '../../schemas/CreatePolicy/PolicySchema';
 import { PolicyWizardFooter } from './PolicyWizardFooter';
+import { PolicyWithOptionalId } from '../../types/Policy/Policy';
 
 interface PolicyWizardProps {
     initialValue: FormType;
     onClose: () => void;
-    onSave: (policy: Policy) => Promise<CreatePolicyResponse>;
-    onVerify: (policy: Policy) => Promise<VerifyPolicyResponse>;
+    onSave: (policy: PolicyWithOptionalId) => Promise<CreatePolicyResponse>;
+    onVerify: (policy: PolicyWithOptionalId) => Promise<VerifyPolicyResponse>;
     isLoading: boolean;
 }
 
