@@ -1,12 +1,23 @@
 import * as React from 'react';
 import { Form } from '@patternfly/react-core';
 
-import { WizardStepExtended } from '../PolicyWizardTypes';
+import { FormType, WizardStepExtended } from '../PolicyWizardTypes';
 import { PolicyFormActions } from '../../../schemas/CreatePolicy/PolicySchema';
-import { FieldArray, FieldArrayRenderProps } from 'formik';
+import { FieldArray, FieldArrayRenderProps, useFormikContext } from 'formik';
 import { ActionsForm } from '../ActionsForm';
 
 const ActionsStep = () => {
+
+    const { validateForm, values } = useFormikContext<FormType>();
+    const actionsLength = values.actions?.length;
+
+    // I should not need this. Might be a bug or I'm doing something wrong.
+    // Quick debugging turns out that "formik.errors" has an empty action array
+    // https://github.com/jaredpalmer/formik/issues/2279
+    React.useEffect(() => {
+        validateForm();
+    }, [ validateForm, actionsLength ]);
+
     return (
         <Form>
             <FieldArray name="actions">
