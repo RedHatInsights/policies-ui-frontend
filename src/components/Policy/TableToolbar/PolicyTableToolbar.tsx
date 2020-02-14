@@ -1,15 +1,15 @@
 import * as React from 'react';
-import { Button, capitalize, PaginationProps, PaginationVariant } from '@patternfly/react-core';
+import { Button, PaginationProps, PaginationVariant } from '@patternfly/react-core';
 import { PrimaryToolbar } from '@redhat-cloud-services/frontend-components';
 
 type OnPaginationPageChangedHandler = (
     event: React.SyntheticEvent<HTMLButtonElement> | React.MouseEvent | React.KeyboardEvent | MouseEvent, page: number) => void;
 type OnPaginationSizeChangedHandler = (event: React.MouseEvent | React.KeyboardEvent | MouseEvent, perPage: number) => void;
 
-export enum Filter {
-    NAME = 'Name',
-    DESCRIPTION = 'Description',
-    IS_ACTIVE = 'Is Active?'
+export enum FilterColumn {
+    NAME = 'name',
+    DESCRIPTION = 'description',
+    IS_ACTIVE = 'is_enabled'
 }
 
 export interface IsActiveFilter {
@@ -23,13 +23,13 @@ export interface FilterElement<T> {
 }
 
 interface Filters {
-    [Filter.NAME]: FilterElement<string>;
-    [Filter.DESCRIPTION]: FilterElement<string>;
-    [Filter.IS_ACTIVE]: FilterElement<IsActiveFilter>;
+    [FilterColumn.NAME]: FilterElement<string>;
+    [FilterColumn.DESCRIPTION]: FilterElement<string>;
+    [FilterColumn.IS_ACTIVE]: FilterElement<IsActiveFilter>;
 }
 
 export interface ClearFilterCommand {
-    filter: Filter;
+    filter: FilterColumn;
     data: unknown;
 }
 
@@ -45,14 +45,25 @@ interface TablePolicyToolbarProps {
     perPage: number;
 }
 
-const getFilterConfigString = (rawValue: string, filter: Filter) => {
+const FilterColumnToLabel: Record<FilterColumn, string> = {
+    [FilterColumn.NAME]: 'Name',
+    [FilterColumn.DESCRIPTION]: 'Description',
+    [FilterColumn.IS_ACTIVE]: 'Is Active?'
+};
+
+const IsActiveKeyToLabel: Record<keyof IsActiveFilter, string> = {
+    enabled: 'Active',
+    disabled: 'Inactive'
+};
+
+const getFilterConfigString = (rawValue: string, filter: FilterColumn) => {
     const value = rawValue.trim();
     if (value === '') {
         return undefined;
     }
 
     return {
-        category: filter,
+        category: FilterColumnToLabel[filter],
         chips: [
             {
                 name: value,
@@ -62,22 +73,22 @@ const getFilterConfigString = (rawValue: string, filter: Filter) => {
     };
 };
 
-const getFilterConfigIsActiveFilter = (value: IsActiveFilter, filter: Filter) => {
+const getFilterConfigIsActiveFilter = (value: IsActiveFilter, filter: FilterColumn) => {
     if (!value.enabled && !value.disabled) {
         return undefined;
     }
 
     return {
-        category: filter,
+        category: FilterColumnToLabel[filter],
         chips: Object.keys(value).filter(key => value[key]).map(key => ({
-            name: capitalize(key),
+            name: IsActiveKeyToLabel[key],
             isRead: true,
             key
         }))
     };
 };
 
-const getFilterConfig = (filters: Filters, filter: Filter) => {
+const getFilterConfig = (filters: Filters, filter: FilterColumn) => {
     const rawValue: string | IsActiveFilter = filters[filter].value;
 
     if (typeof rawValue === 'string') {
@@ -97,15 +108,17 @@ export const PolicyToolbar: React.FunctionComponent<TablePolicyToolbarProps> = (
         const filtersToClear: ClearFilterCommand[] = [];
         for (const element of rawFilterConfigs) {
             switch (element.category) {
-                case Filter.NAME:
-                case Filter.DESCRIPTION:
-                    filtersToClear.push({ filter: element.category as Filter, data: '' });
+                case FilterColumnToLabel[FilterColumn.NAME]:
+                    filtersToClear.push({ filter: FilterColumn.NAME, data: '' });
                     break;
-                case Filter.IS_ACTIVE:
+                case FilterColumnToLabel[FilterColumn.DESCRIPTION]:
+                    filtersToClear.push({ filter: FilterColumn.DESCRIPTION, data: '' });
+                    break;
+                case FilterColumnToLabel[FilterColumn.IS_ACTIVE]:
                     filtersToClear.push({
-                        filter: element.category as Filter,
+                        filter: FilterColumn.IS_ACTIVE,
                         data: {
-                            ...filters[Filter.IS_ACTIVE].value,
+                            ...filters[FilterColumn.IS_ACTIVE].value,
                             ...element.chips.reduce(
                                 (result, chip) => {
                                     result[chip.key] = false;
@@ -145,9 +158,9 @@ export const PolicyToolbar: React.FunctionComponent<TablePolicyToolbarProps> = (
                 type: 'text',
                 filterValues: {
                     id: 'filter-name',
-                    value: filters[Filter.NAME].value,
+                    value: filters[FilterColumn.NAME].value,
                     placeholder: 'Filter by name',
-                    onChange: (_event, value: string) => filters[Filter.NAME].setter(value)
+                    onChange: (_event, value: string) => filters[FilterColumn.NAME].setter(value)
                 }
             },
             {
@@ -155,9 +168,9 @@ export const PolicyToolbar: React.FunctionComponent<TablePolicyToolbarProps> = (
                 type: 'text',
                 filterValues: {
                     id: 'filter-description',
-                    value: filters[Filter.DESCRIPTION].value,
+                    value: filters[FilterColumn.DESCRIPTION].value,
                     placeholder: 'Filter by description',
-                    onChange: (_event, value: string) => filters[Filter.DESCRIPTION].setter(value)
+                    onChange: (_event, value: string) => filters[FilterColumn.DESCRIPTION].setter(value)
                 }
             },
             {
@@ -165,16 +178,16 @@ export const PolicyToolbar: React.FunctionComponent<TablePolicyToolbarProps> = (
                 type: 'checkbox',
                 filterValues: {
                     id: 'filter-active',
-                    value: Object.keys(filters[Filter.IS_ACTIVE].value).reduce(
+                    value: Object.keys(filters[FilterColumn.IS_ACTIVE].value).reduce(
                         (val, key) => {
-                            if (filters[Filter.IS_ACTIVE].value[key]) {
+                            if (filters[FilterColumn.IS_ACTIVE].value[key]) {
                                 val.push(key);
                             }
 
                             return val;
                         }, [] as string[]),
-                    items: Object.keys(filters[Filter.IS_ACTIVE].value).map(key => ({
-                        label: capitalize(key),
+                    items: Object.keys(filters[FilterColumn.IS_ACTIVE].value).map(key => ({
+                        label: IsActiveKeyToLabel[key],
                         value: key
                     })),
                     placeholder: 'Filter by Active status',
@@ -196,7 +209,7 @@ export const PolicyToolbar: React.FunctionComponent<TablePolicyToolbarProps> = (
                             }
                         }
 
-                        filters[Filter.IS_ACTIVE].setter(newValue);
+                        filters[FilterColumn.IS_ACTIVE].setter(newValue);
                     }
                 }
             }
@@ -220,7 +233,7 @@ export const PolicyToolbar: React.FunctionComponent<TablePolicyToolbarProps> = (
 
     const activeFiltersConfigProps = React.useMemo(() => {
         const filterConfig: ReturnType<typeof getFilterConfig>[] = [];
-        for (const filter of Object.values(Filter)) {
+        for (const filter of Object.values(FilterColumn)) {
             const config = getFilterConfig(filters, filter);
             if (config) {
                 filterConfig.push(config);

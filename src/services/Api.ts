@@ -31,6 +31,13 @@ const queryParamsPaginated = (queryParams?: any, page?: Page) => {
     queryParams.page = page.index - 1;
     queryParams.pageSize = page.size;
 
+    if (page.filter) {
+        for (const filterElement of page.filter.elements) {
+            queryParams[`filter[${filterElement.column}]`] = filterElement.value;
+            queryParams[`filter:op[${filterElement.column}]`] = filterElement.operator;
+        }
+    }
+
     if (page.sort) {
         queryParams.sortColumn = page.sort.column;
         queryParams.sortDirection = page.sort.direction;
