@@ -51,4 +51,7 @@ declare module '@redhat-cloud-services/frontend-components' {
         centered?: boolean;
     }> {
     }
+
+    export class PrimaryToolbar extends React.Component<any> {
+    }
 }

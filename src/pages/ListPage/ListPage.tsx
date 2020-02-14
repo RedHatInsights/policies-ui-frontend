@@ -6,7 +6,12 @@ import { Main, PageHeader, PageHeaderTitle, Section } from '@redhat-cloud-servic
 import { PolicyTable } from '../../components/Policy/Table/PolicyTable';
 import { useGetPoliciesQuery } from '../../services/Api';
 import { Direction, Page, Sort } from '../../types/Page';
-import { PolicyToolbar } from '../../components/Policy/TableToolbar/PolicyTableToolbar';
+import {
+    ClearFilterCommand,
+    Filter,
+    IsActiveFilter,
+    PolicyToolbar
+} from '../../components/Policy/TableToolbar/PolicyTableToolbar';
 import { CreatePolicyWizard } from './CreatePolicyWizard';
 import { RbacContext } from '../../components/RbacContext';
 import { policyTableError } from './PolicyTableError';
@@ -23,6 +28,12 @@ const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
     const [ sort, setSort ] = React.useState<Sort>();
     const [ isCustomPolicyWizardOpen, setCustomPolicyWizardOpen ] = React.useState<boolean>(false);
     const [ policyToDelete, setPolicyToDelete ] = React.useState<Policy | undefined>(undefined);
+    const [ filterName, setFilterName ] = React.useState<string>('');
+    const [ filterDescription, setFilterDescription ] = React.useState<string>('');
+    const [ filterIsActive, setFilterIsActive ] = React.useState<IsActiveFilter>({
+        enabled: false,
+        disabled: false
+    });
 
     const getPoliciesQuery = useGetPoliciesQuery(Page.of(currentPage, itemsPerPage, sort), false);
 
@@ -68,30 +79,66 @@ const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
         }
     }, [ canReadAll, getPoliciesQueryReload ]);
 
-    const openCustomPolicyWizard = () => {
+    const openCustomPolicyWizard = React.useCallback(() => {
         setCustomPolicyWizardOpen(true);
-    };
+    }, [ setCustomPolicyWizardOpen ]);
 
-    const closeCustomPolicyWizard = (policyCreated: boolean) => {
+    const closeCustomPolicyWizard = React.useCallback((policyCreated: boolean) => {
         if (policyCreated) {
-            getPoliciesQuery.query();
+            getPoliciesQueryReload();
         }
 
         setCustomPolicyWizardOpen(false);
-    };
+    }, [ setCustomPolicyWizardOpen, getPoliciesQueryReload ]);
 
-    const changePage = (event, page: number) => {
+    const changePage = React.useCallback((event, page: number) => {
         setCurrentPage(page);
-    };
+    }, [ setCurrentPage ]);
 
-    const changeItemsPerPage = (event, perPage: number) => {
+    const changeItemsPerPage = React.useCallback((event, perPage: number) => {
         setCurrentPage(1);
         setItemsPerPage(perPage);
-    };
+    }, [ setCurrentPage, setItemsPerPage ]);
 
-    const onSort = (index: number, column: string, direction: Direction) => {
+    const onSort = React.useCallback((index: number, column: string, direction: Direction) => {
         setSort(Sort.by(column, direction));
-    };
+    }, [ setSort ]);
+
+    const clearFilters = React.useCallback((clearFilterCommands: ClearFilterCommand[]) => {
+        for (const clearFilterCommand of clearFilterCommands) {
+            switch (clearFilterCommand.filter) {
+                case Filter.NAME:
+                    setFilterName(clearFilterCommand.data as string);
+                    break;
+                case Filter.DESCRIPTION:
+                    setFilterDescription(clearFilterCommand.data as string);
+                    break;
+                case Filter.IS_ACTIVE:
+                    setFilterIsActive(clearFilterCommand.data as IsActiveFilter);
+                    break;
+            }
+        }
+    }, [ setFilterName, setFilterDescription, setFilterIsActive ]);
+
+    const filters = React.useMemo(() => ({
+        [Filter.NAME]: {
+            value: filterName,
+            setter: setFilterName
+        },
+        [Filter.DESCRIPTION]: {
+            value: filterDescription,
+            setter: setFilterDescription
+        },
+        [Filter.IS_ACTIVE]: {
+            value: filterIsActive,
+            setter: setFilterIsActive
+        }
+    }), [ filterName, setFilterName, filterDescription, setFilterDescription, filterIsActive, setFilterIsActive ]);
+
+    const policyTableErrorValue = React.useMemo(
+        () => policyTableError(canReadAll, getPoliciesQuery.error, getPoliciesQuery.status),
+        [ canReadAll, getPoliciesQuery.error, getPoliciesQuery.status ]
+    );
 
     return (
         <>
@@ -105,14 +152,17 @@ const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
                         onPaginationChanged={ changePage }
                         onPaginationSizeChanged={ changeItemsPerPage }
                         page={ currentPage }
+                        pageCount={ getPoliciesQuery.payload?.length }
                         perPage={ itemsPerPage }
+                        filters={ filters }
+                        clearFilters={ clearFilters }
                         count={ getPoliciesQuery.count }
                     />
                     <PolicyTable
                         policies={ getPoliciesQuery.payload }
                         actions={ tableActions }
                         loading={ getPoliciesQuery.loading }
-                        error={ policyTableError(canReadAll, getPoliciesQuery.error, getPoliciesQuery.status) }
+                        error={ policyTableErrorValue }
                         onSort={ onSort }
                         sortBy={ sort }
                     />
