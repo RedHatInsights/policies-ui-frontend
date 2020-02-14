@@ -129,7 +129,6 @@ const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
         for (const clearFilterCommand of clearFilterCommands) {
             switch (clearFilterCommand.filter) {
                 case FilterColumn.NAME:
-                    console.log('Clearing filterName with', clearFilterCommand.data);
                     setFilterName(clearFilterCommand.data as string);
                     break;
                 case FilterColumn.DESCRIPTION:
@@ -146,7 +145,6 @@ const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
         [FilterColumn.NAME]: {
             value: filterName,
             setter: (data: string) => {
-                console.log('calling setter with data', data);
                 setFilterName(data);
             }
         },
