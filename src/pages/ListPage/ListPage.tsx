@@ -42,11 +42,11 @@ const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
         const filter = new Filter();
 
         if (debouncedFilterName.trim() !== '') {
-            filter.and(FilterColumn.NAME, Operator.ILIKE, `%${debouncedFilterName}%`);
+            filter.and(FilterColumn.NAME, Operator.ILIKE, `%${debouncedFilterName.trim()}%`);
         }
 
         if (debouncedFilterDescription.trim() !== '') {
-            filter.and(FilterColumn.DESCRIPTION, Operator.ILIKE, `%${debouncedFilterDescription}%`);
+            filter.and(FilterColumn.DESCRIPTION, Operator.ILIKE, `%${debouncedFilterDescription.trim()}%`);
         }
 
         if (debouncedFilterIsActive.disabled !== debouncedFilterIsActive.enabled) {
