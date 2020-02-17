@@ -8,8 +8,7 @@ import {
     CardActions,
     CardBody,
     CardHead, CardHeader,
-    FormSelectOption,
-    Title
+    FormSelectOption
 } from '@patternfly/react-core';
 import * as React from 'react';
 import { TimesIcon } from '@patternfly/react-icons';
