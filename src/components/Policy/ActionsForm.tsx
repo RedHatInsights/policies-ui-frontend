@@ -28,7 +28,7 @@ interface ActionsFormProps {
 export const ActionsForm: React.FunctionComponent<ActionsFormProps> = (props) => {
     return (
         <>
-            <Title headingLevel="h4" size="2xl">Actions</Title>
+            {/*<Title headingLevel="h4" size="2xl">Actions</Title>*/}
             { props.actions?.map((action, index) => (
                 <React.Fragment key={ index }>
                     <Card>
