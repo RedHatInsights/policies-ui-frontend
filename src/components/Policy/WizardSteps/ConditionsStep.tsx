@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { ActionGroup, Button, ButtonVariant, Form } from '@patternfly/react-core';
+import { ActionGroup, Button, ButtonVariant, Form, Title } from '@patternfly/react-core';
 import { ExclamationCircleIcon, CheckCircleIcon } from '@patternfly/react-icons';
 
 import { FormTextInput } from '../../Formik/Patternfly';
@@ -8,6 +8,7 @@ import { PolicyFormConditions } from '../../../schemas/CreatePolicy/PolicySchema
 import { useFormikContext } from 'formik';
 import { style } from 'typestyle';
 import { GlobalDangerColor100, GlobalSuccessColor200 } from '../../../utils/PFColors';
+import { Messages } from '../../../properties/Messages';
 
 const centerClassName = style({
     marginTop: 'auto',
@@ -57,6 +58,7 @@ const ConditionsStep: React.FunctionComponent = () => {
 
     return (
         <Form>
+            <Title headingLevel="h4" size="xl">{Messages.wizardConditions}</Title>
             <FormTextInput isRequired={ true } label="Condition text"
                 type="text" id="conditions" name="conditions"
                 placeholder={ 'arch = "x86_64"' }
@@ -79,7 +81,7 @@ const ConditionsStep: React.FunctionComponent = () => {
 };
 
 export const createConditionsStep: (stepOverrides?: Partial<WizardStepExtended>) => WizardStepExtended = (stepOverrides) => ({
-    name: 'Conditions',
+    name: Messages.wizardConditions,
     component: <ConditionsStep/>,
     validationSchema: PolicyFormConditions,
     isValid: (context, values) => {

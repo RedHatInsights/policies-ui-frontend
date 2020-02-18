@@ -3,13 +3,14 @@ import { FieldArray, FieldArrayRenderProps } from 'formik';
 
 import { WizardContext, WizardStepExtended } from '../PolicyWizardTypes';
 import { FormTextInput, Switch } from '../../Formik/Patternfly';
-import { Form, Split, SplitItem } from '@patternfly/react-core';
+import { Form, Split, SplitItem, Title } from '@patternfly/react-core';
 import { ActionsForm } from '../ActionsForm';
 import { PolicyFormSchema } from '../../../schemas/CreatePolicy/PolicySchema';
 import { useContext } from 'react';
 import { GlobalDangerColor100 } from '../../../utils/PFColors';
 import { ExclamationCircleIcon } from '@patternfly/react-icons';
 import { style } from 'typestyle';
+import { Messages } from '../../../properties/Messages';
 
 const exclamationClassName = style({
     marginRight: 5
@@ -21,6 +22,7 @@ const ReviewStep: React.FunctionComponent = () => {
     return (
         <>
             <Form>
+                <Title headingLevel="h4" size="xl">{Messages.wizardReview}</Title>
                 <Switch isDisabled={ context.isLoading } type="checkbox" id="isEnabled" name="isEnabled" label="Activate Policy?"/>
                 <FormTextInput isReadOnly label="Name" type="text" name="name" id="name"/>
                 <FormTextInput isReadOnly label="Description" type="text" id="description" name="description"/>
@@ -44,7 +46,7 @@ const ReviewStep: React.FunctionComponent = () => {
 };
 
 export const createReviewStep: (stepOverrides?: Partial<WizardStepExtended>) => WizardStepExtended = (stepOverrides) => ({
-    name: 'Review',
+    name: Messages.wizardReview,
     component: <ReviewStep/>,
     validationSchema: PolicyFormSchema,
     ...stepOverrides

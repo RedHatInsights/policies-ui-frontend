@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Button, Form, InputGroup, Radio, TextInput } from '@patternfly/react-core';
+import { Button, Form, InputGroup, Radio, TextInput, Title } from '@patternfly/react-core';
 import { Policy } from '../../../types/Policy';
 import { AlwaysValid, WizardStepExtended } from '../PolicyWizardTypes';
 import { PolicyTable } from '../Table/PolicyTable';
@@ -7,6 +7,7 @@ import { useGetPoliciesQuery } from '../../../services/Api';
 import { policyTableError } from '../../../pages/ListPage/PolicyTableError';
 import { useContext } from 'react';
 import { RbacContext } from '../../RbacContext';
+import { Messages } from '../../../properties/Messages';
 
 interface CreateCustomPolicyState {
     copyPolicy: boolean;
@@ -37,6 +38,7 @@ const CreateCustomPolicyStep: React.FunctionComponent = () => {
     return (
         <>
             <Form>
+                <Title headingLevel="h4" size="xl">{Messages.wizardCreatePolicy}</Title>
                 <span>Define a new custom policy:</span>
                 <Radio
                     isChecked={ !copyPolicy }
@@ -66,7 +68,7 @@ const CreateCustomPolicyStep: React.FunctionComponent = () => {
 };
 
 export const createCustomPolicyStep: (stepOverrides?: Partial<WizardStepExtended>) => WizardStepExtended = (stepOverrides) => ({
-    name: 'Create Custom Policy',
+    name: Messages.wizardCreatePolicy,
     component: <CreateCustomPolicyStep/>,
     validationSchema: AlwaysValid,
     ...stepOverrides

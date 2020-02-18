@@ -1,10 +1,11 @@
 import * as React from 'react';
-import { Form } from '@patternfly/react-core';
+import { Form, Title } from '@patternfly/react-core';
 
 import { FormType, WizardStepExtended } from '../PolicyWizardTypes';
 import { PolicyFormActions } from '../../../schemas/CreatePolicy/PolicySchema';
 import { FieldArray, FieldArrayRenderProps, useFormikContext } from 'formik';
 import { ActionsForm } from '../ActionsForm';
+import { Messages } from '../../../properties/Messages';
 
 const ActionsStep = () => {
 
@@ -20,6 +21,7 @@ const ActionsStep = () => {
 
     return (
         <Form>
+            <Title headingLevel="h4" size="xl">{Messages.wizardActions}</Title>
             <FieldArray name="actions">
                 { (helpers: FieldArrayRenderProps) => {
                     return <ActionsForm id="actions" name="actions" actions={ helpers.form.values.actions } arrayHelpers={ helpers }/>;
@@ -30,7 +32,7 @@ const ActionsStep = () => {
 };
 
 export const createActionsStep: (stepOverrides?: Partial<WizardStepExtended>) => WizardStepExtended = (stepOverrides) => ({
-    name: 'Actions',
+    name: Messages.wizardActions,
     component: <ActionsStep/>,
     validationSchema: PolicyFormActions,
     ...stepOverrides
