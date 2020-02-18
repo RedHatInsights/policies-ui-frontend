@@ -11,6 +11,12 @@ export interface Policy {
     name: string;
 }
 
+export interface PagedServerPolicyResponse {
+    data: ServerPolicyResponse[];
+    meta: any;
+    links: any;
+}
+
 export interface ServerPolicyResponse {
     id: number;
     actions?: string;

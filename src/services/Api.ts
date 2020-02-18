@@ -1,5 +1,5 @@
 import Config from '../config/Config';
-import { Policy, PolicyWithOptionalId, ServerPolicyResponse } from '../types/Policy/Policy';
+import { PagedServerPolicyResponse, Policy, PolicyWithOptionalId } from '../types/Policy/Policy';
 import { Action, useMutation, useQuery } from 'react-fetching-library';
 import { Fact } from '../types/Fact';
 import { Page } from '../types/Page';
@@ -28,8 +28,8 @@ const queryParamsPaginated = (queryParams?: any, page?: Page) => {
         queryParams = { };
     }
 
-    queryParams.page = page.index - 1;
-    queryParams.pageSize = page.size;
+    queryParams.offset = page.index - 1;
+    queryParams.limit = page.size;
 
     if (page.sort) {
         queryParams.sortColumn = page.sort.column;
@@ -51,7 +51,7 @@ export const useGetFactsQuery = (initFetch?: boolean) => useNewQuery<Fact[]>('GE
 
 export const useGetPoliciesQuery = (page?: Page, initFetch?: boolean): UsePaginatedQueryResponse<Policy[]> => {
     return useTransformPaginatedQueryResponse(
-        useNewPaginatedQuery<ServerPolicyResponse[]>('GET', urls.policies, page, initFetch),
+        useNewPaginatedQuery<PagedServerPolicyResponse>('GET', urls.policies, page, initFetch),
         toPolicies
     );
 };
