@@ -63,14 +63,22 @@ export const useGetPoliciesQuery = (page?: Page, initFetch?: boolean): UsePagina
     );
 };
 
-export const useCreatePolicyMutation = () => {
+export const useSavePolicyMutation = () => {
     return useMutation((policy: PolicyWithOptionalId) => {
+        if (policy.id) {
+            return createAction('PUT', urls.policy(policy.id), {}, toServerPolicy(policy));
+        }
+
         return createAction('POST', urls.policies, { alsoStore: true }, toServerPolicy(policy));
     });
 };
 
 export const useVerifyPolicyMutation = () => {
     return useMutation((policy: PolicyWithOptionalId) => {
+        if (policy.id) {
+            return createAction('PUT', urls.policy(policy.id), { dryRun: true }, toServerPolicy(policy));
+        }
+
         return createAction('POST', urls.policies, { alsoStore: false }, toServerPolicy(policy));
     });
 };

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useContext } from 'react';
-import { IActions } from '@patternfly/react-table';
+import { IActions, IRowData } from '@patternfly/react-table';
 import { Main, PageHeader, PageHeaderTitle, Section } from '@redhat-cloud-services/frontend-components';
 
 import { PolicyTable } from '../../components/Policy/Table/PolicyTable';
@@ -17,19 +17,37 @@ import { RbacContext } from '../../components/RbacContext';
 import { policyTableError } from './PolicyTableError';
 import { Policy } from '../../types/Policy';
 import { DeletePolicy } from './DeletePolicy';
-import { IRowData } from '@patternfly/react-table';
 import { useDebouncedState } from '../../hooks';
+import { SavingMode } from '../../components/Policy/PolicyWizard';
+import { PolicyWithOptionalId } from '../../types/Policy/Policy';
 
 type ListPageProps = {};
 
 const DEBOUNCE_MS = 250;
+
+type PolicyWizardStateBase = {
+    template: PolicyWithOptionalId | undefined;
+    savingMode: SavingMode;
+};
+
+type PolicyWizardStateOpen = {
+    isOpen: true;
+} & PolicyWizardStateBase;
+
+type PolicyWizardStateClosed = {
+    isOpen: false;
+} & Partial<PolicyWizardStateBase>;
+
+type PolicyWizardState = PolicyWizardStateClosed | PolicyWizardStateOpen;
 
 const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
 
     const [ currentPage, setCurrentPage ] = React.useState<number>(1);
     const [ itemsPerPage, setItemsPerPage ] = React.useState<number>(Page.defaultPage().size);
     const [ sort, setSort ] = React.useState<Sort>();
-    const [ isCustomPolicyWizardOpen, setCustomPolicyWizardOpen ] = React.useState<boolean>(false);
+    const [ policyWizardState, setPolicyWizardState ] = React.useState<PolicyWizardState>({
+        isOpen: false
+    });
     const [ policyToDelete, setPolicyToDelete ] = React.useState<Policy | undefined>(undefined);
     const [ filterName, setFilterName, debouncedFilterName ] = useDebouncedState<string>('', DEBOUNCE_MS);
     const [ filterDescription, setFilterDescription, debouncedFilterDescription ] = useDebouncedState<string>('', DEBOUNCE_MS);
@@ -77,7 +95,16 @@ const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
     const tableActions: IActions = React.useMemo<IActions>(() => [
         {
             title: 'Edit',
-            onClick: () => alert('Edit')
+            onClick: (_event: React.MouseEvent, _rowIndex: number, rowData: IRowData) => {
+                const policy = getPolicyFromPayload(rowData.id);
+                if (policy) {
+                    setPolicyWizardState({
+                        isOpen: true,
+                        template: policy,
+                        savingMode: SavingMode.UPDATE
+                    });
+                }
+            }
         },
         {
             title: 'Duplicate',
@@ -100,17 +127,23 @@ const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
         }
     }, [ canReadAll, getPoliciesQueryReload ]);
 
-    const openCustomPolicyWizard = React.useCallback(() => {
-        setCustomPolicyWizardOpen(true);
-    }, [ setCustomPolicyWizardOpen ]);
+    const createCustomPolicy = React.useCallback(() => {
+        setPolicyWizardState({
+            isOpen: true,
+            savingMode: SavingMode.CREATE,
+            template: undefined
+        });
+    }, [ setPolicyWizardState ]);
 
     const closeCustomPolicyWizard = React.useCallback((policyCreated: boolean) => {
         if (policyCreated) {
             getPoliciesQueryReload();
         }
 
-        setCustomPolicyWizardOpen(false);
-    }, [ setCustomPolicyWizardOpen, getPoliciesQueryReload ]);
+        setPolicyWizardState({
+            isOpen: false
+        });
+    }, [ setPolicyWizardState, getPoliciesQueryReload ]);
 
     const changePage = React.useCallback((event, page: number) => {
         setCurrentPage(page);
@@ -171,7 +204,7 @@ const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
             <Main>
                 <Section>
                     <PolicyToolbar
-                        onCreatePolicy={ canWriteAll ? openCustomPolicyWizard : undefined }
+                        onCreatePolicy={ canWriteAll ? createCustomPolicy : undefined }
                         onPaginationChanged={ changePage }
                         onPaginationSizeChanged={ changeItemsPerPage }
                         page={ currentPage }
@@ -191,10 +224,12 @@ const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
                     />
                 </Section>
             </Main>
-            <CreatePolicyWizard
+            { policyWizardState.isOpen && <CreatePolicyWizard
+                isOpen={ policyWizardState.isOpen }
                 close={ closeCustomPolicyWizard }
-                isOpen={ isCustomPolicyWizardOpen }
-            />
+                initialValue={ policyWizardState.template }
+                savingMode={ policyWizardState.savingMode }
+            /> }
             <DeletePolicy onClose={ onCloseDeletePolicy } policy={ policyToDelete }/>
         </>
     );

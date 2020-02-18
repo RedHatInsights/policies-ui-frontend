@@ -20,19 +20,30 @@ import { PolicyFormSchema } from '../../schemas/CreatePolicy/PolicySchema';
 import { PolicyWizardFooter } from './PolicyWizardFooter';
 import { PolicyWithOptionalId } from '../../types/Policy/Policy';
 
+export enum SavingMode {
+    CREATE,
+    UPDATE
+}
+
 interface PolicyWizardProps {
     initialValue: FormType;
     onClose: () => void;
     onSave: (policy: PolicyWithOptionalId) => Promise<CreatePolicyResponse>;
     onVerify: (policy: PolicyWithOptionalId) => Promise<VerifyPolicyResponse>;
     isLoading: boolean;
+    savingMode: SavingMode;
 }
 
-const buildSteps: () => WizardStepExtended[] = () => {
-    return [
-        createCustomPolicyStep({
+const buildSteps: (savingMode: SavingMode) => WizardStepExtended[] = (savingMode) => {
+    const steps = [] as WizardStepExtended[];
+
+    if (savingMode === SavingMode.CREATE) {
+        steps.push(createCustomPolicyStep({
             hideBackButton: true
-        }),
+        }));
+    }
+
+    steps.push(
         createDetailsStep({
             hideBackButton: true
         }),
@@ -41,7 +52,9 @@ const buildSteps: () => WizardStepExtended[] = () => {
         createReviewStep({
             nextButtonText: 'Finish'
         })
-    ].map((step, index) => ({
+    );
+
+    return steps.map((step, index) => ({
         ... step,
         id: index
     }));
@@ -162,6 +175,15 @@ export const PolicyWizard: React.FunctionComponent<PolicyWizardProps> = (props: 
         created: false
     });
 
+    React.useEffect(() => {
+        if (props.initialValue?.conditions) {
+            setVerifyResponse({
+                isValid: true,
+                conditions: props.initialValue.conditions
+            });
+        }
+    }, [ props.initialValue ]);
+
     const onMove: WizardStepFunctionType = (current, _previous) => {
         const currentStep = current.id as number;
         setCurrentStep(currentStep);
@@ -170,7 +192,7 @@ export const PolicyWizard: React.FunctionComponent<PolicyWizardProps> = (props: 
         }
     };
 
-    const steps: WizardStepExtended[] = buildSteps();
+    const steps: WizardStepExtended[] = buildSteps(props.savingMode);
 
     const onSubmit = (policy: FormType, formikHelpers: FormikHelpers<FormType>) => {
         formikHelpers.setSubmitting(false);
