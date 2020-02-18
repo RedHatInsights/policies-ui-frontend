@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Button, Form, InputGroup, Label, Radio, TextInput } from '@patternfly/react-core';
+import { Button, Form, InputGroup, Radio, TextInput, Title } from '@patternfly/react-core';
 import { Policy } from '../../../types/Policy';
 import { AlwaysValid, WizardStepExtended } from '../PolicyWizardTypes';
 import { PolicyTable } from '../Table/PolicyTable';
@@ -38,7 +38,7 @@ const CreateCustomPolicyStep: React.FunctionComponent = () => {
     return (
         <>
             <Form>
-                <Label>{Messages.wizardCreatePolicy}</Label>
+                <Title headingLevel="h4" size="xl">{Messages.wizardCreatePolicy}</Title>
                 <span>Define a new custom policy:</span>
                 <Radio
                     isChecked={ !copyPolicy }

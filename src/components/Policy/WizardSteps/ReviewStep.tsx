@@ -3,7 +3,7 @@ import { FieldArray, FieldArrayRenderProps } from 'formik';
 
 import { WizardContext, WizardStepExtended } from '../PolicyWizardTypes';
 import { FormTextInput, Switch } from '../../Formik/Patternfly';
-import { Form, Label, Split, SplitItem } from '@patternfly/react-core';
+import { Form, Split, SplitItem, Title } from '@patternfly/react-core';
 import { ActionsForm } from '../ActionsForm';
 import { PolicyFormSchema } from '../../../schemas/CreatePolicy/PolicySchema';
 import { useContext } from 'react';
@@ -22,7 +22,7 @@ const ReviewStep: React.FunctionComponent = () => {
     return (
         <>
             <Form>
-                <Label>{Messages.wizardReview}</Label>
+                <Title headingLevel="h4" size="xl">{Messages.wizardReview}</Title>
                 <Switch isDisabled={ context.isLoading } type="checkbox" id="isEnabled" name="isEnabled" label="Activate Policy?"/>
                 <FormTextInput isReadOnly label="Name" type="text" name="name" id="name"/>
                 <FormTextInput isReadOnly label="Description" type="text" id="description" name="description"/>

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { ActionGroup, Button, ButtonVariant, Form, Label } from '@patternfly/react-core';
+import { ActionGroup, Button, ButtonVariant, Form, Title } from '@patternfly/react-core';
 import { ExclamationCircleIcon, CheckCircleIcon } from '@patternfly/react-icons';
 
 import { FormTextInput } from '../../Formik/Patternfly';
@@ -58,7 +58,7 @@ const ConditionsStep: React.FunctionComponent = () => {
 
     return (
         <Form>
-            <Label>{Messages.wizardConditions}</Label>
+            <Title headingLevel="h4" size="xl">{Messages.wizardConditions}</Title>
             <FormTextInput isRequired={ true } label="Condition text"
                 type="text" id="conditions" name="conditions"
                 placeholder={ 'arch = "x86_64"' }

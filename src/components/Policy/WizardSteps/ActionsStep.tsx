@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Form, Label } from '@patternfly/react-core';
+import { Form, Title } from '@patternfly/react-core';
 
 import { FormType, WizardStepExtended } from '../PolicyWizardTypes';
 import { PolicyFormActions } from '../../../schemas/CreatePolicy/PolicySchema';
@@ -21,7 +21,7 @@ const ActionsStep = () => {
 
     return (
         <Form>
-            <Label>{Messages.wizardActions}</Label>
+            <Title headingLevel="h4" size="xl">{Messages.wizardActions}</Title>
             <FieldArray name="actions">
                 { (helpers: FieldArrayRenderProps) => {
                     return <ActionsForm id="actions" name="actions" actions={ helpers.form.values.actions } arrayHelpers={ helpers }/>;
