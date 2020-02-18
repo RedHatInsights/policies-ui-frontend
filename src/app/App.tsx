@@ -10,6 +10,7 @@ import { Routes } from '../Routes';
 import { AppSkeleton } from '../components/AppSkeleton/AppSkeleton';
 import { client } from './FetchingConfiguration';
 
+import '@redhat-cloud-services/frontend-components/index.css';
 import '@redhat-cloud-services/frontend-components-notifications/index.css';
 import { Rbac } from '../types/Rbac';
 import { getInsights } from '../utils/Insights';

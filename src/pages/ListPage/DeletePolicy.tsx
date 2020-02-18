@@ -24,6 +24,7 @@ export const DeletePolicy: React.FunctionComponent<DeletePolicyProps> = (props) 
             mutate(policy).then(() => {
                 onClose(true);
             });
+            return;
         }
 
         throw Error('Policy has not been set');
