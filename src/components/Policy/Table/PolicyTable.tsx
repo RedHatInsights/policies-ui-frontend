@@ -3,8 +3,7 @@ import {
     expandable,
     IActions, IActionsResolver,
     ICell,
-    IRow,
-    IRowData,
+    IRow, IRowData,
     ISortBy,
     sortable,
     SortByDirection,
@@ -26,7 +25,9 @@ interface PolicyTableProps {
     error?: ErrorContentProps;
     loading?: boolean;
     onSort?: (index: number, column: string, direction: Direction) => void;
-    policies?: Policy[];
+    onCollapse?: (policy: PolicyRow, index: number, isOpen: boolean) => void;
+    onSelect?: (policy: PolicyRow, index: number, isSelected: boolean) => void;
+    policies?: PolicyRow[];
     sortBy?: Sort;
     httpStatus?: number;
 }
@@ -36,6 +37,11 @@ export interface ErrorContentProps {
     title: string;
     content: string;
 }
+
+export type PolicyRow = Policy & {
+    isOpen: boolean;
+    isSelected: boolean;
+};
 
 const ErrorContent: React.FunctionComponent<ErrorContentProps> = (props) => {
     return (
@@ -64,19 +70,14 @@ const errorRow = (props: ErrorContentProps): IRow[] => [{
     ]
 }];
 
-const defaultRowState = (): RowState => {
-    return { isOpen: true, isSelected: false };
-};
-
-const policiesToRows = (policies: Policy[] | undefined, rowState: Record<string, RowState>): IRow[] => {
+const policiesToRows = (policies: PolicyRow[] | undefined): IRow[] => {
     if (policies) {
-
         return policies.reduce((rows, policy, idx) => {
-            const state = policy.id && rowState[policy.id] || defaultRowState();
             rows.push({
                 id: policy.id,
-                isOpen: state.isOpen,
-                selected: state.isSelected,
+                key: policy.id,
+                isOpen: policy.isOpen,
+                selected: policy.isSelected,
                 cells: [
                     policy.name,
                     policy.actions,
@@ -84,13 +85,13 @@ const policiesToRows = (policies: Policy[] | undefined, rowState: Record<string,
                 ]
             });
             rows.push({
-                parent: idx * 2, // Every policy has two rows, the "row" and the "expanded row"
+                parent: idx * 2, // Every policies has two rows, the "row" and the "expanded row"
                 fullWidth: true,
                 showSelect: false,
                 cells: [
                     <>
                         <ExpandedContent
-                            key={ policy.id }
+                            key={ policy.id + '-content' }
                             description={ policy.description }
                             conditions={ policy.conditions }
                             actions={ policy.actions }
@@ -111,75 +112,70 @@ type Cell = ICell & {
     column?: string;
 };
 
-interface RowState {
-    isOpen: boolean;
-    isSelected: boolean;
-}
-
 const indexForColumn = (column: string, columns: Cell[], namedColumns: Record<string, Cell>) => {
-    // sort index are 1-based and the expandable takes 1 space.
+    // sort index are 1-based but the expandable and the index takes space (each one).
     return columns.indexOf(namedColumns[column]) + 2;
 };
 
 const columnNameForIndex = (index: number, columns: Cell[]) => {
-    // index are 1-based and The expandable takes space in the index (apparently)
+    // index are 0-based but the expandable and selection takes space in the index (apparently)
     return columns[index - 2].column;
 };
 
 export const PolicyTable: React.FunctionComponent<PolicyTableProps> = (props) => {
 
-    const [ rowState, setRowState ] = React.useState<Record<string, RowState>>({});
+    const { onSort, error, policies, onCollapse, onSelect } = props;
 
-    React.useEffect(() => {
-        if (props.policies) {
-            setRowState(props.policies.reduce((newRowState, policy) => {
-                if (policy.id) {
-                    newRowState[policy.id] = {
-                        isOpen: false,
-                        isSelected: false
-                    };
-                }
+    const namedColumns: Record<string, Cell> = React.useMemo(() => {
+        const transformSortable = onSort ? [ sortable ] : [];
 
-                return newRowState;
-            }, {} as Record<string, RowState>));
-        } else {
-            setRowState({} as Record<string, RowState>);
-        }
-    }, [ props.policies ]);
+        return {
+            name: {
+                title: 'Name',
+                transforms: transformSortable,
+                cellFormatters: [ expandable ],
+                column: 'name'
+            },
+            actions: {
+                title: 'Actions',
+                transforms: [ ]
+            },
+            is_enabled: { // eslint-disable-line @typescript-eslint/camelcase
+                title: 'Is active?',
+                transforms: transformSortable,
+                column: 'is_enabled'
+            }
+        };
+    }, [ onSort ]);
 
-    const transformSortable = props.onSort ? [ sortable ] : [];
+    const columns: Cell[] = React.useMemo(() => Object.values(namedColumns), [ namedColumns ]);
 
-    const namedColumns: Record<string, Cell> = {
-        name: {
-            title: 'Name',
-            transforms: transformSortable,
-            cellFormatters: [ expandable ],
-            column: 'name'
-        },
-        actions: {
-            title: 'Actions',
-            transforms: [ ]
-        },
-        is_enabled: { // eslint-disable-line @typescript-eslint/camelcase
-            title: 'Is active?',
-            transforms: transformSortable,
-            column: 'is_enabled'
-        }
-    };
-
-    const columns: Cell[] = Object.values(namedColumns);
-
-    const onSortProp = props.onSort;
-
-    const onSort = React.useCallback((_event, index: number, direction: SortByDirection) => {
-        if (onSortProp) {
+    const onSortHandler = React.useCallback((_event, index: number, direction: SortByDirection) => {
+        if (onSort) {
             const column = columnNameForIndex(index, columns);
             if (column) {
-                onSortProp(index, column, direction === SortByDirection.asc ? Direction.ASCENDING : Direction.DESCENDING);
+                onSort(index, column, direction === SortByDirection.asc ? Direction.ASCENDING : Direction.DESCENDING);
             }
         }
-    }, [ onSortProp, columns ]);
+    }, [ onSort, columns ]);
 
+    const onCollapseHandler = React.useCallback((_event, _index: number, isOpen: boolean, data: IRowData) => {
+        const index = policies?.findIndex(policy => policy.id === data.id);
+        if (onCollapse && policies && index !== undefined && index !== -1) {
+            const policy = policies[index];
+            onCollapse(policy, index, isOpen);
+        }
+    }, [ policies, onCollapse ]);
+
+    const onSelectHandler = React.useCallback((_event, isSelected: boolean, _index: number, data: IRowData) => {
+        const index = policies?.findIndex(policy => policy.id === data.id);
+        if (onSelect && policies && index !== undefined && index !== -1) {
+            const policy = policies[index];
+            onSelect(policy, index, isSelected);
+        }
+    }, [ policies, onSelect ]);
+
+    /*
     const onCollapse = React.useCallback((_event, index: number, isOpen: boolean, data: IRowData) => {
         if (rowState[data.id].isOpen !== isOpen) {
             const newRowState = { ...rowState };
@@ -187,14 +183,16 @@ export const PolicyTable: React.FunctionComponent<PolicyTableProps> = (props) =>
             setRowState(newRowState);
         }
     }, [ rowState, setRowState ]);
+     */
 
+    /*
     const onSelect = (_event, isSelected: boolean, index: number, data: IRowData) => {
         if (rowState[data.id].isSelected !== isSelected) {
             const newRowState = { ...rowState };
             newRowState[data.id] = { ...newRowState[data.id], isSelected };
             setRowState(newRowState);
         }
-    };
+    };*/
 
     const sortBy = React.useMemo<ISortBy | undefined>(() => {
         if (props.sortBy) {
@@ -217,7 +215,7 @@ export const PolicyTable: React.FunctionComponent<PolicyTableProps> = (props) =>
         return [];
     };
 
-    const rows = props.error ? errorRow(props.error) : policiesToRows(props.policies, rowState);
+    const rows = React.useMemo(() => error ? errorRow(error) : policiesToRows(policies), [ error, policies ]);
 
     if (props.loading) {
         return (
@@ -234,9 +232,9 @@ export const PolicyTable: React.FunctionComponent<PolicyTableProps> = (props) =>
             cells={ columns }
             rows={ rows }
             actionResolver={ actionsResolver }
-            onSelect={ props.error ? undefined : onSelect }
-            onSort={ onSort }
-            onCollapse={ onCollapse }
+            onSort={ onSort ? onSortHandler : undefined }
+            onCollapse={ onCollapse ? onCollapseHandler : undefined }
+            onSelect={ !props.error && onSelect ? onSelectHandler : undefined }
             sortBy={ sortBy }
             canSelectAll={ false }
         >
@@ -244,4 +242,8 @@ export const PolicyTable: React.FunctionComponent<PolicyTableProps> = (props) =>
             <TableBody/>
         </Table>
     );
+    /*
+    onSelect={ props.error ? undefined : onSelect }
+    onCollapse={ onCollapse }
+     */
 };

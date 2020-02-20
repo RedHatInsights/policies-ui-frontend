@@ -3,14 +3,15 @@ import { useContext } from 'react';
 import { IActions, IRowData } from '@patternfly/react-table';
 import { Main, PageHeader, PageHeaderTitle, Section } from '@redhat-cloud-services/frontend-components';
 
-import { PolicyTable } from '../../components/Policy/Table/PolicyTable';
+import { PolicyRow, PolicyTable } from '../../components/Policy/Table/PolicyTable';
 import { useGetPoliciesQuery } from '../../services/Api';
 import { Direction, Filter, Operator, Page, Sort } from '../../types/Page';
 import {
     ClearFilterCommand,
     FilterColumn,
     IsActiveFilter,
-    PolicyToolbar
+    PolicyToolbar,
+    SelectionCommand
 } from '../../components/Policy/TableToolbar/PolicyTableToolbar';
 import { CreatePolicyWizard } from './CreatePolicyWizard';
 import { RbacContext } from '../../components/RbacContext';
@@ -20,6 +21,7 @@ import { DeletePolicy } from './DeletePolicy';
 import { useDebouncedState } from '../../hooks';
 import { SavingMode } from '../../components/Policy/PolicyWizard';
 import { PolicyWithOptionalId } from '../../types/Policy/Policy';
+import { assertNever } from '../../utils/Assert';
 
 type ListPageProps = {};
 
@@ -48,7 +50,7 @@ const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
     const [ policyWizardState, setPolicyWizardState ] = React.useState<PolicyWizardState>({
         isOpen: false
     });
-    const [ policyToDelete, setPolicyToDelete ] = React.useState<Policy | undefined>(undefined);
+    const [ policyToDelete, setPolicyToDelete ] = React.useState<Policy[] | undefined>(undefined);
     const [ filterName, setFilterName, debouncedFilterName ] = useDebouncedState<string>('', DEBOUNCE_MS);
     const [ filterDescription, setFilterDescription, debouncedFilterDescription ] = useDebouncedState<string>('', DEBOUNCE_MS);
     const [ filterIsActive, setFilterIsActive, debouncedFilterIsActive ] = useDebouncedState<IsActiveFilter>({
@@ -92,34 +94,40 @@ const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
         (id: number) => getPoliciesQuery.payload?.find(policy => policy.id === id),
         [ getPoliciesQuery.payload ]);
 
-    const tableActions: IActions = React.useMemo<IActions>(() => [
-        {
-            title: 'Edit',
-            onClick: (_event: React.MouseEvent, _rowIndex: number, rowData: IRowData) => {
-                const policy = getPolicyFromPayload(rowData.id);
-                if (policy) {
-                    setPolicyWizardState({
-                        isOpen: true,
-                        template: policy,
-                        savingMode: SavingMode.UPDATE
-                    });
-                }
-            }
-        },
-        {
-            title: 'Duplicate',
-            onClick: () => alert('Duplicate')
-        },
-        {
-            title: 'Delete',
-            onClick: (_event: React.MouseEvent, _rowIndex: number, rowData: IRowData) => {
-                const policy = getPolicyFromPayload(rowData.id);
-                if (policy) {
-                    setPolicyToDelete(policy);
-                }
-            }
+    const tableActions: IActions = React.useMemo<IActions>(() => {
+        if (!canWriteAll) {
+            return [];
         }
-    ], [ setPolicyToDelete, getPolicyFromPayload ]);
+
+        return [
+            {
+                title: 'Edit',
+                onClick: (_event: React.MouseEvent, _rowIndex: number, rowData: IRowData) => {
+                    const policy = getPolicyFromPayload(rowData.id);
+                    if (policy) {
+                        setPolicyWizardState({
+                            isOpen: true,
+                            template: policy,
+                            savingMode: SavingMode.UPDATE
+                        });
+                    }
+                }
+            },
+            {
+                title: 'Duplicate',
+                onClick: () => alert('Duplicate')
+            },
+            {
+                title: 'Delete',
+                onClick: (_event: React.MouseEvent, _rowIndex: number, rowData: IRowData) => {
+                    const policy = getPolicyFromPayload(rowData.id);
+                    if (policy) {
+                        setPolicyToDelete([ policy ]);
+                    }
+                }
+            }
+        ];
+    }, [ canWriteAll, setPolicyToDelete, getPolicyFromPayload ]);
 
     React.useEffect(() => {
         if (canReadAll) {
@@ -196,6 +204,44 @@ const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
         [ canReadAll, getPoliciesQuery.error, getPoliciesQuery.status ]
     );
 
+    const [ policyRows, setPolicyRows ] = React.useState<PolicyRow[]>([]);
+
+    React.useEffect(() => {
+        if (getPoliciesQuery.payload) {
+            setPolicyRows(getPoliciesQuery.payload?.map(policy => ({ ...policy, isOpen: false, isSelected: false })));
+        }
+    }, [ getPoliciesQuery.payload ]);
+
+    const onCollapse = (policy: PolicyRow, index: number, isOpen: boolean) => {
+        setPolicyRows(prevRows => {
+            const newPolicyRows = [ ...prevRows ];
+            newPolicyRows[index] = { ...policy, isOpen };
+            return newPolicyRows;
+        });
+    };
+
+    const onSelect = (policy: PolicyRow, index: number, isSelected: boolean) => {
+        setPolicyRows(prevRows => {
+            const newPolicyRows = [ ...prevRows ];
+            newPolicyRows[index] = { ...policy, isSelected };
+            return newPolicyRows;
+        });
+    };
+
+    const onSelectionChanged = (command: SelectionCommand) => {
+        if (command === SelectionCommand.NONE) {
+            setPolicyRows(prevState => prevState.map(policy => ({ ...policy, isSelected: false })));
+        } else if (command === SelectionCommand.PAGE) {
+            setPolicyRows(prevState => prevState.map(policy => ({ ...policy, isSelected: true })));
+        } else {
+            assertNever(command);
+        }
+    };
+
+    const selectedCount = policyRows.filter(policy => policy.isSelected).length;
+
+    const onDeletePolicies = () => setPolicyToDelete(policyRows.filter(policy => policy.isSelected));
+
     return (
         <>
             <PageHeader>
@@ -205,8 +251,11 @@ const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
                 <Section>
                     <PolicyToolbar
                         onCreatePolicy={ canWriteAll ? createCustomPolicy : undefined }
+                        onDeletePolicy={ canWriteAll ? onDeletePolicies : undefined }
                         onPaginationChanged={ changePage }
                         onPaginationSizeChanged={ changeItemsPerPage }
+                        onSelectionChanged={ onSelectionChanged }
+                        selectedCount={ selectedCount }
                         page={ currentPage }
                         pageCount={ getPoliciesQuery.payload?.length }
                         perPage={ itemsPerPage }
@@ -215,7 +264,9 @@ const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
                         count={ getPoliciesQuery.count }
                     />
                     <PolicyTable
-                        policies={ getPoliciesQuery.payload }
+                        policies={ policyRows }
+                        onCollapse={ onCollapse }
+                        onSelect={ onSelect }
                         actions={ tableActions }
                         loading={ getPoliciesQuery.loading }
                         error={ policyTableErrorValue }
@@ -230,7 +281,7 @@ const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
                 initialValue={ policyWizardState.template }
                 savingMode={ policyWizardState.savingMode }
             /> }
-            <DeletePolicy onClose={ onCloseDeletePolicy } policy={ policyToDelete }/>
+            <DeletePolicy onClose={ onCloseDeletePolicy } policies={ policyToDelete }/>
         </>
     );
 };

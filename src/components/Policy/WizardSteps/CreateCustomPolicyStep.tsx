@@ -2,11 +2,6 @@ import * as React from 'react';
 import { Button, Form, InputGroup, Radio, TextInput, Title } from '@patternfly/react-core';
 import { Policy } from '../../../types/Policy';
 import { AlwaysValid, WizardStepExtended } from '../PolicyWizardTypes';
-import { PolicyTable } from '../Table/PolicyTable';
-import { useGetPoliciesQuery } from '../../../services/Api';
-import { policyTableError } from '../../../pages/ListPage/PolicyTableError';
-import { useContext } from 'react';
-import { RbacContext } from '../../RbacContext';
 import { Messages } from '../../../properties/Messages';
 
 interface CreateCustomPolicyState {
@@ -24,16 +19,6 @@ const CreateCustomPolicyStep: React.FunctionComponent = () => {
     const copyExisting = () => {
         setCopyPolicy(true);
     };
-
-    const { loading, payload, query, error, status } = useGetPoliciesQuery(undefined, false);
-
-    const { canReadAll } = useContext(RbacContext);
-
-    React.useEffect(() => {
-        if (copyPolicy && !payload) {
-            query();
-        }
-    }, [ copyPolicy, payload, query ]);
 
     return (
         <>
@@ -59,7 +44,6 @@ const CreateCustomPolicyStep: React.FunctionComponent = () => {
                         <TextInput aria-label="Filter by name" placeholder="Filter by name"/>
                         <Button aria-label="Filter">Filter</Button>
                     </InputGroup>
-                    <PolicyTable loading={ loading } policies={ payload } error={ policyTableError(canReadAll, error, status) }/>
                 </>
                 }
             </Form>

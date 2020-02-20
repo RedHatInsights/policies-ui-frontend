@@ -6,6 +6,7 @@ import { Page } from '../types/Page';
 import { toPolicies, toServerPolicy } from '../utils/PolicyAdapter';
 import { UsePaginatedQueryResponse, useTransformPaginatedQueryResponse } from '../utils/ApiUtils';
 import { DeepPartial } from 'ts-essentials';
+import { useBulkMutation } from '../hooks';
 
 const urls = Config.apis.urls;
 
@@ -80,8 +81,8 @@ export const useVerifyPolicyMutation = () => {
     });
 };
 
-export const useDeletePolicyMutation = () => {
-    return useMutation((policy: Policy) => {
+export const useBulkDeletePolicyMutation = () => {
+    return useBulkMutation((policy: Policy) => {
         return createAction('DELETE', urls.policy(policy.id));
     });
 };
