@@ -68,7 +68,7 @@ export const useBulkMutation = <T = any, R = {}, S = any>(
                 loading: true
             }));
 
-            const queryResponses: QueryResponse<T>[] = await Promise.all(actions.map(action => query<T>(action)));
+            const queryResponses: QueryResponse<T>[] = await Promise.all(actions.map(action => query<T>(action)).map(p => p.catch((e => e))));
 
             if (isMounted.current) {
                 setState({
