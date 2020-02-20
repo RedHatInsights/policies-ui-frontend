@@ -85,7 +85,7 @@ const policiesToRows = (policies: PolicyRow[] | undefined): IRow[] => {
                 ]
             });
             rows.push({
-                parent: idx * 2, // Every policies has two rows, the "row" and the "expanded row"
+                parent: idx * 2, // Every policy has two rows, the "row" and the "expanded row"
                 fullWidth: true,
                 showSelect: false,
                 cells: [
@@ -113,7 +113,7 @@ type Cell = ICell & {
 };
 
 const indexForColumn = (column: string, columns: Cell[], namedColumns: Record<string, Cell>) => {
-    // sort index are 1-based but the expandable and the index takes space (each one).
+    // sort index are 0-based but the expandable and the selection takes space (each one).
     return columns.indexOf(namedColumns[column]) + 2;
 };
 
