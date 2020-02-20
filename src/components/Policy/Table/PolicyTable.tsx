@@ -175,25 +175,6 @@ export const PolicyTable: React.FunctionComponent<PolicyTableProps> = (props) =>
         }
     }, [ policies, onSelect ]);
 
-    /*
-    const onCollapse = React.useCallback((_event, index: number, isOpen: boolean, data: IRowData) => {
-        if (rowState[data.id].isOpen !== isOpen) {
-            const newRowState = { ...rowState };
-            newRowState[data.id] = { ...newRowState[data.id], isOpen };
-            setRowState(newRowState);
-        }
-    }, [ rowState, setRowState ]);
-     */
-
-    /*
-    const onSelect = (_event, isSelected: boolean, index: number, data: IRowData) => {
-        if (rowState[data.id].isSelected !== isSelected) {
-            const newRowState = { ...rowState };
-            newRowState[data.id] = { ...newRowState[data.id], isSelected };
-            setRowState(newRowState);
-        }
-    };*/
-
     const sortBy = React.useMemo<ISortBy | undefined>(() => {
         if (props.sortBy) {
             return {
@@ -205,15 +186,16 @@ export const PolicyTable: React.FunctionComponent<PolicyTableProps> = (props) =>
         return undefined;
     }, [ props.sortBy, columns, namedColumns ]);
 
-    const actions = props.error || props.loading ? [] : props.actions || [];
+    const actions = React.useMemo(() => props.error || props.loading ? [] : props.actions || [],
+        [ props.error, props.loading, props.actions ]);
 
-    const actionsResolver: IActionsResolver = (rowData) => {
+    const actionsResolver: IActionsResolver = React.useCallback((rowData) => {
         if (rowData.parent === undefined) {
             return actions;
         }
 
         return [];
-    };
+    }, [ actions ]);
 
     const rows = React.useMemo(() => error ? errorRow(error) : policiesToRows(policies), [ error, policies ]);
 
@@ -242,8 +224,4 @@ export const PolicyTable: React.FunctionComponent<PolicyTableProps> = (props) =>
             <TableBody/>
         </Table>
     );
-    /*
-    onSelect={ props.error ? undefined : onSelect }
-    onCollapse={ onCollapse }
-     */
 };

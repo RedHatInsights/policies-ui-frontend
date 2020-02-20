@@ -212,23 +212,23 @@ const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
         }
     }, [ getPoliciesQuery.payload ]);
 
-    const onCollapse = (policy: PolicyRow, index: number, isOpen: boolean) => {
+    const onCollapse = React.useCallback((policy: PolicyRow, index: number, isOpen: boolean) => {
         setPolicyRows(prevRows => {
             const newPolicyRows = [ ...prevRows ];
             newPolicyRows[index] = { ...policy, isOpen };
             return newPolicyRows;
         });
-    };
+    }, [ setPolicyRows ]);
 
-    const onSelect = (policy: PolicyRow, index: number, isSelected: boolean) => {
+    const onSelect = React.useCallback((policy: PolicyRow, index: number, isSelected: boolean) => {
         setPolicyRows(prevRows => {
             const newPolicyRows = [ ...prevRows ];
             newPolicyRows[index] = { ...policy, isSelected };
             return newPolicyRows;
         });
-    };
+    }, [ setPolicyRows ]);
 
-    const onSelectionChanged = (command: SelectionCommand) => {
+    const onSelectionChanged = React.useCallback((command: SelectionCommand) => {
         if (command === SelectionCommand.NONE) {
             setPolicyRows(prevState => prevState.map(policy => ({ ...policy, isSelected: false })));
         } else if (command === SelectionCommand.PAGE) {
@@ -236,11 +236,14 @@ const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
         } else {
             assertNever(command);
         }
-    };
+    }, [ setPolicyRows ]);
 
-    const selectedCount = policyRows.filter(policy => policy.isSelected).length;
+    const selectedCount = React.useMemo(() => policyRows.filter(policy => policy.isSelected).length, [ policyRows ]);
 
-    const onDeletePolicies = () => setPolicyToDelete(policyRows.filter(policy => policy.isSelected));
+    const onDeletePolicies = React.useCallback(
+        () => setPolicyToDelete(policyRows.filter(policy => policy.isSelected)),
+        [ policyRows, setPolicyToDelete ]
+    );
 
     return (
         <>
