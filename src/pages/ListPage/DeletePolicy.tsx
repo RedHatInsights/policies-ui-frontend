@@ -24,7 +24,7 @@ export const DeletePolicy: React.FunctionComponent<DeletePolicyProps> = (props) 
         if (policies) {
             mutate(policies).then((responses) => {
                 const errors = responses.filter(response => response?.error).map(response => response?.errorObject);
-                if (errors) {
+                if (errors.length > 0) {
                     if (errors.length === 1) {
                         addDangerNotification('Error deleting policy', `There was an error when trying to delete a policy.`);
                     } else {
