@@ -28,7 +28,7 @@ const queryParamsPaginated = (queryParams?: any, page?: Page) => {
         queryParams = { };
     }
 
-    queryParams.offset = page.index - 1;
+    queryParams.offset = (page.index - 1) * page.size;
     queryParams.limit = page.size;
 
     if (page.sort) {
