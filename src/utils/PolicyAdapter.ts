@@ -1,6 +1,6 @@
 import parseJSON from 'date-fns/parseJSON';
 
-import { Policy, PolicyWithOptionalId, ServerPolicyRequest, ServerPolicyResponse } from '../types/Policy/Policy';
+import { PagedServerPolicyResponse, Policy, PolicyWithOptionalId, ServerPolicyRequest, ServerPolicyResponse } from '../types/Policy/Policy';
 import { ActionType } from '../types/Policy/Actions';
 
 const assertUnreachable = (_x: never): never => {
@@ -39,6 +39,6 @@ export const toPolicy = (serverPolicy: ServerPolicyResponse): Policy => {
     };
 };
 
-export const toPolicies = (serverPolicies: ServerPolicyResponse[]): Policy[] => {
-    return serverPolicies.map(toPolicy);
+export const toPolicies = (serverPolicies: PagedServerPolicyResponse): Policy[] => {
+    return serverPolicies.data.map(toPolicy);
 };
