@@ -1,17 +1,22 @@
 import parseJSON from 'date-fns/parseJSON';
 
-import { PagedServerPolicyResponse, Policy, PolicyWithOptionalId, ServerPolicyRequest, ServerPolicyResponse } from '../types/Policy/Policy';
+import { PagedServerPolicyResponse, Policy, ServerPolicyRequest, ServerPolicyResponse } from '../types/Policy/Policy';
 import { ActionType } from '../types/Policy/Actions';
+import { DeepPartial } from 'ts-essentials';
 
 const assertUnreachable = (_x: never): never => {
     throw new Error('Unreachable');
 };
 
-export const toServerPolicy = (policy: PolicyWithOptionalId): ServerPolicyRequest => {
+export const toServerPolicy = (policy: DeepPartial<Policy>): ServerPolicyRequest => {
 
     return {
         ...policy,
         actions: policy.actions?.map((action): string => {
+            if (!action || !action.type) {
+                return '';
+            }
+
             let encodedAction = `${action.type} `;
 
             switch (action.type) {
@@ -22,7 +27,7 @@ export const toServerPolicy = (policy: PolicyWithOptionalId): ServerPolicyReques
                     encodedAction += `${action.to}:${action.subject}:${action.message}`;
                     break;
                 default:
-                    assertUnreachable(action); // Guards in case we forget an enum
+                    assertUnreachable(action.type); // Guards in case we forget an enum
             }
 
             return encodedAction;

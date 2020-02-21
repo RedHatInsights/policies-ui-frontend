@@ -3,7 +3,7 @@ import { ActionGroup, Button, ButtonVariant, Form, Title } from '@patternfly/rea
 import { ExclamationCircleIcon, CheckCircleIcon } from '@patternfly/react-icons';
 
 import { FormTextInput } from '../../Formik/Patternfly';
-import { FormType, WizardActionType, WizardContext, WizardStepExtended } from '../PolicyWizardTypes';
+import { PartialPolicy, WizardActionType, WizardContext, WizardStepExtended } from '../PolicyWizardTypes';
 import { PolicyFormConditions } from '../../../schemas/CreatePolicy/PolicySchema';
 import { useFormikContext } from 'formik';
 import { style } from 'typestyle';
@@ -50,10 +50,10 @@ const ConditionStatus: React.FunctionComponent<ConditionStatusProps> = (props) =
 
 const ConditionsStep: React.FunctionComponent = () => {
     const context = React.useContext(WizardContext);
-    const { values } = useFormikContext<FormType>();
+    const { values } = useFormikContext<PartialPolicy>();
 
     const triggerTestCondition = () => {
-        context.triggerAction(WizardActionType.VERIFY);
+        context.triggerAction(WizardActionType.VALIDATE_CONDITION);
     };
 
     return (
@@ -71,7 +71,7 @@ const ConditionsStep: React.FunctionComponent = () => {
                         </Button>
                         <ConditionStatus
                             { ...context.verifyResponse }
-                            changed={ context.verifyResponse.conditions !== values.conditions }
+                            changed={ context.verifyResponse.policy?.conditions !== values.conditions }
                         />
                     </>
                 )}
@@ -85,7 +85,7 @@ export const createConditionsStep: (stepOverrides?: Partial<WizardStepExtended>)
     component: <ConditionsStep/>,
     validationSchema: PolicyFormConditions,
     isValid: (context, values) => {
-        if (values.conditions === context.verifyResponse.conditions) {
+        if (values.conditions === context.verifyResponse.policy?.conditions) {
             return context.verifyResponse.isValid;
         }
 

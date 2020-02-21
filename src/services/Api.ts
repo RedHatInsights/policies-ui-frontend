@@ -5,6 +5,7 @@ import { Fact } from '../types/Fact';
 import { Page } from '../types/Page';
 import { toPolicies, toServerPolicy } from '../utils/PolicyAdapter';
 import { UsePaginatedQueryResponse, useTransformPaginatedQueryResponse } from '../utils/ApiUtils';
+import { DeepPartial } from 'ts-essentials';
 
 const urls = Config.apis.urls;
 
@@ -74,12 +75,8 @@ export const useSavePolicyMutation = () => {
 };
 
 export const useVerifyPolicyMutation = () => {
-    return useMutation((policy: PolicyWithOptionalId) => {
-        if (policy.id) {
-            return createAction('PUT', urls.policy(policy.id), { dryRun: true }, toServerPolicy(policy));
-        }
-
-        return createAction('POST', urls.policies, { alsoStore: false }, toServerPolicy(policy));
+    return useMutation((policy: DeepPartial<Policy>) => {
+        return createAction('POST', urls.validateCondition, {}, toServerPolicy(policy));
     });
 };
 
