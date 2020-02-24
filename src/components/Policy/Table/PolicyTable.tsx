@@ -46,6 +46,7 @@ interface PolicyTableProps {
 
 export interface ErrorContentProps {
     icon: IconType;
+    iconColor?: string;
     title: string;
     content: string;
 }
@@ -62,8 +63,8 @@ const defaultColumnsToShow: ValidColumns[] = [ 'name', 'actions', 'is_enabled' ]
 const ErrorContent: React.FunctionComponent<ErrorContentProps> = (props) => {
     return (
         <>
-            <EmptyStateIcon icon={ props.icon }/>
-            <Title size="lg">{ props.title }</Title>
+            <EmptyStateIcon icon={ props.icon } color={ props.iconColor }/>
+            <Title headingLevel="h2" size="lg">{ props.title }</Title>
             <EmptyStateBody>{ props.content }</EmptyStateBody>
         </>
     );
