@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Button, PaginationProps, PaginationVariant } from '@patternfly/react-core';
+import { PaginationProps, PaginationVariant } from '@patternfly/react-core';
 import { PrimaryToolbar } from '@redhat-cloud-services/frontend-components';
 
 type OnPaginationPageChangedHandler = (
@@ -10,6 +10,11 @@ export enum FilterColumn {
     NAME = 'name',
     DESCRIPTION = 'description',
     IS_ACTIVE = 'is_enabled'
+}
+
+export enum SelectionCommand {
+    NONE,
+    PAGE
 }
 
 export interface IsActiveFilter {
@@ -38,8 +43,11 @@ interface TablePolicyToolbarProps {
     filters: Filters;
     clearFilters: (filters: ClearFilterCommand[]) => void;
     onCreatePolicy?: () => void;
+    onDeletePolicy?: () => void;
     onPaginationChanged?: OnPaginationPageChangedHandler;
     onPaginationSizeChanged?: OnPaginationSizeChangedHandler;
+    onSelectionChanged?: (command: SelectionCommand) => void;
+    selectedCount?: number;
     page: number;
     pageCount?: number;
     perPage: number;
@@ -98,11 +106,22 @@ const getFilterConfig = (filters: Filters, filter: FilterColumn) => {
     return getFilterConfigIsActiveFilter(rawValue, filter);
 };
 
-const placeholderFn = (event, x) => console.log('placeholder', x, event);
-
 export const PolicyToolbar: React.FunctionComponent<TablePolicyToolbarProps> = (props) => {
 
-    const { clearFilters, filters, pageCount, count, page, perPage, onPaginationChanged, onPaginationSizeChanged, onCreatePolicy } = props;
+    const {
+        clearFilters,
+        filters,
+        pageCount,
+        count,
+        page,
+        perPage,
+        onPaginationChanged,
+        onPaginationSizeChanged,
+        onCreatePolicy,
+        onDeletePolicy,
+        onSelectionChanged,
+        selectedCount
+    } = props;
 
     const clearFiltersCallback = React.useCallback((_event, rawFilterConfigs: any[]) => {
         const filtersToClear: ClearFilterCommand[] = [];
@@ -135,21 +154,26 @@ export const PolicyToolbar: React.FunctionComponent<TablePolicyToolbarProps> = (
         clearFilters(filtersToClear);
     }, [ clearFilters, filters ]);
 
-    const bulkSelectProps = React.useMemo(() => ({
-        count: 0,
-        items: [
-            {
-                title: 'Select none (0)',
-                onClick: placeholderFn
-            },
-            {
-                title: `Select all (${pageCount})`,
-                onClick: placeholderFn
-            }
-        ],
-        checked: false,
-        onSelect: placeholderFn
-    }), [ pageCount ]);
+    const bulkSelectProps = React.useMemo(() => {
+        const selectNone = () => onSelectionChanged && onSelectionChanged(SelectionCommand.NONE);
+        const selectPage = () => onSelectionChanged && onSelectionChanged(SelectionCommand.PAGE);
+
+        return {
+            count: selectedCount || 0,
+            items: [
+                {
+                    title: 'Select none (0)',
+                    onClick: selectNone
+                },
+                {
+                    title: `Select page (${pageCount})`,
+                    onClick: selectPage
+                }
+            ],
+            checked: selectedCount === pageCount,
+            onSelect: (isChecked: boolean) => isChecked ? selectPage() : selectNone()
+        };
+    }, [ selectedCount, pageCount, onSelectionChanged ]);
 
     const filterConfigProps = React.useMemo(() => ({
         items: [
@@ -246,11 +270,35 @@ export const PolicyToolbar: React.FunctionComponent<TablePolicyToolbarProps> = (
         };
     }, [ filters, clearFiltersCallback ]);
 
-    const actionsConfigProps = React.useMemo(() => ({
-        actions: [
-            <Button key="create-policy" onClick={ onCreatePolicy } isDisabled={ !onCreatePolicy }>Create policy</Button>
-        ]
-    }), [ onCreatePolicy ]);
+    const actionsConfigProps = React.useMemo(() => {
+        const actions = [
+            {
+                key: 'create-policy',
+                label: 'Create policy',
+                onClick: onCreatePolicy,
+                props: {
+                    // Todo: Remove from here if https://github.com/RedHatInsights/frontend-components/pull/376 is merged
+                    onClick: onCreatePolicy,
+                    isDisabled: !onCreatePolicy
+                }
+            },
+            {
+                key: 'delete-policy',
+                label: selectedCount === 1 ? 'Delete policy' : 'Delete policies',
+                onClick: onDeletePolicy,
+                props: {
+                    isDisabled: !(selectedCount && onDeletePolicy)
+                }
+            }
+        ];
+
+        return {
+            actions,
+            kebabToggleProps: {
+                isDisabled: !(selectedCount && onDeletePolicy)
+            }
+        };
+    }, [ onCreatePolicy, onDeletePolicy, selectedCount ]);
 
     return (
         <>
