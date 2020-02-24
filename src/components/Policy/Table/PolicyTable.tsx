@@ -16,7 +16,7 @@ import { Bullseye, EmptyState, EmptyStateBody, EmptyStateIcon, EmptyStateVariant
 import { SkeletonTable } from '@redhat-cloud-services/frontend-components';
 
 import { Policy } from '../../../types/Policy';
-import { CheckCircleIcon } from '@patternfly/react-icons';
+import { CheckCircleIcon, OffIcon } from '@patternfly/react-icons';
 import { Direction, Sort } from '../../../types/Page';
 import { ExpandedContent } from './ExpandedContent';
 import { IconType } from '@patternfly/react-icons/dist/js/createIcon';
@@ -80,7 +80,7 @@ const policiesToRows = (policies: Policy[] | undefined, rowState: Record<string,
                 cells: [
                     policy.name,
                     policy.actions,
-                    policy.isEnabled ? <><CheckCircleIcon color="green"/></> : null
+                    policy.isEnabled ? <><CheckCircleIcon color="green"/></> : <><OffIcon /></>
                 ]
             });
             rows.push({
