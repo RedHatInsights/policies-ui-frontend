@@ -127,8 +127,39 @@ const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
     }, [ setPolicyWizardState, getPoliciesQueryReload ]);
 
     const policyTableErrorValue = React.useMemo(
-        () => policyTableError(canReadAll, getPoliciesQuery.error, getPoliciesQuery.status),
-        [ canReadAll, getPoliciesQuery.error, getPoliciesQuery.status ]
+        () => {
+            return policyTableError(
+                canReadAll,
+                {
+                    clearAllFiltersAndTryAgain: () => {
+                        setFilterName('');
+                        setFilterDescription('');
+                        setFilterIsActive({
+                            disabled: false,
+                            enabled: false
+                        });
+                        setCurrentPage(1);
+                    },
+                    refreshPage: () => {
+                        window.location.reload();
+                    },
+                    tryAgain: () => {
+                        getPoliciesQueryReload();
+                    }
+                },
+                getPoliciesQuery.error,
+                getPoliciesQuery.status
+            );
+        },
+        [
+            canReadAll,
+            getPoliciesQuery.error,
+            getPoliciesQuery.status,
+            setFilterName,
+            setFilterDescription,
+            setFilterIsActive,
+            getPoliciesQueryReload
+        ]
     );
 
     const onDeletePolicies = React.useCallback(

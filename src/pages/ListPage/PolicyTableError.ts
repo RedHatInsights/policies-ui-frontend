@@ -9,7 +9,18 @@ const noPermissionProps = {
     content: 'You do not have permission to view this page'
 };
 
-export const policyTableError = (canReadAll: boolean, requestHasError?: boolean, httpCode?: number): ErrorContentProps | undefined => {
+export type Handlers = {
+    clearAllFiltersAndTryAgain: () => void;
+    refreshPage: () => void;
+    tryAgain: () => void;
+};
+
+export const policyTableError = (
+    canReadAll: boolean,
+    handlers: Handlers,
+    requestHasError?: boolean,
+    httpCode?: number
+): ErrorContentProps | undefined => {
     if (!canReadAll) {
         return noPermissionProps;
     }
@@ -21,14 +32,18 @@ export const policyTableError = (canReadAll: boolean, requestHasError?: boolean,
                     icon: ExclamationCircleIcon,
                     iconColor: GlobalDangerColor200,
                     title: 'Not found',
-                    content: 'The request did not provide any results, try to remove some filters and try again'
+                    content: 'The request did not provide any results, try to remove some filters and try again',
+                    action: handlers.clearAllFiltersAndTryAgain,
+                    actionLabel: 'Clear all filters'
                 };
             case 401:
                 return {
                     icon: ExclamationCircleIcon,
                     iconColor: GlobalDangerColor200,
                     title: 'Refresh your browser',
-                    content: 'Your session expired while using the application, Refresh your browser and try again'
+                    content: 'Your session expired while using the application',
+                    action: handlers.refreshPage,
+                    actionLabel: 'Reload page'
                 };
             case 403:
                 return noPermissionProps;
@@ -37,14 +52,18 @@ export const policyTableError = (canReadAll: boolean, requestHasError?: boolean,
                     icon: ExclamationCircleIcon,
                     iconColor: GlobalDangerColor200,
                     title: 'Internal server error',
-                    content: 'The server was unable to process the request, please try again.'
+                    content: 'The server was unable to process the request, please try again.',
+                    action: handlers.tryAgain,
+                    actionLabel: 'Try again'
                 };
             default:
                 return {
                     icon: ExclamationCircleIcon,
                     iconColor: GlobalDangerColor200,
                     title: 'Unable to connect',
-                    content: 'There was an error retrieving data. Check your connection and try again.'
+                    content: 'There was an error retrieving data. Check your connection and try again.',
+                    action: handlers.tryAgain,
+                    actionLabel: 'Try again'
                 };
         }
     }

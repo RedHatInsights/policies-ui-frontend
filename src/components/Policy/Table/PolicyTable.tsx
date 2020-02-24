@@ -13,6 +13,8 @@ import {
 } from '@patternfly/react-table';
 import {
     Bullseye,
+    Button,
+    ButtonVariant,
     EmptyState,
     EmptyStateBody,
     EmptyStateIcon,
@@ -50,6 +52,8 @@ export interface ErrorContentProps {
     iconColor?: string;
     title: string;
     content: string;
+    action?: () => void;
+    actionLabel?: string;
 }
 
 export type PolicyRow = Policy & {
@@ -67,6 +71,9 @@ const ErrorContent: React.FunctionComponent<ErrorContentProps> = (props) => {
             <EmptyStateIcon icon={ props.icon } color={ props.iconColor }/>
             <Title headingLevel="h2" size="lg">{ props.title }</Title>
             <EmptyStateBody>{ props.content }</EmptyStateBody>
+            { props.action && props.actionLabel && (
+                <Button variant={ ButtonVariant.primary } onClick={ props.action }>{ props.actionLabel } </Button>
+            ) }
         </>
     );
 };
