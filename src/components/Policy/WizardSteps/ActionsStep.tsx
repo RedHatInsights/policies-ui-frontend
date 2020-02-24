@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Form, Title } from '@patternfly/react-core';
 
-import { FormType, WizardStepExtended } from '../PolicyWizardTypes';
+import { PartialPolicy, WizardStepExtended } from '../PolicyWizardTypes';
 import { PolicyFormActions } from '../../../schemas/CreatePolicy/PolicySchema';
 import { FieldArray, FieldArrayRenderProps, useFormikContext } from 'formik';
 import { ActionsForm } from '../ActionsForm';
@@ -9,7 +9,7 @@ import { Messages } from '../../../properties/Messages';
 
 const ActionsStep = () => {
 
-    const { validateForm, values } = useFormikContext<FormType>();
+    const { validateForm, values } = useFormikContext<PartialPolicy>();
     const actionsLength = values.actions?.length;
 
     // I should not need this. Might be a bug or I'm doing something wrong.

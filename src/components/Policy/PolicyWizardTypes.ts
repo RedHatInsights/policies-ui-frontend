@@ -5,25 +5,25 @@ import { WizardStep } from '@patternfly/react-core';
 import { DeepPartial, DeepReadonly } from 'ts-essentials';
 import { Policy } from '../../types/Policy';
 
-export type FormType = DeepPartial<Policy>;
+export type PartialPolicy = DeepPartial<Policy>;
 
 export type WizardStepExtended = WizardStep & {
   validationSchema: Yup.Schema<unknown>;
-  isValid?: (context: WizardContext, values: DeepReadonly<FormType>) => boolean;
+  isValid?: (context: WizardContext, values: DeepReadonly<PartialPolicy>) => boolean;
 };
 
 export const AlwaysValid = Yup.object();
 
 export enum WizardActionType {
   SAVE = 'CREATE',
-  VERIFY = 'VERIFY',
+  VALIDATE_CONDITION = 'VALIDATE_CONDITION',
   NONE = 'NONE'
 }
 
 export interface VerifyPolicyResponse {
     isValid: boolean;
     error?: string;
-    conditions?: string;
+    policy?: PartialPolicy;
 }
 
 export interface CreatePolicyResponse {

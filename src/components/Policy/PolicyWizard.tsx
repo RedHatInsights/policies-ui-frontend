@@ -1,11 +1,9 @@
 import * as React from 'react';
 import { Form, Wizard, WizardStepFunctionType } from '@patternfly/react-core';
 import { Formik, FormikHelpers, useFormikContext } from 'formik';
-
-import { Policy } from '../../types/Policy';
 import {
     CreatePolicyResponse,
-    FormType,
+    PartialPolicy,
     VerifyPolicyResponse,
     WizardActionType,
     WizardContext,
@@ -18,7 +16,7 @@ import { createActionsStep } from './WizardSteps/ActionsStep';
 import { createReviewStep } from './WizardSteps/ReviewStep';
 import { PolicyFormSchema } from '../../schemas/CreatePolicy/PolicySchema';
 import { PolicyWizardFooter } from './PolicyWizardFooter';
-import { PolicyWithOptionalId } from '../../types/Policy/Policy';
+import { Policy, PolicyWithOptionalId } from '../../types/Policy/Policy';
 
 export enum SavingMode {
     CREATE,
@@ -26,10 +24,10 @@ export enum SavingMode {
 }
 
 interface PolicyWizardProps {
-    initialValue: FormType;
+    initialValue: PartialPolicy;
     onClose: () => void;
     onSave: (policy: PolicyWithOptionalId) => Promise<CreatePolicyResponse>;
-    onVerify: (policy: PolicyWithOptionalId) => Promise<VerifyPolicyResponse>;
+    onVerify: (policy: Partial<Policy>) => Promise<VerifyPolicyResponse>;
     isLoading: boolean;
     savingMode: SavingMode;
 }
@@ -80,7 +78,7 @@ const enableNext = (isValid: boolean, isLoading: boolean) => {
     return !isLoading && isValid;
 };
 
-const isStepValid = (step: WizardStepExtended, wizardContext: Omit<WizardContext, 'isValid'>, values: FormType) => {
+const isStepValid = (step: WizardStepExtended, wizardContext: Omit<WizardContext, 'isValid'>, values: PartialPolicy) => {
     if (step.isValid) {
         return step.isValid(wizardContext, values);
     }
@@ -92,8 +90,8 @@ interface FormikBindingProps {
     currentStep: number;
     maxStep: number;
     isLoading: boolean;
-    submitAction: WizardActionType;
-    setSubmitAction: (action: WizardActionType) => void;
+    triggeredAction: WizardActionType;
+    triggerAction: (action: WizardActionType) => void;
     steps: WizardStepExtended[];
     verifyResponse: VerifyPolicyResponse;
     createResponse: CreatePolicyResponse;
@@ -103,7 +101,7 @@ interface FormikBindingProps {
 
 const FormikBinding: React.FunctionComponent<FormikBindingProps> = (props) => {
 
-    const formikProps = useFormikContext<FormType>();
+    const formikProps = useFormikContext<PartialPolicy>();
     const formikValidateForm = formikProps.validateForm;
     const formikHandleSubmit = formikProps.handleSubmit;
 
@@ -112,15 +110,15 @@ const FormikBinding: React.FunctionComponent<FormikBindingProps> = (props) => {
     }, [ props.currentStep, formikValidateForm ]);
 
     React.useEffect(() => {
-        if (props.submitAction !== WizardActionType.NONE) {
+        if (props.triggeredAction !== WizardActionType.NONE) {
             formikHandleSubmit();
         }
-    }, [ props.submitAction, formikHandleSubmit ]);
+    }, [ props.triggeredAction, formikHandleSubmit ]);
 
     const wizardContext: WizardContext = {
         isLoading: props.isLoading,
         isFormValid: formikProps.isValid,
-        triggerAction: props.setSubmitAction,
+        triggerAction: props.triggerAction,
         verifyResponse: props.verifyResponse,
         createResponse: props.createResponse
     };
@@ -135,7 +133,7 @@ const FormikBinding: React.FunctionComponent<FormikBindingProps> = (props) => {
     }));
 
     const onSave = () => {
-        props.setSubmitAction(WizardActionType.SAVE);
+        props.triggerAction(WizardActionType.SAVE);
     };
 
     return (
@@ -164,7 +162,7 @@ export const PolicyWizard: React.FunctionComponent<PolicyWizardProps> = (props: 
 
     const [ currentStep, setCurrentStep ] = React.useState<number>(0);
     const [ maxStep, setMaxStep ] = React.useState<number>(0);
-    const [ submitAction, setSubmitAction ] = React.useState<WizardActionType>(WizardActionType.NONE);
+    const [ wizardAction, setWizardAction ] = React.useState<WizardActionType>(WizardActionType.NONE);
     const [ verifyResponse, setVerifyResponse ] =
     React.useState<VerifyPolicyResponse>({
         isValid: false
@@ -179,7 +177,7 @@ export const PolicyWizard: React.FunctionComponent<PolicyWizardProps> = (props: 
         if (props.initialValue?.conditions) {
             setVerifyResponse({
                 isValid: true,
-                conditions: props.initialValue.conditions
+                policy: props.initialValue
             });
         }
     }, [ props.initialValue ]);
@@ -194,39 +192,53 @@ export const PolicyWizard: React.FunctionComponent<PolicyWizardProps> = (props: 
 
     const steps: WizardStepExtended[] = buildSteps(props.savingMode);
 
-    const onSubmit = (policy: FormType, formikHelpers: FormikHelpers<FormType>) => {
+    const onSubmit = (policy: PartialPolicy, formikHelpers: FormikHelpers<PartialPolicy>) => {
         formikHelpers.setSubmitting(false);
+        setWizardAction(WizardActionType.NONE);
 
-        setSubmitAction(WizardActionType.NONE);
-        const transformedPolicy = PolicyFormSchema.cast(policy) as Policy;
+        const transformedPolicy = PolicyFormSchema.cast(policy) as PolicyWithOptionalId;
         formikHelpers.setValues(transformedPolicy);
-        switch (submitAction) {
+        switch (wizardAction) {
             case WizardActionType.SAVE:
                 props.onSave(transformedPolicy).then(setCreateResponse);
                 break;
-            case WizardActionType.VERIFY:
-                props.onVerify(transformedPolicy).then(setVerifyResponse);
+            case WizardActionType.VALIDATE_CONDITION:
+                // Ignore these actions, they will be handled in the validateForm
                 break;
             default:
                 throw new Error('Unexpected action');
         }
     };
 
+    const onValidateForm = (policy: PartialPolicy) => {
+        const transformedPolicy = PolicyFormSchema.cast(policy) as Partial<Policy>;
+        switch (wizardAction) {
+            case WizardActionType.SAVE:
+                // Ignore this action, it will be handled on submit.
+                break;
+            case WizardActionType.VALIDATE_CONDITION:
+                setWizardAction(WizardActionType.NONE);
+                props.onVerify(transformedPolicy).then(setVerifyResponse);
+                break;
+        }
+    };
+
     return (
         <>
-            <Formik<FormType>
+            <Formik<PartialPolicy>
                 initialValues={ props.initialValue }
                 initialStatus={ {} }
                 validateOnMount={ false }
                 validationSchema={ steps[currentStep].validationSchema }
                 onSubmit={ onSubmit }
+                validate={ onValidateForm }
             >
                 <FormikBinding
                     currentStep={ currentStep }
                     maxStep={ maxStep }
                     isLoading={ props.isLoading }
-                    submitAction={ submitAction }
-                    setSubmitAction={ setSubmitAction }
+                    triggeredAction={ wizardAction }
+                    triggerAction={ setWizardAction }
                     steps={ steps }
                     verifyResponse={ verifyResponse }
                     createResponse={ createResponse }
