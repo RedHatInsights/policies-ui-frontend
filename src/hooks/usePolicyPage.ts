@@ -1,8 +1,17 @@
 import * as React from 'react';
 import { Filter, Operator, Page, Sort } from '../types/Page';
-import { FilterColumn, Filters } from '../components/Policy/TableToolbar/PolicyTableToolbar';
+import { PolicyFilterColumn, PolicyFilters } from '../types/Policy/PolicyFilters';
 
-export const usePolicyPage = (filters: Filters, sort: Sort | undefined) => {
+interface UsePolicyPageReturn {
+    page: Page;
+    itemsPerPage: number;
+    currentPage: number;
+    // Todo: prevent the event from reaching this point
+    changePage: (event: any, page: number) => void;
+    changeItemsPerPage: (event: any, perPage: number) => void;
+}
+
+export const usePolicyPage = (filters: PolicyFilters, sort: Sort | undefined): UsePolicyPageReturn => {
 
     const [ currentPage, setCurrentPage ] = React.useState<number>(1);
     const [ itemsPerPage, setItemsPerPage ] = React.useState<number>(Page.defaultPage().size);
@@ -10,19 +19,19 @@ export const usePolicyPage = (filters: Filters, sort: Sort | undefined) => {
     const page = React.useMemo(() => {
         const filter = new Filter();
 
-        if (filters[FilterColumn.NAME].trim() !== '') {
-            filter.and(FilterColumn.NAME, Operator.ILIKE, `%${filters[FilterColumn.NAME].trim()}%`);
+        if (filters[PolicyFilterColumn.NAME].trim() !== '') {
+            filter.and(PolicyFilterColumn.NAME, Operator.ILIKE, `%${filters[PolicyFilterColumn.NAME].trim()}%`);
         }
 
-        if (filters[FilterColumn.DESCRIPTION].trim() !== '') {
-            filter.and(FilterColumn.DESCRIPTION, Operator.ILIKE, `%${filters[FilterColumn.DESCRIPTION].trim()}%`);
+        if (filters[PolicyFilterColumn.DESCRIPTION].trim() !== '') {
+            filter.and(PolicyFilterColumn.DESCRIPTION, Operator.ILIKE, `%${filters[PolicyFilterColumn.DESCRIPTION].trim()}%`);
         }
 
-        if (filters[FilterColumn.IS_ACTIVE].disabled !== filters[FilterColumn.IS_ACTIVE].enabled) {
+        if (filters[PolicyFilterColumn.IS_ACTIVE].disabled !== filters[PolicyFilterColumn.IS_ACTIVE].enabled) {
             filter.and(
-                FilterColumn.IS_ACTIVE,
+                PolicyFilterColumn.IS_ACTIVE,
                 Operator.BOOLEAN_IS,
-                filters[FilterColumn.IS_ACTIVE].enabled ? 'true' : 'false');
+                filters[PolicyFilterColumn.IS_ACTIVE].enabled ? 'true' : 'false');
         }
 
         return Page.of(currentPage, itemsPerPage, filter, sort);

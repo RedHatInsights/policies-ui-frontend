@@ -1,34 +1,24 @@
 import * as React from 'react';
 import { useDebouncedState } from './useDebouncedState';
 import {
-    ClearFilterCommand, FilterColumn,
-    IsActiveFilter
-} from '../components/Policy/TableToolbar/PolicyTableToolbar';
+    ClearFilterCommand, ClearFilterHandlerType, IsActiveFilter,
+    PolicyFilterBase,
+    PolicyFilterColumn,
+    PolicyFilters,
+    SetPolicyFilters
+} from '../types/Policy/PolicyFilters';
 
 const DEBOUNCE_MS = 250;
-
-interface PolicyFilterBase<Name, Description, Active> {
-    [FilterColumn.NAME]: Name;
-    [FilterColumn.DESCRIPTION]: Description;
-    [FilterColumn.IS_ACTIVE]: Active;
-}
-type Setter<T> =  (val: T) => void;
 
 const usePolicyFilterBase =
     <Name, Description, Active>(name: Name, description: Description, active: Active):
         PolicyFilterBase<Name, Description, Active> => {
         return React.useMemo(() => ({
-            [FilterColumn.NAME]: name,
-            [FilterColumn.DESCRIPTION]: description,
-            [FilterColumn.IS_ACTIVE]: active
+            [PolicyFilterColumn.NAME]: name,
+            [PolicyFilterColumn.DESCRIPTION]: description,
+            [PolicyFilterColumn.IS_ACTIVE]: active
         }), [ name, description, active ]);
     };
-
-export type PolicyFilters = PolicyFilterBase<string, string, IsActiveFilter>;
-export type SetPolicyFilters = PolicyFilterBase<Setter<string>, Setter<string>, Setter<IsActiveFilter>>;
-
-// Todo: Simplify this, we only need the FilterColumn
-type ClearFilterHandlerType = (commands: ClearFilterCommand[]) => void;
 
 export interface UsePolicyFilterReturn {
     filters: PolicyFilters;
@@ -49,13 +39,13 @@ export const usePolicyFilter = (debounce = DEBOUNCE_MS): UsePolicyFilterReturn =
     const clearFilterHandler = React.useCallback((clearFilterCommands: ClearFilterCommand[]) => {
         for (const clearFilterCommand of clearFilterCommands) {
             switch (clearFilterCommand.filter) {
-                case FilterColumn.NAME:
+                case PolicyFilterColumn.NAME:
                     setFilterName(clearFilterCommand.data as string);
                     break;
-                case FilterColumn.DESCRIPTION:
+                case PolicyFilterColumn.DESCRIPTION:
                     setFilterDescription(clearFilterCommand.data as string);
                     break;
-                case FilterColumn.IS_ACTIVE:
+                case PolicyFilterColumn.IS_ACTIVE:
                     setFilterIsActive(clearFilterCommand.data as IsActiveFilter);
                     break;
             }
