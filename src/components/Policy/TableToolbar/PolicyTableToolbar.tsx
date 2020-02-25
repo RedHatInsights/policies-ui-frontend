@@ -5,7 +5,7 @@ import {
     ClearFilterCommand,
     IsActiveFilter,
     PolicyFilterColumn,
-    PolicyPaging,
+    PolicyFilters,
     SetPolicyFilters
 } from '../../../types/Policy/PolicyPaging';
 
@@ -20,18 +20,21 @@ export enum SelectionCommand {
 
 interface TablePolicyToolbarProps {
     count?: number;
-    filterElements: PolicyPaging;
+    filterElements: PolicyFilters;
     setFilterElements: SetPolicyFilters;
     clearFilters: (filters: ClearFilterCommand[]) => void;
     onCreatePolicy?: () => void;
     onDeletePolicy?: () => void;
+    hideActions?: boolean;
     onPaginationChanged?: OnPaginationPageChangedHandler;
     onPaginationSizeChanged?: OnPaginationSizeChangedHandler;
     onSelectionChanged?: (command: SelectionCommand) => void;
     selectedCount?: number;
+    hideBulkSelect?: boolean;
     page: number;
     pageCount?: number;
     perPage: number;
+    showPerPageOptions: boolean;
 }
 
 const FilterColumnToLabel: Record<PolicyFilterColumn, string> = {
@@ -77,7 +80,7 @@ const getFilterConfigIsActiveFilter = (value: IsActiveFilter, filter: PolicyFilt
     };
 };
 
-const getFilterConfig = (filters: PolicyPaging, filter: PolicyFilterColumn) => {
+const getFilterConfig = (filters: PolicyFilters, filter: PolicyFilterColumn) => {
     const rawValue: string | IsActiveFilter = filters[filter];
 
     if (typeof rawValue === 'string') {
@@ -97,12 +100,15 @@ export const PolicyToolbar: React.FunctionComponent<TablePolicyToolbarProps> = (
         count,
         page,
         perPage,
+        showPerPageOptions,
         onPaginationChanged,
         onPaginationSizeChanged,
         onCreatePolicy,
         onDeletePolicy,
+        hideActions,
         onSelectionChanged,
-        selectedCount
+        selectedCount,
+        hideBulkSelect
     } = props;
 
     const clearFiltersCallback = React.useCallback((_event, rawFilterConfigs: any[]) => {
@@ -137,6 +143,10 @@ export const PolicyToolbar: React.FunctionComponent<TablePolicyToolbarProps> = (
     }, [ clearFilters, filterElements ]);
 
     const bulkSelectProps = React.useMemo(() => {
+        if (hideBulkSelect) {
+            return undefined;
+        }
+
         const selectNone = () => onSelectionChanged && onSelectionChanged(SelectionCommand.NONE);
         const selectPage = () => onSelectionChanged && onSelectionChanged(SelectionCommand.PAGE);
 
@@ -155,7 +165,7 @@ export const PolicyToolbar: React.FunctionComponent<TablePolicyToolbarProps> = (
             checked: selectedCount === pageCount,
             onSelect: (isChecked: boolean) => isChecked ? selectPage() : selectNone()
         };
-    }, [ selectedCount, pageCount, onSelectionChanged ]);
+    }, [ selectedCount, pageCount, onSelectionChanged, hideBulkSelect ]);
 
     const filterConfigProps = React.useMemo(() => ({
         items: [
@@ -226,6 +236,7 @@ export const PolicyToolbar: React.FunctionComponent<TablePolicyToolbarProps> = (
         itemCount: count || 0,
         page,
         perPage,
+        perPageOptions: showPerPageOptions ? undefined : [],
         onSetPage: onPaginationChanged,
         onFirstClick: onPaginationChanged,
         onPreviousClick: onPaginationChanged,
@@ -235,7 +246,7 @@ export const PolicyToolbar: React.FunctionComponent<TablePolicyToolbarProps> = (
         onPerPageSelect: onPaginationSizeChanged,
         isCompact: true,
         variant: PaginationVariant.right
-    }), [ count, page, perPage, onPaginationChanged, onPaginationSizeChanged ]);
+    }), [ showPerPageOptions, count, page, perPage, onPaginationChanged, onPaginationSizeChanged ]);
 
     const activeFiltersConfigProps = React.useMemo(() => {
         const filterConfig: ReturnType<typeof getFilterConfig>[] = [];
@@ -253,6 +264,10 @@ export const PolicyToolbar: React.FunctionComponent<TablePolicyToolbarProps> = (
     }, [ filterElements, clearFiltersCallback ]);
 
     const actionsConfigProps = React.useMemo(() => {
+        if (hideActions) {
+            return undefined;
+        }
+
         const actions = [
             {
                 key: 'create-policy',
@@ -280,7 +295,7 @@ export const PolicyToolbar: React.FunctionComponent<TablePolicyToolbarProps> = (
                 isDisabled: !(selectedCount && onDeletePolicy)
             }
         };
-    }, [ onCreatePolicy, onDeletePolicy, selectedCount ]);
+    }, [ onCreatePolicy, onDeletePolicy, selectedCount, hideActions ]);
 
     return (
         <>

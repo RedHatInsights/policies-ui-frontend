@@ -4,7 +4,7 @@ import {
     ClearFilterCommand, ClearFilterHandlerType, IsActiveFilter,
     PolicyFilterBase,
     PolicyFilterColumn,
-    PolicyPaging,
+    PolicyFilters,
     SetPolicyFilters
 } from '../types/Policy/PolicyPaging';
 
@@ -21,9 +21,9 @@ const usePolicyFilterBase =
     };
 
 export interface UsePolicyFilterReturn {
-    filters: PolicyPaging;
+    filters: PolicyFilters;
     setFilters: SetPolicyFilters;
-    debouncedFilters: PolicyPaging;
+    debouncedFilters: PolicyFilters;
     clearFilterHandler: ClearFilterHandlerType;
 }
 

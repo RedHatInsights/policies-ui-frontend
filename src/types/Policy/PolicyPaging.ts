@@ -1,5 +1,3 @@
-import { Direction } from '../Page';
-
 export enum PolicyFilterColumn {
     NAME = 'name',
     DESCRIPTION = 'description',
@@ -23,7 +21,7 @@ export interface PolicyFilterBase<Name, Description, Active> {
 }
 type Setter<T> =  (val: T) => void;
 
-export type PolicyPaging = PolicyFilterBase<string, string, IsActiveFilter>;
+export type PolicyFilters = PolicyFilterBase<string, string, IsActiveFilter>;
 export type SetPolicyFilters = PolicyFilterBase<Setter<string>, Setter<string>, Setter<IsActiveFilter>>;
 
 // Todo: Simplify this, we only need the FilterColumn

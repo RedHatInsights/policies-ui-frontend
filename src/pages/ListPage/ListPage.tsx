@@ -43,7 +43,7 @@ const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
     const [ policyToDelete, setPolicyToDelete ] = React.useState<Policy[] | undefined>(undefined);
     const policyFilters = usePolicyFilter();
     const sort = useSort();
-    const policyPage = usePolicyPage(policyFilters.debouncedFilters, sort.sortBy);
+    const policyPage = usePolicyPage(policyFilters.debouncedFilters, undefined, sort.sortBy);
     const getPoliciesQuery = useGetPoliciesQuery(policyPage.page, false);
     const { canReadAll, canWriteAll } = useContext(RbacContext);
 
@@ -183,6 +183,7 @@ const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
                         page={ policyPage.currentPage }
                         pageCount={ getPoliciesQuery.payload?.length }
                         perPage={ policyPage.itemsPerPage }
+                        showPerPageOptions={ true }
                         filterElements={ policyFilters.filters }
                         setFilterElements = { policyFilters.setFilters }
                         clearFilters={ policyFilters.clearFilterHandler }

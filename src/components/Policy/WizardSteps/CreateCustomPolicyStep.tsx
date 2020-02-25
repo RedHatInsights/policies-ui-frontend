@@ -1,8 +1,9 @@
 import * as React from 'react';
-import { Button, Form, InputGroup, Radio, TextInput, Title } from '@patternfly/react-core';
+import { Form, Radio, Title } from '@patternfly/react-core';
 import { Policy } from '../../../types/Policy';
 import { AlwaysValid, WizardStepExtended } from '../PolicyWizardTypes';
 import { Messages } from '../../../properties/Messages';
+import { CopyFromPolicy } from './CopyFromPolicy';
 
 interface CreateCustomPolicyState {
     copyPolicy: boolean;
@@ -40,10 +41,7 @@ const CreateCustomPolicyStep: React.FunctionComponent = () => {
                     label="As a copy of existing Custom Policy"
                 />
                 {copyPolicy && <>
-                    <InputGroup>
-                        <TextInput aria-label="Filter by name" placeholder="Filter by name"/>
-                        <Button aria-label="Filter">Filter</Button>
-                    </InputGroup>
+                    <CopyFromPolicy/>
                 </>
                 }
             </Form>
