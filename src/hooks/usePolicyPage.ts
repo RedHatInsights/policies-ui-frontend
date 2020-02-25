@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Filter, Operator, Page, Sort } from '../types/Page';
-import { PolicyFilterColumn, PolicyFilters } from '../types/Policy/PolicyFilters';
+import { PolicyFilterColumn, PolicyPaging } from '../types/Policy/PolicyPaging';
 
 interface UsePolicyPageReturn {
     page: Page;
@@ -11,7 +11,7 @@ interface UsePolicyPageReturn {
     changeItemsPerPage: (event: any, perPage: number) => void;
 }
 
-export const usePolicyPage = (filters: PolicyFilters, sort: Sort | undefined): UsePolicyPageReturn => {
+export const usePolicyPage = (filters: PolicyPaging, sort: Sort | undefined): UsePolicyPageReturn => {
 
     const [ currentPage, setCurrentPage ] = React.useState<number>(1);
     const [ itemsPerPage, setItemsPerPage ] = React.useState<number>(Page.defaultPage().size);

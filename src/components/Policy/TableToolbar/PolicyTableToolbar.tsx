@@ -5,9 +5,9 @@ import {
     ClearFilterCommand,
     IsActiveFilter,
     PolicyFilterColumn,
-    PolicyFilters,
+    PolicyPaging,
     SetPolicyFilters
-} from '../../../types/Policy/PolicyFilters';
+} from '../../../types/Policy/PolicyPaging';
 
 type OnPaginationPageChangedHandler = (
     event: React.SyntheticEvent<HTMLButtonElement> | React.MouseEvent | React.KeyboardEvent | MouseEvent, page: number) => void;
@@ -20,7 +20,7 @@ export enum SelectionCommand {
 
 interface TablePolicyToolbarProps {
     count?: number;
-    filterElements: PolicyFilters;
+    filterElements: PolicyPaging;
     setFilterElements: SetPolicyFilters;
     clearFilters: (filters: ClearFilterCommand[]) => void;
     onCreatePolicy?: () => void;
@@ -77,7 +77,7 @@ const getFilterConfigIsActiveFilter = (value: IsActiveFilter, filter: PolicyFilt
     };
 };
 
-const getFilterConfig = (filters: PolicyFilters, filter: PolicyFilterColumn) => {
+const getFilterConfig = (filters: PolicyPaging, filter: PolicyFilterColumn) => {
     const rawValue: string | IsActiveFilter = filters[filter];
 
     if (typeof rawValue === 'string') {
