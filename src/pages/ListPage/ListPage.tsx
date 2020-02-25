@@ -5,7 +5,6 @@ import { Main, PageHeader, PageHeaderTitle, Section } from '@redhat-cloud-servic
 
 import { PolicyRow, PolicyTable } from '../../components/Policy/Table/PolicyTable';
 import { useGetPoliciesQuery } from '../../services/Api';
-import { Direction, Sort } from '../../types/Page';
 import { PolicyToolbar, SelectionCommand } from '../../components/Policy/TableToolbar/PolicyTableToolbar';
 import { CreatePolicyWizard } from './CreatePolicyWizard';
 import { RbacContext } from '../../components/RbacContext';
@@ -17,6 +16,7 @@ import { PolicyWithOptionalId } from '../../types/Policy/Policy';
 import { assertNever } from '../../utils/Assert';
 import { usePolicyFilter } from '../../hooks/usePolicyFilter';
 import { usePolicyPage } from '../../hooks/usePolicyPage';
+import { useSort } from '../../hooks/useSort';
 
 type ListPageProps = {};
 
@@ -37,16 +37,14 @@ type PolicyWizardState = PolicyWizardStateClosed | PolicyWizardStateOpen;
 
 const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
 
-    const [ sort, setSort ] = React.useState<Sort>();
     const [ policyWizardState, setPolicyWizardState ] = React.useState<PolicyWizardState>({
         isOpen: false
     });
     const [ policyToDelete, setPolicyToDelete ] = React.useState<Policy[] | undefined>(undefined);
     const policyFilters = usePolicyFilter();
-    const policyPage = usePolicyPage(policyFilters.debouncedFilters, sort);
-
+    const sort = useSort();
+    const policyPage = usePolicyPage(policyFilters.debouncedFilters, sort.sortBy);
     const getPoliciesQuery = useGetPoliciesQuery(policyPage.page, false);
-
     const { canReadAll, canWriteAll } = useContext(RbacContext);
 
     const { query: getPoliciesQueryReload } = getPoliciesQuery;
@@ -121,10 +119,6 @@ const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
             isOpen: false
         });
     }, [ setPolicyWizardState, getPoliciesQueryReload ]);
-
-    const onSort = React.useCallback((index: number, column: string, direction: Direction) => {
-        setSort(Sort.by(column, direction));
-    }, [ setSort ]);
 
     const policyTableErrorValue = React.useMemo(
         () => policyTableError(canReadAll, getPoliciesQuery.error, getPoliciesQuery.status),
@@ -201,8 +195,8 @@ const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
                         actions={ tableActions }
                         loading={ getPoliciesQuery.loading }
                         error={ policyTableErrorValue }
-                        onSort={ onSort }
-                        sortBy={ sort }
+                        onSort={ sort.onSort }
+                        sortBy={ sort.sortBy }
                     />
                 </Section>
             </Main>

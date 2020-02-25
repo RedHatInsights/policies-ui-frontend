@@ -1,3 +1,5 @@
+import { Direction } from '../Page';
+
 export enum PolicyFilterColumn {
     NAME = 'name',
     DESCRIPTION = 'description',
