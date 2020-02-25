@@ -203,6 +203,7 @@ export const PolicyWizard: React.FunctionComponent<PolicyWizardProps> = (props: 
                 props.onSave(transformedPolicy).then(setCreateResponse);
                 break;
             case WizardActionType.VALIDATE_CONDITION:
+            case WizardActionType.NONE:
                 // Ignore these actions, they will be handled in the validateForm
                 break;
             default:
@@ -214,6 +215,7 @@ export const PolicyWizard: React.FunctionComponent<PolicyWizardProps> = (props: 
         const transformedPolicy = PolicyFormSchema.cast(policy) as Partial<Policy>;
         switch (wizardAction) {
             case WizardActionType.SAVE:
+            case WizardActionType.NONE:
                 // Ignore this action, it will be handled on submit.
                 break;
             case WizardActionType.VALIDATE_CONDITION:
