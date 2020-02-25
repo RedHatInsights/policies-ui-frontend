@@ -27,10 +27,16 @@ export interface FilterElement<T> {
     setter: (value: T) => void;
 }
 
-interface Filters {
-    [FilterColumn.NAME]: FilterElement<string>;
-    [FilterColumn.DESCRIPTION]: FilterElement<string>;
-    [FilterColumn.IS_ACTIVE]: FilterElement<IsActiveFilter>;
+export interface Filters {
+    [FilterColumn.NAME]: string;
+    [FilterColumn.DESCRIPTION]: string;
+    [FilterColumn.IS_ACTIVE]: IsActiveFilter;
+}
+
+export interface SetFilters {
+    [FilterColumn.NAME]: (data: string) => void;
+    [FilterColumn.DESCRIPTION]: (data: string) => void;
+    [FilterColumn.IS_ACTIVE]: (data: IsActiveFilter) => void;
 }
 
 export interface ClearFilterCommand {
@@ -40,7 +46,8 @@ export interface ClearFilterCommand {
 
 interface TablePolicyToolbarProps {
     count?: number;
-    filters: Filters;
+    filterElements: Filters;
+    setFilterElements: SetFilters;
     clearFilters: (filters: ClearFilterCommand[]) => void;
     onCreatePolicy?: () => void;
     onDeletePolicy?: () => void;
@@ -97,7 +104,7 @@ const getFilterConfigIsActiveFilter = (value: IsActiveFilter, filter: FilterColu
 };
 
 const getFilterConfig = (filters: Filters, filter: FilterColumn) => {
-    const rawValue: string | IsActiveFilter = filters[filter].value;
+    const rawValue: string | IsActiveFilter = filters[filter];
 
     if (typeof rawValue === 'string') {
         return getFilterConfigString(rawValue, filter);
@@ -110,7 +117,8 @@ export const PolicyToolbar: React.FunctionComponent<TablePolicyToolbarProps> = (
 
     const {
         clearFilters,
-        filters,
+        filterElements,
+        setFilterElements,
         pageCount,
         count,
         page,
@@ -137,7 +145,7 @@ export const PolicyToolbar: React.FunctionComponent<TablePolicyToolbarProps> = (
                     filtersToClear.push({
                         filter: FilterColumn.IS_ACTIVE,
                         data: {
-                            ...filters[FilterColumn.IS_ACTIVE].value,
+                            ...filterElements[FilterColumn.IS_ACTIVE],
                             ...element.chips.reduce(
                                 (result, chip) => {
                                     result[chip.key] = false;
@@ -152,7 +160,7 @@ export const PolicyToolbar: React.FunctionComponent<TablePolicyToolbarProps> = (
         }
 
         clearFilters(filtersToClear);
-    }, [ clearFilters, filters ]);
+    }, [ clearFilters, filterElements ]);
 
     const bulkSelectProps = React.useMemo(() => {
         const selectNone = () => onSelectionChanged && onSelectionChanged(SelectionCommand.NONE);
@@ -182,9 +190,9 @@ export const PolicyToolbar: React.FunctionComponent<TablePolicyToolbarProps> = (
                 type: 'text',
                 filterValues: {
                     id: 'filter-name',
-                    value: filters[FilterColumn.NAME].value,
+                    value: filterElements[FilterColumn.NAME],
                     placeholder: 'Filter by name',
-                    onChange: (_event, value: string) => filters[FilterColumn.NAME].setter(value)
+                    onChange: (_event, value: string) => setFilterElements[FilterColumn.NAME](value)
                 }
             },
             {
@@ -192,9 +200,9 @@ export const PolicyToolbar: React.FunctionComponent<TablePolicyToolbarProps> = (
                 type: 'text',
                 filterValues: {
                     id: 'filter-description',
-                    value: filters[FilterColumn.DESCRIPTION].value,
+                    value: filterElements[FilterColumn.DESCRIPTION],
                     placeholder: 'Filter by description',
-                    onChange: (_event, value: string) => filters[FilterColumn.DESCRIPTION].setter(value)
+                    onChange: (_event, value: string) => setFilterElements[FilterColumn.DESCRIPTION](value)
                 }
             },
             {
@@ -202,15 +210,15 @@ export const PolicyToolbar: React.FunctionComponent<TablePolicyToolbarProps> = (
                 type: 'checkbox',
                 filterValues: {
                     id: 'filter-active',
-                    value: Object.keys(filters[FilterColumn.IS_ACTIVE].value).reduce(
+                    value: Object.keys(filterElements[FilterColumn.IS_ACTIVE]).reduce(
                         (val, key) => {
-                            if (filters[FilterColumn.IS_ACTIVE].value[key]) {
+                            if (filterElements[FilterColumn.IS_ACTIVE][key]) {
                                 val.push(key);
                             }
 
                             return val;
                         }, [] as string[]),
-                    items: Object.keys(filters[FilterColumn.IS_ACTIVE].value).map(key => ({
+                    items: Object.keys(filterElements[FilterColumn.IS_ACTIVE]).map(key => ({
                         label: IsActiveKeyToLabel[key],
                         value: key
                     })),
@@ -233,12 +241,12 @@ export const PolicyToolbar: React.FunctionComponent<TablePolicyToolbarProps> = (
                             }
                         }
 
-                        filters[FilterColumn.IS_ACTIVE].setter(newValue);
+                        setFilterElements[FilterColumn.IS_ACTIVE](newValue);
                     }
                 }
             }
         ]
-    }), [ filters ]);
+    }), [ filterElements, setFilterElements ]);
 
     const paginationProps = React.useMemo<PaginationProps>(() => ({
         itemCount: count || 0,
@@ -258,7 +266,7 @@ export const PolicyToolbar: React.FunctionComponent<TablePolicyToolbarProps> = (
     const activeFiltersConfigProps = React.useMemo(() => {
         const filterConfig: ReturnType<typeof getFilterConfig>[] = [];
         for (const filter of Object.values(FilterColumn)) {
-            const config = getFilterConfig(filters, filter);
+            const config = getFilterConfig(filterElements, filter);
             if (config) {
                 filterConfig.push(config);
             }
@@ -268,7 +276,7 @@ export const PolicyToolbar: React.FunctionComponent<TablePolicyToolbarProps> = (
             filters: filterConfig,
             onDelete: clearFiltersCallback
         };
-    }, [ filters, clearFiltersCallback ]);
+    }, [ filterElements, clearFiltersCallback ]);
 
     const actionsConfigProps = React.useMemo(() => {
         const actions = [
