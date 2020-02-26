@@ -7,14 +7,16 @@ import { Policy } from '../../../types/Policy';
 import { useFormikContext } from 'formik';
 import * as Yup from 'yup';
 import { useContext } from 'react';
+import { makeCopyOfPolicy } from '../../../utils/PolicyAdapter';
+import { NewPolicy } from '../../../types/Policy/Policy';
 
-type CreateCustomPolicyFormType = Policy & {
+type CreateCustomPolicyFormType = NewPolicy & {
     isValid?: boolean;
 };
 
 const CreateCustomPolicyStep: React.FunctionComponent = () => {
     const [ copyPolicy, setCopyPolicy ] = React.useState<boolean>(false);
-    const [ copiedPolicy, setCopiedPolicy ] = React.useState<Policy>();
+    const [ copiedPolicy, setCopiedPolicy ] = React.useState<NewPolicy>();
     const { validate, validateField, setValues, setFieldValue } = useFormikContext<CreateCustomPolicyFormType>();
     const { setVerifyResponse } = useContext(WizardContext);
 
@@ -25,7 +27,7 @@ const CreateCustomPolicyStep: React.FunctionComponent = () => {
 
     const copyExisting = React.useCallback(() => {
         setCopyPolicy(true);
-    }, [ setCopiedPolicy ]);
+    }, [ setCopyPolicy ]);
 
     React.useEffect(() => {
         if (copiedPolicy) {
@@ -41,10 +43,7 @@ const CreateCustomPolicyStep: React.FunctionComponent = () => {
     }, [ copyPolicy, copiedPolicy, validate, validateField, setFieldValue, setValues, setVerifyResponse ]);
 
     const copyFromPolicyHandler = React.useCallback((policy: Policy) => {
-        setCopiedPolicy({
-            ...policy,
-            name: `Copy of ${policy?.name}`
-        });
+        setCopiedPolicy(makeCopyOfPolicy(policy));
     }, [ setCopiedPolicy ]);
 
     return (

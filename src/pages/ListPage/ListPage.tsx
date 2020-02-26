@@ -12,7 +12,7 @@ import { policyTableError } from './PolicyTableError';
 import { Policy } from '../../types/Policy';
 import { DeletePolicy } from './DeletePolicy';
 import { SavingMode } from '../../components/Policy/PolicyWizard';
-import { PolicyWithOptionalId } from '../../types/Policy/Policy';
+import { NewPolicy } from '../../types/Policy/Policy';
 import { usePolicyFilter } from '../../hooks/usePolicyFilter';
 import { usePolicyPage } from '../../hooks/usePolicyPage';
 import { useSort } from '../../hooks/useSort';
@@ -21,7 +21,7 @@ import { usePolicyRows } from '../../hooks/usePolicyRows';
 type ListPageProps = {};
 
 type PolicyWizardStateBase = {
-    template: PolicyWithOptionalId | undefined;
+    template: NewPolicy | undefined;
     savingMode: SavingMode;
 };
 

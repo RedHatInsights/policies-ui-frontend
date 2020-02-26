@@ -16,7 +16,7 @@ import { createActionsStep } from './WizardSteps/ActionsStep';
 import { createReviewStep } from './WizardSteps/ReviewStep';
 import { PolicyFormSchema } from '../../schemas/CreatePolicy/PolicySchema';
 import { PolicyWizardFooter } from './PolicyWizardFooter';
-import { Policy, PolicyWithOptionalId } from '../../types/Policy/Policy';
+import { Policy, NewPolicy } from '../../types/Policy/Policy';
 
 export enum SavingMode {
     CREATE,
@@ -26,7 +26,7 @@ export enum SavingMode {
 interface PolicyWizardProps {
     initialValue: PartialPolicy;
     onClose: () => void;
-    onSave: (policy: PolicyWithOptionalId) => Promise<CreatePolicyResponse>;
+    onSave: (policy: NewPolicy) => Promise<CreatePolicyResponse>;
     onVerify: (policy: Partial<Policy>) => Promise<VerifyPolicyResponse>;
     isLoading: boolean;
     savingMode: SavingMode;
@@ -198,7 +198,7 @@ export const PolicyWizard: React.FunctionComponent<PolicyWizardProps> = (props: 
         formikHelpers.setSubmitting(false);
         setWizardAction(WizardActionType.NONE);
 
-        const transformedPolicy = PolicyFormSchema.cast(policy) as PolicyWithOptionalId;
+        const transformedPolicy = PolicyFormSchema.cast(policy) as NewPolicy;
         formikHelpers.setValues(transformedPolicy);
         switch (wizardAction) {
             case WizardActionType.SAVE:

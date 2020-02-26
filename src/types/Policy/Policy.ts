@@ -28,5 +28,7 @@ export interface ServerPolicyResponse {
     name: string;
 }
 
-export type PolicyWithOptionalId = Partial<Pick<Policy, 'id'>> & Omit<Policy, 'id'>;
+type OptionalProperties = 'id' | 'mtime';
+
+export type NewPolicy = Partial<Pick<Policy, OptionalProperties>> & Omit<Policy, OptionalProperties>;
 export type ServerPolicyRequest = Partial<ServerPolicyResponse>;

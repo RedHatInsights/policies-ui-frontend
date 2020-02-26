@@ -1,6 +1,12 @@
 import parseJSON from 'date-fns/parseJSON';
 
-import { PagedServerPolicyResponse, Policy, ServerPolicyRequest, ServerPolicyResponse } from '../types/Policy/Policy';
+import {
+    PagedServerPolicyResponse,
+    Policy,
+    NewPolicy,
+    ServerPolicyRequest,
+    ServerPolicyResponse
+} from '../types/Policy/Policy';
 import { ActionType } from '../types/Policy/Actions';
 import { DeepPartial } from 'ts-essentials';
 
@@ -46,4 +52,13 @@ export const toPolicy = (serverPolicy: ServerPolicyResponse): Policy => {
 
 export const toPolicies = (serverPolicies: PagedServerPolicyResponse): Policy[] => {
     return serverPolicies.data.map(toPolicy);
+};
+
+export const makeCopyOfPolicy = (policy: Policy): NewPolicy => {
+    return {
+        ...policy,
+        name: `Copy of ${policy.name}`,
+        mtime: undefined,
+        id: undefined
+    };
 };

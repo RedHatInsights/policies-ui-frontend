@@ -4,11 +4,11 @@ import { useSavePolicyMutation, useVerifyPolicyMutation } from '../../services/A
 import * as HttpStatus from 'http-status-codes';
 import { addSuccessNotification } from '../../utils/AlertUtils';
 import { CreatePolicyResponse, VerifyPolicyResponse } from '../../components/Policy/PolicyWizardTypes';
-import { Policy, PolicyWithOptionalId } from '../../types/Policy/Policy';
+import { Policy, NewPolicy } from '../../types/Policy/Policy';
 
 type CreatePolicyWizardBase = {
     close: (policyCreated: boolean) => void;
-    initialValue?: PolicyWithOptionalId;
+    initialValue?: NewPolicy;
     savingMode: SavingMode;
 };
 
@@ -30,7 +30,7 @@ export const CreatePolicyWizard: React.FunctionComponent<CreatePolicyWizardProps
         throw new Error('Invalid SavingMode UPDATE for initialValue. initialValue must provide a Policy with an id');
     }
 
-    const onSave = (policy: PolicyWithOptionalId): Promise<CreatePolicyResponse> => {
+    const onSave = (policy: NewPolicy): Promise<CreatePolicyResponse> => {
         return saveMutation.mutate(policy).then((res) => {
             switch (res.status) {
                 case HttpStatus.CREATED:
