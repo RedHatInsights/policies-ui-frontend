@@ -95,6 +95,7 @@ interface FormikBindingProps {
     steps: WizardStepExtended[];
     verifyResponse: VerifyPolicyResponse;
     createResponse: CreatePolicyResponse;
+    setVerifyResponse: (response: VerifyPolicyResponse) => void;
     onMove: WizardStepFunctionType;
     onClose: () => void;
 }
@@ -120,7 +121,8 @@ const FormikBinding: React.FunctionComponent<FormikBindingProps> = (props) => {
         isFormValid: formikProps.isValid,
         triggerAction: props.triggerAction,
         verifyResponse: props.verifyResponse,
-        createResponse: props.createResponse
+        createResponse: props.createResponse,
+        setVerifyResponse: props.setVerifyResponse
     };
 
     const isValid = isStepValid(props.steps[props.currentStep], wizardContext, formikProps.values);
@@ -244,6 +246,7 @@ export const PolicyWizard: React.FunctionComponent<PolicyWizardProps> = (props: 
                     steps={ steps }
                     verifyResponse={ verifyResponse }
                     createResponse={ createResponse }
+                    setVerifyResponse={ setVerifyResponse }
                     onClose={ props.onClose }
                     onMove={ onMove }
                 />
