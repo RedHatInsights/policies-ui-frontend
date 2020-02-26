@@ -1,25 +1,51 @@
 import * as React from 'react';
 import { Form, Radio, Title } from '@patternfly/react-core';
-import { Policy } from '../../../types/Policy';
-import { AlwaysValid, WizardStepExtended } from '../PolicyWizardTypes';
+import { WizardContext, WizardStepExtended } from '../PolicyWizardTypes';
 import { Messages } from '../../../properties/Messages';
 import { CopyFromPolicy } from './CopyFromPolicy';
+import { Policy } from '../../../types/Policy';
+import { useFormikContext } from 'formik';
+import * as Yup from 'yup';
+import { useContext } from 'react';
 
-interface CreateCustomPolicyState {
-    copyPolicy: boolean;
-    copyFrom?: Policy;
-}
+type CreateCustomPolicyFormType = Policy & {
+    isValid?: boolean;
+};
 
 const CreateCustomPolicyStep: React.FunctionComponent = () => {
     const [ copyPolicy, setCopyPolicy ] = React.useState<boolean>(false);
+    const [ copiedPolicy, setCopiedPolicy ] = React.useState<Policy>();
+    const { validate, validateField, setValues, setFieldValue } = useFormikContext<CreateCustomPolicyFormType>();
+    const { setVerifyResponse } = useContext(WizardContext);
 
-    const createFromScratch = () => {
+    const createFromScratch = React.useCallback(() => {
         setCopyPolicy(false);
-    };
+        setCopiedPolicy(undefined);
+    }, [ setCopyPolicy, setCopiedPolicy ]);
 
-    const copyExisting = () => {
+    const copyExisting = React.useCallback(() => {
         setCopyPolicy(true);
-    };
+    }, [ setCopiedPolicy ]);
+
+    React.useEffect(() => {
+        if (copiedPolicy) {
+            setValues(copiedPolicy);
+            setVerifyResponse({
+                policy: copiedPolicy,
+                isValid: true
+            });
+        }
+
+        setFieldValue('isValid', !copyPolicy || !!copiedPolicy);
+        validate && validateField('isValid');
+    }, [ copyPolicy, copiedPolicy, validate, validateField, setFieldValue, setValues, setVerifyResponse ]);
+
+    const copyFromPolicyHandler = React.useCallback((policy: Policy) => {
+        setCopiedPolicy({
+            ...policy,
+            name: `Copy of ${policy?.name}`
+        });
+    }, [ setCopiedPolicy ]);
 
     return (
         <>
@@ -28,20 +54,22 @@ const CreateCustomPolicyStep: React.FunctionComponent = () => {
                 <span>Define a new custom policy:</span>
                 <Radio
                     isChecked={ !copyPolicy }
-                    name="from-scratch"
+                    name="new-custom-policy"
+                    value="from-scratch"
                     id="create-new-custom-policy-from-scratch"
                     onChange={ createFromScratch }
                     label="From scratch"
                 />
                 <Radio
                     isChecked={ copyPolicy }
-                    name="as-copy"
+                    name="new-custom-policy"
+                    value="as-copy"
                     id="create-new-custom-policy-as-copy"
                     onChange={ copyExisting }
                     label="As a copy of existing Custom Policy"
                 />
                 {copyPolicy && <>
-                    <CopyFromPolicy/>
+                    <CopyFromPolicy onSelect={ copyFromPolicyHandler }/>
                 </>
                 }
             </Form>
@@ -52,6 +80,8 @@ const CreateCustomPolicyStep: React.FunctionComponent = () => {
 export const createCustomPolicyStep: (stepOverrides?: Partial<WizardStepExtended>) => WizardStepExtended = (stepOverrides) => ({
     name: Messages.wizardCreatePolicy,
     component: <CreateCustomPolicyStep/>,
-    validationSchema: AlwaysValid,
+    validationSchema: Yup.object().shape({
+        isValid: Yup.boolean().oneOf([ true ])
+    }),
     ...stepOverrides
 });
