@@ -3,9 +3,9 @@ import { useContext } from 'react';
 import { IActions, IRowData } from '@patternfly/react-table';
 import { Main, PageHeader, PageHeaderTitle, Section } from '@redhat-cloud-services/frontend-components';
 
-import { PolicyRow, PolicyTable } from '../../components/Policy/Table/PolicyTable';
+import { PolicyTable } from '../../components/Policy/Table/PolicyTable';
 import { useGetPoliciesQuery } from '../../services/Api';
-import { PolicyToolbar, SelectionCommand } from '../../components/Policy/TableToolbar/PolicyTableToolbar';
+import { PolicyToolbar } from '../../components/Policy/TableToolbar/PolicyTableToolbar';
 import { CreatePolicyWizard } from './CreatePolicyWizard';
 import { RbacContext } from '../../components/RbacContext';
 import { policyTableError } from './PolicyTableError';
@@ -13,10 +13,10 @@ import { Policy } from '../../types/Policy';
 import { DeletePolicy } from './DeletePolicy';
 import { SavingMode } from '../../components/Policy/PolicyWizard';
 import { PolicyWithOptionalId } from '../../types/Policy/Policy';
-import { assertNever } from '../../utils/Assert';
 import { usePolicyFilter } from '../../hooks/usePolicyFilter';
 import { usePolicyPage } from '../../hooks/usePolicyPage';
 import { useSort } from '../../hooks/useSort';
+import { usePolicyRows } from '../../hooks/usePolicyRows';
 
 type ListPageProps = {};
 
@@ -46,6 +46,7 @@ const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
     const policyPage = usePolicyPage(policyFilters.debouncedFilters, undefined, sort.sortBy);
     const getPoliciesQuery = useGetPoliciesQuery(policyPage.page, false);
     const { canReadAll, canWriteAll } = useContext(RbacContext);
+    const policyRows = usePolicyRows(getPoliciesQuery.payload);
 
     const { query: getPoliciesQueryReload } = getPoliciesQuery;
 
@@ -125,44 +126,8 @@ const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
         [ canReadAll, getPoliciesQuery.error, getPoliciesQuery.status ]
     );
 
-    const [ policyRows, setPolicyRows ] = React.useState<PolicyRow[]>([]);
-
-    React.useEffect(() => {
-        if (getPoliciesQuery.payload) {
-            setPolicyRows(getPoliciesQuery.payload?.map(policy => ({ ...policy, isOpen: false, isSelected: false })));
-        }
-    }, [ getPoliciesQuery.payload ]);
-
-    const onCollapse = React.useCallback((policy: PolicyRow, index: number, isOpen: boolean) => {
-        setPolicyRows(prevRows => {
-            const newPolicyRows = [ ...prevRows ];
-            newPolicyRows[index] = { ...policy, isOpen };
-            return newPolicyRows;
-        });
-    }, [ setPolicyRows ]);
-
-    const onSelect = React.useCallback((policy: PolicyRow, index: number, isSelected: boolean) => {
-        setPolicyRows(prevRows => {
-            const newPolicyRows = [ ...prevRows ];
-            newPolicyRows[index] = { ...policy, isSelected };
-            return newPolicyRows;
-        });
-    }, [ setPolicyRows ]);
-
-    const onSelectionChanged = React.useCallback((command: SelectionCommand) => {
-        if (command === SelectionCommand.NONE) {
-            setPolicyRows(prevState => prevState.map(policy => ({ ...policy, isSelected: false })));
-        } else if (command === SelectionCommand.PAGE) {
-            setPolicyRows(prevState => prevState.map(policy => ({ ...policy, isSelected: true })));
-        } else {
-            assertNever(command);
-        }
-    }, [ setPolicyRows ]);
-
-    const selectedCount = React.useMemo(() => policyRows.filter(policy => policy.isSelected).length, [ policyRows ]);
-
     const onDeletePolicies = React.useCallback(
-        () => setPolicyToDelete(policyRows.filter(policy => policy.isSelected)),
+        () => setPolicyToDelete(policyRows.rows.filter(policy => policy.isSelected)),
         [ policyRows, setPolicyToDelete ]
     );
 
@@ -178,8 +143,8 @@ const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
                         onDeletePolicy={ canWriteAll ? onDeletePolicies : undefined }
                         onPaginationChanged={ policyPage.changePage }
                         onPaginationSizeChanged={ policyPage.changeItemsPerPage }
-                        onSelectionChanged={ onSelectionChanged }
-                        selectedCount={ selectedCount }
+                        onSelectionChanged={ policyRows.onSelectionChanged }
+                        selectedCount={ policyRows.selectionCount }
                         page={ policyPage.currentPage }
                         pageCount={ getPoliciesQuery.payload?.length }
                         perPage={ policyPage.itemsPerPage }
@@ -190,9 +155,9 @@ const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
                         count={ getPoliciesQuery.count }
                     />
                     <PolicyTable
-                        policies={ policyRows }
-                        onCollapse={ onCollapse }
-                        onSelect={ onSelect }
+                        policies={ policyRows.rows }
+                        onCollapse={ policyRows.onCollapse }
+                        onSelect={ policyRows.onSelect }
                         actions={ tableActions }
                         loading={ getPoliciesQuery.loading }
                         error={ policyTableErrorValue }
