@@ -191,38 +191,33 @@ export const PolicyToolbar: React.FunctionComponent<TablePolicyToolbarProps> = (
             },
             {
                 label: 'Is Active?',
-                type: 'checkbox',
+                type: 'radio',
                 filterValues: {
                     id: 'filter-active',
                     value: Object.keys(filterElements[PolicyFilterColumn.IS_ACTIVE]).reduce(
                         (val, key) => {
                             if (filterElements[PolicyFilterColumn.IS_ACTIVE][key]) {
-                                val.push(key);
+                                val = key;
                             }
 
                             return val;
-                        }, [] as string[]),
-                    items: Object.keys(filterElements[PolicyFilterColumn.IS_ACTIVE]).map(key => ({
+                        }, 'all'),
+                    items: [{
+                        label: 'All',
+                        value: 'all'
+                    }].concat(Object.keys(filterElements[PolicyFilterColumn.IS_ACTIVE]).map(key => ({
                         label: IsActiveKeyToLabel[key],
                         value: key
-                    })),
+                    }))),
                     placeholder: 'Filter by Active status',
-                    onChange: (_event, values: string) => {
+                    onChange: (_event, key: string) => {
                         const newValue = {
                             enabled: false,
                             disabled: false
                         };
-                        for (const value of values) {
-                            switch (value) {
-                                case 'enabled':
-                                    newValue.enabled = true;
-                                    break;
-                                case 'disabled':
-                                    newValue.disabled = true;
-                                    break;
-                                default:
-                                    throw new Error(`Invalid filter active status found: ${value}`);
-                            }
+                        const validKeys: (keyof IsActiveFilter)[] = [ 'enabled', 'disabled' ];
+                        if ((validKeys as string[]).includes(key)) {
+                            newValue[key] = true;
                         }
 
                         setFilterElements[PolicyFilterColumn.IS_ACTIVE](newValue);
