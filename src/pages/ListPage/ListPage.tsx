@@ -11,18 +11,18 @@ import { RbacContext } from '../../components/RbacContext';
 import { policyTableError } from './PolicyTableError';
 import { Policy } from '../../types/Policy';
 import { DeletePolicy } from './DeletePolicy';
-import { SavingMode } from '../../components/Policy/PolicyWizard';
 import { NewPolicy } from '../../types/Policy/Policy';
 import { usePolicyFilter } from '../../hooks/usePolicyFilter';
 import { usePolicyPage } from '../../hooks/usePolicyPage';
 import { useSort } from '../../hooks/useSort';
 import { usePolicyRows } from '../../hooks/usePolicyRows';
+import { makeCopyOfPolicy } from '../../utils/PolicyAdapter';
 
 type ListPageProps = {};
 
 type PolicyWizardStateBase = {
     template: NewPolicy | undefined;
-    savingMode: SavingMode;
+    showCreateStep: boolean;
 };
 
 type PolicyWizardStateOpen = {
@@ -76,14 +76,23 @@ const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
                         setPolicyWizardState({
                             isOpen: true,
                             template: policy,
-                            savingMode: SavingMode.UPDATE
+                            showCreateStep: false
                         });
                     }
                 }
             },
             {
                 title: 'Duplicate',
-                onClick: () => alert('Duplicate')
+                onClick: (_event: React.MouseEvent, _rowIndex: number, rowData: IRowData) => {
+                    const policy = getPolicyFromPayload(rowData.id);
+                    if (policy) {
+                        setPolicyWizardState({
+                            isOpen: true,
+                            template: makeCopyOfPolicy(policy),
+                            showCreateStep: false
+                        });
+                    }
+                }
             },
             {
                 title: 'Delete',
@@ -106,7 +115,7 @@ const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
     const createCustomPolicy = React.useCallback(() => {
         setPolicyWizardState({
             isOpen: true,
-            savingMode: SavingMode.CREATE,
+            showCreateStep: true,
             template: undefined
         });
     }, [ setPolicyWizardState ]);
@@ -170,7 +179,7 @@ const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
                 isOpen={ policyWizardState.isOpen }
                 close={ closeCustomPolicyWizard }
                 initialValue={ policyWizardState.template }
-                savingMode={ policyWizardState.savingMode }
+                showCreateStep={ policyWizardState.showCreateStep }
             /> }
             <DeletePolicy onClose={ onCloseDeletePolicy } policies={ policyToDelete }/>
         </>

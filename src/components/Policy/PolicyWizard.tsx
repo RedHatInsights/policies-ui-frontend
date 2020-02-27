@@ -18,24 +18,19 @@ import { PolicyFormSchema } from '../../schemas/CreatePolicy/PolicySchema';
 import { PolicyWizardFooter } from './PolicyWizardFooter';
 import { Policy, NewPolicy } from '../../types/Policy/Policy';
 
-export enum SavingMode {
-    CREATE,
-    UPDATE
-}
-
 interface PolicyWizardProps {
     initialValue: PartialPolicy;
     onClose: () => void;
     onSave: (policy: NewPolicy) => Promise<CreatePolicyResponse>;
     onVerify: (policy: Partial<Policy>) => Promise<VerifyPolicyResponse>;
     isLoading: boolean;
-    savingMode: SavingMode;
+    showCreateStep: boolean;
 }
 
-const buildSteps: (savingMode: SavingMode) => WizardStepExtended[] = (savingMode) => {
+const buildSteps: (showCreateStep: boolean) => WizardStepExtended[] = (showCreateStep) => {
     const steps = [] as WizardStepExtended[];
 
-    if (savingMode === SavingMode.CREATE) {
+    if (showCreateStep) {
         steps.push(createCustomPolicyStep({
             hideBackButton: true
         }));
@@ -58,7 +53,7 @@ const buildSteps: (savingMode: SavingMode) => WizardStepExtended[] = (savingMode
     }));
 };
 
-const canJumpTo = (id: number, isValid: boolean, currentStep: number, maxStep: number, isLoading: boolean) => {
+const canJumpTo = (id: number, isValid: boolean, currentStep: number, maxStep: number, isLoading: boolean, showCreateStep: boolean) => {
     if (isLoading) {
         return false;
     }
@@ -67,7 +62,7 @@ const canJumpTo = (id: number, isValid: boolean, currentStep: number, maxStep: n
         return true;
     }
 
-    if (id === 0) {
+    if (id === 0 && showCreateStep) {
         return false;
     }
 
@@ -98,6 +93,7 @@ interface FormikBindingProps {
     setVerifyResponse: (response: VerifyPolicyResponse) => void;
     onMove: WizardStepFunctionType;
     onClose: () => void;
+    showCreateStep: boolean;
 }
 
 const FormikBinding: React.FunctionComponent<FormikBindingProps> = (props) => {
@@ -131,7 +127,7 @@ const FormikBinding: React.FunctionComponent<FormikBindingProps> = (props) => {
     const stepsValidated = props.steps.map(step => ({
         ...step,
         enableNext: enableNext(isValid, props.isLoading),
-        canJumpTo: canJumpTo(step.id as number, isValid, props.currentStep, props.maxStep, props.isLoading)
+        canJumpTo: canJumpTo(step.id as number, isValid, props.currentStep, props.maxStep, props.isLoading, props.showCreateStep)
     }));
 
     const onSave = () => {
@@ -192,7 +188,7 @@ export const PolicyWizard: React.FunctionComponent<PolicyWizardProps> = (props: 
         }
     };
 
-    const steps: WizardStepExtended[] = buildSteps(props.savingMode);
+    const steps: WizardStepExtended[] = buildSteps(props.showCreateStep);
 
     const onSubmit = (policy: PartialPolicy, formikHelpers: FormikHelpers<PartialPolicy>) => {
         formikHelpers.setSubmitting(false);
@@ -249,6 +245,7 @@ export const PolicyWizard: React.FunctionComponent<PolicyWizardProps> = (props: 
                     setVerifyResponse={ setVerifyResponse }
                     onClose={ props.onClose }
                     onMove={ onMove }
+                    showCreateStep={ props.showCreateStep }
                 />
             </Formik>
         </>
