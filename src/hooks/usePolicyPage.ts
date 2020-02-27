@@ -16,6 +16,10 @@ export const usePolicyPage = (filters: PolicyFilters, defaultPerPage?: number, s
     const [ currentPage, setCurrentPage ] = React.useState<number>(1);
     const [ itemsPerPage, setItemsPerPage ] = React.useState<number>(defaultPerPage || Page.defaultPage().size);
 
+    React.useEffect(() => {
+        setCurrentPage(1);
+    }, [ setCurrentPage, filters ]);
+
     const page = React.useMemo(() => {
         const filter = new Filter();
 
