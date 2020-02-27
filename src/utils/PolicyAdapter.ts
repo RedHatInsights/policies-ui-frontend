@@ -1,17 +1,21 @@
 import parseJSON from 'date-fns/parseJSON';
 
-import { PagedServerPolicyResponse, Policy, ServerPolicyRequest, ServerPolicyResponse } from '../types/Policy/Policy';
+import {
+    PagedServerPolicyResponse,
+    Policy,
+    NewPolicy,
+    ServerPolicyRequest,
+    ServerPolicyResponse
+} from '../types/Policy/Policy';
 import { ActionType } from '../types/Policy/Actions';
+import { assertNever } from './Assert';
 import { DeepPartial } from 'ts-essentials';
-
-const assertUnreachable = (_x: never): never => {
-    throw new Error('Unreachable');
-};
 
 export const toServerPolicy = (policy: DeepPartial<Policy>): ServerPolicyRequest => {
 
     return {
         ...policy,
+        is_enabled: policy.isEnabled, // eslint-disable-line @typescript-eslint/camelcase, camelcase
         actions: policy.actions?.map((action): string => {
             if (!action || !action.type) {
                 return '';
@@ -27,7 +31,7 @@ export const toServerPolicy = (policy: DeepPartial<Policy>): ServerPolicyRequest
                     encodedAction += `${action.to}:${action.subject}:${action.message}`;
                     break;
                 default:
-                    assertUnreachable(action.type); // Guards in case we forget an enum
+                    assertNever(action.type);
             }
 
             return encodedAction;
@@ -46,4 +50,14 @@ export const toPolicy = (serverPolicy: ServerPolicyResponse): Policy => {
 
 export const toPolicies = (serverPolicies: PagedServerPolicyResponse): Policy[] => {
     return serverPolicies.data.map(toPolicy);
+};
+
+export const makeCopyOfPolicy = (policy: Policy): NewPolicy => {
+    return {
+        ...policy,
+        name: `Copy of ${policy.name}`,
+        triggerId: undefined,
+        mtime: undefined,
+        id: undefined
+    };
 };
