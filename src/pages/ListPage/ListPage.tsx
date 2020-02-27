@@ -50,16 +50,18 @@ const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
 
     const { query: getPoliciesQueryReload } = getPoliciesQuery;
 
+    const { changePage, currentPage } = policyPage;
+
     const onCloseDeletePolicy = React.useCallback((deleted: boolean) => {
         if (deleted) {
             getPoliciesQueryReload();
             if (policyToDelete?.length === getPoliciesQuery.payload?.length) {
-                setCurrentPage(prevPage => prevPage === 1 ? 1 : prevPage - 1);
+                changePage(undefined, currentPage === 1 ? 1 : currentPage - 1);
             }
         }
 
         setPolicyToDelete(undefined);
-    }, [ getPoliciesQueryReload, setPolicyToDelete, setCurrentPage, policyToDelete, getPoliciesQuery.payload ]);
+    }, [ getPoliciesQueryReload, setPolicyToDelete, changePage, currentPage, policyToDelete, getPoliciesQuery.payload ]);
 
     const getPolicyFromPayload =  React.useCallback(
         (id: number) => getPoliciesQuery.payload?.find(policy => policy.id === id),
