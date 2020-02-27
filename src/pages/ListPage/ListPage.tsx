@@ -54,7 +54,7 @@ const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
         if (deleted) {
             getPoliciesQueryReload();
             if (policyToDelete?.length === getPoliciesQuery.payload?.length) {
-                setCurrentPage(prevPage => prevPage === 1 ? prevPage : prevPage - 1);
+                setCurrentPage(prevPage => prevPage === 1 ? 1 : prevPage - 1);
             }
         }
 
