@@ -27,6 +27,7 @@ import { CheckCircleIcon, OffIcon } from '@patternfly/react-icons';
 import { Direction, Sort } from '../../../types/Page';
 import { ExpandedContent } from './ExpandedContent';
 import { IconType } from '@patternfly/react-icons/dist/js/createIcon';
+import { Messages } from '../../../properties/Messages';
 import { assertNever } from '../../../utils/Assert';
 
 type OnSelectHandlerType = (policy: PolicyRow, index: number, isSelected: boolean) => void;
@@ -130,8 +131,8 @@ const policiesToRows = (policies: PolicyRow[] | undefined, columnsToShow: ValidC
                     <>
                         <ExpandedContent
                             key={ policy.id + '-content' }
-                            description={ policy.description }
-                            conditions={ policy.conditions }
+                            description={ policy.description ? policy.description : Messages.tableNoDescription }
+                            conditions={ policy.conditions ? policy.conditions : Messages.tableNoConditions }
                             actions={ policy.actions }
                             created={ new Date(2020, 1, 19) }
                             updated={ policy.mtime }
@@ -265,7 +266,7 @@ export const PolicyTable: React.FunctionComponent<PolicyTableProps> = (props) =>
 
     return (
         <Table
-            aria-label="Custom policies"
+            aria-label={ Messages.tableTitle }
             cells={ columns }
             rows={ rows }
             actionResolver={ actionsResolver }
