@@ -93,7 +93,7 @@ const policiesToRows = (policies: PolicyRow[] | undefined): IRow[] => {
                     <>
                         <ExpandedContent
                             key={ policy.id + '-content' }
-                            description={ policy.description ? policy.description : Messages.tableDoubleDash + ' ' + Messages.tableNoDescription }
+                            description={ policy.description ? policy.description : Messages.tableNoDescription }
                             conditions={ policy.conditions ? policy.conditions : Messages.tableNoConditions }
                             actions={ policy.actions }
                             created={ new Date(2020, 1, 19) }
