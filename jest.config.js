@@ -3,7 +3,7 @@ module.exports = {
     testEnvironment: 'node',
     coverageDirectory: './coverage',
     collectCoverageFrom: [
-        'src/**/*.js',
+        'src/**/*.ts(x?)',
         '!src/**/stories/*'
     ],
     setupFiles: [
