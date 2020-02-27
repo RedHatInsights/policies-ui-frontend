@@ -5,7 +5,7 @@ import Config from '../config/Config';
 
 const BASE_PATH = '/api/rbac/v1';
 
-class RawRbac {
+export class RawRbac {
     readonly accessPagination: AccessPagination;
 
     constructor(accessPagination: AccessPagination) {

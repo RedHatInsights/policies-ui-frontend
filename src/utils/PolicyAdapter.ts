@@ -13,22 +13,23 @@ import { DeepPartial } from 'ts-essentials';
 
 export const toServerPolicy = (policy: DeepPartial<Policy>): ServerPolicyRequest => {
 
+    const { isEnabled, ...restPolicy } = policy;
+
     return {
-        ...policy,
-        is_enabled: policy.isEnabled, // eslint-disable-line @typescript-eslint/camelcase, camelcase
+        ...restPolicy,
+        is_enabled: isEnabled,
         actions: policy.actions?.map((action): string => {
             if (!action || !action.type) {
                 return '';
             }
 
-            let encodedAction = `${action.type} `;
+            let encodedAction = `${action.type}`;
 
             switch (action.type) {
                 case ActionType.WEBHOOK:
-                    encodedAction += action.endpoint;
+                    encodedAction += ' ' + action.endpoint;
                     break;
                 case ActionType.EMAIL:
-                    encodedAction += `${action.to}:${action.subject}:${action.message}`;
                     break;
                 default:
                     assertNever(action.type);
@@ -36,13 +37,15 @@ export const toServerPolicy = (policy: DeepPartial<Policy>): ServerPolicyRequest
 
             return encodedAction;
         }).join(';'),
-        mtime: policy.mtime ? policy.mtime.toUTCString() : undefined
+        mtime: policy.mtime ? policy.mtime.toJSON() : undefined
     };
 };
 
 export const toPolicy = (serverPolicy: ServerPolicyResponse): Policy => {
+    const { is_enabled: isEnabled, ...restServerPolicy } = serverPolicy;
     return {
-        ...serverPolicy,
+        ...restServerPolicy,
+        isEnabled,
         actions: [],
         mtime: parseJSON(serverPolicy.mtime)
     };
@@ -58,6 +61,7 @@ export const makeCopyOfPolicy = (policy: Policy): NewPolicy => {
         name: `Copy of ${policy.name}`,
         triggerId: undefined,
         mtime: undefined,
-        id: undefined
+        id: undefined,
+        customerid: undefined
     };
 };

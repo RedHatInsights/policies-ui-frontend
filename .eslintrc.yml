@@ -8,10 +8,12 @@ settings:
     version: '16.0'
 plugins:
   - "react-hooks"
+  - "jest"
 extends:
   - 'plugin:@typescript-eslint/recommended'
   - 'prettier'
   - 'plugin:react/recommended'
+  - 'plugin:jest/recommended'
 parserOptions:
   ecmaVersion: 7
   sourceType: module
@@ -35,6 +37,9 @@ rules: # Todo: Remove javascript rules that are duplicated on typescript
   '@typescript-eslint/no-unused-vars':
     - error
     - argsIgnorePattern: "^_"
+  '@typescript-eslint/camelcase':
+    - error
+    - properties: never
   array-bracket-spacing:
     - error
     - always
