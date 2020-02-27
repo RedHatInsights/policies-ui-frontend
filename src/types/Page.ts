@@ -77,3 +77,5 @@ export enum Operator {
     NOT_EQUAL = 'NOT_EQUAL',
     BOOLEAN_IS = 'BOOLEAN_IS'
 }
+
+export type OnSortHandlerType = (index: number, column: string, direction: Direction) => void;

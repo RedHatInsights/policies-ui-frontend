@@ -3,32 +3,25 @@ import { useContext } from 'react';
 import { IActions, IRowData } from '@patternfly/react-table';
 import { Main, PageHeader, PageHeaderTitle, Section } from '@redhat-cloud-services/frontend-components';
 
-import { PolicyRow, PolicyTable } from '../../components/Policy/Table/PolicyTable';
+import { PolicyTable } from '../../components/Policy/Table/PolicyTable';
 import { useGetPoliciesQuery } from '../../services/Api';
-import { Direction, Filter, Operator, Page, Sort } from '../../types/Page';
-import {
-    ClearFilterCommand,
-    FilterColumn,
-    IsActiveFilter,
-    PolicyToolbar,
-    SelectionCommand
-} from '../../components/Policy/TableToolbar/PolicyTableToolbar';
+import { PolicyToolbar } from '../../components/Policy/TableToolbar/PolicyTableToolbar';
 import { CreatePolicyWizard } from './CreatePolicyWizard';
 import { RbacContext } from '../../components/RbacContext';
 import { policyTableError } from './PolicyTableError';
 import { Policy } from '../../types/Policy';
 import { DeletePolicy } from './DeletePolicy';
-import { useDebouncedState } from '../../hooks';
 import { SavingMode } from '../../components/Policy/PolicyWizard';
-import { PolicyWithOptionalId } from '../../types/Policy/Policy';
-import { assertNever } from '../../utils/Assert';
+import { NewPolicy } from '../../types/Policy/Policy';
+import { usePolicyFilter } from '../../hooks/usePolicyFilter';
+import { usePolicyPage } from '../../hooks/usePolicyPage';
+import { useSort } from '../../hooks/useSort';
+import { usePolicyRows } from '../../hooks/usePolicyRows';
 
 type ListPageProps = {};
 
-const DEBOUNCE_MS = 250;
-
 type PolicyWizardStateBase = {
-    template: PolicyWithOptionalId | undefined;
+    template: NewPolicy | undefined;
     savingMode: SavingMode;
 };
 
@@ -44,41 +37,16 @@ type PolicyWizardState = PolicyWizardStateClosed | PolicyWizardStateOpen;
 
 const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
 
-    const [ currentPage, setCurrentPage ] = React.useState<number>(1);
-    const [ itemsPerPage, setItemsPerPage ] = React.useState<number>(Page.defaultPage().size);
-    const [ sort, setSort ] = React.useState<Sort>();
     const [ policyWizardState, setPolicyWizardState ] = React.useState<PolicyWizardState>({
         isOpen: false
     });
     const [ policyToDelete, setPolicyToDelete ] = React.useState<Policy[] | undefined>(undefined);
-    const [ filterName, setFilterName, debouncedFilterName ] = useDebouncedState<string>('', DEBOUNCE_MS);
-    const [ filterDescription, setFilterDescription, debouncedFilterDescription ] = useDebouncedState<string>('', DEBOUNCE_MS);
-    const [ filterIsActive, setFilterIsActive, debouncedFilterIsActive ] = useDebouncedState<IsActiveFilter>({
-        enabled: false,
-        disabled: false
-    }, DEBOUNCE_MS);
-
-    const page = React.useMemo(() => {
-        const filter = new Filter();
-
-        if (debouncedFilterName.trim() !== '') {
-            filter.and(FilterColumn.NAME, Operator.ILIKE, `%${debouncedFilterName.trim()}%`);
-        }
-
-        if (debouncedFilterDescription.trim() !== '') {
-            filter.and(FilterColumn.DESCRIPTION, Operator.ILIKE, `%${debouncedFilterDescription.trim()}%`);
-        }
-
-        if (debouncedFilterIsActive.disabled !== debouncedFilterIsActive.enabled) {
-            filter.and(FilterColumn.IS_ACTIVE, Operator.BOOLEAN_IS, debouncedFilterIsActive.enabled ? 'true' : 'false');
-        }
-
-        return Page.of(currentPage, itemsPerPage, filter, sort);
-    }, [ currentPage, itemsPerPage, sort, debouncedFilterName, debouncedFilterDescription, debouncedFilterIsActive ]);
-
-    const getPoliciesQuery = useGetPoliciesQuery(page, false);
-
+    const policyFilters = usePolicyFilter();
+    const sort = useSort();
+    const policyPage = usePolicyPage(policyFilters.debouncedFilters, undefined, sort.sortBy);
+    const getPoliciesQuery = useGetPoliciesQuery(policyPage.page, false);
     const { canReadAll, canWriteAll } = useContext(RbacContext);
+    const policyRows = usePolicyRows(getPoliciesQuery.payload);
 
     const { query: getPoliciesQueryReload } = getPoliciesQuery;
 
@@ -153,95 +121,13 @@ const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
         });
     }, [ setPolicyWizardState, getPoliciesQueryReload ]);
 
-    const changePage = React.useCallback((event, page: number) => {
-        setCurrentPage(page);
-    }, [ setCurrentPage ]);
-
-    const changeItemsPerPage = React.useCallback((event, perPage: number) => {
-        setCurrentPage(1);
-        setItemsPerPage(perPage);
-    }, [ setCurrentPage, setItemsPerPage ]);
-
-    const onSort = React.useCallback((index: number, column: string, direction: Direction) => {
-        setSort(Sort.by(column, direction));
-    }, [ setSort ]);
-
-    const clearFilters = React.useCallback((clearFilterCommands: ClearFilterCommand[]) => {
-        for (const clearFilterCommand of clearFilterCommands) {
-            switch (clearFilterCommand.filter) {
-                case FilterColumn.NAME:
-                    setFilterName(clearFilterCommand.data as string);
-                    break;
-                case FilterColumn.DESCRIPTION:
-                    setFilterDescription(clearFilterCommand.data as string);
-                    break;
-                case FilterColumn.IS_ACTIVE:
-                    setFilterIsActive(clearFilterCommand.data as IsActiveFilter);
-                    break;
-            }
-        }
-    }, [ setFilterName, setFilterDescription, setFilterIsActive ]);
-
-    const filters = React.useMemo(() => ({
-        [FilterColumn.NAME]: {
-            value: filterName,
-            setter: (data: string) => {
-                setFilterName(data);
-            }
-        },
-        [FilterColumn.DESCRIPTION]: {
-            value: filterDescription,
-            setter: setFilterDescription
-        },
-        [FilterColumn.IS_ACTIVE]: {
-            value: filterIsActive,
-            setter: setFilterIsActive
-        }
-    }), [ filterName, setFilterName, filterDescription, setFilterDescription, filterIsActive, setFilterIsActive ]);
-
     const policyTableErrorValue = React.useMemo(
         () => policyTableError(canReadAll, getPoliciesQuery.error, getPoliciesQuery.status),
         [ canReadAll, getPoliciesQuery.error, getPoliciesQuery.status ]
     );
 
-    const [ policyRows, setPolicyRows ] = React.useState<PolicyRow[]>([]);
-
-    React.useEffect(() => {
-        if (getPoliciesQuery.payload) {
-            setPolicyRows(getPoliciesQuery.payload?.map(policy => ({ ...policy, isOpen: false, isSelected: false })));
-        }
-    }, [ getPoliciesQuery.payload ]);
-
-    const onCollapse = React.useCallback((policy: PolicyRow, index: number, isOpen: boolean) => {
-        setPolicyRows(prevRows => {
-            const newPolicyRows = [ ...prevRows ];
-            newPolicyRows[index] = { ...policy, isOpen };
-            return newPolicyRows;
-        });
-    }, [ setPolicyRows ]);
-
-    const onSelect = React.useCallback((policy: PolicyRow, index: number, isSelected: boolean) => {
-        setPolicyRows(prevRows => {
-            const newPolicyRows = [ ...prevRows ];
-            newPolicyRows[index] = { ...policy, isSelected };
-            return newPolicyRows;
-        });
-    }, [ setPolicyRows ]);
-
-    const onSelectionChanged = React.useCallback((command: SelectionCommand) => {
-        if (command === SelectionCommand.NONE) {
-            setPolicyRows(prevState => prevState.map(policy => ({ ...policy, isSelected: false })));
-        } else if (command === SelectionCommand.PAGE) {
-            setPolicyRows(prevState => prevState.map(policy => ({ ...policy, isSelected: true })));
-        } else {
-            assertNever(command);
-        }
-    }, [ setPolicyRows ]);
-
-    const selectedCount = React.useMemo(() => policyRows.filter(policy => policy.isSelected).length, [ policyRows ]);
-
     const onDeletePolicies = React.useCallback(
-        () => setPolicyToDelete(policyRows.filter(policy => policy.isSelected)),
+        () => setPolicyToDelete(policyRows.rows.filter(policy => policy.isSelected)),
         [ policyRows, setPolicyToDelete ]
     );
 
@@ -255,26 +141,28 @@ const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
                     <PolicyToolbar
                         onCreatePolicy={ canWriteAll ? createCustomPolicy : undefined }
                         onDeletePolicy={ canWriteAll ? onDeletePolicies : undefined }
-                        onPaginationChanged={ changePage }
-                        onPaginationSizeChanged={ changeItemsPerPage }
-                        onSelectionChanged={ onSelectionChanged }
-                        selectedCount={ selectedCount }
-                        page={ currentPage }
+                        onPaginationChanged={ policyPage.changePage }
+                        onPaginationSizeChanged={ policyPage.changeItemsPerPage }
+                        onSelectionChanged={ policyRows.onSelectionChanged }
+                        selectedCount={ policyRows.selectionCount }
+                        page={ policyPage.currentPage }
                         pageCount={ getPoliciesQuery.payload?.length }
-                        perPage={ itemsPerPage }
-                        filters={ filters }
-                        clearFilters={ clearFilters }
+                        perPage={ policyPage.itemsPerPage }
+                        showPerPageOptions={ true }
+                        filterElements={ policyFilters.filters }
+                        setFilterElements = { policyFilters.setFilters }
+                        clearFilters={ policyFilters.clearFilterHandler }
                         count={ getPoliciesQuery.count }
                     />
                     <PolicyTable
-                        policies={ policyRows }
-                        onCollapse={ onCollapse }
-                        onSelect={ onSelect }
+                        policies={ policyRows.rows }
+                        onCollapse={ policyRows.onCollapse }
+                        onSelect={ policyRows.onSelect }
                         actions={ tableActions }
                         loading={ getPoliciesQuery.loading }
                         error={ policyTableErrorValue }
-                        onSort={ onSort }
-                        sortBy={ sort }
+                        onSort={ sort.onSort }
+                        sortBy={ sort.sortBy }
                     />
                 </Section>
             </Main>

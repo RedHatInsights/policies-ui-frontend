@@ -9,6 +9,7 @@ export interface Policy {
     isEnabled?: boolean;
     mtime: Date;
     name: string;
+    triggerId: string;
 }
 
 export interface PagedServerPolicyResponse {
@@ -26,7 +27,10 @@ export interface ServerPolicyResponse {
     is_enabled: boolean; // eslint-disable-line @typescript-eslint/camelcase, camelcase
     mtime: string;
     name: string;
+    triggerId: string;
 }
 
-export type PolicyWithOptionalId = Partial<Pick<Policy, 'id'>> & Omit<Policy, 'id'>;
+type OptionalProperties = 'id' | 'mtime' | 'triggerId';
+
+export type NewPolicy = Partial<Pick<Policy, OptionalProperties>> & Omit<Policy, OptionalProperties>;
 export type ServerPolicyRequest = Partial<ServerPolicyResponse>;

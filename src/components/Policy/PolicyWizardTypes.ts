@@ -38,6 +38,7 @@ export interface WizardContext {
   triggerAction: (action: WizardActionType) => void;
   verifyResponse: VerifyPolicyResponse;
   createResponse: CreatePolicyResponse;
+  setVerifyResponse: (verifyResponse: VerifyPolicyResponse) => void;
 }
 
 export const WizardContext = React.createContext<WizardContext>({
@@ -51,5 +52,8 @@ export const WizardContext = React.createContext<WizardContext>({
     },
     createResponse: {
         created: false
+    },
+    setVerifyResponse: () => {
+        throw Error('setVerifyResponse executed without WizardContext');
     }
 });

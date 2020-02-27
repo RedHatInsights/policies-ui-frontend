@@ -1,5 +1,5 @@
 import Config from '../config/Config';
-import { PagedServerPolicyResponse, Policy, PolicyWithOptionalId } from '../types/Policy/Policy';
+import { PagedServerPolicyResponse, Policy, NewPolicy } from '../types/Policy/Policy';
 import { Action, useMutation, useQuery } from 'react-fetching-library';
 import { Fact } from '../types/Fact';
 import { Page } from '../types/Page';
@@ -66,7 +66,7 @@ export const useGetPoliciesQuery = (page?: Page, initFetch?: boolean): UsePagina
 };
 
 export const useSavePolicyMutation = () => {
-    return useMutation((policy: PolicyWithOptionalId) => {
+    return useMutation((policy: NewPolicy) => {
         if (policy.id) {
             return createAction('PUT', urls.policy(policy.id), {}, toServerPolicy(policy));
         }
