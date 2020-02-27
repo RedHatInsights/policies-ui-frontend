@@ -17,6 +17,7 @@ import { usePolicyFilter } from '../../hooks/usePolicyFilter';
 import { usePolicyPage } from '../../hooks/usePolicyPage';
 import { useSort } from '../../hooks/useSort';
 import { usePolicyRows } from '../../hooks/usePolicyRows';
+import { PolicyFilterColumn } from '../../types/Policy/PolicyPaging';
 
 type ListPageProps = {};
 
@@ -132,13 +133,13 @@ const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
                 canReadAll,
                 {
                     clearAllFiltersAndTryAgain: () => {
-                        setFilterName('');
-                        setFilterDescription('');
-                        setFilterIsActive({
+                        policyFilters.setFilters[PolicyFilterColumn.NAME]('');
+                        policyFilters.setFilters[PolicyFilterColumn.DESCRIPTION]('');
+                        policyFilters.setFilters[PolicyFilterColumn.IS_ACTIVE]({
                             disabled: false,
                             enabled: false
                         });
-                        setCurrentPage(1);
+                        changePage(undefined, 1);
                     },
                     refreshPage: () => {
                         window.location.reload();
@@ -155,9 +156,8 @@ const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
             canReadAll,
             getPoliciesQuery.error,
             getPoliciesQuery.status,
-            setFilterName,
-            setFilterDescription,
-            setFilterIsActive,
+            policyFilters.setFilters,
+            changePage,
             getPoliciesQueryReload
         ]
     );
