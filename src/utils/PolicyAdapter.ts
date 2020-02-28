@@ -59,7 +59,6 @@ export const makeCopyOfPolicy = (policy: Policy): NewPolicy => {
     return {
         ...policy,
         name: `Copy of ${policy.name}`,
-        triggerId: undefined,
         mtime: undefined,
         id: undefined,
         customerid: undefined
