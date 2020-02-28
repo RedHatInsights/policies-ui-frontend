@@ -17,6 +17,7 @@ import { usePolicyFilter } from '../../hooks/usePolicyFilter';
 import { usePolicyPage } from '../../hooks/usePolicyPage';
 import { useSort } from '../../hooks/useSort';
 import { usePolicyRows } from '../../hooks/usePolicyRows';
+import { PolicyFilterColumn } from '../../types/Policy/PolicyPaging';
 
 type ListPageProps = {};
 
@@ -127,8 +128,38 @@ const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
     }, [ setPolicyWizardState, getPoliciesQueryReload ]);
 
     const policyTableErrorValue = React.useMemo(
-        () => policyTableError(canReadAll, getPoliciesQuery.error, getPoliciesQuery.status),
-        [ canReadAll, getPoliciesQuery.error, getPoliciesQuery.status ]
+        () => {
+            return policyTableError(
+                canReadAll,
+                {
+                    clearAllFiltersAndTryAgain: () => {
+                        policyFilters.setFilters[PolicyFilterColumn.NAME]('');
+                        policyFilters.setFilters[PolicyFilterColumn.DESCRIPTION]('');
+                        policyFilters.setFilters[PolicyFilterColumn.IS_ACTIVE]({
+                            disabled: false,
+                            enabled: false
+                        });
+                        changePage(undefined, 1);
+                    },
+                    refreshPage: () => {
+                        window.location.reload();
+                    },
+                    tryAgain: () => {
+                        getPoliciesQueryReload();
+                    }
+                },
+                getPoliciesQuery.error,
+                getPoliciesQuery.status
+            );
+        },
+        [
+            canReadAll,
+            getPoliciesQuery.error,
+            getPoliciesQuery.status,
+            policyFilters.setFilters,
+            changePage,
+            getPoliciesQueryReload
+        ]
     );
 
     const onDeletePolicies = React.useCallback(
