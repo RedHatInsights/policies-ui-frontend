@@ -1,4 +1,11 @@
-import { makeCopyOfPolicy, toPolicies, toPolicy, toServerPolicy } from './PolicyAdapter';
+import {
+    fromServerActions,
+    makeCopyOfPolicy,
+    toPolicies,
+    toPolicy,
+    toServerAction,
+    toServerPolicy
+} from './PolicyAdapter';
 import {
     NewPolicy,
     PagedServerPolicyResponse,
@@ -18,7 +25,7 @@ describe('src/utils/PolicyAdapter', () => {
             description: 'foo description',
             isEnabled: true,
             conditions: '1 == 2',
-            actions: 'ABC',
+            actions: 'email;webhook http://google.com',
             mtime: '2014-01-01T23:28:56.782Z'
         };
         const policy: Policy = {
@@ -28,11 +35,33 @@ describe('src/utils/PolicyAdapter', () => {
             description: 'foo description',
             isEnabled: true,
             conditions: '1 == 2',
-            actions: [],
+            actions: [
+                {
+                    type: ActionType.EMAIL
+                },
+                {
+                    type: ActionType.WEBHOOK,
+                    endpoint: 'http://google.com'
+                }
+            ],
             mtime: new Date('2014-01-01T23:28:56.782Z')
         };
 
         expect(toPolicy(sp)).toEqual(policy);
+    });
+
+    it('toPolicy fails if actions are wrong', () => {
+        const sp: ServerPolicyResponse = {
+            id: '5151-456',
+            customerid: '1337',
+            name: 'foo policy',
+            description: 'foo description',
+            isEnabled: true,
+            conditions: '1 == 2',
+            actions: 'ABC',
+            mtime: '2014-01-01T23:28:56.782Z'
+        };
+        expect(() => toPolicy(sp)).toThrowError();
     });
 
     it('toPolicies converts a PagedServerPolicy[] to Policy[]', () => {
@@ -43,7 +72,7 @@ describe('src/utils/PolicyAdapter', () => {
             description: 'my description',
             isEnabled: false,
             conditions: 'yyy',
-            actions: 'my action',
+            actions: 'email',
             mtime: '2010-01-01T23:28:56.782Z'
         };
         const sp2: ServerPolicyResponse = {
@@ -53,7 +82,7 @@ describe('src/utils/PolicyAdapter', () => {
             description: 'foo description',
             isEnabled: true,
             conditions: '1 == 2',
-            actions: 'ABC',
+            actions: 'webhook http://google.com',
             mtime: '2014-01-01T23:28:56.782Z'
         };
 
@@ -70,7 +99,11 @@ describe('src/utils/PolicyAdapter', () => {
             description: 'my description',
             isEnabled: false,
             conditions: 'yyy',
-            actions: [],
+            actions: [
+                {
+                    type: ActionType.EMAIL
+                }
+            ],
             mtime: new Date('2010-01-01T23:28:56.782Z')
         };
 
@@ -81,7 +114,12 @@ describe('src/utils/PolicyAdapter', () => {
             description: 'foo description',
             isEnabled: true,
             conditions: '1 == 2',
-            actions: [],
+            actions: [
+                {
+                    type: ActionType.WEBHOOK,
+                    endpoint: 'http://google.com'
+                }
+            ],
             mtime: new Date('2014-01-01T23:28:56.782Z')
         };
 
@@ -114,7 +152,11 @@ describe('src/utils/PolicyAdapter', () => {
 
     it('toServerPolicy does not fail with empty object', () => {
         const partialPolicy: DeepPartial<Policy> = { };
-        const pr: ServerPolicyRequest = { };
+        const pr: ServerPolicyRequest = {
+            actions: '',
+            isEnabled: false,
+            mtime: undefined
+        };
         expect(toServerPolicy(partialPolicy)).toEqual(pr);
     });
 
@@ -141,5 +183,41 @@ describe('src/utils/PolicyAdapter', () => {
             actions: [{ type: ActionType.EMAIL }, { type: ActionType.WEBHOOK, endpoint: 'http://google.com' }]
         };
         expect(makeCopyOfPolicy(policy)).toEqual(newPolicy);
+    });
+
+    it('fromServerActions fails with wrong action', () => {
+        const actions = 'email;1337:email';
+        expect(() => fromServerActions(actions)).toThrowError();
+    });
+
+    it('fromServerActions parses the actions action', () => {
+        const actions = 'email;email;webhook abc';
+        expect(fromServerActions(actions)).toEqual([
+            {
+                type: ActionType.EMAIL
+            },
+            {
+                type: ActionType.EMAIL
+            },
+            {
+                type: ActionType.WEBHOOK,
+                endpoint: 'abc'
+            }
+        ]);
+    });
+
+    it('toServerActions serializes the actions', () => {
+        expect(toServerAction([
+            {
+                type: ActionType.EMAIL
+            },
+            {
+                type: ActionType.WEBHOOK,
+                endpoint: 'asdfgh'
+            },
+            {
+                type: ActionType.EMAIL
+            }
+        ])).toEqual('email;webhook asdfgh;email');
     });
 });
