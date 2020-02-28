@@ -7,14 +7,14 @@ import { Dates } from './ExpandedContent/Dates';
 import { Conditions } from './ExpandedContent/Conditions';
 import * as PFColors from '../../../utils/PFColors';
 import { padding } from 'csstips';
-import { Messages } from '../../../properties/Messages';
+import { Actions } from './ExpandedContent/Actions';
 
 interface ExpandedPolicyContentProps {
     description?: string;
     updated: Date;
     created: Date;
     conditions: string;
-    actions?: Action[];
+    actions: Action[];
 }
 
 const blockPadding = style({
@@ -54,7 +54,7 @@ export const ExpandedContent: React.FunctionComponent<ExpandedPolicyContentProps
                         <Conditions conditions={ props.conditions }/>
                     </GridItem>
                     <GridItem className={ conditionsAndActionsBlockClassName } span={ 6 }>
-                        { Messages.tableNoActions }
+                        <Actions actions={ props.actions }/>
                     </GridItem>
                 </Grid>
             </StackItem>
