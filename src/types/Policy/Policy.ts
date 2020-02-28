@@ -2,11 +2,11 @@ import { Action } from './Actions';
 
 export interface Policy {
     id: number;
-    actions?: Action[];
+    actions: Action[];
     conditions: string;
-    customerid?: string;
-    description?: string;
-    isEnabled?: boolean;
+    customerid: string;
+    description: string;
+    isEnabled: boolean;
     mtime: Date;
     name: string;
     triggerId: string;
@@ -20,17 +20,17 @@ export interface PagedServerPolicyResponse {
 
 export interface ServerPolicyResponse {
     id: number;
-    actions?: string;
+    actions: string;
     conditions: string;
     customerid: string;
-    description?: string;
-    is_enabled: boolean; // eslint-disable-line @typescript-eslint/camelcase, camelcase
+    description: string;
+    is_enabled: boolean;
     mtime: string;
     name: string;
     triggerId: string;
 }
 
-type OptionalProperties = 'id' | 'mtime' | 'triggerId';
+type OptionalProperties = 'id' | 'mtime' | 'triggerId' | 'customerid';
 
 export type NewPolicy = Partial<Pick<Policy, OptionalProperties>> & Omit<Policy, OptionalProperties>;
 export type ServerPolicyRequest = Partial<ServerPolicyResponse>;

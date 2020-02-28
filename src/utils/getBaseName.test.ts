@@ -1,6 +1,6 @@
-import getBaseName from './utils/getBaseName';
+import getBaseName from './getBaseName';
 
-describe('Utilities/getBaseName', () => {
+describe('src/utils/getBaseName', () => {
     it('should find the right base name on Stable ', () => {
         expect(getBaseName('/insights/foo/bar/baz')).toEqual('/insights/foo');
         expect(getBaseName('/rhcs/bar/bar/baz')).toEqual('/rhcs/bar');

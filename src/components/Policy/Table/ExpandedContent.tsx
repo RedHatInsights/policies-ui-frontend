@@ -7,6 +7,7 @@ import { Dates } from './ExpandedContent/Dates';
 import { Conditions } from './ExpandedContent/Conditions';
 import * as PFColors from '../../../utils/PFColors';
 import { padding } from 'csstips';
+import { Messages } from '../../../properties/Messages';
 
 interface ExpandedPolicyContentProps {
     description?: string;
@@ -53,7 +54,7 @@ export const ExpandedContent: React.FunctionComponent<ExpandedPolicyContentProps
                         <Conditions conditions={ props.conditions }/>
                     </GridItem>
                     <GridItem className={ conditionsAndActionsBlockClassName } span={ 6 }>
-                        Here be actions
+                        { Messages.tableNoActions }
                     </GridItem>
                 </Grid>
             </StackItem>

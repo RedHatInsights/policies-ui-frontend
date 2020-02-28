@@ -13,6 +13,8 @@ import {
 } from '@patternfly/react-table';
 import {
     Bullseye,
+    Button,
+    ButtonVariant,
     EmptyState,
     EmptyStateBody,
     EmptyStateIcon,
@@ -27,6 +29,7 @@ import { CheckCircleIcon, OffIcon } from '@patternfly/react-icons';
 import { Direction, Sort } from '../../../types/Page';
 import { ExpandedContent } from './ExpandedContent';
 import { IconType } from '@patternfly/react-icons/dist/js/createIcon';
+import { Messages } from '../../../properties/Messages';
 import { assertNever } from '../../../utils/Assert';
 
 type OnSelectHandlerType = (policy: PolicyRow, index: number, isSelected: boolean) => void;
@@ -35,6 +38,7 @@ interface PolicyTableProps {
     actions?: IActions;
     error?: ErrorContentProps;
     loading?: boolean;
+    loadingRowCount?: number;
     onSort?: (index: number, column: string, direction: Direction) => void;
     onCollapse?: (policy: PolicyRow, index: number, isOpen: boolean) => void;
     onSelect?: OnSelectHandlerType;
@@ -46,8 +50,11 @@ interface PolicyTableProps {
 
 export interface ErrorContentProps {
     icon: IconType;
+    iconColor?: string;
     title: string;
     content: string;
+    action?: () => void;
+    actionLabel?: string;
 }
 
 export type PolicyRow = Policy & {
@@ -62,9 +69,12 @@ const defaultColumnsToShow: ValidColumns[] = [ 'name', 'actions', 'is_enabled' ]
 const ErrorContent: React.FunctionComponent<ErrorContentProps> = (props) => {
     return (
         <>
-            <EmptyStateIcon icon={ props.icon }/>
-            <Title size="lg">{ props.title }</Title>
+            <EmptyStateIcon icon={ props.icon } color={ props.iconColor }/>
+            <Title headingLevel="h2" size="lg">{ props.title }</Title>
             <EmptyStateBody>{ props.content }</EmptyStateBody>
+            { props.action && props.actionLabel && (
+                <Button variant={ ButtonVariant.primary } onClick={ props.action }>{ props.actionLabel } </Button>
+            ) }
         </>
     );
 };
@@ -130,8 +140,8 @@ const policiesToRows = (policies: PolicyRow[] | undefined, columnsToShow: ValidC
                     <>
                         <ExpandedContent
                             key={ policy.id + '-content' }
-                            description={ policy.description }
-                            conditions={ policy.conditions }
+                            description={ policy.description ? policy.description : Messages.tableNoDescription }
+                            conditions={ policy.conditions ? policy.conditions : Messages.tableNoConditions }
                             actions={ policy.actions }
                             created={ new Date(2020, 1, 19) }
                             updated={ policy.mtime }
@@ -257,7 +267,7 @@ export const PolicyTable: React.FunctionComponent<PolicyTableProps> = (props) =>
     if (props.loading) {
         return (
             <SkeletonTable
-                rowSize={ 10 }
+                rowSize={ props.loadingRowCount || 10 }
                 columns={ columns }
             />
         );
@@ -265,7 +275,7 @@ export const PolicyTable: React.FunctionComponent<PolicyTableProps> = (props) =>
 
     return (
         <Table
-            aria-label="Custom policies"
+            aria-label={ Messages.tableTitle }
             cells={ columns }
             rows={ rows }
             actionResolver={ actionsResolver }

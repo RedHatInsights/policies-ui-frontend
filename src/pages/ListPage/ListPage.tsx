@@ -17,6 +17,7 @@ import { usePolicyPage } from '../../hooks/usePolicyPage';
 import { useSort } from '../../hooks/useSort';
 import { usePolicyRows } from '../../hooks/usePolicyRows';
 import { makeCopyOfPolicy } from '../../utils/PolicyAdapter';
+import { PolicyFilterColumn } from '../../types/Policy/PolicyPaging';
 
 type ListPageProps = {};
 
@@ -50,13 +51,18 @@ const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
 
     const { query: getPoliciesQueryReload } = getPoliciesQuery;
 
+    const { changePage, currentPage } = policyPage;
+
     const onCloseDeletePolicy = React.useCallback((deleted: boolean) => {
         if (deleted) {
             getPoliciesQueryReload();
+            if (policyToDelete?.length === getPoliciesQuery.payload?.length) {
+                changePage(undefined, currentPage === 1 ? 1 : currentPage - 1);
+            }
         }
 
         setPolicyToDelete(undefined);
-    }, [ getPoliciesQueryReload, setPolicyToDelete ]);
+    }, [ getPoliciesQueryReload, setPolicyToDelete, changePage, currentPage, policyToDelete, getPoliciesQuery.payload ]);
 
     const getPolicyFromPayload =  React.useCallback(
         (id: number) => getPoliciesQuery.payload?.find(policy => policy.id === id),
@@ -131,8 +137,38 @@ const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
     }, [ setPolicyWizardState, getPoliciesQueryReload ]);
 
     const policyTableErrorValue = React.useMemo(
-        () => policyTableError(canReadAll, getPoliciesQuery.error, getPoliciesQuery.status),
-        [ canReadAll, getPoliciesQuery.error, getPoliciesQuery.status ]
+        () => {
+            return policyTableError(
+                canReadAll,
+                {
+                    clearAllFiltersAndTryAgain: () => {
+                        policyFilters.setFilters[PolicyFilterColumn.NAME]('');
+                        policyFilters.setFilters[PolicyFilterColumn.DESCRIPTION]('');
+                        policyFilters.setFilters[PolicyFilterColumn.IS_ACTIVE]({
+                            disabled: false,
+                            enabled: false
+                        });
+                        changePage(undefined, 1);
+                    },
+                    refreshPage: () => {
+                        window.location.reload();
+                    },
+                    tryAgain: () => {
+                        getPoliciesQueryReload();
+                    }
+                },
+                getPoliciesQuery.error,
+                getPoliciesQuery.status
+            );
+        },
+        [
+            canReadAll,
+            getPoliciesQuery.error,
+            getPoliciesQuery.status,
+            policyFilters.setFilters,
+            changePage,
+            getPoliciesQueryReload
+        ]
     );
 
     const onDeletePolicies = React.useCallback(
