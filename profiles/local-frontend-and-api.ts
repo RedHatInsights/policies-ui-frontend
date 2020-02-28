@@ -1,3 +1,5 @@
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const goodGuyLib = require('good-guy-http');
 const SECTION = 'insights';
 const APP_ID = 'custom-policies';
 const FRONTEND_PORT = 8002;
@@ -15,4 +17,13 @@ routes[`/beta/config`]               = { host: `http://localhost:8889` };
 
 routes[`/api/custom-policies/v1.0`] = { host: `http://localhost:${API_PORT}` };
 
-module.exports = { routes };
+module.exports = {
+    routes,
+    esi: {
+        // Increases the default (2s) timeout which can be a pain sometimes.
+        // https://github.com/Schibsted-Tech-Polska/good-guy-http/blob/master/lib/index.js#L55
+        httpClient: goodGuyLib({
+            timeout: 5000
+        })
+    }
+};
