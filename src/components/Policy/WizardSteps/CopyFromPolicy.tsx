@@ -35,6 +35,7 @@ export const CopyFromPolicy: React.FunctionComponent<CopyFromPolicyProps> = (pro
             <PolicyToolbar
                 onPaginationChanged={ policyPage.changePage }
                 page={ policyPage.currentPage }
+                pageCount={ getPoliciesQuery.payload?.length }
                 perPage={ policyPage.itemsPerPage }
                 showPerPageOptions={ false }
                 hideActions={ true }
@@ -42,13 +43,14 @@ export const CopyFromPolicy: React.FunctionComponent<CopyFromPolicyProps> = (pro
                 filterElements={ policyFilter.filters }
                 setFilterElements={ policyFilter.setFilters }
                 clearFilters={ policyFilter.clearFilterHandler }
-                count={ 5 }
+                count={ getPoliciesQuery.count }
             />
             <PolicyTable
                 columnsToShow={ [ 'radioSelect', 'name', 'actions' ] }
                 policies={ policyRows.rows }
                 onSelect={ onSelectHandler }
                 loading={ getPoliciesQuery.loading }
+                loadingRowCount={ 5 }
                 onSort={ policySort.onSort }
                 sortBy={ policySort.sortBy }
             />
