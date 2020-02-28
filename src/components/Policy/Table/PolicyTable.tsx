@@ -36,6 +36,7 @@ interface PolicyTableProps {
     actions?: IActions;
     error?: ErrorContentProps;
     loading?: boolean;
+    loadingRowCount?: number;
     onSort?: (index: number, column: string, direction: Direction) => void;
     onCollapse?: (policy: PolicyRow, index: number, isOpen: boolean) => void;
     onSelect?: OnSelectHandlerType;
@@ -259,7 +260,7 @@ export const PolicyTable: React.FunctionComponent<PolicyTableProps> = (props) =>
     if (props.loading) {
         return (
             <SkeletonTable
-                rowSize={ 10 }
+                rowSize={ props.loadingRowCount || 10 }
                 columns={ columns }
             />
         );
