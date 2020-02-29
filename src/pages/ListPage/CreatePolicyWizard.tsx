@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { PolicyWizard, SavingMode } from '../../components/Policy/PolicyWizard';
+import { PolicyWizard } from '../../components/Policy/PolicyWizard';
 import { useSavePolicyMutation, useVerifyPolicyMutation } from '../../services/Api';
 import * as HttpStatus from 'http-status-codes';
 import { addSuccessNotification } from '../../utils/AlertUtils';
@@ -9,7 +9,7 @@ import { Policy, NewPolicy } from '../../types/Policy/Policy';
 type CreatePolicyWizardBase = {
     close: (policyCreated: boolean) => void;
     initialValue?: NewPolicy;
-    savingMode: SavingMode;
+    showCreateStep: boolean;
 };
 
 type CreatePolicyWizardIsOpen = {
@@ -25,10 +25,6 @@ type CreatePolicyWizardProps = CreatePolicyWizardIsClose | CreatePolicyWizardIsO
 export const CreatePolicyWizard: React.FunctionComponent<CreatePolicyWizardProps> = (props) => {
     const saveMutation = useSavePolicyMutation();
     const verifyMutation = useVerifyPolicyMutation();
-
-    if (props.savingMode === SavingMode.UPDATE && props.initialValue?.id === undefined) {
-        throw new Error('Invalid SavingMode UPDATE for initialValue. initialValue must provide a Policy with an id');
-    }
 
     const onSave = (policy: NewPolicy): Promise<CreatePolicyResponse> => {
         return saveMutation.mutate(policy).then((res) => {
@@ -49,7 +45,7 @@ export const CreatePolicyWizard: React.FunctionComponent<CreatePolicyWizardProps
                     return {
                         created: false,
                         error: res.payload?.msg || `Unknown Error when trying to ${
-                            props.savingMode === SavingMode.CREATE ? 'create' : 'update'
+                            policy.id === undefined ? 'create' : 'update'
                         } the policy: (Code ${res.status})`
                     };
             }
@@ -83,7 +79,7 @@ export const CreatePolicyWizard: React.FunctionComponent<CreatePolicyWizardProps
                 onClose={ () => { props.close(false); } }
                 onSave={ onSave }
                 onVerify={ onVerify }
-                savingMode={ props.savingMode }
+                showCreateStep={ props.showCreateStep }
                 isLoading={ isLoading }
             /> }
         </>
