@@ -13,11 +13,8 @@ import { DeepPartial } from 'ts-essentials';
 
 export const toServerPolicy = (policy: DeepPartial<Policy>): ServerPolicyRequest => {
 
-    const { isEnabled, ...restPolicy } = policy;
-
     return {
-        ...restPolicy,
-        is_enabled: isEnabled,
+        ...policy,
         actions: policy.actions?.map((action): string => {
             if (!action || !action.type) {
                 return '';
@@ -42,10 +39,8 @@ export const toServerPolicy = (policy: DeepPartial<Policy>): ServerPolicyRequest
 };
 
 export const toPolicy = (serverPolicy: ServerPolicyResponse): Policy => {
-    const { is_enabled: isEnabled, ...restServerPolicy } = serverPolicy;
     return {
-        ...restServerPolicy,
-        isEnabled,
+        ...serverPolicy,
         actions: [],
         mtime: parseJSON(serverPolicy.mtime)
     };

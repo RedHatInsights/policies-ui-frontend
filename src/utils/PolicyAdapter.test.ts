@@ -16,7 +16,7 @@ describe('src/utils/PolicyAdapter', () => {
             customerid: '1337',
             name: 'foo policy',
             description: 'foo description',
-            is_enabled: true,
+            isEnabled: true,
             conditions: '1 == 2',
             actions: 'ABC',
             mtime: '2014-01-01T23:28:56.782Z'
@@ -41,7 +41,7 @@ describe('src/utils/PolicyAdapter', () => {
             customerid: '5678',
             name: 'my name',
             description: 'my description',
-            is_enabled: false,
+            isEnabled: false,
             conditions: 'yyy',
             actions: 'my action',
             mtime: '2010-01-01T23:28:56.782Z'
@@ -51,7 +51,7 @@ describe('src/utils/PolicyAdapter', () => {
             customerid: '1337',
             name: 'foo policy',
             description: 'foo description',
-            is_enabled: true,
+            isEnabled: true,
             conditions: '1 == 2',
             actions: 'ABC',
             mtime: '2014-01-01T23:28:56.782Z'
@@ -105,7 +105,7 @@ describe('src/utils/PolicyAdapter', () => {
             conditions: '1 == 2',
             customerid: '1337',
             description: 'foo description',
-            is_enabled: true,
+            isEnabled: true,
             mtime: '2014-01-01T23:28:56.782Z',
             name: 'foo policy'
         };

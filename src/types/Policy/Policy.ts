@@ -23,7 +23,7 @@ export interface ServerPolicyResponse {
     conditions: string;
     customerid: string;
     description: string;
-    is_enabled: boolean;
+    isEnabled: boolean;
     mtime: string;
     name: string;
 }
