@@ -1,7 +1,7 @@
 import { Action } from './Actions';
 
 export interface Policy {
-    id: number;
+    id: string;
     actions: Action[];
     conditions: string;
     customerid: string;
@@ -9,7 +9,6 @@ export interface Policy {
     isEnabled: boolean;
     mtime: Date;
     name: string;
-    triggerId: string;
 }
 
 export interface PagedServerPolicyResponse {
@@ -19,7 +18,7 @@ export interface PagedServerPolicyResponse {
 }
 
 export interface ServerPolicyResponse {
-    id: number;
+    id: string;
     actions: string;
     conditions: string;
     customerid: string;
@@ -27,10 +26,9 @@ export interface ServerPolicyResponse {
     is_enabled: boolean;
     mtime: string;
     name: string;
-    triggerId: string;
 }
 
-type OptionalProperties = 'id' | 'mtime' | 'triggerId' | 'customerid';
+type OptionalProperties = 'id' | 'mtime'  | 'customerid';
 
 export type NewPolicy = Partial<Pick<Policy, OptionalProperties>> & Omit<Policy, OptionalProperties>;
 export type ServerPolicyRequest = Partial<ServerPolicyResponse>;

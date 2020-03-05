@@ -65,7 +65,7 @@ const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
     }, [ getPoliciesQueryReload, setPolicyToDelete, changePage, currentPage, policyToDelete, getPoliciesQuery.payload ]);
 
     const getPolicyFromPayload =  React.useCallback(
-        (id: number) => getPoliciesQuery.payload?.find(policy => policy.id === id),
+        (id: string) => getPoliciesQuery.payload?.find(policy => policy.id === id),
         [ getPoliciesQuery.payload ]);
 
     const tableActions: IActions = React.useMemo<IActions>(() => {
