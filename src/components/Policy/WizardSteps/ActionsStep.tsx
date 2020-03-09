@@ -21,7 +21,7 @@ const ActionsStep = () => {
 
     return (
         <Form>
-            <Title headingLevel="h4" size="xl">{Messages.wizardActions}</Title>
+            <Title headingLevel="h4" size="xl">{ Messages.wizards.policy.actions.title }</Title>
             <FieldArray name="actions">
                 { (helpers: FieldArrayRenderProps) => {
                     return <ActionsForm id="actions" name="actions" actions={ helpers.form.values.actions } arrayHelpers={ helpers }/>;
@@ -32,7 +32,7 @@ const ActionsStep = () => {
 };
 
 export const createActionsStep: (stepOverrides?: Partial<WizardStepExtended>) => WizardStepExtended = (stepOverrides) => ({
-    name: Messages.wizardActions,
+    name: Messages.wizards.policy.actions.title,
     component: <ActionsStep/>,
     validationSchema: PolicyFormActions,
     ...stepOverrides

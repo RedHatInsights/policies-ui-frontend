@@ -1,5 +1,14 @@
 import * as React from 'react';
-import { ActionGroup, Button, ButtonVariant, Form, Title } from '@patternfly/react-core';
+import {
+    Button,
+    ButtonVariant,
+    Form,
+    Spinner, Split,
+    SplitItem,
+    Stack,
+    StackItem,
+    Title
+} from '@patternfly/react-core';
 import { ExclamationCircleIcon, CheckCircleIcon } from '@patternfly/react-icons';
 
 import { FormTextInput } from '../../Formik/Patternfly';
@@ -9,39 +18,91 @@ import { useFormikContext } from 'formik';
 import { style } from 'typestyle';
 import { GlobalDangerColor100, GlobalSuccessColor200 } from '../../../utils/PFColors';
 import { Messages } from '../../../properties/Messages';
+import { joinClasses } from '../../../utils/ComponentUtils';
 
-const centerClassName = style({
+const elementClassName = style({
     marginTop: 'auto',
-    marginBottom: 'auto'
+    marginBottom: 'auto',
+    marginLeft: 8
+});
+
+const width100ClassName = style({
+    width: '100%'
+});
+
+const marginTopClassName = style({
+    marginTop: 12
+});
+
+const fontRedColor = style({
+    color: GlobalDangerColor100
+});
+
+const fontGreenColor = style({
+    color: GlobalSuccessColor200
+});
+
+const fontWeightBold = style({
+    fontWeight: 'bold'
 });
 
 interface ConditionStatusProps {
     isValid?: boolean;
     error?: string;
     changed?: boolean;
+    loading: boolean;
 }
 
 const ConditionStatus: React.FunctionComponent<ConditionStatusProps> = (props) => {
+    if (props.loading) {
+        return (
+            <Split>
+                <SplitItem>
+                    <span className={ elementClassName }><Spinner size="md" /></span>
+                    <span className={ elementClassName }> { Messages.wizards.policy.conditions.validating } </span>
+                </SplitItem>
+            </Split>
+        );
+    }
+
     if (props.changed) {
         return null;
     }
 
     if (props.isValid) {
         return (
-            <>
-                <CheckCircleIcon className={ centerClassName } color={ GlobalSuccessColor200 }/>
-                <div className={ centerClassName }>Condition is valid</div>
-            </>
+            <Split>
+                <SplitItem>
+                    <CheckCircleIcon className={ elementClassName } color={ GlobalSuccessColor200 }/>
+                </SplitItem>
+                <SplitItem>
+                    <div className={ joinClasses(elementClassName, fontGreenColor, fontWeightBold) }>
+                        { Messages.wizards.policy.conditions.valid }
+                    </div>
+                </SplitItem>
+            </Split>
         );
     }
 
     if (props.error) {
         return (
-            <>
-                <ExclamationCircleIcon className={ centerClassName } color={ GlobalDangerColor100 }/>
-                <div className={ centerClassName }>Invalid condition</div>
-                <div className={ centerClassName }> { props.error } </div>
-            </>
+            <Stack>
+                <StackItem>
+                    <Split>
+                        <SplitItem>
+                            <ExclamationCircleIcon className={ elementClassName } color={ GlobalDangerColor100 }/>
+                        </SplitItem>
+                        <SplitItem>
+                            <div className={ joinClasses(elementClassName, fontRedColor, fontWeightBold) }>
+                                { Messages.wizards.policy.conditions.invalid }
+                            </div>
+                        </SplitItem>
+                    </Split>
+                </StackItem>
+                <StackItem>
+                    <div className={ joinClasses(elementClassName, fontRedColor) }> { props.error } </div>
+                </StackItem>
+            </Stack>
         );
     }
 
@@ -58,30 +119,33 @@ const ConditionsStep: React.FunctionComponent = () => {
 
     return (
         <Form>
-            <Title headingLevel="h4" size="xl">{Messages.wizardConditions}</Title>
+            <Title headingLevel="h4" size="xl">{ Messages.wizards.policy.conditions.title }</Title>
             <FormTextInput isRequired={ true } label="Condition text"
                 type="text" id="conditions" name="conditions"
                 placeholder={ 'arch = "x86_64"' }
             />
-            <ActionGroup>
-                { values.conditions && values.conditions !== '' && (
-                    <>
-                        <Button onClick={ triggerTestCondition } variant={ ButtonVariant.secondary }>
-                            Test condition
+            { values.conditions && values.conditions !== '' && (
+                <Stack className={ width100ClassName }>
+                    <StackItem>
+                        <Button onClick={ triggerTestCondition } isDisabled={ context.isLoading } variant={ ButtonVariant.secondary }>
+                            Validate condition
                         </Button>
+                    </StackItem>
+                    <StackItem className={ marginTopClassName }>
                         <ConditionStatus
+                            loading={ context.isLoading }
                             { ...context.verifyResponse }
                             changed={ context.verifyResponse.policy?.conditions !== values.conditions }
                         />
-                    </>
-                )}
-            </ActionGroup>
+                    </StackItem>
+                </Stack>
+            )}
         </Form>
     );
 };
 
 export const createConditionsStep: (stepOverrides?: Partial<WizardStepExtended>) => WizardStepExtended = (stepOverrides) => ({
-    name: Messages.wizardConditions,
+    name: Messages.wizards.policy.conditions.title,
     component: <ConditionsStep/>,
     validationSchema: PolicyFormConditions,
     isValid: (context, values) => {
