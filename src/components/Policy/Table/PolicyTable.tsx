@@ -31,6 +31,7 @@ import { ExpandedContent } from './ExpandedContent';
 import { IconType } from '@patternfly/react-icons/dist/js/createIcon';
 import { Messages } from '../../../properties/Messages';
 import { assertNever } from '../../../utils/Assert';
+import { ActionsCell } from './ActionsCell';
 
 type OnSelectHandlerType = (policy: PolicyRow, index: number, isSelected: boolean) => void;
 
@@ -107,7 +108,7 @@ const policiesToRows = (policies: PolicyRow[] | undefined, columnsToShow: ValidC
                 cells: columnsToShow.map(column => {
                     switch (column) {
                         case 'actions':
-                            return policy.actions;
+                            return  <><ActionsCell actions={ policy.actions }/></>;
                         case 'is_enabled':
                             return policy.isEnabled ? <><CheckCircleIcon color="green"/></> : <><OffIcon /></>;
                         case 'name':
@@ -194,11 +195,11 @@ export const PolicyTable: React.FunctionComponent<PolicyTableProps> = (props) =>
                 column: 'name'
             },
             actions: {
-                title: 'Actions',
+                title: 'Run Actions',
                 transforms: [ ]
             },
             is_enabled: { // eslint-disable-line @typescript-eslint/camelcase
-                title: 'Is active?',
+                title: 'Active',
                 transforms: transformSortable,
                 column: 'is_enabled'
             }

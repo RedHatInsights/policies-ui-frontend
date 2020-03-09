@@ -8,17 +8,8 @@ export const join: (
     return elements.reduce((joined, element, index) => {
         joined.push(element);
 
-        let key: React.Key | null = null;
-        if (React.isValidElement<React.ReactElement<unknown>>(element)) {
-            key = element.props.key;
-        }
-
-        if (!key) {
-            key = index;
-        }
-
         if (index !== elements.length - 1) {
-            joined.push((<GlueComponent key={ `${key}_joined_element` }/>));
+            joined.push((<GlueComponent key={ `${index}_joined_element` }/>));
         }
 
         return joined;
