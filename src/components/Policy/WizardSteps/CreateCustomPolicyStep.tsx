@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Form, Radio, Title } from '@patternfly/react-core';
+import { Radio, Title } from '@patternfly/react-core';
 import { WizardContext, WizardStepExtended } from '../PolicyWizardTypes';
 import { Messages } from '../../../properties/Messages';
 import { CopyFromPolicy } from './CopyFromPolicy';
@@ -9,6 +9,7 @@ import * as Yup from 'yup';
 import { useContext } from 'react';
 import { makeCopyOfPolicy } from '../../../utils/PolicyAdapter';
 import { NewPolicy } from '../../../types/Policy/Policy';
+import { Form } from '../../Formik/Patternfly/Form';
 
 type CreateCustomPolicyFormType = NewPolicy & {
     isValid?: boolean;

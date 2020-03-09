@@ -1,10 +1,11 @@
 import * as React from 'react';
-import { Form, Title } from '@patternfly/react-core';
+import { Title } from '@patternfly/react-core';
 
 import { FormTextInput } from '../../Formik/Patternfly';
 import { WizardStepExtended } from '../PolicyWizardTypes';
 import { PolicyFormDetails } from '../../../schemas/CreatePolicy/PolicySchema';
 import { Messages } from '../../../properties/Messages';
+import { Form } from '../../Formik/Patternfly/Form';
 
 const DetailsStep = () => {
     return (

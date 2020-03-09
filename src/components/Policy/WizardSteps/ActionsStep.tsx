@@ -1,11 +1,12 @@
 import * as React from 'react';
-import { Form, Title } from '@patternfly/react-core';
+import { Title } from '@patternfly/react-core';
 
 import { PartialPolicy, WizardStepExtended } from '../PolicyWizardTypes';
 import { PolicyFormActions } from '../../../schemas/CreatePolicy/PolicySchema';
 import { FieldArray, FieldArrayRenderProps, useFormikContext } from 'formik';
 import { ActionsForm } from '../ActionsForm';
 import { Messages } from '../../../properties/Messages';
+import { Form } from '../../Formik/Patternfly/Form';
 
 const ActionsStep = () => {
 
