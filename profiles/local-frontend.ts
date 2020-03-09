@@ -9,8 +9,4 @@ routes[`/beta/${SECTION}/${APP_ID}`] = { host: `https://localhost:${FRONTEND_POR
 routes[`/beta/${SECTION}/${APP_ID}`] = { host: `https://localhost:${FRONTEND_PORT}` };
 routes[`/beta/apps/${APP_ID}`]       = { host: `https://localhost:${FRONTEND_PORT}` };
 
-// For testing a new menu, see:
-// https://github.com/RedHatInsights/cloud-services-config#testing-your-changes-locally
-routes[`/beta/config`]               = { host: `http://localhost:8889` };
-
 module.exports = { routes };
