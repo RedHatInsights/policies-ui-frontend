@@ -14,9 +14,14 @@ import { TimesIcon } from '@patternfly/react-icons';
 import { ActionForm } from './ActionForm/ActionForm';
 import { assertNever } from '../../utils/Assert';
 import { style } from 'typestyle';
+import { ActionIcon } from './ActionIcons';
 
 const marginTopClassName = style({
     marginTop: 10
+});
+
+const marginLeftClassName = style({
+    marginLeft: 10
 });
 
 interface ActionsFormProps {
@@ -51,7 +56,12 @@ export const ActionsForm: React.FunctionComponent<ActionsFormProps> = (props) =>
                                 </Button>
                             </CardActions>
                             <CardHeader>
-                                <Title size="sm">{ action?.type ? titleForActionType(action.type) : '' }</Title>
+                                <>
+                                    <ActionIcon actionType={ action?.type }/>
+                                    <Title className={ marginLeftClassName } size="sm">
+                                        { action?.type ? titleForActionType(action.type) : '' }
+                                    </Title>
+                                </>
                             </CardHeader>
                         </CardHead>
                         { /* Adding this pf-c-form class is a hack (i think).

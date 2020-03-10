@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { Action, ActionType } from '../../../types/Policy/Actions';
 import { assertNever } from '../../../utils/Assert';
-import { EnvelopeIcon, HashtagIcon } from '@patternfly/react-icons';
 import { Badge, Split, SplitItem } from '@patternfly/react-core';
 import { style } from 'typestyle';
+import { ActionEmailIcon, ActionWebhookIcon } from '../ActionIcons';
 
 interface ActionsCellProps {
     actions: Action[];
@@ -32,10 +32,10 @@ export const ActionsCell: React.FunctionComponent<ActionsCellProps> = (props) =>
         let element;
         switch (action.type) {
             case ActionType.EMAIL:
-                element = <EnvelopeIcon/>;
+                element = <ActionEmailIcon/>;
                 break;
             case ActionType.WEBHOOK:
-                element = <HashtagIcon/>;
+                element = <ActionWebhookIcon/>;
                 break;
             default:
                 assertNever(action);
