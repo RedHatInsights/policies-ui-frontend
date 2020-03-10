@@ -103,7 +103,7 @@ export const Actions: React.FunctionComponent<ActionsProps> = (props) => {
                 </StackItem>
                 {
                     props.actions.length === 0 ? (
-                        <Text> { Messages.tableNoActions } </Text>
+                        <Text> { Messages.tables.policy.emptyState.noActions } </Text>
                     ) : getActions(props.actions)
                 }
             </Stack>

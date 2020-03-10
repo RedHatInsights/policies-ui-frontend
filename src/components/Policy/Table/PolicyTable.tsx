@@ -141,8 +141,8 @@ const policiesToRows = (policies: PolicyRow[] | undefined, columnsToShow: ValidC
                     <>
                         <ExpandedContent
                             key={ policy.id + '-content' }
-                            description={ policy.description ? policy.description : Messages.tableNoDescription }
-                            conditions={ policy.conditions ? policy.conditions : Messages.tableNoConditions }
+                            description={ policy.description ? policy.description : Messages.tables.policy.emptyState.noDescription }
+                            conditions={ policy.conditions ? policy.conditions : Messages.tables.policy.emptyState.noConditions }
                             actions={ policy.actions }
                             created={ new Date(2020, 1, 19) }
                             updated={ policy.mtime }
@@ -276,7 +276,7 @@ export const PolicyTable: React.FunctionComponent<PolicyTableProps> = (props) =>
 
     return (
         <Table
-            aria-label={ Messages.tableTitle }
+            aria-label={ Messages.tables.policy.title }
             cells={ columns }
             rows={ rows }
             actionResolver={ actionsResolver }

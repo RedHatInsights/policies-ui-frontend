@@ -15,3 +15,5 @@ export const join: (
         return joined;
     }, initialValue);
 };
+
+export const joinClasses = (...args: string[]) => args.join(' ');

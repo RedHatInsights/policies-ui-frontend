@@ -9,7 +9,7 @@ import { Messages } from '../../../properties/Messages';
 const DetailsStep = () => {
     return (
         <Form>
-            <Title headingLevel="h4" size="xl">{Messages.wizardDetails}</Title>
+            <Title headingLevel="h4" size="xl">{ Messages.wizards.policy.details.title }</Title>
             <FormTextInput isRequired={ true } label="Name" type="text" name="name" id="name"/>
             <FormTextInput label="Description" type="text" id="description" name="description"/>
         </Form>
@@ -17,7 +17,7 @@ const DetailsStep = () => {
 };
 
 export const createDetailsStep: (stepOverrides?: Partial<WizardStepExtended>) => WizardStepExtended = (stepOverrides) => ({
-    name: Messages.wizardDetails,
+    name: Messages.wizards.policy.details.title,
     component: <DetailsStep/>,
     validationSchema: PolicyFormDetails,
     ...stepOverrides

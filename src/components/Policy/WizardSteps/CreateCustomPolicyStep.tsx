@@ -49,7 +49,7 @@ const CreateCustomPolicyStep: React.FunctionComponent = () => {
     return (
         <>
             <Form>
-                <Title headingLevel="h4" size="xl">{Messages.wizardCreatePolicy}</Title>
+                <Title headingLevel="h4" size="xl">{ Messages.wizards.policy.createPolicy.title }</Title>
                 <span>Define a new custom policy:</span>
                 <Radio
                     isChecked={ !copyPolicy }
@@ -77,7 +77,7 @@ const CreateCustomPolicyStep: React.FunctionComponent = () => {
 };
 
 export const createCustomPolicyStep: (stepOverrides?: Partial<WizardStepExtended>) => WizardStepExtended = (stepOverrides) => ({
-    name: Messages.wizardCreatePolicy,
+    name: Messages.wizards.policy.createPolicy.title,
     component: <CreateCustomPolicyStep/>,
     validationSchema: Yup.object().shape({
         isValid: Yup.boolean().oneOf([ true ])

@@ -1,16 +1,40 @@
+import { DeepReadonly } from 'ts-essentials';
 
 //Capture some strings we reuse. Possibly use in i18n later?
+const MutableMessages = {
+    tables: {
+        policy: {
+            title: 'Custom Policies',
+            emptyState: {
+                neverRun: 'Never',
+                noActions: 'No actions configured.',
+                noConditions: 'No conditions configured.',
+                noDescription: '--'
+            }
+        }
+    },
+    wizards: {
+        policy: {
+            actions: {
+                title: 'Actions'
+            },
+            conditions: {
+                title: 'Conditions',
+                valid: 'Valid condition',
+                invalid: 'Invalid condition',
+                validating: 'Validating…'
+            },
+            createPolicy: {
+                title: 'Create Custom Policy'
+            },
+            details: {
+                title: 'Details'
+            },
+            review: {
+                title: 'Review'
+            }
+        }
+    }
+};
 
-export class Messages {
-    public static readonly tableNeverRun: string = 'Never' ;
-    public static readonly tableNoActions: string = 'No actions configured.' ;
-    public static readonly tableNoConditions: string = 'No conditions configured.' ;
-    public static readonly tableNoDescription: string = '--' ;
-    public static readonly tableTitle: string = 'Custom Policies';
-    public static readonly wizardActions: string = 'Actions' ;
-    public static readonly wizardConditions: string = 'Conditions' ;
-    public static readonly wizardCreatePolicy: string ='Create Custom Policy';
-    public static readonly wizardDetails: string = 'Details';
-    public static readonly wizardReview: string = 'Review' ;
-
-}
+export const Messages: DeepReadonly<typeof MutableMessages> = MutableMessages;

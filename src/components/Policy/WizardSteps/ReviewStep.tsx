@@ -22,7 +22,7 @@ const ReviewStep: React.FunctionComponent = () => {
     return (
         <>
             <Form>
-                <Title headingLevel="h4" size="xl">{Messages.wizardReview}</Title>
+                <Title headingLevel="h4" size="xl">{ Messages.wizards.policy.review.title }</Title>
                 <Switch isDisabled={ context.isLoading } type="checkbox" id="isEnabled" name="isEnabled" label="Activate Policy?"/>
                 <FormTextInput isReadOnly label="Name" type="text" name="name" id="name"/>
                 <FormTextInput isReadOnly label="Description" type="text" id="description" name="description"/>
@@ -46,7 +46,7 @@ const ReviewStep: React.FunctionComponent = () => {
 };
 
 export const createReviewStep: (stepOverrides?: Partial<WizardStepExtended>) => WizardStepExtended = (stepOverrides) => ({
-    name: Messages.wizardReview,
+    name: Messages.wizards.policy.review.title,
     component: <ReviewStep/>,
     validationSchema: PolicyFormSchema,
     ...stepOverrides
