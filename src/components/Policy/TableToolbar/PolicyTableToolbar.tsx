@@ -158,7 +158,7 @@ export const PolicyToolbar: React.FunctionComponent<TablePolicyToolbarProps> = (
                     onClick: selectNone
                 },
                 {
-                    title: `Select page (${pageCount})`,
+                    title: `Select page (${pageCount || 0})`,
                     onClick: selectPage
                 }
             ],
