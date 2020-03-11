@@ -17,11 +17,10 @@ export const toServerAction = (actions: DeepPartial<Action[]>): string => {
             return '';
         }
 
-        let encodedAction = `${action.type}`;
+        const encodedAction = `${action.type}`;
 
         switch (action.type) {
             case ActionType.WEBHOOK:
-                encodedAction += ' ' + action.endpoint;
                 break;
             case ActionType.EMAIL:
                 break;
@@ -40,12 +39,11 @@ export const fromServerActions = (actions?: string): Action[] => {
 
     const policyAction: Action[] = [];
     for (const action of actions.split(';')) {
-        const [ actionType, actionArguments ] = action.split(' ', 2);
+        const [ actionType ] = action.split(' ', 2);
         switch (actionType) {
             case ActionType.WEBHOOK:
                 policyAction.push({
-                    type: ActionType.WEBHOOK,
-                    endpoint: actionArguments
+                    type: ActionType.WEBHOOK
                 });
                 break;
             case ActionType.EMAIL:

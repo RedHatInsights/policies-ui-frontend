@@ -25,7 +25,7 @@ describe('src/utils/PolicyAdapter', () => {
             description: 'foo description',
             isEnabled: true,
             conditions: '1 == 2',
-            actions: 'email;webhook http://google.com',
+            actions: 'email;webhook',
             mtime: '2014-01-01T23:28:56.782Z'
         };
         const policy: Policy = {
@@ -40,8 +40,7 @@ describe('src/utils/PolicyAdapter', () => {
                     type: ActionType.EMAIL
                 },
                 {
-                    type: ActionType.WEBHOOK,
-                    endpoint: 'http://google.com'
+                    type: ActionType.WEBHOOK
                 }
             ],
             mtime: new Date('2014-01-01T23:28:56.782Z')
@@ -82,7 +81,7 @@ describe('src/utils/PolicyAdapter', () => {
             description: 'foo description',
             isEnabled: true,
             conditions: '1 == 2',
-            actions: 'webhook http://google.com',
+            actions: 'webhook',
             mtime: '2014-01-01T23:28:56.782Z'
         };
 
@@ -116,8 +115,7 @@ describe('src/utils/PolicyAdapter', () => {
             conditions: '1 == 2',
             actions: [
                 {
-                    type: ActionType.WEBHOOK,
-                    endpoint: 'http://google.com'
+                    type: ActionType.WEBHOOK
                 }
             ],
             mtime: new Date('2014-01-01T23:28:56.782Z')
@@ -168,7 +166,7 @@ describe('src/utils/PolicyAdapter', () => {
             description: 'foo description',
             isEnabled: true,
             conditions: '1 == 2',
-            actions: [{ type: ActionType.EMAIL }, { type: ActionType.WEBHOOK, endpoint: 'http://google.com' }],
+            actions: [{ type: ActionType.EMAIL }, { type: ActionType.WEBHOOK }],
             mtime: new Date('2014-01-01T23:28:56.782Z')
         };
 
@@ -180,7 +178,7 @@ describe('src/utils/PolicyAdapter', () => {
             description: 'foo description',
             isEnabled: true,
             conditions: '1 == 2',
-            actions: [{ type: ActionType.EMAIL }, { type: ActionType.WEBHOOK, endpoint: 'http://google.com' }]
+            actions: [{ type: ActionType.EMAIL }, { type: ActionType.WEBHOOK }]
         };
         expect(makeCopyOfPolicy(policy)).toEqual(newPolicy);
     });
@@ -191,7 +189,7 @@ describe('src/utils/PolicyAdapter', () => {
     });
 
     it('fromServerActions parses the actions action', () => {
-        const actions = 'email;email;webhook abc';
+        const actions = 'email;email;webhook';
         expect(fromServerActions(actions)).toEqual([
             {
                 type: ActionType.EMAIL
@@ -200,8 +198,7 @@ describe('src/utils/PolicyAdapter', () => {
                 type: ActionType.EMAIL
             },
             {
-                type: ActionType.WEBHOOK,
-                endpoint: 'abc'
+                type: ActionType.WEBHOOK
             }
         ]);
     });
@@ -212,12 +209,11 @@ describe('src/utils/PolicyAdapter', () => {
                 type: ActionType.EMAIL
             },
             {
-                type: ActionType.WEBHOOK,
-                endpoint: 'asdfgh'
+                type: ActionType.WEBHOOK
             },
             {
                 type: ActionType.EMAIL
             }
-        ])).toEqual('email;webhook asdfgh;email');
+        ])).toEqual('email;webhook;email');
     });
 });
