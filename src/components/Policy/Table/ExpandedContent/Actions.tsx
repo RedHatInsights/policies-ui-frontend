@@ -4,8 +4,6 @@ import {
     Stack,
     StackItem,
     Text,
-    TextContent, TextList, TextListItem, TextListItemVariants,
-    TextListVariants,
     Title,
     TitleSize
 } from '@patternfly/react-core';
