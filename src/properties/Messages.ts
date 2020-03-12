@@ -31,7 +31,15 @@ const MutableMessages = {
                 title: 'Details'
             },
             review: {
-                title: 'Review'
+                title: 'Review and activate',
+                activateThisPolicy: 'Activate this policy?',
+                policyIsActive: 'Policy is active',
+                policyIsNotActive: 'Policy is not active',
+                policy: {
+                    details: 'Policy details',
+                    name: 'Policy name',
+                    description: 'Description'
+                }
             }
         }
     }
