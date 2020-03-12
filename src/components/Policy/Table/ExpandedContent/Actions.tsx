@@ -7,13 +7,13 @@ import {
     Title,
     TitleSize
 } from '@patternfly/react-core';
-import { EnvelopeIcon, HashtagIcon } from '@patternfly/react-icons';
 import { style } from 'typestyle';
 import { Action, ActionType } from '../../../../types/Policy/Actions';
 import { Messages } from '../../../../properties/Messages';
 import { assertNever } from '../../../../utils/Assert';
 import { join } from '../../../../utils/ComponentUtils';
 import { IconType } from '@patternfly/react-icons/dist/js/createIcon';
+import { ActionEmailIcon, ActionWebhookIcon } from '../../ActionIcons';
 
 interface ActionsProps {
     actions: Action[];
@@ -65,14 +65,14 @@ const getActions = (actions: Action[]) => {
             case ActionType.EMAIL:
                 elements.push((
                     <React.Fragment key={ index }>
-                        <ActionWrapper title="Send Email" icon={ EnvelopeIcon }/>
+                        <ActionWrapper title="Send Email" icon={ ActionEmailIcon }/>
                     </React.Fragment>
                 ));
                 break;
             case ActionType.WEBHOOK:
                 elements.push((
                     <React.Fragment key={ index }>
-                        <ActionWrapper title="Send to Hook" icon={ HashtagIcon }/>
+                        <ActionWrapper title="Send to Hook" icon={ ActionWebhookIcon }/>
                     </React.Fragment>
                 ));
                 break;
