@@ -90,11 +90,11 @@ export const Actions: React.FunctionComponent<ActionsProps> = (props) => {
         <>
             <Stack>
                 <StackItem>
-                    <Title className={ titleClassName } size={ TitleSize.md }>Run Actions</Title>
+                    <Title className={ titleClassName } size={ TitleSize.md }>{ Messages.components.actions.title }</Title>
                 </StackItem>
                 {
                     props.actions.length === 0 ? (
-                        <Text> { Messages.tables.policy.emptyState.noActions } </Text>
+                        <Text> { Messages.components.actions.noActions } </Text>
                     ) : getActions(props.actions)
                 }
             </Stack>
