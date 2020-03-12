@@ -269,8 +269,6 @@ export const PolicyToolbar: React.FunctionComponent<TablePolicyToolbarProps> = (
                 label: 'Create policy',
                 onClick: onCreatePolicy,
                 props: {
-                    // Todo: Remove from here if https://github.com/RedHatInsights/frontend-components/pull/376 is merged
-                    onClick: onCreatePolicy,
                     isDisabled: !onCreatePolicy
                 }
             },
