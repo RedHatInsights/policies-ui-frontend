@@ -4,8 +4,6 @@ import {
     Stack,
     StackItem,
     Text,
-    TextContent, TextList, TextListItem, TextListItemVariants,
-    TextListVariants,
     Title,
     TitleSize
 } from '@patternfly/react-core';
@@ -74,14 +72,7 @@ const getActions = (actions: Action[]) => {
             case ActionType.WEBHOOK:
                 elements.push((
                     <React.Fragment key={ index }>
-                        <ActionWrapper title="Send to Hook" icon={ HashtagIcon }>
-                            <TextContent>
-                                <TextList component={ TextListVariants.dl }>
-                                    <TextListItem component={ TextListItemVariants.dt }> Endpoint </TextListItem>
-                                    <TextListItem component={ TextListItemVariants.dd }> { action.endpoint }</TextListItem>
-                                </TextList>
-                            </TextContent>
-                        </ActionWrapper>
+                        <ActionWrapper title="Send to Hook" icon={ HashtagIcon }/>
                     </React.Fragment>
                 ));
                 break;
