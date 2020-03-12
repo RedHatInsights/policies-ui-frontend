@@ -2,7 +2,6 @@ import * as React from 'react';
 import {
     Button,
     ButtonVariant,
-    Form,
     Spinner, Split,
     SplitItem,
     Stack,
@@ -19,6 +18,7 @@ import { style } from 'typestyle';
 import { GlobalDangerColor100, GlobalSuccessColor200 } from '../../../utils/PFColors';
 import { Messages } from '../../../properties/Messages';
 import { joinClasses } from '../../../utils/ComponentUtils';
+import { Form } from '../../Formik/Patternfly/Form';
 
 const elementClassName = style({
     marginTop: 'auto',

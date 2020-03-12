@@ -3,7 +3,7 @@ import { FieldArray, FieldArrayRenderProps } from 'formik';
 
 import { WizardContext, WizardStepExtended } from '../PolicyWizardTypes';
 import { FormTextInput, Switch } from '../../Formik/Patternfly';
-import { Form, Split, SplitItem, Title } from '@patternfly/react-core';
+import { Split, SplitItem, Title } from '@patternfly/react-core';
 import { ActionsForm } from '../ActionsForm';
 import { PolicyFormSchema } from '../../../schemas/CreatePolicy/PolicySchema';
 import { useContext } from 'react';
@@ -11,6 +11,7 @@ import { GlobalDangerColor100 } from '../../../utils/PFColors';
 import { ExclamationCircleIcon } from '@patternfly/react-icons';
 import { style } from 'typestyle';
 import { Messages } from '../../../properties/Messages';
+import { Form } from '../../Formik/Patternfly/Form';
 
 const exclamationClassName = style({
     marginRight: 5
