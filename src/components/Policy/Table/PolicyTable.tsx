@@ -189,17 +189,17 @@ export const PolicyTable: React.FunctionComponent<PolicyTableProps> = (props) =>
                 transforms: [ ]
             },
             name: {
-                title: 'Name',
+                title: Messages.tables.policy.columns.name,
                 transforms: transformSortable,
                 cellFormatters: [ expandable ],
                 column: 'name'
             },
             actions: {
-                title: 'Run Actions',
+                title: Messages.tables.policy.columns.triggerActions,
                 transforms: [ ]
             },
-            is_enabled: { // eslint-disable-line @typescript-eslint/camelcase
-                title: 'Active',
+            is_enabled: {
+                title: Messages.tables.policy.columns.lastTriggered,
                 transforms: transformSortable,
                 column: 'is_enabled'
             }
