@@ -7,7 +7,6 @@ import { usePromiseState } from '../../hooks/usePromiseState';
 
 interface EmailOptInProps {
     content: string;
-    onChange: (isChecked: boolean) => void;
 }
 
 export const EmailOptIn: React.FunctionComponent<EmailOptInProps> = (props) => {
