@@ -12,14 +12,16 @@ export interface UsePolicyRowsReturn {
     selectionCount: number;
 }
 
-export const usePolicyRows = (policies?: Policy[]): UsePolicyRowsReturn => {
+export const usePolicyRows = (policies: Policy[] | undefined, loading: boolean): UsePolicyRowsReturn => {
     const [ policyRows, setPolicyRows ] = React.useState<PolicyRow[]>([]);
 
     React.useEffect(() => {
-        if (policies) {
+        if (loading || !policies) {
+            setPolicyRows([]);
+        } else if (policies) {
             setPolicyRows(policies?.map(policy => ({ ...policy, isOpen: false, isSelected: false })));
         }
-    }, [ policies ]);
+    }, [ policies, loading ]);
 
     const onCollapse = React.useCallback((policy: PolicyRow, index: number, isOpen: boolean) => {
         setPolicyRows(prevRows => {

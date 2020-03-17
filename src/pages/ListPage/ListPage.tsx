@@ -47,7 +47,7 @@ const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
     const policyPage = usePolicyPage(policyFilters.debouncedFilters, undefined, sort.sortBy);
     const getPoliciesQuery = useGetPoliciesQuery(policyPage.page, false);
     const { canReadAll, canWriteAll } = useContext(RbacContext);
-    const policyRows = usePolicyRows(getPoliciesQuery.payload);
+    const policyRows = usePolicyRows(getPoliciesQuery.payload, getPoliciesQuery.loading);
 
     const { query: getPoliciesQueryReload } = getPoliciesQuery;
 
