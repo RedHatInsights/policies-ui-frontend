@@ -1,0 +1,16 @@
+{{!
+    Based on https://github.com/foxel/openapi3-typescript-codegen/blob/master/templates/typescript/schemas.ts.handlebars
+    - Removed security context, we only want the types
+    - Removed double quotes on strings and using single quotes
+}}
+{{!top level schemas}}
+{{#each components.schemas}}
+{{#if (and? @root.generateEnums (eq? type 'string') enum)}}export enum {{{schemaRefToTypeName @key}}} {
+{{#each enum}}
+  {{.}} = '{{value this ''}}',
+{{/each}}
+}
+{{else}}{{#if (or? (eq? type 'object') (eq? type undefined))}}export interface {{{schemaRefToTypeName @key}}} {{> schema}}
+{{else}}export type {{{schemaRefToTypeName @key}}} = {{> schema}};
+{{/if}}{{/if}}
+{{/each}}
