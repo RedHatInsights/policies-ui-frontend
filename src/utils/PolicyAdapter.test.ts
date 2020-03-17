@@ -20,7 +20,6 @@ describe('src/utils/PolicyAdapter', () => {
     it('toPolicy converts ServerPolicyResponse to Policy', () => {
         const sp: ServerPolicyResponse = {
             id: '5151-5151',
-            customerid: '1337',
             name: 'foo policy',
             description: 'foo description',
             isEnabled: true,
@@ -30,7 +29,6 @@ describe('src/utils/PolicyAdapter', () => {
         };
         const policy: Policy = {
             id: '5151-5151',
-            customerid: '1337',
             name: 'foo policy',
             description: 'foo description',
             isEnabled: true,
@@ -52,7 +50,6 @@ describe('src/utils/PolicyAdapter', () => {
     it('toPolicy fails if actions are wrong', () => {
         const sp: ServerPolicyResponse = {
             id: '5151-456',
-            customerid: '1337',
             name: 'foo policy',
             description: 'foo description',
             isEnabled: true,
@@ -66,7 +63,6 @@ describe('src/utils/PolicyAdapter', () => {
     it('toPolicies converts a PagedServerPolicy[] to Policy[]', () => {
         const sp1: ServerPolicyResponse = {
             id: '1234-1234',
-            customerid: '5678',
             name: 'my name',
             description: 'my description',
             isEnabled: false,
@@ -76,7 +72,6 @@ describe('src/utils/PolicyAdapter', () => {
         };
         const sp2: ServerPolicyResponse = {
             id: '5151-5151',
-            customerid: '1337',
             name: 'foo policy',
             description: 'foo description',
             isEnabled: true,
@@ -87,13 +82,12 @@ describe('src/utils/PolicyAdapter', () => {
 
         const pagedResponse: PagedServerPolicyResponse = {
             data: [ sp1, sp2 ],
-            links: 'foo',
-            meta: 'bar'
+            links: {},
+            meta: {}
         };
 
         const policy1: Policy = {
             id: '1234-1234',
-            customerid: '5678',
             name: 'my name',
             description: 'my description',
             isEnabled: false,
@@ -108,7 +102,6 @@ describe('src/utils/PolicyAdapter', () => {
 
         const policy2: Policy = {
             id: '5151-5151',
-            customerid: '1337',
             name: 'foo policy',
             description: 'foo description',
             isEnabled: true,
@@ -127,7 +120,6 @@ describe('src/utils/PolicyAdapter', () => {
     it('toServerPolicy converts a DeepPartial< Policy > to ServerPolicyRequest', () => {
         const partialPolicy: DeepPartial<Policy> = {
             id: '5151-5151',
-            customerid: '1337',
             name: 'foo policy',
             description: 'foo description',
             isEnabled: true,
@@ -139,7 +131,6 @@ describe('src/utils/PolicyAdapter', () => {
             id: '5151-5151',
             actions: 'email',
             conditions: '1 == 2',
-            customerid: '1337',
             description: 'foo description',
             isEnabled: true,
             mtime: '2014-01-01T23:28:56.782Z',
@@ -161,7 +152,6 @@ describe('src/utils/PolicyAdapter', () => {
     it('makeCopyOfPolicy makes a NewPolicy out of a Policy', () => {
         const policy: Policy = {
             id: '5151-5151',
-            customerid: '1337',
             name: 'foo policy',
             description: 'foo description',
             isEnabled: true,
@@ -172,7 +162,6 @@ describe('src/utils/PolicyAdapter', () => {
 
         const newPolicy: NewPolicy = {
             id: undefined,
-            customerid: undefined,
             mtime: undefined,
             name: 'Copy of foo policy',
             description: 'foo description',

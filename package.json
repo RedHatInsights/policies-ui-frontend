@@ -101,7 +101,11 @@
     "verify": "npm-run-all build lint test",
     "nightly": "npm run deploy",
     "proxy": "SPANDX_CONFIG=\"profiles/local-frontend-and-api.ts\" bash $PROXY_PATH/scripts/run.sh",
-    "generate-schema": "download http://localhost:8080/api/custom-policies/v1.0/openapi.json --header 'Accept: application/json' -o utils/openapi-generator && op3-codegen ./utils/openapi-generator/openapi.json -o ./utils/openapi-generator/output -t ./utils/openapi-generator/schemas/ --generateEnums"
+    "generate-schema": "yarn schema:download && yarn schema:generate && yarn schema:copy && yarn schema:clean",
+    "schema:generate": "op3-codegen ./utils/openapi-generator/openapi.json -o ./utils/openapi-generator/output -t ./utils/openapi-generator/schemas/ --generateEnums",
+    "schema:download": "download http://localhost:8080/api/custom-policies/v1.0/openapi.json --header 'Accept: application/json' -o utils/openapi-generator",
+    "schema:copy": "cp './utils/openapi-generator/output/schemas.ts' ./src/types/GeneratedOpenApi.ts",
+    "schema:clean": "rm -f ./utils/openapi-generator/output/schemas.ts ./utils/openapi-generator/openapi.json"
   },
   "insights": {
     "appname": "custom-policies"
