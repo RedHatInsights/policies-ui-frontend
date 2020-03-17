@@ -75,3 +75,8 @@ prod-stable -> prod-stable
 ### Testing - jest
 
 When you want to test your code with unit tests please use `jest` which is preconfigured in a way to collect codecoverage as well. If you want to see your coverage on server the travis config has been set in a way that it will send data to [codecov.io](https://codecov.io) the only thing you have to do is visit their website (register), enable your repository and add CODECOV_TOKEN to your travis web config (do not add it to .travis file, but trough [travis-ci.org](https://travis-ci.org/))
+
+## Generating types from Openapi file
+
+The ui-frontend depends on types from the ui-backend, these are generated from the Openapi spec file, run `yarn generate-schema` to reload the types.
+Generate types can be found in: `src/types/GeneratedOpenApi.ts`, check `package.json` for more info.
