@@ -4727,7 +4727,7 @@ dot-prop@^4.1.0, dot-prop@^4.1.1:
   dependencies:
     is-obj "^1.0.0"
 
-download-cli@^1.1.1:
+download-cli@1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/download-cli/-/download-cli-1.1.1.tgz#0aada6dc1abf9fd2f3d20281dfbdadea9f64ec3e"
   integrity sha512-Q8NPjnYKGYLKTzmS8QyrLz9QbDat17WKkIc21lzNxhUotsAweaSSjh1f/Lp50k1Tpc86/6ikFtGoHRrsuWFAfA==
@@ -9161,7 +9161,7 @@ only@~0.0.2:
   resolved "https://registry.yarnpkg.com/only/-/only-0.0.2.tgz#2afde84d03e50b9a8edc444e30610a70295edfb4"
   integrity sha1-Kv3oTQPlC5qO3EROMGEKcCle37Q=
 
-openapi3-typescript-codegen@^0.0.13:
+openapi3-typescript-codegen@0.0.13:
   version "0.0.13"
   resolved "https://registry.yarnpkg.com/openapi3-typescript-codegen/-/openapi3-typescript-codegen-0.0.13.tgz#d96f14bc07ec085aa61c24b19b00c8d50bdd0344"
   integrity sha512-D6GI6lmnF+BmOfolSsrr4QRpPfKl3kCrwMwIcVcgDqJXn7Cw/ma8Il3vFTHaB1FDPN4ud/Tct06uDB4vgCof4A==
