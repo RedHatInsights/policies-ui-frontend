@@ -122,7 +122,7 @@ const ConditionsStep: React.FunctionComponent = () => {
             <Title headingLevel="h4" size="xl">{ Messages.wizards.policy.conditions.title }</Title>
             <FormTextInput isRequired={ true } label="Condition text"
                 type="text" id="conditions" name="conditions"
-                placeholder={ 'arch = "x86_64"' }
+                placeholder={ 'facts.arch = "x86_64"' }
             />
             { values.conditions && values.conditions !== '' && (
                 <Stack className={ width100ClassName }>
