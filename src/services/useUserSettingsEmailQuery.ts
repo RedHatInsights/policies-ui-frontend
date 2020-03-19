@@ -30,9 +30,9 @@ const adapter = (response: UserSettingsServerResponse): UserSettings => {
     return  userSettings;
 };
 
-export const useUserSettingsQuery = (initFetch?: boolean) => {
+export const useUserSettingsEmailQuery = (initFetch?: boolean) => {
     return useTransformQueryResponse(
-        useNewQuery<UserSettingsServerResponse>('GET', urls.settings, initFetch),
+        useNewQuery<UserSettingsServerResponse>('GET', urls.userSettings.email, initFetch),
         adapter
     );
 };

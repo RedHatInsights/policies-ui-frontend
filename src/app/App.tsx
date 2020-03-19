@@ -12,12 +12,12 @@ import '@redhat-cloud-services/frontend-components-notifications/index.css';
 import { Rbac } from '../types/Rbac';
 import { getInsights } from '../utils/Insights';
 import { AppContext } from './AppContext';
-import { useUserSettingsQuery } from '../services/useUserSettingsQuery';
+import { useUserSettingsEmailQuery } from '../services/useUserSettingsEmailQuery';
 
 const App: React.FunctionComponent<RouteComponentProps> = (props) => {
 
     const [ rbac, setRbac ] = React.useState<Rbac | undefined>(undefined);
-    const userSettingsQuery = useUserSettingsQuery();
+    const userSettingsEmailQuery = useUserSettingsEmailQuery();
 
     React.useEffect(() => {
         getInsights().then((insights) => {
@@ -48,7 +48,10 @@ const App: React.FunctionComponent<RouteComponentProps> = (props) => {
     return (
         <AppContext.Provider value={ {
             rbac,
-            userSettings: userSettingsQuery.payload ? { ...userSettingsQuery.payload, refresh: userSettingsQuery.query as () => void } : undefined
+            userSettings: userSettingsEmailQuery.payload ? {
+                ...userSettingsEmailQuery.payload,
+                refresh: userSettingsEmailQuery.query as () => void
+            } : undefined
         } }>
             <NotificationsPortal/>
             <Routes/>

@@ -25,11 +25,13 @@ const Config = {
             policies: withBaseUrl(`policies`),
             validateCondition: withBaseUrl('policies/validate'),
             policy: (policyId: string | number): string => withBaseUrl(`policies/${policyId}`),
-            settings: withBaseUrl('settings')
+            userSettings: {
+                email: withBaseUrl('user-config/email-preference')
+            }
         }
     },
     pages: {
-        emailPreferences: () => localUrl('/settings/applications/custom-policies')
+        emailPreferences: () => localUrl('/user-preferences/email')
     }
 };
 
