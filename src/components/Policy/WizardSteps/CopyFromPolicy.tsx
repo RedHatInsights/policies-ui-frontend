@@ -17,7 +17,7 @@ export const CopyFromPolicy: React.FunctionComponent<CopyFromPolicyProps> = (pro
     const policyPage = usePolicyPage(policyFilter.debouncedFilters, 5);
     const policySort = useSort();
     const getPoliciesQuery = useGetPoliciesQuery(policyPage.page, true);
-    const policyRows = usePolicyRows(getPoliciesQuery.payload);
+    const policyRows = usePolicyRows(getPoliciesQuery.payload, getPoliciesQuery.loading);
 
     const propsOnSelect = props.onSelect;
     const payload = getPoliciesQuery.payload;
