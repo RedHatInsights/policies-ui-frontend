@@ -270,6 +270,8 @@ export const PolicyTable: React.FunctionComponent<PolicyTableProps> = (props) =>
             <SkeletonTable
                 rowSize={ props.loadingRowCount || 10 }
                 columns={ columns }
+                paddingColumnSize={ columnOffset }
+                sortBy={ sortBy }
             />
         );
     }

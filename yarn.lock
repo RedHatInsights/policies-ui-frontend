@@ -1217,15 +1217,14 @@
   resolved "https://registry.yarnpkg.com/@patternfly/react-tokens/-/react-tokens-2.7.25.tgz#69b517f635721bedcefa6b4535688a11586be115"
   integrity sha512-04hRDWt07pyjLUO1VN9QbrPpQMJzjd+nQYp8vgoe6+mYBzw+D4banJeudZ1oTFii9hWV+mLEu6aiwPtTigPM1Q==
 
-"@redhat-cloud-services/frontend-components-config@0.0.10":
-  version "0.0.10"
-  resolved "https://registry.yarnpkg.com/@redhat-cloud-services/frontend-components-config/-/frontend-components-config-0.0.10.tgz#2ca1db570efc24b8b5db49dda796e77855728037"
-  integrity sha512-NWoymvCQiGui8A6u5eMY5+BepQwRO40+L8Z8AsgBXRaoN9JzVjJLoD+SkHN0z2wxkbbYLw/D5Ap+rUNrT9ozLA==
+"@redhat-cloud-services/frontend-components-config@1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@redhat-cloud-services/frontend-components-config/-/frontend-components-config-1.0.0.tgz#e45cec731b0a0ec83edf8574d86b70fdd2637c89"
+  integrity sha512-NMwlU+rFaiZZues/FxS39q3jwBxxqKlawBo8wA/7JzpJXCfiqnQqNNMHCB/9IMN7dQf893urDTIiBJovinxxXg==
   dependencies:
     babel-loader "^8.0.6"
     clean-webpack-plugin "^2.0.2"
     connect-history-api-fallback "^1.6.0"
-    copy-webpack-plugin "^5.0.3"
     css-loader "^2.1.1"
     eslint-loader "^2.2.1"
     file-loader "^3.0.1"
@@ -1240,16 +1239,15 @@
     source-map-loader "^0.2.4"
     style-loader "^0.23.1"
     ts-loader "^6.2.1"
-    webpack "^4.41.2"
     webpack-dev-server "^3.4.1"
     webpack-hot-client "^4.1.1"
     webpack-serve "1.0.2"
     write-file-webpack-plugin "^4.5.0"
 
-"@redhat-cloud-services/frontend-components-notifications@1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@redhat-cloud-services/frontend-components-notifications/-/frontend-components-notifications-1.0.0.tgz#d9d1008c4ce3391b3433c90d73406da95e0f0d8e"
-  integrity sha512-fGYT9H9ZK1cTpSBemKpiQ6AM1uDOnikGf2DXupRgITIGQQfEPu1ME9nLWK+VjrISEP+2MZI72BFm7O1WwwR7xg==
+"@redhat-cloud-services/frontend-components-notifications@1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@redhat-cloud-services/frontend-components-notifications/-/frontend-components-notifications-1.0.2.tgz#7debb413949bb409b2c093314bc09c1456902f62"
+  integrity sha512-OYrkbRff8fYfJQ4i6DdzUjJYQTFoe9EjD01k2EjkLAaqqPLFbso9/xVuvKDYEFHIb4oy7ZpJm+dpW89zad/rdg==
   dependencies:
     "@redhat-cloud-services/frontend-components-utilities" "*"
 
@@ -1275,10 +1273,10 @@
     commander "^2.20.0"
     react-content-loader "^3.4.1"
 
-"@redhat-cloud-services/frontend-components@1.0.2":
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/@redhat-cloud-services/frontend-components/-/frontend-components-1.0.2.tgz#1c92e46f763bbbe4ef45286dffa9197a017d46c6"
-  integrity sha512-0VOlTvfUt1JA+LzL+zm81/fh29tlP3r47IQVs3v+JgXftPAX+Mkr6hVt28+FM4S/G0iVk7poAfX8mMOqtvrB2w==
+"@redhat-cloud-services/frontend-components@1.0.9":
+  version "1.0.9"
+  resolved "https://registry.yarnpkg.com/@redhat-cloud-services/frontend-components/-/frontend-components-1.0.9.tgz#1cfd107e920856432f330796193dbae8ae53e46b"
+  integrity sha512-RXzINMWBkyLwJwZ2FWv5wsvN5m6FfG5uHICDHmhrvdPF2dCQvTK/Id6TfUhdJb0BfAmoCoCYOjmhQSF2rHbMTw==
   dependencies:
     "@redhat-cloud-services/frontend-components-utilities" "*"
 
@@ -3315,26 +3313,6 @@ bytes@3.1.0:
   resolved "https://registry.yarnpkg.com/bytes/-/bytes-3.1.0.tgz#f6cf7933a360e0588fa9fde85651cdc7f805d1f6"
   integrity sha512-zauLjrfCG+xvoyaqLoV8bLVXXNGC4JqlxFCutSDWA6fJrTo2ZuvLYTqZ7aHBLZSMOopbzwv8f+wZcVzfVTI2Dg==
 
-cacache@^11.3.3:
-  version "11.3.3"
-  resolved "https://registry.yarnpkg.com/cacache/-/cacache-11.3.3.tgz#8bd29df8c6a718a6ebd2d010da4d7972ae3bbadc"
-  integrity sha512-p8WcneCytvzPxhDvYp31PD039vi77I12W+/KfR9S8AZbaiARFBCpsPJS+9uhWfeBfeAtW7o/4vt3MUqLkbY6nA==
-  dependencies:
-    bluebird "^3.5.5"
-    chownr "^1.1.1"
-    figgy-pudding "^3.5.1"
-    glob "^7.1.4"
-    graceful-fs "^4.1.15"
-    lru-cache "^5.1.1"
-    mississippi "^3.0.0"
-    mkdirp "^0.5.1"
-    move-concurrently "^1.0.1"
-    promise-inflight "^1.0.1"
-    rimraf "^2.6.3"
-    ssri "^6.0.1"
-    unique-filename "^1.1.1"
-    y18n "^4.0.0"
-
 cacache@^12.0.2:
   version "12.0.3"
   resolved "https://registry.yarnpkg.com/cacache/-/cacache-12.0.3.tgz#be99abba4e1bf5df461cd5a2c1071fc432573390"
@@ -3915,24 +3893,6 @@ copy-to-clipboard@^3.2.0:
   dependencies:
     toggle-selection "^1.0.6"
 
-copy-webpack-plugin@^5.0.3:
-  version "5.0.4"
-  resolved "https://registry.yarnpkg.com/copy-webpack-plugin/-/copy-webpack-plugin-5.0.4.tgz#c78126f604e24f194c6ec2f43a64e232b5d43655"
-  integrity sha512-YBuYGpSzoCHSSDGyHy6VJ7SHojKp6WHT4D7ItcQFNAYx2hrwkMe56e97xfVR0/ovDuMTrMffXUiltvQljtAGeg==
-  dependencies:
-    cacache "^11.3.3"
-    find-cache-dir "^2.1.0"
-    glob-parent "^3.1.0"
-    globby "^7.1.1"
-    is-glob "^4.0.1"
-    loader-utils "^1.2.3"
-    minimatch "^3.0.4"
-    normalize-path "^3.0.0"
-    p-limit "^2.2.0"
-    schema-utils "^1.0.0"
-    serialize-javascript "^1.7.0"
-    webpack-log "^2.0.0"
-
 core-js-compat@^3.1.1:
   version "3.3.6"
   resolved "https://registry.yarnpkg.com/core-js-compat/-/core-js-compat-3.3.6.tgz#70c30dbeb582626efe9ecd6f49daa9ff4aeb136c"
@@ -4469,7 +4429,7 @@ diffie-hellman@^5.0.0:
     miller-rabin "^4.0.0"
     randombytes "^2.0.0"
 
-dir-glob@^2.0.0, dir-glob@^2.2.2:
+dir-glob@^2.2.2:
   version "2.2.2"
   resolved "https://registry.yarnpkg.com/dir-glob/-/dir-glob-2.2.2.tgz#fa09f0694153c8918b18ba0deafae94769fc50c4"
   integrity sha512-f9LBi5QWzIW3I6e//uxZoLBlUt9kcp66qo0sSCxL6YZKc75R1c4MFCoe/LaZiBGmgujvQdxc5Bn3QhfyvK5Hsw==
@@ -5885,18 +5845,6 @@ globby@^6.1.0:
     pify "^2.0.0"
     pinkie-promise "^2.0.0"
 
-globby@^7.1.1:
-  version "7.1.1"
-  resolved "https://registry.yarnpkg.com/globby/-/globby-7.1.1.tgz#fb2ccff9401f8600945dfada97440cca972b8680"
-  integrity sha1-+yzP+UAfhgCUXfral0QMypcrhoA=
-  dependencies:
-    array-union "^1.0.1"
-    dir-glob "^2.0.0"
-    glob "^7.1.2"
-    ignore "^3.3.5"
-    pify "^3.0.0"
-    slash "^1.0.0"
-
 globby@^9.2.0:
   version "9.2.0"
   resolved "https://registry.yarnpkg.com/globby/-/globby-9.2.0.tgz#fd029a706c703d29bdd170f4b6db3a3f7a7cb63d"
@@ -6368,11 +6316,6 @@ ignore-walk@^3.0.1:
   integrity sha512-m7o6xuOaT1aqheYHKf8W6J5pYH85ZI9w077erOzLje3JsB1gkafkAhHHY19dqjulgIZHFm32Cp5uNZgcQqdJKw==
   dependencies:
     minimatch "^3.0.4"
-
-ignore@^3.3.5:
-  version "3.3.10"
-  resolved "https://registry.yarnpkg.com/ignore/-/ignore-3.3.10.tgz#0a97fb876986e8081c631160f8f9f389157f0043"
-  integrity sha512-Pgs951kaMm5GXP7MOvxERINe3gsaVjUWFm+UZPSq9xYriQAksyhg0csnS0KXSNRD5NmNdapXEpjxG49+AKh/ug==
 
 ignore@^4.0.3, ignore@^4.0.6:
   version "4.0.6"
@@ -8963,7 +8906,7 @@ p-limit@^1.1.0:
   dependencies:
     p-try "^1.0.0"
 
-p-limit@^2.0.0, p-limit@^2.2.0:
+p-limit@^2.0.0:
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/p-limit/-/p-limit-2.2.1.tgz#aa07a788cc3151c939b5131f63570f0dd2009537"
   integrity sha512-85Tk+90UCVWvbDavCLKPOLC9vvY8OwEX/RtKF+/1OADJMVlFfEHOiMTPVyxg7mk/dKa+ipdHm0OUkTvCpMTuwg==
