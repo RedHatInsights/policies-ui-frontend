@@ -149,7 +149,7 @@ const FormikBinding: React.FunctionComponent<FormikBindingProps> = (props) => {
                     title="Add Custom Policy"
                     description={ 'Custom policies are processed on reception of system profile messages. ' +
                     'If condition(s) are met, defined action(s) are triggered.' }
-                    footer={ <PolicyWizardFooter loadingText="Loading"  isLoading={ props.isLoading }/> }
+                    footer={ <PolicyWizardFooter loadingText="Loading"  isLoading={ props.isLoading } error={ props.createResponse.error }/> }
                 />
             </WizardContext.Provider>
         </Form>

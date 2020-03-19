@@ -3,11 +3,10 @@ import { useFormikContext } from 'formik';
 
 import { PartialPolicy, WizardContext, WizardStepExtended } from '../PolicyWizardTypes';
 import { Switch, FormText } from '../../Formik/Patternfly';
-import { Split, SplitItem, Title } from '@patternfly/react-core';
+import { Title } from '@patternfly/react-core';
 import { PolicyFormSchema } from '../../../schemas/CreatePolicy/PolicySchema';
 import { useContext } from 'react';
-import { GlobalDangerColor100, GlobalBackgroundColorLight300 } from '../../../utils/PFColors';
-import { ExclamationCircleIcon } from '@patternfly/react-icons';
+import { GlobalBackgroundColorLight300 } from '../../../utils/PFColors';
 import { style } from 'typestyle';
 import { Messages } from '../../../properties/Messages';
 import { Form } from '../../Formik/Patternfly/Form';
@@ -15,10 +14,6 @@ import { Conditions } from '../Table/ExpandedContent/Conditions';
 import { Actions } from '../Table/ExpandedContent/Actions';
 import { Action } from '../../../types/Policy/Actions';
 import { padding } from 'csstips';
-
-const exclamationClassName = style({
-    marginRight: 5
-});
 
 const conditionsAndActionsBlockClassName = style({
     backgroundColor: GlobalBackgroundColorLight300,
@@ -52,14 +47,6 @@ const ReviewStep: React.FunctionComponent = () => {
                 <div className={ conditionsAndActionsBlockClassName }>
                     <Actions actions={ (values.actions || []) as Action[] } />
                 </div>
-                { context.createResponse.error && (
-                    <Split>
-                        <SplitItem>
-                            <ExclamationCircleIcon className={ exclamationClassName } color={ GlobalDangerColor100 }/>
-                        </SplitItem>
-                        <SplitItem> { context.createResponse.error } </SplitItem>
-                    </Split>
-                ) }
             </Form>
         </>
     );
