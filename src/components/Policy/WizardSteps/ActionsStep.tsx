@@ -32,7 +32,7 @@ const AddTriggersDropdown: React.FunctionComponent<AddTriggersDropdownProps> = (
             onClick={ () => typeSelected(type) }
             isDisabled={ !props.isTypeEnabled(type) }
         >
-            { capitalize(type) }
+            { Messages.components.actionType[type] }
         </DropdownItem>);
 
     return (

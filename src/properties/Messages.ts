@@ -1,4 +1,10 @@
 import { DeepReadonly } from 'ts-essentials';
+import { ActionType } from '../types/Policy/Actions';
+
+const actionTypeToText: Record<ActionType, string> = {
+    [ActionType.EMAIL]: 'Email',
+    [ActionType.WEBHOOK]: 'Hook'
+};
 
 //Capture some strings we reuse. Possibly use in i18n later?
 const MutableMessages = {
@@ -6,7 +12,8 @@ const MutableMessages = {
         actions: {
             title: 'Trigger actions',
             noActions: 'No actions configured.'
-        }
+        },
+        actionType: actionTypeToText
     },
     tables: {
         policy: {
