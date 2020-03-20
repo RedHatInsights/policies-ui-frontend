@@ -1,34 +1,21 @@
 import { Action } from './Actions';
+import * as Generated from '../GeneratedOpenApi';
 
 export interface Policy {
-    id: string;
+    id: Generated.Uuid;
     actions: Action[];
     conditions: string;
-    customerid: string;
     description: string;
     isEnabled: boolean;
     mtime: Date;
     name: string;
 }
 
-export interface PagedServerPolicyResponse {
-    data: ServerPolicyResponse[];
-    meta: any;
-    links: any;
-}
+export type PagedServerPolicyResponse = Generated.PagedResponse;
 
-export interface ServerPolicyResponse {
-    id: string;
-    actions: string;
-    conditions: string;
-    customerid: string;
-    description: string;
-    isEnabled: boolean;
-    mtime: string;
-    name: string;
-}
+export type ServerPolicyResponse = Generated.Policy;
 
-type OptionalProperties = 'id' | 'mtime'  | 'customerid';
+type OptionalProperties = 'id' | 'mtime';
 
 export type NewPolicy = Partial<Pick<Policy, OptionalProperties>> & Omit<Policy, OptionalProperties>;
 export type ServerPolicyRequest = Partial<ServerPolicyResponse>;

@@ -72,13 +72,16 @@ export const toServerPolicy = (policy: DeepPartial<Policy>): ServerPolicyRequest
 export const toPolicy = (serverPolicy: ServerPolicyResponse): Policy => {
     return {
         ...serverPolicy,
+        id: serverPolicy.id ? serverPolicy.id : '',
+        description: serverPolicy.description ? serverPolicy.description : '',
+        isEnabled: serverPolicy.isEnabled ? serverPolicy.isEnabled : false,
         actions: fromServerActions(serverPolicy.actions),
-        mtime: parseJSON(serverPolicy.mtime)
+        mtime: serverPolicy.mtime ? parseJSON(serverPolicy.mtime) : new Date()
     };
 };
 
 export const toPolicies = (serverPolicies: PagedServerPolicyResponse): Policy[] => {
-    return serverPolicies.data.map(toPolicy);
+    return serverPolicies.data ? serverPolicies.data.map(toPolicy) : [];
 };
 
 export const makeCopyOfPolicy = (policy: Policy): NewPolicy => {
@@ -86,7 +89,6 @@ export const makeCopyOfPolicy = (policy: Policy): NewPolicy => {
         ...policy,
         name: `Copy of ${policy.name}`,
         mtime: undefined,
-        id: undefined,
-        customerid: undefined
+        id: undefined
     };
 };
