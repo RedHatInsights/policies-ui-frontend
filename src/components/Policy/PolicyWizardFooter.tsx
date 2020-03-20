@@ -3,7 +3,6 @@ import {
     Button,
     WizardFooter,
     WizardContextConsumer,
-    WizardStep,
     ButtonVariant, SplitItem, Split
 } from '@patternfly/react-core';
 import { Spinner } from '@patternfly/react-core/dist/js/experimental';
@@ -20,17 +19,6 @@ const exclamationClassName = style({
     marginRight: 5
 });
 
-// Copied from: https://github.com/patternfly/patternfly-react/blob/master/packages/patternfly-4/react-core/src/components/Wizard/Wizard.tsx#L451-L457
-// Todo: https://github.com/patternfly/patternfly-react/issues/3545
-interface WizardContextProps {
-    goToStepById: (stepId: number | string) => void;
-    goToStepByName: (stepName: string) => void;
-    onNext: () => void;
-    onBack: () => void;
-    onClose: () => void;
-    activeStep: WizardStep;
-}
-
 interface PolicyWizardFooterProps {
     isLoading: boolean;
     loadingText: string;
@@ -42,8 +30,7 @@ export const PolicyWizardFooter: React.FunctionComponent<PolicyWizardFooterProps
     return (
         <WizardFooter>
             <WizardContextConsumer>
-                { (_wizardContextProps) => {
-                    const wcProps = _wizardContextProps as WizardContextProps;
+                { wcProps => {
                     return (
                         <>
                             <Button
