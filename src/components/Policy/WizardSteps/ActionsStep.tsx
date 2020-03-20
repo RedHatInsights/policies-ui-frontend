@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Button, ButtonVariant, capitalize, Dropdown, DropdownItem, Title } from '@patternfly/react-core';
+import { Button, ButtonVariant, Dropdown, DropdownItem, Title } from '@patternfly/react-core';
 
 import { PartialPolicy, WizardStepExtended } from '../PolicyWizardTypes';
 import { PolicyFormActions } from '../../../schemas/CreatePolicy/PolicySchema';
