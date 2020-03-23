@@ -1,15 +1,16 @@
 import * as React from 'react';
 import { useContext } from 'react';
 import { IActions, IRowData } from '@patternfly/react-table';
+import { PageSection } from '@patternfly/react-core';
 import { Main, PageHeader, PageHeaderTitle, Section } from '@redhat-cloud-services/frontend-components';
 
 import { PolicyTable } from '../../components/Policy/Table/PolicyTable';
 import { useGetPoliciesQuery } from '../../services/Api';
 import { PolicyToolbar } from '../../components/Policy/TableToolbar/PolicyTableToolbar';
 import { CreatePolicyWizard } from './CreatePolicyWizard';
-import { RbacContext } from '../../components/RbacContext';
+import { AppContext } from '../../app/AppContext';
 import { policyTableError } from './PolicyTableError';
-import { Policy } from '../../types/Policy';
+import { ActionType, Policy } from '../../types/Policy';
 import { DeletePolicy } from './DeletePolicy';
 import { NewPolicy } from '../../types/Policy/Policy';
 import { usePolicyFilter } from '../../hooks/usePolicyFilter';
@@ -18,6 +19,8 @@ import { useSort } from '../../hooks/useSort';
 import { usePolicyRows } from '../../hooks/usePolicyRows';
 import { makeCopyOfPolicy } from '../../utils/PolicyAdapter';
 import { PolicyFilterColumn } from '../../types/Policy/PolicyPaging';
+import { EmailOptIn } from '../../components/EmailOptIn/EmailOptIn';
+import { Messages } from '../../properties/Messages';
 
 type ListPageProps = {};
 
@@ -46,8 +49,10 @@ const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
     const sort = useSort();
     const policyPage = usePolicyPage(policyFilters.debouncedFilters, undefined, sort.sortBy);
     const getPoliciesQuery = useGetPoliciesQuery(policyPage.page, false);
-    const { canReadAll, canWriteAll } = useContext(RbacContext);
+    const appContext = useContext(AppContext);
     const policyRows = usePolicyRows(getPoliciesQuery.payload, getPoliciesQuery.loading);
+
+    const { canWriteAll, canReadAll } = appContext.rbac;
 
     const { query: getPoliciesQueryReload } = getPoliciesQuery;
 
@@ -181,6 +186,14 @@ const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
             <PageHeader>
                 <PageHeaderTitle title="Custom policies"/>
             </PageHeader>
+            { appContext.userSettings &&
+            !appContext.userSettings.dailyEmail &&
+            getPoliciesQuery.payload &&
+            getPoliciesQuery.payload.find(p => p.actions.find(a => a.type === ActionType.EMAIL)) && (
+                <PageSection>
+                    <EmailOptIn content={ Messages.pages.listPage.emailOptIn } />
+                </PageSection>
+            )}
             <Main>
                 <Section>
                     <PolicyToolbar
