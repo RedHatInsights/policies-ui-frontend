@@ -1,5 +1,5 @@
 const SECTION = 'insights';
-const APP_ID = 'custom-policies';
+const APP_ID = 'policies';
 const FRONTEND_PORT = 8002;
 const routes = {};
 

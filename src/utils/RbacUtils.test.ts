@@ -5,7 +5,7 @@ describe('src/utils/RbacUtils', () => {
     it('RawRbac detects fullAccess', () => {
         const fullAccess: Access[] = [
             {
-                permission: 'custom-policies:*:*',
+                permission: 'policies:*:*',
                 resourceDefinitions: []
             }
         ];
@@ -32,7 +32,7 @@ describe('src/utils/RbacUtils', () => {
     it('RawRbac detects only read', () => {
         const readAccess: Access[] = [
             {
-                permission: 'custom-policies:*:read',
+                permission: 'policies:*:read',
                 resourceDefinitions: []
             }
         ];
@@ -48,7 +48,7 @@ describe('src/utils/RbacUtils', () => {
     it('RawRbac detects only write', () => {
         const writeAccess: Access[] = [
             {
-                permission: 'custom-policies:*:write',
+                permission: 'policies:*:write',
                 resourceDefinitions: []
             }
         ];

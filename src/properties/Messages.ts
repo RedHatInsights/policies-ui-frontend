@@ -11,7 +11,7 @@ const MutableMessages = {
     pages: {
         listPage: {
             emailOptIn: 'One or more of your policies have an email alert, but you have not opted into receiving alert emails from' +
-                ' Custom Policies. You will not receive any emails from your policies.'
+                ' Policies. You will not receive any emails from your policies.'
         }
     },
     components: {
@@ -28,7 +28,7 @@ const MutableMessages = {
     },
     tables: {
         policy: {
-            title: 'Custom Policies',
+            title: 'Policies',
             columns: {
                 name: 'Name',
                 triggerActions: 'Trigger actions',
@@ -46,7 +46,7 @@ const MutableMessages = {
             actions: {
                 title: 'Trigger actions',
                 emailOptIn: 'Your policy has an email alert, but you have not opted into receiving alerts emails from' +
-                    ' Custom Policies. You will not receive any email from your policies.'
+                    ' Policies. You will not receive any email from your policies.'
             },
             conditions: {
                 title: 'Conditions',
