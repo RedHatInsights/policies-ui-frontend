@@ -4,7 +4,7 @@ import { Action, useMutation, useQuery } from 'react-fetching-library';
 import { Fact } from '../types/Fact';
 import { Page } from '../types/Page';
 import { toPolicies, toServerPolicy } from '../utils/PolicyAdapter';
-import { UsePaginatedQueryResponse, useTransformPaginatedQueryResponse } from '../utils/ApiUtils';
+import { UsePaginatedQueryResponse, useTransformQueryResponse } from '../utils/ApiUtils';
 import { DeepPartial } from 'ts-essentials';
 import { useBulkMutation } from '../hooks';
 
@@ -18,8 +18,8 @@ const createAction = (method: Method, url: string, queryParams?: any, data?: any
     body: data
 });
 
-const useNewQuery = <T>(method: Method, url: string, initFetch?: boolean, queryParams?: any, data?: any) =>
-    useQuery(createAction(method, url, queryParams, data), initFetch);
+export const useNewQuery = <T>(method: Method, url: string, initFetch?: boolean, queryParams?: any, data?: any) =>
+    useQuery<T>(createAction(method, url, queryParams, data), initFetch);
 
 const queryParamsPaginated = (queryParams?: any, page?: Page) => {
     if (!page) {
@@ -59,7 +59,7 @@ const useNewPaginatedQuery =
 export const useGetFactsQuery = (initFetch?: boolean) => useNewQuery<Fact[]>('GET', urls.facts, initFetch);
 
 export const useGetPoliciesQuery = (page?: Page, initFetch?: boolean): UsePaginatedQueryResponse<Policy[]> => {
-    return useTransformPaginatedQueryResponse(
+    return useTransformQueryResponse(
         useNewPaginatedQuery<PagedServerPolicyResponse>('GET', urls.policies, page, initFetch),
         toPolicies
     );

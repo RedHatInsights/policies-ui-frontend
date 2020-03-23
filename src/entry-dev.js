@@ -6,11 +6,15 @@ import { init } from './store';
 import App from './app/App';
 import logger from 'redux-logger';
 import getBaseName from './utils/getBaseName';
+import { client } from './app/FetchingConfiguration';
+import { ClientContextProvider } from 'react-fetching-library';
 
 ReactDOM.render(
     <Provider store={ init(logger).getStore() }>
         <Router basename={ getBaseName(window.location.pathname) }>
-            <App/>
+            <ClientContextProvider client={ client }>
+                <App/>
+            </ClientContextProvider>
         </Router>
     </Provider>,
 
