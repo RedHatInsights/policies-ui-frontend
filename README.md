@@ -1,8 +1,8 @@
-[![Build Status](https://travis-ci.org/RedHatInsights/custom-policies-ui-frontend.svg?branch=master)](https://travis-ci.org/RedHatInsights/custom-policies-ui-frontend)
+[![Build Status](https://travis-ci.org/RedHatInsights/policies-ui-frontend.svg?branch=master)](https://travis-ci.org/RedHatInsights/policies-ui-frontend)
 
-# custom-policies-ui-frontend
+# policies-ui-frontend
 
-Custom Policies frontend for Red Hat Insights
+Policies frontend for Red Hat Insights
 
 
 ## Build app
@@ -25,7 +25,7 @@ Custom Policies frontend for Red Hat Insights
 To run locally, we need the following:
 
 1. Run insights proxy
-2. Run `custom-policies-ui-frontend` application.
+2. Run `policies-ui-frontend` application.
 
 ### Running insights proxy
 
@@ -37,7 +37,7 @@ Start the proxy by running:
 yarn proxy
 ```
 
-### Running custom-policies-ui-frontend
+### Running policies-ui-frontend
 
 Install the dependencies:
 
@@ -51,8 +51,8 @@ and run the application:
 yarn start
 ```
 
-After that, you can head to the [dev page](https://ci.foo.redhat.com:1337/beta/insights/custom-policies) or
-the [prod page](https://prod.foo.redhat.com:1337/beta/insights/custom-policies).
+After that, you can head to the [dev page](https://ci.foo.redhat.com:1337/beta/insights/policies) or
+the [prod page](https://prod.foo.redhat.com:1337/beta/insights/policies).
 
 You will likely need to accept the certificates of these pages and the
 [websocket page](https://localhost:8002/sockjs-node/info)

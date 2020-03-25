@@ -8,21 +8,21 @@ cache:
     - node_modules
 install: yarn --frozen-lockfile --non-interactive || (echo 'package.json is not in sync with yarn.lock, check that you include yarn.lock' && false)
 script:
-- yarn  
-- yarn lint  
-- yarn build 
+- yarn
+- yarn lint
+- yarn build
 - yarn test --forceExit --maxWorkers=4
 - yarn deploy && curl -sSL https://raw.githubusercontent.com/RedHatInsights/insights-frontend-builder-common/master/src/bootstrap.sh | bash -s
 env:
  global:
- - REPO="git@github.com:RedHatInsights/custom-policies-ui-frontend-build"
- - REPO_DIR="custom-policies-ui-frontend-build"
+ - REPO="git@github.com:RedHatInsights/policies-ui-frontend-build"
+ - REPO_DIR="policies-ui-frontend-build"
  - BRANCH=${TRAVIS_PULL_REQUEST_BRANCH:-$TRAVIS_BRANCH}
  - NODE_OPTIONS="--max-old-space-size=4096 --max_old_space_size=4096"
 notifications:
   irc:
     channels:
-      - chat.freenode.net#custom-policies-ui-travis
+      - chat.freenode.net#policies-ui-travis
     on_success: change
     on_failure: change
 #

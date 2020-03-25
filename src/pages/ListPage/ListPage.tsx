@@ -184,7 +184,7 @@ const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
     return (
         <>
             <PageHeader>
-                <PageHeaderTitle title="Custom policies"/>
+                <PageHeaderTitle title="Policies"/>
             </PageHeader>
             { appContext.userSettings &&
             !appContext.userSettings.dailyEmail &&

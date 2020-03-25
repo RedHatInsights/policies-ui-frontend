@@ -19,7 +19,7 @@ const ActionSchemaSelector: ({ type }: { type: ActionType }) => Yup.Schema<any> 
 export const PolicyFormDetails = Yup.object().shape({
     description: Yup.string().notRequired().trim(),
     isEnabled: Yup.boolean().notRequired(),
-    name: Yup.string().required('Write a name for this Custom policies').trim()
+    name: Yup.string().required('Write a name for this Policy').trim()
 });
 
 export const PolicyFormActions = Yup.object().shape({
