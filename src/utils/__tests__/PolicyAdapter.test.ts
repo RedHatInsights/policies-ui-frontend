@@ -5,16 +5,16 @@ import {
     toPolicy,
     toServerAction,
     toServerPolicy
-} from './PolicyAdapter';
+} from '../PolicyAdapter';
 import {
     NewPolicy,
     PagedServerPolicyResponse,
     Policy,
     ServerPolicyRequest,
     ServerPolicyResponse
-} from '../types/Policy/Policy';
+} from '../../types/Policy/Policy';
 import { DeepPartial } from 'ts-essentials';
-import { ActionType } from '../types/Policy/Actions';
+import { ActionType } from '../../types/Policy/Actions';
 
 describe('src/utils/PolicyAdapter', () => {
     it('toPolicy converts ServerPolicyResponse to Policy', () => {

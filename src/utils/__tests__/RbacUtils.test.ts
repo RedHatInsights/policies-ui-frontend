@@ -1,4 +1,4 @@
-import { RawRbac } from './RbacUtils';
+import { RawRbac } from '../RbacUtils';
 import { Access } from '@redhat-cloud-services/rbac-client';
 
 describe('src/utils/RbacUtils', () => {
