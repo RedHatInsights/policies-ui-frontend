@@ -11,9 +11,11 @@ export interface Policy {
     name: string;
 }
 
-export type PagedServerPolicyResponse = Generated.PagedResponse;
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface PagedServerPolicyResponse extends Generated.PagedResponse {}
 
-export type ServerPolicyResponse = Generated.Policy;
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface ServerPolicyResponse extends Generated.Policy {}
 
 type OptionalProperties = 'id' | 'mtime';
 
