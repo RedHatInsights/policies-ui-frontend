@@ -41,6 +41,7 @@
     "@babel/preset-env": "^7.7.1",
     "@babel/preset-react": "^7.7.0",
     "@redhat-cloud-services/frontend-components-config": "1.0.0",
+    "@testing-library/react": "^10.0.1",
     "@types/jest": "^25.1.3",
     "@types/node": "^12.12.14",
     "@types/react": "^16.9.11",
