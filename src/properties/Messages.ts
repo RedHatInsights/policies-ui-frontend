@@ -24,6 +24,10 @@ const MutableMessages = {
             title: 'Email alerts not opted in',
             switch: 'Get emails when a policy runs',
             link: 'Open email preferences'
+        },
+        lastTriggeredCell: {
+            never: 'Never',
+            ago: 'ago'
         }
     },
     tables: {

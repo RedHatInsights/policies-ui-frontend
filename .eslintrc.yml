@@ -37,6 +37,7 @@ rules: # Todo: Remove javascript rules that are duplicated on typescript
   '@typescript-eslint/no-unused-vars':
     - error
     - argsIgnorePattern: "^_"
+      ignoreRestSiblings: true
   '@typescript-eslint/camelcase':
     - error
     - properties: never

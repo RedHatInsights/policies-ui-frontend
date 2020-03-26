@@ -61,11 +61,12 @@ export const fromServerActions = (actions?: string): Action[] => {
 
 export const toServerPolicy = (policy: DeepPartial<Policy>): ServerPolicyRequest => {
 
+    const { mtime, ctime, lastEvaluation, ...restPolicy } = policy;
+
     return {
-        ...policy,
+        ...restPolicy,
         isEnabled: policy.isEnabled !== undefined ? policy.isEnabled : false,
-        actions: policy.actions ? toServerAction(policy.actions) : '',
-        mtime: policy.mtime ? policy.mtime.toJSON() : undefined
+        actions: policy.actions ? toServerAction(policy.actions) : ''
     };
 };
 
@@ -76,7 +77,9 @@ export const toPolicy = (serverPolicy: ServerPolicyResponse): Policy => {
         description: serverPolicy.description ? serverPolicy.description : '',
         isEnabled: serverPolicy.isEnabled ? serverPolicy.isEnabled : false,
         actions: fromServerActions(serverPolicy.actions),
-        mtime: serverPolicy.mtime ? parseJSON(serverPolicy.mtime) : new Date()
+        mtime: serverPolicy.mtime ? parseJSON(serverPolicy.mtime) : new Date(),
+        ctime: serverPolicy.ctime ? parseJSON(serverPolicy.ctime) : new Date(),
+        lastEvaluation: (serverPolicy.lastEvaluation && serverPolicy.lastEvaluation !== '') ? parseJSON(serverPolicy.lastEvaluation) : undefined
     };
 };
 
@@ -89,6 +92,8 @@ export const makeCopyOfPolicy = (policy: Policy): NewPolicy => {
         ...policy,
         name: `Copy of ${policy.name}`,
         mtime: undefined,
+        lastEvaluation: undefined,
+        ctime: undefined,
         id: undefined
     };
 };
