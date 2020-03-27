@@ -12,25 +12,14 @@ describe('src/components/Policy/Table/LastTriggeredCell', () => {
         jest.spyOn(Date, 'now').mockImplementation(() => now);
     });
 
-    it('renders correctly', () => {
-        const tree = renderer
-        .create(<LastTriggeredCell isEnabled={ true } lastEvaluation={ new Date(2020, 4, 10) }/>)
-        .toJSON();
-        expect(tree).toMatchSnapshot();
+    it('renders does not fail when isEnabled is false', () => {
+        const element = render(<LastTriggeredCell isEnabled={ false } lastEvaluation={ undefined }/>);
+        expect(element).toBeTruthy();
     });
 
-    it('renders correctly when not enabled', () => {
-        const tree = renderer
-        .create(<LastTriggeredCell isEnabled={ false } lastEvaluation={ new Date(2020, 4, 10) }/>)
-        .toJSON();
-        expect(tree).toMatchSnapshot();
-    });
-
-    it('renders correctly with undefined lastEvaluation', () => {
-        const tree = renderer
-        .create(<LastTriggeredCell isEnabled={ true } lastEvaluation={ undefined }/>)
-        .toJSON();
-        expect(tree).toMatchSnapshot();
+    it('lastEvaluation is set to never when undefined', () => {
+        const element = render(<LastTriggeredCell isEnabled={ true } lastEvaluation={ undefined }/>);
+        expect(element.getByText('Never')).toBeTruthy();
     });
 
     it('lastEvaluation is set to relative when less than 1 month ago', () => {
