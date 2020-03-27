@@ -23,9 +23,11 @@ export type Uuid = string;
 export interface Policy {
   actions?: string;
   conditions: string;
+  ctime?: string;
   description?: string;
   id?: Uuid;
   isEnabled?: boolean;
+  lastEvaluation?: string;
   mtime?: string;
   name: string;
 }

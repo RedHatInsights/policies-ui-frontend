@@ -25,13 +25,13 @@ import {
 import { SkeletonTable } from '@redhat-cloud-services/frontend-components';
 
 import { Policy } from '../../../types/Policy';
-import { CheckCircleIcon, OffIcon } from '@patternfly/react-icons';
 import { Direction, Sort } from '../../../types/Page';
 import { ExpandedContent } from './ExpandedContent';
 import { IconType } from '@patternfly/react-icons/dist/js/createIcon';
 import { Messages } from '../../../properties/Messages';
 import { assertNever } from '../../../utils/Assert';
 import { ActionsCell } from './ActionsCell';
+import { LastTriggeredCell } from './LastTriggeredCell';
 
 type OnSelectHandlerType = (policy: PolicyRow, index: number, isSelected: boolean) => void;
 
@@ -110,7 +110,7 @@ const policiesToRows = (policies: PolicyRow[] | undefined, columnsToShow: ValidC
                         case 'actions':
                             return  <><ActionsCell actions={ policy.actions }/></>;
                         case 'is_enabled':
-                            return policy.isEnabled ? <><CheckCircleIcon color="green"/></> : <><OffIcon /></>;
+                            return <><LastTriggeredCell isEnabled={ policy.isEnabled } lastEvaluation={ policy.lastEvaluation }/></>;
                         case 'name':
                             return policy.name;
                         case 'radioSelect':
@@ -144,7 +144,7 @@ const policiesToRows = (policies: PolicyRow[] | undefined, columnsToShow: ValidC
                             description={ policy.description ? policy.description : Messages.tables.policy.emptyState.noDescription }
                             conditions={ policy.conditions ? policy.conditions : Messages.tables.policy.emptyState.noConditions }
                             actions={ policy.actions }
-                            created={ new Date(2020, 1, 19) }
+                            created={ policy.ctime }
                             updated={ policy.mtime }
                         />
                     </>

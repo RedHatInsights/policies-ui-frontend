@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { joinClasses, join } from './ComponentUtils';
+import { joinClasses, join } from '../ComponentUtils';
 
 describe('src/utils/ComponentUtils', () => {
     it('joinClasses joins multiple classes into one string', () => {

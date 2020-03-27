@@ -1,5 +1,4 @@
+import * as Generated from './GeneratedOpenApi';
 
-export interface UserSettings {
-    dailyEmail: boolean;
-    immediateEmail: boolean;
-}
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface UserSettings extends Generated.SettingsValues {}

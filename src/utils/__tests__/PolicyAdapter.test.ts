@@ -5,16 +5,16 @@ import {
     toPolicy,
     toServerAction,
     toServerPolicy
-} from './PolicyAdapter';
+} from '../PolicyAdapter';
 import {
     NewPolicy,
     PagedServerPolicyResponse,
     Policy,
     ServerPolicyRequest,
     ServerPolicyResponse
-} from '../types/Policy/Policy';
+} from '../../types/Policy/Policy';
 import { DeepPartial } from 'ts-essentials';
-import { ActionType } from '../types/Policy/Actions';
+import { ActionType } from '../../types/Policy/Actions';
 
 describe('src/utils/PolicyAdapter', () => {
     it('toPolicy converts ServerPolicyResponse to Policy', () => {
@@ -25,7 +25,9 @@ describe('src/utils/PolicyAdapter', () => {
             isEnabled: true,
             conditions: '1 == 2',
             actions: 'email;webhook',
-            mtime: '2014-01-01T23:28:56.782Z'
+            mtime: '2014-01-01T23:28:56.782Z',
+            ctime: '2013-01-01T23:28:56.782Z',
+            lastEvaluation: '2015-01-01T23:28:56.782Z'
         };
         const policy: Policy = {
             id: '5151-5151',
@@ -41,7 +43,9 @@ describe('src/utils/PolicyAdapter', () => {
                     type: ActionType.WEBHOOK
                 }
             ],
-            mtime: new Date('2014-01-01T23:28:56.782Z')
+            mtime: new Date('2014-01-01T23:28:56.782Z'),
+            ctime: new Date('2013-01-01T23:28:56.782Z'),
+            lastEvaluation: new Date('2015-01-01T23:28:56.782Z')
         };
 
         expect(toPolicy(sp)).toEqual(policy);
@@ -60,6 +64,40 @@ describe('src/utils/PolicyAdapter', () => {
         expect(() => toPolicy(sp)).toThrowError();
     });
 
+    it('toPolicy parses empty lastEvaluation as undefined', () => {
+        const sp: ServerPolicyResponse = {
+            id: '5151-5151',
+            name: 'foo policy',
+            description: 'foo description',
+            isEnabled: true,
+            conditions: '1 == 2',
+            actions: 'email;webhook',
+            mtime: '2014-01-01T23:28:56.782Z',
+            ctime: '2013-01-01T23:28:56.782Z',
+            lastEvaluation: ''
+        };
+        const policy: Policy = {
+            id: '5151-5151',
+            name: 'foo policy',
+            description: 'foo description',
+            isEnabled: true,
+            conditions: '1 == 2',
+            actions: [
+                {
+                    type: ActionType.EMAIL
+                },
+                {
+                    type: ActionType.WEBHOOK
+                }
+            ],
+            mtime: new Date('2014-01-01T23:28:56.782Z'),
+            ctime: new Date('2013-01-01T23:28:56.782Z'),
+            lastEvaluation: undefined
+        };
+
+        expect(toPolicy(sp)).toEqual(policy);
+    });
+
     it('toPolicies converts a PagedServerPolicy[] to Policy[]', () => {
         const sp1: ServerPolicyResponse = {
             id: '1234-1234',
@@ -68,7 +106,9 @@ describe('src/utils/PolicyAdapter', () => {
             isEnabled: false,
             conditions: 'yyy',
             actions: 'email',
-            mtime: '2010-01-01T23:28:56.782Z'
+            mtime: '2010-01-01T23:28:56.782Z',
+            ctime: '2009-01-01T23:28:56.782Z',
+            lastEvaluation: '2011-01-01T23:28:56.782Z'
         };
         const sp2: ServerPolicyResponse = {
             id: '5151-5151',
@@ -77,7 +117,9 @@ describe('src/utils/PolicyAdapter', () => {
             isEnabled: true,
             conditions: '1 == 2',
             actions: 'webhook',
-            mtime: '2014-01-01T23:28:56.782Z'
+            mtime: '2014-01-01T23:28:56.782Z',
+            ctime: '2013-01-01T23:28:56.782Z',
+            lastEvaluation: '2015-01-01T23:28:56.782Z'
         };
 
         const pagedResponse: PagedServerPolicyResponse = {
@@ -97,7 +139,9 @@ describe('src/utils/PolicyAdapter', () => {
                     type: ActionType.EMAIL
                 }
             ],
-            mtime: new Date('2010-01-01T23:28:56.782Z')
+            mtime: new Date('2010-01-01T23:28:56.782Z'),
+            ctime: new Date('2009-01-01T23:28:56.782Z'),
+            lastEvaluation: new Date('2011-01-01T23:28:56.782Z')
         };
 
         const policy2: Policy = {
@@ -111,7 +155,9 @@ describe('src/utils/PolicyAdapter', () => {
                     type: ActionType.WEBHOOK
                 }
             ],
-            mtime: new Date('2014-01-01T23:28:56.782Z')
+            mtime: new Date('2014-01-01T23:28:56.782Z'),
+            ctime: new Date('2013-01-01T23:28:56.782Z'),
+            lastEvaluation: new Date('2015-01-01T23:28:56.782Z')
         };
 
         expect(toPolicies(pagedResponse)).toEqual([ policy1, policy2 ]);
@@ -133,7 +179,6 @@ describe('src/utils/PolicyAdapter', () => {
             conditions: '1 == 2',
             description: 'foo description',
             isEnabled: true,
-            mtime: '2014-01-01T23:28:56.782Z',
             name: 'foo policy'
         };
         expect(toServerPolicy(partialPolicy)).toEqual(pr);
@@ -143,8 +188,7 @@ describe('src/utils/PolicyAdapter', () => {
         const partialPolicy: DeepPartial<Policy> = { };
         const pr: ServerPolicyRequest = {
             actions: '',
-            isEnabled: false,
-            mtime: undefined
+            isEnabled: false
         };
         expect(toServerPolicy(partialPolicy)).toEqual(pr);
     });
@@ -157,7 +201,9 @@ describe('src/utils/PolicyAdapter', () => {
             isEnabled: true,
             conditions: '1 == 2',
             actions: [{ type: ActionType.EMAIL }, { type: ActionType.WEBHOOK }],
-            mtime: new Date('2014-01-01T23:28:56.782Z')
+            mtime: new Date('2014-01-01T23:28:56.782Z'),
+            ctime: new Date('2013-01-01T23:28:56.782Z'),
+            lastEvaluation: new Date('2015-01-01T23:28:56.782Z')
         };
 
         const newPolicy: NewPolicy = {
@@ -167,7 +213,9 @@ describe('src/utils/PolicyAdapter', () => {
             description: 'foo description',
             isEnabled: true,
             conditions: '1 == 2',
-            actions: [{ type: ActionType.EMAIL }, { type: ActionType.WEBHOOK }]
+            actions: [{ type: ActionType.EMAIL }, { type: ActionType.WEBHOOK }],
+            ctime: undefined,
+            lastEvaluation: undefined
         };
         expect(makeCopyOfPolicy(policy)).toEqual(newPolicy);
     });

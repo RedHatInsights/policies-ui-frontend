@@ -1,4 +1,4 @@
-import getBaseName from './getBaseName';
+import getBaseName from '../getBaseName';
 
 describe('src/utils/getBaseName', () => {
     it('should find the right base name on Stable ', () => {

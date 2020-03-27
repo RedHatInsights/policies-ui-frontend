@@ -1,4 +1,4 @@
-import { getInsights } from './Insights';
+import { getInsights } from '../Insights';
 
 describe('src/utils/Insights', () => {
     it('should resolve once insights is set', async () => {
