@@ -1,5 +1,4 @@
 import * as React from 'react';
-import renderer from 'react-test-renderer';
 import { render } from '@testing-library/react';
 
 import { LastTriggeredCell } from '../LastTriggeredCell';
