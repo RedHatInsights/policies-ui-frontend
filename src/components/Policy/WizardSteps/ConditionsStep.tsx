@@ -117,29 +117,29 @@ const ConditionsStep: React.FunctionComponent = () => {
         context.triggerAction(WizardActionType.VALIDATE_CONDITION);
     };
 
+    const validIsDisabled = !values.conditions || values.conditions === '' || context.isLoading;
+
     return (
         <Form>
             <Title headingLevel="h4" size="xl">{ Messages.wizards.policy.conditions.title }</Title>
             <FormTextInput isRequired={ true } label="Condition text"
                 type="text" id="conditions" name="conditions"
-                placeholder={ 'facts.arch = "x86_64"' }
+                hint={ Messages.wizards.policy.conditions.hint }
             />
-            { values.conditions && values.conditions !== '' && (
-                <Stack className={ width100ClassName }>
-                    <StackItem>
-                        <Button onClick={ triggerTestCondition } isDisabled={ context.isLoading } variant={ ButtonVariant.secondary }>
-                            Validate condition
-                        </Button>
-                    </StackItem>
-                    <StackItem className={ marginTopClassName }>
-                        <ConditionStatus
-                            loading={ context.isLoading }
-                            { ...context.verifyResponse }
-                            changed={ context.verifyResponse.policy?.conditions !== values.conditions }
-                        />
-                    </StackItem>
-                </Stack>
-            )}
+            <Stack className={ width100ClassName }>
+                <StackItem>
+                    <Button onClick={ triggerTestCondition } isDisabled={ validIsDisabled } variant={ ButtonVariant.secondary }>
+                        Validate condition
+                    </Button>
+                </StackItem>
+                <StackItem className={ marginTopClassName }>
+                    <ConditionStatus
+                        loading={ context.isLoading }
+                        { ...context.verifyResponse }
+                        changed={ context.verifyResponse.policy?.conditions !== values.conditions }
+                    />
+                </StackItem>
+            </Stack>
         </Form>
     );
 };

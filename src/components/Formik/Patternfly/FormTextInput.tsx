@@ -1,12 +1,13 @@
 import * as React from 'react';
 import { useField } from 'formik';
-import { FormGroup, TextInput as PFTextInput } from '@patternfly/react-core';
+import { FormGroup, Text, TextInput as PFTextInput, TextVariants } from '@patternfly/react-core';
 
 import { onChangePFAdapter } from './Common';
 
 // Todo: Check correct typing for the props
 export const FormTextInput = (props: any) => {
-    const [ field, meta ] = useField({ ...props });
+    const { hint, ...otherProps } = props;
+    const [ field, meta ] = useField({ ...otherProps });
     const isValid = !meta.error || !meta.touched;
 
     return (
@@ -18,12 +19,13 @@ export const FormTextInput = (props: any) => {
             label={ props.label }
         >
             <PFTextInput
-                { ...props }
+                { ...otherProps }
                 { ...field }
                 value={ field.value || '' }
                 isValid={ isValid }
                 onChange={ onChangePFAdapter<string | number>(field) }
             />
+            { hint && <Text component={ TextVariants.small }>{ hint }</Text> }
         </FormGroup>
     );
 };

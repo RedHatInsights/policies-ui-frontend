@@ -56,7 +56,8 @@ const MutableMessages = {
                 title: 'Conditions',
                 valid: 'Valid condition',
                 invalid: 'Invalid condition',
-                validating: 'Validating…'
+                validating: 'Validating…',
+                hint: 'e.g. facts.arch = "x86_64"'
             },
             createPolicy: {
                 title: 'Create Custom Policy'
