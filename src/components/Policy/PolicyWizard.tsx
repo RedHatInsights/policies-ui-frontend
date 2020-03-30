@@ -146,7 +146,7 @@ const FormikBinding: React.FunctionComponent<FormikBindingProps> = (props) => {
                     onNext={ props.onMove }
                     onBack={ props.onMove }
                     onGoToStep={ props.onMove }
-                    title="Add Custom Policy"
+                    title="Add Policy"
                     description={ 'Policies are processed on reception of system profile messages. ' +
                     'If condition(s) are met, defined action(s) are triggered.' }
                     footer={ <PolicyWizardFooter loadingText="Loading"  isLoading={ props.isLoading } error={ props.createResponse.error }/> }
