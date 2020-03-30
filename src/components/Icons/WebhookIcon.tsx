@@ -8,7 +8,6 @@ const className = style({
     height: '1em'
 });
 
-
 export const WebhookIcon: React.FunctionComponent = () => {
     return (
         <img className={ className } src={ icon } />
