@@ -25,6 +25,8 @@ interface TablePolicyToolbarProps {
     clearFilters: (filters: ClearFilterCommand[]) => void;
     onCreatePolicy?: () => void;
     onDeletePolicy?: () => void;
+    onEnablePolicy?: () => void;
+    onDisablePolicy?: () => void;
     hideActions?: boolean;
     onPaginationChanged?: OnPaginationPageChangedHandler;
     onPaginationSizeChanged?: OnPaginationSizeChangedHandler;
@@ -108,7 +110,9 @@ export const PolicyToolbar: React.FunctionComponent<TablePolicyToolbarProps> = (
         hideActions,
         onSelectionChanged,
         selectedCount,
-        hideBulkSelect
+        hideBulkSelect,
+        onEnablePolicy,
+        onDisablePolicy
     } = props;
 
     const clearFiltersCallback = React.useCallback((_event, rawFilterConfigs: any[]) => {
@@ -279,6 +283,22 @@ export const PolicyToolbar: React.FunctionComponent<TablePolicyToolbarProps> = (
                 props: {
                     isDisabled: !(selectedCount && onDeletePolicy)
                 }
+            },
+            {
+                key: 'enable-policy',
+                label: selectedCount === 1 ? 'Enable policy' : 'Enable policies',
+                onClick: onEnablePolicy,
+                props: {
+                    isDisabled: !(selectedCount && onEnablePolicy)
+                }
+            },
+            {
+                key: 'disable-policy',
+                label: selectedCount === 1 ? 'Disable policy' : 'Disable policies',
+                onClick: onDisablePolicy,
+                props: {
+                    isDisabled: !(selectedCount && onDisablePolicy)
+                }
             }
         ];
 
@@ -288,7 +308,7 @@ export const PolicyToolbar: React.FunctionComponent<TablePolicyToolbarProps> = (
                 isDisabled: !(selectedCount && onDeletePolicy)
             }
         };
-    }, [ onCreatePolicy, onDeletePolicy, selectedCount, hideActions ]);
+    }, [ onCreatePolicy, onDeletePolicy, selectedCount, hideActions, onDisablePolicy, onEnablePolicy ]);
 
     return (
         <>
