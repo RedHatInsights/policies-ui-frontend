@@ -7,7 +7,7 @@ import Config from '../config/Config';
 
 const urls = Config.apis.urls;
 
-const savePolicyActionCreator = (policy: NewPolicy) => {
+export const savePolicyActionCreator = (policy: NewPolicy) => {
     if (policy.id) {
         return createAction('PUT', urls.policy(policy.id), {}, toServerPolicy(policy));
     }
