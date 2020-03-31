@@ -51,10 +51,10 @@ const CreateCustomPolicyStep: React.FunctionComponent = () => {
         <>
             <Form>
                 <Title headingLevel="h4" size="xl">{ Messages.wizards.policy.createPolicy.title }</Title>
-                <span>Define a new custom policy:</span>
+                <span>Define a new policy:</span>
                 <Radio
                     isChecked={ !copyPolicy }
-                    name="new-custom-policy"
+                    name="new-policy"
                     value="from-scratch"
                     id="create-new-custom-policy-from-scratch"
                     onChange={ createFromScratch }
@@ -62,11 +62,11 @@ const CreateCustomPolicyStep: React.FunctionComponent = () => {
                 />
                 <Radio
                     isChecked={ copyPolicy }
-                    name="new-custom-policy"
+                    name="new-policy"
                     value="as-copy"
                     id="create-new-custom-policy-as-copy"
                     onChange={ copyExisting }
-                    label="As a copy of existing Custom Policy"
+                    label="As a copy of existing Policy"
                 />
                 {copyPolicy && <>
                     <CopyFromPolicy onSelect={ copyFromPolicyHandler }/>

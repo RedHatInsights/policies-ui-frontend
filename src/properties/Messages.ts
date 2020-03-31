@@ -59,7 +59,7 @@ const MutableMessages = {
                 validating: 'Validating…'
             },
             createPolicy: {
-                title: 'Create Custom Policy'
+                title: 'Create Policy'
             },
             details: {
                 title: 'Details'
