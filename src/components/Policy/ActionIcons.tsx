@@ -1,11 +1,12 @@
 import * as React from 'react';
-import { EnvelopeIcon, HashtagIcon } from '@patternfly/react-icons';
+import { EnvelopeIcon } from '@patternfly/react-icons';
 import { ActionType } from '../../types/Policy/Actions';
 import { assertNever } from '../../utils/Assert';
 import { IconProps } from '@patternfly/react-core/dist/js/components/EmptyState/EmptyStateIcon';
+import { WebhookIcon } from '../Icons/WebhookIcon';
 
 export const ActionEmailIcon = EnvelopeIcon;
-export const ActionWebhookIcon = HashtagIcon;
+export const ActionWebhookIcon = WebhookIcon;
 
 type ActionIconProps = {
     actionType: ActionType | undefined;
