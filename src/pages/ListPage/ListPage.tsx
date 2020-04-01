@@ -4,7 +4,6 @@ import { PageSection } from '@patternfly/react-core';
 import { Main, PageHeader, PageHeaderTitle, Section } from '@redhat-cloud-services/frontend-components';
 
 import { PolicyRow, PolicyTable } from '../../components/Policy/Table/PolicyTable';
-import { useBulkSavePolicyMutation } from '../../services/useSavePolicy';
 import { useGetPoliciesQuery } from '../../services/Api';
 import { PolicyToolbar } from '../../components/Policy/TableToolbar/PolicyTableToolbar';
 import { CreatePolicyWizard } from './CreatePolicyWizard';
@@ -21,6 +20,7 @@ import { makeCopyOfPolicy } from '../../utils/PolicyAdapter';
 import { PolicyFilterColumn } from '../../types/Policy/PolicyPaging';
 import { EmailOptIn } from '../../components/EmailOptIn/EmailOptIn';
 import { Messages } from '../../properties/Messages';
+import { useBulkChangePolicyEnabledMutation } from '../../services/useChangePolicyEnabled';
 
 type ListPageProps = {};
 
@@ -45,29 +45,29 @@ const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
         isOpen: false
     });
     const [ policyToDelete, setPolicyToDelete ] = React.useState<Policy[]>();
-    const bulkSavePolicyMutation = useBulkSavePolicyMutation();
+    const bulkChangePolicyEnabledMutation = useBulkChangePolicyEnabledMutation();
     const policyFilters = usePolicyFilter();
     const sort = useSort();
     const policyPage = usePolicyPage(policyFilters.debouncedFilters, undefined, sort.sortBy);
     const getPoliciesQuery = useGetPoliciesQuery(policyPage.page, false);
     const appContext = useContext(AppContext);
 
-    const isLoading = getPoliciesQuery.loading || bulkSavePolicyMutation.loading;
+    const isLoading = getPoliciesQuery.loading || bulkChangePolicyEnabledMutation.loading;
 
     const policyRows = usePolicyRows(getPoliciesQuery.payload, isLoading);
 
     const { canWriteAll, canReadAll } = appContext.rbac;
 
     const { query: getPoliciesQueryReload } = getPoliciesQuery;
-    const { mutate: mutateSavePolicy, loading: loadingSavePolicy } = bulkSavePolicyMutation;
+    const { mutate: mutateChangePolicyEnabled, loading: loadingChangePolicyEnabled } = bulkChangePolicyEnabledMutation;
 
     const { changePage, currentPage } = policyPage;
 
     React.useEffect(() => {
-        if (loadingSavePolicy === false) {
+        if (loadingChangePolicyEnabled === false) {
             getPoliciesQueryReload();
         }
-    }, [ loadingSavePolicy, getPoliciesQueryReload ]);
+    }, [ loadingChangePolicyEnabled, getPoliciesQueryReload ]);
 
     const onCloseDeletePolicy = React.useCallback((deleted: boolean) => {
         if (deleted) {
@@ -80,7 +80,7 @@ const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
         setPolicyToDelete(undefined);
     }, [ getPoliciesQueryReload, setPolicyToDelete, changePage, currentPage, policyToDelete, getPoliciesQuery.payload ]);
 
-    const switchPolicyEnabled = (policy: Policy) => ({ ...policy, isEnabled: !policy.isEnabled });
+    const switchPolicyEnabled = (policy: Policy) => ({ policyId: policy.id, shouldBeEnabled: !policy.isEnabled });
 
     const tableActionsResolver = React.useCallback((policy: PolicyRow) => {
         if (!canWriteAll) {
@@ -91,7 +91,7 @@ const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
             {
                 title: `${policy.isEnabled ? 'Disable' : 'Enable'} policy`,
                 onClick: () => {
-                    mutateSavePolicy([ policy ].map(switchPolicyEnabled));
+                    mutateChangePolicyEnabled([ policy ].map(switchPolicyEnabled));
                 }
             },
             {
@@ -121,7 +121,7 @@ const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
                 }
             }
         ];
-    }, [ canWriteAll, setPolicyToDelete, mutateSavePolicy ]);
+    }, [ canWriteAll, setPolicyToDelete, mutateChangePolicyEnabled ]);
 
     React.useEffect(() => {
         if (canReadAll) {
@@ -190,13 +190,13 @@ const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
     );
 
     const onDisablePolicies = React.useCallback(
-        () => mutateSavePolicy(selectedPolicies().map(p => ({ ...p, isEnabled: false }))),
-        [ selectedPolicies, mutateSavePolicy ]
+        () => mutateChangePolicyEnabled(selectedPolicies().map(p => ({ policyId: p.id, shouldBeEnabled: false }))),
+        [ selectedPolicies, mutateChangePolicyEnabled ]
     );
 
     const onEnablePolicies = React.useCallback(
-        () => mutateSavePolicy(selectedPolicies().map(p => ({ ...p, isEnabled: true }))),
-        [ selectedPolicies, mutateSavePolicy ]
+        () => mutateChangePolicyEnabled(selectedPolicies().map(p => ({ policyId: p.id, shouldBeEnabled: true }))),
+        [ selectedPolicies, mutateChangePolicyEnabled ]
     );
 
     return (
