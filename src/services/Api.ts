@@ -1,7 +1,6 @@
 import Config from '../config/Config';
 import { PagedServerPolicyResponse, Policy } from '../types/Policy/Policy';
-import { useBulkMutation, useMutation, useQuery } from 'react-fetching-library';
-import { Fact } from '../types/Fact';
+import { useMutation, useQuery, useBulkMutation } from 'react-fetching-library';
 import { Page } from '../types/Page';
 import { toPolicies, toServerPolicy } from '../utils/PolicyAdapter';
 import { UsePaginatedQueryResponse, useTransformQueryResponse } from '../utils/ApiUtils';
@@ -11,8 +10,6 @@ import { actionBuilder } from './Api/ActionBuilder';
 import { paginatedActionBuilder } from './Api/PaginatedActionBuilder';
 
 const urls = Config.apis.urls;
-
-export const useGetFactsQuery = (initFetch?: boolean) => useQuery<Fact[]>(actionBuilder('GET', urls.facts).build(), initFetch);
 
 export const useGetPoliciesQuery = (page?: Page, initFetch?: boolean): UsePaginatedQueryResponse<Policy[]> => {
     return useTransformQueryResponse(
