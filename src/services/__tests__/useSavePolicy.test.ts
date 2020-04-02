@@ -24,7 +24,7 @@ describe('src/services/useSavePolicy', () => {
             isEnabled: true
         });
 
-        expect(action.endpoint).toEqual('/api/policies/v1.0/policies/foo-bar?');
+        expect(action.endpoint).toEqual('/api/policies/v1.0/policies/foo-bar');
         expect(action.method).toEqual('PUT');
     });
 });
