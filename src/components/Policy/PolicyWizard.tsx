@@ -17,6 +17,7 @@ import { createReviewStep } from './WizardSteps/ReviewStep';
 import { PolicyFormSchema } from '../../schemas/CreatePolicy/PolicySchema';
 import { PolicyWizardFooter } from './PolicyWizardFooter';
 import { Policy, NewPolicy } from '../../types/Policy/Policy';
+import { useMountedState } from 'react-use';
 
 interface PolicyWizardProps {
     initialValue: PartialPolicy;
@@ -165,6 +166,7 @@ export const PolicyWizard: React.FunctionComponent<PolicyWizardProps> = (props: 
     React.useState<VerifyPolicyResponse>({
         isValid: false
     });
+    const isMounted = useMountedState();
 
     const [ createResponse, setCreateResponse ] =
     React.useState<CreatePolicyResponse>({
@@ -198,7 +200,7 @@ export const PolicyWizard: React.FunctionComponent<PolicyWizardProps> = (props: 
         formikHelpers.setValues(transformedPolicy);
         switch (wizardAction) {
             case WizardActionType.SAVE:
-                props.onSave(transformedPolicy).then(setCreateResponse);
+                props.onSave(transformedPolicy).then(response => isMounted() && setCreateResponse(response));
                 break;
             case WizardActionType.VALIDATE_CONDITION:
             case WizardActionType.NONE:
