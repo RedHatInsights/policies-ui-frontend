@@ -12,11 +12,19 @@ const urls = Config.apis.urls;
 
 type Method = 'GET' | 'HEAD' | 'POST' | 'PUT' | 'PATCH' | 'DELETE' | 'OPTIONS';
 
-export const createAction = (method: Method, url: string, queryParams?: any, data?: any): Action => ({
-    method,
-    endpoint: url + (queryParams ? '?' + new URLSearchParams(queryParams).toString() : ''),
-    body: data
-});
+export const createAction = (method: Method, url: string, queryParams?: any, data?: any): Action => {
+    const parsedURL = new URL(url, 'http://dummybase');
+    const querySeparator = parsedURL.searchParams.toString() === '' ? '?' : '&';
+    const queryString = queryParams ? new URLSearchParams(queryParams).toString() : '';
+
+    const endpoint = url + (queryString === '' ? '' : querySeparator + queryString);
+
+    return {
+        method,
+        endpoint,
+        body: data
+    };
+};
 
 export const useNewQuery = <T>(method: Method, url: string, initFetch?: boolean, queryParams?: any, data?: any) =>
     useQuery<T>(createAction(method, url, queryParams, data), initFetch);
