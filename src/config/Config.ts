@@ -24,7 +24,8 @@ const Config = {
             facts: withBaseUrl('facts'),
             policies: withBaseUrl(`policies`),
             validateCondition: withBaseUrl('policies/validate'),
-            policy: (policyId: string | number): string => withBaseUrl(`policies/${policyId}`),
+            policy: (policyId: string): string => withBaseUrl(`policies/${policyId}`),
+            policyEnabled: (policyId: string) => withBaseUrl(`policies/${policyId}/enabled`),
             userSettings: {
                 email: withBaseUrl('user-config/email-preference')
             }

@@ -36,7 +36,7 @@ import { LastTriggeredCell } from './LastTriggeredCell';
 type OnSelectHandlerType = (policy: PolicyRow, index: number, isSelected: boolean) => void;
 
 interface PolicyTableProps {
-    actions?: IActions;
+    actionResolver?: (row: PolicyRow) => IActions;
     error?: ErrorContentProps;
     loading?: boolean;
     loadingRowCount?: number;
@@ -249,16 +249,19 @@ export const PolicyTable: React.FunctionComponent<PolicyTableProps> = (props) =>
         return undefined;
     }, [ props.sortBy, columns, namedColumns, columnOffset ]);
 
-    const actions = React.useMemo(() => props.error || props.loading ? [] : props.actions || [],
-        [ props.error, props.loading, props.actions ]);
+    const actionResolver = React.useMemo(() => props.error || props.loading ? undefined : props.actionResolver || undefined,
+        [ props.error, props.loading, props.actionResolver ]);
 
-    const actionsResolver: IActionsResolver = React.useCallback((rowData) => {
-        if (rowData.parent === undefined) {
-            return actions;
+    const actionsResolverCallback: IActionsResolver = React.useCallback((rowData) => {
+        if (rowData.parent === undefined && actionResolver && rowData && policies) {
+            const policyRow = policies.find(p => p.id === rowData.id);
+            if (policyRow) {
+                return actionResolver(policyRow);
+            }
         }
 
         return [];
-    }, [ actions ]);
+    }, [ actionResolver, policies ]);
 
     const rows = React.useMemo(
         () => error ? errorRow(error) : policiesToRows(policies, columnsToShow, onSelect),
@@ -281,7 +284,7 @@ export const PolicyTable: React.FunctionComponent<PolicyTableProps> = (props) =>
             aria-label={ Messages.tables.policy.title }
             cells={ columns }
             rows={ rows }
-            actionResolver={ actionsResolver }
+            actionResolver={ actionsResolverCallback }
             onSort={ onSort ? onSortHandler : undefined }
             onCollapse={ onCollapse ? onCollapseHandler : undefined }
             onSelect={  !props.error && onSelect && !usesRadioSelect ? onSelectHandler : undefined }

@@ -1,5 +1,5 @@
 import Config from '../config/Config';
-import { PagedServerPolicyResponse, Policy, NewPolicy } from '../types/Policy/Policy';
+import { PagedServerPolicyResponse, Policy } from '../types/Policy/Policy';
 import { Action, useMutation, useQuery } from 'react-fetching-library';
 import { Fact } from '../types/Fact';
 import { Page } from '../types/Page';
@@ -12,7 +12,7 @@ const urls = Config.apis.urls;
 
 type Method = 'GET' | 'HEAD' | 'POST' | 'PUT' | 'PATCH' | 'DELETE' | 'OPTIONS';
 
-const createAction = (method: Method, url: string, queryParams?: any, data?: any): Action => ({
+export const createAction = (method: Method, url: string, queryParams?: any, data?: any): Action => ({
     method,
     endpoint: url + (queryParams ? '?' + new URLSearchParams(queryParams).toString() : ''),
     body: data
@@ -63,16 +63,6 @@ export const useGetPoliciesQuery = (page?: Page, initFetch?: boolean): UsePagina
         useNewPaginatedQuery<PagedServerPolicyResponse>('GET', urls.policies, page, initFetch),
         toPolicies
     );
-};
-
-export const useSavePolicyMutation = () => {
-    return useMutation((policy: NewPolicy) => {
-        if (policy.id) {
-            return createAction('PUT', urls.policy(policy.id), {}, toServerPolicy(policy));
-        }
-
-        return createAction('POST', urls.policies, { alsoStore: true }, toServerPolicy(policy));
-    });
 };
 
 export const useVerifyPolicyMutation = () => {
