@@ -84,7 +84,7 @@ export const CreatePolicyWizard: React.FunctionComponent<CreatePolicyWizardProps
                 showCreateStep={ props.policiesExist ? props.showCreateStep : false }
                 isLoading={ isLoading }
                 policiesExist={ props.policiesExist }
-            /> } 
+            />} 
         </>
     );
 };
