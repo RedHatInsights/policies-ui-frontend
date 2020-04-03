@@ -6197,7 +6197,7 @@ imurmurhash@^0.1.4:
   resolved "https://registry.yarnpkg.com/imurmurhash/-/imurmurhash-0.1.4.tgz#9218b9b2b928a238b13dc4fb6b6d576f231453ea"
   integrity sha1-khi5srkoojixPcT7a21XbyMUU+o=
 
-in-browser-download@^2.0.0:
+in-browser-download@2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/in-browser-download/-/in-browser-download-2.0.0.tgz#ee27060345831e0d7fca5d3bea6b8412ae2d696f"
   integrity sha512-rK0WW0XopcigX66O7IfGdTPbCMfFKYAkJ37qP+OyTA2fh5fxb1ub1+q6fux9+29rzI4Z0i0tax7dE5Om3JxPZw==
