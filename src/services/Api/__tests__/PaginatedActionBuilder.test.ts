@@ -30,4 +30,28 @@ describe('src/services/Api/PaginatedActionBuilder', () => {
             'sortColumn=sort-column&sortDirection=DESC'
         );
     });
+
+    it('Asking for index = 0 and size = Page.NO_SIZE size offset to 0 and limit to -1', () => {
+        const action = paginatedActionBuilder('GET', '/policies').page(
+            Page.of(
+                0,
+                Page.NO_SIZE
+            )
+        ).build();
+        expect(action.endpoint).toEqual(
+            '/policies?offset=0&limit=-1'
+        );
+    });
+
+    it('Asking for index = 20 and size = Page.NO_SIZE size offset to 20 and limit to -1', () => {
+        const action = paginatedActionBuilder('GET', '/policies').page(
+            Page.of(
+                20,
+                Page.NO_SIZE
+            )
+        ).build();
+        expect(action.endpoint).toEqual(
+            '/policies?offset=20&limit=-1'
+        );
+    });
 });

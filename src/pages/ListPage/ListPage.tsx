@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { useContext } from 'react';
 import { PageSection } from '@patternfly/react-core';
+import inBrowserDownload from 'in-browser-download';
 import { Main, PageHeader, PageHeaderTitle, Section } from '@redhat-cloud-services/frontend-components';
 
 import { PolicyRow, PolicyTable } from '../../components/Policy/Table/PolicyTable';
-import { useGetPoliciesQuery } from '../../services/Api';
 import { PolicyToolbar } from '../../components/Policy/TableToolbar/PolicyTableToolbar';
 import { CreatePolicyWizard } from './CreatePolicyWizard';
 import { AppContext } from '../../app/AppContext';
@@ -25,6 +25,12 @@ import { style } from 'typestyle';
 import { useFacts } from '../../hooks/useFacts';
 import { ListPageEmptyState } from './EmptyState';
 import { usePrevious } from 'react-use';
+import { useGetPoliciesQuery } from '../../services/useGetPolicies';
+import { Page } from '../../types/Page';
+import { policyExporterFactory } from '../../utils/exporters/PolicyExporter/Factory';
+import { policyExporterTypeFromString } from '../../utils/exporters/PolicyExporter/Type';
+import { addDangerNotification } from '../../utils/AlertUtils';
+import { format } from 'date-fns';
 
 type ListPageProps = {};
 
@@ -58,6 +64,12 @@ const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
     const sort = useSort();
     const policyPage = usePolicyPage(policyFilters.debouncedFilters, undefined, sort.sortBy);
     const getPoliciesQuery = useGetPoliciesQuery(policyPage.page, false);
+    const { query: exportAllPoliciesQuery } = useGetPoliciesQuery(Page.of(
+        0,
+        Page.NO_SIZE,
+        policyPage.page.filter,
+        policyPage.page.sort
+    ), false);
     const appContext = useContext(AppContext);
 
     const isLoading = getPoliciesQuery.loading || bulkChangePolicyEnabledMutation.loading;
@@ -221,6 +233,20 @@ const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
     const onFirstPageWithNoFilter = policyFilters.isClear && policyPage.currentPage === 1;
     const noPolicies = onFirstPageWithNoFilter && !willLoad && getPoliciesQuery.status === 404;
 
+    const onExport = React.useCallback((_event, type) => {
+        const exporter = policyExporterFactory(policyExporterTypeFromString(type));
+        exportAllPoliciesQuery().then(response => {
+            if (response.payload) {
+                inBrowserDownload(
+                    exporter.export(response.payload),
+                    `policies-${format(new Date(), 'y-dd-MM')}.${exporter.type}`
+                );
+            } else {
+                addDangerNotification('Unable to download policies', 'We were unable to download the policies for exporting');
+            }
+        });
+    }, [ exportAllPoliciesQuery ]);
+
     return (
         <>
             <PageHeader>
@@ -258,6 +284,7 @@ const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
                             setFilterElements = { policyFilters.setFilters }
                             clearFilters={ policyFilters.clearFilterHandler }
                             count={ getPoliciesQuery.count }
+                            onExport={ onExport }
                         />
                         <PolicyTable
                             policies={ policyRows.rows }

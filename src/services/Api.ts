@@ -11,13 +11,6 @@ import { paginatedActionBuilder } from './Api/PaginatedActionBuilder';
 
 const urls = Config.apis.urls;
 
-export const useGetPoliciesQuery = (page?: Page, initFetch?: boolean): UsePaginatedQueryResponse<Policy[]> => {
-    return useTransformQueryResponse(
-        useNewPaginatedQuery<PagedServerPolicyResponse>(paginatedActionBuilder('GET', urls.policies).page(page).build(), initFetch),
-        toPolicies
-    );
-};
-
 export const useVerifyPolicyMutation = () => {
     return useMutation((policy: DeepPartial<Policy>) => {
         return actionBuilder('POST', urls.validateCondition).data(toServerPolicy(policy)).build();

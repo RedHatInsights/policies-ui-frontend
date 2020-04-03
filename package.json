@@ -20,6 +20,7 @@
     "date-fns": "^2.9.0",
     "formik": "2.1.4",
     "http-status-codes": "^1.4.0",
+    "in-browser-download": "^2.0.0",
     "react": "^16.11.0",
     "react-content-loader": "^3.4.2",
     "react-dom": "^16.11.0",
