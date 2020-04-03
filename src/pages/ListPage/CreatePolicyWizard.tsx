@@ -11,6 +11,7 @@ type CreatePolicyWizardBase = {
     close: (policyCreated: boolean) => void;
     initialValue?: NewPolicy;
     showCreateStep: boolean;
+    policiesExist?: boolean;
 };
 
 type CreatePolicyWizardIsOpen = {
@@ -80,9 +81,10 @@ export const CreatePolicyWizard: React.FunctionComponent<CreatePolicyWizardProps
                 onClose={ () => { props.close(false); } }
                 onSave={ onSave }
                 onVerify={ onVerify }
-                showCreateStep={ props.showCreateStep }
+                showCreateStep={ props.policiesExist ? props.showCreateStep : false }
                 isLoading={ isLoading }
-            /> }
+                policiesExist={ props.policiesExist }
+            />}
         </>
     );
 };

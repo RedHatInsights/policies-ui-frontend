@@ -249,6 +249,7 @@ const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
                 close={ closeCustomPolicyWizard }
                 initialValue={ policyWizardState.template }
                 showCreateStep={ policyWizardState.showCreateStep }
+                policiesExist={ getPoliciesQuery.count > 0 ? true : false }
             /> }
             <DeletePolicy onClose={ onCloseDeletePolicy } policies={ policyToDelete }/>
         </>
