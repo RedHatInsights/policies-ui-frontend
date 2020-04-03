@@ -47,6 +47,7 @@ export class Filter {
 
     public and(column: string, operator: Operator, value: string) {
         this._elements.push(new FilterElement(column, operator, value));
+        return this;
     }
 
 }

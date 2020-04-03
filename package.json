@@ -21,7 +21,7 @@
     "react": "^16.11.0",
     "react-content-loader": "^3.4.2",
     "react-dom": "^16.11.0",
-    "react-fetching-library": "^1.5.13",
+    "react-fetching-library": "1.7.4",
     "react-flexview": "^4.0.4",
     "react-id-generator": "^3.0.0",
     "react-redux": "^5.1.2",

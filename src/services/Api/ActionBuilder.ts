@@ -1,0 +1,77 @@
+import { Action } from 'react-fetching-library';
+
+export type Method = 'GET' | 'HEAD' | 'POST' | 'PUT' | 'PATCH' | 'DELETE' | 'OPTIONS';
+
+export interface HasToString {
+    toString: () => string;
+}
+
+export class ActionBuilder {
+    private readonly _method: Method;
+    private readonly _url: string;
+    private _queryParams?: Record<string, HasToString>;
+    private _data?: unknown;
+
+    public constructor(method: Method, url: string) {
+        this._method = method;
+        this._url = url;
+    }
+
+    public queryParams(queryParams?: Record<string, HasToString>) {
+        this._queryParams = queryParams;
+        return this;
+    }
+
+    public data(data?: unknown) {
+        this._data = data;
+        return this;
+    }
+
+    public build(): Action {
+        const endpoint = this.getUrl() + this.buildQueryString();
+
+        return {
+            method: this.getMethod(),
+            endpoint,
+            body: this.getData()
+        };
+    }
+
+    protected getMethod() {
+        return this._method;
+    }
+
+    protected getUrl() {
+        return this._url;
+    }
+
+    protected getQueryParams() {
+        return this._queryParams;
+    }
+
+    protected getData() {
+        return this._data;
+    }
+
+    protected buildQueryString() {
+        const parsedURL = new URL(this.getUrl(), 'http://dummybase');
+        const querySeparator = parsedURL.searchParams.toString() === '' ? '?' : '&';
+        const queryString = this.getQueryParams() ? new URLSearchParams(this.stringParams(this.getQueryParams())).toString() : '';
+        return queryString === '' ? '' : querySeparator + queryString;
+    }
+
+    private stringParams(params?: Record<string, HasToString>): Record<string, string> {
+        if (!params) {
+            return {};
+        }
+
+        return Object.keys(params).reduce((prev, key) => {
+            prev[key] = params[key].toString();
+            return prev;
+        }, {});
+    };
+}
+
+export const actionBuilder = (method: Method, url: string): ActionBuilder => {
+    return new ActionBuilder(method, url);
+};

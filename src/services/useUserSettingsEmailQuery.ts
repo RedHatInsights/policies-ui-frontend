@@ -1,11 +1,12 @@
-import { useNewQuery } from './Api';
 import Config from '../config/Config';
 import { UserSettings } from '../types/UserSettings';
 import { useTransformQueryResponse } from '../utils/ApiUtils';
+import { useQuery } from 'react-fetching-library';
+import { actionBuilder } from './Api/ActionBuilder';
 
 const urls = Config.apis.urls;
 
-type UserSettingsServerResponse = {
+export type UserSettingsServerResponse = {
     fields: {
         name: string;
         label: string;
@@ -15,7 +16,7 @@ type UserSettingsServerResponse = {
     }[];
 }[];
 
-const adapter = (response: UserSettingsServerResponse): UserSettings => {
+export const adapter = (response: UserSettingsServerResponse): UserSettings => {
     const userSettings: UserSettings = {
         dailyEmail: false,
         immediateEmail: false
@@ -32,7 +33,7 @@ const adapter = (response: UserSettingsServerResponse): UserSettings => {
 
 export const useUserSettingsEmailQuery = (initFetch?: boolean) => {
     return useTransformQueryResponse(
-        useNewQuery<UserSettingsServerResponse>('GET', urls.userSettings.email, initFetch),
+        useQuery<UserSettingsServerResponse>(actionBuilder('GET', urls.userSettings.email).build(), initFetch),
         adapter
     );
 };

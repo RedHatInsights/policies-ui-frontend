@@ -9537,10 +9537,10 @@ react-fast-compare@^2.0.1, react-fast-compare@^2.0.4:
   resolved "https://registry.yarnpkg.com/react-fast-compare/-/react-fast-compare-2.0.4.tgz#e84b4d455b0fec113e0402c329352715196f81f9"
   integrity sha512-suNP+J1VU1MWFKcyt7RtjiSWUjvidmQSlqu+eHslq+342xCbGTYmC0mEhPCOHxlW0CywylOC1u2DFAT+bv4dBw==
 
-react-fetching-library@^1.5.13:
-  version "1.5.13"
-  resolved "https://registry.yarnpkg.com/react-fetching-library/-/react-fetching-library-1.5.13.tgz#2da2e7e465352560444e8f95f6bb7ae9f108f370"
-  integrity sha512-OYcotQ+StU/GzCvFVFtjiKlS9GllmIrN7BIpm6T7PN90tb2Vy4q55yrtzM0/Z6L5ZwImEfiv7/Yxs+wM5nFnKQ==
+react-fetching-library@1.7.4:
+  version "1.7.4"
+  resolved "https://registry.yarnpkg.com/react-fetching-library/-/react-fetching-library-1.7.4.tgz#d4f6bf6a866f5d27fc2e9050b7a0e878fc6c7676"
+  integrity sha512-PQtWWwSgUuuPyWI5ivItO4/ZqYUkQEeQeKympdvAVIyi6tqvqaY0ZMxonHC+7eC0HHJDU/1GUH7mUPxY8J55pQ==
 
 react-flexview@^4.0.4:
   version "4.0.4"
