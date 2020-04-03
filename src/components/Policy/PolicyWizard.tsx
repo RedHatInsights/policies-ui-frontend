@@ -26,6 +26,7 @@ interface PolicyWizardProps {
     onVerify: (policy: Partial<Policy>) => Promise<VerifyPolicyResponse>;
     isLoading: boolean;
     showCreateStep: boolean;
+    policiesExist?: boolean;
 }
 
 const buildSteps: (showCreateStep: boolean) => WizardStepExtended[] = (showCreateStep) => {
@@ -95,6 +96,7 @@ interface FormikBindingProps {
     onMove: WizardStepFunctionType;
     onClose: () => void;
     showCreateStep: boolean;
+    policiesExist?: boolean;
 }
 
 const FormikBinding: React.FunctionComponent<FormikBindingProps> = (props) => {
@@ -248,6 +250,7 @@ export const PolicyWizard: React.FunctionComponent<PolicyWizardProps> = (props: 
                     onClose={ props.onClose }
                     onMove={ onMove }
                     showCreateStep={ props.showCreateStep }
+                    policiesExist={ props.policiesExist }
                 />
             </Formik>
         </>
