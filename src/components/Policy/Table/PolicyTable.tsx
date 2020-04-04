@@ -199,7 +199,7 @@ export const PolicyTable: React.FunctionComponent<PolicyTableProps> = (props) =>
                 transforms: [ ]
             },
             is_enabled: {
-                title: Messages.tables.policy.columns.lastTriggered,
+                title: Messages.tables.policy.columns.lastEvaluated,
                 transforms: transformSortable,
                 column: 'is_enabled'
             }
