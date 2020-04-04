@@ -1,6 +1,6 @@
 import { DeepReadonly } from 'ts-essentials';
 
-const DEFAULT_PAGE_SIZE = 10;
+const DEFAULT_PAGE_SIZE = 50;
 
 export class Page {
     readonly index: number;
