@@ -1,8 +1,8 @@
 import * as React from 'react';
-import { CheckCircleIcon, OffIcon } from '@patternfly/react-icons';
 import { style } from 'typestyle';
 import { formatDistanceToNow, isAfter, format, add } from 'date-fns';
 import { Messages } from '../../../properties/Messages';
+import { EnabledPolicyIcon, DisabledPolicyIcon } from '../../Icons';
 
 interface LastTriggeredCellProps {
     isEnabled: boolean;
@@ -29,7 +29,7 @@ export const LastTriggeredCell: React.FunctionComponent<LastTriggeredCellProps> 
 
     return (
         <>
-            { props.isEnabled ? <CheckCircleIcon color="green"/> : <OffIcon/>}
+            { props.isEnabled ? <EnabledPolicyIcon/> : <DisabledPolicyIcon/>}
             <span className={ lastEvaluationTextClassName }>
                 { lastEvaluationString }
             </span>
