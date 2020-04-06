@@ -21,7 +21,7 @@ const MutableMessages = {
         },
         actionType: actionTypeToText,
         emailOptIn: {
-            title: 'Email alerts not opted in',
+            title: 'Enable email alerts',
             switch: 'Get emails when a policy runs',
             link: 'Open email preferences'
         },
@@ -49,8 +49,7 @@ const MutableMessages = {
         policy: {
             actions: {
                 title: 'Trigger actions',
-                emailOptIn: 'Your policy has an email alert, but you have not opted into receiving alerts emails from' +
-                    ' Policies. You will not receive any email from your policies.'
+                emailOptIn: 'To receive emails for custom policies, opt in to email alerts from your user preferences.'
             },
             conditions: {
                 title: 'Conditions',
