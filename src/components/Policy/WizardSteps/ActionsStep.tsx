@@ -10,11 +10,16 @@ import { ActionType } from '../../../types/Policy/Actions';
 import { getInsights } from '../../../utils/Insights';
 import { Toggle } from '@patternfly/react-core/dist/js/components/Dropdown/Toggle';
 import { AngleDownIcon } from '@patternfly/react-icons';
+import { style } from 'typestyle';
 
 interface AddTriggersDropdownProps {
     addType: (type: ActionType) => void;
     isTypeEnabled: (type: ActionType) => boolean;
 }
+
+const dropdownClassName = style({
+    marginBottom: 16
+});
 
 const AddTriggersDropdown: React.FunctionComponent<AddTriggersDropdownProps> = (props) => {
     const [ isOpen, setOpen ] = React.useState<boolean>(false);
@@ -40,6 +45,7 @@ const AddTriggersDropdown: React.FunctionComponent<AddTriggersDropdownProps> = (
             isOpen={ isOpen }
             dropdownItems={ items }
             isPlain
+            className={ dropdownClassName }
             toggle={ <Toggle isPlain onToggle={ open => setOpen(open) } id="add-action-toggle">
                 <Button component="a" variant={ ButtonVariant.link } isInline> Add trigger actions <AngleDownIcon/> </Button>
             </Toggle> }

@@ -15,9 +15,16 @@ import { ActionForm } from './ActionForm/ActionForm';
 import { assertNever } from '../../utils/Assert';
 import { style } from 'typestyle';
 import { ActionIcon } from './ActionIcons';
+import { Spacer } from '../../utils/Spacer';
 
-const marginTopClassName = style({
-    marginTop: 10
+const formClassName = style({
+    gridGap: Spacer.MD
+});
+
+const cardClassName = style({
+    backgroundColor: 'white',
+    border: '1px var(--pf-global--BorderColor--200) solid',
+    boxShadow: 'none'
 });
 
 const marginLeftClassName = style({
@@ -45,10 +52,10 @@ const titleForActionType = (actionType: ActionType) => {
 
 export const ActionsForm: React.FunctionComponent<ActionsFormProps> = (props) => {
     return (
-        <Form>
+        <Form className={ formClassName }>
             { props.actions?.map((action, index) => (
                 <React.Fragment key={ index }>
-                    <Card className={ marginTopClassName }>
+                    <Card className={ cardClassName }>
                         <CardHead>
                             <CardActions>
                                 <Button variant="plain" aria-label="Action" onClick={ props.arrayHelpers.handleRemove(index) }>
