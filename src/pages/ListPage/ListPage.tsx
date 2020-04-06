@@ -21,6 +21,7 @@ import { PolicyFilterColumn } from '../../types/Policy/PolicyPaging';
 import { EmailOptIn } from '../../components/EmailOptIn/EmailOptIn';
 import { Messages } from '../../properties/Messages';
 import { useBulkChangePolicyEnabledMutation } from '../../services/useChangePolicyEnabled';
+import { style } from 'typestyle';
 
 type ListPageProps = {};
 
@@ -38,6 +39,10 @@ type PolicyWizardStateClosed = {
 } & Partial<PolicyWizardStateBase>;
 
 type PolicyWizardState = PolicyWizardStateClosed | PolicyWizardStateOpen;
+
+const emailOptinPageClassName = style({
+    paddingBottom: 0
+});
 
 const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
 
@@ -208,7 +213,7 @@ const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
             !appContext.userSettings.dailyEmail &&
             getPoliciesQuery.payload &&
             getPoliciesQuery.payload.find(p => p.actions.find(a => a.type === ActionType.EMAIL)) && (
-                <PageSection>
+                <PageSection className={ emailOptinPageClassName }>
                     <EmailOptIn content={ Messages.pages.listPage.emailOptIn } />
                 </PageSection>
             )}
