@@ -68,11 +68,11 @@ export const DeletePolicy: React.FunctionComponent<DeletePolicyProps> = (props) 
         >
             {props.policies.length === 1 ?
                 <>
-                    Do you want to delete the policy: {props.policies[0].name} ?
+                    Do you want to delete the policy: <b>{props.policies[0].name}</b>?
                 </>
                 :
                 <>
-                    Do you want to delete the selected({ props.policies.length }) policies?
+                    Do you want to delete the selected(<b>{ props.policies.length }</b>) policies?
                 </>
             }
         </Modal>
