@@ -1,18 +1,17 @@
 import { NewPolicy } from '../types/Policy/Policy';
 import { toServerPolicy } from '../utils/PolicyAdapter';
-import { useMutation } from 'react-fetching-library';
-import { useBulkMutation } from '../hooks';
-import { createAction } from './Api';
+import { useBulkMutation, useMutation } from 'react-fetching-library';
 import Config from '../config/Config';
+import { actionBuilder } from './Api/ActionBuilder';
 
 const urls = Config.apis.urls;
 
 export const savePolicyActionCreator = (policy: NewPolicy) => {
     if (policy.id) {
-        return createAction('PUT', urls.policy(policy.id), {}, toServerPolicy(policy));
+        return actionBuilder('PUT', urls.policy(policy.id)).data(toServerPolicy(policy)).build();
     }
 
-    return createAction('POST', urls.policies, { alsoStore: true }, toServerPolicy(policy));
+    return actionBuilder('POST', urls.policies).queryParams({ alsoStore: true }).data(toServerPolicy(policy)).build();
 };
 
 export const useSavePolicyMutation = () => useMutation(savePolicyActionCreator);

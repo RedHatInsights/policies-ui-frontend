@@ -1,6 +1,6 @@
-import { createAction } from './Api';
 import Config from '../config/Config';
-import { useBulkMutation } from '../hooks';
+import { actionBuilder } from './Api/ActionBuilder';
+import { useBulkMutation } from 'react-fetching-library';
 
 const url = Config.apis.urls.policyEnabled;
 
@@ -9,6 +9,7 @@ export interface UsePolicyEnabledParams {
     shouldBeEnabled: boolean;
 }
 
-export const actionCreator = (params: UsePolicyEnabledParams) => createAction('POST', url(params.policyId), { enabled: params.shouldBeEnabled });
+export const actionCreator = (params: UsePolicyEnabledParams) =>
+    actionBuilder('POST', url(params.policyId)).queryParams({ enabled: params.shouldBeEnabled.toString() }).build();
 
 export const useBulkChangePolicyEnabledMutation = () => useBulkMutation(actionCreator);
