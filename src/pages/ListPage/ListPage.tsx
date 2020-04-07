@@ -11,7 +11,7 @@ import { AppContext } from '../../app/AppContext';
 import { policyTableError } from './PolicyTableError';
 import { ActionType, Policy } from '../../types/Policy';
 import { DeletePolicy } from './DeletePolicy';
-import { NewPolicy } from '../../types/Policy/Policy';
+import { NewPolicy, PolicyId } from '../../types/Policy/Policy';
 import { usePolicyFilter } from '../../hooks/usePolicyFilter';
 import { usePolicyPage } from '../../hooks/usePolicyPage';
 import { useSort } from '../../hooks/useSort';
@@ -53,12 +53,14 @@ const emailOptinPageClassName = style({
     paddingBottom: 0
 });
 
+const defaultPolicyIdsToDelete = [];
+
 const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
 
     const [ policyWizardState, setPolicyWizardState ] = React.useState<PolicyWizardState>({
         isOpen: false
     });
-    const [ policyToDelete, setPolicyToDelete ] = React.useState<Policy[]>();
+    const [ policyToDelete, setPolicyToDelete ] = React.useState<Policy[]>(defaultPolicyIdsToDelete);
     const bulkChangePolicyEnabledMutation = useBulkChangePolicyEnabledMutation();
     const policyFilters = usePolicyFilter();
     const sort = useSort();
@@ -74,7 +76,8 @@ const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
 
     const isLoading = getPoliciesQuery.loading || bulkChangePolicyEnabledMutation.loading;
 
-    const policyRows = usePolicyRows(getPoliciesQuery.payload, isLoading);
+    const policyRows = usePolicyRows(getPoliciesQuery.payload, isLoading, getPoliciesQuery.count);
+    const { rows: policyRowsRows, onSelect: policyRowsOnSelect } = policyRows;
     const facts = useFacts();
 
     const { canWriteAll, canReadAll } = appContext.rbac;
@@ -90,6 +93,11 @@ const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
         }
     }, [ loadingChangePolicyEnabled, getPoliciesQueryReload ]);
 
+    const onDeleted = React.useCallback((policyId: PolicyId) => {
+        const index = policyRowsRows.findIndex(p => p.id === policyId);
+        policyRowsOnSelect(policyRowsRows[index], index, false);
+    }, [ policyRowsRows, policyRowsOnSelect ]);
+
     const onCloseDeletePolicy = React.useCallback((deleted: boolean) => {
         if (deleted) {
             getPoliciesQueryReload();
@@ -98,7 +106,7 @@ const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
             }
         }
 
-        setPolicyToDelete(undefined);
+        setPolicyToDelete(defaultPolicyIdsToDelete);
     }, [ getPoliciesQueryReload, setPolicyToDelete, changePage, currentPage, policyToDelete, getPoliciesQuery.payload ]);
 
     const switchPolicyEnabled = (policy: Policy) => ({ policyId: policy.id, shouldBeEnabled: !policy.isEnabled });
@@ -307,7 +315,11 @@ const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
                 policiesExist={ getPoliciesQuery.count > 0 ? true : false }
                 facts={ facts }
             /> }
-            <DeletePolicy onClose={ onCloseDeletePolicy } policies={ policyToDelete }/>
+            <DeletePolicy
+                onClose={ onCloseDeletePolicy }
+                onDeleted={ onDeleted }
+                policies={ policyToDelete }
+            />
         </>
     );
 };
