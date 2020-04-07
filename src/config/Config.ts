@@ -32,7 +32,8 @@ const Config = {
         }
     },
     pages: {
-        emailPreferences: () => localUrl('/user-preferences/email')
+        emailPreferences: () => localUrl('/user-preferences/email'),
+        hooks: () => localUrl('/settings/hooks')
     }
 };
 
