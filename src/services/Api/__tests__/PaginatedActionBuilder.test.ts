@@ -5,7 +5,7 @@ describe('src/services/Api/PaginatedActionBuilder', () => {
 
     it('sets page values on the query', () => {
         const action = paginatedActionBuilder('GET', '/policies').page(
-            Page.defaultPage()
+            Page.of(1, 10)
         ).build();
         expect(action.endpoint).toEqual('/policies?offset=0&limit=10');
     });
