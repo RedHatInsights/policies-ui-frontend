@@ -56,7 +56,7 @@ export const PolicyFormActions = Yup.object().shape({
 });
 
 export const PolicyFormConditions = Yup.object().shape({
-    conditions: Yup.string().required('Write a condition').trim()
+    conditions: Yup.string().required('Enter a condition for the policy.').trim()
 });
 
 export const PolicyFormSchema = Yup.object().concat(PolicyFormDetails).concat(PolicyFormActions).concat(PolicyFormConditions);
