@@ -11,7 +11,7 @@ routes[`/${SECTION}/${APP_ID}`]      = { host: `https://localhost:${FRONTEND_POR
 routes[`/beta/apps/${APP_ID}`]       = { host: `https://localhost:${FRONTEND_PORT}` };
 routes[`/apps/${APP_ID}`]            = { host: `https://localhost:${FRONTEND_PORT}` };
 
-routes[`/api/policies/v1.0`] = { host: `http://localhost:${API_PORT}` };
+routes[`/api/policies/`] = { host: `http://localhost:${API_PORT}` };
 
 module.exports = {
     routes,
