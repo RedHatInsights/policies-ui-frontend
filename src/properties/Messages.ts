@@ -10,8 +10,7 @@ const actionTypeToText: Record<ActionType, string> = {
 const MutableMessages = {
     pages: {
         listPage: {
-            emailOptIn: 'One or more of your policies have an email alert, but you have not opted into receiving alert emails from' +
-                ' Policies. You will not receive any emails from your policies.'
+            emailOptIn: 'One or more of your policies have an email alert. To receive these emails, opt in to email alerts.'
         }
     },
     components: {
