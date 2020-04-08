@@ -223,7 +223,7 @@ export const PolicyToolbar: React.FunctionComponent<TablePolicyToolbarProps> = (
                         label: <IsActiveLabel key={ key } isActiveFilter={ key }/>,
                         value: key
                     }))),
-                    placeholder: 'Filter by Active status',
+                    placeholder: 'Filter by Enable status',
                     onChange: (_event, key: string) => {
                         const newValue = {
                             enabled: false,

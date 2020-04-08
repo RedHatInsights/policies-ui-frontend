@@ -34,9 +34,9 @@ const ReviewStep: React.FunctionComponent = () => {
                     type="checkbox"
                     id="isEnabled"
                     name="isEnabled"
-                    labelOn={ Messages.wizards.policy.review.policyIsActive }
-                    labelOff={ Messages.wizards.policy.review.policyIsNotActive }
-                    label={ Messages.wizards.policy.review.activateThisPolicy }
+                    labelOn={ Messages.wizards.policy.review.policyIsEnabled }
+                    labelOff={ Messages.wizards.policy.review.policyIsDisabled }
+                    label={ Messages.wizards.policy.review.enableThisPolicy }
                 />
                 <Title size="md">{ Messages.wizards.policy.review.policy.details }</Title>
                 <FormText label={ Messages.wizards.policy.review.policy.name } name="name" id="name"/>

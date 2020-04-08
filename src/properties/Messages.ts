@@ -66,10 +66,10 @@ const MutableMessages = {
                 title: 'Details'
             },
             review: {
-                title: 'Review and activate',
-                activateThisPolicy: 'Activate this policy?',
-                policyIsActive: 'Policy is active',
-                policyIsNotActive: 'Policy is not active',
+                title: 'Review and enable',
+                enableThisPolicy: 'Enable this policy?',
+                policyIsEnabled: 'Policy is enabled',
+                policyIsDisabled: 'Policy is disabled',
                 policy: {
                     details: 'Policy details',
                     name: 'Policy name',
