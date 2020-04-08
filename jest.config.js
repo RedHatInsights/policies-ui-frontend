@@ -13,6 +13,7 @@ module.exports = {
         '<rootDir>/src/'
     ],
     moduleNameMapper: {
+        '\\.(svg)$': 'identity-obj-proxy',
         '\\.(css|scss)$': 'identity-obj-proxy'
     }
 };

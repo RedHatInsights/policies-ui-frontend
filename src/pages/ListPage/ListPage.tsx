@@ -154,7 +154,6 @@ const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
                 {
                     clearAllFiltersAndTryAgain: () => {
                         policyFilters.setFilters[PolicyFilterColumn.NAME]('');
-                        policyFilters.setFilters[PolicyFilterColumn.DESCRIPTION]('');
                         policyFilters.setFilters[PolicyFilterColumn.IS_ACTIVE]({
                             disabled: false,
                             enabled: false

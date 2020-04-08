@@ -27,10 +27,6 @@ export const usePolicyPage = (filters: PolicyFilters, defaultPerPage?: number, s
             filter.and(PolicyFilterColumn.NAME, Operator.ILIKE, `%${filters[PolicyFilterColumn.NAME].trim()}%`);
         }
 
-        if (filters[PolicyFilterColumn.DESCRIPTION].trim() !== '') {
-            filter.and(PolicyFilterColumn.DESCRIPTION, Operator.ILIKE, `%${filters[PolicyFilterColumn.DESCRIPTION].trim()}%`);
-        }
-
         if (filters[PolicyFilterColumn.IS_ACTIVE].disabled !== filters[PolicyFilterColumn.IS_ACTIVE].enabled) {
             filter.and(
                 PolicyFilterColumn.IS_ACTIVE,

@@ -8,6 +8,8 @@ import {
     PolicyFilters,
     SetPolicyFilters
 } from '../../../types/Policy/PolicyPaging';
+import { EnabledPolicyIcon, DisabledPolicyIcon } from '../../Icons';
+import { style } from 'typestyle';
 
 type OnPaginationPageChangedHandler = (
     event: React.SyntheticEvent<HTMLButtonElement> | React.MouseEvent | React.KeyboardEvent | MouseEvent, page: number) => void;
@@ -41,13 +43,34 @@ interface TablePolicyToolbarProps {
 
 const FilterColumnToLabel: Record<PolicyFilterColumn, string> = {
     [PolicyFilterColumn.NAME]: 'Name',
-    [PolicyFilterColumn.DESCRIPTION]: 'Description',
-    [PolicyFilterColumn.IS_ACTIVE]: 'Is Active?'
+    [PolicyFilterColumn.IS_ACTIVE]: 'Enabled'
 };
 
-const IsActiveKeyToLabel: Record<keyof IsActiveFilter, string> = {
-    enabled: 'Active',
-    disabled: 'Inactive'
+const IsActiveKeyToChipLabel: Record<keyof IsActiveFilter, string> = {
+    enabled: 'Enabled',
+    disabled: 'Disabled'
+};
+
+const enabledTextClassName = style({
+    marginLeft: 4
+});
+
+const IsActiveLabel = (props: { isActiveFilter: string }) => {
+    if (props.isActiveFilter === 'enabled') {
+        return (
+            <>
+                <EnabledPolicyIcon/> <span className={ enabledTextClassName }>Enabled</span>
+            </>
+        );
+    } else if (props.isActiveFilter === 'disabled') {
+        return (
+            <>
+                <DisabledPolicyIcon/> <span className={ enabledTextClassName }>Disabled</span>
+            </>
+        );
+    }
+
+    return null;
 };
 
 const getFilterConfigString = (rawValue: string, filter: PolicyFilterColumn) => {
@@ -75,7 +98,7 @@ const getFilterConfigIsActiveFilter = (value: IsActiveFilter, filter: PolicyFilt
     return {
         category: FilterColumnToLabel[filter],
         chips: Object.keys(value).filter(key => value[key]).map(key => ({
-            name: IsActiveKeyToLabel[key],
+            name: IsActiveKeyToChipLabel[key],
             isRead: true,
             key
         }))
@@ -121,9 +144,6 @@ export const PolicyToolbar: React.FunctionComponent<TablePolicyToolbarProps> = (
             switch (element.category) {
                 case FilterColumnToLabel[PolicyFilterColumn.NAME]:
                     filtersToClear.push({ filter: PolicyFilterColumn.NAME, data: '' });
-                    break;
-                case FilterColumnToLabel[PolicyFilterColumn.DESCRIPTION]:
-                    filtersToClear.push({ filter: PolicyFilterColumn.DESCRIPTION, data: '' });
                     break;
                 case FilterColumnToLabel[PolicyFilterColumn.IS_ACTIVE]:
                     filtersToClear.push({
@@ -184,17 +204,7 @@ export const PolicyToolbar: React.FunctionComponent<TablePolicyToolbarProps> = (
                 }
             },
             {
-                label: 'Description',
-                type: 'text',
-                filterValues: {
-                    id: 'filter-description',
-                    value: filterElements[PolicyFilterColumn.DESCRIPTION],
-                    placeholder: 'Filter by description',
-                    onChange: (_event, value: string) => setFilterElements[PolicyFilterColumn.DESCRIPTION](value)
-                }
-            },
-            {
-                label: 'Is Active?',
+                label: FilterColumnToLabel[PolicyFilterColumn.IS_ACTIVE],
                 type: 'radio',
                 filterValues: {
                     id: 'filter-active',
@@ -207,10 +217,10 @@ export const PolicyToolbar: React.FunctionComponent<TablePolicyToolbarProps> = (
                             return val;
                         }, 'all'),
                     items: [{
-                        label: 'All',
+                        label: <>All</>,
                         value: 'all'
                     }].concat(Object.keys(filterElements[PolicyFilterColumn.IS_ACTIVE]).map(key => ({
-                        label: IsActiveKeyToLabel[key],
+                        label: <IsActiveLabel key={ key } isActiveFilter={ key }/>,
                         value: key
                     }))),
                     placeholder: 'Filter by Active status',
