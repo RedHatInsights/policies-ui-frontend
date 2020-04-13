@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Button, ButtonVariant, Modal } from '@patternfly/react-core';
 import { Policy } from '../../types/Policy';
-import { useBulkDeletePolicyMutation } from '../../services/Api';
+import { useBulkDeletePolicyMutation } from '../../services/useDeletePolicies';
 import { Spinner } from '@patternfly/react-core/dist/js/experimental';
 import { addDangerNotification } from '../../utils/AlertUtils';
 import { Uuid } from '../../types/Policy/Policy';
@@ -24,7 +24,7 @@ export const DeletePolicy: React.FunctionComponent<DeletePolicyProps> = (props) 
 
     const deletePolicy = React.useCallback(() => {
         if (policies) {
-            mutate(policies).then((responses) => {
+            mutate(policies.map(p => p.id)).then((responses) => {
                 responses.filter(r => r?.payload).forEach(r => onDeleted(r?.payload.id));
                 const errors = responses.filter(response => response?.error).map(response => response?.errorObject);
                 if (errors.length > 0) {

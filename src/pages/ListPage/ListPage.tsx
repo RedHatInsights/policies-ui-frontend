@@ -77,7 +77,7 @@ const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
     const isLoading = getPoliciesQuery.loading || bulkChangePolicyEnabledMutation.loading;
 
     const policyRows = usePolicyRows(getPoliciesQuery.payload, isLoading, getPoliciesQuery.count);
-    const { rows: policyRowsRows, onSelect: policyRowsOnSelect } = policyRows;
+    const { rows: policyRowsRows, onSelect: policyRowsOnSelect, clearSelection } = policyRows;
     const facts = useFacts();
 
     const { canWriteAll, canReadAll } = appContext.rbac;
@@ -86,6 +86,10 @@ const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
     const { mutate: mutateChangePolicyEnabled, loading: loadingChangePolicyEnabled } = bulkChangePolicyEnabledMutation;
 
     const { changePage, currentPage } = policyPage;
+
+    React.useEffect(() => {
+        clearSelection();
+    }, [ policyFilters.debouncedFilters, clearSelection ]);
 
     React.useEffect(() => {
         if (loadingChangePolicyEnabled === false) {
