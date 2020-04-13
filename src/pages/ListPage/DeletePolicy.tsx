@@ -4,11 +4,11 @@ import { Policy } from '../../types/Policy';
 import { useBulkDeletePolicyMutation } from '../../services/Api';
 import { Spinner } from '@patternfly/react-core/dist/js/experimental';
 import { addDangerNotification } from '../../utils/AlertUtils';
-import { PolicyId } from '../../types/Policy/Policy';
+import { Uuid } from '../../types/Policy/Policy';
 
 export interface DeletePolicyProps {
     policies?: Policy[];
-    onDeleted: (policyId: PolicyId) => void;
+    onDeleted: (policyId: Uuid) => void;
     onClose: (deleted: boolean) => void;
 }
 

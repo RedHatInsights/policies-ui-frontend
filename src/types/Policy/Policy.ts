@@ -1,10 +1,10 @@
 import { Action } from './Actions';
 import * as Generated from '../GeneratedOpenApi';
 
-export type PolicyId = Generated.Uuid;
+export type Uuid = Generated.Uuid;
 
 export interface Policy {
-    id: PolicyId;
+    id: Uuid;
     actions: Action[];
     conditions: string;
     description: string;
