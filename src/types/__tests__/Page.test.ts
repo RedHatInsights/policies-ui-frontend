@@ -37,4 +37,26 @@ describe('src/types/Page', () => {
         expect(page.sort).toEqual(sort);
     });
 
+    describe('lastPageForElements', () => {
+        it('last page is 1 for 0 elements', () => {
+            expect(Page.lastPageForElements(0, 10).index).toEqual(1);
+        });
+
+        it('last page is 1 for 10 elements and 10 per page', () => {
+            expect(Page.lastPageForElements(10, 10).index).toEqual(1);
+        });
+
+        it('last page is 2 for 11 elements and 10 per page', () => {
+            expect(Page.lastPageForElements(11, 10).index).toEqual(2);
+        });
+
+        it('last page is 2 for 15 elements and 10 per page', () => {
+            expect(Page.lastPageForElements(15, 10).index).toEqual(2);
+        });
+
+        it('last page is 1 for 15 elements and 20 per page', () => {
+            expect(Page.lastPageForElements(15, 20).index).toEqual(1);
+        });
+    });
+
 });

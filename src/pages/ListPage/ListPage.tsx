@@ -30,6 +30,7 @@ import { policyExporterTypeFromString } from '../../utils/exporters/PolicyExport
 import { addDangerNotification } from '../../utils/AlertUtils';
 import { format } from 'date-fns';
 import { usePolicyToDelete } from '../../hooks/usePolicyToDelete';
+import { Page } from '../../types/Page';
 
 type ListPageProps = {};
 
@@ -75,15 +76,15 @@ const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
     const isLoading = getPoliciesQuery.loading || bulkChangePolicyEnabledMutation.loading;
 
     const policyRows = usePolicyRows(getPoliciesQuery.payload, isLoading, getPoliciesQuery.count, policyPage.page);
-    const { rows: policyRowsRows, onSelect: policyRowsOnSelect, clearSelection, selectionCount, selected } = policyRows;
+    const { rows: policyRowsRows, onSelect: policyRowsOnSelect, clearSelection, selectionCount } = policyRows;
     const facts = useFacts();
 
     const { canWriteAll, canReadAll } = appContext.rbac;
 
-    const { query: getPoliciesQueryReload } = getPoliciesQuery;
+    const { query: getPoliciesQueryReload, count: getPoliciesQueryCount } = getPoliciesQuery;
     const { mutate: mutateChangePolicyEnabled, loading: loadingChangePolicyEnabled } = bulkChangePolicyEnabledMutation;
 
-    const { changePage, currentPage } = policyPage;
+    const { changePage, currentPage, itemsPerPage } = policyPage;
     const { close: closePolicyToDelete, open: openPolicyToDelete } = policyToDelete;
 
     React.useEffect(() => {
@@ -104,15 +105,20 @@ const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
     const onCloseDeletePolicy = React.useCallback((deleted: boolean) => {
         if (deleted) {
             getPoliciesQueryReload();
-            // Todo: re-enable this part to avoid landing on empty pages
-            /*if (policiesToDelete?.length === getPoliciesQuery.payload?.length) {
-                changePage(undefined, currentPage === 1 ? 1 : currentPage - 1);
-            }*/
+
+            const lastPage = Page.lastPageForElements(
+                getPoliciesQueryCount - selectionCount,
+                itemsPerPage
+            );
+
+            if (lastPage.index < currentPage) {
+                changePage(undefined, lastPage.index);
+            }
         }
 
         closePolicyToDelete();
         clearSelection();
-    }, [ getPoliciesQueryReload, closePolicyToDelete, clearSelection ]);
+    }, [ getPoliciesQueryReload, getPoliciesQueryCount, closePolicyToDelete, clearSelection, changePage, currentPage, selectionCount, itemsPerPage ]);
 
     const switchPolicyEnabled = (policy: Policy) => ({ policyId: policy.id, shouldBeEnabled: !policy.isEnabled });
 

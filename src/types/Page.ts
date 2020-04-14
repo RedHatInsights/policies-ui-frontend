@@ -26,6 +26,10 @@ export class Page {
         return new Page(1, DEFAULT_PAGE_SIZE);
     }
 
+    static lastPageForElements(count: number, size: number) {
+        return new Page(Math.max(Math.trunc((count + size - 1) / size), 1), size);
+    }
+
 }
 
 class FilterElement {
