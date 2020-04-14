@@ -12,10 +12,8 @@ import { policyTableError } from './PolicyTableError';
 import { ActionType, Policy } from '../../types/Policy';
 import { DeletePolicy } from './DeletePolicy';
 import { NewPolicy, Uuid } from '../../types/Policy/Policy';
-import { usePolicyFilter } from '../../hooks/usePolicyFilter';
-import { usePolicyPage } from '../../hooks/usePolicyPage';
+import { usePolicyFilter, usePolicyPage, usePolicyRows } from '../../hooks';
 import { useSort } from '../../hooks/useSort';
-import { usePolicyRows } from '../../hooks/usePolicyRows';
 import { makeCopyOfPolicy } from '../../utils/PolicyAdapter';
 import { PolicyFilterColumn } from '../../types/Policy/PolicyPaging';
 import { EmailOptIn } from '../../components/EmailOptIn/EmailOptIn';
@@ -31,6 +29,7 @@ import { policyExporterFactory } from '../../utils/exporters/PolicyExporter/Fact
 import { policyExporterTypeFromString } from '../../utils/exporters/PolicyExporter/Type';
 import { addDangerNotification } from '../../utils/AlertUtils';
 import { format } from 'date-fns';
+import { usePolicyToDelete } from '../../hooks/usePolicyToDelete';
 
 type ListPageProps = {};
 
@@ -53,14 +52,12 @@ const emailOptinPageClassName = style({
     paddingBottom: 0
 });
 
-const defaultPolicyIdsToDelete = [];
-
 const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
 
     const [ policyWizardState, setPolicyWizardState ] = React.useState<PolicyWizardState>({
         isOpen: false
     });
-    const [ policyToDelete, setPolicyToDelete ] = React.useState<Policy[]>(defaultPolicyIdsToDelete);
+
     const bulkChangePolicyEnabledMutation = useBulkChangePolicyEnabledMutation();
     const policyFilters = usePolicyFilter();
     const sort = useSort();
@@ -72,12 +69,13 @@ const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
         policyPage.page.filter,
         policyPage.page.sort
     ), false);
+    const policyToDelete = usePolicyToDelete();
     const appContext = useContext(AppContext);
 
     const isLoading = getPoliciesQuery.loading || bulkChangePolicyEnabledMutation.loading;
 
-    const policyRows = usePolicyRows(getPoliciesQuery.payload, isLoading, getPoliciesQuery.count);
-    const { rows: policyRowsRows, onSelect: policyRowsOnSelect, clearSelection } = policyRows;
+    const policyRows = usePolicyRows(getPoliciesQuery.payload, isLoading, getPoliciesQuery.count, policyPage.page);
+    const { rows: policyRowsRows, onSelect: policyRowsOnSelect, clearSelection, selectionCount, selected } = policyRows;
     const facts = useFacts();
 
     const { canWriteAll, canReadAll } = appContext.rbac;
@@ -86,13 +84,14 @@ const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
     const { mutate: mutateChangePolicyEnabled, loading: loadingChangePolicyEnabled } = bulkChangePolicyEnabledMutation;
 
     const { changePage, currentPage } = policyPage;
+    const { close: closePolicyToDelete, open: openPolicyToDelete } = policyToDelete;
 
     React.useEffect(() => {
         clearSelection();
     }, [ policyFilters.debouncedFilters, clearSelection ]);
 
     React.useEffect(() => {
-        if (loadingChangePolicyEnabled === false) {
+        if (!loadingChangePolicyEnabled) {
             getPoliciesQueryReload();
         }
     }, [ loadingChangePolicyEnabled, getPoliciesQueryReload ]);
@@ -105,13 +104,15 @@ const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
     const onCloseDeletePolicy = React.useCallback((deleted: boolean) => {
         if (deleted) {
             getPoliciesQueryReload();
-            if (policyToDelete?.length === getPoliciesQuery.payload?.length) {
+            // Todo: re-enable this part to avoid landing on empty pages
+            /*if (policiesToDelete?.length === getPoliciesQuery.payload?.length) {
                 changePage(undefined, currentPage === 1 ? 1 : currentPage - 1);
-            }
+            }*/
         }
 
-        setPolicyToDelete(defaultPolicyIdsToDelete);
-    }, [ getPoliciesQueryReload, setPolicyToDelete, changePage, currentPage, policyToDelete, getPoliciesQuery.payload ]);
+        closePolicyToDelete();
+        clearSelection();
+    }, [ getPoliciesQueryReload, closePolicyToDelete, clearSelection ]);
 
     const switchPolicyEnabled = (policy: Policy) => ({ policyId: policy.id, shouldBeEnabled: !policy.isEnabled });
 
@@ -150,11 +151,11 @@ const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
             {
                 title: 'Delete',
                 onClick: () => {
-                    setPolicyToDelete([ policy ]);
+                    openPolicyToDelete(policy);
                 }
             }
         ];
-    }, [ canWriteAll, setPolicyToDelete, mutateChangePolicyEnabled ]);
+    }, [ canWriteAll, openPolicyToDelete, mutateChangePolicyEnabled ]);
 
     React.useEffect(() => {
         if (canReadAll) {
@@ -217,8 +218,10 @@ const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
     const selectedPolicies = React.useCallback(() => policyRows.rows.filter(policy => policy.isSelected), [ policyRows ]);
 
     const onDeletePolicies = React.useCallback(
-        () => setPolicyToDelete(selectedPolicies()),
-        [ selectedPolicies, setPolicyToDelete ]
+        () => {
+            openPolicyToDelete(selectionCount);
+        },
+        [ selectionCount, openPolicyToDelete ]
     );
 
     const onDisablePolicies = React.useCallback(
@@ -319,11 +322,15 @@ const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
                 policiesExist={ getPoliciesQuery.count > 0 ? true : false }
                 facts={ facts }
             /> }
-            <DeletePolicy
+            { policyToDelete.isOpen && <DeletePolicy
                 onClose={ onCloseDeletePolicy }
                 onDeleted={ onDeleted }
-                policies={ policyToDelete }
+                loading={ policyRows.loadingSelected }
+                count={ policyToDelete.count }
+                getPolicies={ policyRows.getSelected }
+                policy={ policyToDelete.policy }
             />
+            }
         </>
     );
 };

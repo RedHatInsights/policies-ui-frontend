@@ -5,6 +5,9 @@ import { SelectionCommand } from '../components/Policy/TableToolbar/PolicyTableT
 import { assertNever } from '../utils/Assert';
 import { Uuid } from '../types/Policy/Policy';
 import { usePrevious } from 'react-use';
+import { ImmutableContainerSetMode, ImmutableContainerSet } from '../types/ImmutableContainerSet';
+import { useGetPoliciesIdsQuery } from '../services/useGetPoliciesIds';
+import { Page } from '../types/Page';
 
 export interface UsePolicyRowsReturn {
     rows: PolicyRow[];
@@ -13,64 +16,19 @@ export interface UsePolicyRowsReturn {
     onSelectionChanged: (command: SelectionCommand) => void;
     selectionCount: number;
     clearSelection: () =>  void;
+    getSelected: () => Promise<Uuid[]>;
+    loadingSelected: boolean;
+    selected: ImmutableContainerSet<Uuid>;
 }
 
-enum ImmutablePolicySetMode {
-    INCLUDE,
-    EXCLUDE
-}
+const selectedPoliciesEmpty = new ImmutableContainerSet<Uuid>(undefined, ImmutableContainerSetMode.INCLUDE);
+const selectedPoliciesAll = new ImmutableContainerSet<Uuid>(undefined, ImmutableContainerSetMode.EXCLUDE);
 
-class ImmutablePolicySelectionSet {
-    public readonly mode: ImmutablePolicySetMode;
-    private readonly set: Set<Uuid>;
-
-    public constructor(mode: ImmutablePolicySetMode, set?: Set<Uuid>) {
-        this.mode = mode;
-        this.set = new Set(set || []);
-    }
-
-    public add(policyIds: Uuid[]) {
-        return this.update(policyIds, this.mode === ImmutablePolicySetMode.INCLUDE);
-    }
-
-    public remove(policyIds: Uuid[]) {
-        return this.update(policyIds, this.mode === ImmutablePolicySetMode.EXCLUDE);
-    }
-
-    // Max is the maximum number of elements that could be selected at given time
-    public size(max: number) {
-        if (this.mode === ImmutablePolicySetMode.INCLUDE) {
-            return this.set.size;
-        } else {
-            return max - this.set.size;
-        }
-    }
-
-    public isSelected(policyId: Uuid) {
-        const inSet = this.set.has(policyId);
-        return this.mode === ImmutablePolicySetMode.INCLUDE ? inSet : !inSet;
-    }
-
-    private update(policyIds: Uuid[], addToSet: boolean) {
-        const updated = new ImmutablePolicySelectionSet(this.mode, this.set);
-        if (addToSet) {
-            policyIds.forEach(pid => updated.set.add(pid));
-        } else {
-            policyIds.forEach(pid => updated.set.delete(pid));
-        }
-
-        return updated;
-    }
-}
-
-const selectedPoliciesEmpty = new ImmutablePolicySelectionSet(ImmutablePolicySetMode.INCLUDE);
-
-const selectedPoliciesAll = new ImmutablePolicySelectionSet(ImmutablePolicySetMode.EXCLUDE);
-
-export const usePolicyRows = (policies: Policy[] | undefined, loading: boolean, count: number): UsePolicyRowsReturn => {
+export const usePolicyRows = (policies: Policy[] | undefined, loading: boolean, count: number, page: Page): UsePolicyRowsReturn => {
     const [ policyRows, setPolicyRows ] = React.useState<PolicyRow[]>([]);
-    const [ selectedPolicies, setSelectedPolicies ] = React.useState<ImmutablePolicySelectionSet>(selectedPoliciesEmpty);
+    const [ selectedPolicies, setSelectedPolicies ] = React.useState<ImmutableContainerSet<Uuid>>(selectedPoliciesEmpty);
     const prevPolicies = usePrevious(policies);
+    const { query, loading: loadingSelected } = useGetPoliciesIdsQuery();
 
     const clearSelection = React.useCallback(() => {
         setSelectedPolicies(selectedPoliciesEmpty);
@@ -80,7 +38,7 @@ export const usePolicyRows = (policies: Policy[] | undefined, loading: boolean, 
         if (loading || !policies) {
             setPolicyRows([]);
         } else if (policies !== prevPolicies) {
-            setPolicyRows(policies?.map(policy => ({ ...policy, isOpen: false, isSelected: selectedPolicies.isSelected(policy.id) })));
+            setPolicyRows(policies?.map(policy => ({ ...policy, isOpen: false, isSelected: selectedPolicies.contains(policy.id) })));
         }
     }, [ policies, loading, setPolicyRows, prevPolicies, selectedPolicies ]);
 
@@ -95,7 +53,7 @@ export const usePolicyRows = (policies: Policy[] | undefined, loading: boolean, 
     const onSelect = React.useCallback((policy: PolicyRow, index: number, isSelected: boolean) => {
         setSelectedPolicies(prevSelected => {
             const policies = [ policy.id ];
-            return isSelected ? prevSelected.add(policies) : prevSelected.remove(policies);
+            return isSelected ? prevSelected.addIterable(policies) : prevSelected.removeIterable(policies);
         });
         setPolicyRows(prevRows => {
             const newPolicyRows = [ ...prevRows ];
@@ -110,7 +68,7 @@ export const usePolicyRows = (policies: Policy[] | undefined, loading: boolean, 
             setPolicyRows(prevState => prevState.map(policy => ({ ...policy, isSelected: false })));
         } else if (command === SelectionCommand.PAGE) {
             // Adds page into the current selection
-            setSelectedPolicies(prev => prev.add(policyRows.map(p => p.id)));
+            setSelectedPolicies(prev => prev.addIterable(policyRows.map(p => p.id)));
             setPolicyRows(prevState => prevState.map(policy => ({ ...policy, isSelected: true })));
         } else if (command === SelectionCommand.ALL) {
             setSelectedPolicies(selectedPoliciesAll);
@@ -122,12 +80,33 @@ export const usePolicyRows = (policies: Policy[] | undefined, loading: boolean, 
 
     const selectionCount = React.useMemo(() => selectedPolicies.size(count), [ selectedPolicies, count ]);
 
+    const getSelected = React.useCallback(() => {
+        if (selectedPolicies.mode === ImmutableContainerSetMode.INCLUDE) {
+            return Promise.resolve(selectedPolicies.values());
+        } else {
+            return query(page).then(response => {
+                if (response.error) {
+                    throw response.errorObject;
+                }
+
+                const set = new Set<Uuid>(response.payload?.data);
+                selectedPolicies.values().forEach(id => {
+                    set.delete(id);
+                });
+                return Array.from(set.values());
+            });
+        }
+    }, [ query, page, selectedPolicies ]);
+
     return {
         rows: policyRows,
         onCollapse,
         onSelect,
         onSelectionChanged,
         selectionCount,
-        clearSelection
+        clearSelection,
+        getSelected,
+        loadingSelected,
+        selected: selectedPolicies
     };
 };
