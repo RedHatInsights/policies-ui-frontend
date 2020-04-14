@@ -69,7 +69,7 @@ export const DeletePolicy: React.FunctionComponent<DeletePolicyProps> = (props) 
     if (props.policy) {
         content = <>Do you want to delete the policy <b>{ props.policy.name }</b>?</>;
     } else if (props.count === 1) {
-        content = <>Do you want to delete the selected policy?</>
+        content = <>Do you want to delete the selected policy?</>;
     } else {
         content = <>Do you want to delete the <b>{ props.count }</b> selected policies?</>;
     }
