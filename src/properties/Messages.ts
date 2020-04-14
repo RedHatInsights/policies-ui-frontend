@@ -27,6 +27,18 @@ const MutableMessages = {
         lastTriggeredCell: {
             never: 'Never',
             ago: 'ago'
+        },
+        actionWebhookForm: {
+            paragraph1: {
+                head: 'This action sends a post to all hooks which have been activated for policies in the ',
+                link: 'application settings.',
+                tail: ''
+            },
+            paragraph2: {
+                head: 'To activate a hook for policies, open the hook in the ',
+                link: 'application settings',
+                tail: ' and select your preference for sending a post under "Policies".'
+            }
         }
     },
     tables: {
