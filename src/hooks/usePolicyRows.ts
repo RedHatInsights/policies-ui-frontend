@@ -32,6 +32,7 @@ export const usePolicyRows = (policies: Policy[] | undefined, loading: boolean, 
 
     const clearSelection = React.useCallback(() => {
         setSelectedPolicies(selectedPoliciesEmpty);
+        setPolicyRows(prev => prev.map(policy => ({ ...policy, isOpen: false, isSelected: false })));
     }, [ setSelectedPolicies ]);
 
     React.useEffect(() => {

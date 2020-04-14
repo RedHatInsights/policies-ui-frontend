@@ -64,6 +64,16 @@ export const DeletePolicy: React.FunctionComponent<DeletePolicyProps> = (props) 
         </Button>
     ], [ isLoading, onCancel, deletePolicy ]);
 
+    let content;
+
+    if (props.policy) {
+        content = <>Do you want to delete the policy <b>{ props.policy.name }</b>?</>;
+    } else if (props.count === 1) {
+        content = <>Do you want to delete the selected policy?</>
+    } else {
+        content = <>Do you want to delete the <b>{ props.count }</b> selected policies?</>;
+    }
+
     return (
         <Modal
             title={ `Delete ${ props.count === 1 ? 'policy' : 'policies' }` }
@@ -73,11 +83,7 @@ export const DeletePolicy: React.FunctionComponent<DeletePolicyProps> = (props) 
             isFooterLeftAligned
             isSmall
         >
-            { props.policy ? (
-                <>Do you want to delete the policy <b>{ props.policy.name }</b>?</>
-            ) : (
-                <>Do you want to delete the <b>{ props.count }</b> selected policies?</>
-            ) }
+            { content }
         </Modal>
     );
 };

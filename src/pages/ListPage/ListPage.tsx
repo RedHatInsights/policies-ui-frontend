@@ -76,7 +76,7 @@ const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
     const isLoading = getPoliciesQuery.loading || bulkChangePolicyEnabledMutation.loading;
 
     const policyRows = usePolicyRows(getPoliciesQuery.payload, isLoading, getPoliciesQuery.count, policyPage.page);
-    const { rows: policyRowsRows, onSelect: policyRowsOnSelect, clearSelection, selectionCount } = policyRows;
+    const { rows: policyRowsRows, onSelect: policyRowsOnSelect, clearSelection, selectionCount, selected } = policyRows;
     const facts = useFacts();
 
     const { canWriteAll, canReadAll } = appContext.rbac;
@@ -116,10 +116,11 @@ const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
             if (lastPage.index < currentPage) {
                 changePage(undefined, lastPage.index);
             }
+
+            clearSelection();
         }
 
         closePolicyToDelete();
-        clearSelection();
     }, [
         getPoliciesQueryReload, getPoliciesQueryCount, closePolicyToDelete, clearSelection, changePage,
         currentPage, selectionCount, itemsPerPage, singlePolicyToDelete
@@ -230,9 +231,17 @@ const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
 
     const onDeletePolicies = React.useCallback(
         () => {
+            if (selectionCount === 1) {
+                const found = policyRowsRows.find(p => selected.contains(p.id));
+                if (found) {
+                    openPolicyToDelete(found);
+                    return;
+                }
+            }
+
             openPolicyToDelete(selectionCount);
         },
-        [ selectionCount, openPolicyToDelete ]
+        [ selectionCount, openPolicyToDelete, selected, policyRowsRows ]
     );
 
     const onDisablePolicies = React.useCallback(
