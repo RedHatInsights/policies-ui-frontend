@@ -18,7 +18,26 @@ export interface Fact {
   type?: FactType;
 }
 
+export type ListUUID = Array<string>;
+
 export type Uuid = string;
+
+export type ListObject = Array<{
+}>;
+
+export interface MapStringString {
+  [key: string]: string;
+}
+
+export interface MapStringLong {
+  [key: string]: number;
+}
+
+export interface PagedResponse {
+  data?: ListObject;
+  links?: MapStringString;
+  meta?: MapStringLong;
+}
 
 export interface Policy {
   actions?: string;
@@ -30,22 +49,6 @@ export interface Policy {
   lastEvaluation?: string;
   mtime?: string;
   name: string;
-}
-
-export type ListPolicy = Array<Policy>;
-
-export interface MapStringString {
-  [key: string]: string;
-}
-
-export interface MapStringLong {
-  [key: string]: number;
-}
-
-export interface PagedResponse {
-  data?: ListPolicy;
-  links?: MapStringString;
-  meta?: MapStringLong;
 }
 
 export interface SettingsValues {

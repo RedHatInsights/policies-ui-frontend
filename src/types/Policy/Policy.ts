@@ -3,6 +3,11 @@ import * as Generated from '../GeneratedOpenApi';
 
 export type Uuid = Generated.Uuid;
 
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface PagedServerUuidResponse extends Generated.PagedResponse {
+    data: Array<Uuid>;
+}
+
 export interface Policy {
     id: Uuid;
     actions: Action[];
@@ -16,10 +21,12 @@ export interface Policy {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface PagedServerPolicyResponse extends Generated.PagedResponse {}
+export interface ServerPolicyResponse extends Generated.Policy {}
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface ServerPolicyResponse extends Generated.Policy {}
+export interface PagedServerPolicyResponse extends Generated.PagedResponse {
+    data: Array<ServerPolicyResponse>;
+}
 
 type OptionalProperties = 'id' | 'mtime' | 'ctime' | 'lastEvaluation';
 type OutputOnlyProperties = 'mtime' | 'ctime' | 'lastEvaluation';
