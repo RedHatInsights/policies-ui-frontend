@@ -85,7 +85,7 @@ const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
     const { mutate: mutateChangePolicyEnabled, loading: loadingChangePolicyEnabled } = bulkChangePolicyEnabledMutation;
 
     const { changePage, currentPage, itemsPerPage } = policyPage;
-    const { close: closePolicyToDelete, open: openPolicyToDelete } = policyToDelete;
+    const { close: closePolicyToDelete, open: openPolicyToDelete, policy: singlePolicyToDelete } = policyToDelete;
 
     React.useEffect(() => {
         clearSelection();
@@ -106,8 +106,10 @@ const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
         if (deleted) {
             getPoliciesQueryReload();
 
+            const deletePolicyCount = singlePolicyToDelete ? 1 : selectionCount;
+
             const lastPage = Page.lastPageForElements(
-                getPoliciesQueryCount - selectionCount,
+                getPoliciesQueryCount - deletePolicyCount,
                 itemsPerPage
             );
 
@@ -118,7 +120,10 @@ const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
 
         closePolicyToDelete();
         clearSelection();
-    }, [ getPoliciesQueryReload, getPoliciesQueryCount, closePolicyToDelete, clearSelection, changePage, currentPage, selectionCount, itemsPerPage ]);
+    }, [
+        getPoliciesQueryReload, getPoliciesQueryCount, closePolicyToDelete, clearSelection, changePage,
+        currentPage, selectionCount, itemsPerPage, singlePolicyToDelete
+    ]);
 
     const switchPolicyEnabled = (policy: Policy) => ({ policyId: policy.id, shouldBeEnabled: !policy.isEnabled });
 
