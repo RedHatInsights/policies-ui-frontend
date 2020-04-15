@@ -296,7 +296,7 @@ export const PolicyToolbar: React.FunctionComponent<TablePolicyToolbarProps> = (
             },
             {
                 key: 'delete-policy',
-                label: selectedCount === 1 ? 'Delete policy' : 'Delete policies',
+                label: 'Delete',
                 onClick: onDeletePolicy,
                 props: {
                     isDisabled: !(selectedCount && onDeletePolicy)
@@ -304,7 +304,7 @@ export const PolicyToolbar: React.FunctionComponent<TablePolicyToolbarProps> = (
             },
             {
                 key: 'enable-policy',
-                label: selectedCount === 1 ? 'Enable policy' : 'Enable policies',
+                label: 'Enable',
                 onClick: onEnablePolicy,
                 props: {
                     isDisabled: !(selectedCount && onEnablePolicy)
@@ -312,7 +312,7 @@ export const PolicyToolbar: React.FunctionComponent<TablePolicyToolbarProps> = (
             },
             {
                 key: 'disable-policy',
-                label: selectedCount === 1 ? 'Disable policy' : 'Disable policies',
+                label: 'Disable',
                 onClick: onDisablePolicy,
                 props: {
                     isDisabled: !(selectedCount && onDisablePolicy)
@@ -323,7 +323,7 @@ export const PolicyToolbar: React.FunctionComponent<TablePolicyToolbarProps> = (
         return {
             actions,
             kebabToggleProps: {
-                isDisabled: !(selectedCount && onDeletePolicy)
+                isDisabled: false
             }
         };
     }, [ onCreatePolicy, onDeletePolicy, selectedCount, hideActions, onDisablePolicy, onEnablePolicy ]);

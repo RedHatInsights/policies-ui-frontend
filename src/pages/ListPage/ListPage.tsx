@@ -147,7 +147,7 @@ const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
 
         return [
             {
-                title: `${policy.isEnabled ? 'Disable' : 'Enable'} policy`,
+                title: policy.isEnabled ? 'Disable' : 'Enable',
                 onClick: () => {
                     mutateChangePolicyEnabled([ policy ].map(switchPolicyEnabled));
                 }
