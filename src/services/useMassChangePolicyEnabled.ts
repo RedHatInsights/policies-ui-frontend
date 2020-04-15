@@ -13,4 +13,4 @@ export interface UseMassChangePolicyEnabledParams {
 export const actionCreator = (params: UseMassChangePolicyEnabledParams) =>
     actionBuilder('POST', url).data(params.policyIds).queryParams({ enabled: params.shouldBeEnabled.toString() }).build();
 
-export const useMassChangePolicyEnabledMutation = () => useMutation(actionCreator);
+export const useMassChangePolicyEnabledMutation = () => useMutation<Uuid[]>(actionCreator);

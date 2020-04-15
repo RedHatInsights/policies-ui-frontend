@@ -2,7 +2,7 @@ import { Page } from '../types/Page';
 import { paginatedActionBuilder } from './Api/PaginatedActionBuilder';
 import Config from '../config/Config';
 import { useParameterizedQuery } from 'react-fetching-library';
-import { PagedServerUuidResponse } from '../types/Policy/Policy';
+import { Uuid } from '../types/Policy/Policy';
 
 const url = Config.apis.urls.policyIds;
 
@@ -11,5 +11,5 @@ export const actionCreator = (page: Page) => {
 };
 
 export const useGetPoliciesIdsQuery = () => {
-    return useParameterizedQuery<PagedServerUuidResponse, {}, Page>(actionCreator);
+    return useParameterizedQuery<Uuid[], {}, Page>(actionCreator);
 };

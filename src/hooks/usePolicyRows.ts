@@ -96,7 +96,7 @@ export const usePolicyRows = (policies: Policy[] | undefined, loading: boolean, 
                     throw response.errorObject;
                 }
 
-                const set = new Set<Uuid>(response.payload?.data);
+                const set = new Set<Uuid>(response.payload);
                 selectedPolicies.values().forEach(id => {
                     set.delete(id);
                 });

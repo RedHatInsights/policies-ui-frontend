@@ -51,6 +51,9 @@ export interface Policy {
   name: string;
 }
 
+export type List = Array<{
+}>;
+
 export interface SettingsValues {
   dailyEmail?: boolean;
   immediateEmail?: boolean;

@@ -3,11 +3,6 @@ import * as Generated from '../GeneratedOpenApi';
 
 export type Uuid = Generated.Uuid;
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface PagedServerUuidResponse extends Generated.PagedResponse {
-    data: Array<Uuid>;
-}
-
 export interface Policy {
     id: Uuid;
     actions: Action[];
