@@ -28,7 +28,7 @@ export const DeletePolicy: React.FunctionComponent<DeletePolicyProps> = (props) 
 
     const deletePoliciesWithIds = React.useCallback((policyIds: Uuid[]) => {
         mutate(policyIds).then((responses) => {
-            responses.filter(r => r?.payload).forEach(r => onDeleted(r?.payload.id));
+            responses.filter(r => r && !r.error).forEach(r => onDeleted(r?.payload.id));
             const errors = responses.filter(response => response?.error).map(response => response?.errorObject);
             if (errors.length > 0) {
                 if (errors.length === 1) {
@@ -48,8 +48,16 @@ export const DeletePolicy: React.FunctionComponent<DeletePolicyProps> = (props) 
         if (policy) {
             deletePoliciesWithIds([ policy.id ]);
         } else {
-            const policyIds = await getPolicies();
-            deletePoliciesWithIds(policyIds);
+            try {
+                const policyIds = await getPolicies();
+                deletePoliciesWithIds(policyIds);
+            } catch (error) {
+                addDangerNotification(
+                    'Error while deleting',
+                    'An error occurred while trying to delete the selection, please try again.'
+                );
+                console.error('Error while fetching selection', error);
+            }
         }
     }, [ getPolicies, deletePoliciesWithIds, policy ]);
 

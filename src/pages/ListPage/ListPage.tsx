@@ -76,7 +76,14 @@ const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
     const isLoading = getPoliciesQuery.loading || bulkChangePolicyEnabledMutation.loading;
 
     const policyRows = usePolicyRows(getPoliciesQuery.payload, isLoading, getPoliciesQuery.count, policyPage.page);
-    const { rows: policyRowsRows, onSelect: policyRowsOnSelect, clearSelection, selectionCount, selected } = policyRows;
+    const {
+        rows: policyRowsRows,
+        onSelect: policyRowsOnSelect,
+        clearSelection,
+        selectionCount,
+        selected,
+        removeSelection: policyRowsRemoveSelection
+    } = policyRows;
     const facts = useFacts();
 
     const { canWriteAll, canReadAll } = appContext.rbac;
@@ -99,7 +106,12 @@ const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
 
     const onDeleted = React.useCallback((policyId: Uuid) => {
         const index = policyRowsRows.findIndex(p => p.id === policyId);
-        policyRowsOnSelect(policyRowsRows[index], index, false);
+        if (index === -1) {
+            // The policy was not found on this page, but could be on other pages
+            policyRowsRemoveSelection(policyId);
+        } else {
+            policyRowsOnSelect(policyRowsRows[index], index, false);
+        }
     }, [ policyRowsRows, policyRowsOnSelect ]);
 
     const onCloseDeletePolicy = React.useCallback((deleted: boolean) => {

@@ -19,6 +19,7 @@ export interface UsePolicyRowsReturn {
     getSelected: () => Promise<Uuid[]>;
     loadingSelected: boolean;
     selected: ImmutableContainerSet<Uuid>;
+    removeSelection: (policyId: Uuid) => void;
 }
 
 const selectedPoliciesEmpty = new ImmutableContainerSet<Uuid>(undefined, ImmutableContainerSetMode.INCLUDE);
@@ -51,10 +52,15 @@ export const usePolicyRows = (policies: Policy[] | undefined, loading: boolean, 
         });
     }, [ setPolicyRows ]);
 
+    const removeSelection = React.useCallback((policyId: Uuid) => {
+        setSelectedPolicies(prevSelected => {
+            return prevSelected.remove(policyId);
+        });
+    }, [ setSelectedPolicies ]);
+
     const onSelect = React.useCallback((policy: PolicyRow, index: number, isSelected: boolean) => {
         setSelectedPolicies(prevSelected => {
-            const policies = [ policy.id ];
-            return isSelected ? prevSelected.addIterable(policies) : prevSelected.removeIterable(policies);
+            return isSelected ? prevSelected.add(policy.id) : prevSelected.remove(policy.id);
         });
         setPolicyRows(prevRows => {
             const newPolicyRows = [ ...prevRows ];
@@ -108,6 +114,7 @@ export const usePolicyRows = (policies: Policy[] | undefined, loading: boolean, 
         clearSelection,
         getSelected,
         loadingSelected,
-        selected: selectedPolicies
+        selected: selectedPolicies,
+        removeSelection
     };
 };
