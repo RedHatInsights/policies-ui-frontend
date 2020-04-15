@@ -1,6 +1,6 @@
 import Config from '../config/Config';
 import { useMutation } from 'react-fetching-library';
-import { Uuid } from '../types/Policy/Policy';
+import { PagedServerUuidResponse, Uuid } from '../types/Policy/Policy';
 import { actionBuilder } from './Api/ActionBuilder';
 
 const url = Config.apis.urls.policyIds;
@@ -10,5 +10,5 @@ export const actionCreator = (policyIds: Uuid[]) => {
 };
 
 export const useMassDeletePoliciesMutation = () => {
-    return useMutation(actionCreator);
+    return useMutation<PagedServerUuidResponse>(actionCreator);
 };

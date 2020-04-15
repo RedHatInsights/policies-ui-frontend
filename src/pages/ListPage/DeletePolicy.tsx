@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { Button, ButtonVariant, Modal } from '@patternfly/react-core';
-import { useBulkDeletePolicyMutation } from '../../services/useDeletePolicies';
 import { Spinner } from '@patternfly/react-core/dist/js/experimental';
 import { addDangerNotification } from '../../utils/AlertUtils';
 import { Policy, Uuid } from '../../types/Policy/Policy';
+import { useMassDeletePoliciesMutation } from '../../services/useMassDeletePolicies';
 
 export interface DeletePolicyProps {
     getPolicies: () => Promise<Uuid[]>;
@@ -18,7 +18,7 @@ export const DeletePolicy: React.FunctionComponent<DeletePolicyProps> = (props) 
 
     const { getPolicies, onClose, onDeleted, policy } = props;
 
-    const { mutate, loading } = useBulkDeletePolicyMutation();
+    const { mutate, loading } = useMassDeletePoliciesMutation();
 
     const isLoading = loading || props.loading;
 
@@ -27,18 +27,23 @@ export const DeletePolicy: React.FunctionComponent<DeletePolicyProps> = (props) 
     }, [ onClose ]);
 
     const deletePoliciesWithIds = React.useCallback((policyIds: Uuid[]) => {
-        mutate(policyIds).then((responses) => {
-            responses.filter(r => r && !r.error).forEach(r => onDeleted(r?.payload.id));
-            const errors = responses.filter(response => response?.error).map(response => response?.errorObject);
-            if (errors.length > 0) {
-                if (errors.length === 1) {
+        mutate(policyIds).then((response) => {
+            let errorCount = response.error ? policyIds.length : 0;
+
+            if (errorCount === 0) {
+                errorCount =  policyIds.filter(id => response.payload && !response.payload.data.includes(id)).length;
+                response.payload?.data.forEach(id => onDeleted(id));
+            }
+
+            if (errorCount > 0) {
+                if (errorCount === 1) {
                     addDangerNotification('Error deleting policy', `There was an error when trying to delete a policy.`);
                 } else {
-                    addDangerNotification('Error deleting policies', `There was an error when trying to delete ${errors.length} policy.`);
+                    addDangerNotification('Error deleting policies', `There was an error when trying to delete ${errorCount} policies.`);
                 }
             }
 
-            if (errors.length !== policyIds.length) {
+            if (errorCount !== policyIds.length) {
                 onClose(true);
             }
         });
