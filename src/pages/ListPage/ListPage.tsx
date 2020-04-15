@@ -9,7 +9,7 @@ import { PolicyToolbar } from '../../components/Policy/TableToolbar/PolicyTableT
 import { CreatePolicyWizard } from './CreatePolicyWizard';
 import { AppContext } from '../../app/AppContext';
 import { policyTableError } from './PolicyTableError';
-import { ActionType, Policy } from '../../types/Policy';
+import { ActionType } from '../../types/Policy';
 import { DeletePolicy } from './DeletePolicy';
 import { NewPolicy, Uuid } from '../../types/Policy/Policy';
 import { usePolicyFilter, usePolicyPage, usePolicyRows } from '../../hooks';
