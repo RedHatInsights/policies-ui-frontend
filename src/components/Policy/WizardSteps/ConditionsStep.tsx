@@ -19,6 +19,7 @@ import { GlobalDangerColor100, GlobalSuccessColor200 } from '../../../utils/PFCo
 import { Messages } from '../../../properties/Messages';
 import { joinClasses } from '../../../utils/ComponentUtils';
 import { Form } from '../../Formik/Patternfly/Form';
+import Usage from '../Table/ExpandedContent/Usage';
 
 const elementClassName = style({
     marginTop: 'auto',
@@ -122,6 +123,8 @@ const ConditionsStep: React.FunctionComponent = () => {
     return (
         <Form>
             <Title headingLevel="h4" size="xl">{ Messages.wizards.policy.conditions.title }</Title>
+            { Messages.wizards.policy.conditions.summaryDesc }
+            <Usage showHint={ false } hint={ Messages.wizards.policy.hints.hintValue } hintTitle={ Messages.wizards.policy.hints.hintTitle }/>
             <FormTextInput isRequired={ true } label="Condition text"
                 type="text" id="conditions" name="conditions"
                 hint={ Messages.wizards.policy.conditions.hint }
