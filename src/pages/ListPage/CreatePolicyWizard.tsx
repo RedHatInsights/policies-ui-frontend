@@ -6,12 +6,14 @@ import * as HttpStatus from 'http-status-codes';
 import { addSuccessNotification } from '../../utils/AlertUtils';
 import { CreatePolicyResponse, VerifyPolicyResponse } from '../../components/Policy/PolicyWizardTypes';
 import { Policy, NewPolicy } from '../../types/Policy/Policy';
+import { Fact } from '../../types/Fact';
 
 type CreatePolicyWizardBase = {
     close: (policyCreated: boolean) => void;
     initialValue?: NewPolicy;
     showCreateStep: boolean;
     policiesExist?: boolean;
+    facts?: Fact[];
 };
 
 type CreatePolicyWizardIsOpen = {
@@ -84,6 +86,7 @@ export const CreatePolicyWizard: React.FunctionComponent<CreatePolicyWizardProps
                 showCreateStep={ props.policiesExist ? props.showCreateStep : false }
                 isLoading={ isLoading }
                 policiesExist={ props.policiesExist }
+                facts={ props.facts }
             />}
         </>
     );

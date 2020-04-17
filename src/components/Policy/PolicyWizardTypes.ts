@@ -4,6 +4,7 @@ import * as Yup from 'yup';
 import { WizardStep } from '@patternfly/react-core';
 import { DeepPartial, DeepReadonly } from 'ts-essentials';
 import { Policy } from '../../types/Policy';
+import { Fact } from '../../types/Fact';
 
 export type PartialPolicy = DeepPartial<Policy>;
 
@@ -39,6 +40,7 @@ export interface WizardContext {
   verifyResponse: VerifyPolicyResponse;
   createResponse: CreatePolicyResponse;
   setVerifyResponse: (verifyResponse: VerifyPolicyResponse) => void;
+  facts?: Fact[];
 }
 
 export const WizardContext = React.createContext<WizardContext>({

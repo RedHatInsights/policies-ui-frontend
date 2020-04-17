@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "module": "commonjs",
-    "target": "es5",
+    "target": "es6",
     "allowJs": true,
     "checkJs": false,
     "jsx": "react",
@@ -13,7 +13,8 @@
     "strict": true,
     "moduleResolution": "node",
     "esModuleInterop": true,
-    "noImplicitAny": false
+    "noImplicitAny": false,
+    "sourceMap": true
   },
   "include": [
     "./src/**/*"
