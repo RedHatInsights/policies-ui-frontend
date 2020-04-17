@@ -1,27 +1,47 @@
 import { useHistory, useLocation } from 'react-router-dom';
-import { Dispatch, SetStateAction, useCallback, useMemo } from 'react';
+import { Dispatch, SetStateAction, useCallback, useState } from 'react';
 
-export type UseUrlStateResponse<T> = [ T | undefined, Dispatch<SetStateAction<T>> ];
+export type UseUrlStateResponse<T> = [ T | undefined, Dispatch<SetStateAction<T | undefined>> ];
+export type Serializer<T> = (value: T) => string | undefined;
+export type Deserializer<T> = (value: string) => T | undefined;
 
-type Serializer<T> = (value: T) => string | undefined;
-type Deserializer<T> = (value: string) => T | undefined;
+export type UseUrlStateType<T> = (name: string, serializer: Serializer<T>, deserializer: Deserializer<T>, initialValue?: T) => UseUrlStateResponse<T>;
 
 export const useUrlState =
     <T>(name: string, serializer: Serializer<T>, deserializer: Deserializer<T>, initialValue?: T): UseUrlStateResponse<T> => {
         const history = useHistory();
         const location = useLocation();
 
-        const memoizedInitialValue = useMemo(
-            () => initialValue,
-            // eslint-disable-next-line react-hooks/exhaustive-deps
-            []
-        );
+        const setUrlValue = useCallback((serializedValue: string | undefined) => {
+            const search = new URLSearchParams(location.search);
+            if (serializedValue === undefined) {
+                search.delete(name);
+            } else {
+                search.set(name, serializedValue);
+            }
 
-        const value: T | undefined = useMemo(() => {
+            const searchString = '?' + search.toString();
+            if (searchString !== location.search) {
+                history.replace({
+                    ...location,
+                    search: searchString
+                });
+            }
+        }, [ location, history, name ]);
+
+        const [ value, localSetValue ] = useState<T | undefined>(() => {
             const params = new URLSearchParams(location.search);
             const urlValue = params.get(name);
-            return (urlValue !== undefined && urlValue !== null) ? deserializer(urlValue) : memoizedInitialValue;
-        }, [ name, memoizedInitialValue, location, deserializer ]);
+            if ((urlValue === undefined || urlValue === null)) {
+                if (initialValue) {
+                    setUrlValue(serializer(initialValue));
+                }
+
+                return initialValue;
+            } else {
+                return deserializer(urlValue);
+            }
+        });
 
         const setValue = useCallback(newValueOrFunction => {
             let newValue;
@@ -32,23 +52,11 @@ export const useUrlState =
             }
 
             if (newValue !== value) {
+                localSetValue(newValue);
                 const serializedNewValue = newValue === undefined ? undefined : serializer(newValue);
-                const search = new URLSearchParams(location.search);
-                if (serializedNewValue === undefined) {
-                    search.delete(name);
-                } else {
-                    search.set(name, serializedNewValue);
-                }
-
-                const searchString = '?' + search.toString();
-                if (searchString !== location.search) {
-                    history.replace({
-                        ...location,
-                        search: searchString
-                    });
-                }
+                setUrlValue(serializedNewValue);
             }
-        }, [ history, location, name, serializer, value ]);
+        }, [ serializer, value, setUrlValue ]);
 
         return [ value, setValue ];
     };
@@ -56,4 +64,5 @@ export const useUrlState =
 const serializer = (value: string) => value === '' ? undefined : value;
 const deserializer = (value: string) => value;
 
+export type UseUrlStateStringType = (name: string, initialValue?: string) => UseUrlStateResponse<string>;
 export const useUrlStateString = (name: string, initialValue?: string) => useUrlState<string>(name, serializer, deserializer, initialValue);

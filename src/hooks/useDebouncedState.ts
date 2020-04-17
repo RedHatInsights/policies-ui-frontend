@@ -4,6 +4,8 @@ import { Dispatch, SetStateAction, useState, useCallback } from 'react';
 type UseStateType = typeof useState;
 type UseDebouncedStateReturn<T> = [ T, Dispatch<SetStateAction<T>>, T, () => boolean | null ];
 
+export type UseDebouncedStateType<T> = (initialValue: T, ms: number, useStateHook?: UseStateType) => UseDebouncedStateReturn<T>;
+
 export const useDebouncedState = <T>(initialValue: T, ms: number, useStateHook?: UseStateType): UseDebouncedStateReturn<T> => {
     if (!useStateHook) {
         useStateHook = useState;
@@ -14,12 +16,11 @@ export const useDebouncedState = <T>(initialValue: T, ms: number, useStateHook?:
 
     const debounceCallback = useCallback(() => {
         if (state !== debouncedState) {
-            console.log('debouncing', state);
             setDebouncedState(state);
         }
     }, [ state, setDebouncedState, debouncedState ]);
 
-    const [ isReady ] = useDebounce(debounceCallback, ms, [ debounceCallback ]);
+    const [ isReady ] = useDebounce(debounceCallback, ms, [ state ]);
 
     return [
         state, setState, debouncedState, isReady
