@@ -19,6 +19,7 @@ import { PolicyWizardFooter } from './PolicyWizardFooter';
 import { Policy, NewPolicy } from '../../types/Policy/Policy';
 import { useMountedState } from 'react-use';
 import { Fact } from '../../types/Fact';
+import { Messages } from '../../properties/Messages';
 
 interface PolicyWizardProps {
     initialValue: PartialPolicy;
@@ -153,9 +154,8 @@ const FormikBinding: React.FunctionComponent<FormikBindingProps> = (props) => {
                     onNext={ props.onMove }
                     onBack={ props.onMove }
                     onGoToStep={ props.onMove }
-                    title="Add Policy"
-                    description={ 'Policies are processed on reception of system profile messages. ' +
-                    'If condition(s) are met, defined action(s) are triggered.' }
+                    title={ Messages.wizards.policy.title }
+                    description={ Messages.wizards.policy.description }
                     footer={ <PolicyWizardFooter loadingText="Loading"  isLoading={ props.isLoading } error={ props.createResponse.error }/> }
                 />
             </WizardContext.Provider>

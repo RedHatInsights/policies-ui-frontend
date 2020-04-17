@@ -1,6 +1,7 @@
-import { ErrorContentProps } from '../../components/Policy/Table/PolicyTable';
 import { ExclamationCircleIcon } from '@patternfly/react-icons';
 import { GlobalDangerColor200 } from '../../utils/PFColors';
+import { EmptyStateSectionProps } from '../../components/Policy/EmptyState/Section';
+import { Messages } from '../../properties/Messages';
 
 const noPermissionProps = {
     icon: ExclamationCircleIcon,
@@ -20,7 +21,7 @@ export const policyTableError = (
     handlers: Handlers,
     requestHasError?: boolean,
     httpCode?: number
-): ErrorContentProps | undefined => {
+): EmptyStateSectionProps | undefined => {
     if (!canReadAll) {
         return noPermissionProps;
     }
@@ -29,12 +30,8 @@ export const policyTableError = (
         switch (httpCode) {
             case 404:
                 return {
-                    icon: ExclamationCircleIcon,
-                    iconColor: GlobalDangerColor200,
-                    title: 'Not found',
-                    content: 'The request did not provide any results, try to remove some filters and try again',
-                    action: handlers.clearAllFiltersAndTryAgain,
-                    actionLabel: 'Clear all filters'
+                    title: Messages.tables.policy.emptyState.notFound.title,
+                    content: Messages.tables.policy.emptyState.notFound.content
                 };
             case 401:
                 return {
