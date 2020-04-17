@@ -124,7 +124,7 @@ const ConditionsStep: React.FunctionComponent = () => {
         <Form>
             <Title headingLevel="h4" size="xl">{ Messages.wizards.policy.conditions.title }</Title>
             { Messages.wizards.policy.conditions.summaryDesc }
-            <Usage showHint={ false } hint={ Messages.wizards.policy.hints.hintValue } hintTitle={ Messages.wizards.policy.hints.hintTitle }/>
+            <Usage showHint={ false } hint={ Messages.wizards.policy.hints.hintTitle } hintTitle={ Messages.wizards.policy.hints.hintTitle }/>
             <FormTextInput isRequired={ true } label="Condition text"
                 type="text" id="conditions" name="conditions"
                 hint={ Messages.wizards.policy.conditions.hint }
