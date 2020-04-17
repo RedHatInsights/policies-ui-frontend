@@ -12,8 +12,7 @@ const headers: [keyof Policy, string][] = [
     [ 'actions', 'actions' ],
     [ 'lastEvaluation', 'lastEvaluation' ],
     [ 'mtime', 'mtime' ],
-    [ 'ctime', 'ctime' ],
-    [ 'lastEvaluation', 'lastEvaluation' ]
+    [ 'ctime', 'ctime' ]
 ];
 
 export const PolicyExporterCsv: PolicyExporter = {
