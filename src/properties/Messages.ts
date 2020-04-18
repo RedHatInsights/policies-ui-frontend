@@ -10,7 +10,15 @@ const actionTypeToText: Record<ActionType, string> = {
 const MutableMessages = {
     pages: {
         listPage: {
-            emailOptIn: 'One or more of your policies have an email alert. To receive these emails, opt in to email alerts.'
+            title: 'Policies',
+            emailOptIn: 'One or more of your policies have an email alert. To receive these emails, opt in to email alerts.',
+            emptyState: {
+                title: 'No Policies',
+                text: [
+                    'No policies have been created.',
+                    'Use self defined-policies to monitor your RHEL configurations with instant or daily alerts.'
+                ]
+            }
         }
     },
     components: {
@@ -52,12 +60,19 @@ const MutableMessages = {
             emptyState: {
                 neverRun: 'Never',
                 noConditions: 'No conditions configured.',
-                noDescription: '--'
+                noDescription: '--',
+                notFound: {
+                    title: 'No matching policies found',
+                    content: 'No policies matching the selected filter and search terms.'
+                }
             }
         }
     },
     wizards: {
         policy: {
+            title: 'Create a policy',
+            description: 'Policies are processed on reception of system profile messages. ' +
+                'If condition(s) are met, defined action(s) are triggered.',
             actions: {
                 title: 'Trigger actions',
                 emailOptIn: 'To receive emails for custom policies, opt in to email alerts from your user preferences.'

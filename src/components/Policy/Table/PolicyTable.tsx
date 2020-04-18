@@ -11,33 +11,28 @@ import {
     TableBody,
     TableHeader
 } from '@patternfly/react-table';
-import {
-    Bullseye,
-    Button,
-    ButtonVariant,
-    EmptyState,
-    EmptyStateBody,
-    EmptyStateIcon,
-    EmptyStateVariant,
-    Radio,
-    Title
-} from '@patternfly/react-core';
+import { Radio } from '@patternfly/react-core';
 import { SkeletonTable } from '@redhat-cloud-services/frontend-components';
 
 import { Policy } from '../../../types/Policy';
 import { Direction, Sort } from '../../../types/Page';
 import { ExpandedContent } from './ExpandedContent';
-import { IconType } from '@patternfly/react-icons/dist/js/createIcon';
 import { Messages } from '../../../properties/Messages';
 import { assertNever } from '../../../utils/Assert';
 import { ActionsCell } from './ActionsCell';
 import { LastTriggeredCell } from './LastTriggeredCell';
+import { EmptyStateSection, EmptyStateSectionProps } from '../EmptyState/Section';
+import { style } from 'typestyle';
+
+const emptyStateSectionBackgroundColor = style({
+    backgroundColor: 'white'
+});
 
 type OnSelectHandlerType = (policy: PolicyRow, index: number, isSelected: boolean) => void;
 
 interface PolicyTableProps {
     actionResolver?: (row: PolicyRow) => IActions;
-    error?: ErrorContentProps;
+    error?: EmptyStateSectionProps;
     loading?: boolean;
     loadingRowCount?: number;
     onSort?: (index: number, column: string, direction: Direction) => void;
@@ -49,15 +44,6 @@ interface PolicyTableProps {
     columnsToShow?: ValidColumns[];
 }
 
-export interface ErrorContentProps {
-    icon: IconType;
-    iconColor?: string;
-    title: string;
-    content: string;
-    action?: () => void;
-    actionLabel?: string;
-}
-
 export type PolicyRow = Policy & {
     isOpen: boolean;
     isSelected: boolean;
@@ -66,36 +52,6 @@ export type PolicyRow = Policy & {
 export type ValidColumns = 'name' | 'actions' | 'is_enabled' | 'radioSelect';
 
 const defaultColumnsToShow: ValidColumns[] = [ 'name', 'actions', 'is_enabled' ];
-
-const ErrorContent: React.FunctionComponent<ErrorContentProps> = (props) => {
-    return (
-        <>
-            <EmptyStateIcon icon={ props.icon } color={ props.iconColor }/>
-            <Title headingLevel="h2" size="lg">{ props.title }</Title>
-            <EmptyStateBody>{ props.content }</EmptyStateBody>
-            { props.action && props.actionLabel && (
-                <Button variant={ ButtonVariant.primary } onClick={ props.action }>{ props.actionLabel } </Button>
-            ) }
-        </>
-    );
-};
-
-const errorRow = (props: ErrorContentProps): IRow[] => [{
-    heightAuto: true,
-    showSelect: false,
-    cells: [
-        {
-            props: { colSpan: 8 },
-            title: (
-                <Bullseye>
-                    <EmptyState variant={ EmptyStateVariant.small }>
-                        <ErrorContent { ...props }/>
-                    </EmptyState>
-                </Bullseye>
-            )
-        }
-    ]
-}];
 
 const policiesToRows = (policies: PolicyRow[] | undefined, columnsToShow: ValidColumns[], onSelect?: OnSelectHandlerType): IRow[] => {
     if (policies) {
@@ -264,7 +220,7 @@ export const PolicyTable: React.FunctionComponent<PolicyTableProps> = (props) =>
     }, [ actionResolver, policies ]);
 
     const rows = React.useMemo(
-        () => error ? errorRow(error) : policiesToRows(policies, columnsToShow, onSelect),
+        () => error ? [] : policiesToRows(policies, columnsToShow, onSelect),
         [ error, policies, columnsToShow, onSelect ]
     );
 
@@ -275,6 +231,15 @@ export const PolicyTable: React.FunctionComponent<PolicyTableProps> = (props) =>
                 columns={ columns }
                 paddingColumnSize={ columnOffset }
                 sortBy={ sortBy }
+            />
+        );
+    }
+
+    if (error) {
+        return (
+            <EmptyStateSection
+                { ...error }
+                className={ emptyStateSectionBackgroundColor }
             />
         );
     }

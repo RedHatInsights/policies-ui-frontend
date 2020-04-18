@@ -24,24 +24,28 @@ export interface UsePolicyFilterReturn {
     setFilters: SetPolicyFilters;
     debouncedFilters: PolicyFilters;
     clearFilterHandler: ClearFilterHandlerType;
+    isClear: boolean;
 }
+
+const defaultName = '';
+const defaultIsActive = {
+    enabled: false,
+    disabled: false
+};
 
 export const usePolicyFilter = (debounce = DEBOUNCE_MS): UsePolicyFilterReturn => {
 
-    const [ filterName, setFilterName, debouncedFilterName ] = useDebouncedState<string>('', debounce);
-    const [ filterIsActive, setFilterIsActive, debouncedFilterIsActive ] = useDebouncedState<IsActiveFilter>({
-        enabled: false,
-        disabled: false
-    }, debounce);
+    const [ filterName, setFilterName, debouncedFilterName ] = useDebouncedState<string>(defaultName, debounce);
+    const [ filterIsActive, setFilterIsActive, debouncedFilterIsActive ] = useDebouncedState<IsActiveFilter>(defaultIsActive, debounce);
 
     const clearFilterHandler = React.useCallback((clearFilterCommands: ClearFilterCommand[]) => {
         for (const clearFilterCommand of clearFilterCommands) {
             switch (clearFilterCommand.filter) {
                 case PolicyFilterColumn.NAME:
-                    setFilterName(clearFilterCommand.data as string);
+                    setFilterName(defaultName);
                     break;
                 case PolicyFilterColumn.IS_ACTIVE:
-                    setFilterIsActive(clearFilterCommand.data as IsActiveFilter);
+                    setFilterIsActive(defaultIsActive);
                     break;
             }
         }
@@ -51,10 +55,15 @@ export const usePolicyFilter = (debounce = DEBOUNCE_MS): UsePolicyFilterReturn =
     const setFilters = usePolicyFilterBase(setFilterName, setFilterIsActive);
     const debouncedFilters = usePolicyFilterBase(debouncedFilterName, debouncedFilterIsActive);
 
+    const isClear = React.useMemo(() => {
+        return debouncedFilterName === defaultName && debouncedFilterIsActive === defaultIsActive;
+    }, [ debouncedFilterName, debouncedFilterIsActive ]);
+
     return {
         filters,
         setFilters,
         debouncedFilters,
-        clearFilterHandler
+        clearFilterHandler,
+        isClear
     };
 };

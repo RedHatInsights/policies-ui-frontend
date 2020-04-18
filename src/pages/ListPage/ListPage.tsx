@@ -23,6 +23,8 @@ import { Messages } from '../../properties/Messages';
 import { useBulkChangePolicyEnabledMutation } from '../../services/useChangePolicyEnabled';
 import { style } from 'typestyle';
 import { useFacts } from '../../hooks/useFacts';
+import { ListPageEmptyState } from './EmptyState';
+import { usePrevious } from 'react-use';
 
 type ListPageProps = {};
 
@@ -205,10 +207,24 @@ const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
         [ selectedPolicies, mutateChangePolicyEnabled ]
     );
 
+    const prevIsClear = usePrevious(policyFilters.isClear);
+    const prevPage = usePrevious(policyPage.currentPage);
+    const willLoad = React.useMemo<boolean>(() => {
+        // Just cleared the filters, the query will trigger in next step assume we are loading now.
+        if (!getPoliciesQuery.loading && (prevIsClear !== policyFilters.isClear || prevPage !== policyPage.currentPage)) {
+            return true;
+        }
+
+        return getPoliciesQuery.loading;
+    }, [ getPoliciesQuery.loading, policyFilters.isClear, policyPage.currentPage, prevIsClear, prevPage ]);
+
+    const onFirstPageWithNoFilter = policyFilters.isClear && policyPage.currentPage === 1;
+    const noPolicies = onFirstPageWithNoFilter && !willLoad && getPoliciesQuery.status === 404;
+
     return (
         <>
             <PageHeader>
-                <PageHeaderTitle title="Policies"/>
+                <PageHeaderTitle title={ Messages.pages.listPage.title }/>
             </PageHeader>
             { appContext.userSettings &&
             !appContext.userSettings.dailyEmail &&
@@ -219,36 +235,42 @@ const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
                 </PageSection>
             )}
             <Main>
-                <Section>
-                    <PolicyToolbar
-                        onCreatePolicy={ canWriteAll ? createCustomPolicy : undefined }
-                        onDeletePolicy={ canWriteAll ? onDeletePolicies : undefined }
-                        onEnablePolicy={ canWriteAll ? onEnablePolicies : undefined }
-                        onDisablePolicy={ canWriteAll ? onDisablePolicies : undefined }
-                        onPaginationChanged={ policyPage.changePage }
-                        onPaginationSizeChanged={ policyPage.changeItemsPerPage }
-                        onSelectionChanged={ policyRows.onSelectionChanged }
-                        selectedCount={ policyRows.selectionCount }
-                        page={ policyPage.currentPage }
-                        pageCount={ getPoliciesQuery.payload?.length }
-                        perPage={ policyPage.itemsPerPage }
-                        showPerPageOptions={ true }
-                        filterElements={ policyFilters.filters }
-                        setFilterElements = { policyFilters.setFilters }
-                        clearFilters={ policyFilters.clearFilterHandler }
-                        count={ getPoliciesQuery.count }
+                { noPolicies ? (
+                    <ListPageEmptyState
+                        createPolicy={ canWriteAll ? createCustomPolicy : undefined }
                     />
-                    <PolicyTable
-                        policies={ policyRows.rows }
-                        onCollapse={ policyRows.onCollapse }
-                        onSelect={ policyRows.onSelect }
-                        actionResolver={ tableActionsResolver }
-                        loading={ isLoading }
-                        error={ policyTableErrorValue }
-                        onSort={ sort.onSort }
-                        sortBy={ sort.sortBy }
-                    />
-                </Section>
+                ) : (
+                    <Section>
+                        <PolicyToolbar
+                            onCreatePolicy={ canWriteAll ? createCustomPolicy : undefined }
+                            onDeletePolicy={ canWriteAll ? onDeletePolicies : undefined }
+                            onEnablePolicy={ canWriteAll ? onEnablePolicies : undefined }
+                            onDisablePolicy={ canWriteAll ? onDisablePolicies : undefined }
+                            onPaginationChanged={ policyPage.changePage }
+                            onPaginationSizeChanged={ policyPage.changeItemsPerPage }
+                            onSelectionChanged={ policyRows.onSelectionChanged }
+                            selectedCount={ policyRows.selectionCount }
+                            page={ policyPage.currentPage }
+                            pageCount={ getPoliciesQuery.payload?.length }
+                            perPage={ policyPage.itemsPerPage }
+                            showPerPageOptions={ true }
+                            filterElements={ policyFilters.filters }
+                            setFilterElements = { policyFilters.setFilters }
+                            clearFilters={ policyFilters.clearFilterHandler }
+                            count={ getPoliciesQuery.count }
+                        />
+                        <PolicyTable
+                            policies={ policyRows.rows }
+                            onCollapse={ policyRows.onCollapse }
+                            onSelect={ policyRows.onSelect }
+                            actionResolver={ tableActionsResolver }
+                            loading={ isLoading || willLoad }
+                            error={ policyTableErrorValue }
+                            onSort={ sort.onSort }
+                            sortBy={ sort.sortBy }
+                        />
+                    </Section>
+                )}
             </Main>
             { policyWizardState.isOpen && <CreatePolicyWizard
                 isOpen={ policyWizardState.isOpen }
