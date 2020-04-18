@@ -10,15 +10,15 @@ class TextItemExtension extends React.Component {
             <TextContent>
                 <Text component={ TextVariants.p }>{ Messages.wizards.policy.hints.hintParagraph1 }</Text>
                 <Text component={ TextVariants.a } href="#">{ Messages.wizards.policy.hints.hintLinkTitle }</Text>
-                <Text component={ TextVariants.h3 }>{ Messages.wizards.policy.hints.hintSyntaxExamplesSection }</Text>
-                <Text component={ TextVariants.h4 }>{ Messages.wizards.policy.hints.hintQuestion1 }</Text>
-                <Text component={ TextVariants.p }>{ Messages.wizards.policy.hints.hintQuestion1Ans }</Text>
-                <Text component={ TextVariants.h4 }>{ Messages.wizards.policy.hints.hintQuestion2 }</Text>
-                <Text component={ TextVariants.p }>{ Messages.wizards.policy.hints.hintQuestion2Ans }</Text>
-                <Text component={ TextVariants.h4 }>{ Messages.wizards.policy.hints.hintQuestion3 }</Text>
-                <Text component={ TextVariants.p }>{ Messages.wizards.policy.hints.hintQuestion3Ans }</Text>
-                <Text component={ TextVariants.h4 }>{ Messages.wizards.policy.hints.hintQuestion4 }</Text>
-                <Text component={ TextVariants.p }>{ Messages.wizards.policy.hints.hintQuestion4Ans }</Text>
+                <Text component={ TextVariants.h4 }>{ Messages.wizards.policy.hints.hintSyntaxExamplesSection }</Text>
+                <Text component={ TextVariants.h5 }>{ Messages.wizards.policy.hints.hintQuestion1 }</Text>
+                <Text component={ TextVariants.p }><i>{ Messages.wizards.policy.hints.hintQuestion1Ans }</i></Text>
+                <Text component={ TextVariants.h5 }>{ Messages.wizards.policy.hints.hintQuestion2 }</Text>
+                <Text component={ TextVariants.p }><i>{ Messages.wizards.policy.hints.hintQuestion2Ans }</i></Text>
+                <Text component={ TextVariants.h5 }>{ Messages.wizards.policy.hints.hintQuestion3 }</Text>
+                <Text component={ TextVariants.p }><i>{ Messages.wizards.policy.hints.hintQuestion3Ans }</i></Text>
+                <Text component={ TextVariants.h5 }>{ Messages.wizards.policy.hints.hintQuestion4 }</Text>
+                <Text component={ TextVariants.p }><i>{ Messages.wizards.policy.hints.hintQuestion4Ans }</i></Text>
             </TextContent>
         );
     }
