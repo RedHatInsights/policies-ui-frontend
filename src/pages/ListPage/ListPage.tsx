@@ -22,6 +22,7 @@ import { EmailOptIn } from '../../components/EmailOptIn/EmailOptIn';
 import { Messages } from '../../properties/Messages';
 import { useBulkChangePolicyEnabledMutation } from '../../services/useChangePolicyEnabled';
 import { style } from 'typestyle';
+import { useFacts } from '../../hooks/useFacts';
 
 type ListPageProps = {};
 
@@ -60,6 +61,7 @@ const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
     const isLoading = getPoliciesQuery.loading || bulkChangePolicyEnabledMutation.loading;
 
     const policyRows = usePolicyRows(getPoliciesQuery.payload, isLoading);
+    const facts = useFacts();
 
     const { canWriteAll, canReadAll } = appContext.rbac;
 
@@ -254,6 +256,7 @@ const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
                 initialValue={ policyWizardState.template }
                 showCreateStep={ policyWizardState.showCreateStep }
                 policiesExist={ getPoliciesQuery.count > 0 ? true : false }
+                facts={ facts }
             /> }
             <DeletePolicy onClose={ onCloseDeletePolicy } policies={ policyToDelete }/>
         </>

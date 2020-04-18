@@ -18,6 +18,7 @@ import { PolicyFormSchema } from '../../schemas/CreatePolicy/PolicySchema';
 import { PolicyWizardFooter } from './PolicyWizardFooter';
 import { Policy, NewPolicy } from '../../types/Policy/Policy';
 import { useMountedState } from 'react-use';
+import { Fact } from '../../types/Fact';
 
 interface PolicyWizardProps {
     initialValue: PartialPolicy;
@@ -27,6 +28,7 @@ interface PolicyWizardProps {
     isLoading: boolean;
     showCreateStep: boolean;
     policiesExist?: boolean;
+    facts?: Fact[];
 }
 
 const buildSteps: (showCreateStep: boolean) => WizardStepExtended[] = (showCreateStep) => {
@@ -97,6 +99,7 @@ interface FormikBindingProps {
     onClose: () => void;
     showCreateStep: boolean;
     policiesExist?: boolean;
+    facts?: Fact[];
 }
 
 const FormikBinding: React.FunctionComponent<FormikBindingProps> = (props) => {
@@ -121,7 +124,8 @@ const FormikBinding: React.FunctionComponent<FormikBindingProps> = (props) => {
         triggerAction: props.triggerAction,
         verifyResponse: props.verifyResponse,
         createResponse: props.createResponse,
-        setVerifyResponse: props.setVerifyResponse
+        setVerifyResponse: props.setVerifyResponse,
+        facts: props.facts
     };
 
     const isValid = isStepValid(props.steps[props.currentStep], wizardContext, formikProps.values);
@@ -251,6 +255,7 @@ export const PolicyWizard: React.FunctionComponent<PolicyWizardProps> = (props: 
                     onMove={ onMove }
                     showCreateStep={ props.showCreateStep }
                     policiesExist={ props.policiesExist }
+                    facts={ props.facts }
                 />
             </Formik>
         </>

@@ -10,7 +10,6 @@ import {
 } from '@patternfly/react-core';
 import { ExclamationCircleIcon, CheckCircleIcon } from '@patternfly/react-icons';
 
-import { FormTextInput } from '../../Formik/Patternfly';
 import { PartialPolicy, WizardActionType, WizardContext, WizardStepExtended } from '../PolicyWizardTypes';
 import { PolicyFormConditions } from '../../../schemas/CreatePolicy/PolicySchema';
 import { useFormikContext } from 'formik';
@@ -20,6 +19,7 @@ import { Messages } from '../../../properties/Messages';
 import { joinClasses } from '../../../utils/ComponentUtils';
 import { Form } from '../../Formik/Patternfly/Form';
 import Usage from '../Table/ExpandedContent/Usage';
+import { ConditionFieldWithForkmik } from '../../Condition/ConditionFieldWithFormik';
 
 const elementClassName = style({
     marginTop: 'auto',
@@ -125,8 +125,8 @@ const ConditionsStep: React.FunctionComponent = () => {
             <Title headingLevel="h4" size="xl">{ Messages.wizards.policy.conditions.title }</Title>
             { Messages.wizards.policy.conditions.summaryDesc }
             <Usage showHint={ false } hint={ Messages.wizards.policy.hints.hintTitle } hintTitle={ Messages.wizards.policy.hints.hintTitle }/>
-            <FormTextInput isRequired={ true } label="Condition text"
-                type="text" id="conditions" name="conditions"
+            <ConditionFieldWithForkmik label="Condition text"
+                id="conditions" name="conditions" facts={ context.facts || [] }
                 hint={ Messages.wizards.policy.conditions.hint }
             />
             <Stack className={ width100ClassName }>
