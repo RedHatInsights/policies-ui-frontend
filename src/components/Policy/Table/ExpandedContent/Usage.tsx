@@ -2,12 +2,6 @@ import * as React from 'react';
 import { StackItem, TextContent, Text, TextVariants, Expandable } from '@patternfly/react-core';
 import { Messages }  from '../../../../properties/Messages';
 
-interface UsageProps {
-    showHint?: boolean;
-    additionalAttributes?: string;
-    hint?: string;
-    hintTitle?: string;
-}
 // build the text as we expect it to look but this is manual and not automatic
 // We'll need to revisit this later.
 class TextItemExtension extends React.Component {
@@ -29,17 +23,11 @@ class TextItemExtension extends React.Component {
         );
     }
 }
-
-const Usage: React.FunctionComponent<UsageProps> = (_props) => {
-    const [ usageState, setUsageState ] = React.useState<UsageProps>({ ..._props, showHint: false });
-    const toggle = () =>{
-        setUsageState({ ..._props, showHint: !usageState.showHint });
-    };
-
+const Usage: React.FunctionComponent = (_props) => {
     return (
         <>
             <StackItem>
-                <Expandable toggleText={ usageState.hintTitle } onToggle={ toggle }>
+                <Expandable toggleText={ Messages.wizards.policy.hints.hintTitle }>
                     <TextItemExtension/>
                 </Expandable>
             </StackItem>
