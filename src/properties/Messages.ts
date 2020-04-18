@@ -84,7 +84,7 @@ const MutableMessages = {
                 hintQuestion3Ans: 'facts.cloud_provider in [\'alibaba\',aws\',\'azure\',\'google\'] and not tags.Owner',
                 hintQuestion4: 'Is time synchronization configured for RHEL7 and RHEL8?',
                 hintQuestion4Ans: '(facts.os_release >=7 and facts.os_release <8 and not facts.enabled_services contains \'ntpd\') or ' +
-                    '(facts.os_release >=8 and not facts.enabled_services contains \'chronyd\''
+                    '(facts.os_release >=8 and not facts.enabled_services contains \'chronyd\')'
             },
             createPolicy: {
                 title: 'Create Policy'
