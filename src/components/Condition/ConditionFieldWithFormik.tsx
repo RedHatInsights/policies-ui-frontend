@@ -3,7 +3,7 @@ import { ConditionField, ConditionFieldProps } from './ConditionField';
 import { useField } from 'formik';
 import { FormGroup, Text, TextVariants } from '@patternfly/react-core';
 
-type ConditionFieldWithFormikProp = Omit<ConditionFieldProps, 'onSelect' | 'selected'> & {
+type ConditionFieldWithFormikProp = Omit<ConditionFieldProps, 'onSelect'> & {
     isRequired?: boolean;
     hint?: string;
 };
@@ -28,7 +28,7 @@ export const ConditionFieldWithForkmik: React.FunctionComponent<ConditionFieldWi
             <ConditionField
                 { ...otherProps }
                 { ...field }
-                selected={ field.value ? field.value.toString() : field.value }
+                value={ field.value ? field.value.toString() : field.value }
                 onSelect={ onSelect }
             />
             { hint && <Text component={ TextVariants.small }>{ hint }</Text> }
