@@ -36,7 +36,7 @@ interface User {
     entitlements: Record<string, Entitlement>;
 }
 
-type InsightsType = {
+export type InsightsType = {
     chrome: {
         init: () => void;
         identifyApp: (appId: string) => Promise<void>;
@@ -53,7 +53,7 @@ declare const insights: InsightsType;
 
 let insightPromise: Promise<InsightsType>;
 
-export const getInsights = (): Promise<InsightsType> => {
+export const waitForInsights = (): Promise<InsightsType> => {
     if (!insightPromise) {
         insightPromise = new Promise<InsightsType>(async (resolve) => {
             while (!global.hasOwnProperty('insights')) {
@@ -66,3 +66,5 @@ export const getInsights = (): Promise<InsightsType> => {
 
     return insightPromise;
 };
+
+export const getInsights = (): InsightsType => insights;

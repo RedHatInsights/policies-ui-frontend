@@ -3,14 +3,14 @@ import { Alert, AlertVariant, Text, TextContent } from '@patternfly/react-core';
 
 import { Messages } from '../../properties/Messages';
 import Config from '../../config/Config';
-import { usePromiseState } from '../../hooks/usePromiseState';
 
 interface EmailOptInProps {
     content: string;
 }
 
+const emailUrl = Config.pages.emailPreferences();
+
 export const EmailOptIn: React.FunctionComponent<EmailOptInProps> = (props) => {
-    const emailUrl = usePromiseState<string>(Config.pages.emailPreferences());
 
     return (
         <Alert
