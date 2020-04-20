@@ -3,7 +3,7 @@ import { ConditionField, ConditionFieldProps } from './ConditionField';
 import { useField } from 'formik';
 import { FormGroup, Text, TextVariants } from '@patternfly/react-core';
 
-type ConditionFieldWithFormikProp = Omit<ConditionFieldProps, 'onSelect'> & {
+type ConditionFieldWithFormikProp = Omit<ConditionFieldProps, 'onSelect' | 'value'> & {
     isRequired?: boolean;
     hint?: string;
 };
