@@ -11,13 +11,16 @@ const codeClass = style({
 const linkMarginClassName = style({
     marginBottom: 5
 });
+const padLeftClassName = style({
+    marginLeft: 12
+});
 
 // build the text as we expect it to look but this is manual and not automatic
 // We'll need to revisit this later.
 class TextItemExtension extends React.Component {
     render() {
         return (
-            <TextContent>
+            <TextContent className={ padLeftClassName } >
                 <Text component={ TextVariants.p }>{ Messages.wizards.policy.hints.hintParagraph1 }</Text>
                 <Text component={ TextVariants.a } className={ linkMarginClassName } href="#">{ Messages.wizards.policy.hints.hintLinkTitle }</Text>
                 <Text component={ TextVariants.h5 } className="lg">{ Messages.wizards.policy.hints.hintSyntaxExamplesSection }</Text>
