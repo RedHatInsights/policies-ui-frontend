@@ -11,6 +11,7 @@ import { getInsights } from '../../../utils/Insights';
 import { Toggle } from '@patternfly/react-core/dist/js/components/Dropdown/Toggle';
 import { AngleDownIcon } from '@patternfly/react-icons';
 import { style } from 'typestyle';
+import { usePromiseState } from '../../../hooks';
 
 interface AddTriggersDropdownProps {
     addType: (type: ActionType) => void;
@@ -23,6 +24,8 @@ const dropdownClassName = style({
 
 const AddTriggersDropdown: React.FunctionComponent<AddTriggersDropdownProps> = (props) => {
     const [ isOpen, setOpen ] = React.useState<boolean>(false);
+    const insights = usePromiseState(getInsights());
+    const isBeta = React.useMemo(() => insights?.chrome.isBeta(), [ insights ]);
 
     const typeSelected = type => {
         props.addType(type);
@@ -30,7 +33,9 @@ const AddTriggersDropdown: React.FunctionComponent<AddTriggersDropdownProps> = (
     };
 
     const items = Object.values(ActionType)
-    .filter(async actionType => (await getInsights()).chrome.isBeta() || actionType !== ActionType.WEBHOOK)
+    .filter(actionType => {
+        return isBeta || actionType !== ActionType.WEBHOOK;
+    })
     .map(type =>
         <DropdownItem
             key={ type }
