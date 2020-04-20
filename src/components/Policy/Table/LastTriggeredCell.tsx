@@ -6,7 +6,7 @@ import { EnabledPolicyIcon, DisabledPolicyIcon } from '../../Icons';
 
 interface LastTriggeredCellProps {
     isEnabled: boolean;
-    lastEvaluation: Date | undefined;
+    lastTriggered: Date | undefined;
 }
 
 const lastEvaluationTextClassName = style({
@@ -15,13 +15,13 @@ const lastEvaluationTextClassName = style({
 
 export const LastTriggeredCell: React.FunctionComponent<LastTriggeredCellProps> = (props) => {
     let lastEvaluationString;
-    if (props.lastEvaluation) {
-        const oneMonthAfterLastTriggered = add(props.lastEvaluation, { months: 1 });
+    if (props.lastTriggered) {
+        const oneMonthAfterLastTriggered = add(props.lastTriggered, { months: 1 });
         const now = new Date(Date.now());
         if (isAfter(now, oneMonthAfterLastTriggered)) {
-            lastEvaluationString = format(props.lastEvaluation, 'MMM dd y');
+            lastEvaluationString = format(props.lastTriggered, 'MMM dd y');
         } else {
-            lastEvaluationString = `${formatDistanceToNow(props.lastEvaluation)} ${Messages.components.lastTriggeredCell.ago}`;
+            lastEvaluationString = `${formatDistanceToNow(props.lastTriggered)} ${Messages.components.lastTriggeredCell.ago}`;
         }
     } else {
         lastEvaluationString = Messages.components.lastTriggeredCell.never;

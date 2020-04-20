@@ -1,4 +1,5 @@
 import parseJSON from 'date-fns/parseJSON';
+import fromUnixTime from 'date-fns/fromUnixTime';
 
 import {
     maxPolicyNameLength,
@@ -80,7 +81,8 @@ export const toPolicy = (serverPolicy: ServerPolicyResponse): Policy => {
         actions: fromServerActions(serverPolicy.actions),
         mtime: serverPolicy.mtime ? parseJSON(serverPolicy.mtime) : new Date(),
         ctime: serverPolicy.ctime ? parseJSON(serverPolicy.ctime) : new Date(),
-        lastEvaluation: (serverPolicy.lastEvaluation && serverPolicy.lastEvaluation !== '') ? parseJSON(serverPolicy.lastEvaluation) : undefined
+        lastEvaluation: (serverPolicy.lastEvaluation && serverPolicy.lastEvaluation !== '') ? parseJSON(serverPolicy.lastEvaluation) : undefined,
+        lastTriggered: serverPolicy.lastTriggered ? fromUnixTime(serverPolicy.lastTriggered) : undefined
     };
 };
 
@@ -95,6 +97,7 @@ export const makeCopyOfPolicy = (policy: Policy): NewPolicy => {
         name: `${prefix}${policy.name.slice(0, maxPolicyNameLength - prefix.length)}`,
         mtime: undefined,
         lastEvaluation: undefined,
+        lastTriggered: undefined,
         ctime: undefined,
         id: undefined
     };

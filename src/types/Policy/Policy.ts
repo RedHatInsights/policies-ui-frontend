@@ -14,18 +14,21 @@ export interface Policy {
     ctime: Date;
     name: string;
     lastEvaluation: Date | undefined;
+    lastTriggered: Date | undefined;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface ServerPolicyResponse extends Generated.Policy {}
+export interface PagedServerPolicyResponse extends Generated.PagedResponse {
+    data: ServerPolicyResponse[];
+}
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface PagedServerPolicyResponse extends Generated.PagedResponse {
     data: Array<ServerPolicyResponse>;
 }
 
-type OptionalProperties = 'id' | 'mtime' | 'ctime' | 'lastEvaluation';
-type OutputOnlyProperties = 'mtime' | 'ctime' | 'lastEvaluation';
+type OptionalProperties = 'id' | 'mtime' | 'ctime' | 'lastEvaluation' | 'lastTriggered';
+type OutputOnlyProperties = 'mtime' | 'ctime' | 'lastEvaluation' | 'lastTriggered';
 
 export type NewPolicy = Partial<Pick<Policy, OptionalProperties>> & Omit<Policy, OptionalProperties>;
 export type ServerPolicyRequest = Partial<Omit<ServerPolicyResponse, OutputOnlyProperties>>;

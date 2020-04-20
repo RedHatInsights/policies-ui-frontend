@@ -27,7 +27,8 @@ describe('src/utils/PolicyAdapter', () => {
             actions: 'email;webhook',
             mtime: '2014-01-01T23:28:56.782Z',
             ctime: '2013-01-01T23:28:56.782Z',
-            lastEvaluation: '2015-01-01T23:28:56.782Z'
+            lastEvaluation: '2015-01-01T23:28:56.782Z',
+            lastTriggered: 77897987
         };
         const policy: Policy = {
             id: '5151-5151',
@@ -45,7 +46,8 @@ describe('src/utils/PolicyAdapter', () => {
             ],
             mtime: new Date('2014-01-01T23:28:56.782Z'),
             ctime: new Date('2013-01-01T23:28:56.782Z'),
-            lastEvaluation: new Date('2015-01-01T23:28:56.782Z')
+            lastEvaluation: new Date('2015-01-01T23:28:56.782Z'),
+            lastTriggered: new Date('1972-06-20T14:19:47.000Z')
         };
 
         expect(toPolicy(sp)).toEqual(policy);
@@ -64,7 +66,7 @@ describe('src/utils/PolicyAdapter', () => {
         expect(() => toPolicy(sp)).toThrowError();
     });
 
-    it('toPolicy parses empty lastEvaluation as undefined', () => {
+    it('toPolicy parses empty lastTriggered as undefined', () => {
         const sp: ServerPolicyResponse = {
             id: '5151-5151',
             name: 'foo policy',
@@ -74,7 +76,8 @@ describe('src/utils/PolicyAdapter', () => {
             actions: 'email;webhook',
             mtime: '2014-01-01T23:28:56.782Z',
             ctime: '2013-01-01T23:28:56.782Z',
-            lastEvaluation: ''
+            lastEvaluation: '',
+            lastTriggered: 0
         };
         const policy: Policy = {
             id: '5151-5151',
@@ -92,7 +95,8 @@ describe('src/utils/PolicyAdapter', () => {
             ],
             mtime: new Date('2014-01-01T23:28:56.782Z'),
             ctime: new Date('2013-01-01T23:28:56.782Z'),
-            lastEvaluation: undefined
+            lastEvaluation: undefined,
+            lastTriggered: undefined
         };
 
         expect(toPolicy(sp)).toEqual(policy);
@@ -108,7 +112,8 @@ describe('src/utils/PolicyAdapter', () => {
             actions: 'email',
             mtime: '2010-01-01T23:28:56.782Z',
             ctime: '2009-01-01T23:28:56.782Z',
-            lastEvaluation: '2011-01-01T23:28:56.782Z'
+            lastEvaluation: '2011-01-01T23:28:56.782Z',
+            lastTriggered: undefined
         };
         const sp2: ServerPolicyResponse = {
             id: '5151-5151',
@@ -119,7 +124,8 @@ describe('src/utils/PolicyAdapter', () => {
             actions: 'webhook',
             mtime: '2014-01-01T23:28:56.782Z',
             ctime: '2013-01-01T23:28:56.782Z',
-            lastEvaluation: '2015-01-01T23:28:56.782Z'
+            lastEvaluation: '2015-01-01T23:28:56.782Z',
+            lastTriggered: 458906840
         };
 
         const pagedResponse: PagedServerPolicyResponse = {
@@ -141,7 +147,8 @@ describe('src/utils/PolicyAdapter', () => {
             ],
             mtime: new Date('2010-01-01T23:28:56.782Z'),
             ctime: new Date('2009-01-01T23:28:56.782Z'),
-            lastEvaluation: new Date('2011-01-01T23:28:56.782Z')
+            lastEvaluation: new Date('2011-01-01T23:28:56.782Z'),
+            lastTriggered: undefined
         };
 
         const policy2: Policy = {
@@ -157,7 +164,8 @@ describe('src/utils/PolicyAdapter', () => {
             ],
             mtime: new Date('2014-01-01T23:28:56.782Z'),
             ctime: new Date('2013-01-01T23:28:56.782Z'),
-            lastEvaluation: new Date('2015-01-01T23:28:56.782Z')
+            lastEvaluation: new Date('2015-01-01T23:28:56.782Z'),
+            lastTriggered: new Date('1984-07-17T10:07:20.000Z')
         };
 
         expect(toPolicies(pagedResponse)).toEqual([ policy1, policy2 ]);
@@ -203,7 +211,8 @@ describe('src/utils/PolicyAdapter', () => {
             actions: [{ type: ActionType.EMAIL }, { type: ActionType.WEBHOOK }],
             mtime: new Date('2014-01-01T23:28:56.782Z'),
             ctime: new Date('2013-01-01T23:28:56.782Z'),
-            lastEvaluation: new Date('2015-01-01T23:28:56.782Z')
+            lastEvaluation: new Date('2015-01-01T23:28:56.782Z'),
+            lastTriggered: new Date('2015-01-01T23:28:56.782Z')
         };
 
         const newPolicy: NewPolicy = {
@@ -215,7 +224,8 @@ describe('src/utils/PolicyAdapter', () => {
             conditions: '1 == 2',
             actions: [{ type: ActionType.EMAIL }, { type: ActionType.WEBHOOK }],
             ctime: undefined,
-            lastEvaluation: undefined
+            lastEvaluation: undefined,
+            lastTriggered: undefined
         };
         expect(makeCopyOfPolicy(policy)).toEqual(newPolicy);
     });
