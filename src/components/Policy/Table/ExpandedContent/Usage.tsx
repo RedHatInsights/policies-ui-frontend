@@ -3,7 +3,6 @@ import { StackItem, TextContent, Text, TextVariants, Expandable } from '@pattern
 import { Messages }  from '../../../../properties/Messages';
 import { style } from 'typestyle';
 
-// { font-family: monospace; font-size: 14px; font-style: normal;}
 const codeClass = style({
     fontFamily: 'monospace',
     fontSize: '14px',
