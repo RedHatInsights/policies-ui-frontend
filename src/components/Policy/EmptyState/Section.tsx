@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { Button, EmptyState as EmptyStatePf, EmptyStateBody, EmptyStateIcon, EmptyStateVariant, Title } from '@patternfly/react-core';
-import { PlusCircleIcon } from '@patternfly/react-icons';
 import { style } from 'typestyle';
 import { calc } from 'csx';
 import { IconType } from '@patternfly/react-icons/dist/js/createIcon';

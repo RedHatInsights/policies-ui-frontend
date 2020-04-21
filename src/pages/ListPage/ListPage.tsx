@@ -240,7 +240,6 @@ const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
             );
         },
         [
-            canReadAll,
             getPoliciesQuery.error,
             getPoliciesQuery.status,
             policyFilters.setFilters,
