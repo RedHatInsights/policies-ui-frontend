@@ -22,7 +22,7 @@ export interface EmptyStateSectionProps {
 
 export const EmptyStateSection: React.FunctionComponent<EmptyStateSectionProps> = (props) => (
     <EmptyStatePf variant={ EmptyStateVariant.full } className={ `${emptyStateClassName} ${props.className ? props.className : ''} ` }>
-        { props.icon && <EmptyStateIcon icon={ PlusCircleIcon } color={ props.iconColor } /> }
+        { props.icon && <EmptyStateIcon icon={ props.icon } color={ props.iconColor } /> }
         <Title headingLevel="h5" size="lg">
             { props.title }
         </Title>

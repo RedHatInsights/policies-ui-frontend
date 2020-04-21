@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Rbac } from '../types/Rbac';
 import { UserSettings } from '../types/UserSettings';
 
-interface AppContext {
+export interface AppContext {
     rbac: Rbac;
     userSettings?: UserSettings & {
         refresh: () => void;

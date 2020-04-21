@@ -219,7 +219,6 @@ const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
     const policyTableErrorValue = React.useMemo(
         () => {
             return policyTableError(
-                canReadAll,
                 {
                     clearAllFiltersAndTryAgain: () => {
                         policyFilters.setFilters[PolicyFilterColumn.NAME]('');

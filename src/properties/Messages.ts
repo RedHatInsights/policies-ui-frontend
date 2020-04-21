@@ -9,6 +9,13 @@ const actionTypeToText: Record<ActionType, string> = {
 //Capture some strings we reuse. Possibly use in i18n later?
 const MutableMessages = {
     pages: {
+        noPermissions: {
+            title: 'Policies',
+            emptyState: {
+                title: 'You do not have access to Policies',
+                content: 'Contact your organization administrator(s) for more information.'
+            }
+        },
         listPage: {
             title: 'Policies',
             emailOptIn: 'One or more of your policies have an email alert. To receive these emails, opt in to email alerts.',
