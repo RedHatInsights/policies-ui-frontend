@@ -1,19 +1,26 @@
-import * as React from 'react';
 import { useDebounce } from 'react-use';
-import { Dispatch } from 'react';
-import { SetStateAction } from 'react';
+import { Dispatch, SetStateAction, useState, useCallback } from 'react';
 
+type UseStateType = typeof useState;
 type UseDebouncedStateReturn<T> = [ T, Dispatch<SetStateAction<T>>, T, () => boolean | null ];
 
-export const useDebouncedState = <T>(defaultValue: T, ms: number): UseDebouncedStateReturn<T> => {
-    const [ state, setState ] = React.useState<T>(defaultValue);
-    const [ debouncedState, setDebouncedState ] = React.useState<T>(defaultValue);
+export type UseDebouncedStateType<T> = (initialValue: T, ms: number, useStateHook?: UseStateType) => UseDebouncedStateReturn<T>;
 
-    const debounceCallback = React.useCallback(() => {
-        setDebouncedState(state);
-    }, [ state, setDebouncedState ]);
+export const useDebouncedState = <T>(initialValue: T, ms: number, useStateHook?: UseStateType): UseDebouncedStateReturn<T> => {
+    if (!useStateHook) {
+        useStateHook = useState;
+    }
 
-    const [ isReady ] = useDebounce(debounceCallback, ms, [ debounceCallback ]);
+    const [ debouncedState, setDebouncedState ] = useStateHook<T>(initialValue);
+    const [ state, setState ] = useState<T>(debouncedState);
+
+    const debounceCallback = useCallback(() => {
+        if (state !== debouncedState) {
+            setDebouncedState(state);
+        }
+    }, [ state, setDebouncedState, debouncedState ]);
+
+    const [ isReady ] = useDebounce(debounceCallback, ms, [ state ]);
 
     return [
         state, setState, debouncedState, isReady
