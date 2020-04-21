@@ -13,7 +13,6 @@ export interface Policy {
     mtime: Date;
     ctime: Date;
     name: string;
-    lastEvaluation: Date | undefined;
     lastTriggered: Date | undefined;
 }
 
@@ -27,8 +26,8 @@ export interface PagedServerPolicyResponse extends Generated.PagedResponse {
     data: Array<ServerPolicyResponse>;
 }
 
-type OptionalProperties = 'id' | 'mtime' | 'ctime' | 'lastEvaluation' | 'lastTriggered';
-type OutputOnlyProperties = 'mtime' | 'ctime' | 'lastEvaluation' | 'lastTriggered';
+type OptionalProperties = 'id' | 'mtime' | 'ctime' | 'lastTriggered';
+type OutputOnlyProperties = 'mtime' | 'ctime' | 'lastTriggered';
 
 export type NewPolicy = Partial<Pick<Policy, OptionalProperties>> & Omit<Policy, OptionalProperties>;
 export type ServerPolicyRequest = Partial<Omit<ServerPolicyResponse, OutputOnlyProperties>>;

@@ -46,7 +46,6 @@ export interface Policy {
   description?: string;
   id?: Uuid;
   isEnabled?: boolean;
-  lastEvaluation?: string;
   lastTriggered?: number;
   mtime?: string;
   name: string;
