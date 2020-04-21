@@ -29,7 +29,6 @@ import { policyExporterTypeFromString } from '../../utils/exporters/PolicyExport
 import { addDangerNotification } from '../../utils/AlertUtils';
 import { format } from 'date-fns';
 import { usePolicyToDelete } from '../../hooks/usePolicyToDelete';
-import { Page } from '../../types/Page';
 import { useMassChangePolicyEnabledMutation } from '../../services/useMassChangePolicyEnabled';
 
 type ListPageProps = {};
