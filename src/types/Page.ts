@@ -3,6 +3,9 @@ import { DeepReadonly } from 'ts-essentials';
 const DEFAULT_PAGE_SIZE = 50;
 
 export class Page {
+
+    public static readonly NO_SIZE = -1;
+
     readonly index: number;
     readonly size: number;
     readonly filter?: Filter;

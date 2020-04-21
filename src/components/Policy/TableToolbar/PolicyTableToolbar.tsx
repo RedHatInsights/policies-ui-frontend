@@ -39,6 +39,7 @@ interface TablePolicyToolbarProps {
     pageCount?: number;
     perPage: number;
     showPerPageOptions: boolean;
+    onExport?: (event: Event, type: string) => void;
 }
 
 const FilterColumnToLabel: Record<PolicyFilterColumn, string> = {
@@ -135,7 +136,8 @@ export const PolicyToolbar: React.FunctionComponent<TablePolicyToolbarProps> = (
         selectedCount,
         hideBulkSelect,
         onEnablePolicy,
-        onDisablePolicy
+        onDisablePolicy,
+        onExport
     } = props;
 
     const clearFiltersCallback = React.useCallback((_event, rawFilterConfigs: any[]) => {
@@ -320,6 +322,17 @@ export const PolicyToolbar: React.FunctionComponent<TablePolicyToolbarProps> = (
         };
     }, [ onCreatePolicy, onDeletePolicy, selectedCount, hideActions, onDisablePolicy, onEnablePolicy ]);
 
+    const exportConfig = React.useMemo(() => {
+        if (onExport) {
+            return {
+                extraItems: [],
+                onSelect: onExport
+            };
+        }
+
+        return undefined;
+    }, [ onExport ]);
+
     return (
         <>
             <PrimaryToolbar
@@ -328,6 +341,7 @@ export const PolicyToolbar: React.FunctionComponent<TablePolicyToolbarProps> = (
                 pagination={ paginationProps }
                 actionsConfig={ actionsConfigProps }
                 activeFiltersConfig={ activeFiltersConfigProps }
+                exportConfig={ exportConfig }
             />
         </>
     );

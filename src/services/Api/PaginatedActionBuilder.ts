@@ -34,8 +34,13 @@ export class PaginatedActionBuilder extends ActionBuilder {
             queryParams = {};
         }
 
-        queryParams.offset = (page.index - 1) * page.size;
-        queryParams.limit = page.size;
+        if (page.size === Page.NO_SIZE) {
+            queryParams.offset = page.index;
+            queryParams.limit = Page.NO_SIZE;
+        } else {
+            queryParams.offset = (page.index - 1) * page.size;
+            queryParams.limit = page.size;
+        }
 
         if (page.filter) {
             for (const filterElement of page.filter.elements) {

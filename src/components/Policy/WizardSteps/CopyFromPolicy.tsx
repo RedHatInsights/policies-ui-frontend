@@ -2,10 +2,10 @@ import * as React from 'react';
 import { PolicyToolbar } from '../TableToolbar/PolicyTableToolbar';
 import { usePolicyFilter, usePolicyPage } from '../../../hooks';
 import { PolicyRow, PolicyTable } from '../Table/PolicyTable';
-import { useGetPoliciesQuery } from '../../../services/Api';
 import { useSort } from '../../../hooks/useSort';
 import { usePolicyRows } from '../../../hooks/usePolicyRows';
 import { Policy } from '../../../types/Policy';
+import { useGetPoliciesQuery } from '../../../services/useGetPolicies';
 
 interface CopyFromPolicyProps {
     onSelect: (policy: Policy) => void;
