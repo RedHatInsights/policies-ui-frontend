@@ -18,6 +18,7 @@ import { GlobalDangerColor100, GlobalSuccessColor200 } from '../../../utils/PFCo
 import { Messages } from '../../../properties/Messages';
 import { joinClasses } from '../../../utils/ComponentUtils';
 import { Form } from '../../Formik/Patternfly/Form';
+import Usage from '../Table/ExpandedContent/Usage';
 import { ConditionFieldWithForkmik } from '../../Condition/ConditionFieldWithFormik';
 
 const elementClassName = style({
@@ -44,6 +45,10 @@ const fontGreenColor = style({
 
 const fontWeightBold = style({
     fontWeight: 'bold'
+});
+
+const titleClassName = style({
+    marginBottom: 5
 });
 
 interface ConditionStatusProps {
@@ -121,7 +126,8 @@ const ConditionsStep: React.FunctionComponent = () => {
 
     return (
         <Form>
-            <Title headingLevel="h4" size="xl">{ Messages.wizards.policy.conditions.title }</Title>
+            <Title className={ titleClassName } headingLevel="h4" size="xl">{ Messages.wizards.policy.conditions.title }</Title>
+            { Messages.wizards.policy.conditions.summaryDesc }
             <ConditionFieldWithForkmik label="Condition text"
                 id="conditions" name="conditions" facts={ context.facts || [] }
                 hint={ Messages.wizards.policy.conditions.hint }
@@ -140,6 +146,7 @@ const ConditionsStep: React.FunctionComponent = () => {
                     />
                 </StackItem>
             </Stack>
+            <Usage/>
         </Form>
     );
 };

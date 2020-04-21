@@ -82,7 +82,24 @@ const MutableMessages = {
                 valid: 'Valid condition',
                 invalid: 'Invalid condition',
                 validating: 'Validating…',
-                hint: 'e.g. facts.arch = "x86_64"'
+                hint: 'e.g. facts.arch = "x86_64"',
+                summaryDesc: 'Define conditions for your policy using any system facts that are available in the Insights API.'
+            },
+            hints: {
+                hintTitle: 'What conditions can I define?',
+                hintParagraph1: 'You can write a condition for any combination of system facts that apply to your Insights inventory systems.',
+                hintLinkTitle: 'Review available system facts',
+                // hintLinkTitleValue: '', // set this later.
+                hintSyntaxExamplesSection: 'Syntax examples',
+                hintQuestion1: 'Is wireshark RPM installed?',
+                hintQuestion1Ans: 'facts.installed_packages contains [\'wireshark\']',
+                hintQuestion2: 'Is the release older than RHEL 8.1?',
+                hintQuestion2Ans: 'facts.os_release < 8.1',
+                hintQuestion3: 'Which of my public cloud instances are missing a tag Owner value set?',
+                hintQuestion3Ans: 'facts.cloud_provider in [\'alibaba\',aws\',\'azure\',\'google\'] and not tags.Owner',
+                hintQuestion4: 'Is time synchronization configured for RHEL7 and RHEL8?',
+                hintQuestion4Ans: '(facts.os_release >=7 and facts.os_release <8 and not facts.enabled_services contains \'ntpd\') or ' +
+                    '(facts.os_release >=8 and not facts.enabled_services contains \'chronyd\')'
             },
             createPolicy: {
                 title: 'Create Policy'
