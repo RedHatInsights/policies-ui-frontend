@@ -128,7 +128,6 @@ const ConditionsStep: React.FunctionComponent = () => {
         <Form>
             <Title className={ titleClassName } headingLevel="h4" size="xl">{ Messages.wizards.policy.conditions.title }</Title>
             { Messages.wizards.policy.conditions.summaryDesc }
-            <Usage/>
             <ConditionFieldWithForkmik label="Condition text"
                 id="conditions" name="conditions" facts={ context.facts || [] }
                 hint={ Messages.wizards.policy.conditions.hint }
@@ -147,6 +146,7 @@ const ConditionsStep: React.FunctionComponent = () => {
                     />
                 </StackItem>
             </Stack>
+            <Usage/>
         </Form>
     );
 };
