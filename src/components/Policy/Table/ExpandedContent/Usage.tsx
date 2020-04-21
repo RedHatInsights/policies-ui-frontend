@@ -12,7 +12,7 @@ const linkMarginClassName = style({
     marginBottom: 5
 });
 const padLeftClassName = style({
-    marginLeft: 12
+    marginLeft: 20
 });
 
 // build the text as we expect it to look but this is manual and not automatic
