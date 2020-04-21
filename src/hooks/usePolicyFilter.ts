@@ -66,7 +66,9 @@ const useUrlStateIsActive = (defaultValue?: IsActiveFilter) => {
 export const usePolicyFilter = (debounce = DEBOUNCE_MS): UsePolicyFilterReturn => {
 
     const [ filterName, setFilterName, debouncedFilterName ] = useDebouncedState<string>(defaultName, debounce, useUrlStateName);
-    const [ filterIsActive, setFilterIsActive, debouncedFilterIsActive ] = useDebouncedState<IsActiveFilter>(defaultIsActive, debounce, useUrlStateIsActive);
+    const [ filterIsActive, setFilterIsActive, debouncedFilterIsActive ] = useDebouncedState<IsActiveFilter>(
+        defaultIsActive, debounce, useUrlStateIsActive
+    );
 
     const clearFilterHandler = React.useCallback((clearFilterCommands: ClearFilterCommand[]) => {
         for (const clearFilterCommand of clearFilterCommands) {
