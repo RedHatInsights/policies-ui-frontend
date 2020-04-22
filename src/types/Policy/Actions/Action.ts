@@ -11,3 +11,7 @@ export const isActionEmail = (action: Action): action is ActionEmail => {
 export const isActionWebhook = (action: Action): action is ActionWebhook => {
     return action.type === ActionType.WEBHOOK;
 };
+
+export const isAction = (maybeAction: any): maybeAction is Action => {
+    return isActionEmail(maybeAction) || isActionWebhook(maybeAction);
+};

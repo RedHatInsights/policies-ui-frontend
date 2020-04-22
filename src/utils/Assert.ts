@@ -1,3 +1,3 @@
 export const assertNever = (value: never): never => {
-    return value;
+    throw new Error(`Invalid value received [${value}]`);
 };
