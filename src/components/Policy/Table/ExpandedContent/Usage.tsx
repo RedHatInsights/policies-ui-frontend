@@ -22,7 +22,7 @@ class TextItemExtension extends React.Component {
         return (
             <TextContent className={ padLeftClassName } >
                 <Text component={ TextVariants.p }>{ Messages.wizards.policy.hints.hintParagraph1 }</Text>
-                <Text component={ TextVariants.a } className={ linkMarginClassName } href="#">{ Messages.wizards.policy.hints.hintLinkTitle }</Text>
+                <Text component={ TextVariants.a } className={ linkMarginClassName } href="https://access.redhat.com/documentation/en-us/red_hat_insights/2020-04/html/monitoring_and_reacting_to_configuration_changes_using_policies/appendix-policies#facts-and-functions" target="_blank">{ Messages.wizards.policy.hints.hintLinkTitle }</Text>
                 <Text component={ TextVariants.h5 } className="lg">{ Messages.wizards.policy.hints.hintSyntaxExamplesSection }</Text>
                 <Text >{ Messages.wizards.policy.hints.hintQuestion1 }</Text>
                 <Text component={ TextVariants.p } className={ codeClass }><i>{ Messages.wizards.policy.hints.hintQuestion1Ans }</i></Text>
