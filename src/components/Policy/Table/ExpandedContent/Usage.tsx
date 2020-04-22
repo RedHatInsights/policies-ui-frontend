@@ -2,6 +2,7 @@ import * as React from 'react';
 import { StackItem, TextContent, Text, TextVariants, Expandable } from '@patternfly/react-core';
 import { Messages }  from '../../../../properties/Messages';
 import { style } from 'typestyle';
+import Config from '../../../../config/Config';
 
 const codeClass = style({
     fontFamily: 'monospace',
@@ -22,7 +23,15 @@ class TextItemExtension extends React.Component {
         return (
             <TextContent className={ padLeftClassName } >
                 <Text component={ TextVariants.p }>{ Messages.wizards.policy.hints.hintParagraph1 }</Text>
-                <Text component={ TextVariants.a } className={ linkMarginClassName } href="#">{ Messages.wizards.policy.hints.hintLinkTitle }</Text>
+                <Text
+                    component={ TextVariants.a }
+                    className={ linkMarginClassName }
+                    href={ Config.pages.factsDocumentation }
+                    target="_blank"
+                    rel='noopener noreferrer'
+                >
+                    { Messages.wizards.policy.hints.hintLinkTitle }
+                </Text>
                 <Text component={ TextVariants.h5 } className="lg">{ Messages.wizards.policy.hints.hintSyntaxExamplesSection }</Text>
                 <Text >{ Messages.wizards.policy.hints.hintQuestion1 }</Text>
                 <Text component={ TextVariants.p } className={ codeClass }><i>{ Messages.wizards.policy.hints.hintQuestion1Ans }</i></Text>
