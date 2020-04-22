@@ -3,8 +3,11 @@ module.exports = {
     testEnvironment: 'jsdom',
     coverageDirectory: './coverage',
     collectCoverageFrom: [
-        'src/**/*.ts(x?)',
-        '!src/**/stories/*'
+        'src/**/*.{ts,tsx}',
+        '!**/node_modules/**'
+    ],
+    coveragePathIgnorePatterns: [
+        '<rootDir>/src/utils/Expression/*'
     ],
     setupFiles: [
         '<rootDir>/config/setupTests.ts'
