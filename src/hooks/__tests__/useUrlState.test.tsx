@@ -150,7 +150,7 @@ describe('src/hooks/useUrlState', () => {
                 return {
                     val: 'here comes 1234',
                     val2: prev?.val2 || 180
-                }
+                };
             });
         });
 
