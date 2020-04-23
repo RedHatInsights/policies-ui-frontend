@@ -30,6 +30,7 @@ interface PolicyWizardProps {
     showCreateStep: boolean;
     policiesExist?: boolean;
     facts?: Fact[];
+    isEditing: boolean;
 }
 
 const buildSteps: (showCreateStep: boolean) => WizardStepExtended[] = (showCreateStep) => {
@@ -101,6 +102,7 @@ interface FormikBindingProps {
     showCreateStep: boolean;
     policiesExist?: boolean;
     facts?: Fact[];
+    isEditing: boolean;
 }
 
 const FormikBinding: React.FunctionComponent<FormikBindingProps> = (props) => {
@@ -154,7 +156,7 @@ const FormikBinding: React.FunctionComponent<FormikBindingProps> = (props) => {
                     onNext={ props.onMove }
                     onBack={ props.onMove }
                     onGoToStep={ props.onMove }
-                    title={ Messages.wizards.policy.title }
+                    title={ props.isEditing ? Messages.wizards.policy.titleEdit : Messages.wizards.policy.titleNew }
                     description={ Messages.wizards.policy.description }
                     footer={ <PolicyWizardFooter loadingText="Loading"  isLoading={ props.isLoading } error={ props.createResponse.error }/> }
                 />
@@ -256,6 +258,7 @@ export const PolicyWizard: React.FunctionComponent<PolicyWizardProps> = (props: 
                     showCreateStep={ props.showCreateStep }
                     policiesExist={ props.policiesExist }
                     facts={ props.facts }
+                    isEditing={ props.isEditing }
                 />
             </Formik>
         </>

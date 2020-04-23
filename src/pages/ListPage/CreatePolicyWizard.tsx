@@ -14,6 +14,7 @@ type CreatePolicyWizardBase = {
     showCreateStep: boolean;
     policiesExist?: boolean;
     facts?: Fact[];
+    isEditing: boolean;
 };
 
 type CreatePolicyWizardIsOpen = {
@@ -87,6 +88,7 @@ export const CreatePolicyWizard: React.FunctionComponent<CreatePolicyWizardProps
                 isLoading={ isLoading }
                 policiesExist={ props.policiesExist }
                 facts={ props.facts }
+                isEditing={ props.isEditing }
             />}
         </>
     );

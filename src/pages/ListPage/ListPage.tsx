@@ -37,6 +37,7 @@ type ListPageProps = {};
 type PolicyWizardStateBase = {
     template: NewPolicy | undefined;
     showCreateStep: boolean;
+    isEditing: boolean;
 };
 
 type PolicyWizardStateOpen = {
@@ -121,7 +122,8 @@ const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
                     setPolicyWizardState({
                         isOpen: true,
                         template: policy,
-                        showCreateStep: false
+                        showCreateStep: false,
+                        isEditing: true
                     });
                 }
             },
@@ -131,7 +133,8 @@ const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
                     setPolicyWizardState({
                         isOpen: true,
                         template: makeCopyOfPolicy(policy),
-                        showCreateStep: false
+                        showCreateStep: false,
+                        isEditing: false
                     });
                 }
             },
@@ -154,7 +157,8 @@ const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
         setPolicyWizardState({
             isOpen: true,
             showCreateStep: true,
-            template: undefined
+            template: undefined,
+            isEditing: false
         });
     }, [ setPolicyWizardState ]);
 
@@ -306,6 +310,7 @@ const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
                 showCreateStep={ policyWizardState.showCreateStep }
                 policiesExist={ getPoliciesQuery.count > 0 ? true : false }
                 facts={ facts }
+                isEditing={ policyWizardState.isEditing }
             /> }
             <DeletePolicy onClose={ onCloseDeletePolicy } policies={ policyToDelete }/>
         </>

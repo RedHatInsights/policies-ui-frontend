@@ -5,7 +5,7 @@
 // It would be even better to add the typings to the common code or to @types.
 
 interface Entitlement {
-    is_entitle: boolean;
+    is_entitled: boolean;
 }
 
 interface UserData {
@@ -21,7 +21,7 @@ interface UserData {
 
 interface Internal {
     org_id: string;
-    account_id: string;
+    account_id: number;
 }
 
 interface Identity {
