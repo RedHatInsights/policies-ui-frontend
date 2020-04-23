@@ -1,6 +1,7 @@
 import parseJSON from 'date-fns/parseJSON';
 
 import {
+    maxPolicyNameLength,
     NewPolicy,
     PagedServerPolicyResponse,
     Policy,
@@ -88,9 +89,10 @@ export const toPolicies = (serverPolicies: PagedServerPolicyResponse): Policy[] 
 };
 
 export const makeCopyOfPolicy = (policy: Policy): NewPolicy => {
+    const prefix = 'Copy of ';
     return {
         ...policy,
-        name: `Copy of ${policy.name}`,
+        name: `${prefix}${policy.name.slice(0, maxPolicyNameLength - prefix.length)}`,
         mtime: undefined,
         lastEvaluation: undefined,
         ctime: undefined,

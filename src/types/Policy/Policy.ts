@@ -1,6 +1,8 @@
 import { Action } from './Actions';
 import * as Generated from '../GeneratedOpenApi';
 
+export const maxPolicyNameLength = 150;
+
 export interface Policy {
     id: Generated.Uuid;
     actions: Action[];
