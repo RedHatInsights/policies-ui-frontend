@@ -220,6 +220,38 @@ describe('src/utils/PolicyAdapter', () => {
         expect(makeCopyOfPolicy(policy)).toEqual(newPolicy);
     });
 
+    it('makeCopyOfPolicy restricts the policy name to 150 characters', () => {
+        const name = 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula ' +
+            'get dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis pa';
+        const copyOfName = 'Copy of Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula ' +
+            'get dolor. Aenean massa. Cum sociis natoque penatibus et magni';
+
+        const policy: Policy = {
+            id: '5151-5151',
+            name,
+            description: 'foo description',
+            isEnabled: true,
+            conditions: '1 == 2',
+            actions: [{ type: ActionType.EMAIL }, { type: ActionType.WEBHOOK }],
+            mtime: new Date('2014-01-01T23:28:56.782Z'),
+            ctime: new Date('2013-01-01T23:28:56.782Z'),
+            lastEvaluation: new Date('2015-01-01T23:28:56.782Z')
+        };
+
+        const newPolicy: NewPolicy = {
+            id: undefined,
+            mtime: undefined,
+            name: copyOfName,
+            description: 'foo description',
+            isEnabled: true,
+            conditions: '1 == 2',
+            actions: [{ type: ActionType.EMAIL }, { type: ActionType.WEBHOOK }],
+            ctime: undefined,
+            lastEvaluation: undefined
+        };
+        expect(makeCopyOfPolicy(policy)).toEqual(newPolicy);
+    });
+
     it('fromServerActions fails with wrong action', () => {
         const actions = 'email;1337:email';
         expect(() => fromServerActions(actions)).toThrowError();

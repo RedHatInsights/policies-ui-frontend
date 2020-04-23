@@ -5,14 +5,13 @@ const apiVersion = 'v1.0';
 const apiBaseUrl = `/api/policies/${apiVersion}`;
 
 const withBaseUrl = (path: string) => `${apiBaseUrl}/${path}`;
-const localUrl = (path: string): Promise<string> => {
-    return getInsights().then((insights) => {
-        if (insights.chrome.isBeta()) {
-            return `/beta${path}`;
-        }
+const localUrl = (path: string): string => {
+    const insights = getInsights();
+    if (insights.chrome.isBeta()) {
+        return `/beta${path}`;
+    }
 
-        return path;
-    });
+    return path;
 };
 
 const Config = {
@@ -35,7 +34,9 @@ const Config = {
     },
     pages: {
         emailPreferences: () => localUrl('/user-preferences/email'),
-        hooks: () => localUrl('/settings/hooks')
+        hooks: () => localUrl('/settings/hooks'),
+        // eslint-disable-next-line max-len
+        factsDocumentation: 'https://access.redhat.com/documentation/en-us/red_hat_insights/2020-04/html/monitoring_and_reacting_to_configuration_changes_using_policies/appendix-policies#facts-and-functions'
     }
 };
 

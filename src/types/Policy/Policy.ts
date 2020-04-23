@@ -2,6 +2,7 @@ import { Action } from './Actions';
 import * as Generated from '../GeneratedOpenApi';
 
 export type Uuid = Generated.Uuid;
+export const maxPolicyNameLength = 150;
 
 export interface Policy {
     id: Uuid;

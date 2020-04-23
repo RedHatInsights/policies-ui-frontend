@@ -10,7 +10,7 @@ import { AppSkeleton } from '../components/AppSkeleton/AppSkeleton';
 import '@redhat-cloud-services/frontend-components/index.css';
 import '@redhat-cloud-services/frontend-components-notifications/index.css';
 import { Rbac } from '../types/Rbac';
-import { getInsights } from '../utils/Insights';
+import { getInsights, waitForInsights } from '../utils/Insights';
 import { AppContext } from './AppContext';
 import { useUserSettingsEmailQuery } from '../services/useUserSettingsEmailQuery';
 
@@ -20,19 +20,18 @@ const App: React.FunctionComponent<RouteComponentProps> = (props) => {
     const userSettingsEmailQuery = useUserSettingsEmailQuery();
 
     React.useEffect(() => {
-        getInsights().then((insights) => {
+        waitForInsights().then((insights) => {
             insights.chrome.init();
             insights.chrome.identifyApp(Config.appId);
         });
         return () => {
-            getInsights().then((insights) => {
-                insights.chrome.on('APP_NAVIGATION', (event: any) => props.history.push(`/${event.navId}`));
-            });
+            const insights = getInsights();
+            insights.chrome.on('APP_NAVIGATION', (event: any) => props.history.push(`/${event.navId}`));
         };
     }, [ props.history ]);
 
     React.useEffect(() => {
-        getInsights().then(insights => {
+        waitForInsights().then(insights => {
             insights.chrome.auth.getUser().then(() => {
                 fetchRBAC().then(setRbac);
             });

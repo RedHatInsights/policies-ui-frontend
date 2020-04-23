@@ -83,7 +83,7 @@ const MutableMessages = {
                 invalid: 'Invalid condition',
                 validating: 'Validating…',
                 hint: 'e.g. facts.arch = "x86_64"',
-                summaryDesc: 'Define conditions for your policy using any system facts that are available in the Insights API.'
+                summaryDesc: 'Define conditions for your policy using any system facts.'
             },
             hints: {
                 hintTitle: 'What conditions can I define?',

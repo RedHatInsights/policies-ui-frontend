@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { ActionFormProps } from './ActionFormProps';
 import { Text } from '@patternfly/react-core';
-import { usePromiseState } from '../../../hooks/usePromiseState';
 import Config from '../../../config/Config';
 import { Messages } from '../../../properties/Messages';
 
@@ -20,8 +19,9 @@ const TextWithLink: React.FunctionComponent<TextWithLinkProps> = (props) => {
     );
 };
 
+const hooksUrl = Config.pages.hooks();
+
 export const ActionWebhookForm: React.FunctionComponent<ActionFormProps> = (_props: ActionFormProps) => {
-    const hooksUrl = usePromiseState<string>(Config.pages.hooks());
 
     return (
         <>
