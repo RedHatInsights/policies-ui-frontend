@@ -2,6 +2,7 @@ import { Action, ActionType } from '../../types/Policy/Actions';
 import * as Yup from 'yup';
 import { ActionEmailSchema, ActionSchema, ActionWebhookSchema } from './Actions';
 import { ValidationError } from 'yup';
+import { maxPolicyNameLength } from '../../types/Policy/Policy';
 
 const ActionSchemaSelector: ({ type }: { type: ActionType }) => Yup.Schema<any> = ({ type }) => {
     switch (type) {
@@ -19,7 +20,7 @@ const ActionSchemaSelector: ({ type }: { type: ActionType }) => Yup.Schema<any> 
 export const PolicyFormDetails = Yup.object().shape({
     description: Yup.string().notRequired().trim(),
     isEnabled: Yup.boolean().notRequired(),
-    name: Yup.string().required('Write a name for this Policy').max(150).trim()
+    name: Yup.string().required('Write a name for this Policy').max(maxPolicyNameLength).trim()
 });
 
 export const PolicyFormActions = Yup.object().shape({
