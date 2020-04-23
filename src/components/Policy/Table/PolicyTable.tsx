@@ -163,7 +163,7 @@ export const PolicyTable: React.FunctionComponent<PolicyTableProps> = (props) =>
     }, [ onSort ]);
 
     const columnOffset = React.useMemo(
-        () => [ onCollapse, onSelect || columnsToShow.includes('radioSelect') ].filter(element => element).length,
+        () => [ onCollapse, columnsToShow.includes('radioSelect') ? undefined : onSelect ].filter(element => element).length,
         [ onCollapse, onSelect, columnsToShow ]
     );
 
