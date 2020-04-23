@@ -7,11 +7,11 @@ import { PolicyFormDetails } from '../../../schemas/CreatePolicy/PolicySchema';
 import { Messages } from '../../../properties/Messages';
 import { Form } from '../../Formik/Patternfly/Form';
 
-const DetailsStep = () => {
+export const DetailsStep = () => {
     return (
         <Form>
             <Title headingLevel="h4" size="xl">{ Messages.wizards.policy.details.title }</Title>
-            <FormTextInput isRequired={ true } label="Name" type="text" name="name" id="name"/>
+            <FormTextInput maxLength={ 150 } isRequired={ true } label="Name" type="text" name="name" id="name"/>
             <FormTextArea label="Description" type="text" id="description" name="description" resizeOrientation="vertical"/>
         </Form>
     );
