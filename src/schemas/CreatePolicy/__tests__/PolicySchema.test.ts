@@ -13,6 +13,13 @@ describe('src/schemas/CreatePolicy/PolicySchema', () => {
             })).toBeTruthy();
         });
 
+        it('Name only allows 150 characters', () => {
+            expect(PolicyFormDetails.isValidSync({
+                name: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget' +
+                    ' dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis p more than 150'
+            })).toBeFalsy();
+        });
+
         it('Allows isEnabled as boolean', () => {
             expect(PolicyFormDetails.isValidSync({
                 name: 'hello world',
