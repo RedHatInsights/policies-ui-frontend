@@ -18,6 +18,10 @@ export class Page {
         this.sort = sort;
     }
 
+    public hasFilter() {
+        return this.filter !== undefined  && this.filter.elements.length > 0;
+    }
+
     static of(index: number, size?: number, filter?: Filter, sort?: Sort) {
         return new Page(index, size, filter, sort);
     }
