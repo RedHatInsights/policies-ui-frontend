@@ -17,7 +17,8 @@ type OnPaginationSizeChangedHandler = (event: React.MouseEvent | React.KeyboardE
 
 export enum SelectionCommand {
     NONE,
-    PAGE
+    PAGE,
+    ALL
 }
 
 interface TablePolicyToolbarProps {
@@ -175,6 +176,7 @@ export const PolicyToolbar: React.FunctionComponent<TablePolicyToolbarProps> = (
 
         const selectNone = () => onSelectionChanged && onSelectionChanged(SelectionCommand.NONE);
         const selectPage = () => onSelectionChanged && onSelectionChanged(SelectionCommand.PAGE);
+        const selectAll = () => onSelectionChanged && onSelectionChanged(SelectionCommand.ALL);
 
         return {
             count: selectedCount || 0,
@@ -186,12 +188,16 @@ export const PolicyToolbar: React.FunctionComponent<TablePolicyToolbarProps> = (
                 {
                     title: `Select page (${pageCount || 0})`,
                     onClick: selectPage
+                },
+                {
+                    title: `Select all (${count || 0})`,
+                    onClick: selectAll
                 }
             ],
-            checked: selectedCount === pageCount,
-            onSelect: (isChecked: boolean) => isChecked ? selectPage() : selectNone()
+            checked: selectedCount === count,
+            onSelect: (isChecked: boolean) => isChecked ? selectAll() : selectNone()
         };
-    }, [ selectedCount, pageCount, onSelectionChanged, hideBulkSelect ]);
+    }, [ selectedCount, pageCount, onSelectionChanged, hideBulkSelect, count ]);
 
     const filterConfigProps = React.useMemo(() => ({
         items: [
@@ -290,7 +296,7 @@ export const PolicyToolbar: React.FunctionComponent<TablePolicyToolbarProps> = (
             },
             {
                 key: 'delete-policy',
-                label: selectedCount === 1 ? 'Delete policy' : 'Delete policies',
+                label: 'Delete',
                 onClick: onDeletePolicy,
                 props: {
                     isDisabled: !(selectedCount && onDeletePolicy)
@@ -298,7 +304,7 @@ export const PolicyToolbar: React.FunctionComponent<TablePolicyToolbarProps> = (
             },
             {
                 key: 'enable-policy',
-                label: selectedCount === 1 ? 'Enable policy' : 'Enable policies',
+                label: 'Enable',
                 onClick: onEnablePolicy,
                 props: {
                     isDisabled: !(selectedCount && onEnablePolicy)
@@ -306,7 +312,7 @@ export const PolicyToolbar: React.FunctionComponent<TablePolicyToolbarProps> = (
             },
             {
                 key: 'disable-policy',
-                label: selectedCount === 1 ? 'Disable policy' : 'Disable policies',
+                label: 'Disable',
                 onClick: onDisablePolicy,
                 props: {
                     isDisabled: !(selectedCount && onDisablePolicy)
@@ -317,7 +323,7 @@ export const PolicyToolbar: React.FunctionComponent<TablePolicyToolbarProps> = (
         return {
             actions,
             kebabToggleProps: {
-                isDisabled: !(selectedCount && onDeletePolicy)
+                isDisabled: false
             }
         };
     }, [ onCreatePolicy, onDeletePolicy, selectedCount, hideActions, onDisablePolicy, onEnablePolicy ]);

@@ -79,7 +79,10 @@ const policiesToRows = (policies: PolicyRow[] | undefined, columnsToShow: ValidC
 
                                     onChange={ !onSelect ? undefined : () => {
                                         const selectedIndex = policies.findIndex(policy => policy.isSelected);
-                                        onSelect(policies[selectedIndex], selectedIndex, false);
+                                        if (selectedIndex !== -1) {
+                                            onSelect(policies[selectedIndex], selectedIndex, false);
+                                        }
+
                                         onSelect(policy, idx, true);
                                     } }
                                 />

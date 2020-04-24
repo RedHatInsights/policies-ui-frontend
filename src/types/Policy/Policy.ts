@@ -1,10 +1,11 @@
 import { Action } from './Actions';
 import * as Generated from '../GeneratedOpenApi';
 
+export type Uuid = Generated.Uuid;
 export const maxPolicyNameLength = 150;
 
 export interface Policy {
-    id: Generated.Uuid;
+    id: Uuid;
     actions: Action[];
     conditions: string;
     description: string;
@@ -16,10 +17,12 @@ export interface Policy {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface PagedServerPolicyResponse extends Generated.PagedResponse {}
+export interface ServerPolicyResponse extends Generated.Policy {}
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface ServerPolicyResponse extends Generated.Policy {}
+export interface PagedServerPolicyResponse extends Generated.PagedResponse {
+    data: Array<ServerPolicyResponse>;
+}
 
 type OptionalProperties = 'id' | 'mtime' | 'ctime' | 'lastEvaluation';
 type OutputOnlyProperties = 'mtime' | 'ctime' | 'lastEvaluation';
