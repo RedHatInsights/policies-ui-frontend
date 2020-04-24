@@ -4,8 +4,8 @@ import { getInsights } from '../utils/Insights';
 const apiVersion = 'v1.0';
 const apiBaseUrl = `/api/policies/${apiVersion}`;
 
-const withBaseUrl = (path: string) => `${apiBaseUrl}/${path}`;
-const localUrl = (path: string): string => {
+export const withBaseUrl = (path: string) => `${apiBaseUrl}/${path}`;
+export const localUrl = (path: string): string => {
     const insights = getInsights();
     if (insights.chrome.isBeta()) {
         return `/beta${path}`;

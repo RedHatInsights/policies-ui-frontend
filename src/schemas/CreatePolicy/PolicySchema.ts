@@ -1,21 +1,62 @@
 import { Action, ActionType } from '../../types/Policy/Actions';
 import * as Yup from 'yup';
-import { ActionEmailSchema, ActionSchema, ActionWebhookSchema } from './Actions';
 import { ValidationError } from 'yup';
 import { maxPolicyNameLength } from '../../types/Policy/Policy';
+import { ActionEmailSchema, ActionSchema, ActionWebhookSchema } from './Actions';
+import { assertNever } from '../../utils/Assert';
+import { isAction } from '../../types/Policy/Actions/Action';
 
-const ActionSchemaSelector: ({ type }: { type: ActionType }) => Yup.Schema<any> = ({ type }) => {
-    switch (type) {
-        case ActionType.EMAIL:
-            return ActionEmailSchema;
-        case ActionType.WEBHOOK:
-            return ActionWebhookSchema;
-        case undefined:
-            return ActionSchema;
+const ActionSchemaSelector = (action: Action | any): Yup.Schema<any> => {
+    if (action?.type && isAction(action)) {
+        const type = action.type;
+        switch (type) {
+            case ActionType.EMAIL:
+                return ActionEmailSchema;
+            case ActionType.WEBHOOK:
+                return ActionWebhookSchema;
+            default:
+                assertNever(type);
+        }
     }
 
-    throw new Error('Unknown action type. Implement the new type in the schema selector');
+    return ActionSchema;
 };
+
+const oneActionOf =
+    (type: ActionType, typeDescription: string, value: string):
+        [string, string, (actions: Action[] | undefined) => ValidationError | true] => {
+        const message = `Only one ${typeDescription} action is allowed`;
+        return [
+            `one-${value}`,
+            message,
+            (actions: (Action | undefined)[] | undefined) => {
+                const indexes = actions && actions.reduce<number[]>((indexes, action, index) => {
+                    if (action?.type === type) {
+                        return indexes.concat([ index ]);
+                    }
+
+                    return indexes;
+                }, []);
+                if (!indexes || indexes.length <= 1) {
+                    return true;
+                }
+
+                const validationError = new ValidationError(
+                    '',
+                    '',
+                    'actions',
+                    ''
+                );
+
+                validationError.inner = indexes.map(index => new ValidationError(
+                    message,
+                    value,
+                    `actions.${index}.type`
+                ));
+                return validationError;
+            }
+        ];
+    };
 
 export const PolicyFormDetails = Yup.object().shape({
     description: Yup.string().notRequired().trim(),
@@ -24,36 +65,9 @@ export const PolicyFormDetails = Yup.object().shape({
 });
 
 export const PolicyFormActions = Yup.object().shape({
-    actions: Yup.array(Yup.lazy(ActionSchemaSelector)).test(
-        'one-email',
-        'Only one Email action type is allowed',
-        (actions: Action[] | undefined) => {
-            const emailIndexes = actions && actions.reduce<number[]>((indexes, action, index) => {
-                if (action.type === ActionType.EMAIL) {
-                    return indexes.concat([ index ]);
-                }
-
-                return indexes;
-            }, []);
-            if (!emailIndexes || emailIndexes.length <= 1) {
-                return true;
-            }
-
-            const validationError = new ValidationError(
-                '',
-                '',
-                'actions',
-                ''
-            );
-
-            validationError.inner = emailIndexes.map(index => new ValidationError(
-                'Only one Email action is allowed',
-                'email',
-                `actions.${index}.type`
-            ));
-            return validationError;
-        }
-    )
+    actions: Yup.array(Yup.lazy(ActionSchemaSelector))
+    .test(...oneActionOf(ActionType.EMAIL, 'Email', 'email'))
+    .test(...oneActionOf(ActionType.WEBHOOK, 'Hook', 'webhook'))
 });
 
 export const PolicyFormConditions = Yup.object().shape({

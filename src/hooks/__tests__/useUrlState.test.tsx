@@ -133,6 +133,36 @@ describe('src/hooks/useUrlState', () => {
         expect(state).toEqual(undefined);
     });
 
+    it('allows a function in setter', () => {
+        const { result } = renderHook(
+            (args: Parameters<UseUrlStateType<MyObject>>) => ({
+                urlState: useUrlState<MyObject>(...args),
+                location: useLocation()
+            }), {
+                initialProps: [ 'my-param', serializer, deserializer, { val: 'hello', val2: 5 }],
+                wrapper: getWrapper()
+            }
+        );
+
+        act(() => {
+            const [ , setState ] = result.current.urlState;
+            setState(prev => {
+                return {
+                    val: 'here comes 1234',
+                    val2: prev?.val2 || 180
+                };
+            });
+        });
+
+        const { search } = result.current.location;
+        const [ state ] = result.current.urlState;
+        expect(search).toEqual('?my-param=here+comes+1234_5');
+        expect(state).toEqual({
+            val: 'here comes 1234',
+            val2: 5
+        });
+    });
+
     describe('useUrlStateString', () => {
         it('should have an initial value', () => {
 
