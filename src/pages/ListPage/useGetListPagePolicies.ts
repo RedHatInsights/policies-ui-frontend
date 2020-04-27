@@ -11,14 +11,6 @@ export const useGetListPagePolicies = (page: Page): UseGetListPagePoliciesRespon
     const hasPoliciesParametrizedQuery = useHasPoliciesQuery();
     const [ hasPolicies, setHasPolicies ] = useState<boolean>();
 
-    useEffect(() => {
-        if (getPoliciesQuery.status === 200) {
-            setHasPolicies(true);
-        } else if (getPoliciesQuery.status === 404) {
-            setHasPolicies(false);
-        }
-    }, [ getPoliciesQuery.status ]);
-
     const noFiltersAndFirstPage: boolean = useMemo(() => {
         return !page.hasFilter() && page.index === 1;
     }, [ page ]);
@@ -27,26 +19,32 @@ export const useGetListPagePolicies = (page: Page): UseGetListPagePoliciesRespon
         const localQuery = getPoliciesQuery.query;
         const hasPoliciesQuery = hasPoliciesParametrizedQuery.query;
 
-        if (noFiltersAndFirstPage) {
-            return localQuery();
-        } else {
-            return localQuery().then(response => {
-                if (response.status === 404) {
+        return localQuery().then(response => {
+            if (response.status === 404) {
+                if (noFiltersAndFirstPage) {
+                    setHasPolicies(false);
+                } else {
                     setHasPolicies(undefined);
-                    hasPoliciesQuery().then(r => {
+                    return hasPoliciesQuery().then(r => {
                         if (r.status === 404) {
                             setHasPolicies(false);
                         } else if (r.status === 200) {
                             setHasPolicies(true);
+                        } else {
+                            setHasPolicies(undefined);
                         }
 
                         return response;
                     });
                 }
+            } else if (response.status === 200) {
+                setHasPolicies(true);
+            } else {
+                setHasPolicies(undefined);
+            }
 
-                return response;
-            });
-        }
+            return response;
+        });
     }, [ getPoliciesQuery.query, hasPoliciesParametrizedQuery.query, noFiltersAndFirstPage ]);
 
     const abort = useCallback(() => {
