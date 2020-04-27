@@ -86,7 +86,6 @@ export const CreatePolicyWizard: React.FunctionComponent<CreatePolicyWizardProps
                 onVerify={ onVerify }
                 showCreateStep={ props.policiesExist ? props.showCreateStep : false }
                 isLoading={ isLoading }
-                policiesExist={ props.policiesExist }
                 facts={ props.facts }
                 isEditing={ props.isEditing }
             />}

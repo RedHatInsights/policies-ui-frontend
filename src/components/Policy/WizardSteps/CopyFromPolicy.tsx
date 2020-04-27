@@ -1,23 +1,40 @@
 import * as React from 'react';
 import { PolicyToolbar } from '../TableToolbar/PolicyTableToolbar';
-import { usePolicyFilter, usePolicyPage } from '../../../hooks';
+import {
+    UsePolicyFilterReturn,
+    UsePolicyPageReturn,
+    UsePolicyRowsReturn
+} from '../../../hooks';
 import { PolicyRow, PolicyTable } from '../Table/PolicyTable';
-import { useSort } from '../../../hooks/useSort';
-import { usePolicyRows } from '../../../hooks/usePolicyRows';
+import { UsePolicySortReturn } from '../../../hooks/useSort';
 import { Policy } from '../../../types/Policy';
-import { useGetPoliciesQuery } from '../../../services/useGetPolicies';
+import { UsePaginatedQueryResponse } from '../../../utils/ApiUtils';
+import { useEffectOnce } from 'react-use';
 
-interface CopyFromPolicyProps {
+export interface CopyFromPolicyProps {
     onSelect: (policy: Policy) => void;
+    policyFilter: UsePolicyFilterReturn;
+    policyPage: UsePolicyPageReturn;
+    policySort: UsePolicySortReturn;
+    policyQuery: UsePaginatedQueryResponse<Policy[]>;
+    policyRows: UsePolicyRowsReturn;
 }
 
 export const CopyFromPolicy: React.FunctionComponent<CopyFromPolicyProps> = (props) => {
 
-    const policyFilter = usePolicyFilter();
-    const policySort = useSort();
-    const policyPage = usePolicyPage(policyFilter.debouncedFilters, 5, policySort.sortBy);
-    const getPoliciesQuery = useGetPoliciesQuery(policyPage.page, true);
-    const policyRows = usePolicyRows(getPoliciesQuery.payload, getPoliciesQuery.loading, getPoliciesQuery.count, policyPage.page);
+    const {
+        policyFilter,
+        policyPage,
+        policySort,
+        policyQuery: getPoliciesQuery,
+        policyRows
+    } = props;
+
+    useEffectOnce(() => {
+        if (!getPoliciesQuery.payload) {
+            getPoliciesQuery.query();
+        }
+    });
 
     const propsOnSelect = props.onSelect;
     const payload = getPoliciesQuery.payload;
