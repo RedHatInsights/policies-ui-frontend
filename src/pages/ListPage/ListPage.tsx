@@ -30,6 +30,7 @@ import { addDangerNotification } from '../../utils/AlertUtils';
 import { format } from 'date-fns';
 import { usePolicyToDelete } from '../../hooks/usePolicyToDelete';
 import { useMassChangePolicyEnabledMutation } from '../../services/useMassChangePolicyEnabled';
+import { useGetListPagePolicies } from './useGetListPagePolicies';
 
 type ListPageProps = {};
 
@@ -62,7 +63,7 @@ const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
     const policyFilters = usePolicyFilter();
     const sort = useSort();
     const policyPage = usePolicyPage(policyFilters.debouncedFilters, undefined, sort.sortBy);
-    const getPoliciesQuery = useGetPoliciesQuery(policyPage.page, false);
+    const getPoliciesQuery = useGetListPagePolicies(policyPage.page);
     const { query: exportAllPoliciesQuery } = useGetPoliciesQuery(Page.of(
         0,
         Page.NO_SIZE,
@@ -97,15 +98,17 @@ const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
     const { changePage, currentPage, itemsPerPage } = policyPage;
     const { close: closePolicyToDelete, open: openPolicyToDelete, policy: singlePolicyToDelete } = policyToDelete;
 
+    const prevLoadingChangePolicyEnabled = usePrevious(loadingChangePolicyEnabled);
+
     React.useEffect(() => {
         clearSelection();
     }, [ policyFilters.debouncedFilters, clearSelection ]);
 
     React.useEffect(() => {
-        if (!loadingChangePolicyEnabled) {
+        if (prevLoadingChangePolicyEnabled === true && !loadingChangePolicyEnabled) {
             getPoliciesQueryReload();
         }
-    }, [ loadingChangePolicyEnabled, getPoliciesQueryReload ]);
+    }, [ loadingChangePolicyEnabled, getPoliciesQueryReload, prevLoadingChangePolicyEnabled ]);
 
     const onDeleted = React.useCallback((policyId: Uuid) => {
         const index = policyRowsRows.findIndex(p => p.id === policyId);
@@ -268,20 +271,6 @@ const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
         [ mutateChangePolicyEnabled, getSelected ]
     );
 
-    const prevIsClear = usePrevious(policyFilters.isClear);
-    const prevPage = usePrevious(policyPage.currentPage);
-    const willLoad = React.useMemo<boolean>(() => {
-        // Just cleared the filters, the query will trigger in next step assume we are loading now.
-        if (!getPoliciesQuery.loading && (prevIsClear !== policyFilters.isClear || prevPage !== policyPage.currentPage)) {
-            return true;
-        }
-
-        return getPoliciesQuery.loading;
-    }, [ getPoliciesQuery.loading, policyFilters.isClear, policyPage.currentPage, prevIsClear, prevPage ]);
-
-    const onFirstPageWithNoFilter = policyFilters.isClear && policyPage.currentPage === 1;
-    const noPolicies = onFirstPageWithNoFilter && !willLoad && getPoliciesQuery.status === 404;
-
     const onExport = React.useCallback((_event, type) => {
         const exporter = policyExporterFactory(policyExporterTypeFromString(type));
         exportAllPoliciesQuery().then(response => {
@@ -310,7 +299,7 @@ const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
                 </PageSection>
             )}
             <Main>
-                { noPolicies ? (
+                { getPoliciesQuery.hasPolicies === false ? (
                     <ListPageEmptyState
                         createPolicy={ canWriteAll ? createCustomPolicy : undefined }
                     />
@@ -340,7 +329,7 @@ const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
                             onCollapse={ policyRows.onCollapse }
                             onSelect={ policyRows.onSelect }
                             actionResolver={ tableActionsResolver }
-                            loading={ isLoading || willLoad }
+                            loading={ isLoading }
                             error={ policyTableErrorValue }
                             onSort={ sort.onSort }
                             sortBy={ sort.sortBy }
@@ -353,7 +342,7 @@ const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
                 close={ closeCustomPolicyWizard }
                 initialValue={ policyWizardState.template }
                 showCreateStep={ policyWizardState.showCreateStep }
-                policiesExist={ getPoliciesQuery.count > 0 ? true : false }
+                policiesExist={ getPoliciesQuery.hasPolicies === true }
                 facts={ facts }
             /> }
             { policyToDelete.isOpen && <DeletePolicy

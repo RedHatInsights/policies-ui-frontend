@@ -1,5 +1,8 @@
-import { UsePaginatedQueryResponse } from '../utils/ApiUtils';
-import { Action, QueryResponse, useQuery } from 'react-fetching-library';
+import { Action, QueryResponse, useQuery, UseQueryResponse } from 'react-fetching-library';
+
+export type UsePaginatedQueryResponse<T> = UseQueryResponse<T> & {
+    count: number;
+};
 
 const decorate = <T, R>(data: T, decorator: (data: T) => R) => {
     return decorator(data);
