@@ -14,8 +14,8 @@ interface CopyFromPolicyProps {
 export const CopyFromPolicy: React.FunctionComponent<CopyFromPolicyProps> = (props) => {
 
     const policyFilter = usePolicyFilter();
-    const policyPage = usePolicyPage(policyFilter.debouncedFilters, 5);
     const policySort = useSort();
+    const policyPage = usePolicyPage(policyFilter.debouncedFilters, 5, policySort.sortBy);
     const getPoliciesQuery = useGetPoliciesQuery(policyPage.page, true);
     const policyRows = usePolicyRows(getPoliciesQuery.payload, getPoliciesQuery.loading, getPoliciesQuery.count, policyPage.page);
 
