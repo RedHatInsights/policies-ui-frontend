@@ -70,7 +70,8 @@ const MutableMessages = {
     },
     wizards: {
         policy: {
-            title: 'Create a policy',
+            titleNew: 'Create a policy',
+            titleEdit: 'Edit a policy',
             description: 'Policies are processed on reception of system profile messages. ' +
                 'If condition(s) are met, defined action(s) are triggered.',
             actions: {
