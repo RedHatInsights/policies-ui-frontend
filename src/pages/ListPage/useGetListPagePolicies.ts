@@ -1,6 +1,6 @@
 import { useGetPoliciesQuery, useHasPoliciesQuery } from '../../services/useGetPolicies';
 import { Page } from '../../types/Page';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 
 export interface UseGetListPagePoliciesResponse extends ReturnType<typeof useGetPoliciesQuery> {
     hasPolicies: boolean | undefined;

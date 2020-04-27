@@ -10,7 +10,7 @@ import { paginatedActionBuilder } from '../../../services/Api/PaginatedActionBui
 describe('src/hooks/usePaginated', () => {
 
     const Wrapper: React.FunctionComponent = (props) => {
-        return <ClientContextProvider client={ createClient() }>{ props.children }</ClientContextProvider>
+        return <ClientContextProvider client={ createClient() }>{ props.children }</ClientContextProvider>;
     };
 
     const failIfNoHttpCallMatched = () => {

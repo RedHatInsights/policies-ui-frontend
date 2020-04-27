@@ -8,7 +8,7 @@ import { ClientContextProvider, createClient } from 'react-fetching-library';
 describe('src/hooks/usePaginated', () => {
 
     const Wrapper: React.FunctionComponent = (props) => {
-        return <ClientContextProvider client={ createClient() }>{ props.children }</ClientContextProvider>
+        return <ClientContextProvider client={ createClient() }>{ props.children }</ClientContextProvider>;
     };
 
     it('Sets count to undefined if TotalCount header not found', async () => {
