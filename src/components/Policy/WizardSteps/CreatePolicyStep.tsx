@@ -21,7 +21,7 @@ export interface PolicyStepContextProps {
     showCreateStep: boolean;
 }
 
-const CreatePolicyStep: React.FunctionComponent = () => {
+export const useCreatePolicyStep = () => {
     const context = React.useContext(CreatePolicyStepContext);
     if (context === undefined) {
         throw Error('Invalid usage of CreatePolicyStep without valid context');
@@ -51,10 +51,12 @@ const CreatePolicyStep: React.FunctionComponent = () => {
     useUpdateEffect(() => {
         if (copiedPolicy) {
             setValues(copiedPolicy);
-            setVerifyResponse({
-                policy: copiedPolicy,
-                isValid: true
-            });
+            if (copyPolicy) {
+                setVerifyResponse({
+                    policy: copiedPolicy,
+                    isValid: true
+                });
+            }
         }
 
         setMaxStep(0);
@@ -72,6 +74,24 @@ const CreatePolicyStep: React.FunctionComponent = () => {
     const copyFromPolicyHandler = React.useCallback((policy: Policy) => {
         setCopiedPolicy(makeCopyOfPolicy(policy));
     }, [ setCopiedPolicy ]);
+
+    return {
+        copyPolicy,
+        createFromScratch,
+        copyExisting,
+        copyFromPolicyHandler,
+        copyFromPolicyProps: rest
+    };
+};
+
+export const CreatePolicyStep: React.FunctionComponent = () => {
+    const {
+        copyPolicy,
+        createFromScratch,
+        copyExisting,
+        copyFromPolicyHandler,
+        copyFromPolicyProps
+    } = useCreatePolicyStep();
 
     return (
         <>
@@ -95,7 +115,7 @@ const CreatePolicyStep: React.FunctionComponent = () => {
                     label="As a copy of existing Policy"
                 />
                 {copyPolicy && <>
-                    <CopyFromPolicy onSelect={ copyFromPolicyHandler } { ...rest } />
+                    <CopyFromPolicy onSelect={ copyFromPolicyHandler } { ...copyFromPolicyProps } />
                 </>
                 }
             </Form>
@@ -103,7 +123,7 @@ const CreatePolicyStep: React.FunctionComponent = () => {
     );
 };
 
-export const createCustomPolicyStep = (stepOverrides?: Partial<WizardStepExtended>): WizardStepExtended => ({
+export const createPolicyStep = (stepOverrides?: Partial<WizardStepExtended>): WizardStepExtended => ({
     name: Messages.wizards.policy.createPolicy.title,
     component: <CreatePolicyStep/>,
     validationSchema: Yup.object().shape({

@@ -7,20 +7,24 @@ import { useUpdateEffect } from 'react-use';
 import { PolicyStepContextProps } from '../CreatePolicyStep';
 import { CreatePolicyStepContext } from './Context';
 
+export const defaultPerPage = 5;
+
 export const CreatePolicyStepContextProvider: React.FunctionComponent<PolicyStepContextProps> = (props) => {
     const [ copyPolicy, setCopyPolicy ] = React.useState<boolean>(false);
     const [ copiedPolicy, setCopiedPolicy ] = React.useState<NewPolicy | undefined>({} as NewPolicy);
     const policyFilter = usePolicyFilter();
     const policySort = useSort();
-    const policyPage = usePolicyPage(policyFilter.debouncedFilters, 5, policySort.sortBy);
+    const policyPage = usePolicyPage(policyFilter.debouncedFilters, defaultPerPage, policySort.sortBy);
     const policyQuery = useGetPoliciesQuery(policyPage.page, false);
     const policyRows = usePolicyRows(policyQuery.payload, policyQuery.loading, policyQuery.count, policyPage.page);
 
     const { query } = policyQuery;
 
     useUpdateEffect(() => {
-        query();
-    }, [ query, policyPage.page, policyFilter.debouncedFilters ]);
+        if (props.showCreateStep) {
+            query();
+        }
+    }, [ query, policyPage.page, policyFilter.debouncedFilters, props.showCreateStep ]);
 
     if (props.showCreateStep) {
         return (

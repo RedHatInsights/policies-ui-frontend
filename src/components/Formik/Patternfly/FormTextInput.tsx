@@ -21,7 +21,7 @@ export const FormTextInput = (props: any) => {
             <PFTextInput
                 { ...otherProps }
                 { ...field }
-                value={ field.value || '' }
+                value={ field.value !== undefined ? field.value.toString() : '' }
                 isValid={ isValid }
                 onChange={ onChangePFAdapter<string | number>(field) }
             />

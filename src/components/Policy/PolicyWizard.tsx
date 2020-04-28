@@ -9,7 +9,7 @@ import {
     WizardContext,
     WizardStepExtended
 } from './PolicyWizardTypes';
-import { createCustomPolicyStep } from './WizardSteps/CreatePolicyStep';
+import { createPolicyStep } from './WizardSteps/CreatePolicyStep';
 import { createDetailsStep } from './WizardSteps/DetailsStep';
 import { createConditionsStep } from './WizardSteps/ConditionsStep';
 import { createActionsStep } from './WizardSteps/ActionsStep';
@@ -37,7 +37,7 @@ const buildSteps: (showCreateStep: boolean) => WizardStepExtended[] = (showCreat
     const steps = [] as WizardStepExtended[];
 
     if (showCreateStep) {
-        steps.push(createCustomPolicyStep());
+        steps.push(createPolicyStep());
     }
 
     steps.push(
