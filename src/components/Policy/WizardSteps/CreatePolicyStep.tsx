@@ -17,10 +17,6 @@ type CreateCustomPolicyFormType = NewPolicy & {
     isValid?: boolean;
 };
 
-export interface PolicyStepContextProps {
-    showCreateStep: boolean;
-}
-
 export const useCreatePolicyStep = () => {
     const context = React.useContext(CreatePolicyStepContext);
     if (context === undefined) {
