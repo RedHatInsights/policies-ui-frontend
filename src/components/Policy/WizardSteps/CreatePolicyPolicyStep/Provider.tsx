@@ -4,7 +4,7 @@ import { usePolicyFilter, usePolicyPage, usePolicyRows } from '../../../../hooks
 import { useSort } from '../../../../hooks/useSort';
 import { useGetPoliciesQuery } from '../../../../services/useGetPolicies';
 import { useUpdateEffect } from 'react-use';
-import { PolicyStepContextProps } from '../CreateCustomPolicyStep';
+import { PolicyStepContextProps } from '../CreatePolicyStep';
 import { CreatePolicyStepContext } from './Context';
 
 export const CreatePolicyStepContextProvider: React.FunctionComponent<PolicyStepContextProps> = (props) => {

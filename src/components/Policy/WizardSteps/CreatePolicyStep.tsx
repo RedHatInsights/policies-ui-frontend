@@ -21,10 +21,10 @@ export interface PolicyStepContextProps {
     showCreateStep: boolean;
 }
 
-const CreateCustomPolicyStep: React.FunctionComponent = () => {
+const CreatePolicyStep: React.FunctionComponent = () => {
     const context = React.useContext(CreatePolicyStepContext);
     if (context === undefined) {
-        throw Error('Invalid usage of CreateCustomPolicyStep without valid context');
+        throw Error('Invalid usage of CreatePolicyStep without valid context');
     }
 
     const {
@@ -105,7 +105,7 @@ const CreateCustomPolicyStep: React.FunctionComponent = () => {
 
 export const createCustomPolicyStep = (stepOverrides?: Partial<WizardStepExtended>): WizardStepExtended => ({
     name: Messages.wizards.policy.createPolicy.title,
-    component: <CreateCustomPolicyStep/>,
+    component: <CreatePolicyStep/>,
     validationSchema: Yup.object().shape({
         isValid: Yup.boolean().oneOf([ true ])
     }),

@@ -9,7 +9,7 @@ import {
     WizardContext,
     WizardStepExtended
 } from './PolicyWizardTypes';
-import { createCustomPolicyStep } from './WizardSteps/CreateCustomPolicyStep';
+import { createCustomPolicyStep } from './WizardSteps/CreatePolicyStep';
 import { createDetailsStep } from './WizardSteps/DetailsStep';
 import { createConditionsStep } from './WizardSteps/ConditionsStep';
 import { createActionsStep } from './WizardSteps/ActionsStep';
