@@ -1,23 +1,13 @@
 import * as React from 'react';
 import { PolicyToolbar } from '../TableToolbar/PolicyTableToolbar';
-import {
-    UsePaginatedQueryResponse,
-    UsePolicyFilterReturn,
-    UsePolicyPageReturn,
-    UsePolicyRowsReturn
-} from '../../../hooks';
 import { PolicyRow, PolicyTable } from '../Table/PolicyTable';
-import { UsePolicySortReturn } from '../../../hooks/useSort';
 import { Policy } from '../../../types/Policy';
 import { useEffectOnce } from 'react-use';
+import { CreatePolicyStepContextType } from './CreatePolicyPolicyStep/Context';
 
-export interface CopyFromPolicyProps {
+type UsedAttributes = 'policyFilter' | 'policyPage' | 'policySort' | 'policyQuery' | 'policyRows';
+export interface CopyFromPolicyProps extends Pick<CreatePolicyStepContextType, UsedAttributes>{
     onSelect: (policy: Policy) => void;
-    policyFilter: UsePolicyFilterReturn;
-    policyPage: UsePolicyPageReturn;
-    policySort: UsePolicySortReturn;
-    policyQuery: UsePaginatedQueryResponse<Policy[]>;
-    policyRows: UsePolicyRowsReturn;
 }
 
 export const CopyFromPolicy: React.FunctionComponent<CopyFromPolicyProps> = (props) => {

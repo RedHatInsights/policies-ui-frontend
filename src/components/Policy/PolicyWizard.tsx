@@ -9,7 +9,7 @@ import {
     WizardContext,
     WizardStepExtended
 } from './PolicyWizardTypes';
-import { createCustomPolicyStep, PolicyStepContext } from './WizardSteps/CreateCustomPolicyStep';
+import { createCustomPolicyStep } from './WizardSteps/CreateCustomPolicyStep';
 import { createDetailsStep } from './WizardSteps/DetailsStep';
 import { createConditionsStep } from './WizardSteps/ConditionsStep';
 import { createActionsStep } from './WizardSteps/ActionsStep';
@@ -20,6 +20,7 @@ import { Policy, NewPolicy } from '../../types/Policy/Policy';
 import { useMountedState } from 'react-use';
 import { Fact } from '../../types/Fact';
 import { Messages } from '../../properties/Messages';
+import { CreatePolicyStepContextProvider } from './WizardSteps/CreatePolicyPolicyStep/Provider';
 
 interface PolicyWizardProps {
     initialValue: PartialPolicy;
@@ -227,7 +228,7 @@ export const PolicyWizard: React.FunctionComponent<PolicyWizardProps> = (props: 
 
     return (
         <>
-            <PolicyStepContext showCreateStep={ props.showCreateStep }>
+            <CreatePolicyStepContextProvider showCreateStep={ props.showCreateStep }>
                 <Formik<PartialPolicy>
                     initialValues={ props.initialValue }
                     initialStatus={ {} }
@@ -254,7 +255,7 @@ export const PolicyWizard: React.FunctionComponent<PolicyWizardProps> = (props: 
                         isEditing={ props.isEditing }
                     />
                 </Formik>
-            </PolicyStepContext>
+            </CreatePolicyStepContextProvider>
         </>
     );
 };
