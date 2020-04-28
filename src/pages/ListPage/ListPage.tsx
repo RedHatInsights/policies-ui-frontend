@@ -96,7 +96,8 @@ const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
     const { query: getPoliciesQueryReload, count: getPoliciesQueryCount } = getPoliciesQuery;
     const { mutate: mutateChangePolicyEnabled, loading: loadingChangePolicyEnabled } = changePolicyEnabledMutation;
 
-    const { changePage, currentPage, itemsPerPage } = policyPage;
+    const { changePage } = policyPage;
+    const { index: currentPage, size: itemsPerPage } = policyPage.page;
     const { close: closePolicyToDelete, open: openPolicyToDelete, policy: singlePolicyToDelete } = policyToDelete;
 
     const prevLoadingChangePolicyEnabled = usePrevious(loadingChangePolicyEnabled);
@@ -318,9 +319,9 @@ const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
                             onPaginationSizeChanged={ policyPage.changeItemsPerPage }
                             onSelectionChanged={ policyRows.onSelectionChanged }
                             selectedCount={ policyRows.selectionCount }
-                            page={ policyPage.currentPage }
+                            page={ policyPage.page.index }
                             pageCount={ getPoliciesQuery.payload?.length }
-                            perPage={ policyPage.itemsPerPage }
+                            perPage={ policyPage.page.size }
                             showPerPageOptions={ true }
                             filterElements={ policyFilters.filters }
                             setFilterElements = { policyFilters.setFilters }

@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { PolicyToolbar } from '../TableToolbar/PolicyTableToolbar';
 import {
+    UsePaginatedQueryResponse,
     UsePolicyFilterReturn,
     UsePolicyPageReturn,
     UsePolicyRowsReturn
@@ -8,7 +9,6 @@ import {
 import { PolicyRow, PolicyTable } from '../Table/PolicyTable';
 import { UsePolicySortReturn } from '../../../hooks/useSort';
 import { Policy } from '../../../types/Policy';
-import { UsePaginatedQueryResponse } from '../../../utils/ApiUtils';
 import { useEffectOnce } from 'react-use';
 
 export interface CopyFromPolicyProps {
@@ -51,9 +51,9 @@ export const CopyFromPolicy: React.FunctionComponent<CopyFromPolicyProps> = (pro
         <>
             <PolicyToolbar
                 onPaginationChanged={ policyPage.changePage }
-                page={ policyPage.currentPage }
+                page={ policyPage.page.index }
                 pageCount={ getPoliciesQuery.payload?.length }
-                perPage={ policyPage.itemsPerPage }
+                perPage={ policyPage.page.size }
                 showPerPageOptions={ false }
                 hideActions={ true }
                 hideBulkSelect={ true }
