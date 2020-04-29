@@ -3,6 +3,7 @@ import { render, screen, act } from '@testing-library/react';
 import { PolicyWizard } from '../PolicyWizard';
 
 jest.mock('../../../utils/Insights');
+jest.mock('../../../hooks/useUrlState');
 
 describe('src/components/Policy/PolicyWizard', () => {
 
