@@ -4,7 +4,7 @@ const on = jest.fn((type: string, callback: ((event: any) => void)) => {
     callback(new Event('fake'));
 });
 
-const mockedInsight: InsightsType = {
+export const mockedInsight: InsightsType = {
     chrome: {
         init: jest.fn(),
         identifyApp: jest.fn((_appId: string) => Promise.resolve()),
@@ -61,6 +61,8 @@ const mockedInsight: InsightsType = {
         }
     }
 };
+
+(global as any).insights = mockedInsight;
 
 export const waitForInsights = () => {
     return Promise.resolve(mockedInsight);

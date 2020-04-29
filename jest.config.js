@@ -4,7 +4,8 @@ module.exports = {
     coverageDirectory: './coverage',
     collectCoverageFrom: [
         'src/**/*.{ts,tsx}',
-        '!**/node_modules/**'
+        '!**/node_modules/**',
+        '!test/**'
     ],
     coveragePathIgnorePatterns: [
         '<rootDir>/src/utils/Expression/*'
@@ -13,7 +14,8 @@ module.exports = {
         '<rootDir>/config/setupTests.ts'
     ],
     roots: [
-        '<rootDir>/src/'
+        '<rootDir>/src/',
+        '<rootDir>/test/'
     ],
     moduleNameMapper: {
         '\\.(svg)$': 'identity-obj-proxy',
