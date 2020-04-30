@@ -9,11 +9,15 @@ settings:
 plugins:
   - "react-hooks"
   - "jest"
+  - "jest-dom"
+  - "testing-library"
 extends:
   - 'plugin:@typescript-eslint/recommended'
   - 'prettier'
   - 'plugin:react/recommended'
   - 'plugin:jest/recommended'
+  - 'plugin:jest-dom/recommended'
+  - 'plugin:testing-library/react'
 parserOptions:
   ecmaVersion: 7
   sourceType: module
