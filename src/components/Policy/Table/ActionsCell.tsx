@@ -1,9 +1,10 @@
 import * as React from 'react';
 import { Action, ActionType } from '../../../types/Policy/Actions';
 import { assertNever } from '../../../utils/Assert';
-import { Badge, Split, SplitItem } from '@patternfly/react-core';
+import { Badge, Split, SplitItem, Tooltip, TooltipPosition } from '@patternfly/react-core';
 import { style } from 'typestyle';
 import { ActionEmailIcon, ActionWebhookIcon } from '../ActionIcons';
+import { Messages } from '../../../properties/Messages';
 
 interface ActionsCellProps {
     actions: Action[];
@@ -22,7 +23,23 @@ const itemClassName = style({
 const splitClassName = style({
     minWidth: 145
 });
-
+const iconPosition = TooltipPosition.bottom;
+const ActionEmailIconTooltip = () => (
+    <Tooltip
+        content={ Messages.tables.policy.toolTips.email }
+        position={ iconPosition }
+    >
+        <ActionEmailIcon/>
+    </Tooltip>
+);
+const ActionWebhookIconTooltip = () => (
+    <Tooltip
+        content={ Messages.tables.policy.toolTips.hook }
+        position={ iconPosition }
+    >
+        <ActionWebhookIcon/>
+    </Tooltip>
+);
 export const ActionsCell: React.FunctionComponent<ActionsCellProps> = (props) => {
 
     const actionsToShow = props.actions.slice(0, ACTION_OVERFLOW);
@@ -32,10 +49,10 @@ export const ActionsCell: React.FunctionComponent<ActionsCellProps> = (props) =>
         let element;
         switch (action.type) {
             case ActionType.EMAIL:
-                element = <ActionEmailIcon/>;
+                element = <ActionEmailIconTooltip/>;
                 break;
             case ActionType.WEBHOOK:
-                element = <ActionWebhookIcon/>;
+                element = <ActionWebhookIconTooltip/>;
                 break;
             default:
                 assertNever(action);

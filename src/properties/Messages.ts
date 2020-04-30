@@ -65,6 +65,10 @@ const MutableMessages = {
                     title: 'No matching policies found',
                     content: 'No policies matching the selected filter and search terms.'
                 }
+            },
+            toolTips: {
+                email: 'Send email',
+                hook: 'Send to hook'
             }
         }
     },
