@@ -55,7 +55,7 @@ export class PaginatedActionBuilder extends ActionBuilder {
         }
 
         return queryParams;
-    };
+    }
 
 }
 

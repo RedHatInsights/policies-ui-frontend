@@ -127,6 +127,8 @@ rules: # Todo: Remove javascript rules that are duplicated on typescript
   semi:
     - error
     - always
+  no-extra-semi:
+    - error
   space-before-blocks: 2
   space-in-parens: 2
   space-infix-ops: 2

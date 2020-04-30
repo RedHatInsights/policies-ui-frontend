@@ -74,7 +74,7 @@ export class ActionBuilder {
 
             return prev;
         }, {});
-    };
+    }
 }
 
 export const actionBuilder = (method: Method, url: string): ActionBuilder => {

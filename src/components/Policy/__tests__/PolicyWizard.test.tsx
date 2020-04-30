@@ -189,7 +189,7 @@ describe('src/components/Policy/PolicyWizard', () => {
             expect(onValidateName).toBeCalledTimes(0);
 
             await act(async () => {
-                await userEvent.type(document.getElementById('name') as HTMLInputElement, 'foo');;
+                await userEvent.type(document.getElementById('name') as HTMLInputElement, 'foo');
             });
 
             await act(async () => {
@@ -222,7 +222,7 @@ describe('src/components/Policy/PolicyWizard', () => {
             expect(onValidateName).toBeCalledTimes(0);
 
             await act(async () => {
-                await userEvent.type(document.getElementById('name') as HTMLInputElement, 'foo');;
+                await userEvent.type(document.getElementById('name') as HTMLInputElement, 'foo');
             });
 
             await act(async () => {
@@ -259,7 +259,7 @@ describe('src/components/Policy/PolicyWizard', () => {
             expect(onValidateName).toBeCalledTimes(0);
 
             await act(async () => {
-                await userEvent.type(document.getElementById('name') as HTMLInputElement, 'foo');;
+                await userEvent.type(document.getElementById('name') as HTMLInputElement, 'foo');
             });
 
             await act(async () => {
