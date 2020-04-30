@@ -11,7 +11,7 @@ export type PartialPolicy = DeepPartial<Policy>;
 export type WizardStepExtended = WizardStep & {
   validationSchema: Yup.Schema<unknown>;
   isValid?: (context: WizardContext, values: DeepReadonly<PartialPolicy>) => boolean;
-  onNext?: (context: WizardContext, values: DeepReadonly<PartialPolicy>, goNext: () => void) => void;
+  onNext?: (context: WizardContext, goNext: () => void) => void;
 };
 
 export const AlwaysValid = Yup.object();

@@ -22,7 +22,7 @@ export const createDetailsStep: (stepOverrides?: Partial<WizardStepExtended>) =>
     name: Messages.wizards.policy.details.title,
     component: <DetailsStep/>,
     validationSchema: PolicyFormDetails,
-    onNext: (context, _values, onNext) => {
+    onNext: (context, onNext) => {
         context.triggerAction(WizardActionType.VALIDATE_NAME).then(onNext).catch(() => {});
     },
     ...stepOverrides
