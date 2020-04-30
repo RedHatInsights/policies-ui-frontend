@@ -1,5 +1,5 @@
 import { Page } from '../../types/Page';
-import { ActionBuilder, HasToString, Method } from './ActionBuilder';
+import { ActionBuilder, Method, QueryParamsType } from './ActionBuilder';
 
 export class PaginatedActionBuilder extends ActionBuilder {
 
@@ -25,7 +25,7 @@ export class PaginatedActionBuilder extends ActionBuilder {
         return this._page;
     }
 
-    private static mergeQueryAndPagination(queryParams?: Record<string, HasToString>, page?: Page) {
+    private static mergeQueryAndPagination(queryParams?: QueryParamsType, page?: Page) {
         if (!page) {
             page = Page.defaultPage();
         }

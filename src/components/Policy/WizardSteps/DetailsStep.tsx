@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Title } from '@patternfly/react-core';
 
 import { FormTextArea, FormTextInput } from '../../Formik/Patternfly';
-import { WizardStepExtended } from '../PolicyWizardTypes';
+import { WizardActionType, WizardStepExtended } from '../PolicyWizardTypes';
 import { PolicyFormDetails } from '../../../schemas/CreatePolicy/PolicySchema';
 import { Messages } from '../../../properties/Messages';
 import { Form } from '../../Formik/Patternfly/Form';
@@ -22,5 +22,8 @@ export const createDetailsStep: (stepOverrides?: Partial<WizardStepExtended>) =>
     name: Messages.wizards.policy.details.title,
     component: <DetailsStep/>,
     validationSchema: PolicyFormDetails,
+    onNext: (context, _values, onNext) => {
+        context.triggerAction(WizardActionType.VALIDATE_NAME).then(onNext).catch(() => {});
+    },
     ...stepOverrides
 });

@@ -7,6 +7,7 @@ import { addSuccessNotification } from '../../utils/AlertUtils';
 import { CreatePolicyResponse, VerifyPolicyResponse } from '../../components/Policy/PolicyWizardTypes';
 import { Policy, NewPolicy } from '../../types/Policy/Policy';
 import { Fact } from '../../types/Fact';
+import { useValidatePolicyNameParametrizedQuery } from '../../services/useValidatePolicyName';
 
 type CreatePolicyWizardBase = {
     close: (policyCreated: boolean) => void;
@@ -30,6 +31,7 @@ type CreatePolicyWizardProps = CreatePolicyWizardIsClose | CreatePolicyWizardIsO
 export const CreatePolicyWizard: React.FunctionComponent<CreatePolicyWizardProps> = (props) => {
     const saveMutation = useSavePolicyMutation();
     const verifyMutation = useVerifyPolicyMutation();
+    const validateNameParamQuery = useValidatePolicyNameParametrizedQuery();
 
     const onSave = (policy: NewPolicy): Promise<CreatePolicyResponse> => {
         return saveMutation.mutate(policy).then((res) => {
@@ -74,7 +76,23 @@ export const CreatePolicyWizard: React.FunctionComponent<CreatePolicyWizardProps
         });
     };
 
-    const isLoading = saveMutation.loading || verifyMutation.loading;
+    const onValidateName = React.useCallback((policy: Partial<Policy>): Promise<CreatePolicyResponse> => {
+        const query = validateNameParamQuery.query;
+        return query(policy).then(res => {
+            if (res.status === HttpStatus.OK) {
+                return {
+                    created: false
+                };
+            }
+
+            return {
+                created: false,
+                error: res.payload?.msg || `Invalid name (Code: ${res.status})`
+            };
+        });
+    }, [ validateNameParamQuery.query ]);
+
+    const isLoading = saveMutation.loading || verifyMutation.loading || validateNameParamQuery.loading;
 
     return (
         <>
@@ -84,6 +102,7 @@ export const CreatePolicyWizard: React.FunctionComponent<CreatePolicyWizardProps
                 onClose={ () => { props.close(false); } }
                 onSave={ onSave }
                 onVerify={ onVerify }
+                onValidateName={ onValidateName }
                 showCreateStep={ props.policiesExist ? props.showCreateStep : false }
                 isLoading={ isLoading }
                 facts={ props.facts }

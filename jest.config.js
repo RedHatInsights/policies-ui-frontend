@@ -13,6 +13,9 @@ module.exports = {
     setupFiles: [
         '<rootDir>/config/setupTests.ts'
     ],
+    setupFilesAfterEnv: [
+        '<rootDir>/config/setupTestFramework.ts'
+    ],
     roots: [
         '<rootDir>/src/',
         '<rootDir>/test/'
