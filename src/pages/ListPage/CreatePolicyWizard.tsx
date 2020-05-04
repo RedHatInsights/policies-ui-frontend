@@ -27,6 +27,14 @@ type CreatePolicyWizardIsClose = {
 
 type CreatePolicyWizardProps = CreatePolicyWizardIsClose | CreatePolicyWizardIsOpen;
 
+export const formatConditionError = (conditionError: string) => {
+    conditionError = conditionError.replace('line 1 ', '');
+    conditionError = conditionError.replace(/position (\d+)$/, (_substring: string, group1: string) => {
+        return `position ${+group1 + 1}`;
+    });
+    return conditionError;
+};
+
 export const CreatePolicyWizard: React.FunctionComponent<CreatePolicyWizardProps> = (props) => {
     const saveMutation = useSavePolicyMutation();
     const verifyMutation = useVerifyPolicyMutation();
@@ -66,9 +74,11 @@ export const CreatePolicyWizard: React.FunctionComponent<CreatePolicyWizardProps
                 };
             }
 
+            const error = res.payload?.msg ? formatConditionError(res.payload?.msg as string) : undefined;
+
             return {
                 isValid: false,
-                error: res.payload?.msg || `Unknown Error when trying to validate: (Code ${res.status})`,
+                error: error || `Unknown Error when trying to validate: (Code ${res.status})`,
                 policy
             };
         });
