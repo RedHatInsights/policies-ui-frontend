@@ -1,14 +1,7 @@
-import { ExclamationCircleIcon } from '@patternfly/react-icons';
+import { ExclamationCircleIcon, PlusCircleIcon } from '@patternfly/react-icons';
 import { GlobalDangerColor200 } from '../../utils/PFColors';
 import { EmptyStateSectionProps } from '../../components/Policy/EmptyState/Section';
 import { Messages } from '../../properties/Messages';
-
-const noPermissionProps = {
-    icon: ExclamationCircleIcon,
-    iconColor: GlobalDangerColor200,
-    title: 'No permission to view this page',
-    content: 'You do not have permission to view this page'
-};
 
 export type Handlers = {
     clearAllFiltersAndTryAgain: () => void;
@@ -17,33 +10,26 @@ export type Handlers = {
 };
 
 export const policyTableError = (
-    canReadAll: boolean,
     handlers: Handlers,
     requestHasError?: boolean,
     httpCode?: number
 ): EmptyStateSectionProps | undefined => {
-    if (!canReadAll) {
-        return noPermissionProps;
-    }
-
     if (requestHasError) {
         switch (httpCode) {
             case 404:
                 return {
+                    icon: PlusCircleIcon,
                     title: Messages.tables.policy.emptyState.notFound.title,
                     content: Messages.tables.policy.emptyState.notFound.content
                 };
             case 401:
                 return {
                     icon: ExclamationCircleIcon,
-                    iconColor: GlobalDangerColor200,
                     title: 'Refresh your browser',
                     content: 'Your session expired while using the application',
                     action: handlers.refreshPage,
                     actionLabel: 'Reload page'
                 };
-            case 403:
-                return noPermissionProps;
             case 500:
                 return {
                     icon: ExclamationCircleIcon,

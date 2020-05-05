@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { Button, EmptyState as EmptyStatePf, EmptyStateBody, EmptyStateIcon, EmptyStateVariant, Title } from '@patternfly/react-core';
-import { PlusCircleIcon } from '@patternfly/react-icons';
 import { style } from 'typestyle';
 import { calc } from 'csx';
 import { IconType } from '@patternfly/react-icons/dist/js/createIcon';
@@ -22,7 +21,7 @@ export interface EmptyStateSectionProps {
 
 export const EmptyStateSection: React.FunctionComponent<EmptyStateSectionProps> = (props) => (
     <EmptyStatePf variant={ EmptyStateVariant.full } className={ `${emptyStateClassName} ${props.className ? props.className : ''} ` }>
-        { props.icon && <EmptyStateIcon icon={ PlusCircleIcon } color={ props.iconColor } /> }
+        { props.icon && <EmptyStateIcon icon={ props.icon } color={ props.iconColor } /> }
         <Title headingLevel="h5" size="lg">
             { props.title }
         </Title>

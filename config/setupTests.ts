@@ -9,3 +9,4 @@ global.shallow = shallow;
 global.render = render;
 global.mount = mount;
 global.React = React;
+global.insights = { ...jest.requireMock('../src/utils/__mocks__/Insights').mockedInsight };
