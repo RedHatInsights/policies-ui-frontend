@@ -2,9 +2,10 @@ import { AbstractParseTreeVisitor, ErrorNode, TerminalNode } from 'antlr4ts/tree
 
 import { ExpressionVisitor } from '../../utils/Expression/ExpressionVisitor';
 import {
-    ArrayContext, ExprContext,
     // eslint-disable-next-line @typescript-eslint/camelcase
-    KeyContext, Logical_operatorContext,
+    ArrayContext, Boolean_operatorContext, ExprContext,
+    // eslint-disable-next-line @typescript-eslint/camelcase
+    KeyContext, Logical_operatorContext, Numeric_compare_operatorContext,
     ValueContext
 } from '../../utils/Expression/ExpressionParser';
 import { Token } from 'antlr4ts';
@@ -14,7 +15,8 @@ export enum PlaceholderType {
     VALUE = 'VALUE',
     LOGICAL_OPERATOR = 'LOGICAL_OPERATOR',
     BOOLEAN_OPERATOR = 'BOOLEAN_OPERATOR',
-    ARRAY_OPERATOR = 'ARRAY_OPERATOR',
+    NUMERIC_COMPARE_OPERATOR = 'NUMERIC_COMPARE_OPERATOR',
+    UNKNOWN = 'UNKNOWN',
     ERROR = 'ERROR'
 }
 
@@ -23,12 +25,15 @@ interface Placeholder {
     value?: string;
 }
 
-export type ConditionVisitorResult = Array<Placeholder | string>;
+export type ConditionVisitorResult = Array<Placeholder>;
 
 const makePlaceholderFact = (value?: string): Placeholder => ({ type: PlaceholderType.FACT, value });
 const makePlaceholderValue = (value?: string): Placeholder => ({ type: PlaceholderType.VALUE, value });
 const makePlaceholderLogicalOperator = (value?: string): Placeholder => ({ type: PlaceholderType.LOGICAL_OPERATOR, value });
+const makePlaceholderBooleanOperator = (value?: string): Placeholder => ({ type: PlaceholderType.BOOLEAN_OPERATOR, value });
+const makePlaceholderNumericCompareOperator = (value?: string): Placeholder => ({ type: PlaceholderType.NUMERIC_COMPARE_OPERATOR, value });
 const makePlaceholderError = (value: string): Placeholder => ({ type: PlaceholderType.ERROR, value });
+const makePlaceholderUnknown = (value: string): Placeholder => ({ type: PlaceholderType.UNKNOWN, value });
 
 type ReturnValue = ConditionVisitorResult;
 
@@ -43,6 +48,7 @@ export class ConditionVisitor extends AbstractParseTreeVisitor<ReturnValue> impl
         return [];
     }
 
+    /*
     private static readonly actionablePlaceholderTypes = [
         PlaceholderType.FACT, PlaceholderType.ARRAY_OPERATOR, PlaceholderType.BOOLEAN_OPERATOR, PlaceholderType.LOGICAL_OPERATOR,
         PlaceholderType.VALUE
@@ -66,7 +72,6 @@ export class ConditionVisitor extends AbstractParseTreeVisitor<ReturnValue> impl
         return value.some(element => typeof element !== 'string' && ConditionVisitor.actionablePlaceholderTypes.includes(element.type));
     }
 
-    /*
     private static computeNextPlaceholder(value: ReturnValue): ReturnValue {
         value = value.slice(0, value.length - 1);
 
@@ -92,11 +97,12 @@ export class ConditionVisitor extends AbstractParseTreeVisitor<ReturnValue> impl
 
     protected aggregateResult(aggregate: ReturnValue, nextResult: ReturnValue) {
         let aggregated: ReturnValue;
-        if (ConditionVisitor.hasActionablePlaceholders(nextResult)) {
+        /*if (ConditionVisitor.hasActionablePlaceholders(nextResult)) {
             aggregated = [ ...ConditionVisitor.flattenPlaceholders(aggregate), ...nextResult ];
         } else {
             aggregated = [ ...aggregate, ...nextResult ];
-        }
+        }*/
+        aggregated = [ ...aggregate, ...nextResult ];
 
         /*if (aggregated.length > 0) {
             const lastElement = aggregated[aggregated.length - 1];
@@ -113,7 +119,7 @@ export class ConditionVisitor extends AbstractParseTreeVisitor<ReturnValue> impl
             return [ ];
         }
 
-        return [ node.text ];
+        return [ makePlaceholderUnknown(node.text) ];
     }
 
     visitErrorNode(node: ErrorNode): ReturnValue {
@@ -122,13 +128,17 @@ export class ConditionVisitor extends AbstractParseTreeVisitor<ReturnValue> impl
 
     // eslint-disable-next-line @typescript-eslint/camelcase
     visitLogical_operator(ctx: Logical_operatorContext) {
-        // eslint-disable-next-line new-cap
-        const operator = ctx.AND() || ctx.OR();
-        if (!operator) {
-            return [ makePlaceholderLogicalOperator(ctx.text) ];
-        }
-
         return [ makePlaceholderLogicalOperator(ctx.text) ];
+    }
+
+    // eslint-disable-next-line @typescript-eslint/camelcase
+    visitBoolean_operator(ctx: Boolean_operatorContext) {
+        return [ makePlaceholderBooleanOperator(ctx.text) ];
+    }
+
+    // eslint-disable-next-line @typescript-eslint/camelcase
+    visitNumeric_compare_operator(ctx: Numeric_compare_operatorContext) {
+        return [ makePlaceholderNumericCompareOperator(ctx.text) ];
     }
 
     visitKey(ctx: KeyContext) {

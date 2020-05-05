@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { ChangeEvent, useEffect } from 'react';
+import { ChangeEvent } from 'react';
 import { Select, SelectOption, SelectVariant } from '@patternfly/react-core';
 import { Fact } from '../../types/Fact';
 import { CharStreams, CommonTokenStream } from 'antlr4ts';

@@ -38,10 +38,22 @@ describe('src/components/Condition/ConditionVisitor', () => {
         const condition = 'facts.arch = "x86_64" and cpu';
         const result = conditionVisitor.visit(treeForCondition(condition));
         expect(result).toEqual([
-            'facts.arch',
-            '=',
-            '"x86_64"',
-            'and',
+            {
+                type: PlaceholderType.FACT,
+                value: 'facts.arch'
+            },
+            {
+                type: PlaceholderType.BOOLEAN_OPERATOR,
+                value: '='
+            },
+            {
+                type: PlaceholderType.VALUE,
+                value: '"x86_64"'
+            },
+            {
+                type: PlaceholderType.LOGICAL_OPERATOR,
+                value: 'and'
+            },
             {
                 type: PlaceholderType.FACT,
                 value: 'cpu'
@@ -54,8 +66,14 @@ describe('src/components/Condition/ConditionVisitor', () => {
         const condition = 'facts.arch = "my-value" ';
         const result = conditionVisitor.visit(treeForCondition(condition));
         expect(result).toEqual([
-            'facts.arch',
-            '=',
+            {
+                type: PlaceholderType.FACT,
+                value: 'facts.arch'
+            },
+            {
+                type: PlaceholderType.BOOLEAN_OPERATOR,
+                value: '='
+            },
             {
                 type: PlaceholderType.VALUE,
                 value: '"my-value"'
@@ -68,8 +86,14 @@ describe('src/components/Condition/ConditionVisitor', () => {
         const condition = 'facts.arch = "my-val ';
         const result = conditionVisitor.visit(treeForCondition(condition));
         expect(result).toEqual([
-            'facts.arch',
-            '=',
+            {
+                type: PlaceholderType.FACT,
+                value: 'facts.arch'
+            },
+            {
+                type: PlaceholderType.BOOLEAN_OPERATOR,
+                value: '='
+            },
             {
                 type: PlaceholderType.VALUE,
                 value: '"my-val "'
@@ -82,8 +106,14 @@ describe('src/components/Condition/ConditionVisitor', () => {
         const condition = 'facts.arch != "my-val ';
         const result = conditionVisitor.visit(treeForCondition(condition));
         expect(result).toEqual([
-            'facts.arch',
-            '!=',
+            {
+                type: PlaceholderType.FACT,
+                value: 'facts.arch'
+            },
+            {
+                type: PlaceholderType.BOOLEAN_OPERATOR,
+                value: '!='
+            },
             {
                 type: PlaceholderType.VALUE,
                 value: '"my-val "'
@@ -96,8 +126,14 @@ describe('src/components/Condition/ConditionVisitor', () => {
         const condition = 'facts.arch = \'my-val ';
         const result = conditionVisitor.visit(treeForCondition(condition));
         expect(result).toEqual([
-            'facts.arch',
-            '=',
+            {
+                type: PlaceholderType.FACT,
+                value: 'facts.arch'
+            },
+            {
+                type: PlaceholderType.BOOLEAN_OPERATOR,
+                value: '='
+            },
             {
                 type: PlaceholderType.VALUE,
                 value: '\'my-val \''
@@ -110,8 +146,14 @@ describe('src/components/Condition/ConditionVisitor', () => {
         const condition = 'facts.arch = my-val ';
         const result = conditionVisitor.visit(treeForCondition(condition));
         expect(result).toEqual([
-            'facts.arch',
-            '=',
+            {
+                type: PlaceholderType.FACT,
+                value: 'facts.arch'
+            },
+            {
+                type: PlaceholderType.BOOLEAN_OPERATOR,
+                value: '='
+            },
             {
                 type: PlaceholderType.VALUE,
                 value: '"my-val"'
@@ -124,8 +166,14 @@ describe('src/components/Condition/ConditionVisitor', () => {
         const condition = 'facts.arch = my-val    your-val';
         const result = conditionVisitor.visit(treeForCondition(condition));
         expect(result).toEqual([
-            'facts.arch',
-            '=',
+            {
+                type: PlaceholderType.FACT,
+                value: 'facts.arch'
+            },
+            {
+                type: PlaceholderType.BOOLEAN_OPERATOR,
+                value: '='
+            },
             {
                 type: PlaceholderType.VALUE,
                 value: '"my-val    your-val"'
@@ -138,8 +186,14 @@ describe('src/components/Condition/ConditionVisitor', () => {
         const condition = 'facts.arch = 5';
         const result = conditionVisitor.visit(treeForCondition(condition));
         expect(result).toEqual([
-            'facts.arch',
-            '=',
+            {
+                type: PlaceholderType.FACT,
+                value: 'facts.arch'
+            },
+            {
+                type: PlaceholderType.BOOLEAN_OPERATOR,
+                value: '='
+            },
             {
                 type: PlaceholderType.VALUE,
                 value: '5'
@@ -152,9 +206,18 @@ describe('src/components/Condition/ConditionVisitor', () => {
         const condition = 'facts.arch = 5 and ';
         const result = conditionVisitor.visit(treeForCondition(condition));
         expect(result).toEqual([
-            'facts.arch',
-            '=',
-            '5',
+            {
+                type: PlaceholderType.FACT,
+                value: 'facts.arch'
+            },
+            {
+                type: PlaceholderType.BOOLEAN_OPERATOR,
+                value: '='
+            },
+            {
+                type: PlaceholderType.VALUE,
+                value: '5'
+            },
             {
                 type: PlaceholderType.LOGICAL_OPERATOR,
                 value: 'and'
@@ -187,6 +250,27 @@ describe('src/components/Condition/ConditionVisitor', () => {
             {
                 type: PlaceholderType.FACT,
                 value: 'facts'
+            }
+        ]);
+    });
+
+    it('Detects unknown elements', () => {
+        const conditionVisitor = new ConditionVisitor();
+        const condition =  'facts >= 5';
+        const tree = treeForCondition(condition);
+        const result = conditionVisitor.visit(tree);
+        expect(result).toEqual([
+            {
+                type: PlaceholderType.FACT,
+                value: 'facts'
+            },
+            {
+                type: PlaceholderType.NUMERIC_COMPARE_OPERATOR,
+                value: '>='
+            },
+            {
+                type: PlaceholderType.UNKNOWN,
+                value: '5'
             }
         ]);
     });
