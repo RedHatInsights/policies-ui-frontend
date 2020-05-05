@@ -16,17 +16,13 @@ describe('src/components/Condition/ConditionVisitor', () => {
         return parser.expression();
     };
 
-    it('Provides facts on empty condition', () => {
+    it('Works on empty condition', () => {
         const conditionVisitor = new ConditionVisitor();
         const result = conditionVisitor.visit(treeForCondition(''));
-        expect(result).toEqual([
-            {
-                type: PlaceholderType.FACT
-            }
-        ]);
+        expect(result).toEqual([]);
     });
 
-    it('Provides facts on initial param', () => {
+    it('Detects partial facts', () => {
         const conditionVisitor = new ConditionVisitor();
         const result = conditionVisitor.visit(treeForCondition('ar'));
         expect(result).toEqual([
@@ -159,14 +155,14 @@ describe('src/components/Condition/ConditionVisitor', () => {
             'facts.arch',
             '=',
             '5',
-            'and',
             {
-                type: PlaceholderType.FACT
+                type: PlaceholderType.LOGICAL_OPERATOR,
+                value: 'and'
             }
         ]);
     });
 
-    it('Detects invalid fact with no key-characters, provides error and expects fact', () => {
+    it('Detects invalid fact with no key-characters, provides error', () => {
         const conditionVisitor = new ConditionVisitor();
         const condition = '1234 ';
         const result = conditionVisitor.visit(treeForCondition(condition));
@@ -174,9 +170,6 @@ describe('src/components/Condition/ConditionVisitor', () => {
             {
                 type: PlaceholderType.ERROR,
                 value: '1234'
-            },
-            {
-                type: PlaceholderType.FACT
             }
         ]);
     });

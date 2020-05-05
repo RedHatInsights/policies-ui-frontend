@@ -15,9 +15,6 @@ export enum PlaceholderType {
     LOGICAL_OPERATOR = 'LOGICAL_OPERATOR',
     BOOLEAN_OPERATOR = 'BOOLEAN_OPERATOR',
     ARRAY_OPERATOR = 'ARRAY_OPERATOR',
-    NONE = 'NO_SUGGESTION',
-    UNKNOWN = 'UNKNOWN',
-    EOF = 'EOF',
     ERROR = 'ERROR'
 }
 
@@ -31,9 +28,6 @@ export type ConditionVisitorResult = Array<Placeholder | string>;
 const makePlaceholderFact = (value?: string): Placeholder => ({ type: PlaceholderType.FACT, value });
 const makePlaceholderValue = (value?: string): Placeholder => ({ type: PlaceholderType.VALUE, value });
 const makePlaceholderLogicalOperator = (value?: string): Placeholder => ({ type: PlaceholderType.LOGICAL_OPERATOR, value });
-const makePlaceholderNone = (): Placeholder => ({ type: PlaceholderType.NONE });
-const makePlaceholderUnknown = (): Placeholder => ({ type: PlaceholderType.UNKNOWN });
-const makePlaceholderEOF = (): Placeholder => ({ type: PlaceholderType.EOF });
 const makePlaceholderError = (value: string): Placeholder => ({ type: PlaceholderType.ERROR, value });
 
 type ReturnValue = ConditionVisitorResult;
@@ -55,7 +49,7 @@ export class ConditionVisitor extends AbstractParseTreeVisitor<ReturnValue> impl
     ] as Readonly<Array<PlaceholderType>>;
 
     private static readonly ignoreWhenFlattening = [
-        PlaceholderType.ERROR, PlaceholderType.EOF
+        PlaceholderType.ERROR
     ] as Readonly<Array<PlaceholderType>>;
 
     private static flattenPlaceholders(value: ReturnValue): ReturnValue {
@@ -72,6 +66,7 @@ export class ConditionVisitor extends AbstractParseTreeVisitor<ReturnValue> impl
         return value.some(element => typeof element !== 'string' && ConditionVisitor.actionablePlaceholderTypes.includes(element.type));
     }
 
+    /*
     private static computeNextPlaceholder(value: ReturnValue): ReturnValue {
         value = value.slice(0, value.length - 1);
 
@@ -93,10 +88,9 @@ export class ConditionVisitor extends AbstractParseTreeVisitor<ReturnValue> impl
         }
 
         return value;
-    }
+    }*/
 
     protected aggregateResult(aggregate: ReturnValue, nextResult: ReturnValue) {
-        console.log('aggregate', aggregate, 'next', nextResult);
         let aggregated: ReturnValue;
         if (ConditionVisitor.hasActionablePlaceholders(nextResult)) {
             aggregated = [ ...ConditionVisitor.flattenPlaceholders(aggregate), ...nextResult ];
@@ -104,33 +98,30 @@ export class ConditionVisitor extends AbstractParseTreeVisitor<ReturnValue> impl
             aggregated = [ ...aggregate, ...nextResult ];
         }
 
-        if (aggregated.length > 0) {
+        /*if (aggregated.length > 0) {
             const lastElement = aggregated[aggregated.length - 1];
             if (typeof lastElement !== 'string' && lastElement.type === PlaceholderType.EOF) {
                 aggregated = ConditionVisitor.computeNextPlaceholder(aggregated);
             }
-        }
+        }*/
 
         return aggregated;
     }
 
     visitTerminal(node: TerminalNode) {
-        console.log('visit terminal node', node.text);
         if (node._symbol.type === Token.EOF) {
-            return [ makePlaceholderEOF() ];
+            return [ ];
         }
 
         return [ node.text ];
     }
 
     visitErrorNode(node: ErrorNode): ReturnValue {
-        console.log('visit error node', node.text);
         return [ makePlaceholderError(node.text) ];
     }
 
     // eslint-disable-next-line @typescript-eslint/camelcase
     visitLogical_operator(ctx: Logical_operatorContext) {
-        console.log('visit logical operator', ctx.text);
         // eslint-disable-next-line new-cap
         const operator = ctx.AND() || ctx.OR();
         if (!operator) {
@@ -141,13 +132,11 @@ export class ConditionVisitor extends AbstractParseTreeVisitor<ReturnValue> impl
     }
 
     visitKey(ctx: KeyContext) {
-        console.log('visit key', ctx.text);
         // eslint-disable-next-line new-cap
         return [ makePlaceholderFact(ctx.SIMPLETEXT().text) ];
     }
 
     visitValue(ctx: ValueContext) {
-        console.log('visit value [-', ctx.text, '-]');
         // eslint-disable-next-line new-cap
         const nodeValue = ctx.NUMBER() || ctx.STRING();
 
