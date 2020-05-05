@@ -1,23 +1,30 @@
 import * as React from 'react';
 import { PolicyToolbar } from '../TableToolbar/PolicyTableToolbar';
-import { usePolicyFilter, usePolicyPage } from '../../../hooks';
 import { PolicyRow, PolicyTable } from '../Table/PolicyTable';
-import { useSort } from '../../../hooks/useSort';
-import { usePolicyRows } from '../../../hooks/usePolicyRows';
 import { Policy } from '../../../types/Policy';
-import { useGetPoliciesQuery } from '../../../services/useGetPolicies';
+import { useEffectOnce } from 'react-use';
+import { CreatePolicyStepContextType } from './CreatePolicyPolicyStep/Context';
 
-interface CopyFromPolicyProps {
+type UsedAttributes = 'policyFilter' | 'policyPage' | 'policySort' | 'policyQuery' | 'policyRows';
+export interface CopyFromPolicyProps extends Pick<CreatePolicyStepContextType, UsedAttributes>{
     onSelect: (policy: Policy) => void;
 }
 
 export const CopyFromPolicy: React.FunctionComponent<CopyFromPolicyProps> = (props) => {
 
-    const policyFilter = usePolicyFilter();
-    const policySort = useSort();
-    const policyPage = usePolicyPage(policyFilter.debouncedFilters, 5, policySort.sortBy);
-    const getPoliciesQuery = useGetPoliciesQuery(policyPage.page, true);
-    const policyRows = usePolicyRows(getPoliciesQuery.payload, getPoliciesQuery.loading, getPoliciesQuery.count, policyPage.page);
+    const {
+        policyFilter,
+        policyPage,
+        policySort,
+        policyQuery: getPoliciesQuery,
+        policyRows
+    } = props;
+
+    useEffectOnce(() => {
+        if (!getPoliciesQuery.payload) {
+            getPoliciesQuery.query();
+        }
+    });
 
     const propsOnSelect = props.onSelect;
     const payload = getPoliciesQuery.payload;
@@ -34,9 +41,9 @@ export const CopyFromPolicy: React.FunctionComponent<CopyFromPolicyProps> = (pro
         <>
             <PolicyToolbar
                 onPaginationChanged={ policyPage.changePage }
-                page={ policyPage.currentPage }
+                page={ policyPage.page.index }
                 pageCount={ getPoliciesQuery.payload?.length }
-                perPage={ policyPage.itemsPerPage }
+                perPage={ policyPage.page.size }
                 showPerPageOptions={ false }
                 hideActions={ true }
                 hideBulkSelect={ true }

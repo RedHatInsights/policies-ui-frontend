@@ -41,6 +41,7 @@ export interface WizardContext {
   createResponse: CreatePolicyResponse;
   setVerifyResponse: (verifyResponse: VerifyPolicyResponse) => void;
   facts?: Fact[];
+  setMaxStep: (maxStep: number) => void;
 }
 
 export const WizardContext = React.createContext<WizardContext>({
@@ -57,5 +58,8 @@ export const WizardContext = React.createContext<WizardContext>({
     },
     setVerifyResponse: () => {
         throw Error('setVerifyResponse executed without WizardContext');
+    },
+    setMaxStep: () => {
+        throw Error('setMaxStep executed without a WizardContext');
     }
 });

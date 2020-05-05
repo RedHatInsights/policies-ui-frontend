@@ -9,7 +9,7 @@ import {
     WizardContext,
     WizardStepExtended
 } from './PolicyWizardTypes';
-import { createCustomPolicyStep } from './WizardSteps/CreateCustomPolicyStep';
+import { createPolicyStep } from './WizardSteps/CreatePolicyStep';
 import { createDetailsStep } from './WizardSteps/DetailsStep';
 import { createConditionsStep } from './WizardSteps/ConditionsStep';
 import { createActionsStep } from './WizardSteps/ActionsStep';
@@ -20,6 +20,7 @@ import { Policy, NewPolicy } from '../../types/Policy/Policy';
 import { useMountedState } from 'react-use';
 import { Fact } from '../../types/Fact';
 import { Messages } from '../../properties/Messages';
+import { CreatePolicyStepContextProvider } from './WizardSteps/CreatePolicyPolicyStep/Provider';
 
 interface PolicyWizardProps {
     initialValue: PartialPolicy;
@@ -28,7 +29,6 @@ interface PolicyWizardProps {
     onVerify: (policy: Partial<Policy>) => Promise<VerifyPolicyResponse>;
     isLoading: boolean;
     showCreateStep: boolean;
-    policiesExist?: boolean;
     facts?: Fact[];
     isEditing: boolean;
 }
@@ -37,15 +37,11 @@ const buildSteps: (showCreateStep: boolean) => WizardStepExtended[] = (showCreat
     const steps = [] as WizardStepExtended[];
 
     if (showCreateStep) {
-        steps.push(createCustomPolicyStep({
-            hideBackButton: true
-        }));
+        steps.push(createPolicyStep());
     }
 
     steps.push(
-        createDetailsStep({
-            hideBackButton: true
-        }),
+        createDetailsStep(),
         createConditionsStep(),
         createActionsStep(),
         createReviewStep({
@@ -59,17 +55,13 @@ const buildSteps: (showCreateStep: boolean) => WizardStepExtended[] = (showCreat
     }));
 };
 
-const canJumpTo = (id: number, isValid: boolean, currentStep: number, maxStep: number, isLoading: boolean, showCreateStep: boolean) => {
+const canJumpTo = (id: number, isValid: boolean, currentStep: number, maxStep: number, isLoading: boolean) => {
     if (isLoading) {
         return false;
     }
 
     if (id === currentStep) {
         return true;
-    }
-
-    if (id === 0 && showCreateStep) {
-        return false;
     }
 
     return isValid ? id <= maxStep : id <= currentStep;
@@ -100,9 +92,9 @@ interface FormikBindingProps {
     onMove: WizardStepFunctionType;
     onClose: () => void;
     showCreateStep: boolean;
-    policiesExist?: boolean;
     facts?: Fact[];
     isEditing: boolean;
+    setMaxStep: (maxStep: number) => void;
 }
 
 const FormikBinding: React.FunctionComponent<FormikBindingProps> = (props) => {
@@ -128,7 +120,8 @@ const FormikBinding: React.FunctionComponent<FormikBindingProps> = (props) => {
         verifyResponse: props.verifyResponse,
         createResponse: props.createResponse,
         setVerifyResponse: props.setVerifyResponse,
-        facts: props.facts
+        facts: props.facts,
+        setMaxStep: props.setMaxStep
     };
 
     const isValid = isStepValid(props.steps[props.currentStep], wizardContext, formikProps.values);
@@ -137,7 +130,7 @@ const FormikBinding: React.FunctionComponent<FormikBindingProps> = (props) => {
     const stepsValidated = props.steps.map(step => ({
         ...step,
         enableNext: enableNext(isValid, props.isLoading),
-        canJumpTo: canJumpTo(step.id as number, isValid, props.currentStep, props.maxStep, props.isLoading, props.showCreateStep)
+        canJumpTo: canJumpTo(step.id as number, isValid, props.currentStep, props.maxStep, props.isLoading)
     }));
 
     const onSave = () => {
@@ -235,32 +228,34 @@ export const PolicyWizard: React.FunctionComponent<PolicyWizardProps> = (props: 
 
     return (
         <>
-            <Formik<PartialPolicy>
-                initialValues={ props.initialValue }
-                initialStatus={ {} }
-                validateOnMount={ false }
-                validationSchema={ steps[currentStep].validationSchema }
-                onSubmit={ onSubmit }
-                validate={ onValidateForm }
-            >
-                <FormikBinding
-                    currentStep={ currentStep }
-                    maxStep={ maxStep }
-                    isLoading={ props.isLoading }
-                    triggeredAction={ wizardAction }
-                    triggerAction={ setWizardAction }
-                    steps={ steps }
-                    verifyResponse={ verifyResponse }
-                    createResponse={ createResponse }
-                    setVerifyResponse={ setVerifyResponse }
-                    onClose={ props.onClose }
-                    onMove={ onMove }
-                    showCreateStep={ props.showCreateStep }
-                    policiesExist={ props.policiesExist }
-                    facts={ props.facts }
-                    isEditing={ props.isEditing }
-                />
-            </Formik>
+            <CreatePolicyStepContextProvider showCreateStep={ props.showCreateStep }>
+                <Formik<PartialPolicy>
+                    initialValues={ props.initialValue }
+                    initialStatus={ {} }
+                    validateOnMount={ false }
+                    validationSchema={ steps[currentStep].validationSchema }
+                    onSubmit={ onSubmit }
+                    validate={ onValidateForm }
+                >
+                    <FormikBinding
+                        currentStep={ currentStep }
+                        maxStep={ maxStep }
+                        isLoading={ props.isLoading }
+                        triggeredAction={ wizardAction }
+                        triggerAction={ setWizardAction }
+                        steps={ steps }
+                        verifyResponse={ verifyResponse }
+                        createResponse={ createResponse }
+                        setVerifyResponse={ setVerifyResponse }
+                        onClose={ props.onClose }
+                        onMove={ onMove }
+                        showCreateStep={ props.showCreateStep }
+                        facts={ props.facts }
+                        setMaxStep={ setMaxStep }
+                        isEditing={ props.isEditing }
+                    />
+                </Formik>
+            </CreatePolicyStepContextProvider>
         </>
     );
 };

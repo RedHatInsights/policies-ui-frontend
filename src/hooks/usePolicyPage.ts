@@ -2,10 +2,8 @@ import * as React from 'react';
 import { Filter, Operator, Page, Sort } from '../types/Page';
 import { PolicyFilterColumn, PolicyFilters } from '../types/Policy/PolicyPaging';
 
-interface UsePolicyPageReturn {
+export interface UsePolicyPageReturn {
     page: Page;
-    itemsPerPage: number;
-    currentPage: number;
     // Todo: prevent the event from reaching this point
     changePage: (event: any, page: number) => void;
     changeItemsPerPage: (event: any, perPage: number) => void;
@@ -48,8 +46,6 @@ export const usePolicyPage = (filters: PolicyFilters, defaultPerPage?: number, s
 
     return {
         page,
-        itemsPerPage,
-        currentPage,
         changePage,
         changeItemsPerPage
     };

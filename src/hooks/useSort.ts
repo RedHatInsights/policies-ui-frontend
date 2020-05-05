@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Direction, OnSortHandlerType, Sort } from '../types/Page';
 
-interface UsePolicySortReturn {
+export interface UsePolicySortReturn {
     sortBy: Sort | undefined;
     onSort: OnSortHandlerType;
 }

@@ -10,42 +10,84 @@ import { useContext } from 'react';
 import { makeCopyOfPolicy } from '../../../utils/PolicyAdapter';
 import { NewPolicy } from '../../../types/Policy/Policy';
 import { Form } from '../../Formik/Patternfly/Form';
+import { useUpdateEffect } from 'react-use';
+import { CreatePolicyStepContext } from './CreatePolicyPolicyStep/Context';
 
 type CreateCustomPolicyFormType = NewPolicy & {
     isValid?: boolean;
 };
 
-const CreateCustomPolicyStep: React.FunctionComponent = () => {
-    const [ copyPolicy, setCopyPolicy ] = React.useState<boolean>(false);
-    const [ copiedPolicy, setCopiedPolicy ] = React.useState<NewPolicy>();
+export const useCreatePolicyStep = () => {
+    const context = React.useContext(CreatePolicyStepContext);
+    if (context === undefined) {
+        throw Error('Invalid usage of CreatePolicyStep without valid context');
+    }
+
+    const {
+        copyPolicy, setCopyPolicy,
+        copiedPolicy, setCopiedPolicy,
+        ...rest
+    } = context;
+
+    const { clearSelection } = rest.policyRows;
+
     const { validate, validateField, setValues, setFieldValue } = useFormikContext<CreateCustomPolicyFormType>();
-    const { setVerifyResponse } = useContext(WizardContext);
+    const { setVerifyResponse, setMaxStep } = useContext(WizardContext);
 
     const createFromScratch = React.useCallback(() => {
         setCopyPolicy(false);
-        setCopiedPolicy(undefined);
+        setCopiedPolicy({} as NewPolicy);
     }, [ setCopyPolicy, setCopiedPolicy ]);
 
     const copyExisting = React.useCallback(() => {
         setCopyPolicy(true);
-    }, [ setCopyPolicy ]);
+        setCopiedPolicy(undefined);
+    }, [ setCopyPolicy, setCopiedPolicy ]);
 
-    React.useEffect(() => {
+    useUpdateEffect(() => {
         if (copiedPolicy) {
             setValues(copiedPolicy);
-            setVerifyResponse({
-                policy: copiedPolicy,
-                isValid: true
-            });
+            if (copyPolicy) {
+                setVerifyResponse({
+                    policy: copiedPolicy,
+                    isValid: true
+                });
+            }
         }
 
-        setFieldValue('isValid', !copyPolicy || !!copiedPolicy);
+        setMaxStep(0);
+
+        setFieldValue('isValid', !!copiedPolicy);
         validate && validateField('isValid');
     }, [ copyPolicy, copiedPolicy, validate, validateField, setFieldValue, setValues, setVerifyResponse ]);
+
+    React.useEffect(() => {
+        if (!copyPolicy) {
+            clearSelection();
+        }
+    }, [ copyPolicy, clearSelection ]);
 
     const copyFromPolicyHandler = React.useCallback((policy: Policy) => {
         setCopiedPolicy(makeCopyOfPolicy(policy));
     }, [ setCopiedPolicy ]);
+
+    return {
+        copyPolicy,
+        createFromScratch,
+        copyExisting,
+        copyFromPolicyHandler,
+        copyFromPolicyProps: rest
+    };
+};
+
+export const CreatePolicyStep: React.FunctionComponent = () => {
+    const {
+        copyPolicy,
+        createFromScratch,
+        copyExisting,
+        copyFromPolicyHandler,
+        copyFromPolicyProps
+    } = useCreatePolicyStep();
 
     return (
         <>
@@ -69,7 +111,7 @@ const CreateCustomPolicyStep: React.FunctionComponent = () => {
                     label="As a copy of existing Policy"
                 />
                 {copyPolicy && <>
-                    <CopyFromPolicy onSelect={ copyFromPolicyHandler }/>
+                    <CopyFromPolicy onSelect={ copyFromPolicyHandler } { ...copyFromPolicyProps } />
                 </>
                 }
             </Form>
@@ -77,9 +119,9 @@ const CreateCustomPolicyStep: React.FunctionComponent = () => {
     );
 };
 
-export const createCustomPolicyStep: (stepOverrides?: Partial<WizardStepExtended>) => WizardStepExtended = (stepOverrides) => ({
+export const createPolicyStep = (stepOverrides?: Partial<WizardStepExtended>): WizardStepExtended => ({
     name: Messages.wizards.policy.createPolicy.title,
-    component: <CreateCustomPolicyStep/>,
+    component: <CreatePolicyStep/>,
     validationSchema: Yup.object().shape({
         isValid: Yup.boolean().oneOf([ true ])
     }),
