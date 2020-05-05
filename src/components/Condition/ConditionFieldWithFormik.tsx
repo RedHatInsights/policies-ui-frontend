@@ -28,7 +28,7 @@ export const ConditionFieldWithForkmik: React.FunctionComponent<ConditionFieldWi
             <ConditionField
                 { ...otherProps }
                 { ...field }
-                value={ field.value ? field.value.toString() : field.value }
+                value={ field.value ? field.value.toString() : '' }
                 onSelect={ onSelect }
             />
             { hint && <Text component={ TextVariants.small }>{ hint }</Text> }

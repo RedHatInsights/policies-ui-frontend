@@ -1,22 +1,21 @@
 import * as React from 'react';
-import { ChangeEvent } from 'react';
+import { ChangeEvent, useEffect } from 'react';
 import { Select, SelectOption, SelectVariant } from '@patternfly/react-core';
 import { Fact } from '../../types/Fact';
 import { CharStreams, CommonTokenStream } from 'antlr4ts';
 import { ExpressionLexer } from '../../utils/Expression/ExpressionLexer';
 import { ExpressionParser } from '../../utils/Expression/ExpressionParser';
-import { ConditionVisitor, SuggestionType } from './ConditionVisitor';
+import { ConditionVisitor, PlaceholderType } from './ConditionVisitor';
 import { style } from 'typestyle';
-import { useEffectOnce } from 'react-use';
+import { useEffectOnce, useUpdateEffect } from 'react-use';
 
 const selectOptionClassName = style({
     whiteSpace: 'nowrap',
     overflow: 'hidden',
-    textOverflow: 'ellipsis',
-    direction: 'rtl'
+    textOverflow: 'ellipsis'
 });
 
-const factToOptions = (base: string, facts: Fact[]): JSX.Element[] => {
+export const factToOptions = (base: string, facts: Fact[]): JSX.Element[] => {
     base = base.trim();
     if (base.length > 0) {
         base += ' ';
@@ -29,6 +28,38 @@ const factToOptions = (base: string, facts: Fact[]): JSX.Element[] => {
             value={ base + o.name }
         >{ base }<b>{ o.name  }</b></SelectOption>
     ));
+};
+
+const maxDisplayedElements = 10;
+
+export const buildOptionList = (condition: string, facts: Fact[]) => {
+    try {
+        const inputStream = CharStreams.fromString(condition);
+        const lexer = new ExpressionLexer(inputStream);
+        lexer.removeErrorListeners();
+        const tokenStream = new CommonTokenStream(lexer);
+        const parser = new ExpressionParser(tokenStream);
+        parser.removeErrorListeners();
+        const tree = parser.expression();
+
+        const visitor = new ConditionVisitor();
+        const result = visitor.visit(tree);
+
+        if (result && result.suggestion.type === PlaceholderType.FACT) {
+            const resultValue = result.value;
+            if (resultValue) {
+                const updatedSelection = condition.slice(0, condition.lastIndexOf(resultValue));
+                const filteredFacts = facts.filter(f => f.name && f.name.includes(resultValue)).slice(0, maxDisplayedElements);
+                return factToOptions(updatedSelection, filteredFacts);
+            } else {
+                return factToOptions(condition, facts.slice(0, maxDisplayedElements));
+            }
+        } else {
+            return [];
+        }
+    } catch (ex) {
+        return [];
+    }
 };
 
 export interface ConditionFieldProps {
@@ -44,60 +75,43 @@ export const ConditionField: React.FunctionComponent<ConditionFieldProps> = (pro
 
     const { facts, onSelect, value } = props;
     const [ isOpen, setOpen ] = React.useState<boolean>(false);
-    const [ options, setOptions ] = React.useState<JSX.Element[] | undefined>(
-        factToOptions('', facts.slice(0, 10))
-    );
+    const [ options, setOptions ] = React.useState<JSX.Element[] | undefined>();
 
-    const buildOptionList = React.useCallback((condition: string) => {
-        try {
-            const inputStream = CharStreams.fromString(condition);
-            const lexer = new ExpressionLexer(inputStream);
-            lexer.removeErrorListeners();
-            const tokenStream = new CommonTokenStream(lexer);
-            const parser = new ExpressionParser(tokenStream);
-            parser.removeErrorListeners();
-            const tree = parser.expression();
-
-            const visitor = new ConditionVisitor();
-            const result = visitor.visit(tree);
-
-            if (result && result.suggestion.type === SuggestionType.FACT) {
-                const resultValue = result.value;
-                if (resultValue) {
-                    const updatedSelection = condition.slice(0, condition.lastIndexOf(resultValue));
-                    const filteredFacts = facts.filter(f => f.name && f.name.includes(resultValue)).slice(0, 10);
-                    return factToOptions(updatedSelection, filteredFacts);
-                } else {
-                    return factToOptions(condition, facts.slice(0, 10));
-                }
-            } else {
-                return [];
-            }
-        } catch (ex) {
-            return [];
-        }
+    const buildOptionsWithCondition = React.useCallback((condition: string) => {
+        return buildOptionList(condition, facts);
     }, [ facts ]);
 
-    const conditionChanged = React.useCallback((condition: string) => {
-        onSelect(condition);
-        const options = buildOptionList(condition);
-        setOpen(options.length > 0);
-        setOptions(options);
+    const processUpdate = React.useCallback((tryToOpen: boolean) => {
+        const options = buildOptionsWithCondition(value);
 
-    }, [ buildOptionList, onSelect ]);
+        if (tryToOpen) {
+            let isOpen = options.length > 0;
+            if (options.length === 1 && options[0].props.value === value) {
+                isOpen = false;
+            }
+
+            setOpen(isOpen);
+        }
+
+        setOptions(options);
+    }, [ value, buildOptionsWithCondition, setOptions ]);
+
+    useUpdateEffect(() => {
+        processUpdate(true);
+    }, [ processUpdate ]);
 
     useEffectOnce(() => {
-        setOptions(buildOptionList(value));
+        processUpdate(false);
     });
 
     const onFilter = React.useCallback((event: ChangeEvent<HTMLInputElement>) => {
         const localSelection = event.target.value;
-        conditionChanged(localSelection);
+        onSelect(localSelection);
         return [];
-    }, [ conditionChanged ]);
+    }, [ onSelect ]);
 
     const onSelectCallback = React.useCallback((event, selected) => {
-        conditionChanged(selected.toString());
+        onSelect(selected.toString());
         setOptions(prevOptions => {
             if (prevOptions && prevOptions.length === 1 && prevOptions[0].props.value === selected) {
                 setOpen(false);
@@ -105,11 +119,11 @@ export const ConditionField: React.FunctionComponent<ConditionFieldProps> = (pro
 
             return prevOptions;
         });
-    }, [ conditionChanged ]);
+    }, [ onSelect ]);
 
     const onClear = React.useCallback(() => {
-        conditionChanged('');
-    }, [ conditionChanged ]);
+        onSelect('');
+    }, [ onSelect ]);
 
     return (
         <Select
