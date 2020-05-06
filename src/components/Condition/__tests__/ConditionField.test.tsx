@@ -5,7 +5,6 @@ import userEvent from '@testing-library/user-event';
 import { buildOptionList, ConditionField, ConditionFieldProps, factToOptions } from '../ConditionField';
 import { Fact } from '../../../types/Fact';
 import { FactType } from '../../../types/GeneratedOpenApi';
-import { useEffect } from 'react';
 
 describe('src/components/Condition/ConditionVisitor', () => {
 
@@ -225,8 +224,8 @@ describe('src/components/Condition/ConditionVisitor', () => {
 
     describe('buildOptionList', () => {
         it('Yields empty if there is no match', () => {
-            const options = buildOptionList('1234', testFacts);
-            expect(options).toEqual(factToOptions('', []));
+            const options = buildOptionList('may', testFacts);
+            expect(options).toEqual([]);
         });
     });
 });

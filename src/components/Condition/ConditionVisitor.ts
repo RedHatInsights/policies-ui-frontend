@@ -1,11 +1,11 @@
-import { AbstractParseTreeVisitor, ErrorNode, TerminalNode } from 'antlr4ts/tree';
+import { AbstractParseTreeVisitor, ErrorNode, ParseTree, TerminalNode } from 'antlr4ts/tree';
 
 import { ExpressionVisitor } from '../../utils/Expression/ExpressionVisitor';
 import {
     // eslint-disable-next-line @typescript-eslint/camelcase
-    ArrayContext, Boolean_operatorContext, ExprContext,
+    ArrayContext, Boolean_operatorContext, ExprContext, ExpressionContext, ExpressionParser,
     // eslint-disable-next-line @typescript-eslint/camelcase
-    KeyContext, Logical_operatorContext, Numeric_compare_operatorContext,
+    KeyContext, Logical_operatorContext, Numeric_compare_operatorContext, Numerical_valueContext, ObjectContext,
     ValueContext
 } from '../../utils/Expression/ExpressionParser';
 import { Token } from 'antlr4ts';
@@ -16,28 +16,32 @@ export enum PlaceholderType {
     LOGICAL_OPERATOR = 'LOGICAL_OPERATOR',
     BOOLEAN_OPERATOR = 'BOOLEAN_OPERATOR',
     NUMERIC_COMPARE_OPERATOR = 'NUMERIC_COMPARE_OPERATOR',
+    OPEN_ROUND_BRACKET = 'OPEN_ROUND_BRACKET',
+    CLOSE_ROUND_BRACKET = 'CLOSE_ROUND_BRACKET',
     UNKNOWN = 'UNKNOWN',
     ERROR = 'ERROR'
 }
 
 interface Placeholder {
     type: PlaceholderType;
-    value?: string;
+    value: string;
 }
 
 export type ConditionVisitorResult = Array<Placeholder>;
 
-const makePlaceholderFact = (value?: string): Placeholder => ({ type: PlaceholderType.FACT, value });
-const makePlaceholderValue = (value?: string): Placeholder => ({ type: PlaceholderType.VALUE, value });
-const makePlaceholderLogicalOperator = (value?: string): Placeholder => ({ type: PlaceholderType.LOGICAL_OPERATOR, value });
-const makePlaceholderBooleanOperator = (value?: string): Placeholder => ({ type: PlaceholderType.BOOLEAN_OPERATOR, value });
-const makePlaceholderNumericCompareOperator = (value?: string): Placeholder => ({ type: PlaceholderType.NUMERIC_COMPARE_OPERATOR, value });
+const makePlaceholderFact = (value: string): Placeholder => ({ type: PlaceholderType.FACT, value });
+const makePlaceholderValue = (value: string): Placeholder => ({ type: PlaceholderType.VALUE, value });
+const makePlaceholderLogicalOperator = (value: string): Placeholder => ({ type: PlaceholderType.LOGICAL_OPERATOR, value });
+const makePlaceholderBooleanOperator = (value: string): Placeholder => ({ type: PlaceholderType.BOOLEAN_OPERATOR, value });
+const makePlaceholderOpenRoundBracket = (value: string): Placeholder => ({ type: PlaceholderType.OPEN_ROUND_BRACKET, value });
+const makePlaceholderCloseRoundBracket = (value: string): Placeholder => ({ type: PlaceholderType.CLOSE_ROUND_BRACKET, value });
+const makePlaceholderNumericCompareOperator = (value: string): Placeholder => ({ type: PlaceholderType.NUMERIC_COMPARE_OPERATOR, value });
 const makePlaceholderError = (value: string): Placeholder => ({ type: PlaceholderType.ERROR, value });
 const makePlaceholderUnknown = (value: string): Placeholder => ({ type: PlaceholderType.UNKNOWN, value });
 
 type ReturnValue = ConditionVisitorResult;
 
-//Todo: probably make a query structure that holds all the tokens, will be useful to make suggestions and format the query.
+const logicalOperators = [ 'AND', 'OR' ];
 
 /**
  * Condition visitors returns a list of suggestions based on where we currently are.
@@ -115,14 +119,33 @@ export class ConditionVisitor extends AbstractParseTreeVisitor<ReturnValue> impl
     }
 
     visitTerminal(node: TerminalNode) {
-        if (node._symbol.type === Token.EOF) {
+        if (node.symbol.type === Token.EOF) {
             return [ ];
+        }
+
+        if (node.text === '(') {
+            return [ makePlaceholderOpenRoundBracket('(') ];
+        } else if (node.text === ')') {
+            return [ makePlaceholderCloseRoundBracket(')') ];
         }
 
         return [ makePlaceholderUnknown(node.text) ];
     }
 
     visitErrorNode(node: ErrorNode): ReturnValue {
+        if (node.text === '<missing \')\'>') {
+            return [ makePlaceholderCloseRoundBracket(')') ];
+        }
+
+        const parent = node.parent;
+        if (parent && (parent instanceof ObjectContext || parent instanceof ExpressionContext) && parent.children) {
+            if (parent.childCount === 3 && parent.children.indexOf(node) === 1 && ConditionVisitor.isEOF(parent.children[2])) {
+                if (logicalOperators.some(op => op.includes(node.text.toUpperCase()))) {
+                    return [ makePlaceholderLogicalOperator(node.text) ];
+                }
+            }
+        }
+
         return [ makePlaceholderError(node.text) ];
     }
 
@@ -181,6 +204,19 @@ export class ConditionVisitor extends AbstractParseTreeVisitor<ReturnValue> impl
         }
 
         return [ makePlaceholderValue(nodeValue.text) ];
+    }
+
+    // eslint-disable-next-line @typescript-eslint/camelcase
+    visitNumerical_value(ctx: Numerical_valueContext) {
+        return [ makePlaceholderValue(ctx.text) ];
+    }
+
+    private static isEOF(element: ParseTree) {
+        if (element instanceof TerminalNode) {
+            return element.symbol.type === ExpressionParser.EOF;
+        }
+
+        return false;
     }
 
 }

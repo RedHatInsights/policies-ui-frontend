@@ -201,7 +201,7 @@ describe('src/components/Condition/ConditionVisitor', () => {
         ]);
     });
 
-    it('Detects a fact is after a logical operator', () => {
+    it('Detects a logical operator', () => {
         const conditionVisitor = new ConditionVisitor();
         const condition = 'facts.arch = 5 and ';
         const result = conditionVisitor.visit(treeForCondition(condition));
@@ -221,6 +221,30 @@ describe('src/components/Condition/ConditionVisitor', () => {
             {
                 type: PlaceholderType.LOGICAL_OPERATOR,
                 value: 'and'
+            }
+        ]);
+    });
+
+    it('Detects incomplete logical operator', () => {
+        const conditionVisitor = new ConditionVisitor();
+        const condition = 'facts.arch = 5 an ';
+        const result = conditionVisitor.visit(treeForCondition(condition));
+        expect(result).toEqual([
+            {
+                type: PlaceholderType.FACT,
+                value: 'facts.arch'
+            },
+            {
+                type: PlaceholderType.BOOLEAN_OPERATOR,
+                value: '='
+            },
+            {
+                type: PlaceholderType.VALUE,
+                value: '5'
+            },
+            {
+                type: PlaceholderType.LOGICAL_OPERATOR,
+                value: 'an'
             }
         ]);
     });
@@ -254,7 +278,7 @@ describe('src/components/Condition/ConditionVisitor', () => {
         ]);
     });
 
-    it('Detects unknown elements', () => {
+    it('Detects numeric values', () => {
         const conditionVisitor = new ConditionVisitor();
         const condition =  'facts >= 5';
         const tree = treeForCondition(condition);
@@ -269,8 +293,140 @@ describe('src/components/Condition/ConditionVisitor', () => {
                 value: '>='
             },
             {
-                type: PlaceholderType.UNKNOWN,
+                type: PlaceholderType.VALUE,
                 value: '5'
+            }
+        ]);
+    });
+
+    it('Detects missing round brackets', () => {
+        const conditionVisitor = new ConditionVisitor();
+        const condition =  'facts >= 5 and (f > 1 or f = 1';
+        const tree = treeForCondition(condition);
+        const result = conditionVisitor.visit(tree);
+        expect(result).toEqual([
+            {
+                type: PlaceholderType.FACT,
+                value: 'facts'
+            },
+            {
+                type: PlaceholderType.NUMERIC_COMPARE_OPERATOR,
+                value: '>='
+            },
+            {
+                type: PlaceholderType.VALUE,
+                value: '5'
+            },
+            {
+                type: PlaceholderType.LOGICAL_OPERATOR,
+                value: 'and'
+            },
+            {
+                type: PlaceholderType.OPEN_ROUND_BRACKET,
+                value: '('
+            },
+            {
+                type: PlaceholderType.FACT,
+                value: 'f'
+            },
+            {
+                type: PlaceholderType.NUMERIC_COMPARE_OPERATOR,
+                value: '>'
+            },
+            {
+                type: PlaceholderType.VALUE,
+                value: '1'
+            },
+            {
+                type: PlaceholderType.LOGICAL_OPERATOR,
+                value: 'or'
+            },
+            {
+                type: PlaceholderType.FACT,
+                value: 'f'
+            },
+            {
+                type: PlaceholderType.BOOLEAN_OPERATOR,
+                value: '='
+            },
+            {
+                type: PlaceholderType.VALUE,
+                value: '1'
+            },
+            {
+                type: PlaceholderType.CLOSE_ROUND_BRACKET,
+                value: ')'
+            }
+        ]);
+    });
+
+    it('Detects missing close round bracket with only fact', () => {
+        const conditionVisitor = new ConditionVisitor();
+        const condition =  '( f ';
+        const tree = treeForCondition(condition);
+        const result = conditionVisitor.visit(tree);
+        expect(result).toEqual([
+            {
+                type: PlaceholderType.OPEN_ROUND_BRACKET,
+                value: '('
+            },
+            {
+                type: PlaceholderType.FACT,
+                value: 'f'
+            },
+            {
+                type: PlaceholderType.CLOSE_ROUND_BRACKET,
+                value: ')'
+            }
+        ]);
+    });
+
+    it('Can not detect missing open round bracket with only fact', () => {
+        const conditionVisitor = new ConditionVisitor();
+        const condition =  ' f )';
+        const tree = treeForCondition(condition);
+        const result = conditionVisitor.visit(tree);
+        expect(result).toEqual([
+            {
+                type: PlaceholderType.FACT,
+                value: 'f'
+            },
+            {
+                type: PlaceholderType.ERROR,
+                value: ')'
+            }
+        ]);
+    });
+
+    it('Detect missing close round bracket with partial logic operator', () => {
+        const conditionVisitor = new ConditionVisitor();
+        const condition =  '( facts = 1 an';
+        const tree = treeForCondition(condition);
+        const result = conditionVisitor.visit(tree);
+        expect(result).toEqual([
+            {
+                type: PlaceholderType.OPEN_ROUND_BRACKET,
+                value: '('
+            },
+            {
+                type: PlaceholderType.FACT,
+                value: 'facts'
+            },
+            {
+                type: PlaceholderType.BOOLEAN_OPERATOR,
+                value: '='
+            },
+            {
+                type: PlaceholderType.VALUE,
+                value: '1'
+            },
+            {
+                type: PlaceholderType.LOGICAL_OPERATOR,
+                value: 'an'
+            },
+            {
+                type: PlaceholderType.CLOSE_ROUND_BRACKET,
+                value: ')'
             }
         ]);
     });

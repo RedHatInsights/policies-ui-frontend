@@ -8,6 +8,7 @@ import { ExpressionParser } from '../../utils/Expression/ExpressionParser';
 import { ConditionVisitor, PlaceholderType } from './ConditionVisitor';
 import { style } from 'typestyle';
 import { useEffectOnce, useUpdateEffect } from 'react-use';
+import { computeOptions } from './ComputeOptions';
 
 const selectOptionClassName = style({
     whiteSpace: 'nowrap',
@@ -15,18 +16,22 @@ const selectOptionClassName = style({
     textOverflow: 'ellipsis'
 });
 
-export const factToOptions = (base: string, facts: Fact[]): JSX.Element[] => {
-    base = base.trim();
-    if (base.length > 0) {
-        base += ' ';
+export const factToOptions = (prefix: string, options: string[], postfix: string): JSX.Element[] => {
+    prefix = prefix.trim();
+    if (prefix.length > 0 && options.length > 0) {
+        prefix += ' ';
     }
 
-    return facts.map(o => (
+    if (postfix.length > 0 && options.length > 0) {
+        postfix = ' ' + postfix;
+    }
+
+    return (options || [ ' ' ]).map(o => (
         <SelectOption
             className={ selectOptionClassName }
-            key={ base + o.id }
-            value={ base + o.name }
-        >{ base }<b>{ o.name  }</b></SelectOption>
+            key={ prefix + o }
+            value={ prefix + o }
+        >{ prefix }<b>{ o }</b>{ postfix }</SelectOption>
     ));
 };
 
@@ -34,32 +39,16 @@ const maxDisplayedElements = 10;
 
 export const buildOptionList = (condition: string, facts: Fact[]) => {
     try {
-        const inputStream = CharStreams.fromString(condition);
-        const lexer = new ExpressionLexer(inputStream);
-        lexer.removeErrorListeners();
-        const tokenStream = new CommonTokenStream(lexer);
-        const parser = new ExpressionParser(tokenStream);
-        parser.removeErrorListeners();
-        const tree = parser.expression();
 
-        const visitor = new ConditionVisitor();
-        const result = visitor.visit(tree);
-
-        if (result && result.suggestion.type === PlaceholderType.FACT) {
-            const resultValue = result.value;
-            if (resultValue) {
-                const updatedSelection = condition.slice(0, condition.lastIndexOf(resultValue));
-                const filteredFacts = facts.filter(f => f.name && f.name.includes(resultValue)).slice(0, maxDisplayedElements);
-                return factToOptions(updatedSelection, filteredFacts);
-            } else {
-                return factToOptions(condition, facts.slice(0, maxDisplayedElements));
-            }
-        } else {
-            return [];
+        const response = computeOptions(condition, facts);
+        if (response) {
+            return factToOptions(response.prefix, response.options, response.postfix);
         }
     } catch (ex) {
-        return [];
+        console.log(`Exception when computing options for condition [${condition}]`, ex);
     }
+
+    return [];
 };
 
 export interface ConditionFieldProps {
