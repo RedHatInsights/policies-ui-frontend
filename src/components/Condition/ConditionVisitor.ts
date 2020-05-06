@@ -9,6 +9,7 @@ import {
     ValueContext
 } from '../../utils/Expression/ExpressionParser';
 import { Token } from 'antlr4ts';
+import { logicalOperators } from './Tokens';
 
 export enum PlaceholderType {
     FACT = 'FACT',
@@ -29,19 +30,17 @@ interface Placeholder {
 
 export type ConditionVisitorResult = Array<Placeholder>;
 
-const makePlaceholderFact = (value: string): Placeholder => ({ type: PlaceholderType.FACT, value });
-const makePlaceholderValue = (value: string): Placeholder => ({ type: PlaceholderType.VALUE, value });
-const makePlaceholderLogicalOperator = (value: string): Placeholder => ({ type: PlaceholderType.LOGICAL_OPERATOR, value });
-const makePlaceholderBooleanOperator = (value: string): Placeholder => ({ type: PlaceholderType.BOOLEAN_OPERATOR, value });
-const makePlaceholderOpenRoundBracket = (value: string): Placeholder => ({ type: PlaceholderType.OPEN_ROUND_BRACKET, value });
-const makePlaceholderCloseRoundBracket = (value: string): Placeholder => ({ type: PlaceholderType.CLOSE_ROUND_BRACKET, value });
-const makePlaceholderNumericCompareOperator = (value: string): Placeholder => ({ type: PlaceholderType.NUMERIC_COMPARE_OPERATOR, value });
-const makePlaceholderError = (value: string): Placeholder => ({ type: PlaceholderType.ERROR, value });
-const makePlaceholderUnknown = (value: string): Placeholder => ({ type: PlaceholderType.UNKNOWN, value });
+const makeFact = (value: string): Placeholder => ({ type: PlaceholderType.FACT, value });
+const makeValue = (value: string): Placeholder => ({ type: PlaceholderType.VALUE, value });
+const makeLogicalOperator = (value: string): Placeholder => ({ type: PlaceholderType.LOGICAL_OPERATOR, value });
+const makeBooleanOperator = (value: string): Placeholder => ({ type: PlaceholderType.BOOLEAN_OPERATOR, value });
+const makeOpenBracket = (value: string): Placeholder => ({ type: PlaceholderType.OPEN_ROUND_BRACKET, value });
+const makeCloseBracket = (value: string): Placeholder => ({ type: PlaceholderType.CLOSE_ROUND_BRACKET, value });
+const makeNumericCompareOperator = (value: string): Placeholder => ({ type: PlaceholderType.NUMERIC_COMPARE_OPERATOR, value });
+const makeError = (value: string): Placeholder => ({ type: PlaceholderType.ERROR, value });
+const makeUnknown = (value: string): Placeholder => ({ type: PlaceholderType.UNKNOWN, value });
 
 type ReturnValue = ConditionVisitorResult;
-
-const logicalOperators = [ 'AND', 'OR' ];
 
 /**
  * Condition visitors returns a list of suggestions based on where we currently are.
@@ -52,70 +51,8 @@ export class ConditionVisitor extends AbstractParseTreeVisitor<ReturnValue> impl
         return [];
     }
 
-    /*
-    private static readonly actionablePlaceholderTypes = [
-        PlaceholderType.FACT, PlaceholderType.ARRAY_OPERATOR, PlaceholderType.BOOLEAN_OPERATOR, PlaceholderType.LOGICAL_OPERATOR,
-        PlaceholderType.VALUE
-    ] as Readonly<Array<PlaceholderType>>;
-
-    private static readonly ignoreWhenFlattening = [
-        PlaceholderType.ERROR
-    ] as Readonly<Array<PlaceholderType>>;
-
-    private static flattenPlaceholders(value: ReturnValue): ReturnValue {
-        return value.map(element => {
-            if (typeof element !== 'string' && !ConditionVisitor.ignoreWhenFlattening.includes(element.type)) {
-                return element.value as string; // Filtering this 'undefined' out in later step
-            }
-
-            return element;
-        }).filter(e => e !== undefined);
-    }
-
-    private static hasActionablePlaceholders(value: ReturnValue) {
-        return value.some(element => typeof element !== 'string' && ConditionVisitor.actionablePlaceholderTypes.includes(element.type));
-    }
-
-    private static computeNextPlaceholder(value: ReturnValue): ReturnValue {
-        value = value.slice(0, value.length - 1);
-
-        const valuesWithoutError = value.filter(element => typeof element === 'string' || element.type !== PlaceholderType.ERROR);
-        let nextPlaceholder: Placeholder | undefined;
-        if (valuesWithoutError.length === 0) {
-            nextPlaceholder = makePlaceholderFact();
-        } else {
-            const last = value[value.length - 1];
-            if (typeof last !== 'string') {
-                if (last.type === PlaceholderType.LOGICAL_OPERATOR) {
-                    nextPlaceholder = makePlaceholderFact();
-                }
-            }
-        }
-
-        if (nextPlaceholder) {
-            return ConditionVisitor.flattenPlaceholders(value).concat([ nextPlaceholder ]);
-        }
-
-        return value;
-    }*/
-
     protected aggregateResult(aggregate: ReturnValue, nextResult: ReturnValue) {
-        let aggregated: ReturnValue;
-        /*if (ConditionVisitor.hasActionablePlaceholders(nextResult)) {
-            aggregated = [ ...ConditionVisitor.flattenPlaceholders(aggregate), ...nextResult ];
-        } else {
-            aggregated = [ ...aggregate, ...nextResult ];
-        }*/
-        aggregated = [ ...aggregate, ...nextResult ];
-
-        /*if (aggregated.length > 0) {
-            const lastElement = aggregated[aggregated.length - 1];
-            if (typeof lastElement !== 'string' && lastElement.type === PlaceholderType.EOF) {
-                aggregated = ConditionVisitor.computeNextPlaceholder(aggregated);
-            }
-        }*/
-
-        return aggregated;
+        return [ ...aggregate, ...nextResult ];
     }
 
     visitTerminal(node: TerminalNode) {
@@ -124,51 +61,50 @@ export class ConditionVisitor extends AbstractParseTreeVisitor<ReturnValue> impl
         }
 
         if (node.text === '(') {
-            return [ makePlaceholderOpenRoundBracket('(') ];
+            return [ makeOpenBracket('(') ];
         } else if (node.text === ')') {
-            return [ makePlaceholderCloseRoundBracket(')') ];
+            return [ makeCloseBracket(')') ];
         }
 
-        return [ makePlaceholderUnknown(node.text) ];
+        return [ makeUnknown(node.text) ];
     }
 
     visitErrorNode(node: ErrorNode): ReturnValue {
         if (node.text === '<missing \')\'>') {
-            return [ makePlaceholderCloseRoundBracket(')') ];
+            return [ makeCloseBracket(')') ];
         }
 
         const parent = node.parent;
         if (parent && (parent instanceof ObjectContext || parent instanceof ExpressionContext) && parent.children) {
             const index = parent.children.indexOf(node);
             if (index > 0 && parent.children[index - 1] instanceof ObjectContext) {
-            //if (parent.childCount === 3 && parent.children.indexOf(node) === 1 && ConditionVisitor.isEOF(parent.children[2])) {
                 if (logicalOperators.some(op => op.includes(node.text.toUpperCase()))) {
-                    return [ makePlaceholderLogicalOperator(node.text) ];
+                    return [ makeLogicalOperator(node.text) ];
                 }
             }
         }
 
-        return [ makePlaceholderError(node.text) ];
+        return [ makeError(node.text) ];
     }
 
     // eslint-disable-next-line @typescript-eslint/camelcase
     visitLogical_operator(ctx: Logical_operatorContext) {
-        return [ makePlaceholderLogicalOperator(ctx.text) ];
+        return [ makeLogicalOperator(ctx.text) ];
     }
 
     // eslint-disable-next-line @typescript-eslint/camelcase
     visitBoolean_operator(ctx: Boolean_operatorContext) {
-        return [ makePlaceholderBooleanOperator(ctx.text) ];
+        return [ makeBooleanOperator(ctx.text) ];
     }
 
     // eslint-disable-next-line @typescript-eslint/camelcase
     visitNumeric_compare_operator(ctx: Numeric_compare_operatorContext) {
-        return [ makePlaceholderNumericCompareOperator(ctx.text) ];
+        return [ makeNumericCompareOperator(ctx.text) ];
     }
 
     visitKey(ctx: KeyContext) {
         // eslint-disable-next-line new-cap
-        return [ makePlaceholderFact(ctx.SIMPLETEXT().text) ];
+        return [ makeFact(ctx.SIMPLETEXT().text) ];
     }
 
     visitValue(ctx: ValueContext) {
@@ -184,10 +120,10 @@ export class ConditionVisitor extends AbstractParseTreeVisitor<ReturnValue> impl
 
             if (ctx.text) {
                 if (ctx.childCount > 1 && ctx.start.inputStream && ctx.stop) {
-                    return [ makePlaceholderValue(`"${ctx.start.inputStream.toString().slice(ctx.start.startIndex, ctx.stop.stopIndex + 1)}"`) ];
+                    return [ makeValue(`"${ctx.start.inputStream.toString().slice(ctx.start.startIndex, ctx.stop.stopIndex + 1)}"`) ];
                 }
 
-                return [ makePlaceholderValue(`"${ctx.text}"`) ];
+                return [ makeValue(`"${ctx.text}"`) ];
             } else if (ctx.start.inputStream && ctx.stop && ctx.stop.text) {
                 // We reach up to this point when we have a STRING without a closing (double)quote
                 // That part doesn't seem to trigger an error on the current setup, so i manually extract it from the input
@@ -199,26 +135,17 @@ export class ConditionVisitor extends AbstractParseTreeVisitor<ReturnValue> impl
                     possibleValue += '\'';
                 }
 
-                return [ makePlaceholderValue(possibleValue) ];
+                return [ makeValue(possibleValue) ];
             }
 
             return this.visitChildren(ctx);
         }
 
-        return [ makePlaceholderValue(nodeValue.text) ];
+        return [ makeValue(nodeValue.text) ];
     }
 
     // eslint-disable-next-line @typescript-eslint/camelcase
     visitNumerical_value(ctx: Numerical_valueContext) {
-        return [ makePlaceholderValue(ctx.text) ];
+        return [ makeValue(ctx.text) ];
     }
-
-    private static isEOF(element: ParseTree) {
-        if (element instanceof TerminalNode) {
-            return element.symbol.type === ExpressionParser.EOF;
-        }
-
-        return false;
-    }
-
 }

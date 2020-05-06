@@ -9,6 +9,7 @@ import { ExpressionLexer } from '../../utils/Expression/ExpressionLexer';
 import { ExpressionParser } from '../../utils/Expression/ExpressionParser';
 import { ConditionVisitor, ConditionVisitorResult, PlaceholderType } from './ConditionVisitor';
 import { Fact } from '../../types/Fact';
+import { logicalOperators } from './Tokens';
 
 const flattenResult = (result: ConditionVisitorResult): string => {
     return result.map(e => e.value).join(' ');
@@ -19,8 +20,6 @@ type ComputeOptionsResponse = undefined | {
     options: Array<string>;
     postfix: string;
 }
-
-const logicalOperators = [ 'AND', 'OR' ];
 
 // Todo: This could be useful to detect the next tokens.
 // The problem is that if we get "facts.x = 1 AN" the missing 'D' in 'AND' won't allow to properly
@@ -34,6 +33,8 @@ class ErrorListener implements ANTLRErrorListener<Token> {
         }
     }
 }
+
+const maxOptions = 10;
 
 export const computeOptions = (condition: string, facts: Fact[]): ComputeOptionsResponse => {
     const inputStream = CharStreams.fromString(condition);
@@ -54,7 +55,7 @@ export const computeOptions = (condition: string, facts: Fact[]): ComputeOptions
     if (lastElement === undefined) {
         return {
             prefix: '',
-            options: facts.slice(0, 10).map(f => f.name || ''),
+            options: facts.slice(0, maxOptions).map(f => f.name || ''),
             postfix: ''
         };
     }
@@ -78,7 +79,7 @@ export const computeOptions = (condition: string, facts: Fact[]): ComputeOptions
         return {
             prefix: base,
             options: facts.filter(
-                f => f.name && f.name.toUpperCase().includes(placeholderElement.value.toUpperCase())).slice(0, 10).map(f => f.name || ''
+                f => f.name && f.name.toUpperCase().includes(placeholderElement.value.toUpperCase())).slice(0, maxOptions).map(f => f.name || ''
             ),
             postfix
         };

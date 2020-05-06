@@ -2,10 +2,6 @@ import * as React from 'react';
 import { ChangeEvent } from 'react';
 import { Select, SelectOption, SelectVariant } from '@patternfly/react-core';
 import { Fact } from '../../types/Fact';
-import { CharStreams, CommonTokenStream } from 'antlr4ts';
-import { ExpressionLexer } from '../../utils/Expression/ExpressionLexer';
-import { ExpressionParser } from '../../utils/Expression/ExpressionParser';
-import { ConditionVisitor, PlaceholderType } from './ConditionVisitor';
 import { style } from 'typestyle';
 import { useEffectOnce, useUpdateEffect } from 'react-use';
 import { computeOptions } from './ComputeOptions';
@@ -34,8 +30,6 @@ export const factToOptions = (prefix: string, options: string[], postfix: string
         >{ prefix }<b>{ o }</b>{ postfix }</SelectOption>
     ));
 };
-
-const maxDisplayedElements = 10;
 
 export const buildOptionList = (condition: string, facts: Fact[]) => {
     try {
