@@ -550,7 +550,7 @@ describe('src/components/Condition/ConditionVisitor', () => {
             {
                 type: PlaceholderType.CLOSE_ROUND_BRACKET,
                 value: ')'
-            },
+            }
         ]);
     });
 

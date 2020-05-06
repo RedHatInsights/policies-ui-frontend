@@ -1,9 +1,9 @@
-import { AbstractParseTreeVisitor, ErrorNode, ParseTree, TerminalNode } from 'antlr4ts/tree';
+import { AbstractParseTreeVisitor, ErrorNode, TerminalNode } from 'antlr4ts/tree';
 
 import { ExpressionVisitor } from '../../utils/Expression/ExpressionVisitor';
 import {
     // eslint-disable-next-line @typescript-eslint/camelcase
-    ArrayContext, Boolean_operatorContext, ExprContext, ExpressionContext, ExpressionParser,
+    ArrayContext, Boolean_operatorContext, ExprContext, ExpressionContext,
     // eslint-disable-next-line @typescript-eslint/camelcase
     KeyContext, Logical_operatorContext, Numeric_compare_operatorContext, Numerical_valueContext, ObjectContext,
     ValueContext

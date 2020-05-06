@@ -2,7 +2,7 @@ import * as React from 'react';
 import { render, act, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
-import { buildOptionList, ConditionField, ConditionFieldProps, factToOptions } from '../ConditionField';
+import { buildOptionList, ConditionField, ConditionFieldProps } from '../ConditionField';
 import { Fact } from '../../../types/Fact';
 import { FactType } from '../../../types/GeneratedOpenApi';
 
