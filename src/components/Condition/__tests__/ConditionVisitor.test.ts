@@ -398,7 +398,7 @@ describe('src/components/Condition/ConditionVisitor', () => {
         ]);
     });
 
-    it('Detect missing close round bracket with partial logic operator', () => {
+    it('Detect logic operator inside a round bracket', () => {
         const conditionVisitor = new ConditionVisitor();
         const condition =  '( facts = 1 an';
         const tree = treeForCondition(condition);
@@ -423,10 +423,159 @@ describe('src/components/Condition/ConditionVisitor', () => {
             {
                 type: PlaceholderType.LOGICAL_OPERATOR,
                 value: 'an'
+            }
+        ]);
+    });
+
+    it('Detect fact inside a round bracket (and closes the bracket) ', () => {
+        const conditionVisitor = new ConditionVisitor();
+        const condition =  '( facts = 1 and myfac';
+        const tree = treeForCondition(condition);
+        const result = conditionVisitor.visit(tree);
+        expect(result).toEqual([
+            {
+                type: PlaceholderType.OPEN_ROUND_BRACKET,
+                value: '('
+            },
+            {
+                type: PlaceholderType.FACT,
+                value: 'facts'
+            },
+            {
+                type: PlaceholderType.BOOLEAN_OPERATOR,
+                value: '='
+            },
+            {
+                type: PlaceholderType.VALUE,
+                value: '1'
+            },
+            {
+                type: PlaceholderType.LOGICAL_OPERATOR,
+                value: 'and'
+            },
+            {
+                type: PlaceholderType.FACT,
+                value: 'myfac'
             },
             {
                 type: PlaceholderType.CLOSE_ROUND_BRACKET,
                 value: ')'
+            }
+        ]);
+    });
+
+    it('Detect nested round brackets', () => {
+        const conditionVisitor = new ConditionVisitor();
+        const condition =  '( (facts = 1) and myfac';
+        const tree = treeForCondition(condition);
+        const result = conditionVisitor.visit(tree);
+        expect(result).toEqual([
+            {
+                type: PlaceholderType.OPEN_ROUND_BRACKET,
+                value: '('
+            },
+            {
+                type: PlaceholderType.OPEN_ROUND_BRACKET,
+                value: '('
+            },
+            {
+                type: PlaceholderType.FACT,
+                value: 'facts'
+            },
+            {
+                type: PlaceholderType.BOOLEAN_OPERATOR,
+                value: '='
+            },
+            {
+                type: PlaceholderType.VALUE,
+                value: '1'
+            },
+            {
+                type: PlaceholderType.CLOSE_ROUND_BRACKET,
+                value: ')'
+            },
+            {
+                type: PlaceholderType.LOGICAL_OPERATOR,
+                value: 'and'
+            },
+            {
+                type: PlaceholderType.FACT,
+                value: 'myfac'
+            },
+            {
+                type: PlaceholderType.CLOSE_ROUND_BRACKET,
+                value: ')'
+            }
+        ]);
+    });
+
+    it('Detect nested non closing round brackets', () => {
+        const conditionVisitor = new ConditionVisitor();
+        const condition =  '( (facts = 1 and myfac';
+        const tree = treeForCondition(condition);
+        const result = conditionVisitor.visit(tree);
+        expect(result).toEqual([
+            {
+                type: PlaceholderType.OPEN_ROUND_BRACKET,
+                value: '('
+            },
+            {
+                type: PlaceholderType.OPEN_ROUND_BRACKET,
+                value: '('
+            },
+            {
+                type: PlaceholderType.FACT,
+                value: 'facts'
+            },
+            {
+                type: PlaceholderType.BOOLEAN_OPERATOR,
+                value: '='
+            },
+            {
+                type: PlaceholderType.VALUE,
+                value: '1'
+            },
+            {
+                type: PlaceholderType.LOGICAL_OPERATOR,
+                value: 'and'
+            },
+            {
+                type: PlaceholderType.FACT,
+                value: 'myfac'
+            },
+            {
+                type: PlaceholderType.CLOSE_ROUND_BRACKET,
+                value: ')'
+            },
+            {
+                type: PlaceholderType.CLOSE_ROUND_BRACKET,
+                value: ')'
+            },
+        ]);
+    });
+
+    it('Detect negative expression "!"', () => {
+        const conditionVisitor = new ConditionVisitor();
+        const condition =  '!';
+        const tree = treeForCondition(condition);
+        const result = conditionVisitor.visit(tree);
+        expect(result).toEqual([
+            {
+                type: PlaceholderType.UNKNOWN,
+                value: '!'
+            }
+        ]);
+    });
+
+    it('Detect negative expression "NOT"', () => {
+        const conditionVisitor = new ConditionVisitor();
+        const condition =  'NOT';
+        const tree = treeForCondition(condition);
+        const result = conditionVisitor.visit(tree);
+        expect(result).toEqual([
+            {
+                type: PlaceholderType.UNKNOWN,
+                value: 'NOT'
             }
         ]);
     });

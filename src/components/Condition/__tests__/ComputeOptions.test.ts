@@ -89,7 +89,7 @@ describe('src/components/Condition/ComputeOptions', () => {
             options: [
                 'AND'
             ],
-            postfix: ')'
+            postfix: ''
         });
     });
 });

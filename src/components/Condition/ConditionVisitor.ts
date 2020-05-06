@@ -139,7 +139,9 @@ export class ConditionVisitor extends AbstractParseTreeVisitor<ReturnValue> impl
 
         const parent = node.parent;
         if (parent && (parent instanceof ObjectContext || parent instanceof ExpressionContext) && parent.children) {
-            if (parent.childCount === 3 && parent.children.indexOf(node) === 1 && ConditionVisitor.isEOF(parent.children[2])) {
+            const index = parent.children.indexOf(node);
+            if (index > 0 && parent.children[index - 1] instanceof ObjectContext) {
+            //if (parent.childCount === 3 && parent.children.indexOf(node) === 1 && ConditionVisitor.isEOF(parent.children[2])) {
                 if (logicalOperators.some(op => op.includes(node.text.toUpperCase()))) {
                     return [ makePlaceholderLogicalOperator(node.text) ];
                 }

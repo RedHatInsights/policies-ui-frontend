@@ -1,10 +1,14 @@
-import { ANTLRErrorListener, CharStreams, CommonTokenStream } from 'antlr4ts';
+import {
+    ANTLRErrorListener,
+    CharStreams,
+    CommonTokenStream,
+    Parser,
+    RecognitionException, Recognizer, Token
+} from 'antlr4ts';
 import { ExpressionLexer } from '../../utils/Expression/ExpressionLexer';
 import { ExpressionParser } from '../../utils/Expression/ExpressionParser';
 import { ConditionVisitor, ConditionVisitorResult, PlaceholderType } from './ConditionVisitor';
 import { Fact } from '../../types/Fact';
-import { ErrorNode, ParseTreeListener } from 'antlr4ts/tree';
-import { assertNever } from '../../utils/Assert';
 
 const flattenResult = (result: ConditionVisitorResult): string => {
     return result.map(e => e.value).join(' ');
@@ -18,27 +22,16 @@ type ComputeOptionsResponse = undefined | {
 
 const logicalOperators = [ 'AND', 'OR' ];
 
-class ConditionParseTreeListener implements ParseTreeListener {
-
-    readonly parser;
-
-    constructor(parser) {
-        this.parser = parser;
-    }
-
-    /*visitTerminal?: (node: TerminalNode) => void;
-    visitErrorNode?: (node: ErrorNode) => void;
-    enterEveryRule?: (ctx: ParserRuleContext) => void;
-    exitEveryRule?: (ctx: ParserRuleContext) => void;*/
-
-    visitErrorNode(node: ErrorNode) {
-        // console.log(node);
-    }
-}
-
-class ErrorListener implements ANTLRErrorListener<any> {
-    syntaxError(recognizer, offendingSymbol, line, charPositionInLine, msg, e) {
-        // console.log('error');
+// Todo: This could be useful to detect the next tokens.
+// The problem is that if we get "facts.x = 1 AN" the missing 'D' in 'AND' won't allow to properly
+// identify the token (simpletext vs AND), we need to fix this and re-parse to get a correct next token
+class ErrorListener implements ANTLRErrorListener<Token> {
+    syntaxError(
+        recognizer: Recognizer<Token, any>, _offendingSymbol: Token | undefined, _line: number, _charPositionInLine: number,
+        _msg: string, _e: RecognitionException | undefined) {
+        if (recognizer instanceof Parser) {
+            // console.log('error', recognizer.getExpectedTokensWithinCurrentRule());
+        }
     }
 }
 
@@ -49,7 +42,6 @@ export const computeOptions = (condition: string, facts: Fact[]): ComputeOptions
     const tokenStream = new CommonTokenStream(lexer);
     const parser = new ExpressionParser(tokenStream);
     parser.removeErrorListeners();
-    parser.addParseListener(new ConditionParseTreeListener(parser));
     parser.addErrorListener(new ErrorListener());
     const tree = parser.expression();
 
