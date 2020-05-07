@@ -225,7 +225,7 @@ describe('src/components/Condition/ConditionVisitor', () => {
         ]);
     });
 
-    it('Detects incomplete logical operator', () => {
+    it('Detects incomplete logical operator as error', () => {
         const conditionVisitor = new ConditionVisitor();
         const condition = 'facts.arch = 5 an ';
         const result = conditionVisitor.visit(treeForCondition(condition));
@@ -243,7 +243,7 @@ describe('src/components/Condition/ConditionVisitor', () => {
                 value: '5'
             },
             {
-                type: PlaceholderType.LOGICAL_OPERATOR,
+                type: PlaceholderType.ERROR,
                 value: 'an'
             }
         ]);
@@ -398,7 +398,7 @@ describe('src/components/Condition/ConditionVisitor', () => {
         ]);
     });
 
-    it('Detect logic operator inside a round bracket', () => {
+    it('Detect logic operator (as error) inside a round bracket', () => {
         const conditionVisitor = new ConditionVisitor();
         const condition =  '( facts = 1 an';
         const tree = treeForCondition(condition);
@@ -421,8 +421,37 @@ describe('src/components/Condition/ConditionVisitor', () => {
                 value: '1'
             },
             {
-                type: PlaceholderType.LOGICAL_OPERATOR,
+                type: PlaceholderType.ERROR,
                 value: 'an'
+            }
+        ]);
+    });
+
+    it('Multiple logical operators are errors', () => {
+        const conditionVisitor = new ConditionVisitor();
+        const condition =  'facts = 1 and and';
+        const tree = treeForCondition(condition);
+        const result = conditionVisitor.visit(tree);
+        expect(result).toEqual([
+            {
+                type: PlaceholderType.FACT,
+                value: 'facts'
+            },
+            {
+                type: PlaceholderType.BOOLEAN_OPERATOR,
+                value: '='
+            },
+            {
+                type: PlaceholderType.VALUE,
+                value: '1'
+            },
+            {
+                type: PlaceholderType.LOGICAL_OPERATOR,
+                value: 'and'
+            },
+            {
+                type: PlaceholderType.ERROR,
+                value: 'and'
             }
         ]);
     });

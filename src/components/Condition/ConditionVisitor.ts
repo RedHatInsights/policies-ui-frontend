@@ -3,13 +3,12 @@ import { AbstractParseTreeVisitor, ErrorNode, TerminalNode } from 'antlr4ts/tree
 import { ExpressionVisitor } from '../../utils/Expression/ExpressionVisitor';
 import {
     // eslint-disable-next-line @typescript-eslint/camelcase
-    ArrayContext, Boolean_operatorContext, ExprContext, ExpressionContext,
+    ArrayContext, Boolean_operatorContext, ExprContext,
     // eslint-disable-next-line @typescript-eslint/camelcase
-    KeyContext, Logical_operatorContext, Numeric_compare_operatorContext, Numerical_valueContext, ObjectContext,
+    KeyContext, Logical_operatorContext, Numeric_compare_operatorContext, Numerical_valueContext,
     ValueContext
 } from '../../utils/Expression/ExpressionParser';
 import { Token } from 'antlr4ts';
-import { logicalOperators } from './Tokens';
 
 export enum PlaceholderType {
     FACT = 'FACT',
@@ -42,6 +41,14 @@ const makeUnknown = (value: string): Placeholder => ({ type: PlaceholderType.UNK
 
 type ReturnValue = ConditionVisitorResult;
 
+const first = <T>(array: Array<T>): T | undefined => {
+    return array.length === 0 ? undefined : array[0];
+};
+
+const last = <T>(array: Array<T>): T | undefined => {
+    return array.length === 0 ? undefined : array[ array.length - 1];
+};
+
 /**
  * Condition visitors returns a list of suggestions based on where we currently are.
  */
@@ -52,6 +59,16 @@ export class ConditionVisitor extends AbstractParseTreeVisitor<ReturnValue> impl
     }
 
     protected aggregateResult(aggregate: ReturnValue, nextResult: ReturnValue) {
+
+        const lastAggregatedWithoutError = last(aggregate.filter(e => e.type !== PlaceholderType.ERROR));
+        const firstNextWithouterror = first(nextResult.filter(e => e.type !== PlaceholderType.ERROR));
+
+        if (lastAggregatedWithoutError && firstNextWithouterror &&
+            lastAggregatedWithoutError.type === PlaceholderType.LOGICAL_OPERATOR &&
+            firstNextWithouterror.type === PlaceholderType.LOGICAL_OPERATOR) {
+            firstNextWithouterror.type = PlaceholderType.ERROR;
+        }
+
         return [ ...aggregate, ...nextResult ];
     }
 
@@ -72,16 +89,6 @@ export class ConditionVisitor extends AbstractParseTreeVisitor<ReturnValue> impl
     visitErrorNode(node: ErrorNode): ReturnValue {
         if (node.text === '<missing \')\'>') {
             return [ makeCloseBracket(')') ];
-        }
-
-        const parent = node.parent;
-        if (parent && (parent instanceof ObjectContext || parent instanceof ExpressionContext) && parent.children) {
-            const index = parent.children.indexOf(node);
-            if (index > 0 && parent.children[index - 1] instanceof ObjectContext) {
-                if (logicalOperators.some(op => op.includes(node.text.toUpperCase()))) {
-                    return [ makeLogicalOperator(node.text) ];
-                }
-            }
         }
 
         return [ makeError(node.text) ];

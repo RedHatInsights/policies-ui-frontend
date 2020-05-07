@@ -1,15 +1,11 @@
 import {
-    ANTLRErrorListener,
     CharStreams,
-    CommonTokenStream,
-    Parser,
-    RecognitionException, Recognizer, Token
+    CommonTokenStream
 } from 'antlr4ts';
 import { ExpressionLexer } from '../../utils/Expression/ExpressionLexer';
 import { ExpressionParser } from '../../utils/Expression/ExpressionParser';
 import { ConditionVisitor, ConditionVisitorResult, PlaceholderType } from './ConditionVisitor';
 import { Fact } from '../../types/Fact';
-import { logicalOperators } from './Tokens';
 
 const flattenResult = (result: ConditionVisitorResult): string => {
     return result.map(e => e.value).join(' ');
@@ -24,26 +20,43 @@ type ComputeOptionsResponse = undefined | {
 // Todo: This could be useful to detect the next tokens.
 // The problem is that if we get "facts.x = 1 AN" the missing 'D' in 'AND' won't allow to properly
 // identify the token (simpletext vs AND), we need to fix this and re-parse to get a correct next token
-class ErrorListener implements ANTLRErrorListener<Token> {
-    syntaxError(
-        recognizer: Recognizer<Token, any>, _offendingSymbol: Token | undefined, _line: number, _charPositionInLine: number,
-        _msg: string, _e: RecognitionException | undefined) {
-        if (recognizer instanceof Parser) {
-            // console.log('error', recognizer.getExpectedTokensWithinCurrentRule());
-        }
-    }
-}
+// Could be fixed by extending DefaultErrorStrategy error handler and implement the recoveryInline
+// try to fix e.g. convert "an" to "and" when expecting AND|OR and use that suggestion.
+// Other ideas would be to make the lexer a bit smarter to transform "an" to AND when prev is an "object"
+// class ConditionParseTreeListener implements ParseTreeListener {
+//     readonly parser: Parser;
+//     private expectation;
+//
+//     constructor(parser: Parser) {
+//         this.parser = parser;
+//     }
+//
+//     exitEveryRule(_ctx: ParserRuleContext) {
+//         this.expectation = this.parser.getExpectedTokensWithinCurrentRule();
+//         console.log('exit rule', this.parser.getExpectedTokensWithinCurrentRule());
+//     }
+//
+//     visitErrorNode(_node: ErrorNode) {
+//         console.log('error in listener', this.parser.getExpectedTokensWithinCurrentRule());
+//     }
+// }
 
 const maxOptions = 10;
 
-export const computeOptions = (condition: string, facts: Fact[]): ComputeOptionsResponse => {
+const buildParserFromInput = (condition: string) => {
     const inputStream = CharStreams.fromString(condition);
     const lexer = new ExpressionLexer(inputStream);
     lexer.removeErrorListeners();
     const tokenStream = new CommonTokenStream(lexer);
     const parser = new ExpressionParser(tokenStream);
     parser.removeErrorListeners();
-    parser.addErrorListener(new ErrorListener());
+    return parser;
+};
+
+export const computeOptions = (condition: string, facts: Fact[]): ComputeOptionsResponse => {
+    const parser = buildParserFromInput(condition);
+    // Todo: Continue working on autocomplete
+    // parser.addParseListener(new ConditionParseTreeListener(parser));
     const tree = parser.expression();
 
     const visitor = new ConditionVisitor();
@@ -81,12 +94,6 @@ export const computeOptions = (condition: string, facts: Fact[]): ComputeOptions
             options: facts.filter(
                 f => f.name && f.name.toUpperCase().includes(placeholderElement.value.toUpperCase())).slice(0, maxOptions).map(f => f.name || ''
             ),
-            postfix
-        };
-    } else if (placeholderElement.type === PlaceholderType.LOGICAL_OPERATOR) {
-        return {
-            prefix: base,
-            options: logicalOperators.filter(o => o.includes(placeholderElement.value.toUpperCase())),
             postfix
         };
     } else {

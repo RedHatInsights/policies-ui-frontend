@@ -22,14 +22,12 @@ describe('src/components/Condition/ComputeOptions', () => {
         }
     ];
 
-    it('Should autocomplete logic operators', () => {
+    it('Should ignore (for now) partial logic operators', () => {
         const options = computeOptions('facts.arch = 5 an', testFacts);
         expect(options).toEqual({
-            prefix: 'facts.arch = 5',
-            options: [
-                'AND'
-            ],
-            postfix: ''
+            prefix: 'facts.arch =',
+            options: [],
+            postfix: '5'
         });
     });
 
@@ -82,14 +80,23 @@ describe('src/components/Condition/ComputeOptions', () => {
         });
     });
 
-    it('Should autocomplete logic operators even if we have a missing end round brackets', () => {
+    it('Should ignore logic operators', () => {
         const options = computeOptions('( facts = 1 an', testFacts);
         expect(options).toEqual({
-            prefix: '( facts = 1',
+            prefix: '( facts =',
             options: [
-                'AND'
             ],
-            postfix: ''
+            postfix: '1'
+        });
+    });
+
+    it('Multiple logical operators are joined into the first', () => {
+        const options = computeOptions('facts = 1 and or and or or fact = 2', testFacts);
+        expect(options).toEqual({
+            prefix: 'facts = 1 and fact =',
+            options: [
+            ],
+            postfix: '2'
         });
     });
 });

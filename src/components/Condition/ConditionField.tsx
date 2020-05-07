@@ -25,8 +25,8 @@ export const factToOptions = (prefix: string, options: string[], postfix: string
     return (options || [ ' ' ]).map(o => (
         <SelectOption
             className={ selectOptionClassName }
-            key={ prefix + o }
-            value={ prefix + o }
+            key={ prefix + o + postfix }
+            value={ prefix + o + postfix }
         >{ prefix }<b>{ o }</b>{ postfix }</SelectOption>
     ));
 };
