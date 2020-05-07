@@ -1,4 +1,4 @@
-name: Check Expression.g4 is updated
+name: Check if Expression.g4 is in sync with the Engine
 
 on: [push, pull_request]
 
