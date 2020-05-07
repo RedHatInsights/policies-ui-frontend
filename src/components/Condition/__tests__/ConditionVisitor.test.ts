@@ -1,7 +1,7 @@
 import { ExpressionContext, ExpressionParser } from '../../../utils/Expression/ExpressionParser';
 import { CharStreams, CommonTokenStream } from 'antlr4ts';
 import { ExpressionLexer } from '../../../utils/Expression/ExpressionLexer';
-import { ConditionVisitor, PlaceholderType } from '../ConditionVisitor';
+import { ConditionVisitor, ElementType } from '../ConditionVisitor';
 
 describe('src/components/Condition/ConditionVisitor', () => {
 
@@ -27,7 +27,7 @@ describe('src/components/Condition/ConditionVisitor', () => {
         const result = conditionVisitor.visit(treeForCondition('ar'));
         expect(result).toEqual([
             {
-                type: PlaceholderType.FACT,
+                type: ElementType.FACT,
                 value: 'ar'
             }
         ]);
@@ -39,23 +39,23 @@ describe('src/components/Condition/ConditionVisitor', () => {
         const result = conditionVisitor.visit(treeForCondition(condition));
         expect(result).toEqual([
             {
-                type: PlaceholderType.FACT,
+                type: ElementType.FACT,
                 value: 'facts.arch'
             },
             {
-                type: PlaceholderType.BOOLEAN_OPERATOR,
+                type: ElementType.BOOLEAN_OPERATOR,
                 value: '='
             },
             {
-                type: PlaceholderType.VALUE,
+                type: ElementType.VALUE,
                 value: '"x86_64"'
             },
             {
-                type: PlaceholderType.LOGICAL_OPERATOR,
+                type: ElementType.LOGICAL_OPERATOR,
                 value: 'and'
             },
             {
-                type: PlaceholderType.FACT,
+                type: ElementType.FACT,
                 value: 'cpu'
             }
         ]);
@@ -67,15 +67,15 @@ describe('src/components/Condition/ConditionVisitor', () => {
         const result = conditionVisitor.visit(treeForCondition(condition));
         expect(result).toEqual([
             {
-                type: PlaceholderType.FACT,
+                type: ElementType.FACT,
                 value: 'facts.arch'
             },
             {
-                type: PlaceholderType.BOOLEAN_OPERATOR,
+                type: ElementType.BOOLEAN_OPERATOR,
                 value: '='
             },
             {
-                type: PlaceholderType.VALUE,
+                type: ElementType.VALUE,
                 value: '"my-value"'
             }
         ]);
@@ -87,15 +87,15 @@ describe('src/components/Condition/ConditionVisitor', () => {
         const result = conditionVisitor.visit(treeForCondition(condition));
         expect(result).toEqual([
             {
-                type: PlaceholderType.FACT,
+                type: ElementType.FACT,
                 value: 'facts.arch'
             },
             {
-                type: PlaceholderType.BOOLEAN_OPERATOR,
+                type: ElementType.BOOLEAN_OPERATOR,
                 value: '='
             },
             {
-                type: PlaceholderType.VALUE,
+                type: ElementType.VALUE,
                 value: '"my-val "'
             }
         ]);
@@ -107,15 +107,15 @@ describe('src/components/Condition/ConditionVisitor', () => {
         const result = conditionVisitor.visit(treeForCondition(condition));
         expect(result).toEqual([
             {
-                type: PlaceholderType.FACT,
+                type: ElementType.FACT,
                 value: 'facts.arch'
             },
             {
-                type: PlaceholderType.BOOLEAN_OPERATOR,
+                type: ElementType.BOOLEAN_OPERATOR,
                 value: '!='
             },
             {
-                type: PlaceholderType.VALUE,
+                type: ElementType.VALUE,
                 value: '"my-val "'
             }
         ]);
@@ -127,15 +127,15 @@ describe('src/components/Condition/ConditionVisitor', () => {
         const result = conditionVisitor.visit(treeForCondition(condition));
         expect(result).toEqual([
             {
-                type: PlaceholderType.FACT,
+                type: ElementType.FACT,
                 value: 'facts.arch'
             },
             {
-                type: PlaceholderType.BOOLEAN_OPERATOR,
+                type: ElementType.BOOLEAN_OPERATOR,
                 value: '='
             },
             {
-                type: PlaceholderType.VALUE,
+                type: ElementType.VALUE,
                 value: '\'my-val \''
             }
         ]);
@@ -147,15 +147,15 @@ describe('src/components/Condition/ConditionVisitor', () => {
         const result = conditionVisitor.visit(treeForCondition(condition));
         expect(result).toEqual([
             {
-                type: PlaceholderType.FACT,
+                type: ElementType.FACT,
                 value: 'facts.arch'
             },
             {
-                type: PlaceholderType.BOOLEAN_OPERATOR,
+                type: ElementType.BOOLEAN_OPERATOR,
                 value: '='
             },
             {
-                type: PlaceholderType.VALUE,
+                type: ElementType.VALUE,
                 value: '"my-val"'
             }
         ]);
@@ -167,15 +167,15 @@ describe('src/components/Condition/ConditionVisitor', () => {
         const result = conditionVisitor.visit(treeForCondition(condition));
         expect(result).toEqual([
             {
-                type: PlaceholderType.FACT,
+                type: ElementType.FACT,
                 value: 'facts.arch'
             },
             {
-                type: PlaceholderType.BOOLEAN_OPERATOR,
+                type: ElementType.BOOLEAN_OPERATOR,
                 value: '='
             },
             {
-                type: PlaceholderType.VALUE,
+                type: ElementType.VALUE,
                 value: '"my-val    your-val"'
             }
         ]);
@@ -187,15 +187,15 @@ describe('src/components/Condition/ConditionVisitor', () => {
         const result = conditionVisitor.visit(treeForCondition(condition));
         expect(result).toEqual([
             {
-                type: PlaceholderType.FACT,
+                type: ElementType.FACT,
                 value: 'facts.arch'
             },
             {
-                type: PlaceholderType.BOOLEAN_OPERATOR,
+                type: ElementType.BOOLEAN_OPERATOR,
                 value: '='
             },
             {
-                type: PlaceholderType.VALUE,
+                type: ElementType.VALUE,
                 value: '5'
             }
         ]);
@@ -207,19 +207,19 @@ describe('src/components/Condition/ConditionVisitor', () => {
         const result = conditionVisitor.visit(treeForCondition(condition));
         expect(result).toEqual([
             {
-                type: PlaceholderType.FACT,
+                type: ElementType.FACT,
                 value: 'facts.arch'
             },
             {
-                type: PlaceholderType.BOOLEAN_OPERATOR,
+                type: ElementType.BOOLEAN_OPERATOR,
                 value: '='
             },
             {
-                type: PlaceholderType.VALUE,
+                type: ElementType.VALUE,
                 value: '5'
             },
             {
-                type: PlaceholderType.LOGICAL_OPERATOR,
+                type: ElementType.LOGICAL_OPERATOR,
                 value: 'and'
             }
         ]);
@@ -231,19 +231,19 @@ describe('src/components/Condition/ConditionVisitor', () => {
         const result = conditionVisitor.visit(treeForCondition(condition));
         expect(result).toEqual([
             {
-                type: PlaceholderType.FACT,
+                type: ElementType.FACT,
                 value: 'facts.arch'
             },
             {
-                type: PlaceholderType.BOOLEAN_OPERATOR,
+                type: ElementType.BOOLEAN_OPERATOR,
                 value: '='
             },
             {
-                type: PlaceholderType.VALUE,
+                type: ElementType.VALUE,
                 value: '5'
             },
             {
-                type: PlaceholderType.ERROR,
+                type: ElementType.ERROR,
                 value: 'an'
             }
         ]);
@@ -255,7 +255,7 @@ describe('src/components/Condition/ConditionVisitor', () => {
         const result = conditionVisitor.visit(treeForCondition(condition));
         expect(result).toEqual([
             {
-                type: PlaceholderType.ERROR,
+                type: ElementType.ERROR,
                 value: '1234'
             }
         ]);
@@ -268,11 +268,11 @@ describe('src/components/Condition/ConditionVisitor', () => {
         const result = conditionVisitor.visit(tree);
         expect(result).toEqual([
             {
-                type: PlaceholderType.ERROR,
+                type: ElementType.ERROR,
                 value: '1234'
             },
             {
-                type: PlaceholderType.FACT,
+                type: ElementType.FACT,
                 value: 'facts'
             }
         ]);
@@ -285,15 +285,15 @@ describe('src/components/Condition/ConditionVisitor', () => {
         const result = conditionVisitor.visit(tree);
         expect(result).toEqual([
             {
-                type: PlaceholderType.FACT,
+                type: ElementType.FACT,
                 value: 'facts'
             },
             {
-                type: PlaceholderType.NUMERIC_COMPARE_OPERATOR,
+                type: ElementType.NUMERIC_COMPARE_OPERATOR,
                 value: '>='
             },
             {
-                type: PlaceholderType.VALUE,
+                type: ElementType.VALUE,
                 value: '5'
             }
         ]);
@@ -306,55 +306,55 @@ describe('src/components/Condition/ConditionVisitor', () => {
         const result = conditionVisitor.visit(tree);
         expect(result).toEqual([
             {
-                type: PlaceholderType.FACT,
+                type: ElementType.FACT,
                 value: 'facts'
             },
             {
-                type: PlaceholderType.NUMERIC_COMPARE_OPERATOR,
+                type: ElementType.NUMERIC_COMPARE_OPERATOR,
                 value: '>='
             },
             {
-                type: PlaceholderType.VALUE,
+                type: ElementType.VALUE,
                 value: '5'
             },
             {
-                type: PlaceholderType.LOGICAL_OPERATOR,
+                type: ElementType.LOGICAL_OPERATOR,
                 value: 'and'
             },
             {
-                type: PlaceholderType.OPEN_ROUND_BRACKET,
+                type: ElementType.OPEN_ROUND_BRACKET,
                 value: '('
             },
             {
-                type: PlaceholderType.FACT,
+                type: ElementType.FACT,
                 value: 'f'
             },
             {
-                type: PlaceholderType.NUMERIC_COMPARE_OPERATOR,
+                type: ElementType.NUMERIC_COMPARE_OPERATOR,
                 value: '>'
             },
             {
-                type: PlaceholderType.VALUE,
+                type: ElementType.VALUE,
                 value: '1'
             },
             {
-                type: PlaceholderType.LOGICAL_OPERATOR,
+                type: ElementType.LOGICAL_OPERATOR,
                 value: 'or'
             },
             {
-                type: PlaceholderType.FACT,
+                type: ElementType.FACT,
                 value: 'f'
             },
             {
-                type: PlaceholderType.BOOLEAN_OPERATOR,
+                type: ElementType.BOOLEAN_OPERATOR,
                 value: '='
             },
             {
-                type: PlaceholderType.VALUE,
+                type: ElementType.VALUE,
                 value: '1'
             },
             {
-                type: PlaceholderType.CLOSE_ROUND_BRACKET,
+                type: ElementType.CLOSE_ROUND_BRACKET,
                 value: ')'
             }
         ]);
@@ -367,15 +367,15 @@ describe('src/components/Condition/ConditionVisitor', () => {
         const result = conditionVisitor.visit(tree);
         expect(result).toEqual([
             {
-                type: PlaceholderType.OPEN_ROUND_BRACKET,
+                type: ElementType.OPEN_ROUND_BRACKET,
                 value: '('
             },
             {
-                type: PlaceholderType.FACT,
+                type: ElementType.FACT,
                 value: 'f'
             },
             {
-                type: PlaceholderType.CLOSE_ROUND_BRACKET,
+                type: ElementType.CLOSE_ROUND_BRACKET,
                 value: ')'
             }
         ]);
@@ -388,11 +388,11 @@ describe('src/components/Condition/ConditionVisitor', () => {
         const result = conditionVisitor.visit(tree);
         expect(result).toEqual([
             {
-                type: PlaceholderType.FACT,
+                type: ElementType.FACT,
                 value: 'f'
             },
             {
-                type: PlaceholderType.ERROR,
+                type: ElementType.ERROR,
                 value: ')'
             }
         ]);
@@ -405,23 +405,23 @@ describe('src/components/Condition/ConditionVisitor', () => {
         const result = conditionVisitor.visit(tree);
         expect(result).toEqual([
             {
-                type: PlaceholderType.OPEN_ROUND_BRACKET,
+                type: ElementType.OPEN_ROUND_BRACKET,
                 value: '('
             },
             {
-                type: PlaceholderType.FACT,
+                type: ElementType.FACT,
                 value: 'facts'
             },
             {
-                type: PlaceholderType.BOOLEAN_OPERATOR,
+                type: ElementType.BOOLEAN_OPERATOR,
                 value: '='
             },
             {
-                type: PlaceholderType.VALUE,
+                type: ElementType.VALUE,
                 value: '1'
             },
             {
-                type: PlaceholderType.ERROR,
+                type: ElementType.ERROR,
                 value: 'an'
             }
         ]);
@@ -434,23 +434,23 @@ describe('src/components/Condition/ConditionVisitor', () => {
         const result = conditionVisitor.visit(tree);
         expect(result).toEqual([
             {
-                type: PlaceholderType.FACT,
+                type: ElementType.FACT,
                 value: 'facts'
             },
             {
-                type: PlaceholderType.BOOLEAN_OPERATOR,
+                type: ElementType.BOOLEAN_OPERATOR,
                 value: '='
             },
             {
-                type: PlaceholderType.VALUE,
+                type: ElementType.VALUE,
                 value: '1'
             },
             {
-                type: PlaceholderType.LOGICAL_OPERATOR,
+                type: ElementType.LOGICAL_OPERATOR,
                 value: 'and'
             },
             {
-                type: PlaceholderType.ERROR,
+                type: ElementType.ERROR,
                 value: 'and'
             }
         ]);
@@ -463,31 +463,31 @@ describe('src/components/Condition/ConditionVisitor', () => {
         const result = conditionVisitor.visit(tree);
         expect(result).toEqual([
             {
-                type: PlaceholderType.OPEN_ROUND_BRACKET,
+                type: ElementType.OPEN_ROUND_BRACKET,
                 value: '('
             },
             {
-                type: PlaceholderType.FACT,
+                type: ElementType.FACT,
                 value: 'facts'
             },
             {
-                type: PlaceholderType.BOOLEAN_OPERATOR,
+                type: ElementType.BOOLEAN_OPERATOR,
                 value: '='
             },
             {
-                type: PlaceholderType.VALUE,
+                type: ElementType.VALUE,
                 value: '1'
             },
             {
-                type: PlaceholderType.LOGICAL_OPERATOR,
+                type: ElementType.LOGICAL_OPERATOR,
                 value: 'and'
             },
             {
-                type: PlaceholderType.FACT,
+                type: ElementType.FACT,
                 value: 'myfac'
             },
             {
-                type: PlaceholderType.CLOSE_ROUND_BRACKET,
+                type: ElementType.CLOSE_ROUND_BRACKET,
                 value: ')'
             }
         ]);
@@ -500,39 +500,39 @@ describe('src/components/Condition/ConditionVisitor', () => {
         const result = conditionVisitor.visit(tree);
         expect(result).toEqual([
             {
-                type: PlaceholderType.OPEN_ROUND_BRACKET,
+                type: ElementType.OPEN_ROUND_BRACKET,
                 value: '('
             },
             {
-                type: PlaceholderType.OPEN_ROUND_BRACKET,
+                type: ElementType.OPEN_ROUND_BRACKET,
                 value: '('
             },
             {
-                type: PlaceholderType.FACT,
+                type: ElementType.FACT,
                 value: 'facts'
             },
             {
-                type: PlaceholderType.BOOLEAN_OPERATOR,
+                type: ElementType.BOOLEAN_OPERATOR,
                 value: '='
             },
             {
-                type: PlaceholderType.VALUE,
+                type: ElementType.VALUE,
                 value: '1'
             },
             {
-                type: PlaceholderType.CLOSE_ROUND_BRACKET,
+                type: ElementType.CLOSE_ROUND_BRACKET,
                 value: ')'
             },
             {
-                type: PlaceholderType.LOGICAL_OPERATOR,
+                type: ElementType.LOGICAL_OPERATOR,
                 value: 'and'
             },
             {
-                type: PlaceholderType.FACT,
+                type: ElementType.FACT,
                 value: 'myfac'
             },
             {
-                type: PlaceholderType.CLOSE_ROUND_BRACKET,
+                type: ElementType.CLOSE_ROUND_BRACKET,
                 value: ')'
             }
         ]);
@@ -545,39 +545,39 @@ describe('src/components/Condition/ConditionVisitor', () => {
         const result = conditionVisitor.visit(tree);
         expect(result).toEqual([
             {
-                type: PlaceholderType.OPEN_ROUND_BRACKET,
+                type: ElementType.OPEN_ROUND_BRACKET,
                 value: '('
             },
             {
-                type: PlaceholderType.OPEN_ROUND_BRACKET,
+                type: ElementType.OPEN_ROUND_BRACKET,
                 value: '('
             },
             {
-                type: PlaceholderType.FACT,
+                type: ElementType.FACT,
                 value: 'facts'
             },
             {
-                type: PlaceholderType.BOOLEAN_OPERATOR,
+                type: ElementType.BOOLEAN_OPERATOR,
                 value: '='
             },
             {
-                type: PlaceholderType.VALUE,
+                type: ElementType.VALUE,
                 value: '1'
             },
             {
-                type: PlaceholderType.LOGICAL_OPERATOR,
+                type: ElementType.LOGICAL_OPERATOR,
                 value: 'and'
             },
             {
-                type: PlaceholderType.FACT,
+                type: ElementType.FACT,
                 value: 'myfac'
             },
             {
-                type: PlaceholderType.CLOSE_ROUND_BRACKET,
+                type: ElementType.CLOSE_ROUND_BRACKET,
                 value: ')'
             },
             {
-                type: PlaceholderType.CLOSE_ROUND_BRACKET,
+                type: ElementType.CLOSE_ROUND_BRACKET,
                 value: ')'
             }
         ]);
@@ -590,7 +590,7 @@ describe('src/components/Condition/ConditionVisitor', () => {
         const result = conditionVisitor.visit(tree);
         expect(result).toEqual([
             {
-                type: PlaceholderType.UNKNOWN,
+                type: ElementType.UNKNOWN,
                 value: '!'
             }
         ]);
@@ -603,7 +603,7 @@ describe('src/components/Condition/ConditionVisitor', () => {
         const result = conditionVisitor.visit(tree);
         expect(result).toEqual([
             {
-                type: PlaceholderType.UNKNOWN,
+                type: ElementType.UNKNOWN,
                 value: 'NOT'
             }
         ]);

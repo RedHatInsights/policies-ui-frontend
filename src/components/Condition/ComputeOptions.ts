@@ -4,7 +4,7 @@ import {
 } from 'antlr4ts';
 import { ExpressionLexer } from '../../utils/Expression/ExpressionLexer';
 import { ExpressionParser } from '../../utils/Expression/ExpressionParser';
-import { ConditionVisitor, ConditionVisitorResult, PlaceholderType } from './ConditionVisitor';
+import { ConditionVisitor, ConditionVisitorResult, ElementType } from './ConditionVisitor';
 import { Fact } from '../../types/Fact';
 
 const flattenResult = (result: ConditionVisitorResult): string => {
@@ -60,7 +60,7 @@ export const computeOptions = (condition: string, facts: Fact[]): ComputeOptions
     const tree = parser.expression();
 
     const visitor = new ConditionVisitor();
-    const result = visitor.visit(tree).filter(e => e.type !== PlaceholderType.ERROR);
+    const result = visitor.visit(tree).filter(e => e.type !== ElementType.ERROR);
 
     let lastElement = result.pop();
     const postfixElements: typeof result = [];
@@ -73,7 +73,7 @@ export const computeOptions = (condition: string, facts: Fact[]): ComputeOptions
         };
     }
 
-    while (lastElement.type === PlaceholderType.CLOSE_ROUND_BRACKET) {
+    while (lastElement.type === ElementType.CLOSE_ROUND_BRACKET) {
         const next = result.pop();
         if (next === undefined) {
             break;
@@ -88,7 +88,7 @@ export const computeOptions = (condition: string, facts: Fact[]): ComputeOptions
 
     const placeholderElement = lastElement;
 
-    if (placeholderElement.type === PlaceholderType.FACT) {
+    if (placeholderElement.type === ElementType.FACT) {
         return {
             prefix: base,
             options: facts.filter(

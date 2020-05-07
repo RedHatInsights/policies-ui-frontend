@@ -10,7 +10,7 @@ import {
 } from '../../utils/Expression/ExpressionParser';
 import { Token } from 'antlr4ts';
 
-export enum PlaceholderType {
+export enum ElementType {
     FACT = 'FACT',
     VALUE = 'VALUE',
     LOGICAL_OPERATOR = 'LOGICAL_OPERATOR',
@@ -23,21 +23,21 @@ export enum PlaceholderType {
 }
 
 interface Placeholder {
-    type: PlaceholderType;
+    type: ElementType;
     value: string;
 }
 
 export type ConditionVisitorResult = Array<Placeholder>;
 
-const makeFact = (value: string): Placeholder => ({ type: PlaceholderType.FACT, value });
-const makeValue = (value: string): Placeholder => ({ type: PlaceholderType.VALUE, value });
-const makeLogicalOperator = (value: string): Placeholder => ({ type: PlaceholderType.LOGICAL_OPERATOR, value });
-const makeBooleanOperator = (value: string): Placeholder => ({ type: PlaceholderType.BOOLEAN_OPERATOR, value });
-const makeOpenBracket = (value: string): Placeholder => ({ type: PlaceholderType.OPEN_ROUND_BRACKET, value });
-const makeCloseBracket = (value: string): Placeholder => ({ type: PlaceholderType.CLOSE_ROUND_BRACKET, value });
-const makeNumericCompareOperator = (value: string): Placeholder => ({ type: PlaceholderType.NUMERIC_COMPARE_OPERATOR, value });
-const makeError = (value: string): Placeholder => ({ type: PlaceholderType.ERROR, value });
-const makeUnknown = (value: string): Placeholder => ({ type: PlaceholderType.UNKNOWN, value });
+const makeFact = (value: string): Placeholder => ({ type: ElementType.FACT, value });
+const makeValue = (value: string): Placeholder => ({ type: ElementType.VALUE, value });
+const makeLogicalOperator = (value: string): Placeholder => ({ type: ElementType.LOGICAL_OPERATOR, value });
+const makeBooleanOperator = (value: string): Placeholder => ({ type: ElementType.BOOLEAN_OPERATOR, value });
+const makeOpenBracket = (value: string): Placeholder => ({ type: ElementType.OPEN_ROUND_BRACKET, value });
+const makeCloseBracket = (value: string): Placeholder => ({ type: ElementType.CLOSE_ROUND_BRACKET, value });
+const makeNumericCompareOperator = (value: string): Placeholder => ({ type: ElementType.NUMERIC_COMPARE_OPERATOR, value });
+const makeError = (value: string): Placeholder => ({ type: ElementType.ERROR, value });
+const makeUnknown = (value: string): Placeholder => ({ type: ElementType.UNKNOWN, value });
 
 type ReturnValue = ConditionVisitorResult;
 
@@ -60,13 +60,13 @@ export class ConditionVisitor extends AbstractParseTreeVisitor<ReturnValue> impl
 
     protected aggregateResult(aggregate: ReturnValue, nextResult: ReturnValue) {
 
-        const lastAggregatedWithoutError = last(aggregate.filter(e => e.type !== PlaceholderType.ERROR));
-        const firstNextWithouterror = first(nextResult.filter(e => e.type !== PlaceholderType.ERROR));
+        const lastAggregatedWithoutError = last(aggregate.filter(e => e.type !== ElementType.ERROR));
+        const firstNextWithouterror = first(nextResult.filter(e => e.type !== ElementType.ERROR));
 
         if (lastAggregatedWithoutError && firstNextWithouterror &&
-            lastAggregatedWithoutError.type === PlaceholderType.LOGICAL_OPERATOR &&
-            firstNextWithouterror.type === PlaceholderType.LOGICAL_OPERATOR) {
-            firstNextWithouterror.type = PlaceholderType.ERROR;
+            lastAggregatedWithoutError.type === ElementType.LOGICAL_OPERATOR &&
+            firstNextWithouterror.type === ElementType.LOGICAL_OPERATOR) {
+            firstNextWithouterror.type = ElementType.ERROR;
         }
 
         return [ ...aggregate, ...nextResult ];
