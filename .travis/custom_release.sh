@@ -23,8 +23,12 @@ then
     done
 fi
 
-if [[ "${TRAVIS_BRANCH}" = "prod-beta" || "${TRAVIS_BRANCH}" = "prod-stable" ]]; then
-    echo "PUSHING ${TRAVIS_BRANCH}"
-    rm -rf ./build/.git
-    .travis/release.sh "${TRAVIS_BRANCH}"
+if [ "${TRAVIS_BRANCH}" = "prod" ]
+then
+    for env in beta stable
+    do
+        echo "PUSHING prod-${env}"
+        rm -rf ./dist/.git
+        .travis/release.sh "prod-${env}"
+    done
 fi
