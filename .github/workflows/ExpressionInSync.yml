@@ -11,4 +11,4 @@ jobs:
     - name: Download Expression.g4 from RedHatInsights/policies-engine
       run: curl -O https://raw.githubusercontent.com/RedHatInsights/policies-engine/master/api/src/main/antlr4/com/redhat/cloud/policies/api/model/condition/expression/parser/Expression.g4
     - name: Compare both files
-      run: diff Expression.g4 src/utils/Expression/Expression.g4  || echo "Expression.g4 is out of sync"
+      run: diff Expression.g4 src/utils/Expression/Expression.g4  || (echo "Expression.g4 is out of sync" && false)
