@@ -12,12 +12,13 @@ import { NewPolicy } from '../../../types/Policy/Policy';
 import { Form } from '../../Formik/Patternfly/Form';
 import { useUpdateEffect } from 'react-use';
 import { CreatePolicyStepContext } from './CreatePolicyPolicyStep/Context';
+import { joinClasses } from '../../../utils/ComponentUtils';
 
 type CreateCustomPolicyFormType = NewPolicy & {
     isValid?: boolean;
 };
 
-const smallVertSpacing = 'pf-u-mb-sm'; //SpacingMarginBottomSm
+const smallVerticalMargin = 'pf-u-mb-sm'; //SpacingMarginBottomSm
 const titleSmall = 'pf-c-title pf-m-sm'; //TitleMedium
 const radioButton = 'pf-c-radio';//Radio
 
@@ -97,8 +98,8 @@ export const CreatePolicyStep: React.FunctionComponent = () => {
         <>
             <Form className="pf-c-form">
                 <div className="pf-c-form__group">
-                    <Title headingLevel="h4" size="xl" className={ smallVertSpacing }>{ Messages.wizards.policy.createPolicy.title }</Title>
-                    <Text className={ smallVertSpacing + ' ' + titleSmall } component={ TextVariants.h6 }>Define a new policy:</Text>
+                    <Title headingLevel="h4" size="xl" className={ smallVerticalMargin }>{ Messages.wizards.policy.createPolicy.title }</Title>
+                    <Text className={ joinClasses(smallVerticalMargin, titleSmall) } component={ TextVariants.h6 }>Define a new policy:</Text>
                     <Radio
                         isChecked={ !copyPolicy }
                         name="new-policy"
@@ -106,7 +107,7 @@ export const CreatePolicyStep: React.FunctionComponent = () => {
                         id="create-new-custom-policy-from-scratch"
                         onChange={ createFromScratch }
                         label="From scratch"
-                        className={ smallVertSpacing + ' ' + radioButton }
+                        className={ joinClasses(smallVerticalMargin, radioButton) }
                     />
                     <Radio
                         isChecked={ copyPolicy }
@@ -115,7 +116,7 @@ export const CreatePolicyStep: React.FunctionComponent = () => {
                         id="create-new-custom-policy-as-copy"
                         onChange={ copyExisting }
                         label="As a copy of existing Policy"
-                        className={ smallVertSpacing + ' ' + radioButton }
+                        className={ joinClasses(smallVerticalMargin, radioButton) }
                     />
                     {copyPolicy && <>
                         <CopyFromPolicy onSelect={ copyFromPolicyHandler } { ...copyFromPolicyProps } />
