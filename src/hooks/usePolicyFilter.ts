@@ -8,6 +8,7 @@ import {
     PolicyFilters,
     SetPolicyFilters
 } from '../types/Policy/PolicyPaging';
+import { useState } from 'react';
 
 const DEBOUNCE_MS = 250;
 
@@ -63,11 +64,13 @@ const useUrlStateIsActive = (defaultValue?: IsActiveFilter) => {
     return useUrlState<IsActiveFilter>('enabled', serializer, deserializer, defaultValue);
 };
 
-export const usePolicyFilter = (debounce = DEBOUNCE_MS): UsePolicyFilterReturn => {
+export const usePolicyFilter = (debounce = DEBOUNCE_MS as number, saveFiltersInUrl = true as boolean): UsePolicyFilterReturn => {
 
-    const [ filterName, setFilterName, debouncedFilterName ] = useDebouncedState<string>(defaultName, debounce, useUrlStateName);
+    const [ filterName, setFilterName, debouncedFilterName ] = useDebouncedState<string>(
+        defaultName, debounce, saveFiltersInUrl ? useUrlStateName : undefined
+    );
     const [ filterIsActive, setFilterIsActive, debouncedFilterIsActive ] = useDebouncedState<IsActiveFilter>(
-        defaultIsActive, debounce, useUrlStateIsActive
+        defaultIsActive, debounce, saveFiltersInUrl ? useUrlStateIsActive : undefined
     );
 
     const clearFilterHandler = React.useCallback((clearFilterCommands: ClearFilterCommand[]) => {
