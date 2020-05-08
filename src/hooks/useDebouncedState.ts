@@ -1,4 +1,4 @@
-import { useDebounce } from 'react-use';
+import { useDebounce, useUpdateEffect } from 'react-use';
 import { Dispatch, SetStateAction, useState, useCallback } from 'react';
 
 type UseStateType = typeof useState;
@@ -19,6 +19,10 @@ export const useDebouncedState = <T>(initialValue: T, ms: number, useStateHook?:
             setDebouncedState(state);
         }
     }, [ state, setDebouncedState, debouncedState ]);
+
+    useUpdateEffect(() => {
+        setState(debouncedState);
+    }, [ debouncedState ]);
 
     const [ isReady ] = useDebounce(debounceCallback, ms, [ state ]);
 
