@@ -8,7 +8,6 @@ import {
     PolicyFilters,
     SetPolicyFilters
 } from '../types/Policy/PolicyPaging';
-import { useState } from 'react';
 
 const DEBOUNCE_MS = 250;
 
