@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Radio, Title } from '@patternfly/react-core';
+import { Radio, Text, TextVariants, Title } from '@patternfly/react-core';
 import { WizardContext, WizardStepExtended } from '../PolicyWizardTypes';
 import { Messages } from '../../../properties/Messages';
 import { CopyFromPolicy } from './CopyFromPolicy';
@@ -12,10 +12,15 @@ import { NewPolicy } from '../../../types/Policy/Policy';
 import { Form } from '../../Formik/Patternfly/Form';
 import { useUpdateEffect } from 'react-use';
 import { CreatePolicyStepContext } from './CreatePolicyPolicyStep/Context';
+import { joinClasses } from '../../../utils/ComponentUtils';
 
 type CreateCustomPolicyFormType = NewPolicy & {
     isValid?: boolean;
 };
+
+const smallVerticalMargin = 'pf-u-mb-sm'; //SpacingMarginBottomSm
+const titleSmall = 'pf-c-title pf-m-sm'; //TitleMedium
+const radioButton = 'pf-c-radio';//Radio
 
 export const useCreatePolicyStep = () => {
     const context = React.useContext(CreatePolicyStepContext);
@@ -91,29 +96,33 @@ export const CreatePolicyStep: React.FunctionComponent = () => {
 
     return (
         <>
-            <Form>
-                <Title headingLevel="h4" size="xl">{ Messages.wizards.policy.createPolicy.title }</Title>
-                <span>Define a new policy:</span>
-                <Radio
-                    isChecked={ !copyPolicy }
-                    name="new-policy"
-                    value="from-scratch"
-                    id="create-new-custom-policy-from-scratch"
-                    onChange={ createFromScratch }
-                    label="From scratch"
-                />
-                <Radio
-                    isChecked={ copyPolicy }
-                    name="new-policy"
-                    value="as-copy"
-                    id="create-new-custom-policy-as-copy"
-                    onChange={ copyExisting }
-                    label="As a copy of existing Policy"
-                />
-                {copyPolicy && <>
-                    <CopyFromPolicy onSelect={ copyFromPolicyHandler } { ...copyFromPolicyProps } />
-                </>
-                }
+            <Form className="pf-c-form">
+                <div className="pf-c-form__group">
+                    <Title headingLevel="h4" size="xl" className={ smallVerticalMargin }>{ Messages.wizards.policy.createPolicy.title }</Title>
+                    <Text className={ joinClasses(smallVerticalMargin, titleSmall) } component={ TextVariants.h6 }>Define a new policy:</Text>
+                    <Radio
+                        isChecked={ !copyPolicy }
+                        name="new-policy"
+                        value="from-scratch"
+                        id="create-new-custom-policy-from-scratch"
+                        onChange={ createFromScratch }
+                        label="From scratch"
+                        className={ joinClasses(smallVerticalMargin, radioButton) }
+                    />
+                    <Radio
+                        isChecked={ copyPolicy }
+                        name="new-policy"
+                        value="as-copy"
+                        id="create-new-custom-policy-as-copy"
+                        onChange={ copyExisting }
+                        label="As a copy of existing Policy"
+                        className={ joinClasses(smallVerticalMargin, radioButton) }
+                    />
+                    {copyPolicy && <>
+                        <CopyFromPolicy onSelect={ copyFromPolicyHandler } { ...copyFromPolicyProps } />
+                    </>
+                    }
+                </div>
             </Form>
         </>
     );
