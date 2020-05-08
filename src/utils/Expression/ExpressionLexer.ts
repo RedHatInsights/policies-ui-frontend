@@ -1,4 +1,4 @@
-// Generated from /home/josejulio/Documentos/redhat/insights/custom-policies-ui-frontend/utils/Expression.g4 by ANTLR 4.7.3-SNAPSHOT
+// Generated from utils/expression/Expression.g4 by ANTLR 4.7.3-SNAPSHOT
 
 
 import { ATN } from "antlr4ts/atn/ATN";
@@ -51,20 +51,20 @@ export class ExpressionLexer extends Lexer {
 	];
 
 	public static readonly ruleNames: string[] = [
-		"T__0", "T__1", "T__2", "T__3", "T__4", "OR", "AND", "NOT", "EQUAL", "NOTEQUAL",
-		"CONTAINS", "NEG", "GT", "GTE", "LT", "LTE", "IN", "NUMBER", "FLOAT",
-		"INTEGER", "SIMPLETEXT", "STRING", "WS", "ESC", "UNICODE", "HEX", "ESC_DOT",
-		"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N",
+		"T__0", "T__1", "T__2", "T__3", "T__4", "OR", "AND", "NOT", "EQUAL", "NOTEQUAL", 
+		"CONTAINS", "NEG", "GT", "GTE", "LT", "LTE", "IN", "NUMBER", "FLOAT", 
+		"INTEGER", "SIMPLETEXT", "STRING", "WS", "ESC", "UNICODE", "HEX", "ESC_DOT", 
+		"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", 
 		"O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "NEG_OP",
 	];
 
 	private static readonly _LITERAL_NAMES: Array<string | undefined> = [
-		undefined, "'('", "')'", "'['", "','", "']'", undefined, undefined, undefined,
+		undefined, "'('", "')'", "'['", "','", "']'", undefined, undefined, undefined, 
 		"'='", "'!='", undefined, undefined, "'>'", "'>='", "'<'", "'<='",
 	];
 	private static readonly _SYMBOLIC_NAMES: Array<string | undefined> = [
-		undefined, undefined, undefined, undefined, undefined, undefined, "OR",
-		"AND", "NOT", "EQUAL", "NOTEQUAL", "CONTAINS", "NEG", "GT", "GTE", "LT",
+		undefined, undefined, undefined, undefined, undefined, undefined, "OR", 
+		"AND", "NOT", "EQUAL", "NOTEQUAL", "CONTAINS", "NEG", "GT", "GTE", "LT", 
 		"LTE", "IN", "NUMBER", "FLOAT", "INTEGER", "SIMPLETEXT", "STRING", "WS",
 	];
 	public static readonly VOCABULARY: Vocabulary = new VocabularyImpl(ExpressionLexer._LITERAL_NAMES, ExpressionLexer._SYMBOLIC_NAMES, []);
