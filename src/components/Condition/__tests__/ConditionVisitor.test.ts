@@ -2,6 +2,7 @@ import { ExpressionContext, ExpressionParser } from '../../../utils/Expression/E
 import { CharStreams, CommonTokenStream } from 'antlr4ts';
 import { ExpressionLexer } from '../../../utils/Expression/ExpressionLexer';
 import { ConditionVisitor, ElementType } from '../ConditionVisitor';
+import { ParserErrorHandler } from '../ComputeOptions';
 
 describe('src/components/Condition/ConditionVisitor', () => {
 
@@ -13,6 +14,7 @@ describe('src/components/Condition/ConditionVisitor', () => {
         lexer.removeErrorListeners();
         const parser = new ExpressionParser(tokenStream);
         parser.removeErrorListeners();
+        parser.errorHandler = new ParserErrorHandler();
         return parser.expression();
     };
 

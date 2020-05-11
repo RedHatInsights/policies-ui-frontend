@@ -22,12 +22,12 @@ describe('src/components/Condition/ComputeOptions', () => {
         }
     ];
 
-    it('Should ignore (for now) partial logic operators', () => {
+    it('Should ignore partial logic operators', () => {
         const options = computeOptions('facts.arch = 5 an', testFacts);
         expect(options).toEqual({
-            prefix: 'facts.arch =',
+            prefix: 'facts.arch = 5',
             options: [],
-            postfix: '5'
+            postfix: 'AND'
         });
     });
 
@@ -80,13 +80,13 @@ describe('src/components/Condition/ComputeOptions', () => {
         });
     });
 
-    it('Should ignore logic operators', () => {
+    it('Should autocomplete logic operators', () => {
         const options = computeOptions('( facts = 1 an', testFacts);
         expect(options).toEqual({
-            prefix: '( facts =',
+            prefix: '( facts = 1',
             options: [
             ],
-            postfix: '1'
+            postfix: 'AND )'
         });
     });
 

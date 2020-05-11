@@ -3,7 +3,7 @@ import { AbstractParseTreeVisitor, ErrorNode, TerminalNode } from 'antlr4ts/tree
 import { ExpressionVisitor } from '../../utils/Expression/ExpressionVisitor';
 import {
     // eslint-disable-next-line @typescript-eslint/camelcase
-    ArrayContext, Boolean_operatorContext, ExprContext,
+    ArrayContext, Boolean_operatorContext, ExprContext, ExpressionParser,
     // eslint-disable-next-line @typescript-eslint/camelcase
     KeyContext, Logical_operatorContext, Numeric_compare_operatorContext, Numerical_valueContext,
     ValueContext
@@ -75,6 +75,8 @@ export class ConditionVisitor extends AbstractParseTreeVisitor<ReturnValue> impl
     visitTerminal(node: TerminalNode) {
         if (node.symbol.type === Token.EOF) {
             return [ ];
+        } else if (node.symbol.type === ExpressionParser.AND || node.symbol.type === ExpressionParser.OR) {
+            return [ makeLogicalOperator(node.symbol.text || '') ];
         }
 
         if (node.text === '(') {
@@ -87,16 +89,12 @@ export class ConditionVisitor extends AbstractParseTreeVisitor<ReturnValue> impl
     }
 
     visitErrorNode(node: ErrorNode): ReturnValue {
-        if (node.text === '<missing \')\'>') {
+        console.log('Visitor: Error node', node.symbol.text);
+        if (node.symbol.type === ExpressionParser.T__1) {
             return [ makeCloseBracket(')') ];
         }
 
         return [ makeError(node.text) ];
-    }
-
-    // eslint-disable-next-line @typescript-eslint/camelcase
-    visitLogical_operator(ctx: Logical_operatorContext) {
-        return [ makeLogicalOperator(ctx.text) ];
     }
 
     // eslint-disable-next-line @typescript-eslint/camelcase
