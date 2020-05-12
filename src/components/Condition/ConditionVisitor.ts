@@ -5,7 +5,7 @@ import {
     // eslint-disable-next-line @typescript-eslint/camelcase
     ArrayContext, Boolean_operatorContext, ExprContext, ExpressionParser,
     // eslint-disable-next-line @typescript-eslint/camelcase
-    KeyContext, Logical_operatorContext, Numeric_compare_operatorContext, Numerical_valueContext,
+    KeyContext, Numeric_compare_operatorContext, Numerical_valueContext,
     ValueContext
 } from '../../utils/Expression/ExpressionParser';
 import { Token } from 'antlr4ts';
@@ -59,9 +59,6 @@ export class ConditionVisitor extends AbstractParseTreeVisitor<ReturnValue> impl
     }
 
     protected aggregateResult(aggregate: ReturnValue, nextResult: ReturnValue) {
-
-        // console.log('aggregate', aggregate, nextResult);
-
         const lastAggregatedWithoutError = last(aggregate.filter(e => e.type !== ElementType.ERROR));
         const firstNextWithouterror = first(nextResult.filter(e => e.type !== ElementType.ERROR));
 
@@ -75,7 +72,6 @@ export class ConditionVisitor extends AbstractParseTreeVisitor<ReturnValue> impl
     }
 
     visitTerminal(node: TerminalNode) {
-        console.log('Visitor: Terminal node', node.symbol.text);
         if (node.symbol.type === Token.EOF) {
             return [ ];
         } else if (node.symbol.type === ExpressionParser.AND || node.symbol.type === ExpressionParser.OR) {
@@ -94,7 +90,6 @@ export class ConditionVisitor extends AbstractParseTreeVisitor<ReturnValue> impl
     }
 
     visitErrorNode(node: ErrorNode): ReturnValue {
-        console.log('Visitor: Error node', node.symbol.text);
         if (node.symbol.type === ExpressionParser.T__1) {
             return [ makeCloseBracket(')') ];
         }

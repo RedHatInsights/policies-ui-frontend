@@ -1,21 +1,11 @@
-import { ExpressionContext, ExpressionParser } from '../../../utils/Expression/ExpressionParser';
-import { CharStreams, CommonTokenStream } from 'antlr4ts';
-import { ExpressionLexer } from '../../../utils/Expression/ExpressionLexer';
+import { ExpressionContext } from '../../../utils/Expression/ExpressionParser';
 import { ConditionVisitor, ElementType } from '../ConditionVisitor';
-import { ParserErrorHandler } from '../ComputeOptions';
+import { ConditionParser } from '../Parser';
 
 describe('src/components/Condition/ConditionVisitor', () => {
 
     const treeForCondition = (condition: string): ExpressionContext => {
-        const lexer = new ExpressionLexer(
-            CharStreams.fromString(condition)
-        );
-        const tokenStream = new CommonTokenStream(lexer);
-        lexer.removeErrorListeners();
-        const parser = new ExpressionParser(tokenStream);
-        parser.removeErrorListeners();
-        parser.errorHandler = new ParserErrorHandler();
-        return parser.expression();
+        return ConditionParser.fromString(condition).expression();
     };
 
     it('Works on empty condition', () => {
@@ -611,7 +601,7 @@ describe('src/components/Condition/ConditionVisitor', () => {
         ]);
     });
 
-    it.only('Parses complex expressions', () => {
+    it('Parses complex expressions', () => {
         const conditionVisitor = new ConditionVisitor();
         const condition =  'facts.last_boot_time or facts.enabled_services CONTAINS';
         const tree = treeForCondition(condition);

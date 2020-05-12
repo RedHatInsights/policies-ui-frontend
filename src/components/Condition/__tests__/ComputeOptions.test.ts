@@ -22,7 +22,7 @@ describe('src/components/Condition/ComputeOptions', () => {
         }
     ];
 
-    it('Should ignore partial logic operators', () => {
+    it('Should use partial logic operators', () => {
         const options = computeOptions('facts.arch = 5 an', testFacts);
         expect(options).toEqual({
             prefix: 'facts.arch = 5',
@@ -120,7 +120,7 @@ describe('src/components/Condition/ComputeOptions', () => {
         });
     });
 
-    it('should autocomplete with multiple conditions', () => {
+    it('should use the branch if we have the operator before EOF (not SIMPLETEXT)', () => {
         const options = computeOptions('facts.last_boot_time or facts.enabled_services CONTAINS', testFacts);
         expect(options).toEqual({
             prefix: 'facts.last_boot_time or facts.enabled_services',
@@ -130,7 +130,7 @@ describe('src/components/Condition/ComputeOptions', () => {
         });
     });
 
-    it.only('should preserve string_compare_operator if it ends in [', () => {
+    it('should preserve array_compare_operator if it ends in [', () => {
         const options = computeOptions('facts.last_boot_time and facts.number_of_sockets CONTAINS [', testFacts);
         expect(options).toEqual({
             prefix: 'facts.last_boot_time and facts.number_of_sockets CONTAINS',
@@ -147,6 +147,48 @@ describe('src/components/Condition/ComputeOptions', () => {
             options: [
             ],
             postfix: '2'
+        });
+    });
+
+    it('Logical operator can follow a contains clause', () => {
+        const options = computeOptions('facts.last_boot_time CONTAINS [1,2] and f', testFacts);
+        expect(options).toEqual({
+            prefix: 'facts.last_boot_time CONTAINS [ 1, 2 ] and',
+            options: [
+                'foo.fact',
+                'bar.fact'
+            ],
+            postfix: ''
+        });
+    });
+
+    it('Logical operator can follow a contains clause and when called twice does not break', () => {
+        const options = computeOptions('facts.last_boot_time CONTAINS [1,2] and f', testFacts);
+        const options2 = computeOptions('facts.last_boot_time CONTAINS [1,2] and f', testFacts);
+        expect(options).toEqual({
+            prefix: 'facts.last_boot_time CONTAINS [ 1, 2 ] and',
+            options: [
+                'foo.fact',
+                'bar.fact'
+            ],
+            postfix: ''
+        });
+        expect(options2).toEqual({
+            prefix: 'facts.last_boot_time CONTAINS [ 1, 2 ] and',
+            options: [
+                'foo.fact',
+                'bar.fact'
+            ],
+            postfix: ''
+        });
+    });
+
+    it('Should autocomplete AND', () => {
+        const options = computeOptions('facts.last_boot_time CONTAINS "abc" AND facts.enabled_services = "foo" an', testFacts);
+        expect(options).toEqual({
+            prefix: 'facts.last_boot_time CONTAINS "abc" AND facts.enabled_services = "foo"',
+            options: [],
+            postfix: 'AND'
         });
     });
 });

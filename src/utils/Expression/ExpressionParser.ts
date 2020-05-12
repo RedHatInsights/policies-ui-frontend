@@ -66,18 +66,18 @@ export class ExpressionParser extends Parser {
 	public static readonly RULE_key = 12;
 	// tslint:disable:no-trailing-whitespace
 	public static readonly ruleNames: string[] = [
-		"expression", "object", "expr", "logical_operator", "boolean_operator", 
-		"numeric_compare_operator", "string_compare_operator", "array_operator", 
+		"expression", "object", "expr", "logical_operator", "boolean_operator",
+		"numeric_compare_operator", "string_compare_operator", "array_operator",
 		"array", "numerical_value", "value", "negative_expr", "key",
 	];
 
 	private static readonly _LITERAL_NAMES: Array<string | undefined> = [
-		undefined, "'('", "')'", "'['", "','", "']'", undefined, undefined, undefined, 
+		undefined, "'('", "')'", "'['", "','", "']'", undefined, undefined, undefined,
 		"'='", "'!='", undefined, undefined, "'>'", "'>='", "'<'", "'<='",
 	];
 	private static readonly _SYMBOLIC_NAMES: Array<string | undefined> = [
-		undefined, undefined, undefined, undefined, undefined, undefined, "OR", 
-		"AND", "NOT", "EQUAL", "NOTEQUAL", "CONTAINS", "NEG", "GT", "GTE", "LT", 
+		undefined, undefined, undefined, undefined, undefined, undefined, "OR",
+		"AND", "NOT", "EQUAL", "NOTEQUAL", "CONTAINS", "NEG", "GT", "GTE", "LT",
 		"LTE", "IN", "NUMBER", "FLOAT", "INTEGER", "SIMPLETEXT", "STRING", "WS",
 	];
 	public static readonly VOCABULARY: Vocabulary = new VocabularyImpl(ExpressionParser._LITERAL_NAMES, ExpressionParser._SYMBOLIC_NAMES, []);

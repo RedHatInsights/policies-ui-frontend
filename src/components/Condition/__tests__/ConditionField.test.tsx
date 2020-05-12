@@ -223,9 +223,9 @@ describe('src/components/Condition/ConditionVisitor', () => {
     });
 
     describe('buildOptionList', () => {
-        it('Yields empty if there is no match', () => {
-            const options = buildOptionList('may', testFacts);
-            expect(options).toEqual([]);
+        it('Yields the same if there is no match', () => {
+            const options = buildOptionList('facts = 1', testFacts);
+            expect(options.length).toEqual(1);
         });
     });
 });
