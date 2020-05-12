@@ -610,4 +610,29 @@ describe('src/components/Condition/ConditionVisitor', () => {
             }
         ]);
     });
+
+    it.only('Parses complex expressions', () => {
+        const conditionVisitor = new ConditionVisitor();
+        const condition =  'facts.last_boot_time or facts.enabled_services CONTAINS';
+        const tree = treeForCondition(condition);
+        const result = conditionVisitor.visit(tree);
+        expect(result).toEqual([
+            {
+                type: ElementType.FACT,
+                value: 'facts.last_boot_time'
+            },
+            {
+                type: ElementType.LOGICAL_OPERATOR,
+                value: 'or'
+            },
+            {
+                type: ElementType.FACT,
+                value: 'facts.enabled_services'
+            },
+            {
+                type: ElementType.NUMERIC_COMPARE_OPERATOR,
+                value: 'CONTAINS'
+            }
+        ]);
+    });
 });

@@ -60,6 +60,8 @@ export class ConditionVisitor extends AbstractParseTreeVisitor<ReturnValue> impl
 
     protected aggregateResult(aggregate: ReturnValue, nextResult: ReturnValue) {
 
+        // console.log('aggregate', aggregate, nextResult);
+
         const lastAggregatedWithoutError = last(aggregate.filter(e => e.type !== ElementType.ERROR));
         const firstNextWithouterror = first(nextResult.filter(e => e.type !== ElementType.ERROR));
 
@@ -73,10 +75,13 @@ export class ConditionVisitor extends AbstractParseTreeVisitor<ReturnValue> impl
     }
 
     visitTerminal(node: TerminalNode) {
+        console.log('Visitor: Terminal node', node.symbol.text);
         if (node.symbol.type === Token.EOF) {
             return [ ];
         } else if (node.symbol.type === ExpressionParser.AND || node.symbol.type === ExpressionParser.OR) {
             return [ makeLogicalOperator(node.symbol.text || '') ];
+        } else if (node.symbol.type === ExpressionParser.CONTAINS || node.symbol.type === ExpressionParser.IN) {
+            return [ makeNumericCompareOperator(node.symbol.text || '') ];
         }
 
         if (node.text === '(') {
@@ -113,6 +118,11 @@ export class ConditionVisitor extends AbstractParseTreeVisitor<ReturnValue> impl
     }
 
     visitValue(ctx: ValueContext) {
+
+        if (ctx.text === '') {
+            return [];
+        }
+
         // eslint-disable-next-line new-cap
         const nodeValue = ctx.NUMBER() || ctx.STRING();
 

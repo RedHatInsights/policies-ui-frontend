@@ -80,13 +80,63 @@ describe('src/components/Condition/ComputeOptions', () => {
         });
     });
 
-    it('Should autocomplete logic operators', () => {
+    it('Should autocomplete logic operators (and)', () => {
         const options = computeOptions('( facts = 1 an', testFacts);
         expect(options).toEqual({
             prefix: '( facts = 1',
             options: [
             ],
             postfix: 'AND )'
+        });
+    });
+
+    it('Should autocomplete logic operators (or)', () => {
+        const options = computeOptions('( facts = 1 o', testFacts);
+        expect(options).toEqual({
+            prefix: '( facts = 1',
+            options: [
+            ],
+            postfix: 'OR )'
+        });
+    });
+
+    it('Should autocomplete CONTAINS', () => {
+        const options = computeOptions('fact con', testFacts);
+        expect(options).toEqual({
+            prefix: 'fact',
+            options: [
+            ],
+            postfix: 'CONTAINS'
+        });
+    });
+
+    it('Should autocomplete IN', () => {
+        const options = computeOptions('fact i', testFacts);
+        expect(options).toEqual({
+            prefix: 'fact',
+            options: [
+            ],
+            postfix: 'IN'
+        });
+    });
+
+    it('should autocomplete with multiple conditions', () => {
+        const options = computeOptions('facts.last_boot_time or facts.enabled_services CONTAINS', testFacts);
+        expect(options).toEqual({
+            prefix: 'facts.last_boot_time or facts.enabled_services',
+            options: [
+            ],
+            postfix: 'CONTAINS'
+        });
+    });
+
+    it.only('should preserve string_compare_operator if it ends in [', () => {
+        const options = computeOptions('facts.last_boot_time and facts.number_of_sockets CONTAINS [', testFacts);
+        expect(options).toEqual({
+            prefix: 'facts.last_boot_time and facts.number_of_sockets CONTAINS',
+            options: [
+            ],
+            postfix: '['
         });
     });
 

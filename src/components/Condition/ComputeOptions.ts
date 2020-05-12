@@ -8,7 +8,7 @@ import {
     Token, TokenStream, TokenStreamRewriter
 } from 'antlr4ts';
 import { ExpressionLexer } from '../../utils/Expression/ExpressionLexer';
-import { ExpressionParser, ObjectContext } from '../../utils/Expression/ExpressionParser';
+import { ExprContext, ExpressionParser, ObjectContext } from '../../utils/Expression/ExpressionParser';
 import { ConditionVisitor, ConditionVisitorResult, ElementType } from './ConditionVisitor';
 import { Fact } from '../../types/Fact';
 import { ErrorNode, ParseTreeListener, TerminalNode } from 'antlr4ts/tree';
@@ -71,7 +71,7 @@ const alwaysAdd: Array<LiteralToken> = [
     }
 ];
 
-const partialMatchAdd: Array<LiteralToken> = [
+const logicalOperators: Array<LiteralToken> = [
     {
         type: ExpressionParser.AND,
         value: 'AND'
@@ -79,20 +79,26 @@ const partialMatchAdd: Array<LiteralToken> = [
     {
         type: ExpressionParser.OR,
         value: 'OR'
-    },
+    }
+];
+
+const exprCompareOperators: Array<LiteralToken> = [
     {
-        type: ExpressionParser.NOT,
-        value: 'NOT'
+        type: ExpressionParser.IN,
+        value: 'IN'
     },
     {
         type: ExpressionParser.CONTAINS,
         value: 'CONTAINS'
-    },
-    {
-        type: ExpressionParser.IN,
-        value: 'IN'
     }
 ];
+
+const partialMatchAdd: Array<LiteralToken> = [
+    {
+        type: ExpressionParser.NOT,
+        value: 'NOT'
+    }
+].concat(exprCompareOperators).concat(logicalOperators);
 
 const constructToken = (tokenSource, expectedTokenType, tokenText, current) => {
     const factory = tokenSource.tokenFactory;
@@ -119,26 +125,18 @@ const createToken = (recognizer: Parser, type: number, value: string) => {
 };
 
 class DecoratedExpressionParser extends ExpressionParser implements ParseTreeListener {
-    public lastExpectedRule: IntervalSet;
 
     constructor(tokenStream: CommonTokenStream) {
         super(tokenStream);
-        this.lastExpectedRule = new IntervalSet();
         this.addParseListener(this);
     }
 
-    visitTerminal(node: TerminalNode) {
-        if (node.text === 'an') {
-            console.log('visint terminal node', node.text);
-            throw new Error('yep');
-        }
+    visitTerminal(_node: TerminalNode) {
+        // no-op
     }
 
-    visitErrorNode(node: ErrorNode) {
-        if (node.text === 'an') {
-            console.log('visint error node', node.text);
-        }
-        //console.log('visint error node', node.text);
+    visitErrorNode(_node: ErrorNode) {
+        // no-op
     }
 
     enterEveryRule(_ctx: ParserRuleContext) {
@@ -151,106 +149,186 @@ class DecoratedExpressionParser extends ExpressionParser implements ParseTreeLis
         }*/
     }
 
-    isExpectedToken(symbol: number) {
-        const expected = super.isExpectedToken(symbol);
-        console.log('--------------called');
-        if (!expected && symbol === ExpressionParser.SIMPLETEXT) {
-            throw new Error('haha');
-            // Could be a partial AND, OR, etc
-            // for (const token of partialMatchAdd) {
-            //     if (next.text && expected.contains(token.type) && token.value.includes(next.text.toUpperCase())) {
-            //         console.log('Adding token', token.value);
-            //         addToken(this, token.type, token.value, 1);
-            //         this.consume();
-            //         console.log('tryLT(-2)', this.inputStream.tryLT(-2)?.type);
-            //         console.log('tryLT(-1)', this.inputStream.tryLT(-1)?.type);
-            //         console.log('tryLT(1)', this.inputStream.tryLT(1)?.type);
-            //         console.log('tryLT(2)', this.inputStream.tryLT(2)?.type);
-            //     }
-            // }
-        }
-
-        return expected;
-    }
-
     match(ttype: number): Token {
-        console.log('-------> match called with', ttype);
+        //console.log('-------> match called with', ttype);
         const token = super.match(ttype);
-        console.log('... and returned type and text', token.type, token.text);
+        //console.log('... and returned type and text', token.type, token.text);
         return token;
     }
 
     matchWildcard(): Token {
         const token = super.matchWildcard();
-        console.log('-------> matchWildcard called and returned type and text', token.type, token.text);
+        //console.log('-------> matchWildcard called and returned type and text', token.type, token.text);
         return token;
     }
 
-    exitEveryRule(ctx: ParserRuleContext) {
-        this.lastExpectedRule = this.getExpectedTokens();
-        // const next = this.currentToken; // this.inputStream.tryLT(1);
-        // const expected = this.getExpectedTokens();
-        // console.log('rule', ctx.ruleIndex);
-        // if (next && next.type === ExpressionParser.SIMPLETEXT && !expected.contains(ExpressionParser.SIMPLETEXT)) {
-        //     //console.log('received simple with text', next.text);
-        //     //console.log('expected', this.getExpectedTokens());
-        //     // Houston we have a problem.
-        //
-        //     for (const token of partialMatchAdd) {
-        //         if (next.text && expected.contains(token.type) && token.value.includes(next.text.toUpperCase())) {
-        //             console.log('Adding token', token.value);
-        //             addToken(this, token.type, token.value, 1);
-        //             this.consume();
-        //             console.log('tryLT(-2)', this.inputStream.tryLT(-2)?.type);
-        //             console.log('tryLT(-1)', this.inputStream.tryLT(-1)?.type);
-        //             console.log('tryLT(1)', this.inputStream.tryLT(1)?.type);
-        //             console.log('tryLT(2)', this.inputStream.tryLT(2)?.type);
-        //         }
-        //     }
-        //}
-
-        // console.log('changing expected to', this.lastExpectedRule);
-    }
-
 }
 
-class ConditionParseTreeListener implements ParseTreeListener {
-    readonly parser: Parser;
-    private expectation;
-
-    constructor(parser: Parser) {
-        this.parser = parser;
-    }
-
-    visitTerminal(_node: TerminalNode) {
-        console.log('visit terminal', _node.symbol.type, this.parser.getExpectedTokens());
-    }
-
-    enterEveryRule(_ctx: ParserRuleContext) {
-        console.log('enter rule', this.parser.getExpectedTokensWithinCurrentRule());
-    }
-
-    exitEveryRule(_ctx: ParserRuleContext) {
-        this.expectation = this.parser.getExpectedTokensWithinCurrentRule();
-        console.log('exit rule', this.parser.getExpectedTokensWithinCurrentRule());
-    }
-
-    visitErrorNode(_node: ErrorNode) {
-        console.log('error in listener', this.parser.getExpectedTokensWithinCurrentRule());
-    }
-}
+// class ConditionParseTreeListener implements ParseTreeListener {
+//     readonly parser: Parser;
+//     private expectation;
+//
+//     constructor(parser: Parser) {
+//         this.parser = parser;
+//     }
+//
+//     visitTerminal(_node: TerminalNode) {
+//         console.log('visit terminal', _node.symbol.type, this.parser.getExpectedTokens());
+//     }
+//
+//     enterEveryRule(_ctx: ParserRuleContext) {
+//         console.log('enter rule', this.parser.getExpectedTokensWithinCurrentRule());
+//     }
+//
+//     exitEveryRule(_ctx: ParserRuleContext) {
+//         this.expectation = this.parser.getExpectedTokensWithinCurrentRule();
+//         console.log('exit rule', this.parser.getExpectedTokensWithinCurrentRule());
+//     }
+//
+//     visitErrorNode(_node: ErrorNode) {
+//         console.log('error in listener', this.parser.getExpectedTokensWithinCurrentRule());
+//     }
+// }
 
 class ExpressionParserATNSimulator extends ParserATNSimulator {
 
+    // Copied from antlr4ts/Parser.ts
+    // isExpectedToken(symbol: number, stateNumber: number, context: ParserRuleContext | undefined) {
+    //     const state = this.atn.states[stateNumber];
+    //     let following = this.atn.nextTokens(state);
+    //     console.log('following:', following);
+    //     if (following.contains(symbol)) {
+    //         return true;
+    //     }
+    //
+    //     if (!following.contains(Token.EPSILON)) {
+    //         return false;
+    //     }
+    //
+    //     let ctx = context;
+    //
+    //     while (ctx && ctx.invokingState >= 0 && following.contains(Token.EPSILON)) {
+    //         const invokingState = this.atn.states[ctx.invokingState];
+    //         const rt = invokingState.transition(0);
+    //         following = this.atn.nextTokens(rt.target);
+    //         if (following.contains(symbol)) {
+    //             return true;
+    //         }
+    //
+    //         ctx = ctx.parent;
+    //     }
+    //
+    //     if (following.contains(Token.EPSILON) && symbol === Token.EOF) {
+    //         return true;
+    //     }
+    //
+    //     return false;
+    // }
+
     adaptivePredict(input: TokenStream, decision: number, outerContext: ParserRuleContext | undefined): number {
-        if (outerContext instanceof ObjectContext) {
-            const next = input.tryLT(1);
-            if (next && next.text && next.type === ExpressionParser.SIMPLETEXT) {
-                if ('AND'.includes(next.text.toLocaleUpperCase())) {
-                    return 1;
+        // eslint-disable-next-line new-cap
+        const token = input.tryLT(1);
+
+        if (token && token.type === ExpressionParser.SIMPLETEXT && outerContext) {
+            if (outerContext instanceof ExprContext) {
+                console.log('in ExprContext');
+                const key = input.tryLT(1);
+                const comparator = input.tryLT(2);
+                const value = input.tryLT(3);
+
+                console.log(key?.text, comparator?.text);
+                // The expression path isn't visited because of a lack of params, force it to be visited so we can autocomplete
+                if (key && comparator && key.type === ExpressionParser.SIMPLETEXT && (comparator.type === ExpressionParser.SIMPLETEXT ||
+                comparator.type === ExpressionParser.CONTAINS || comparator.type === ExpressionParser.IN)) { // Check if is part of the operators
+                    let valueText;
+                    if (value === undefined || value.type === Token.EOF) {
+                        valueText = '"placeholder"';
+                    } else if (value.text === '[') {
+                        valueText = '[ ]';
+                    } else {
+                        valueText = value.text;
+                    }
+
+                    console.log('they match, something is bad');
+                    for (const operator of exprCompareOperators) {
+                        console.log('starting to compare', comparator.text, 'with', operator.value);
+                        if (comparator.text && operator.value.includes(comparator.text.toUpperCase())) {
+                            console.log('found a match with ', operator.value);
+
+                            const inputStream = CharStreams.fromString([ key.text, operator.value, valueText ].join(' '));
+                            const lexer = new ExpressionLexer(inputStream);
+                            lexer.removeErrorListeners();
+                            const tokenStream = new CommonTokenStream(lexer);
+                            tokenStream.tryLT(1);
+                            console.log('calling super');
+                            try {
+                                const returnValue = super.adaptivePredict(tokenStream, decision, outerContext);
+                                console.log('returned', returnValue);
+                                return returnValue;
+                            } catch (ex) {
+                                console.log(ex);
+                            }
+                        }
+                    }
+                }
+
+            } else if (outerContext instanceof ObjectContext) {
+                const expected = this.parser.getExpectedTokens();
+                if (!expected.contains(token.type)) {
+                    for (const logicalOperator of logicalOperators) {
+                        if (token.text && logicalOperator.value.includes(token.text.toUpperCase())) {
+                            if (expected.contains(logicalOperator.type)) {
+                                const inputStream = CharStreams.fromString(logicalOperator.value);
+                                const lexer = new ExpressionLexer(inputStream);
+                                lexer.removeErrorListeners();
+                                const tokenStream = new CommonTokenStream(lexer);
+                                tokenStream.tryLT(1);
+                                const returnValue = super.adaptivePredict(tokenStream, decision, outerContext);
+                                console.log('returned', returnValue);
+                                return returnValue;
+                            }
+                        }
+                    }
                 }
             }
         }
+
+        // const context = outerContext || ParserRuleContext.emptyContext();
+        // let state = this.getStartState(dfa, input, context, false);
+        // if (state === null) {
+        //     state = this.computeStartState(dfa, context, false);
+        // }
+        //
+        // console.log('expected', this.parser.getExpectedTokens());
+
+        // if (state) {
+        //     const s0 = state.s0;
+        //     console.log('okay....', token?.text, s0.stateNumber, token?.type);
+        //     if (token && s0 && s0.stateNumber >= 0 && token.type === ExpressionParser.SIMPLETEXT) {
+        //         console.log('Testing if token is expected', token.type, token.text);
+        //         if (!this.isExpectedToken(token.type, s0.stateNumber, outerContext)) {
+        //             console.log('Token not expected, trying...');
+        //             for (const partialToken of partialMatchAdd) {
+        //                 if (token.text && partialToken.value.includes(token.text?.toUpperCase())) {
+        //                     if (this.isExpectedToken(partialToken.type, s0.stateNumber, outerContext)) {
+        //                         return 1;
+        //                     }
+        //                 }
+        //             }
+        //         }
+        //     }
+        // }
+
+        // if (outerContext instanceof ObjectContext) {
+        //     // Has 1 branch, object logical_operator object
+        //     // This detects if we have a partial logical_operator and tries to go with that.
+        //     const next = input.tryLT(1);
+        //     if (next && next.text && next.type === ExpressionParser.SIMPLETEXT) {
+        //         if ('AND'.includes(next.text.toLocaleUpperCase())) {
+        //             return 1;
+        //         }
+        //     }
+        // }
 
         return super.adaptivePredict(input, decision, outerContext);
     }
@@ -258,13 +336,6 @@ class ExpressionParserATNSimulator extends ParserATNSimulator {
 }
 
 export class ParserErrorHandler extends DefaultErrorStrategy {
-
-    private rewriter: TokenStreamRewriter;
-
-    constructor(rewriter: TokenStreamRewriter) {
-        super();
-        this.rewriter = rewriter;
-    }
 
     reset(_recognizer: Parser) {
         // nothing to do
@@ -331,8 +402,7 @@ export class ParserErrorHandler extends DefaultErrorStrategy {
             }
         }
 
-        // return super.recoverInline(recognizer);
-        throw new InputMismatchException(recognizer);
+        return super.recoverInline(recognizer);
     }
 
     recover(_recognizer: Parser, _e: RecognitionException) {
@@ -387,7 +457,7 @@ export const computeOptions = (condition: string, facts: Fact[]): ComputeOptions
     const { parser, rewriter } = buildParserFromInput(condition);
     // Todo: Continue working on autocomplete
     // parser.addParseListener(new ConditionParseTreeListener(parser));
-    parser.errorHandler = new ParserErrorHandler(rewriter);
+    parser.errorHandler = new ParserErrorHandler();
     const tree = parser.expression();
 
     const visitor = new ConditionVisitor();
