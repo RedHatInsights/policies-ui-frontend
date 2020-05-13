@@ -1,4 +1,4 @@
-// Generated from /home/josejulio/Documentos/redhat/insights/custom-policies-ui-frontend/utils/Expression.g4 by ANTLR 4.7.3-SNAPSHOT
+// Generated from utils/expression/Expression.g4 by ANTLR 4.7.3-SNAPSHOT
 
 
 import { ParseTreeVisitor } from "antlr4ts/tree/ParseTreeVisitor";

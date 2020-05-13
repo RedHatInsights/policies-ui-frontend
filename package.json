@@ -114,7 +114,12 @@
     "schema:generate": "op3-codegen ./utils/openapi-generator/openapi.json -o ./utils/openapi-generator/output -t ./utils/openapi-generator/schemas/ --generateEnums",
     "schema:download": "download http://localhost:8080/api/policies/v1.0/openapi.json --header 'Accept: application/json' -o utils/openapi-generator",
     "schema:copy": "cp './utils/openapi-generator/output/schemas.ts' ./src/types/GeneratedOpenApi.ts",
-    "schema:clean": "rm -f ./utils/openapi-generator/output/schemas.ts ./utils/openapi-generator/openapi.json"
+    "schema:clean": "rm -f ./utils/openapi-generator/output/schemas.ts ./utils/openapi-generator/openapi.json",
+    "expression": "yarn expression:download && yarn expression:generate && yarn expression:copy && yarn expression:clean",
+    "expression:download": "mkdir -p utils/expression; download https://raw.githubusercontent.com/RedHatInsights/policies-engine/master/api/src/main/antlr4/com/redhat/cloud/policies/api/model/condition/expression/parser/Expression.g4 -o utils/expression",
+    "expression:generate": "antlr4ts -visitor utils/expression/Expression.g4",
+    "expression:copy": "cp ./utils/expression/*.ts ./src/utils/Expression/; cp ./utils/expression/Expression.g4 ./src/utils/Expression",
+    "expression:clean": "rm -rf ./utils/expression"
   },
   "insights": {
     "appname": "policies"
