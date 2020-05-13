@@ -6,7 +6,7 @@ import Config from '../config/Config';
 const url = Config.apis.urls.validatePolicyName;
 
 export const actionCreator = (policy: Partial<Policy>) => {
-    actionBuilder('POST', url).data(policy.name).queryParams({
+    return actionBuilder('POST', url).data(policy.name).queryParams({
         id: policy.id
     }).build();
 };

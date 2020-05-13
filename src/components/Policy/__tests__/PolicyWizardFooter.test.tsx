@@ -35,7 +35,8 @@ describe('src/components/Policy/PolicyWizardFooter', () => {
             created: false
         },
         isValid: true,
-        isFormValid: true
+        isFormValid: true,
+        setMaxStep: jest.fn()
     };
 
     const getWrapper = (values?: Values): React.ComponentType => {
