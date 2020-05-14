@@ -1,0 +1,35 @@
+name: openapi.json in sync
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Get yarn cache directory path
+        id: yarn-cache-dir-path
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+      - uses: actions/cache@v1
+        id: yarn-cache
+        with:
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+      - name: Install
+        run: yarn install
+      - name: Download openapi.json from RedHatInsights/policies-backend-ui@master into ./utils/openapi-generator/openapi.json
+        run: ACTIONS_RUNTIME_TOKEN=${{ secrets.GITHUB_TOKEN }} TARGET_BRANCH=master TARGET_PATH=./utils/openapi-generator/openapi.json bash .github/scripts/download-latest-openapi.sh
+      - name: Generate types from openapi.json
+        run: yarn schema:generate && yarn schema:copy && yarn schema:clean
+      - name: Check differences
+        run: >
+          [[ -z $(git status --porcelain) ]] ||
+          (
+            echo "openapi.json types are out of sync, see https://github.com/RedHatInsights/policies-ui-frontend#generating-types-from-openapi-file" &&
+            git status &&
+            git diff &&
+            false
+          )
