@@ -16,6 +16,8 @@ export interface Policy {
     lastTriggered: Date | undefined;
 }
 
+export type ServerPolicyResponse = Generated.Policy;
+
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface PagedServerPolicyResponse extends Generated.PagedResponse {
     data: ServerPolicyResponse[];

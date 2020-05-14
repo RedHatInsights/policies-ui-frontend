@@ -235,7 +235,7 @@ describe('src/utils/PolicyAdapter', () => {
             actions: [{ type: ActionType.EMAIL }, { type: ActionType.WEBHOOK }],
             mtime: new Date('2014-01-01T23:28:56.782Z'),
             ctime: new Date('2013-01-01T23:28:56.782Z'),
-            lastEvaluation: new Date('2015-01-01T23:28:56.782Z')
+            lastTriggered: new Date('2015-01-01T23:28:56.782Z')
         };
 
         const newPolicy: NewPolicy = {
@@ -247,7 +247,7 @@ describe('src/utils/PolicyAdapter', () => {
             conditions: '1 == 2',
             actions: [{ type: ActionType.EMAIL }, { type: ActionType.WEBHOOK }],
             ctime: undefined,
-            lastEvaluation: undefined
+            lastTriggered: undefined
         };
         expect(makeCopyOfPolicy(policy)).toEqual(newPolicy);
     });

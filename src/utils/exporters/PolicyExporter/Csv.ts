@@ -10,7 +10,7 @@ const headers: [keyof Policy, string][] = [
     [ 'isEnabled', 'isEnabled' ],
     [ 'conditions', 'conditions' ],
     [ 'actions', 'actions' ],
-    [ 'lastEvaluation', 'lastEvaluation' ],
+    [ 'lastTriggered', 'lastTriggered' ],
     [ 'mtime', 'mtime' ],
     [ 'ctime', 'ctime' ]
 ];

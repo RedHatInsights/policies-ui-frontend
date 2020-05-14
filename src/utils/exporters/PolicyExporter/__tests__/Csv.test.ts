@@ -21,7 +21,7 @@ describe('src/utils/exporters/PolicyExporter/Csv', () => {
                 description: 'my description',
                 conditions: 'arch = x86_64',
                 isEnabled: false,
-                lastEvaluation: new Date(2030, 5, 5),
+                lastTriggered: new Date(2030, 5, 5),
                 actions: [
                     {
                         type: ActionType.WEBHOOK
@@ -39,7 +39,7 @@ describe('src/utils/exporters/PolicyExporter/Csv', () => {
         return new Promise((done) => {
             reader.addEventListener('loadend', () => {
                 const text = (reader.result as string).split('\r');
-                expect(text[0]).toEqual('id,name,description,isEnabled,conditions,actions,lastEvaluation,mtime,ctime');
+                expect(text[0]).toEqual('id,name,description,isEnabled,conditions,actions,lastTriggered,mtime,ctime');
                 done();
             });
             reader.readAsText(result);
