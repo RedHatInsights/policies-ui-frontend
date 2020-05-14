@@ -79,8 +79,8 @@ export const toPolicy = (serverPolicy: ServerPolicyResponse): Policy => {
         description: serverPolicy.description ? serverPolicy.description : '',
         isEnabled: serverPolicy.isEnabled ? serverPolicy.isEnabled : false,
         actions: fromServerActions(serverPolicy.actions),
-        mtime: serverPolicy.mtime ? parseJSON(serverPolicy.mtime) : new Date(),
-        ctime: serverPolicy.ctime ? parseJSON(serverPolicy.ctime) : new Date(),
+        mtime: serverPolicy.mtime ? parseJSON(serverPolicy.mtime) : new Date(Date.now()),
+        ctime: serverPolicy.ctime ? parseJSON(serverPolicy.ctime) : new Date(Date.now()),
         lastTriggered: serverPolicy.lastTriggered ? fromUnixTime(serverPolicy.lastTriggered) : undefined
     };
 };

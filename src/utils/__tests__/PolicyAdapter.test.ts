@@ -98,6 +98,89 @@ describe('src/utils/PolicyAdapter', () => {
         expect(toPolicy(sp)).toEqual(policy);
     });
 
+    it('toPolicy policies without id to empty string', () => {
+        const sp: ServerPolicyResponse = {
+            name: 'foo policy',
+            description: 'foo description',
+            isEnabled: true,
+            conditions: '1 == 2',
+            actions: '',
+            mtime: '2014-01-01T23:28:56.782Z',
+            ctime: '2013-01-01T23:28:56.782Z',
+            lastTriggered: 0
+        };
+
+        expect(toPolicy(sp).id).toEqual('');
+    });
+
+    it('toPolicy policies without description to empty string', () => {
+        const sp: ServerPolicyResponse = {
+            id: '5151-5151',
+            name: 'foo policy',
+            isEnabled: true,
+            conditions: '1 == 2',
+            actions: '',
+            mtime: '2014-01-01T23:28:56.782Z',
+            ctime: '2013-01-01T23:28:56.782Z',
+            lastTriggered: 0
+        };
+
+        expect(toPolicy(sp).description).toEqual('');
+    });
+
+    it('toPolicy policies without isEnabled to false', () => {
+        const sp: ServerPolicyResponse = {
+            id: '5151-5151',
+            name: 'foo policy',
+            description: 'foo description',
+            conditions: '1 == 2',
+            actions: '',
+            mtime: '2014-01-01T23:28:56.782Z',
+            ctime: '2013-01-01T23:28:56.782Z',
+            lastTriggered: 0
+        };
+
+        expect(toPolicy(sp).isEnabled).toEqual(false);
+    });
+
+    it('toPolicy policies without mtime to current date', () => {
+        const now = new Date().getTime();
+        jest.spyOn(Date, 'now').mockImplementation(() => now);
+        const sp: ServerPolicyResponse = {
+            id: '5151-5151',
+            name: 'foo policy',
+            description: 'foo description',
+            isEnabled: true,
+            conditions: '1 == 2',
+            actions: '',
+            ctime: '2013-01-01T23:28:56.782Z',
+            lastTriggered: 0
+        };
+
+        expect(toPolicy(sp).mtime).toEqual(new Date(now));
+    });
+
+    it('toPolicy policies without ctime to current date', () => {
+        const now = new Date().getTime();
+        jest.spyOn(Date, 'now').mockImplementation(() => now);
+        const sp: ServerPolicyResponse = {
+            id: '5151-5151',
+            name: 'foo policy',
+            description: 'foo description',
+            isEnabled: true,
+            conditions: '1 == 2',
+            actions: '',
+            mtime: '2014-01-01T23:28:56.782Z',
+            lastTriggered: 0
+        };
+
+        expect(toPolicy(sp).ctime).toEqual(new Date(now));
+    });
+
+    it('toPolicies converts a PagedServerPolicy with no data to []', () => {
+        expect(toPolicies({} as PagedServerPolicyResponse)).toEqual([]);
+    });
+
     it('toPolicies converts a PagedServerPolicy[] to Policy[]', () => {
         const sp1: ServerPolicyResponse = {
             id: '1234-1234',
@@ -272,6 +355,16 @@ describe('src/utils/PolicyAdapter', () => {
         ]);
     });
 
+    it('fromServerActions returns empty array on undefined actions', () => {
+        const actions = undefined;
+        expect(fromServerActions(actions)).toEqual([]);
+    });
+
+    it('fromServerActions returns empty array on empty actions string', () => {
+        const actions = '';
+        expect(fromServerActions(actions)).toEqual([]);
+    });
+
     it('toServerActions serializes the actions', () => {
         expect(toServerAction([
             {
@@ -284,5 +377,21 @@ describe('src/utils/PolicyAdapter', () => {
                 type: ActionType.EMAIL
             }
         ])).toEqual('email;webhook;email');
+    });
+
+    it('toServerActions yields empty string for unspecified action', () => {
+        expect(toServerAction([ undefined ])).toEqual('');
+    });
+
+    it('toServerActions yields empty string for action without type', () => {
+        expect(toServerAction([{
+            type: undefined
+        }])).toEqual('');
+    });
+
+    it('toServerActions throws with unknown type (at runtime)', () => {
+        expect(() => toServerAction([{
+            type: 'foobared' as ActionType
+        }])).toThrowError('Invalid value received [foobared]');
     });
 });
