@@ -1,3 +1,11 @@
 // Importing Global Variables
 @import "../../node_modules/@redhat-cloud-services/frontend-components-utilities/files/Utilities/all";
 @import "../../node_modules/@redhat-cloud-services/frontend-components/index.css";
+
+.app-policies {
+  #ins-primary-data-toolbar {
+    .pf-c-data-toolbar__content:first-child {
+      --pf-c-data-toolbar__content--PaddingLeft: 0;
+    }
+  }
+}

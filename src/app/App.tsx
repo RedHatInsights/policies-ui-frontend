@@ -11,6 +11,8 @@ import { AppContext } from './AppContext';
 import { NoPermissionsPage } from '../pages/NoPermissions/NoPermissionsPage';
 import { useApp } from './useApp';
 
+import './App.scss';
+
 const App: React.FunctionComponent<RouteComponentProps> = () => {
 
     const { rbac, userSettings } = useApp();

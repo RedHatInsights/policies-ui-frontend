@@ -14,11 +14,14 @@ export const useApp = (): Partial<AppContext> => {
     const userSettingsEmailQuery = useUserSettingsEmailQuery();
 
     useEffect(() => {
+        const body = document.body;
         waitForInsights().then((insights) => {
             insights.chrome.init();
             insights.chrome.identifyApp(Config.appId);
+            body.classList.add('app-policies');
         });
         return () => {
+            body.classList.remove('app-policies');
             const insights = getInsights();
             insights.chrome.on('APP_NAVIGATION', (event: any) => history.push(`/${event.navId}`));
         };
