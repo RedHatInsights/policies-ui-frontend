@@ -1,4 +1,5 @@
 import parseJSON from 'date-fns/parseJSON';
+import fromUnixTime from 'date-fns/fromUnixTime';
 
 import {
     maxPolicyNameLength,
@@ -62,7 +63,7 @@ export const fromServerActions = (actions?: string): Action[] => {
 
 export const toServerPolicy = (policy: DeepPartial<Policy>): ServerPolicyRequest => {
 
-    const { mtime, ctime, lastEvaluation, ...restPolicy } = policy;
+    const { mtime, ctime, ...restPolicy } = policy;
 
     return {
         ...restPolicy,
@@ -78,9 +79,9 @@ export const toPolicy = (serverPolicy: ServerPolicyResponse): Policy => {
         description: serverPolicy.description ? serverPolicy.description : '',
         isEnabled: serverPolicy.isEnabled ? serverPolicy.isEnabled : false,
         actions: fromServerActions(serverPolicy.actions),
-        mtime: serverPolicy.mtime ? parseJSON(serverPolicy.mtime) : new Date(),
-        ctime: serverPolicy.ctime ? parseJSON(serverPolicy.ctime) : new Date(),
-        lastEvaluation: (serverPolicy.lastEvaluation && serverPolicy.lastEvaluation !== '') ? parseJSON(serverPolicy.lastEvaluation) : undefined
+        mtime: serverPolicy.mtime ? parseJSON(serverPolicy.mtime) : new Date(Date.now()),
+        ctime: serverPolicy.ctime ? parseJSON(serverPolicy.ctime) : new Date(Date.now()),
+        lastTriggered: serverPolicy.lastTriggered ? fromUnixTime(serverPolicy.lastTriggered) : undefined
     };
 };
 
@@ -94,7 +95,7 @@ export const makeCopyOfPolicy = (policy: Policy): NewPolicy => {
         ...policy,
         name: `${prefix}${policy.name.slice(0, maxPolicyNameLength - prefix.length)}`,
         mtime: undefined,
-        lastEvaluation: undefined,
+        lastTriggered: undefined,
         ctime: undefined,
         id: undefined
     };

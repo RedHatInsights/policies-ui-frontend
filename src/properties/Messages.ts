@@ -62,7 +62,7 @@ const MutableMessages = {
             columns: {
                 name: 'Name',
                 triggerActions: 'Trigger actions',
-                lastEvaluated: 'Last evaluated'
+                lastTriggered: 'Last triggered'
             },
             emptyState: {
                 neverRun: 'Never',

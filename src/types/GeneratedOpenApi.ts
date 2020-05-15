@@ -5,6 +5,12 @@
 * Note: As the time of writing, the schema is taken from:
 *   http://localhost:8080/api/policies/v1.0/openapi.json
 */
+export interface Fact {
+  id?: number;
+  name?: string;
+  type?: FactType;
+}
+
 export enum FactType {
   BOOLEAN = 'BOOLEAN',
   INT = 'INT',
@@ -12,25 +18,20 @@ export enum FactType {
   STRING = 'STRING',
 }
 
-export interface Fact {
-  id?: number;
-  name?: string;
-  type?: FactType;
-}
-
-export type ListUUID = Array<string>;
-
-export type Uuid = string;
+export type List = Array<{
+}>;
 
 export type ListObject = Array<{
 }>;
 
-export interface MapStringString {
-  [key: string]: string;
-}
+export type ListUUID = Array<string>;
 
 export interface MapStringLong {
   [key: string]: number;
+}
+
+export interface MapStringString {
+  [key: string]: string;
 }
 
 export interface PagedResponse {
@@ -46,16 +47,10 @@ export interface Policy {
   description?: string;
   id?: Uuid;
   isEnabled?: boolean;
-  lastEvaluation?: string;
+  lastTriggered?: number;
   mtime?: string;
   name: string;
 }
 
-export type List = Array<{
-}>;
-
-export interface SettingsValues {
-  dailyEmail?: boolean;
-  immediateEmail?: boolean;
-}
+export type Uuid = string;
 

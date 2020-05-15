@@ -66,7 +66,7 @@ const policiesToRows = (policies: PolicyRow[] | undefined, columnsToShow: ValidC
                         case 'actions':
                             return  <><ActionsCell actions={ policy.actions }/></>;
                         case 'is_enabled':
-                            return <><LastTriggeredCell isEnabled={ policy.isEnabled } lastEvaluation={ policy.lastEvaluation }/></>;
+                            return <><LastTriggeredCell isEnabled={ policy.isEnabled } lastTriggered={ policy.lastTriggered }/></>;
                         case 'name':
                             return policy.name;
                         case 'radioSelect':
@@ -158,7 +158,7 @@ export const PolicyTable: React.FunctionComponent<PolicyTableProps> = (props) =>
                 transforms: [ ]
             },
             is_enabled: {
-                title: Messages.tables.policy.columns.lastEvaluated,
+                title: Messages.tables.policy.columns.lastTriggered,
                 transforms: transformSortable,
                 column: 'is_enabled'
             }
