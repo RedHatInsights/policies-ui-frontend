@@ -23,7 +23,7 @@ jobs:
       - name: Download openapi.json from RedHatInsights/policies-backend-ui@master into ./utils/openapi-generator/openapi.json
         run: ACTIONS_RUNTIME_TOKEN=${{ secrets.GITHUB_TOKEN }} TARGET_BRANCH=master TARGET_PATH=./utils/openapi-generator/openapi.json bash .github/scripts/download-latest-openapi.sh
       - name: Generate types from openapi.json
-        run: yarn schema:generate && yarn schema:copy && yarn schema:clean
+        run: yarn schema:generate && yarn schema:clean
       - name: Check differences
         run: >
           [[ -z $(git status --porcelain) ]] ||
