@@ -4,7 +4,6 @@ import fetchMock, { UNMATCHED } from 'fetch-mock';
 import { ClientContextProvider, createClient } from 'react-fetching-library';
 import { useGetListPagePolicies } from '../useGetListPagePolicies';
 import { Page } from '../../../types/Page';
-import Config from '../../../config/Config';
 import { actionGetPolicies } from '../../../generated/ActionCreators';
 import { pageToQuery } from '../../../services/Api/ActionBuilder';
 
