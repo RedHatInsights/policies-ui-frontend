@@ -1,11 +1,12 @@
 import { Action } from 'react-fetching-library';
 
 export type Method = 'GET' | 'HEAD' | 'POST' | 'PUT' | 'PATCH' | 'DELETE' | 'OPTIONS';
-export type QueryParamsType = Record<string, HasToString | undefined>;
-
 export interface HasToString {
     toString: () => string;
 }
+
+type HasToStringOrUndefined = HasToString | undefined;
+export type QueryParamsType = Record<string, HasToStringOrUndefined>;
 
 export class ActionBuilder {
     private readonly _method: Method;

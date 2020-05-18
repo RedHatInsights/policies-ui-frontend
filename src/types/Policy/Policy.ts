@@ -32,4 +32,4 @@ type OptionalProperties = 'id' | 'mtime' | 'ctime' | 'lastTriggered';
 type OutputOnlyProperties = 'mtime' | 'ctime' | 'lastTriggered';
 
 export type NewPolicy = Partial<Pick<Policy, OptionalProperties>> & Omit<Policy, OptionalProperties>;
-export type ServerPolicyRequest = Partial<Omit<ServerPolicyResponse, OutputOnlyProperties>>;
+export type ServerPolicyRequest = Omit<ServerPolicyResponse, OutputOnlyProperties>;

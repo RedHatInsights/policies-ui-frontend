@@ -1,10 +1,7 @@
 import { Fact } from '../types/Fact';
-import Config from '../config/Config';
 import { useQuery } from 'react-fetching-library';
-import { actionBuilder } from './Api/ActionBuilder';
+import { actionGetFacts } from '../generated/ActionCreators';
 
-const urls = Config.apis.urls;
-
-export const actionCreator = () => actionBuilder('GET', urls.facts).build();
+export const actionCreator = actionGetFacts;
 
 export const useGetFactsQuery = (initFetch?: boolean) => useQuery<Fact[]>(actionCreator(), initFetch);

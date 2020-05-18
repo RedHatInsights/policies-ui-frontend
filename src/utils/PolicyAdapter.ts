@@ -67,6 +67,8 @@ export const toServerPolicy = (policy: DeepPartial<Policy>): ServerPolicyRequest
 
     return {
         ...restPolicy,
+        name: policy.name || '',
+        conditions: policy.conditions || '',
         isEnabled: policy.isEnabled !== undefined ? policy.isEnabled : false,
         actions: policy.actions ? toServerAction(policy.actions) : ''
     };

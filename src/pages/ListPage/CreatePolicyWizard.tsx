@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { PolicyWizard } from '../../components/Policy/PolicyWizard';
-import { useVerifyPolicyMutation } from '../../services/Api';
+import { useVerifyPolicyMutation } from '../../services/useVerifyPolicy';
 import { useSavePolicyMutation } from '../../services/useSavePolicy';
 import * as HttpStatus from 'http-status-codes';
 import { addSuccessNotification } from '../../utils/AlertUtils';
