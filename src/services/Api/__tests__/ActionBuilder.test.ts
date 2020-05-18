@@ -1,4 +1,5 @@
-import { actionBuilder } from '../ActionBuilder';
+import { actionBuilder, pageToQuery } from '../ActionBuilder';
+import { Direction, Filter, Operator, Page, Sort } from '../../../types/Page';
 
 describe('src/services/Api/ActionBuilder', () => {
 
@@ -49,6 +50,69 @@ describe('src/services/Api/ActionBuilder', () => {
             bar: {
                 baz: 'just passed along'
             }
+        });
+    });
+
+    describe('pageToQuery', () => {
+
+        it('If page is undefined, uses Page.defaultPage', () => {
+            const query = pageToQuery();
+            const defaultPage = Page.defaultPage();
+            expect(query).toEqual({
+                offset: 0,
+                limit: defaultPage.size
+            });
+        });
+
+        it('sets page values on the query', () => {
+            const query = pageToQuery(Page.of(1, 10));
+            expect(query).toEqual({
+                offset: 0,
+                limit: 10
+            });
+        });
+
+        it('sets complex page values on the query', () => {
+            const query = pageToQuery(Page.of(
+                20,
+                30,
+                new Filter()
+                .and('foo-column', Operator.EQUAL, 'foo-value')
+                .and('bar-column', Operator.LIKE, 'bar-value'),
+                Sort.by('sort-column', Direction.DESCENDING)
+            ));
+            expect(query).toEqual({
+                offset: 570,
+                limit: 30,
+                filterFooColumn: 'foo-value',
+                filterOpFooColumn: 'EQUAL',
+                filterBarColumn: 'bar-value',
+                filterOpBarColumn: 'LIKE',
+                sortColumn: 'sort-column',
+                sortDirection: 'DESC'
+            });
+        });
+
+        it('Asking for index = 0 and size = Page.NO_SIZE sets offset to 0 and limit to -1', () => {
+            const query = pageToQuery(Page.of(
+                0,
+                Page.NO_SIZE
+            ));
+            expect(query).toEqual({
+                offset: 0,
+                limit: -1
+            });
+        });
+
+        it('Asking for index = 20 and size = Page.NO_SIZE size offset to 20 and limit to -1', () => {
+            const query = pageToQuery(Page.of(
+                20,
+                Page.NO_SIZE
+            ));
+            expect(query).toEqual({
+                offset: 20,
+                limit: -1
+            });
         });
     });
 });

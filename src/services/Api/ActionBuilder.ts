@@ -1,4 +1,6 @@
 import { Action } from 'react-fetching-library';
+import { Page } from '../../types/Page';
+import camelcase from 'camelcase';
 
 export type Method = 'GET' | 'HEAD' | 'POST' | 'PUT' | 'PATCH' | 'DELETE' | 'OPTIONS';
 export interface HasToString {
@@ -80,4 +82,34 @@ export class ActionBuilder {
 
 export const actionBuilder = (method: Method, url: string): ActionBuilder => {
     return new ActionBuilder(method, url);
+};
+
+export const pageToQuery = (page?: Page): Record<string, HasToString> => {
+    const queryParams = {} as Record<string, HasToString>;
+
+    if (!page) {
+        page = Page.defaultPage();
+    }
+
+    if (page.size === Page.NO_SIZE) {
+        queryParams.offset = page.index;
+        queryParams.limit = Page.NO_SIZE;
+    } else {
+        queryParams.offset = (page.index - 1) * page.size;
+        queryParams.limit = page.size;
+    }
+
+    if (page.filter) {
+        for (const filterElement of page.filter.elements) {
+            queryParams[`filter${camelcase(filterElement.column, { pascalCase: true })}`] = filterElement.value;
+            queryParams[`filterOp${camelcase(filterElement.column, { pascalCase: true })}`] = filterElement.operator;
+        }
+    }
+
+    if (page.sort) {
+        queryParams.sortColumn = page.sort.column;
+        queryParams.sortDirection = page.sort.direction;
+    }
+
+    return queryParams;
 };

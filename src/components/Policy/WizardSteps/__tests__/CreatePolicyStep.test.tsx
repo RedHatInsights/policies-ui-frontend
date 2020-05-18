@@ -5,14 +5,14 @@ import fetchMock, { UNMATCHED } from 'fetch-mock';
 import { createPolicyStep, CreatePolicyStep } from '../CreatePolicyStep';
 import { Formik } from 'formik';
 import { CreatePolicyStepContextProvider, defaultPerPage } from '../CreatePolicyPolicyStep/Provider';
-import { paginatedActionBuilder } from '../../../../services/Api/PaginatedActionBuilder';
+import { pageToQuery } from '../../../../services/Api/ActionBuilder';
 import { ClientContextProvider, createClient } from 'react-fetching-library';
-import Config from '../../../../config/Config';
 import { Page } from '../../../../types/Page';
 import { act } from 'react-dom/test-utils';
 import { WizardContext } from '../../PolicyWizardTypes';
 import { PagedServerPolicyResponse } from '../../../../types/Policy/Policy';
 import { FormTextInput } from '../../../Formik/Patternfly';
+import { actionGetPolicies } from '../../../../generated/ActionCreators';
 
 jest.mock('../../../../hooks/useUrlState');
 
@@ -80,9 +80,7 @@ describe('src/components/Policy/WizardSteps/CreatePolicyStep', () => {
 
     const mockPoliciesRequest = () => {
         fetchMock.getOnce(
-            paginatedActionBuilder('GET', Config.apis.urls.policies)
-            .page(Page.of(Page.defaultPage().index, defaultPerPage))
-            .build()
+            actionGetPolicies(pageToQuery(Page.of(Page.defaultPage().index, defaultPerPage)))
             .endpoint,
             {
                 headers: {},
