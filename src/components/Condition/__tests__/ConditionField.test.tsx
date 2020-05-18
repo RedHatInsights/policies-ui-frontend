@@ -4,7 +4,7 @@ import userEvent from '@testing-library/user-event';
 
 import { buildOptionList, ConditionField, ConditionFieldProps } from '../ConditionField';
 import { Fact } from '../../../types/Fact';
-import { FactType } from '../../../types/GeneratedOpenApi';
+import { FactType } from '../../../generated/Types';
 
 describe('src/components/Condition/ConditionVisitor', () => {
 

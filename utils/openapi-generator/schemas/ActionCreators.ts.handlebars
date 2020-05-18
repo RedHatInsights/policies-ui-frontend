@@ -1,7 +1,14 @@
-import { actionBuilder } from './Api/ActionBuilder';
+/**
+* Generated code, DO NOT modify directly.
+* Instead update the openapi in policies-ui-backend and run in policies-ui-frontend
+*   `yarn schema` to re-generate this file.
+* Note: As the time of writing, the schema is taken from:
+*   http://localhost:8080/api/policies/v1.0/openapi.json
+*/
+import { actionBuilder } from '../services/Api/ActionBuilder';
 import { Action } from 'react-fetching-library';
 import { withBaseUrl } from '../config/Config';
-import * as schemas from '../types/GeneratedOpenApi';
+import * as schemas from './Types';
 
 {{#each paths as |operations path|~}}
     {{~#with operations.get}}{{>request_params method="GET" path=path name=(coalesce operationId (concat 'get' (className @path)))}}{{/with}}
@@ -26,7 +33,7 @@ export const action{{className name}} = ({{>operation_arg .}}): Action => {
     {{/each~}}
     ;
 
-    const query = {};
+    const query = {} as Record<string, any>;
     {{#each parameters}}
     {{~#with (deref this @root)}}{{#switch in}}
     {{~#case "query"}}
@@ -47,9 +54,7 @@ export const action{{className name}} = ({{>operation_arg .}}): Action => {
 {{#*inline "operation_arg"}}
 {{#if parameters}}
 params: {{>request_params_name .}}{{nop~}}
-{{else}}
-{{#if (deref this @root)}}
+{{else if (deref requestBody @root)}}
 params: {{>request_params_name .}}{{nop~}}
-{{/if}}
 {{/if}}
 {{/inline}}

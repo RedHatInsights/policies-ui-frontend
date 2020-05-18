@@ -1,8 +1,7 @@
 {{#if parameters}}
 {{>_request_params .}}
 
-{{/if~}}
-{{#if (deref requestBody @root)}}
+{{else if (deref requestBody @root)~}}
 {{>_request_params .}}
 
 {{/if~}}
