@@ -4,7 +4,7 @@ import { getInsights } from '../utils/Insights';
 const apiVersion = 'v1.0';
 const apiBaseUrl = `/api/policies/${apiVersion}`;
 
-export const withBaseUrl = (path: string) => `${apiBaseUrl}/${path}`;
+export const withBaseUrl = (path: string) => `${apiBaseUrl}${path}`;
 export const localUrl = (path: string): string => {
     const insights = getInsights();
     if (insights.chrome.isBeta()) {
@@ -20,16 +20,16 @@ const Config = {
         version: apiVersion,
         urls: {
             base: apiBaseUrl,
-            facts: withBaseUrl('facts'),
-            policies: withBaseUrl(`policies`),
-            validateCondition: withBaseUrl('policies/validate'),
-            validatePolicyName: withBaseUrl('policies/validate-name'),
-            policy: (policyId: string): string => withBaseUrl(`policies/${policyId}`),
-            policyEnabled: (policyId: string) => withBaseUrl(`policies/${policyId}/enabled`),
-            policyIds: withBaseUrl('policies/ids'),
-            policyIdsEnabled: withBaseUrl('policies/ids/enabled'),
+            facts: withBaseUrl('/facts'),
+            policies: withBaseUrl(`/policies`),
+            validateCondition: withBaseUrl('/policies/validate'),
+            validatePolicyName: withBaseUrl('/policies/validate-name'),
+            policy: (policyId: string): string => withBaseUrl(`/policies/${policyId}`),
+            policyEnabled: (policyId: string) => withBaseUrl(`/policies/${policyId}/enabled`),
+            policyIds: withBaseUrl('/policies/ids'),
+            policyIdsEnabled: withBaseUrl('/policies/ids/enabled'),
             userSettings: {
-                email: withBaseUrl('user-config/email-preference')
+                email: withBaseUrl('/user-config/email-preference')
             }
         }
     },

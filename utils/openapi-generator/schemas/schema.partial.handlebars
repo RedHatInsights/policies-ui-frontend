@@ -13,7 +13,12 @@
 {{~else~}}
 {{~#if enum~}}
   {{#each enum~}}
-    {{value this ../type}}{{#unless @last}} | {{/unless}}
+    {{#switch ../type}}
+        {{#case "string"}}'{{value this ''}}'{{/case~}}
+        {{else~}}
+        {{value this ../type~}}
+    {{/switch~}}
+    {{#unless @last}} | {{/unless}}
   {{~/each}}
 {{~else~}}
 {{#switch type}}
