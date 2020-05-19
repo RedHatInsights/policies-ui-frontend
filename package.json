@@ -110,6 +110,7 @@
     "verify": "npm-run-all build lint test",
     "nightly": "npm run deploy",
     "proxy": "SPANDX_CONFIG=\"profiles/local-frontend-and-api.ts\" bash $PROXY_PATH/scripts/run.sh",
+    "proxy-ui": "SPANDX_CONFIG=\"profiles/local-frontend.ts\" bash $PROXY_PATH/scripts/run.sh",
     "generate-schema": "yarn schema:download && yarn schema:generate && yarn schema:copy && yarn schema:clean",
     "schema:generate": "jq -S -c '.' ./utils/openapi-generator/openapi.json > ./utils/openapi-generator/openapi.normalized.json && op3-codegen ./utils/openapi-generator/openapi.normalized.json -o ./utils/openapi-generator/output -t ./utils/openapi-generator/schemas/ --generateEnums",
     "schema:download": "download http://localhost:8080/api/policies/v1.0/openapi.json --header 'Accept: application/json' -o utils/openapi-generator",

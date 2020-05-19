@@ -81,7 +81,7 @@ export const toPolicy = (serverPolicy: ServerPolicyResponse): Policy => {
         actions: fromServerActions(serverPolicy.actions),
         mtime: serverPolicy.mtime ? parseJSON(serverPolicy.mtime) : new Date(Date.now()),
         ctime: serverPolicy.ctime ? parseJSON(serverPolicy.ctime) : new Date(Date.now()),
-        lastTriggered: serverPolicy.lastTriggered ? fromUnixTime(serverPolicy.lastTriggered) : undefined
+        lastTriggered: serverPolicy.lastTriggered ? fromUnixTime(serverPolicy.lastTriggered / 1000) : undefined
     };
 };
 
