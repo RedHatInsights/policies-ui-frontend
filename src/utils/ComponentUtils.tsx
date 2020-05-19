@@ -17,3 +17,5 @@ export const join: JoinType = (elements, GlueComponent) => {
 };
 
 export const joinClasses = (...args: string[]) => args.join(' ');
+
+export const hyphenate = (...args: string[]) => args.join('-');

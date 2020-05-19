@@ -1,9 +1,13 @@
 import * as React from 'react';
-import { joinClasses, join } from '../ComponentUtils';
+import { joinClasses, join, hyphenate } from '../ComponentUtils';
 
 describe('src/utils/ComponentUtils', () => {
     it('joinClasses joins multiple classes into one string', () => {
         expect(joinClasses('a', 'b', 'c')).toEqual('a b c');
+    });
+
+    it('hyphenate joins multiple strings together', () => {
+        expect(hyphenate('a', 'b', 'c')).toEqual('a-b-c');
     });
 
     it ('join joins multiple elements using other component as divider', () => {

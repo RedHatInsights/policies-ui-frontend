@@ -1,5 +1,7 @@
 import * as React from 'react';
-import { Text, Title, TitleSize } from '@patternfly/react-core';
+import { Text } from '@patternfly/react-core';
+import { VAlignForm } from '../../../Pf/components/form/PfForm';
+import { Messages } from '../../../../properties/Messages';
 
 interface DescriptionProps {
     description: string;
@@ -8,7 +10,7 @@ interface DescriptionProps {
 export const Description: React.FunctionComponent<DescriptionProps> = (props) => {
     return (
         <>
-            <Title size={ TitleSize.md }>Description</Title>
+            <VAlignForm title={ Messages.labels.description } indx="desc"/>
             <Text> { props.description } </Text>
         </>
     );
