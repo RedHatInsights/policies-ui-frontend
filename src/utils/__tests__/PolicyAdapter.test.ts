@@ -27,7 +27,7 @@ describe('src/utils/PolicyAdapter', () => {
             actions: 'email;webhook',
             mtime: '2014-01-01T23:28:56.782Z',
             ctime: '2013-01-01T23:28:56.782Z',
-            lastTriggered: 77897987
+            lastTriggered: 77897987000
         };
         const policy: Policy = {
             id: '5151-5151',
@@ -93,6 +93,40 @@ describe('src/utils/PolicyAdapter', () => {
             mtime: new Date('2014-01-01T23:28:56.782Z'),
             ctime: new Date('2013-01-01T23:28:56.782Z'),
             lastTriggered: undefined
+        };
+
+        expect(toPolicy(sp)).toEqual(policy);
+    });
+
+    it('parses lastTriggered correctly', () => {
+        const sp: ServerPolicyResponse = {
+            id: '5151-5151',
+            name: 'foo policy',
+            description: 'foo description',
+            isEnabled: true,
+            conditions: '1 == 2',
+            actions: 'email;webhook',
+            mtime: '2014-01-01T23:28:56.782Z',
+            ctime: '2013-01-01T23:28:56.782Z',
+            lastTriggered: 1589912060644
+        };
+        const policy: Policy = {
+            id: '5151-5151',
+            name: 'foo policy',
+            description: 'foo description',
+            isEnabled: true,
+            conditions: '1 == 2',
+            actions: [
+                {
+                    type: ActionType.EMAIL
+                },
+                {
+                    type: ActionType.WEBHOOK
+                }
+            ],
+            mtime: new Date('2014-01-01T23:28:56.782Z'),
+            ctime: new Date('2013-01-01T23:28:56.782Z'),
+            lastTriggered: new Date('2020-05-19T18:14:20.000Z')
         };
 
         expect(toPolicy(sp)).toEqual(policy);
@@ -202,7 +236,7 @@ describe('src/utils/PolicyAdapter', () => {
             actions: 'webhook',
             mtime: '2014-01-01T23:28:56.782Z',
             ctime: '2013-01-01T23:28:56.782Z',
-            lastTriggered: 458906840
+            lastTriggered: 458906840000
         };
 
         const pagedResponse: PagedServerPolicyResponse = {
