@@ -23,6 +23,7 @@ const Config = {
             facts: withBaseUrl('facts'),
             policies: withBaseUrl(`policies`),
             validateCondition: withBaseUrl('policies/validate'),
+            validatePolicyName: withBaseUrl('policies/validate-name'),
             policy: (policyId: string): string => withBaseUrl(`policies/${policyId}`),
             policyEnabled: (policyId: string) => withBaseUrl(`policies/${policyId}/enabled`),
             policyIds: withBaseUrl('policies/ids'),

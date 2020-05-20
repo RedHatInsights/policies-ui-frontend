@@ -16,17 +16,19 @@ import { createActionsStep } from './WizardSteps/ActionsStep';
 import { createReviewStep } from './WizardSteps/ReviewStep';
 import { PolicyFormSchema } from '../../schemas/CreatePolicy/PolicySchema';
 import { PolicyWizardFooter } from './PolicyWizardFooter';
-import { Policy, NewPolicy } from '../../types/Policy/Policy';
+import { NewPolicy, Policy } from '../../types/Policy/Policy';
 import { useMountedState } from 'react-use';
 import { Fact } from '../../types/Fact';
 import { Messages } from '../../properties/Messages';
 import { CreatePolicyStepContextProvider } from './WizardSteps/CreatePolicyPolicyStep/Provider';
+import { assertNever } from '../../utils/Assert';
 
 interface PolicyWizardProps {
     initialValue: PartialPolicy;
     onClose: () => void;
     onSave: (policy: NewPolicy) => Promise<CreatePolicyResponse>;
     onVerify: (policy: Partial<Policy>) => Promise<VerifyPolicyResponse>;
+    onValidateName: (policy: Partial<Policy>) => Promise<CreatePolicyResponse>;
     isLoading: boolean;
     showCreateStep: boolean;
     facts?: Fact[];
@@ -84,7 +86,7 @@ interface FormikBindingProps {
     maxStep: number;
     isLoading: boolean;
     triggeredAction: WizardActionType;
-    triggerAction: (action: WizardActionType) => void;
+    triggerAction: (action: WizardActionType) => Promise<unknown>;
     steps: WizardStepExtended[];
     verifyResponse: VerifyPolicyResponse;
     createResponse: CreatePolicyResponse;
@@ -124,7 +126,9 @@ const FormikBinding: React.FunctionComponent<FormikBindingProps> = (props) => {
         setMaxStep: props.setMaxStep
     };
 
-    const isValid = isStepValid(props.steps[props.currentStep], wizardContext, formikProps.values);
+    const currentStep = props.steps[props.currentStep];
+
+    const isValid = isStepValid(currentStep, wizardContext, formikProps.values);
     wizardContext.isValid = isValid;
 
     const stepsValidated = props.steps.map(step => ({
@@ -151,18 +155,31 @@ const FormikBinding: React.FunctionComponent<FormikBindingProps> = (props) => {
                     onGoToStep={ props.onMove }
                     title={ props.isEditing ? Messages.wizards.policy.titleEdit : Messages.wizards.policy.titleNew }
                     description={ Messages.wizards.policy.description }
-                    footer={ <PolicyWizardFooter loadingText="Loading"  isLoading={ props.isLoading } error={ props.createResponse.error }/> }
+                    footer={ <PolicyWizardFooter
+                        onNext={ currentStep.onNext }
+                        loadingText="Loading"
+                        isLoading={ props.isLoading }
+                        error={ props.createResponse.error }
+                    /> }
                 />
             </WizardContext.Provider>
         </Form>
     );
 };
 
+type WizardAction = {
+    type: WizardActionType;
+    resolver?: () => void;
+    rejecter?: () => void;
+}
+
 export const PolicyWizard: React.FunctionComponent<PolicyWizardProps> = (props: PolicyWizardProps) => {
 
     const [ currentStep, setCurrentStep ] = React.useState<number>(0);
     const [ maxStep, setMaxStep ] = React.useState<number>(0);
-    const [ wizardAction, setWizardAction ] = React.useState<WizardActionType>(WizardActionType.NONE);
+    const [ wizardAction, setWizardAction ] = React.useState<WizardAction>({
+        type: WizardActionType.NONE
+    });
     const [ verifyResponse, setVerifyResponse ] =
     React.useState<VerifyPolicyResponse>({
         isValid: false
@@ -173,6 +190,42 @@ export const PolicyWizard: React.FunctionComponent<PolicyWizardProps> = (props: 
     React.useState<CreatePolicyResponse>({
         created: false
     });
+
+    const triggerAction = React.useCallback((actionType: WizardActionType): Promise<unknown> => {
+        let resolver;
+        let rejecter;
+        const actionPromise = new Promise<unknown>(((resolve, reject) => {
+            resolver = resolve;
+            rejecter = reject;
+        }));
+        setWizardAction(prev => {
+            if (prev.rejecter) {
+                prev.rejecter();
+            }
+
+            return {
+                type: actionType,
+                resolver,
+                rejecter
+            };
+        });
+
+        return actionPromise;
+    }, [ setWizardAction ]);
+
+    const resolveAction = React.useCallback((resolve: boolean) => {
+        setWizardAction(prev => {
+            if (resolve && prev.resolver) {
+                prev.resolver();
+            } else if (prev.rejecter) {
+                prev.rejecter();
+            }
+
+            return {
+                type: WizardActionType.NONE
+            };
+        });
+    }, [ setWizardAction ]);
 
     React.useEffect(() => {
         if (props.initialValue?.conditions) {
@@ -195,34 +248,52 @@ export const PolicyWizard: React.FunctionComponent<PolicyWizardProps> = (props: 
 
     const onSubmit = (policy: PartialPolicy, formikHelpers: FormikHelpers<PartialPolicy>) => {
         formikHelpers.setSubmitting(false);
-        setWizardAction(WizardActionType.NONE);
-
+        setWizardAction(prev => ({
+            ...prev,
+            type: WizardActionType.NONE
+        }));
         const transformedPolicy = PolicyFormSchema.cast(policy) as NewPolicy;
         formikHelpers.setValues(transformedPolicy);
-        switch (wizardAction) {
+        switch (wizardAction.type) {
             case WizardActionType.SAVE:
-                props.onSave(transformedPolicy).then(response => isMounted() && setCreateResponse(response));
+                props.onSave(transformedPolicy).then(response => {
+                    if (isMounted()) {
+                        setCreateResponse(response);
+                        resolveAction(response.created);
+                    }
+                });
                 break;
             case WizardActionType.VALIDATE_CONDITION:
             case WizardActionType.NONE:
+            case WizardActionType.VALIDATE_NAME:
                 // Ignore these actions, they will be handled in the validateForm
                 break;
             default:
-                throw new Error('Unexpected action');
+                assertNever(wizardAction.type);
         }
     };
 
     const onValidateForm = (policy: PartialPolicy) => {
         const transformedPolicy = PolicyFormSchema.cast(policy) as Partial<Policy>;
-        switch (wizardAction) {
+        switch (wizardAction.type) {
             case WizardActionType.SAVE:
             case WizardActionType.NONE:
                 // Ignore this action, it will be handled on submit.
                 break;
             case WizardActionType.VALIDATE_CONDITION:
-                setWizardAction(WizardActionType.NONE);
-                props.onVerify(transformedPolicy).then(setVerifyResponse);
+                props.onVerify(transformedPolicy).then(response => {
+                    setVerifyResponse(response);
+                    resolveAction(response.isValid);
+                });
                 break;
+            case WizardActionType.VALIDATE_NAME:
+                props.onValidateName(transformedPolicy).then(response => {
+                    setCreateResponse(response);
+                    resolveAction(!response.error);
+                });
+                break;
+            default:
+                assertNever(wizardAction.type);
         }
     };
 
@@ -241,8 +312,8 @@ export const PolicyWizard: React.FunctionComponent<PolicyWizardProps> = (props: 
                         currentStep={ currentStep }
                         maxStep={ maxStep }
                         isLoading={ props.isLoading }
-                        triggeredAction={ wizardAction }
-                        triggerAction={ setWizardAction }
+                        triggeredAction={ wizardAction.type }
+                        triggerAction={ triggerAction }
                         steps={ steps }
                         verifyResponse={ verifyResponse }
                         createResponse={ createResponse }

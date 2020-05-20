@@ -9,11 +9,15 @@ settings:
 plugins:
   - "react-hooks"
   - "jest"
+  - "jest-dom"
+  - "testing-library"
 extends:
   - 'plugin:@typescript-eslint/recommended'
   - 'prettier'
   - 'plugin:react/recommended'
   - 'plugin:jest/recommended'
+  - 'plugin:jest-dom/recommended'
+  - 'plugin:testing-library/react'
 parserOptions:
   ecmaVersion: 7
   sourceType: module
@@ -123,6 +127,8 @@ rules: # Todo: Remove javascript rules that are duplicated on typescript
   semi:
     - error
     - always
+  no-extra-semi:
+    - error
   space-before-blocks: 2
   space-in-parens: 2
   space-infix-ops: 2

@@ -261,8 +261,8 @@ describe('src/components/Policy/WizardSteps/CreatePolicyStep', () => {
         });
 
         expect(
-            (screen.getByLabelText(/Radio select for policy This is my policy/i) as HTMLInputElement).checked
-        ).toBe(true);
+            (screen.getByLabelText(/Radio select for policy This is my policy/i) as HTMLInputElement)
+        ).toBeChecked();
 
         await act(async () => {
             await userEvent.click(screen.getByLabelText(/From scratch/i));
@@ -276,8 +276,8 @@ describe('src/components/Policy/WizardSteps/CreatePolicyStep', () => {
 
         expect(screen.getByText('This is my policy')).toBeTruthy();
         expect(
-            (screen.getByLabelText(/Radio select for policy This is my policy/i) as HTMLInputElement).checked
-        ).toBe(false);
+            (screen.getByLabelText(/Radio select for policy This is my policy/i) as HTMLInputElement)
+        ).not.toBeChecked();
     });
 
     it('maxStep is set to 0 when we select as-a-copy', async () => {

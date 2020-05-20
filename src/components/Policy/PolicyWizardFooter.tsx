@@ -9,6 +9,8 @@ import { Spinner } from '@patternfly/react-core/dist/js/experimental';
 import { style } from 'typestyle';
 import { ExclamationCircleIcon } from '@patternfly/react-icons';
 import { GlobalDangerColor100 } from '../../utils/PFColors';
+import { useContext } from 'react';
+import { WizardContext } from './PolicyWizardTypes';
 
 const loadingClassName = style({
     marginTop: 'auto',
@@ -23,20 +25,30 @@ interface PolicyWizardFooterProps {
     isLoading: boolean;
     loadingText: string;
     error?: string;
+    onNext?: (context: WizardContext, goNext: () => void) => void;
 }
 
 export const PolicyWizardFooter: React.FunctionComponent<PolicyWizardFooterProps> = (props) => {
+
+    const wizardContext = useContext(WizardContext);
 
     return (
         <WizardFooter>
             <WizardContextConsumer>
                 { wcProps => {
+
+                    const onNext = props.onNext && (() => {
+                        if (props.onNext) {
+                            props.onNext(wizardContext, wcProps.onNext);
+                        }
+                    });
+
                     return (
                         <>
                             <Button
                                 variant={ ButtonVariant.primary }
                                 type="submit"
-                                onClick={ wcProps.onNext }
+                                onClick={ onNext || wcProps.onNext }
                                 isDisabled={ props.isLoading || !wcProps.activeStep.enableNext }
                             >
                                 { wcProps.activeStep.nextButtonText || 'Next' }
@@ -61,7 +73,7 @@ export const PolicyWizardFooter: React.FunctionComponent<PolicyWizardFooterProps
                                     <Spinner size="md" />
                                 </div>
                             )}
-                            { !props.isLoading && props. error && (
+                            { !props.isLoading && props.error && (
                                 <Split className={ loadingClassName }>
                                     <SplitItem>
                                         <ExclamationCircleIcon className={ exclamationClassName } color={ GlobalDangerColor100 }/>

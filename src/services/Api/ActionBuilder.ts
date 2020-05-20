@@ -1,6 +1,7 @@
 import { Action } from 'react-fetching-library';
 
 export type Method = 'GET' | 'HEAD' | 'POST' | 'PUT' | 'PATCH' | 'DELETE' | 'OPTIONS';
+export type QueryParamsType = Record<string, HasToString | undefined>;
 
 export interface HasToString {
     toString: () => string;
@@ -9,7 +10,7 @@ export interface HasToString {
 export class ActionBuilder {
     private readonly _method: Method;
     private readonly _url: string;
-    private _queryParams?: Record<string, HasToString>;
+    private _queryParams?: QueryParamsType;
     private _data?: unknown;
 
     public constructor(method: Method, url: string) {
@@ -17,7 +18,7 @@ export class ActionBuilder {
         this._url = url;
     }
 
-    public queryParams(queryParams?: Record<string, HasToString>) {
+    public queryParams(queryParams?: QueryParamsType) {
         this._queryParams = queryParams;
         return this;
     }
@@ -60,16 +61,20 @@ export class ActionBuilder {
         return queryString === '' ? '' : querySeparator + queryString;
     }
 
-    private stringParams(params?: Record<string, HasToString>): Record<string, string> {
+    private stringParams(params?: QueryParamsType): Record<string, string> {
         if (!params) {
             return {};
         }
 
         return Object.keys(params).reduce((prev, key) => {
-            prev[key] = params[key].toString();
+            const value = params[key];
+            if (value !== undefined) {
+                prev[key] = value.toString();
+            }
+
             return prev;
         }, {});
-    };
+    }
 }
 
 export const actionBuilder = (method: Method, url: string): ActionBuilder => {

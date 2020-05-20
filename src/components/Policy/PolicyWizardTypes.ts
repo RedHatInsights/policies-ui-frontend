@@ -11,6 +11,7 @@ export type PartialPolicy = DeepPartial<Policy>;
 export type WizardStepExtended = WizardStep & {
   validationSchema: Yup.Schema<unknown>;
   isValid?: (context: WizardContext, values: DeepReadonly<PartialPolicy>) => boolean;
+  onNext?: (context: WizardContext, goNext: () => void) => void;
 };
 
 export const AlwaysValid = Yup.object();
@@ -18,6 +19,7 @@ export const AlwaysValid = Yup.object();
 export enum WizardActionType {
   SAVE = 'CREATE',
   VALIDATE_CONDITION = 'VALIDATE_CONDITION',
+  VALIDATE_NAME = 'VALIDATE_NAME',
   NONE = 'NONE'
 }
 
@@ -36,7 +38,7 @@ export interface WizardContext {
   isLoading: boolean;
   isFormValid: boolean;
   isValid?: boolean;
-  triggerAction: (action: WizardActionType) => void;
+  triggerAction: (action: WizardActionType) => Promise<unknown>;
   verifyResponse: VerifyPolicyResponse;
   createResponse: CreatePolicyResponse;
   setVerifyResponse: (verifyResponse: VerifyPolicyResponse) => void;
