@@ -1,17 +1,17 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Rbac } from '../types/Rbac';
-import { useUserSettingsEmailQuery } from '../services/useUserSettingsEmailQuery';
 import { getInsights, waitForInsights } from '../utils/Insights';
 import Config from '../config/Config';
 import { fetchRBAC } from '../utils/RbacUtils';
 import { AppContext } from './AppContext';
+import { useUserSettings } from './useUserSettings';
 
-export const useApp = (): Partial<AppContext> => {
+export const useApp = (): Omit<AppContext, 'rbac'> & Partial<Pick<AppContext, 'rbac'>> => {
 
     const history = useHistory();
     const [ rbac, setRbac ] = useState<Rbac | undefined>(undefined);
-    const userSettingsEmailQuery = useUserSettingsEmailQuery();
+    const userSettings = useUserSettings(15 * 60 * 1000);
 
     useEffect(() => {
         waitForInsights().then((insights) => {
@@ -31,13 +31,6 @@ export const useApp = (): Partial<AppContext> => {
             });
         });
     }, []);
-
-    const userSettings = useMemo(() => {
-        return userSettingsEmailQuery.payload ? {
-            ...userSettingsEmailQuery.payload,
-            refresh: userSettingsEmailQuery.query as () => void
-        } : undefined;
-    }, [ userSettingsEmailQuery.payload, userSettingsEmailQuery.query ]);
 
     return {
         rbac,

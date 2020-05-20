@@ -207,15 +207,17 @@ const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
         });
     }, [ setPolicyWizardState ]);
 
-    const closeCustomPolicyWizard = React.useCallback((policyCreated: boolean) => {
+    const closePolicyWizard = React.useCallback((policyCreated: boolean) => {
+        const refreshUserSettings = appContext.userSettings.refresh;
         if (policyCreated) {
             getPoliciesQueryReload();
+            refreshUserSettings();
         }
 
         setPolicyWizardState({
             isOpen: false
         });
-    }, [ setPolicyWizardState, getPoliciesQueryReload ]);
+    }, [ appContext.userSettings.refresh, setPolicyWizardState, getPoliciesQueryReload ]);
 
     const policyTableErrorValue = React.useMemo(
         () => {
@@ -293,8 +295,7 @@ const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
             <PageHeader>
                 <PageHeaderTitle title={ Messages.pages.listPage.title }/>
             </PageHeader>
-            { appContext.userSettings &&
-            !appContext.userSettings.dailyEmail &&
+            { !appContext.userSettings.isSubscribedForNotifications &&
             getPoliciesQuery.payload &&
             getPoliciesQuery.payload.find(p => p.actions.find(a => a.type === ActionType.EMAIL)) && (
                 <PageSection className={ emailOptinPageClassName }>
@@ -342,7 +343,7 @@ const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
             </Main>
             { policyWizardState.isOpen && <CreatePolicyWizard
                 isOpen={ policyWizardState.isOpen }
-                close={ closeCustomPolicyWizard }
+                close={ closePolicyWizard }
                 initialValue={ policyWizardState.template }
                 showCreateStep={ policyWizardState.showCreateStep }
                 policiesExist={ getPoliciesQuery.hasPolicies === true }

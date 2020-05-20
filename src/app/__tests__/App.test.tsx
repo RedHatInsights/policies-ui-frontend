@@ -14,7 +14,8 @@ jest.mock('../../Routes', () => {
     };
 });
 jest.mock('../../components/AppSkeleton/AppSkeleton', () => {
-    const MockedAppSkeleton: React.FunctionComponent = () => <div data-testid="loading"/>;
+    const RealAppSkeleton = jest.requireActual('../../components/AppSkeleton/AppSkeleton').AppSkeleton;
+    const MockedAppSkeleton: React.FunctionComponent = () => <div data-testid="loading"><RealAppSkeleton/></div>;
     return {
         AppSkeleton: MockedAppSkeleton
     };
@@ -42,7 +43,7 @@ describe('src/app/App', () => {
         );
 
         await act(async () => {
-            await jest.runAllTimers();
+            await jest.advanceTimersToNextTimer();
         });
 
         expect(screen.getByTestId('loading')).toBeTruthy();
@@ -63,7 +64,7 @@ describe('src/app/App', () => {
         );
 
         await act(async () => {
-            await jest.runAllTimers();
+            await jest.advanceTimersToNextTimer();
         });
 
         expect(screen.getByTestId('content')).toBeTruthy();
@@ -83,7 +84,7 @@ describe('src/app/App', () => {
         );
 
         await act(async () => {
-            await jest.runAllTimers();
+            await jest.advanceTimersToNextTimer();
         });
 
         expect(screen.getByText(/You do not have access to Policies/i)).toBeTruthy();
