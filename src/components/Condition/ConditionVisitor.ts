@@ -2,57 +2,52 @@ import { AbstractParseTreeVisitor, ErrorNode, TerminalNode } from 'antlr4ts/tree
 
 import { ExpressionVisitor } from '../../utils/Expression/ExpressionVisitor';
 import {
-    ArrayContext, ExprContext,
     // eslint-disable-next-line @typescript-eslint/camelcase
-    KeyContext, Logical_operatorContext,
+    ArrayContext, Boolean_operatorContext, ExprContext,
+    // eslint-disable-next-line @typescript-eslint/camelcase
+    KeyContext, Logical_operatorContext, Numeric_compare_operatorContext, Numerical_valueContext,
     ValueContext
 } from '../../utils/Expression/ExpressionParser';
+import { Token } from 'antlr4ts';
 
-export enum SuggestionType {
+export enum ElementType {
     FACT = 'FACT',
     VALUE = 'VALUE',
     LOGICAL_OPERATOR = 'LOGICAL_OPERATOR',
     BOOLEAN_OPERATOR = 'BOOLEAN_OPERATOR',
-    ARRAY_OPERATOR = 'ARRAY_OPERATOR',
-    NONE = 'NO_SUGGESTION'
+    NUMERIC_COMPARE_OPERATOR = 'NUMERIC_COMPARE_OPERATOR',
+    OPEN_ROUND_BRACKET = 'OPEN_ROUND_BRACKET',
+    CLOSE_ROUND_BRACKET = 'CLOSE_ROUND_BRACKET',
+    UNKNOWN = 'UNKNOWN',
+    ERROR = 'ERROR'
 }
 
-interface SuggestionFact {
-    type: SuggestionType.FACT;
+interface Placeholder {
+    type: ElementType;
+    value: string;
 }
 
-interface SuggestionValue {
-    type: SuggestionType.VALUE;
-    fact: string;
-}
+export type ConditionVisitorResult = Array<Placeholder>;
 
-interface SuggestionLogicalOperator {
-    type: SuggestionType.LOGICAL_OPERATOR;
-}
+const makeFact = (value: string): Placeholder => ({ type: ElementType.FACT, value });
+const makeValue = (value: string): Placeholder => ({ type: ElementType.VALUE, value });
+const makeLogicalOperator = (value: string): Placeholder => ({ type: ElementType.LOGICAL_OPERATOR, value });
+const makeBooleanOperator = (value: string): Placeholder => ({ type: ElementType.BOOLEAN_OPERATOR, value });
+const makeOpenBracket = (value: string): Placeholder => ({ type: ElementType.OPEN_ROUND_BRACKET, value });
+const makeCloseBracket = (value: string): Placeholder => ({ type: ElementType.CLOSE_ROUND_BRACKET, value });
+const makeNumericCompareOperator = (value: string): Placeholder => ({ type: ElementType.NUMERIC_COMPARE_OPERATOR, value });
+const makeError = (value: string): Placeholder => ({ type: ElementType.ERROR, value });
+const makeUnknown = (value: string): Placeholder => ({ type: ElementType.UNKNOWN, value });
 
-interface SuggestionNone {
-    type: SuggestionType.NONE;
-}
+type ReturnValue = ConditionVisitorResult;
 
-type Suggestion = SuggestionFact | SuggestionValue | SuggestionLogicalOperator | SuggestionNone;
+const first = <T>(array: Array<T>): T | undefined => {
+    return array.length === 0 ? undefined : array[0];
+};
 
-const makeSuggestionFact = (): SuggestionFact => ({ type: SuggestionType.FACT });
-const makeSuggestionValue = (fact: string): SuggestionValue => ({ type: SuggestionType.VALUE, fact });
-const makeSuggestionLogicalOperator = (): SuggestionLogicalOperator => ({ type: SuggestionType.LOGICAL_OPERATOR });
-const makeSuggestionNone = (): SuggestionNone => ({ type: SuggestionType.NONE });
-
-export class ConditionVisitorResult {
-    readonly suggestion: Suggestion;
-    readonly value: string | undefined;
-
-    constructor(suggestion: Suggestion, value?: string) {
-        this.suggestion = suggestion;
-        this.value = value;
-    }
-
-}
-
-type ReturnValue = ConditionVisitorResult | undefined;
+const last = <T>(array: Array<T>): T | undefined => {
+    return array.length === 0 ? undefined : array[ array.length - 1];
+};
 
 /**
  * Condition visitors returns a list of suggestions based on where we currently are.
@@ -60,39 +55,63 @@ type ReturnValue = ConditionVisitorResult | undefined;
 export class ConditionVisitor extends AbstractParseTreeVisitor<ReturnValue> implements ExpressionVisitor<ReturnValue> {
 
     protected defaultResult() {
-        return new ConditionVisitorResult(makeSuggestionFact());
+        return [];
     }
 
-    protected aggregateResult(aggregate, nextResult) {
-        if (nextResult) {
-            return nextResult;
+    protected aggregateResult(aggregate: ReturnValue, nextResult: ReturnValue) {
+
+        const lastAggregatedWithoutError = last(aggregate.filter(e => e.type !== ElementType.ERROR));
+        const firstNextWithouterror = first(nextResult.filter(e => e.type !== ElementType.ERROR));
+
+        if (lastAggregatedWithoutError && firstNextWithouterror &&
+            lastAggregatedWithoutError.type === ElementType.LOGICAL_OPERATOR &&
+            firstNextWithouterror.type === ElementType.LOGICAL_OPERATOR) {
+            firstNextWithouterror.type = ElementType.ERROR;
         }
 
-        return aggregate;
+        return [ ...aggregate, ...nextResult ];
     }
 
-    visitTerminal(_node: TerminalNode) {
-        return undefined;
+    visitTerminal(node: TerminalNode) {
+        if (node.symbol.type === Token.EOF) {
+            return [ ];
+        }
+
+        if (node.text === '(') {
+            return [ makeOpenBracket('(') ];
+        } else if (node.text === ')') {
+            return [ makeCloseBracket(')') ];
+        }
+
+        return [ makeUnknown(node.text) ];
     }
 
-    visitErrorNode(_node: ErrorNode): ReturnValue {
-        return undefined;
+    visitErrorNode(node: ErrorNode): ReturnValue {
+        if (node.text === '<missing \')\'>') {
+            return [ makeCloseBracket(')') ];
+        }
+
+        return [ makeError(node.text) ];
     }
 
     // eslint-disable-next-line @typescript-eslint/camelcase
     visitLogical_operator(ctx: Logical_operatorContext) {
-        // eslint-disable-next-line new-cap
-        const operator = ctx.AND() || ctx.OR();
-        if (!operator) {
-            new ConditionVisitorResult(makeSuggestionLogicalOperator());
-        }
+        return [ makeLogicalOperator(ctx.text) ];
+    }
 
-        return new ConditionVisitorResult(makeSuggestionFact());
+    // eslint-disable-next-line @typescript-eslint/camelcase
+    visitBoolean_operator(ctx: Boolean_operatorContext) {
+        return [ makeBooleanOperator(ctx.text) ];
+    }
+
+    // eslint-disable-next-line @typescript-eslint/camelcase
+    visitNumeric_compare_operator(ctx: Numeric_compare_operatorContext) {
+        return [ makeNumericCompareOperator(ctx.text) ];
     }
 
     visitKey(ctx: KeyContext) {
         // eslint-disable-next-line new-cap
-        return new ConditionVisitorResult(makeSuggestionFact(), ctx.SIMPLETEXT().text);
+        return [ makeFact(ctx.SIMPLETEXT().text) ];
     }
 
     visitValue(ctx: ValueContext) {
@@ -106,10 +125,34 @@ export class ConditionVisitor extends AbstractParseTreeVisitor<ReturnValue> impl
                 // Todo: Expected value inside ArrayContext
             }
 
-            return new ConditionVisitorResult(makeSuggestionNone());
+            if (ctx.text) {
+                if (ctx.childCount > 1 && ctx.start.inputStream && ctx.stop) {
+                    return [ makeValue(`"${ctx.start.inputStream.toString().slice(ctx.start.startIndex, ctx.stop.stopIndex + 1)}"`) ];
+                }
+
+                return [ makeValue(`"${ctx.text}"`) ];
+            } else if (ctx.start.inputStream && ctx.stop && ctx.stop.text) {
+                // We reach up to this point when we have a STRING without a closing (double)quote
+                // That part doesn't seem to trigger an error on the current setup, so i manually extract it from the input
+                let possibleValue = ctx.start.inputStream.toString()
+                .slice(ctx.stop.stopIndex + 1, ctx.start.startIndex).trimLeft();
+                if (possibleValue.startsWith('"') && !possibleValue.endsWith('"')) {
+                    possibleValue += '"';
+                } else if (possibleValue.startsWith('\'') && !possibleValue.endsWith('\'')) {
+                    possibleValue += '\'';
+                }
+
+                return [ makeValue(possibleValue) ];
+            }
+
+            return this.visitChildren(ctx);
         }
 
-        return new ConditionVisitorResult(makeSuggestionValue(''), nodeValue ? nodeValue.text : ctx.text);
+        return [ makeValue(nodeValue.text) ];
     }
 
+    // eslint-disable-next-line @typescript-eslint/camelcase
+    visitNumerical_value(ctx: Numerical_valueContext) {
+        return [ makeValue(ctx.text) ];
+    }
 }
