@@ -37,15 +37,15 @@ const defaultIsActive = {
 const useUrlStateName = (defaultValue?: string) => useUrlStateString('name', defaultValue);
 const useUrlStateIsActive = (defaultValue?: IsActiveFilter) => {
 
-    const serializer = React.useCallback((value: IsActiveFilter) => {
-        if (value.enabled === value.disabled) {
+    const serializer = React.useCallback((value: IsActiveFilter | undefined) => {
+        if (value === undefined || value.enabled === value.disabled) {
             return undefined;
         }
 
         return value.enabled ? '1' : '0';
     }, []);
 
-    const deserializer = React.useCallback((value: string) => {
+    const deserializer = React.useCallback((value: string | undefined) => {
         const val = {
             enabled: false,
             disabled: false
@@ -63,11 +63,13 @@ const useUrlStateIsActive = (defaultValue?: IsActiveFilter) => {
     return useUrlState<IsActiveFilter>('enabled', serializer, deserializer, defaultValue);
 };
 
-export const usePolicyFilter = (debounce = DEBOUNCE_MS): UsePolicyFilterReturn => {
+export const usePolicyFilter = (debounce = DEBOUNCE_MS as number, saveFiltersInUrl = true as boolean): UsePolicyFilterReturn => {
 
-    const [ filterName, setFilterName, debouncedFilterName ] = useDebouncedState<string>(defaultName, debounce, useUrlStateName);
+    const [ filterName, setFilterName, debouncedFilterName ] = useDebouncedState<string>(
+        defaultName, debounce, saveFiltersInUrl ? useUrlStateName : undefined
+    );
     const [ filterIsActive, setFilterIsActive, debouncedFilterIsActive ] = useDebouncedState<IsActiveFilter>(
-        defaultIsActive, debounce, useUrlStateIsActive
+        defaultIsActive, debounce, saveFiltersInUrl ? useUrlStateIsActive : undefined
     );
 
     const clearFilterHandler = React.useCallback((clearFilterCommands: ClearFilterCommand[]) => {

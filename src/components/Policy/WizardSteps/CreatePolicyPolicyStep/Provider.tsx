@@ -15,7 +15,7 @@ export interface CreatePolicyStepContextProps {
 export const CreatePolicyStepContextProvider: React.FunctionComponent<CreatePolicyStepContextProps> = (props) => {
     const [ copyPolicy, setCopyPolicy ] = React.useState<boolean>(false);
     const [ copiedPolicy, setCopiedPolicy ] = React.useState<NewPolicy | undefined>({} as NewPolicy);
-    const policyFilter = usePolicyFilter();
+    const policyFilter = usePolicyFilter(undefined, false);
     const policySort = useSort();
     const policyPage = usePolicyPage(policyFilter.debouncedFilters, defaultPerPage, policySort.sortBy);
     const policyQuery = useGetPoliciesQuery(policyPage.page, false);

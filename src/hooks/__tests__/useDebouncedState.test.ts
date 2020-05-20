@@ -1,5 +1,6 @@
 import { renderHook, act } from '@testing-library/react-hooks';
 import { useDebouncedState, UseDebouncedStateType } from '../useDebouncedState';
+import { useEffect, useState } from 'react';
 
 type P<T> = Parameters<UseDebouncedStateType<T>>;
 
@@ -42,6 +43,42 @@ describe('src/hooks/useDebouncedState', () => {
         {
             const [ state ] = result.current;
             expect(state).toEqual('hello world');
+        }
+    });
+
+    test('update on value changes (depending internal state of the useStateHook)', () => {
+        jest.useFakeTimers();
+
+        const useInternalValueChanger = (...initValue: Parameters<typeof useState>) => {
+            const [ value, setValue ] = useState<string>(...initValue);
+            useEffect(() => {
+                setTimeout(() => {
+                    setValue(v => v + '1');
+                }, 1000);
+            }, []);
+            return [ value, setValue ] as ReturnType<typeof useState>;
+        };
+
+        const { result } = renderHookUseDebouncedState<string>('my value', 200, useInternalValueChanger);
+        act(() => {
+            const [ , setState ] = result.current;
+            setState('hello world');
+        });
+        act(() => {
+            jest.advanceTimersByTime(300);
+        });
+        {
+            const [ state ] = result.current;
+            expect(state).toEqual('hello world');
+        }
+
+        act(() => {
+            jest.advanceTimersByTime(1000);
+        });
+        {
+            const [ state,, debouncedState ] = result.current;
+            expect(debouncedState).toEqual('hello world1');
+            expect(state).toEqual('hello world1');
         }
     });
 

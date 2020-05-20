@@ -17,8 +17,8 @@ describe('src/hooks/useUrlState', () => {
         val2: number;
     }
 
-    const serializer = (val: MyObject) => `${val.val}_${val.val2}`;
-    const deserializer = (val: string) => ({ val: val.split('_')[0], val2: +val.split('_')[1] });
+    const serializer = (val: MyObject | undefined) => `${val?.val}_${val?.val2}`;
+    const deserializer = (val: string | undefined) => (val === undefined ? undefined : { val: val.split('_')[0], val2: +val.split('_')[1] });
 
     it('preamble tests to serializer & deserializers used for testing', () => {
         expect(serializer({
@@ -156,6 +156,37 @@ describe('src/hooks/useUrlState', () => {
 
         const { search } = result.current.location;
         const [ state ] = result.current.urlState;
+        expect(search).toEqual('?my-param=here+comes+1234_5');
+        expect(state).toEqual({
+            val: 'here comes 1234',
+            val2: 5
+        });
+    });
+
+    it('useUrlState sharing the same key gets updated if one changes', () => {
+        const { result } = renderHook(
+            (args: Parameters<UseUrlStateType<MyObject>>) => ({
+                urlState1: useUrlState<MyObject>(...args),
+                urlState2: useUrlState<MyObject>(...args),
+                location: useLocation()
+            }), {
+                initialProps: [ 'my-param', serializer, deserializer, { val: 'hello', val2: 5 }],
+                wrapper: getWrapper()
+            }
+        );
+
+        act(() => {
+            const [ , setState ] = result.current.urlState1;
+            setState(prev => {
+                return {
+                    val: 'here comes 1234',
+                    val2: prev?.val2 || 180
+                };
+            });
+        });
+
+        const { search } = result.current.location;
+        const [ state ] = result.current.urlState2;
         expect(search).toEqual('?my-param=here+comes+1234_5');
         expect(state).toEqual({
             val: 'here comes 1234',
