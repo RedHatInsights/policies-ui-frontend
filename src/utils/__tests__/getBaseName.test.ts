@@ -10,4 +10,9 @@ describe('src/utils/getBaseName', () => {
         expect(getBaseName('/beta/insights/foo/bar/baz')).toEqual('/beta/insights/foo');
         expect(getBaseName('/beta/test/fff/bar/baz')).toEqual('/beta/test/fff');
     });
+
+    it('should get app root when only app root is provided ', () => {
+        expect(getBaseName('/policies')).toEqual('/policies/');
+        expect(getBaseName('/beta/policies')).toEqual('/beta/policies/');
+    });
 });
