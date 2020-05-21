@@ -20,7 +20,6 @@ const Config = {
         version: apiVersion,
         urls: {
             base: apiBaseUrl,
-            validatePolicyName: withBaseUrl('/policies/validate-name'),
             userSettings: {
                 email: withBaseUrl('/user-config/email-preference')
             }

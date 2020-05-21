@@ -1,6 +1,6 @@
 import { computeOptions } from '../ComputeOptions';
 import { Fact } from '../../../types/Fact';
-import { FactType } from '../../../types/GeneratedOpenApi';
+import { FactType } from '../../../generated/Types';
 
 describe('src/components/Condition/ComputeOptions', () => {
 

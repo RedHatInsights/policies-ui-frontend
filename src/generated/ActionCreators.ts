@@ -44,10 +44,6 @@ export interface UsePostPoliciesIdsEnabledParams {
     enabled?: boolean;
 }
 
-export interface UsePostPoliciesSyncParams {
-    token?: string;
-}
-
 export interface UsePostPoliciesValidateParams {
     body?: schemas.Policy;
 }
@@ -169,17 +165,6 @@ export const actionPostPoliciesIdsEnabled = (params: UsePostPoliciesIdsEnabledPa
     return actionBuilder('POST', path)
     .queryParams(query)
     .data(params.body)
-    .build();
-};
-
-export const actionPostPoliciesSync = (params: UsePostPoliciesSyncParams): Action => {
-    const path = withBaseUrl('/policies/sync');
-
-    const query = {} as Record<string, any>;
-    query.token = params.token;
-
-    return actionBuilder('POST', path)
-    .queryParams(query)
     .build();
 };
 
