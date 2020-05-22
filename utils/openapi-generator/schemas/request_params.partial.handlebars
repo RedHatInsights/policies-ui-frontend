@@ -1,0 +1,20 @@
+{{#if parameters}}
+{{>_request_params .}}
+
+{{else if (deref requestBody @root)~}}
+{{>_request_params .}}
+
+{{/if~}}
+
+{{#*inline "_request_params"}}
+export interface {{>request_params_name .}} {
+    {{#if (deref requestBody @root)}}
+    {{#with (deref requestBody @root)}}body{{#unless required}}?{{/unless}}: {{#first content}}{{>schema schema namespace="schemas"}};{{/first}}{{/with}}
+    {{/if}}
+    {{#each parameters}}
+        {{#with (deref this @root)}}
+            {{#unless (eq? in "cookie")}}
+    {{valueName name}}{{#unless required}}?{{/unless}}: {{>schema (coalesce schema content.schema) namespace="schemas"}};
+{{/unless}}{{/with}}{{/each~}}
+}
+{{/inline}}

@@ -3,14 +3,12 @@ import { useTransformQueryResponse } from '../utils/ApiUtils';
 import { Policy } from '../types/Policy';
 import { useNewPaginatedQuery, UsePaginatedQueryResponse } from '../hooks';
 import { PagedServerPolicyResponse } from '../types/Policy/Policy';
-import { paginatedActionBuilder } from './Api/PaginatedActionBuilder';
 import { toPolicies } from '../utils/PolicyAdapter';
-import Config from '../config/Config';
 import { useQuery } from 'react-fetching-library';
+import { actionGetPolicies } from '../generated/ActionCreators';
+import { pageToQuery } from './Api/ActionBuilder';
 
-const urls = Config.apis.urls;
-
-export const actionCreator = (page?: Page) => paginatedActionBuilder('GET', urls.policies).page(page).build();
+export const actionCreator = (page?: Page) => actionGetPolicies(pageToQuery(page));
 
 export const useGetPoliciesQuery = (page?: Page, initFetch?: boolean): UsePaginatedQueryResponse<Policy[]> => {
     return useTransformQueryResponse(
@@ -23,9 +21,7 @@ const policiesToBooleanAdapter = (pagedPolicyResponse: PagedServerPolicyResponse
     return pagedPolicyResponse.data?.length;
 };
 
-export const hasPoliciesQueryActionCreator = () => {
-    return paginatedActionBuilder('GET', urls.policies).page(Page.of(1, 1)).build();
-};
+export const hasPoliciesQueryActionCreator = () => actionGetPolicies((pageToQuery(Page.of(1, 1))));
 
 export const useHasPoliciesQuery = () => {
     return useTransformQueryResponse(

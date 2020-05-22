@@ -304,6 +304,8 @@ describe('src/utils/PolicyAdapter', () => {
     it('toServerPolicy does not fail with empty object', () => {
         const partialPolicy: DeepPartial<Policy> = { };
         const pr: ServerPolicyRequest = {
+            name: '',
+            conditions: '',
             actions: '',
             isEnabled: false
         };

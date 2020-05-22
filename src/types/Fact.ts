@@ -1,4 +1,4 @@
-import * as Generated from './GeneratedOpenApi';
+import * as Generated from '../generated/Types';
 
 export type FactType = Generated.FactType;
 

@@ -78,5 +78,5 @@ When you want to test your code with unit tests please use `jest` which is preco
 
 ## Generating types from Openapi file
 
-The ui-frontend depends on types from the ui-backend, these are generated from the Openapi spec file, run `yarn generate-schema` to reload the types.
-Generate types can be found in: `src/types/GeneratedOpenApi.ts`, check `package.json` for more info.
+The ui-frontend depends on types from the ui-backend, these are generated from the Openapi spec file, run `yarn schema` to reload the types.
+Generate types can be found in: `src/generated/`, check `package.json` for more info.

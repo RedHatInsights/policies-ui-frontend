@@ -4,8 +4,8 @@ import fetchMock, { UNMATCHED } from 'fetch-mock';
 import { ClientContextProvider, createClient } from 'react-fetching-library';
 import { useGetListPagePolicies } from '../useGetListPagePolicies';
 import { Page } from '../../../types/Page';
-import Config from '../../../config/Config';
-import { paginatedActionBuilder } from '../../../services/Api/PaginatedActionBuilder';
+import { actionGetPolicies } from '../../../generated/ActionCreators';
+import { pageToQuery } from '../../../services/Api/ActionBuilder';
 
 describe('src/hooks/usePaginated', () => {
 
@@ -26,9 +26,7 @@ describe('src/hooks/usePaginated', () => {
     it('hasPolicies is true when fetching the default page and status is 200', async () => {
         jest.useFakeTimers();
         fetchMock.getOnce(
-            paginatedActionBuilder('GET', Config.apis.urls.policies)
-            .page(Page.defaultPage())
-            .build()
+            actionGetPolicies(pageToQuery(Page.defaultPage()))
             .endpoint,
             {
                 headers: {},
@@ -54,9 +52,7 @@ describe('src/hooks/usePaginated', () => {
     it('hasPolicies is false when fetching the default page and status is 404', async () => {
         jest.useFakeTimers();
         fetchMock.getOnce(
-            paginatedActionBuilder('GET', Config.apis.urls.policies)
-            .page(Page.defaultPage())
-            .build()
+            actionGetPolicies(pageToQuery(Page.defaultPage()))
             .endpoint,
             {
                 headers: {},
@@ -82,9 +78,7 @@ describe('src/hooks/usePaginated', () => {
     it('hasPolicies is undefined before fetching', async () => {
         jest.useFakeTimers();
         fetchMock.getOnce(
-            paginatedActionBuilder('GET', Config.apis.urls.policies)
-            .page(Page.defaultPage())
-            .build()
+            actionGetPolicies(pageToQuery(Page.defaultPage()))
             .endpoint,
             {
                 headers: {},
@@ -105,9 +99,7 @@ describe('src/hooks/usePaginated', () => {
     it('hasPolicies is undefined when fetching the default page and status is not 200 or 404', async () => {
         jest.useFakeTimers();
         fetchMock.getOnce(
-            paginatedActionBuilder('GET', Config.apis.urls.policies)
-            .page(Page.defaultPage())
-            .build()
+            actionGetPolicies(pageToQuery(Page.defaultPage()))
             .endpoint,
             {
                 headers: {},
@@ -132,10 +124,7 @@ describe('src/hooks/usePaginated', () => {
 
     it('hasPolicies is undefined when fetching the default page and status is 200, then fetching again and status is not 200 or 404', async () => {
         jest.useFakeTimers();
-        const matcher = paginatedActionBuilder('GET', Config.apis.urls.policies)
-        .page(Page.defaultPage())
-        .build()
-        .endpoint;
+        const matcher = actionGetPolicies(pageToQuery(Page.defaultPage())).endpoint;
 
         fetchMock.getOnce(matcher,
             {
@@ -182,18 +171,14 @@ describe('src/hooks/usePaginated', () => {
         jest.useFakeTimers();
         const secondPage = Page.of(2, Page.defaultPage().size);
         fetchMock.getOnce(
-            paginatedActionBuilder('GET', Config.apis.urls.policies)
-            .page(secondPage)
-            .build()
+            actionGetPolicies(pageToQuery(secondPage))
             .endpoint,
             {
                 headers: {},
                 status: 404
             }
         ).getOnce(
-            paginatedActionBuilder('GET', Config.apis.urls.policies)
-            .page(Page.of(1, 1))
-            .build()
+            actionGetPolicies(pageToQuery(Page.of(1, 1)))
             .endpoint,
             {
                 headers: {},
@@ -220,18 +205,14 @@ describe('src/hooks/usePaginated', () => {
         jest.useFakeTimers();
         const secondPage = Page.of(2, Page.defaultPage().size);
         fetchMock.getOnce(
-            paginatedActionBuilder('GET', Config.apis.urls.policies)
-            .page(secondPage)
-            .build()
+            actionGetPolicies(pageToQuery(secondPage))
             .endpoint,
             {
                 headers: {},
                 status: 404
             }
         ).getOnce(
-            paginatedActionBuilder('GET', Config.apis.urls.policies)
-            .page(Page.of(1, 1))
-            .build()
+            actionGetPolicies(pageToQuery(Page.of(1, 1)))
             .endpoint,
             {
                 headers: {},
@@ -258,9 +239,7 @@ describe('src/hooks/usePaginated', () => {
         jest.useFakeTimers();
         const secondPage = Page.of(2, Page.defaultPage().size);
         fetchMock.getOnce(
-            paginatedActionBuilder('GET', Config.apis.urls.policies)
-            .page(secondPage)
-            .build()
+            actionGetPolicies(pageToQuery(secondPage))
             .endpoint,
             {
                 headers: {},
@@ -288,18 +267,14 @@ describe('src/hooks/usePaginated', () => {
             jest.useFakeTimers();
             const secondPage = Page.of(2, Page.defaultPage().size);
             fetchMock.getOnce(
-                paginatedActionBuilder('GET', Config.apis.urls.policies)
-                .page(secondPage)
-                .build()
+                actionGetPolicies(pageToQuery(secondPage))
                 .endpoint,
                 {
                     headers: {},
                     status: 404
                 }
             ).getOnce(
-                paginatedActionBuilder('GET', Config.apis.urls.policies)
-                .page(Page.of(1, 1))
-                .build()
+                actionGetPolicies(pageToQuery(Page.of(1, 1)))
                 .endpoint,
                 {
                     headers: {},
@@ -333,18 +308,14 @@ describe('src/hooks/usePaginated', () => {
         });
 
         fetchMock.getOnce(
-            paginatedActionBuilder('GET', Config.apis.urls.policies)
-            .page(secondPage)
-            .build()
+            actionGetPolicies(pageToQuery(secondPage))
             .endpoint,
             {
                 headers: {},
                 status: 404
             }
         ).getOnce(
-            paginatedActionBuilder('GET', Config.apis.urls.policies)
-            .page(Page.of(1, 1))
-            .build()
+            actionGetPolicies(pageToQuery(Page.of(1, 1)))
             .endpoint,
             firstPagePromise
         );

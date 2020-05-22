@@ -1,5 +1,5 @@
 import { Action } from './Actions';
-import * as Generated from '../GeneratedOpenApi';
+import * as Generated from '../../generated/Types';
 
 export type Uuid = Generated.Uuid;
 export const maxPolicyNameLength = 150;
@@ -32,4 +32,4 @@ type OptionalProperties = 'id' | 'mtime' | 'ctime' | 'lastTriggered';
 type OutputOnlyProperties = 'mtime' | 'ctime' | 'lastTriggered';
 
 export type NewPolicy = Partial<Pick<Policy, OptionalProperties>> & Omit<Policy, OptionalProperties>;
-export type ServerPolicyRequest = Partial<Omit<ServerPolicyResponse, OutputOnlyProperties>>;
+export type ServerPolicyRequest = Omit<ServerPolicyResponse, OutputOnlyProperties>;

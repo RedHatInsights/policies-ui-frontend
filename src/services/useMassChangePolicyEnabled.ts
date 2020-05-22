@@ -1,16 +1,15 @@
-import Config from '../config/Config';
-import { actionBuilder } from './Api/ActionBuilder';
 import { useMutation } from 'react-fetching-library';
 import { Uuid } from '../types/Policy/Policy';
-
-const url = Config.apis.urls.policyIdsEnabled;
+import { actionPostPoliciesIdsEnabled } from '../generated/ActionCreators';
 
 export interface UseMassChangePolicyEnabledParams {
     policyIds: Uuid[];
     shouldBeEnabled: boolean;
 }
 
-export const actionCreator = (params: UseMassChangePolicyEnabledParams) =>
-    actionBuilder('POST', url).data(params.policyIds).queryParams({ enabled: params.shouldBeEnabled.toString() }).build();
+export const actionCreator = (params: UseMassChangePolicyEnabledParams) => actionPostPoliciesIdsEnabled({
+    body: params.policyIds,
+    enabled: params.shouldBeEnabled
+});
 
 export const useMassChangePolicyEnabledMutation = () => useMutation<Uuid[]>(actionCreator);
