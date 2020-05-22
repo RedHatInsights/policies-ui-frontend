@@ -60,15 +60,12 @@ export class ActionBuilder {
     protected buildQueryString() {
         const parsedURL = new URL(this.getUrl(), 'http://dummybase');
         const querySeparator = parsedURL.searchParams.toString() === '' ? '?' : '&';
-        const queryString = this.getQueryParams() ? new URLSearchParams(this.stringParams(this.getQueryParams())).toString() : '';
+        const queryParams = this.getQueryParams();
+        const queryString = queryParams ? new URLSearchParams(this.stringParams(queryParams)).toString() : '';
         return queryString === '' ? '' : querySeparator + queryString;
     }
 
-    private stringParams(params?: QueryParamsType): Record<string, string> {
-        if (!params) {
-            return {};
-        }
-
+    private stringParams(params: QueryParamsType): Record<string, string> {
         return Object.keys(params).reduce((prev, key) => {
             const value = params[key];
             if (value !== undefined) {

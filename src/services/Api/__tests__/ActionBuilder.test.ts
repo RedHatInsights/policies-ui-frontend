@@ -53,6 +53,11 @@ describe('src/services/Api/ActionBuilder', () => {
         });
     });
 
+    it('empty query yields no params in the url', () => {
+        const action = actionBuilder('GET', '/foo').queryParams({}).build();
+        expect(action.endpoint).toEqual('/foo');
+    });
+
     describe('pageToQuery', () => {
 
         it('If page is undefined, uses Page.defaultPage', () => {
