@@ -5,6 +5,10 @@ import { notifications } from '@redhat-cloud-services/frontend-components-notifi
 
 let registry: any;
 
+export const restore = () => {
+    registry = undefined;
+};
+
 export function init (...middleware: Middleware[]) {
     if (registry) {
         throw new Error('store already initialized');
