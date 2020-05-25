@@ -10,9 +10,9 @@ install: yarn --frozen-lockfile --non-interactive || (echo 'package.json is not 
 script:
 - yarn
 - yarn lint
-- yarn build
+- yarn build:prod
 - yarn test --coverage --forceExit --maxWorkers=4 --detectOpenHandles
-- yarn deploy && curl -sSL https://raw.githubusercontent.com/RedHatInsights/insights-frontend-builder-common/master/src/bootstrap.sh | bash -s
+- curl -sSL https://raw.githubusercontent.com/RedHatInsights/insights-frontend-builder-common/master/src/bootstrap.sh | bash -s
 after_success:
   - bash <(curl -s https://codecov.io/bash)
 env:
