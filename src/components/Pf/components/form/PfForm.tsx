@@ -1,27 +1,30 @@
 import * as React from 'react';
-import { PFVariables } from '../../PFVariables';
 import { hyphenate } from '../../../../utils/ComponentUtils';
+import { Form, FormGroup } from '@patternfly/react-core';
 
-interface PfVAlignFormProps {
-    title: string;
-    indx: string;
+const formName = 'simple-form';//label name
+
+// Uses the following component to create i)Form labels with optional
+// ii)required iii)popover iv)HelpText, etc..
+export class VAlignForm extends React.Component<{
+    title?: string;
+    identification?: string;
     showAsRequired?: boolean;
-    showInputField?: boolean;
+    showPopover?: boolean;
+    popoverMessage?: string;
+    helpText?: string;
+    children?: React.ReactNode;
+}> {
+    render() {
+        return (
+            <Form>
+                { !this.props.showAsRequired && <FormGroup label={ this.props.title }
+                    fieldId={ hyphenate(formName, (this.props.identification ? this.props.identification : '')) }
+                />}
+                { this.props.showAsRequired && <FormGroup label={ this.props.title } isRequired
+                    fieldId={ hyphenate(formName, (this.props.identification ? this.props.identification : '')) }/>
+                }
+            </Form>
+        );
+    }
 }
-
-export const VAlignForm: React.FunctionComponent<PfVAlignFormProps> = (props) => {
-    return (
-        <form noValidate className={ PFVariables.Form }>
-            <div className={ PFVariables.FormGroup }>
-                <label className={ PFVariables.FormLabel } htmlFor={ hyphenate(PFVariables.VerticalAlignLabels, props.indx) }>
-                    <span className={ PFVariables.FormLabelText }>{props.title}</span>
-                    { props.showAsRequired &&
-                       <span className={ PFVariables.FormLabelRequired } aria-hidden="true">&#42;</span> }
-                </label>
-                { props.showInputField && <input className={ PFVariables.FormControl } type="text"
-                    id={ hyphenate(PFVariables.VerticalAlignLabels, props.indx) } name={ hyphenate(PFVariables.VerticalAlignLabels,  props.indx) }
-                    required/>}
-            </div>
-        </form>
-    );
-};

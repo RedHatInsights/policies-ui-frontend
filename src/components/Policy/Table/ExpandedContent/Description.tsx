@@ -10,7 +10,7 @@ interface DescriptionProps {
 export const Description: React.FunctionComponent<DescriptionProps> = (props) => {
     return (
         <>
-            <VAlignForm title={ Messages.labels.description } indx="desc"/>
+            <VAlignForm title={ Messages.labels.description } />
             <Text> { props.description } </Text>
         </>
     );
