@@ -5,16 +5,16 @@ import {
     toPolicy,
     toServerAction,
     toServerPolicy
-} from '../../types/adapters/PolicyAdapter';
+} from '../PolicyAdapter';
 import {
     NewPolicy,
     PagedServerPolicyResponse,
     Policy,
     ServerPolicyRequest,
     ServerPolicyResponse
-} from '../../types/Policy/Policy';
+} from '../../Policy/Policy';
 import { DeepPartial } from 'ts-essentials';
-import { ActionType } from '../../types/Policy/Actions';
+import { ActionType } from '../../Policy/Actions';
 
 describe('src/utils/PolicyAdapter', () => {
     it('toPolicy converts ServerPolicyResponse to Policy', () => {
@@ -177,7 +177,7 @@ describe('src/utils/PolicyAdapter', () => {
         expect(toPolicy(sp).isEnabled).toEqual(false);
     });
 
-    it('toPolicy policies without mtime to current date', () => {
+    it('toPolicy policies without mtime to current created', () => {
         const now = new Date().getTime();
         jest.spyOn(Date, 'now').mockImplementation(() => now);
         const sp: ServerPolicyResponse = {
@@ -194,7 +194,7 @@ describe('src/utils/PolicyAdapter', () => {
         expect(toPolicy(sp).mtime).toEqual(new Date(now));
     });
 
-    it('toPolicy policies without ctime to current date', () => {
+    it('toPolicy policies without ctime to current created', () => {
         const now = new Date().getTime();
         jest.spyOn(Date, 'now').mockImplementation(() => now);
         const sp: ServerPolicyResponse = {
