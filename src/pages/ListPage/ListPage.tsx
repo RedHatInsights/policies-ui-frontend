@@ -336,6 +336,7 @@ const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
                             error={ policyTableErrorValue }
                             onSort={ sort.onSort }
                             sortBy={ sort.sortBy }
+                            linkToDetailPolicy={ true }
                         />
                     </Section>
                 )}

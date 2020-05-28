@@ -45,6 +45,7 @@ interface PolicyTableProps {
     sortBy?: Sort;
     httpStatus?: number;
     columnsToShow?: ValidColumns[];
+    linkToDetailPolicy: boolean;
 }
 
 export type PolicyRow = Policy & {
@@ -56,7 +57,7 @@ export type ValidColumns = 'name' | 'actions' | 'is_enabled' | 'radioSelect';
 
 const defaultColumnsToShow: ValidColumns[] = [ 'name', 'actions', 'is_enabled' ];
 
-const policiesToRows = (policies: PolicyRow[] | undefined, columnsToShow: ValidColumns[], onSelect?: OnSelectHandlerType): IRow[] => {
+const policiesToRows = (policies: PolicyRow[] | undefined, columnsToShow: ValidColumns[], linksToDetail: boolean, onSelect?: OnSelectHandlerType): IRow[] => {
     if (policies) {
         return policies.reduce((rows, policy, idx) => {
             rows.push({
@@ -73,14 +74,16 @@ const policiesToRows = (policies: PolicyRow[] | undefined, columnsToShow: ValidC
                         case 'name':
                             return (
                                 <>
-                                    <BetaDetector>
-                                        <BetaIf>
-                                            <Link to={ linkTo.policyDetail(policy.id) }>{ policy.name }</Link>
-                                        </BetaIf>
-                                        <BetaIfNot>
-                                            { policy.name }
-                                        </BetaIfNot>
-                                    </BetaDetector>
+                                    { linksToDetail ? (
+                                        <BetaDetector>
+                                            <BetaIf>
+                                                <Link to={ linkTo.policyDetail(policy.id) }>{ policy.name }</Link>
+                                            </BetaIf>
+                                            <BetaIfNot>
+                                                { policy.name }
+                                            </BetaIfNot>
+                                        </BetaDetector>
+                                    ) : policy.name }
                                 </>
                             );
                         case 'radioSelect':
@@ -237,8 +240,8 @@ export const PolicyTable: React.FunctionComponent<PolicyTableProps> = (props) =>
     }, [ actionResolver, policies ]);
 
     const rows = React.useMemo(
-        () => error ? [] : policiesToRows(policies, columnsToShow, onSelect),
-        [ error, policies, columnsToShow, onSelect ]
+        () => error ? [] : policiesToRows(policies, columnsToShow, props.linkToDetailPolicy, onSelect),
+        [ error, policies, columnsToShow, onSelect, props.linkToDetailPolicy ]
     );
 
     if (props.loading) {

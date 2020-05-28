@@ -11,8 +11,9 @@ import {
 } from '@patternfly/react-table';
 import { Messages } from '../../properties/Messages';
 import { Trigger } from '../../types/Trigger';
-import formatRFC7231 from 'date-fns/formatRFC7231';
+import format from 'date-fns/format';
 import { Direction, Sort } from '../../types/Page';
+import { toUtc } from '../../utils/Date';
 
 interface TriggerTableProps {
     rows?: Trigger[];
@@ -31,6 +32,9 @@ const cells: ICell[] = [
     }
 ];
 
+const dateFormatString = 'dd MMM yyyy HH:mm:ss';
+
+
 export const TriggerTable: React.FunctionComponent<TriggerTableProps> = (props) => {
 
     const rows = React.useMemo((): IRow[] => {
@@ -38,7 +42,7 @@ export const TriggerTable: React.FunctionComponent<TriggerTableProps> = (props) 
         if (triggers) {
             return triggers.map(t => ({
                 cells: [
-                    <>{ formatRFC7231(t.created) }</>,
+                    <> { format(toUtc(t.created), dateFormatString) } UTC</>,
                     t.hostName
                 ]
             }));
