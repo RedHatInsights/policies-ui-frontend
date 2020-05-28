@@ -34,7 +34,6 @@ const cells: ICell[] = [
 
 const dateFormatString = 'dd MMM yyyy HH:mm:ss';
 
-
 export const TriggerTable: React.FunctionComponent<TriggerTableProps> = (props) => {
 
     const rows = React.useMemo((): IRow[] => {

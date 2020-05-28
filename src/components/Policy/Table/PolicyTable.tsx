@@ -57,7 +57,8 @@ export type ValidColumns = 'name' | 'actions' | 'is_enabled' | 'radioSelect';
 
 const defaultColumnsToShow: ValidColumns[] = [ 'name', 'actions', 'is_enabled' ];
 
-const policiesToRows = (policies: PolicyRow[] | undefined, columnsToShow: ValidColumns[], linksToDetail: boolean, onSelect?: OnSelectHandlerType): IRow[] => {
+const policiesToRows = (policies: PolicyRow[] | undefined, columnsToShow: ValidColumns[], linksToDetail: boolean,
+    onSelect?: OnSelectHandlerType): IRow[] => {
     if (policies) {
         return policies.reduce((rows, policy, idx) => {
             rows.push({

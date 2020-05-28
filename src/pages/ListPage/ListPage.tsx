@@ -19,7 +19,6 @@ import { PolicyFilterColumn } from '../../types/Policy/PolicyPaging';
 import { EmailOptIn } from '../../components/EmailOptIn/EmailOptIn';
 import { Messages } from '../../properties/Messages';
 import { style } from 'typestyle';
-import { useFacts } from '../../hooks/useFacts';
 import { ListPageEmptyState } from './EmptyState';
 import { usePrevious } from 'react-use';
 import { useGetPoliciesQuery } from '../../services/useGetPolicies';
