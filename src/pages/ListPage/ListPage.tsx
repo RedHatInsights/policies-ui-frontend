@@ -87,7 +87,6 @@ const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
         loadingSelected,
         removeSelection: policyRowsRemoveSelection
     } = policyRows;
-    const facts = useFacts();
 
     isLoading = isLoading || loadingSelected;
 
@@ -347,7 +346,6 @@ const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
                 initialValue={ policyWizardState.template }
                 showCreateStep={ policyWizardState.showCreateStep }
                 policiesExist={ getPoliciesQuery.hasPolicies === true }
-                facts={ facts }
                 isEditing={ policyWizardState.isEditing }
             /> }
             { policyToDelete.isOpen && <DeletePolicy

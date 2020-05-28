@@ -25,6 +25,7 @@ import { Trigger } from '../../types/Trigger';
 import { useSort } from '../../hooks/useSort';
 import { TriggerTableToolbar } from '../../components/Trigger/TableToolbar';
 import { AppSkeleton } from '../../components/AppSkeleton/AppSkeleton';
+import { CreatePolicyWizard } from '../CreatePolicyWizard/CreatePolicyWizard';
 
 const recentTriggerVersionTitleClassname = style({
     paddingBottom: 8,
@@ -45,6 +46,8 @@ export const PolicyDetail: React.FunctionComponent = () => {
     const [ count, setCount ] = React.useState<number>(0);
     const [ page, setPage ] = React.useState<number>(1);
 
+    const [ isEditing, setEditing ] = React.useState(false);
+
     React.useEffect(() => {
         const query = getTriggers.query;
         const policy = getPolicyQuery.payload;
@@ -52,6 +55,18 @@ export const PolicyDetail: React.FunctionComponent = () => {
             query(policy.id);
         }
     }, [ getPolicyQuery.payload, getTriggers.query ]);
+
+    const closePolicyWizard = React.useCallback((created: boolean) => {
+        const query = getPolicyQuery.query;
+        setEditing(false);
+        if (created) {
+            query();
+        }
+    }, [ setEditing, getPolicyQuery.query ]);
+
+    const openPolicyWizard = React.useCallback(() => {
+        setEditing(true);
+    }, [ setEditing ]);
 
     const updateTriggers = React.useCallback((triggers: Trigger[]) => {
         let sortedTriggers = triggers;
@@ -89,21 +104,17 @@ export const PolicyDetail: React.FunctionComponent = () => {
         setPage(page);
     }, [ ]);
 
-    if (!policyId) {
-        return <div>Policy not found</div>;
-    }
-
-    if (getPolicyQuery.error) {
-        return <div>An error occurred while loading the policy</div>;
-    }
-
     if (getPolicyQuery.loading) {
         return <AppSkeleton/>;
     }
 
-    const policy = getPolicyQuery.payload;
+    const policy = getPolicyQuery.error ? undefined : getPolicyQuery.payload;
     if (policy === undefined) {
-        return <div>404</div>;
+        if (getPolicyQuery.status === 404) {
+            return <div>Policy not found.</div>;
+        }
+
+        return <div>An error occurred while loading the policy</div>;
     }
 
     return (
@@ -126,7 +137,7 @@ export const PolicyDetail: React.FunctionComponent = () => {
                                 <PageHeaderTitle title={ policy.name } />
                             </SplitItem>
                             <SplitItem>
-                                <Button variant={ ButtonVariant.secondary }>Edit policy</Button>
+                                <Button variant={ ButtonVariant.secondary } onClick={ openPolicyWizard }>Edit policy</Button>
                             </SplitItem>
                         </Split>
                     </StackItem>
@@ -160,6 +171,14 @@ export const PolicyDetail: React.FunctionComponent = () => {
                     />
                 </Section>
             </Main>
+            { isEditing && <CreatePolicyWizard
+                isOpen={ true }
+                close={ closePolicyWizard }
+                initialValue={ policy }
+                showCreateStep={ false }
+                policiesExist={ false }
+                isEditing={ true }
+            /> }
         </>
     );
 };
