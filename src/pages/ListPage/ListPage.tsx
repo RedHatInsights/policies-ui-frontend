@@ -6,7 +6,7 @@ import { Main, PageHeader, PageHeaderTitle, Section } from '@redhat-cloud-servic
 
 import { PolicyRow, PolicyTable } from '../../components/Policy/Table/PolicyTable';
 import { PolicyToolbar } from '../../components/Policy/TableToolbar/PolicyTableToolbar';
-import { CreatePolicyWizard } from './CreatePolicyWizard';
+import { CreatePolicyWizard } from '../CreatePolicyWizard/CreatePolicyWizard';
 import { AppContext } from '../../app/AppContext';
 import { policyTableError } from './PolicyTableError';
 import { ActionType } from '../../types/Policy';
