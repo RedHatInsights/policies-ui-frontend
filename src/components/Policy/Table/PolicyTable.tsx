@@ -23,6 +23,9 @@ import { ActionsCell } from './ActionsCell';
 import { LastTriggeredCell } from './LastTriggeredCell';
 import { EmptyStateSection, EmptyStateSectionProps } from '../EmptyState/Section';
 import { style } from 'typestyle';
+import { Link } from 'react-router-dom';
+import { linkTo } from '../../../Routes';
+import { BetaDetector, BetaIf, BetaIfNot } from '../../Beta/BetaDetector';
 
 const emptyStateSectionBackgroundColor = style({
     backgroundColor: 'white'
@@ -68,7 +71,18 @@ const policiesToRows = (policies: PolicyRow[] | undefined, columnsToShow: ValidC
                         case 'is_enabled':
                             return <><LastTriggeredCell isEnabled={ policy.isEnabled } lastTriggered={ policy.lastTriggered }/></>;
                         case 'name':
-                            return policy.name;
+                            return (
+                                <>
+                                    <BetaDetector>
+                                        <BetaIf>
+                                            <Link to={ linkTo.policyDetail(policy.id) }>{ policy.name }</Link>
+                                        </BetaIf>
+                                        <BetaIfNot>
+                                            { policy.name }
+                                        </BetaIfNot>
+                                    </BetaDetector>
+                                </>
+                            );
                         case 'radioSelect':
                             return <>
                                 <Radio
