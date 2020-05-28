@@ -26,6 +26,8 @@ import { useSort } from '../../hooks/useSort';
 import { TriggerTableToolbar } from '../../components/Trigger/TableToolbar';
 import { AppSkeleton } from '../../components/AppSkeleton/AppSkeleton';
 import { CreatePolicyWizard } from '../CreatePolicyWizard/CreatePolicyWizard';
+import { useContext } from 'react';
+import { AppContext } from '../../app/AppContext';
 
 const recentTriggerVersionTitleClassname = style({
     paddingBottom: 8,
@@ -39,6 +41,8 @@ export const PolicyDetail: React.FunctionComponent = () => {
     const { policyId } = useParams();
     const [ triggers, setTriggers ] = React.useState<Trigger[]>([]);
     const sort = useSort();
+    const appContext = useContext(AppContext);
+    const { canWriteAll, canReadAll } = appContext.rbac;
 
     const getPolicyQuery = useGetPolicyQuery(policyId || '', policyId !== undefined);
     const getTriggers = useGetPolicyTriggersParametrizedQuery();
@@ -102,7 +106,11 @@ export const PolicyDetail: React.FunctionComponent = () => {
 
     const onPaginationChanged = React.useCallback((_event, page) => {
         setPage(page);
-    }, [ ]);
+    }, [ setPage ]);
+
+    if (!canReadAll) {
+        return <div>No permissions to read policy</div>;
+    }
 
     if (getPolicyQuery.loading) {
         return <AppSkeleton/>;
@@ -137,7 +145,13 @@ export const PolicyDetail: React.FunctionComponent = () => {
                                 <PageHeaderTitle title={ policy.name } />
                             </SplitItem>
                             <SplitItem>
-                                <Button variant={ ButtonVariant.secondary } onClick={ openPolicyWizard }>Edit policy</Button>
+                                <Button
+                                    variant={ ButtonVariant.secondary }
+                                    onClick={ openPolicyWizard }
+                                    disabled={ !canWriteAll }
+                                >
+                                    Edit policy
+                                </Button>
                             </SplitItem>
                         </Split>
                     </StackItem>
