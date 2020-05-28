@@ -44,26 +44,34 @@ export interface UsePostPoliciesIdsEnabledParams {
     enabled?: boolean;
 }
 
+export interface UsePostPoliciesSyncParams {
+    token?: string;
+}
+
 export interface UsePostPoliciesValidateParams {
     body?: schemas.Policy;
 }
 
 export interface UsePostPoliciesValidateNameParams {
     body?: string;
-    id?: schemas.Uuid;
+    id?: string;
 }
 
 export interface UseGetPoliciesByIdParams {
-    id: schemas.Uuid;
+    id: string;
 }
 
 export interface UseDeletePoliciesByIdParams {
-    id: schemas.Uuid;
+    id: string;
 }
 
 export interface UsePostPoliciesByIdEnabledParams {
     id: schemas.Uuid;
     enabled?: boolean;
+}
+
+export interface UseGetPoliciesByIdHistoryTriggerParams {
+    id: string;
 }
 
 export interface UsePutPoliciesByPolicyIdParams {
@@ -168,6 +176,17 @@ export const actionPostPoliciesIdsEnabled = (params: UsePostPoliciesIdsEnabledPa
     .build();
 };
 
+export const actionPostPoliciesSync = (params: UsePostPoliciesSyncParams): Action => {
+    const path = withBaseUrl('/policies/sync');
+
+    const query = {} as Record<string, any>;
+    query.token = params.token;
+
+    return actionBuilder('POST', path)
+    .queryParams(query)
+    .build();
+};
+
 /** Validates a Policy condition */
 export const actionPostPoliciesValidate = (params: UsePostPoliciesValidateParams): Action => {
     const path = withBaseUrl('/policies/validate');
@@ -227,6 +246,18 @@ export const actionPostPoliciesByIdEnabled = (params: UsePostPoliciesByIdEnabled
     query.enabled = params.enabled;
 
     return actionBuilder('POST', path)
+    .queryParams(query)
+    .build();
+};
+
+/** Retrieve the trigger history of a single policy */
+export const actionGetPoliciesByIdHistoryTrigger = (params: UseGetPoliciesByIdHistoryTriggerParams): Action => {
+    const path = withBaseUrl('/policies/{id}/history/trigger')
+    .replace('{id}', params.id);
+
+    const query = {} as Record<string, any>;
+
+    return actionBuilder('GET', path)
     .queryParams(query)
     .build();
 };

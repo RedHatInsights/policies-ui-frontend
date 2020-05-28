@@ -77,6 +77,13 @@ const MutableMessages = {
                 email: 'Send email',
                 hook: 'Send to hook'
             }
+        },
+        trigger: {
+            title: 'Trigger',
+            columns: {
+                date: 'Date',
+                system: 'System'
+            }
         }
     },
     wizards: {
