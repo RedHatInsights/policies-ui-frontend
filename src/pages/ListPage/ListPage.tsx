@@ -14,7 +14,7 @@ import { DeletePolicy } from './DeletePolicy';
 import { NewPolicy, Uuid } from '../../types/Policy/Policy';
 import { usePolicyFilter, usePolicyPage, usePolicyRows } from '../../hooks';
 import { useSort } from '../../hooks/useSort';
-import { makeCopyOfPolicy } from '../../utils/PolicyAdapter';
+import { makeCopyOfPolicy } from '../../types/adapters/PolicyAdapter';
 import { PolicyFilterColumn } from '../../types/Policy/PolicyPaging';
 import { EmailOptIn } from '../../components/EmailOptIn/EmailOptIn';
 import { Messages } from '../../properties/Messages';

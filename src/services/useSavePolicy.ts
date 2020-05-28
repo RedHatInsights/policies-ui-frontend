@@ -1,5 +1,5 @@
 import { NewPolicy } from '../types/Policy/Policy';
-import { toServerPolicy } from '../utils/PolicyAdapter';
+import { toServerPolicy } from '../types/adapters/PolicyAdapter';
 import { useBulkMutation, useMutation } from 'react-fetching-library';
 import { actionPostPolicies, actionPutPoliciesByPolicyId } from '../generated/ActionCreators';
 

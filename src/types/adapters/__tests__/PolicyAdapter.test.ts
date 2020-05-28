@@ -5,7 +5,7 @@ import {
     toPolicy,
     toServerAction,
     toServerPolicy
-} from '../PolicyAdapter';
+} from '../../types/adapters/PolicyAdapter';
 import {
     NewPolicy,
     PagedServerPolicyResponse,

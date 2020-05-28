@@ -8,9 +8,9 @@ import {
     Policy,
     ServerPolicyRequest,
     ServerPolicyResponse
-} from '../types/Policy/Policy';
-import { Action, ActionType } from '../types/Policy/Actions';
-import { assertNever } from './Assert';
+} from '../Policy/Policy';
+import { Action, ActionType } from '../Policy/Actions';
+import { assertNever } from '../../utils/Assert';
 import { DeepPartial } from 'ts-essentials';
 
 export const toServerAction = (actions: DeepPartial<Action[]>): string => {

@@ -1,7 +1,7 @@
 import { PolicyExporterType } from './Type';
 import { PolicyExporter } from './Base';
 import { Policy } from '../../../types/Policy';
-import { toServerAction } from '../../PolicyAdapter';
+import { toServerAction } from '../../../types/adapters/PolicyAdapter';
 
 const headers: [keyof Policy, string][] = [
     [ 'id', 'id' ],

@@ -7,7 +7,7 @@ import { Policy } from '../../../types/Policy';
 import { useFormikContext } from 'formik';
 import * as Yup from 'yup';
 import { useContext } from 'react';
-import { makeCopyOfPolicy } from '../../../utils/PolicyAdapter';
+import { makeCopyOfPolicy } from '../../../types/adapters/PolicyAdapter';
 import { NewPolicy } from '../../../types/Policy/Policy';
 import { Form } from '../../Formik/Patternfly/Form';
 import { useUpdateEffect } from 'react-use';
