@@ -56,6 +56,15 @@ export const CreatePolicyWizard: React.FunctionComponent<CreatePolicyWizardProps
                     return {
                         created: true
                     };
+                case HttpStatus.NOT_FOUND:
+                    if (policy.id !== undefined) {
+                        return {
+                            created: false,
+                            error: 'This policy cannot be found. It may have been deleted by another user. Your changes cannot be saved.'
+                        };
+                    }
+
+                // On purpose falling to the default when previous condition did not match
                 default:
                     return {
                         created: false,

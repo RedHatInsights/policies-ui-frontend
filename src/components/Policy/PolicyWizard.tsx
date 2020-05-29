@@ -23,7 +23,7 @@ import { Messages } from '../../properties/Messages';
 import { CreatePolicyStepContextProvider } from './WizardSteps/CreatePolicyPolicyStep/Provider';
 import { assertNever } from '../../utils/Assert';
 
-interface PolicyWizardProps {
+export interface PolicyWizardProps {
     initialValue: PartialPolicy;
     onClose: () => void;
     onSave: (policy: NewPolicy) => Promise<CreatePolicyResponse>;
