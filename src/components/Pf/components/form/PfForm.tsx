@@ -26,7 +26,7 @@ export class VAlignForm extends React.Component< VAlignFormProps> {
     }
     handleTextInputChange1() {
         //override with implementation logic
-    };
+    }
 
     render() {
         return (
