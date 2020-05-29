@@ -9,16 +9,20 @@ import {
     SortByDirection,
     ISortBy
 } from '@patternfly/react-table';
+import { SkeletonTable } from '@redhat-cloud-services/frontend-components';
 import { Messages } from '../../properties/Messages';
 import { Trigger } from '../../types/Trigger';
 import format from 'date-fns/format';
 import { Direction, Sort } from '../../types/Page';
 import { toUtc } from '../../utils/Date';
+import { Button, ButtonVariant } from '@patternfly/react-core';
+import { localUrl } from '../../config/Config';
 
 interface TriggerTableProps {
     rows?: Trigger[];
     sortBy?: Sort;
     onSort?: (index: number, column: string, direction: Direction) => void;
+    loading?: boolean;
 }
 
 const cells: ICell[] = [
@@ -34,6 +38,8 @@ const cells: ICell[] = [
 
 const dateFormatString = 'dd MMM yyyy HH:mm:ss';
 
+const linkToHost = (id: string) => localUrl(`/insights/inventory/${id}/`);
+
 export const TriggerTable: React.FunctionComponent<TriggerTableProps> = (props) => {
 
     const rows = React.useMemo((): IRow[] => {
@@ -42,7 +48,7 @@ export const TriggerTable: React.FunctionComponent<TriggerTableProps> = (props) 
             return triggers.map(t => ({
                 cells: [
                     <> { format(toUtc(t.created), dateFormatString) } UTC</>,
-                    t.hostName
+                    <> <Button component="a" variant={ ButtonVariant.link } href={ linkToHost(t.id) } >{ t.hostName }</Button></>
                 ]
             }));
         }
@@ -68,6 +74,16 @@ export const TriggerTable: React.FunctionComponent<TriggerTableProps> = (props) 
 
         return undefined;
     }, [ props.sortBy ]);
+
+    if (props.loading) {
+        return (
+            <SkeletonTable
+                rowSize={ 10 }
+                columns={ cells }
+                sortBy={ sortBy }
+            />
+        );
+    }
 
     return (
         <Table

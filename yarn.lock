@@ -9787,6 +9787,11 @@ react-router@5.1.2:
     tiny-invariant "^1.0.2"
     tiny-warning "^1.0.0"
 
+react-string-format@^0.0.6:
+  version "0.0.6"
+  resolved "https://registry.yarnpkg.com/react-string-format/-/react-string-format-0.0.6.tgz#930085ef5f254a8b0550b6b8c7602d1a9c7c35df"
+  integrity sha512-P8ClM/jWxOGXySO32gEIDrAb3REX9eHttN0ZCcNlF1bnzLcu+oV22k3wD7hmhseFDHyqKDMINm0Df63e5znH5w==
+
 react-test-renderer@^16.0.0-0:
   version "16.11.0"
   resolved "https://registry.yarnpkg.com/react-test-renderer/-/react-test-renderer-16.11.0.tgz#72574566496462c808ac449b0287a4c0a1a7d8f8"

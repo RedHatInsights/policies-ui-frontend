@@ -24,10 +24,11 @@ import { Direction } from '../../types/Page';
 import { Trigger } from '../../types/Trigger';
 import { useSort } from '../../hooks/useSort';
 import { TriggerTableToolbar } from '../../components/Trigger/TableToolbar';
-import { AppSkeleton } from '../../components/AppSkeleton/AppSkeleton';
 import { CreatePolicyWizard } from '../CreatePolicyWizard/CreatePolicyWizard';
 import { useContext } from 'react';
 import { AppContext } from '../../app/AppContext';
+import { PolicyDetailSkeleton } from './Skeleton';
+import { PolicyDetailEmptyState } from './EmptyState';
 
 const recentTriggerVersionTitleClassname = style({
     paddingBottom: 8,
@@ -38,13 +39,15 @@ const elementsPerPage = 50;
 
 export const PolicyDetail: React.FunctionComponent = () => {
 
-    const { policyId } = useParams();
+    const { policyId } = useParams<{
+        policyId: string;
+    }>();
     const [ triggers, setTriggers ] = React.useState<Trigger[]>([]);
     const sort = useSort();
     const appContext = useContext(AppContext);
     const { canWriteAll, canReadAll } = appContext.rbac;
 
-    const getPolicyQuery = useGetPolicyQuery(policyId || '', policyId !== undefined);
+    const getPolicyQuery = useGetPolicyQuery(policyId, policyId !== undefined);
     const getTriggers = useGetPolicyTriggersParametrizedQuery();
 
     const [ count, setCount ] = React.useState<number>(0);
@@ -113,13 +116,13 @@ export const PolicyDetail: React.FunctionComponent = () => {
     }
 
     if (getPolicyQuery.loading) {
-        return <AppSkeleton/>;
+        return <PolicyDetailSkeleton/>;
     }
 
     const policy = getPolicyQuery.error ? undefined : getPolicyQuery.payload;
     if (policy === undefined) {
         if (getPolicyQuery.status === 404) {
-            return <div>Policy not found.</div>;
+            return <PolicyDetailEmptyState goBack={ linkTo.listPage() } policyId={ policyId || '' }/>;
         }
 
         return <div>An error occurred while loading the policy</div>;
@@ -182,6 +185,7 @@ export const PolicyDetail: React.FunctionComponent = () => {
                         rows={ triggers }
                         onSort={ sort.onSort }
                         sortBy={ sort.sortBy }
+                        loading={ getTriggers.loading }
                     />
                 </Section>
             </Main>
