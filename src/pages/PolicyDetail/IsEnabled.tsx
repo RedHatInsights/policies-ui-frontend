@@ -46,7 +46,7 @@ export const PolicyDetailIsEnabled: React.FunctionComponent<PolicyDetailIsEnable
 
     if (changePolicyEnabled.loading) {
         return (
-            <Stack className={ loadingClassname }>
+            <Stack data-testid="loading" className={ loadingClassname }>
                 <StackItem>
                     <Skeleton size="sm"/>
                 </StackItem>

@@ -140,7 +140,7 @@ export const PolicyDetail: React.FunctionComponent = () => {
 
     if (policy === undefined) {
         if (getPolicyQuery.status === 404) {
-            return <PolicyDetailEmptyState goBack={ linkTo.listPage() } policyId={ policyId || '' }/>;
+            return <PolicyDetailEmptyState policyId={ policyId || '' }/>;
         }
 
         const error = (getPolicyQuery.payload as any)?.msg || `code: ${getPolicyQuery.status}`;

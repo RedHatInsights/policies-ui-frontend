@@ -1,27 +1,28 @@
 import * as React from 'react';
-import { Button, ButtonVariant } from '@patternfly/react-core';
+import { useHistory } from 'react-router-dom';
 import { UnknownIcon } from '@patternfly/react-icons';
 import { Messages } from '../../properties/Messages';
 import { EmptyStateSection } from '../../components/Policy/EmptyState/Section';
 import { format } from 'react-string-format';
-import { LinkAdapter } from '../../components/Wrappers/LinkAdapter';
+import { linkTo } from '../../Routes';
 
 interface ListPageEmptyStateProps {
-    goBack: string;
     policyId: string;
 }
 
-export const PolicyDetailEmptyState: React.FunctionComponent<ListPageEmptyStateProps> = (props) => (
-    <EmptyStateSection
+export const PolicyDetailEmptyState: React.FunctionComponent<ListPageEmptyStateProps> = (props) => {
+
+    const history = useHistory();
+
+    const goBack = React.useCallback(() => {
+        history.push(linkTo.listPage());
+    }, [ history ]);
+
+    return <EmptyStateSection
         icon={ UnknownIcon }
         title={ Messages.pages.policyDetail.emptyState.title }
         content={ format(Messages.pages.policyDetail.emptyState.text, props.policyId) }
-        actionNode={ <Button
-            variant={ ButtonVariant.primary }
-            component={ LinkAdapter }
-            href={ props.goBack }
-        >
-            { Messages.pages.policyDetail.emptyState.backText }
-        </Button> }
-    />
-);
+        actionLabel={ Messages.pages.policyDetail.emptyState.backText }
+        action={ goBack }
+    />;
+};
