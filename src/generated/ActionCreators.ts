@@ -44,25 +44,21 @@ export interface UsePostPoliciesIdsEnabledParams {
     enabled?: boolean;
 }
 
-export interface UsePostPoliciesSyncParams {
-    token?: string;
-}
-
 export interface UsePostPoliciesValidateParams {
     body?: schemas.Policy;
 }
 
 export interface UsePostPoliciesValidateNameParams {
     body?: string;
-    id?: string;
+    id?: schemas.Uuid;
 }
 
 export interface UseGetPoliciesByIdParams {
-    id: string;
+    id: schemas.Uuid;
 }
 
 export interface UseDeletePoliciesByIdParams {
-    id: string;
+    id: schemas.Uuid;
 }
 
 export interface UsePostPoliciesByIdEnabledParams {
@@ -71,7 +67,7 @@ export interface UsePostPoliciesByIdEnabledParams {
 }
 
 export interface UseGetPoliciesByIdHistoryTriggerParams {
-    id: string;
+    id: schemas.Uuid;
 }
 
 export interface UsePutPoliciesByPolicyIdParams {
@@ -173,17 +169,6 @@ export const actionPostPoliciesIdsEnabled = (params: UsePostPoliciesIdsEnabledPa
     return actionBuilder('POST', path)
     .queryParams(query)
     .data(params.body)
-    .build();
-};
-
-export const actionPostPoliciesSync = (params: UsePostPoliciesSyncParams): Action => {
-    const path = withBaseUrl('/policies/sync');
-
-    const query = {} as Record<string, any>;
-    query.token = params.token;
-
-    return actionBuilder('POST', path)
-    .queryParams(query)
     .build();
 };
 
