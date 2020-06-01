@@ -32,6 +32,7 @@ import { PolicyDetailEmptyState } from './EmptyState';
 import { PolicyDetailErrorState } from './ErrorState';
 import { PolicyDetailIsEnabled } from './IsEnabled';
 import { Policy } from '../../types/Policy';
+import { NoPermissionsPage } from '../NoPermissions/NoPermissionsPage';
 
 const recentTriggerVersionTitleClassname = style({
     paddingBottom: 8,
@@ -130,7 +131,7 @@ export const PolicyDetail: React.FunctionComponent = () => {
     const loading = policy === undefined && getPolicyQuery.loading;
 
     if (!canReadAll) {
-        return <div>No permissions to read policy</div>;
+        return <NoPermissionsPage/>;
     }
 
     if (loading) {

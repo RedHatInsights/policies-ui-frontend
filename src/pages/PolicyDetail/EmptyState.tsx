@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Button, ButtonVariant } from '@patternfly/react-core';
-import { PlusCircleIcon } from '@patternfly/react-icons';
+import { UnknownIcon } from '@patternfly/react-icons';
 import { Messages } from '../../properties/Messages';
 import { EmptyStateSection } from '../../components/Policy/EmptyState/Section';
 import { format } from 'react-string-format';
@@ -13,7 +13,7 @@ interface ListPageEmptyStateProps {
 
 export const PolicyDetailEmptyState: React.FunctionComponent<ListPageEmptyStateProps> = (props) => (
     <EmptyStateSection
-        icon={ PlusCircleIcon }
+        icon={ UnknownIcon }
         title={ Messages.pages.policyDetail.emptyState.title }
         content={ format(Messages.pages.policyDetail.emptyState.text, props.policyId) }
         actionNode={ <Button
