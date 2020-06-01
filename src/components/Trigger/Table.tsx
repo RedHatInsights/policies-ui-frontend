@@ -45,10 +45,12 @@ export const TriggerTable: React.FunctionComponent<TriggerTableProps> = (props) 
     const rows = React.useMemo((): IRow[] => {
         const triggers = props.rows;
         if (triggers) {
-            return triggers.map(t => ({
+            return triggers.map((t, index) => ({
+                id: `${t.id}-${index}`,
+                key: `${t.id}-${index}`,
                 cells: [
-                    <> { format(toUtc(t.created), dateFormatString) } UTC</>,
-                    <> <Button component="a" variant={ ButtonVariant.link } href={ linkToHost(t.id) } >{ t.hostName }</Button></>
+                    <>{ format(toUtc(t.created), dateFormatString) } UTC</>,
+                    <><Button component="a" variant={ ButtonVariant.link } href={ linkToHost(t.id) } >{ t.hostName }</Button></>
                 ]
             }));
         }

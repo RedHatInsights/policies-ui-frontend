@@ -29,6 +29,9 @@ import { useContext } from 'react';
 import { AppContext } from '../../app/AppContext';
 import { PolicyDetailSkeleton } from './Skeleton';
 import { PolicyDetailEmptyState } from './EmptyState';
+import { PolicyDetailErrorState } from './ErrorState';
+import { PolicyDetailIsEnabled } from './IsEnabled';
+import { Policy } from '../../types/Policy';
 
 const recentTriggerVersionTitleClassname = style({
     paddingBottom: 8,
@@ -55,18 +58,26 @@ export const PolicyDetail: React.FunctionComponent = () => {
 
     const [ isEditing, setEditing ] = React.useState(false);
 
+    const [ policy, setPolicy ] = React.useState<Policy>();
+
     React.useEffect(() => {
         const query = getTriggers.query;
-        const policy = getPolicyQuery.payload;
-        if (policy) {
-            query(policy.id);
+        if (policyId) {
+            query(policyId);
         }
-    }, [ getPolicyQuery.payload, getTriggers.query ]);
+    }, [ policyId, getTriggers.query ]);
+
+    React.useEffect(() => {
+        if (!getPolicyQuery.error && getPolicyQuery.payload) {
+            setPolicy(getPolicyQuery.payload);
+        }
+    }, [ getPolicyQuery.payload, getPolicyQuery.error ]);
 
     const closePolicyWizard = React.useCallback((created: boolean) => {
         const query = getPolicyQuery.query;
         setEditing(false);
         if (created) {
+            setPolicy(undefined);
             query();
         }
     }, [ setEditing, getPolicyQuery.query ]);
@@ -111,21 +122,36 @@ export const PolicyDetail: React.FunctionComponent = () => {
         setPage(page);
     }, [ setPage ]);
 
+    const statusChanged = React.useCallback((newStatus: boolean) => {
+        setPolicy(oldPolicy => oldPolicy ? { ...oldPolicy, isEnabled: newStatus } : undefined);
+        getPolicyQuery.query();
+    }, [ getPolicyQuery, setPolicy ]);
+
+    const loading = policy === undefined && getPolicyQuery.loading;
+
     if (!canReadAll) {
         return <div>No permissions to read policy</div>;
     }
 
-    if (getPolicyQuery.loading) {
+    if (loading) {
         return <PolicyDetailSkeleton/>;
     }
 
-    const policy = getPolicyQuery.error ? undefined : getPolicyQuery.payload;
     if (policy === undefined) {
         if (getPolicyQuery.status === 404) {
             return <PolicyDetailEmptyState goBack={ linkTo.listPage() } policyId={ policyId || '' }/>;
         }
 
-        return <div>An error occurred while loading the policy</div>;
+        const error = (getPolicyQuery.payload as any)?.msg || `code: ${getPolicyQuery.status}`;
+
+        return <PolicyDetailErrorState
+            action={ () => {
+                getTriggers.query(policyId);
+                getPolicyQuery.query();
+            } }
+            policyId={ policyId }
+            error={ error }
+        />;
     }
 
     return (
@@ -162,6 +188,11 @@ export const PolicyDetail: React.FunctionComponent = () => {
             </PageHeader>
             <Main>
                 <Section style={ { paddingBottom: '4px' } } className='pf-l-page__main-section pf-c-page__main-section pf-m-light'>
+                    <PolicyDetailIsEnabled
+                        policyId={ policy.id }
+                        isEnabled={ policy.isEnabled }
+                        statusChanged={ statusChanged }
+                    />
                     <ExpandedContent
                         actions={ policy.actions }
                         description={ policy.description }
