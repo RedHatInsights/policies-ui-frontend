@@ -2,7 +2,7 @@ import { PolicyExporterCsv } from '../Csv';
 import { ActionType } from '../../../../types/Policy/Actions';
 import { ExporterType } from '../../Type';
 
-describe('src/utils/exporters/PolicyExporter/Csv', () => {
+describe('src/utils/exporters/Policy/Csv', () => {
     it('has csv type', () => {
         const exporter = new PolicyExporterCsv();
         expect(exporter.type).toEqual(ExporterType.CSV);

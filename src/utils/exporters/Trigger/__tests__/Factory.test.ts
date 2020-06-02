@@ -1,16 +1,16 @@
 import { policyExporterFactory } from '../Factory';
-import { PolicyExporterCsv } from '../Csv';
-import { PolicyExporterJson } from '../Json';
+import { TriggerExporterCsv } from '../Csv';
+import { TriggerExporterJson } from '../Json';
 import { ExporterType } from '../../Type';
 
-describe('src/utils/exporters/Policy/Factory', () => {
+describe('src/utils/exporters/Trigger/Factory', () => {
     it('get CSV Exporter', () => {
         const exporter = policyExporterFactory(ExporterType.CSV);
-        expect(exporter).toEqual(new PolicyExporterCsv());
+        expect(exporter).toEqual(new TriggerExporterCsv());
     });
 
     it('get JSON Exporter', () => {
         const exporter = policyExporterFactory(ExporterType.JSON);
-        expect(exporter).toEqual(new PolicyExporterJson());
+        expect(exporter).toEqual(new TriggerExporterJson());
     });
 });
