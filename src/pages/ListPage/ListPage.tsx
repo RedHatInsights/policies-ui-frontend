@@ -24,12 +24,12 @@ import { usePrevious } from 'react-use';
 import { useGetPoliciesQuery } from '../../services/useGetPolicies';
 import { Page } from '../../types/Page';
 import { policyExporterFactory } from '../../utils/exporters/PolicyExporter/Factory';
-import { policyExporterTypeFromString } from '../../utils/exporters/PolicyExporter/Type';
 import { addDangerNotification } from '../../utils/AlertUtils';
 import { format } from 'date-fns';
 import { usePolicyToDelete } from '../../hooks/usePolicyToDelete';
 import { useMassChangePolicyEnabledMutation } from '../../services/useMassChangePolicyEnabled';
 import { useGetListPagePolicies } from './useGetListPagePolicies';
+import { exporterTypeFromString } from '../../utils/exporters/Type';
 
 type ListPageProps = {};
 
@@ -275,7 +275,7 @@ const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
     );
 
     const onExport = React.useCallback((_event, type) => {
-        const exporter = policyExporterFactory(policyExporterTypeFromString(type));
+        const exporter = policyExporterFactory(exporterTypeFromString(type));
         exportAllPoliciesQuery().then(response => {
             if (response.payload) {
                 inBrowserDownload(
