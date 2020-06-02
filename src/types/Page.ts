@@ -22,6 +22,22 @@ export class Page {
         return this.filter !== undefined  && this.filter.elements.length > 0;
     }
 
+    public start() {
+        return (this.index - 1) * this.size;
+    }
+
+    public end() {
+        return this.index * this.size;
+    }
+
+    public withPage(index: number) {
+        return Page.of(index, this.size, this.filter, this.sort);
+    }
+
+    public withSort(sort: Sort | undefined) {
+        return Page.of(this.index, this.size, this.filter, sort);
+    }
+
     static of(index: number, size?: number, filter?: Filter, sort?: Sort) {
         return new Page(index, size, filter, sort);
     }

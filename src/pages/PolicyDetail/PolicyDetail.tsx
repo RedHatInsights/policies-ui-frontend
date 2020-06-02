@@ -20,8 +20,6 @@ import { Section } from '../../components/FrontendComponents/Section';
 import { style } from 'typestyle';
 import { useGetPolicyTriggersParametrizedQuery } from '../../services/useGetPolicyTriggers';
 import { TriggerTable } from '../../components/Trigger/Table';
-import { Direction } from '../../types/Page';
-import { Trigger } from '../../types/Trigger';
 import { useSort } from '../../hooks/useSort';
 import { TriggerTableToolbar } from '../../components/Trigger/TableToolbar';
 import { CreatePolicyWizard } from '../CreatePolicyWizard/CreatePolicyWizard';
@@ -33,32 +31,36 @@ import { PolicyDetailErrorState } from './ErrorState';
 import { PolicyDetailIsEnabled } from './IsEnabled';
 import { Policy } from '../../types/Policy';
 import { NoPermissionsPage } from '../NoPermissions/NoPermissionsPage';
+import { usePagedTriggers } from './hooks/usePagedTriggers';
+import { useTriggerPage } from './hooks/useTriggerPage';
+import { useTriggerFilter } from './hooks/useTriggerFilter';
 
 const recentTriggerVersionTitleClassname = style({
     paddingBottom: 8,
     paddingTop: 16
 });
 
-const elementsPerPage = 50;
-
 export const PolicyDetail: React.FunctionComponent = () => {
 
     const { policyId } = useParams<{
         policyId: string;
     }>();
-    const [ triggers, setTriggers ] = React.useState<Trigger[]>([]);
-    const sort = useSort();
     const appContext = useContext(AppContext);
     const { canWriteAll, canReadAll } = appContext.rbac;
 
     const getPolicyQuery = useGetPolicyQuery(policyId, policyId !== undefined);
     const getTriggers = useGetPolicyTriggersParametrizedQuery();
+    const triggerFilter = useTriggerFilter();
 
-    const [ count, setCount ] = React.useState<number>(0);
-    const [ page, setPage ] = React.useState<number>(1);
+    const sort = useSort();
+    const {
+        page,
+        onPaginationChanged
+    } = useTriggerPage(sort.sortBy, triggerFilter.debouncedFilters);
+
+    const { count, pagedTriggers } = usePagedTriggers(getTriggers.payload, page);
 
     const [ isEditing, setEditing ] = React.useState(false);
-
     const [ policy, setPolicy ] = React.useState<Policy>();
 
     React.useEffect(() => {
@@ -86,42 +88,6 @@ export const PolicyDetail: React.FunctionComponent = () => {
     const openPolicyWizard = React.useCallback(() => {
         setEditing(true);
     }, [ setEditing ]);
-
-    const updateTriggers = React.useCallback((triggers: Trigger[]) => {
-        let sortedTriggers = triggers;
-        const sortBy = sort.sortBy;
-        if (sortBy) {
-            sortedTriggers = [ ...triggers ].sort((a, b) => {
-                let ret = 0;
-                if (sortBy.column === 'date') {
-                    ret = a.created < b.created ? -1 : a.created > b.created ? 1 : 0;
-                } else if (sortBy.column === 'system') {
-                    ret = a.hostName < b.hostName ? -1 : a.hostName > b.hostName ? 1 : 0;
-                }
-
-                if (sortBy.direction === Direction.DESCENDING) {
-                    ret *= -1;
-                }
-
-                return ret;
-            });
-        }
-
-        setCount(sortedTriggers.length);
-
-        const start = (page - 1) * elementsPerPage;
-        sortedTriggers = sortedTriggers.slice(start, start + elementsPerPage);
-
-        setTriggers(sortedTriggers);
-    }, [ setTriggers, sort.sortBy, page ]);
-
-    React.useEffect(() => {
-        updateTriggers(getTriggers.payload || []);
-    }, [ updateTriggers, getTriggers.payload, sort.sortBy, page ]);
-
-    const onPaginationChanged = React.useCallback((_event, page) => {
-        setPage(page);
-    }, [ setPage ]);
 
     const statusChanged = React.useCallback((newStatus: boolean) => {
         setPolicy(oldPolicy => oldPolicy ? { ...oldPolicy, isEnabled: newStatus } : undefined);
@@ -207,14 +173,16 @@ export const PolicyDetail: React.FunctionComponent = () => {
                 </div>
                 <Section>
                     <TriggerTableToolbar
-                        perPage={ elementsPerPage }
                         count={ count }
                         page={ page }
                         onPaginationChanged={ onPaginationChanged }
-                        pageCount={ triggers.length }
+                        pageCount={ pagedTriggers.length }
+                        filters={ triggerFilter.filters }
+                        setFilters={ triggerFilter.setFilters }
+                        clearFilters={ triggerFilter.clearFilter }
                     />
                     <TriggerTable
-                        rows={ triggers }
+                        rows={ pagedTriggers }
                         onSort={ sort.onSort }
                         sortBy={ sort.sortBy }
                         loading={ getTriggers.loading }
