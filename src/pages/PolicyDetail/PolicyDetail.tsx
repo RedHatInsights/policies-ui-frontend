@@ -12,6 +12,7 @@ import {
     Title
 } from '@patternfly/react-core';
 import { useParams } from 'react-router-dom';
+import inBrowserDownload from 'in-browser-download';
 import { linkTo } from '../../Routes';
 import { BreadcrumbLinkItem } from '../../components/Wrappers/BreadcrumbLinkItem';
 import { useGetPolicyQuery } from '../../services/useGetPolicy';
@@ -34,6 +35,9 @@ import { NoPermissionsPage } from '../NoPermissions/NoPermissionsPage';
 import { usePagedTriggers } from './hooks/usePagedTriggers';
 import { useTriggerPage } from './hooks/useTriggerPage';
 import { useTriggerFilter } from './hooks/useTriggerFilter';
+import { ExporterType, exporterTypeFromString } from '../../utils/exporters/Type';
+import { format } from 'date-fns';
+import { triggerExporterFactory } from '../../utils/exporters/Trigger/Factory';
 
 const recentTriggerVersionTitleClassname = style({
     paddingBottom: 8,
@@ -58,7 +62,7 @@ export const PolicyDetail: React.FunctionComponent = () => {
         onPaginationChanged
     } = useTriggerPage(sort.sortBy, triggerFilter.debouncedFilters);
 
-    const { count, pagedTriggers } = usePagedTriggers(getTriggers.payload, page);
+    const { count, pagedTriggers, processedTriggers } = usePagedTriggers(getTriggers.payload, page);
 
     const [ isEditing, setEditing ] = React.useState(false);
     const [ policy, setPolicy ] = React.useState<Policy>();
@@ -93,6 +97,16 @@ export const PolicyDetail: React.FunctionComponent = () => {
         setPolicy(oldPolicy => oldPolicy ? { ...oldPolicy, isEnabled: newStatus } : undefined);
         getPolicyQuery.query();
     }, [ getPolicyQuery, setPolicy ]);
+
+    const onExport = React.useCallback((type: ExporterType) => {
+        const exporter = triggerExporterFactory(exporterTypeFromString(type));
+        if (processedTriggers.length > 0) {
+            inBrowserDownload(
+                exporter.export(processedTriggers),
+                `policy-${policyId}-triggers-${format(new Date(), 'y-dd-MM')}.${exporter.type}`
+            );
+        }
+    }, [ processedTriggers, policyId ]);
 
     const loading = policy === undefined && getPolicyQuery.loading;
 
@@ -180,6 +194,7 @@ export const PolicyDetail: React.FunctionComponent = () => {
                         filters={ triggerFilter.filters }
                         setFilters={ triggerFilter.setFilters }
                         clearFilters={ triggerFilter.clearFilter }
+                        onExport={ onExport }
                     />
                     <TriggerTable
                         rows={ pagedTriggers }

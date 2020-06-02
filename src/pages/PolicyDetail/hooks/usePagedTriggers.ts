@@ -6,11 +6,13 @@ import { useState } from 'react';
 export interface UsePagedTriggersResponse {
     count: number;
     pagedTriggers: Array<Trigger>;
+    processedTriggers: Array<Trigger>;
 }
 
 export const usePagedTriggers = (triggers: Array<Trigger> | undefined, page: Page): UsePagedTriggersResponse => {
     const [ count, setCount ] = useState(0);
     const [ pagedTriggers, setPagedTriggers ] = useState<Array<Trigger>>([]);
+    const [ processedTriggers, setProcessedTriggers ] = useState<Array<Trigger>>([]);
 
     const updateTriggers = React.useCallback((triggers: Trigger[]) => {
         let processedTriggers = triggers;
@@ -44,9 +46,10 @@ export const usePagedTriggers = (triggers: Array<Trigger> | undefined, page: Pag
         }
 
         setCount(processedTriggers.length);
+        setProcessedTriggers(processedTriggers);
         processedTriggers = processedTriggers.slice(page.start(), page.end());
         setPagedTriggers(processedTriggers);
-    }, [ setPagedTriggers, page ]);
+    }, [ setPagedTriggers, page, setProcessedTriggers ]);
 
     React.useEffect(() => {
         updateTriggers(triggers || []);
@@ -54,6 +57,7 @@ export const usePagedTriggers = (triggers: Array<Trigger> | undefined, page: Pag
 
     return {
         count,
-        pagedTriggers
+        pagedTriggers,
+        processedTriggers
     };
 };

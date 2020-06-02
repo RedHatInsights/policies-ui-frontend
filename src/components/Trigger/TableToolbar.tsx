@@ -8,6 +8,7 @@ import {
     TriggerFilterColumn,
     TriggerFilters
 } from '../../pages/PolicyDetail/hooks/useTriggerFilter';
+import { ExporterType, exporterTypeFromString } from '../../utils/exporters/Type';
 
 type OnPaginationPageChangedHandler = (
     event: React.SyntheticEvent<HTMLButtonElement> | React.MouseEvent | React.KeyboardEvent | MouseEvent, page: number) => void;
@@ -21,6 +22,7 @@ export interface TriggerTableToolbarProps {
     filters: TriggerFilters;
     setFilters: SetTriggerFilters;
     clearFilters: ClearFilters;
+    onExport: (type: ExporterType) => void;
 }
 
 const FilterColumnToLabel: Record<TriggerFilterColumn, string> = {
@@ -110,12 +112,23 @@ export const TriggerTableToolbar: React.FunctionComponent<TriggerTableToolbarPro
         };
     }, [ props.filters, onFilterDelete ]);
 
+    const exportConfig = React.useMemo(() => {
+        const onExport = props.onExport;
+        return {
+            extraItems: [],
+            onSelect: (_event, type: string) => {
+                onExport(exporterTypeFromString(type));
+            }
+        };
+    }, [ props.onExport ]);
+
     return (
         <>
             <PrimaryToolbar
                 pagination={ paginationProps }
                 filterConfig={ filterConfigProps }
                 activeFiltersConfig={ activeFiltersConfigProps }
+                exportConfig={ exportConfig }
             />
         </>
     );

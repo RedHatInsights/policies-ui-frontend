@@ -5,7 +5,7 @@ import { Exporter } from '../Base';
 import { ExporterType } from '../Type';
 import { Trigger } from '../../../types/Trigger';
 
-export const policyExporterFactory = (type: ExporterType): Exporter<Trigger> => {
+export const triggerExporterFactory = (type: ExporterType): Exporter<Trigger> => {
     switch (type) {
         case ExporterType.CSV:
             return new TriggerExporterCsv();

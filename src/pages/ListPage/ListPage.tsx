@@ -23,7 +23,7 @@ import { ListPageEmptyState } from './EmptyState';
 import { usePrevious } from 'react-use';
 import { useGetPoliciesQuery } from '../../services/useGetPolicies';
 import { Page } from '../../types/Page';
-import { policyExporterFactory } from '../../utils/exporters/PolicyExporter/Factory';
+import { policyExporterFactory } from '../../utils/exporters/Policy/Factory';
 import { addDangerNotification } from '../../utils/AlertUtils';
 import { format } from 'date-fns';
 import { usePolicyToDelete } from '../../hooks/usePolicyToDelete';

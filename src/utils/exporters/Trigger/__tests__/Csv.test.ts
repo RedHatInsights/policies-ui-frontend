@@ -17,7 +17,7 @@ describe('src/utils/exporters/Trigger/Csv', () => {
             {
                 id: '12345',
                 hostName: 'hello world',
-                created: new Date(2030, 5, 5),
+                created: new Date(2030, 5, 5)
             }
         ]);
 
