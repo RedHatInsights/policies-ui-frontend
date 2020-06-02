@@ -15,8 +15,6 @@ import { Trigger } from '../../types/Trigger';
 import format from 'date-fns/format';
 import { Direction, Sort } from '../../types/Page';
 import { toUtc } from '../../utils/Date';
-import { Button, ButtonVariant } from '@patternfly/react-core';
-import { localUrl } from '../../config/Config';
 
 interface TriggerTableProps {
     rows?: Trigger[];
@@ -38,7 +36,8 @@ const cells: ICell[] = [
 
 const dateFormatString = 'dd MMM yyyy HH:mm:ss';
 
-const linkToHost = (id: string) => localUrl(`/insights/inventory/${id}/`);
+// Todo: Uncomment next line once we have the correct id
+// const linkToHost = (id: string) => localUrl(`/insights/inventory/${id}/`);
 
 export const TriggerTable: React.FunctionComponent<TriggerTableProps> = (props) => {
 
@@ -50,7 +49,9 @@ export const TriggerTable: React.FunctionComponent<TriggerTableProps> = (props) 
                 key: `${t.id}-${index}`,
                 cells: [
                     <>{ format(toUtc(t.created), dateFormatString) } UTC</>,
-                    <><Button component="a" variant={ ButtonVariant.link } href={ linkToHost(t.id) } >{ t.hostName }</Button></>
+                    // Todo: Looks like the id from the trigger does not point to the inventory element
+                    // <><Button component="a" variant={ ButtonVariant.link } href={ linkToHost(t.id) } >{ t.hostName }</Button></>
+                    <>{ t.hostName }</>
                 ]
             }));
         }
