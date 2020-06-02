@@ -38,6 +38,7 @@ import { useTriggerFilter } from './hooks/useTriggerFilter';
 import { ExporterType, exporterTypeFromString } from '../../utils/exporters/Type';
 import { format } from 'date-fns';
 import { triggerExporterFactory } from '../../utils/exporters/Trigger/Factory';
+import { PolicyDetailTriggerEmptyState } from './TriggerEmptyState';
 
 const recentTriggerVersionTitleClassname = style({
     paddingBottom: 8,
@@ -62,7 +63,7 @@ export const PolicyDetail: React.FunctionComponent = () => {
         onPaginationChanged
     } = useTriggerPage(sort.sortBy, triggerFilter.debouncedFilters);
 
-    const { count, pagedTriggers, processedTriggers } = usePagedTriggers(getTriggers.payload, page);
+    const { count, pagedTriggers, processedTriggers, rawCount } = usePagedTriggers(getTriggers.payload, page);
 
     const [ isEditing, setEditing ] = React.useState(false);
     const [ policy, setPolicy ] = React.useState<Policy>();
@@ -186,22 +187,28 @@ export const PolicyDetail: React.FunctionComponent = () => {
                     <Title size="lg">Recent trigger history</Title>
                 </div>
                 <Section>
-                    <TriggerTableToolbar
-                        count={ count }
-                        page={ page }
-                        onPaginationChanged={ onPaginationChanged }
-                        pageCount={ pagedTriggers.length }
-                        filters={ triggerFilter.filters }
-                        setFilters={ triggerFilter.setFilters }
-                        clearFilters={ triggerFilter.clearFilter }
-                        onExport={ onExport }
-                    />
-                    <TriggerTable
-                        rows={ pagedTriggers }
-                        onSort={ sort.onSort }
-                        sortBy={ sort.sortBy }
-                        loading={ getTriggers.loading }
-                    />
+                    { rawCount > 0 ? (
+                        <>
+                            <TriggerTableToolbar
+                                count={ count }
+                                page={ page }
+                                onPaginationChanged={ onPaginationChanged }
+                                pageCount={ pagedTriggers.length }
+                                filters={ triggerFilter.filters }
+                                setFilters={ triggerFilter.setFilters }
+                                clearFilters={ triggerFilter.clearFilter }
+                                onExport={ onExport }
+                            />
+                            <TriggerTable
+                                rows={ pagedTriggers }
+                                onSort={ sort.onSort }
+                                sortBy={ sort.sortBy }
+                                loading={ getTriggers.loading }
+                            />
+                        </>
+                    ) : (
+                        <PolicyDetailTriggerEmptyState/>
+                    ) }
                 </Section>
             </Main>
             { isEditing && <CreatePolicyWizard

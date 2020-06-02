@@ -15,6 +15,9 @@ import { Trigger } from '../../types/Trigger';
 import format from 'date-fns/format';
 import { Direction, Sort } from '../../types/Page';
 import { toUtc } from '../../utils/Date';
+import { Button, ButtonVariant } from '@patternfly/react-core';
+import { localUrl } from '../../config/Config';
+import { TriggerTableEmptyState } from './Table/EmptyState';
 
 interface TriggerTableProps {
     rows?: Trigger[];
@@ -85,6 +88,12 @@ export const TriggerTable: React.FunctionComponent<TriggerTableProps> = (props) 
                 columns={ cells }
                 sortBy={ sortBy }
             />
+        );
+    }
+
+    if (rows.length === 0) {
+        return (
+            <TriggerTableEmptyState/>
         );
     }
 
