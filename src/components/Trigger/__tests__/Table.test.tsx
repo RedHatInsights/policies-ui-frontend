@@ -5,10 +5,9 @@ import { TriggerTable } from '../Table';
 import { Direction, Sort } from '../../../types/Page';
 
 describe('src/components/Trigger/Table', () => {
-    it('renders empty table with no props', () => {
+    it('renders empty state when no rows', () => {
         render(<TriggerTable/>);
-        expect(screen.getByText('Date')).toBeVisible();
-        expect(screen.getByText('System')).toBeVisible();
+        expect(screen.getByText('No matching triggers found')).toBeVisible();
     });
 
     it('renders triggers passed', () => {
