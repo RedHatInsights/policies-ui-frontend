@@ -14,7 +14,7 @@ const isEnabledTextClassname = style({
 });
 
 const loadingClassname = style({
-    minHeight: 60
+    minHeight: 48
 });
 
 interface PolicyDetailIsEnabledProps {
@@ -57,11 +57,11 @@ export const PolicyDetailIsEnabled: React.FunctionComponent<PolicyDetailIsEnable
     const { icon, text, switchLink } = props.isEnabled ? {
         icon: <EnabledPolicyIcon/>,
         text: 'Enabled',
-        switchLink: <Button onClick={ disablePolicy } variant={ ButtonVariant.link }> Disable policy </Button>
+        switchLink: <Button isInline onClick={ disablePolicy } variant={ ButtonVariant.link }> Disable policy </Button>
     } : {
         icon: <DisabledPolicyIcon/>,
         text: 'Disabled',
-        switchLink: <Button onClick={ enablePolicy } variant={ ButtonVariant.link }> Enable policy </Button>
+        switchLink: <Button isInline onClick={ enablePolicy } variant={ ButtonVariant.link }> Enable policy </Button>
     };
 
     return (

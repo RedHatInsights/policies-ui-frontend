@@ -52,7 +52,7 @@ export const TriggerTable: React.FunctionComponent<TriggerTableProps> = (props) 
                 cells: [
                     <>{ format(toUtc(t.created), dateFormatString) } UTC</>,
                     t.id ? (
-                        <><Button component="a" variant={ ButtonVariant.link } href={ linkToHost(t.id) } >{ t.hostName }</Button></>
+                        <><Button component="a" variant={ ButtonVariant.link } href={ linkToHost(t.id) } isInline>{ t.hostName }</Button></>
                     ) : (
                         <>{ t.hostName }</>
                     )
