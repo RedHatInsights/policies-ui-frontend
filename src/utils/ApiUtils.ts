@@ -9,11 +9,7 @@ const transformPayload = <FROM, TO>(payload: FROM | undefined, status: number | 
         return adapter(payload);
     }
 
-    if (status !== undefined && payload !== undefined) {
-        console.warn(`Payload: ${payload} ignored for status ${status}`);
-    }
-
-    return undefined;
+    return payload as any;
 };
 
 type ExpectedQueryResponse<FROM> = QueryResponse<FROM> & {

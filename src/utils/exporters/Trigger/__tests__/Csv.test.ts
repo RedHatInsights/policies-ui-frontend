@@ -12,7 +12,7 @@ describe('src/utils/exporters/Trigger/Csv', () => {
         expect(result.type).toEqual('text/csv');
     });
 
-    it('has 9 columns', () => {
+    it('has 3 columns', () => {
         const result = new TriggerExporterCsv().export([
             {
                 id: '12345',
@@ -22,11 +22,15 @@ describe('src/utils/exporters/Trigger/Csv', () => {
         ]);
 
         const reader = new FileReader();
-        return new Promise((done) => {
+        return new Promise((done, fail) => {
             reader.addEventListener('loadend', () => {
-                const text = (reader.result as string).split('\r');
-                expect(text[0]).toEqual('id,system,ctime');
-                done();
+                try {
+                    const text = (reader.result as string).split('\r');
+                    expect(text[0]).toEqual('ctime,system,id');
+                    done();
+                } catch (ex) {
+                    fail(ex);
+                }
             });
             reader.readAsText(result);
         });

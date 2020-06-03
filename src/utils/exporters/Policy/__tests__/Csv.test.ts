@@ -36,11 +36,15 @@ describe('src/utils/exporters/Policy/Csv', () => {
         ]);
 
         const reader = new FileReader();
-        return new Promise((done) => {
+        return new Promise((done, fail) => {
             reader.addEventListener('loadend', () => {
-                const text = (reader.result as string).split('\r');
-                expect(text[0]).toEqual('id,name,description,isEnabled,conditions,actions,lastTriggered,mtime,ctime');
-                done();
+                try {
+                    const text = (reader.result as string).split('\r');
+                    expect(text[0]).toEqual('id,name,description,isEnabled,conditions,actions,lastTriggered,mtime,ctime');
+                    done();
+                } catch (ex) {
+                    fail(ex);
+                }
             });
             reader.readAsText(result);
         });
