@@ -41,7 +41,7 @@ import { PolicyDetailActions } from './Actions';
 import { useMassChangePolicyEnabledMutation } from '../../services/useMassChangePolicyEnabled';
 import { assertNever } from '../../utils/Assert';
 import { makeCopyOfPolicy } from '../../types/adapters/PolicyAdapter';
-import { NewPolicy, Uuid } from '../../types/Policy/Policy';
+import { NewPolicy } from '../../types/Policy/Policy';
 
 const recentTriggerVersionTitleClassname = style({
     paddingBottom: 8,
@@ -66,23 +66,15 @@ const closeState: PolicyDetailWizardState = {
     isOpen: false
 };
 
-type PolicyState = {
-    policyId: Uuid;
-    policy: Policy | undefined;
-};
-
 export const PolicyDetail: React.FunctionComponent = () => {
 
     const { policyId: policyIdFromUrl } = useParams<{
         policyId: string;
     }>();
     const history = useHistory();
-    const [ policyState, setPolicyState ] = React.useState<PolicyState>({
-        policyId: policyIdFromUrl,
-        policy: undefined
-    });
+    const [ policy, setPolicy ] = React.useState<Policy>();
 
-    const { policyId, policy } = policyState;
+    const policyId = policy?.id || policyIdFromUrl;
 
     const appContext = useContext(AppContext);
     const { canWriteAll, canReadAll } = appContext.rbac;
@@ -141,29 +133,17 @@ export const PolicyDetail: React.FunctionComponent = () => {
     React.useEffect(() => {
         const query = getPolicyQuery.query;
         if (policyId !== policy?.id) {
-            query(policyId);
+            query(policyId).then(r => r.payload).then(setPolicy);
         }
     }, [ policyId, getPolicyQuery.query, policy ]);
 
-    React.useEffect(() => {
-        if (!getPolicyQuery.error && getPolicyQuery.payload) {
-            setPolicyState({
-                policyId: getPolicyQuery.payload.id,
-                policy: getPolicyQuery.payload
-            });
-        }
-    }, [ getPolicyQuery.payload, getPolicyQuery.error ]);
-
     const closePolicyWizard = React.useCallback((policy: Policy | undefined) => {
         if (policy) {
-            setPolicyState({
-                policyId: policy.id,
-                policy
-            });
+            setPolicy(policy);
         }
 
         policyWizardDispatch(PolicyDetailWizardAction.CLOSE);
-    }, [ policyWizardState.isEditing ]);
+    }, [ setPolicy ]);
 
     const editPolicy = React.useCallback(() => {
         policyWizardDispatch(PolicyDetailWizardAction.EDIT);
@@ -174,18 +154,14 @@ export const PolicyDetail: React.FunctionComponent = () => {
     }, [ policyWizardDispatch ]);
 
     const statusChanged = React.useCallback((newStatus: boolean) => {
-        setPolicyState(oldState => {
-            if (oldState.policy) {
-                return {
-                    policyId: oldState.policyId,
-                    policy: { ...oldState.policy, isEnabled: newStatus }
-                };
+        setPolicy(oldState => {
+            if (oldState) {
+                return { ...oldState, isEnabled: newStatus };
             }
 
             return oldState;
         });
-        getPolicyQuery.query(policyId);
-    }, [ getPolicyQuery, setPolicyState, policyId ]);
+    }, [ setPolicy ]);
 
     const onChangeStatus = React.useCallback(newStatus => {
         const mutate = changePolicyEnabled.mutate;
