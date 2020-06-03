@@ -3,8 +3,8 @@ import { Main, PageHeader, PageHeaderTitle, Skeleton, Spinner } from '@redhat-cl
 import {
     Breadcrumb,
     Bullseye,
-    Button,
-    ButtonVariant,
+    Dropdown,
+    KebabToggle,
     Split,
     SplitItem,
     Stack,
@@ -33,12 +33,10 @@ export const PolicyDetailSkeleton: React.FunctionComponent = () => {
                                 <PageHeaderTitle title={ <Skeleton size="sm"/> } />
                             </SplitItem>
                             <SplitItem>
-                                <Button
-                                    variant={ ButtonVariant.secondary }
+                                <Dropdown toggle={ <KebabToggle
                                     isDisabled={ true }
-                                >
-                                    Edit policy
-                                </Button>
+                                /> }
+                                />
                             </SplitItem>
                         </Split>
                     </StackItem>

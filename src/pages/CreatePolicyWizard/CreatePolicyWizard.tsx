@@ -10,7 +10,7 @@ import { useValidatePolicyNameParametrizedQuery } from '../../services/useValida
 import { useFacts } from '../../hooks/useFacts';
 
 type CreatePolicyWizardBase = {
-    close: (policyCreated: boolean) => void;
+    close: (policy: Policy | undefined) => void;
     initialValue?: NewPolicy;
     showCreateStep: boolean;
     policiesExist?: boolean;
@@ -52,7 +52,7 @@ export const CreatePolicyWizard: React.FunctionComponent<CreatePolicyWizardProps
                         addSuccessNotification('Saved', `Policy "${policy.name}" has been updated`);
                     }
 
-                    props.close && props.close(true);
+                    props.close && props.close(res.payload);
                     return {
                         created: true
                     };
@@ -68,7 +68,7 @@ export const CreatePolicyWizard: React.FunctionComponent<CreatePolicyWizardProps
                 default:
                     return {
                         created: false,
-                        error: res.payload?.msg || `Unknown Error when trying to ${
+                        error: (res.payload as any)?.msg || `Unknown Error when trying to ${
                             policy.id === undefined ? 'create' : 'update'
                         } the policy: (Code ${res.status})`
                     };
@@ -118,7 +118,7 @@ export const CreatePolicyWizard: React.FunctionComponent<CreatePolicyWizardProps
             { props.isOpen &&
             <PolicyWizard
                 initialValue={ props.initialValue || { } }
-                onClose={ () => { props.close(false); } }
+                onClose={ () => { props.close(undefined); } }
                 onSave={ onSave }
                 onVerify={ onVerify }
                 onValidateName={ onValidateName }

@@ -1,7 +1,8 @@
-import { NewPolicy } from '../types/Policy/Policy';
-import { toServerPolicy } from '../types/adapters/PolicyAdapter';
-import { useBulkMutation, useMutation } from 'react-fetching-library';
+import { NewPolicy, ServerPolicyResponse } from '../types/Policy/Policy';
+import { toPolicy, toServerPolicy } from '../types/adapters/PolicyAdapter';
+import { useMutation } from 'react-fetching-library';
 import { actionPostPolicies, actionPutPoliciesByPolicyId } from '../generated/ActionCreators';
+import { useTransformQueryResponse } from '../utils/ApiUtils';
 
 export const savePolicyActionCreator = (policy: NewPolicy) => {
     if (policy.id) {
@@ -17,6 +18,4 @@ export const savePolicyActionCreator = (policy: NewPolicy) => {
     });
 };
 
-export const useSavePolicyMutation = () => useMutation(savePolicyActionCreator);
-
-export const useBulkSavePolicyMutation = () => useBulkMutation(savePolicyActionCreator);
+export const useSavePolicyMutation = () => useTransformQueryResponse(useMutation<ServerPolicyResponse>(savePolicyActionCreator), toPolicy);
