@@ -2,6 +2,7 @@ import * as React from 'react';
 import { RouteProps, Route, Switch, Redirect } from 'react-router';
 
 import ListPage from './pages/ListPage/ListPage';
+import { PolicyDetail } from './pages/PolicyDetail/PolicyDetail';
 
 interface Path {
     path: string;
@@ -9,11 +10,21 @@ interface Path {
     rootClass: string;
 }
 
+export const linkTo = {
+    listPage: () => '/list',
+    policyDetail: (policyId: string) => `/policy/${policyId}`
+};
+
 const pathRoutes: Path[] = [
     {
-        path: '/list',
+        path: linkTo.listPage(),
         component: ListPage,
         rootClass: 'list'
+    },
+    {
+        path: linkTo.policyDetail(':policyId'),
+        component: PolicyDetail,
+        rootClass: 'policy'
     }
 ];
 
@@ -41,9 +52,14 @@ export const Routes: React.FunctionComponent<RoutesProps> = () => {
     return (
         <Switch>
             { pathRoutes.map(pathRoute => (
-                <InsightsRoute key={ pathRoute.path } rootClass={ pathRoute.rootClass } component={ pathRoute.component } path={ pathRoute.path }/>
-            )) }
-            <Redirect to="/list"/>
+                <InsightsRoute
+                    key={ pathRoute.path }
+                    rootClass={ pathRoute.rootClass }
+                    component={ pathRoute.component }
+                    path={ pathRoute.path }
+                />
+            ))}
+            <Redirect to={ linkTo.listPage() }/>
         </Switch>
     );
 };

@@ -18,6 +18,12 @@ export enum FactType {
   STRING = 'STRING',
 }
 
+export interface HistoryItem {
+  ctime?: number;
+  hostName?: string;
+  id?: string;
+}
+
 export type List = Array<{
 }>;
 

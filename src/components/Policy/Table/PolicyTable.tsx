@@ -23,6 +23,9 @@ import { ActionsCell } from './ActionsCell';
 import { LastTriggeredCell } from './LastTriggeredCell';
 import { EmptyStateSection, EmptyStateSectionProps } from '../EmptyState/Section';
 import { style } from 'typestyle';
+import { Link } from 'react-router-dom';
+import { linkTo } from '../../../Routes';
+import { BetaDetector, BetaIf, BetaIfNot } from '../../Beta/BetaDetector';
 
 const emptyStateSectionBackgroundColor = style({
     backgroundColor: 'white'
@@ -42,6 +45,7 @@ interface PolicyTableProps {
     sortBy?: Sort;
     httpStatus?: number;
     columnsToShow?: ValidColumns[];
+    linkToDetailPolicy: boolean;
 }
 
 export type PolicyRow = Policy & {
@@ -53,7 +57,8 @@ export type ValidColumns = 'name' | 'actions' | 'is_enabled' | 'radioSelect';
 
 const defaultColumnsToShow: ValidColumns[] = [ 'name', 'actions', 'is_enabled' ];
 
-const policiesToRows = (policies: PolicyRow[] | undefined, columnsToShow: ValidColumns[], onSelect?: OnSelectHandlerType): IRow[] => {
+const policiesToRows = (policies: PolicyRow[] | undefined, columnsToShow: ValidColumns[], linksToDetail: boolean,
+    onSelect?: OnSelectHandlerType): IRow[] => {
     if (policies) {
         return policies.reduce((rows, policy, idx) => {
             rows.push({
@@ -68,7 +73,20 @@ const policiesToRows = (policies: PolicyRow[] | undefined, columnsToShow: ValidC
                         case 'is_enabled':
                             return <><LastTriggeredCell isEnabled={ policy.isEnabled } lastTriggered={ policy.lastTriggered }/></>;
                         case 'name':
-                            return policy.name;
+                            return (
+                                <>
+                                    { linksToDetail ? (
+                                        <BetaDetector>
+                                            <BetaIf>
+                                                <Link to={ linkTo.policyDetail(policy.id) }>{ policy.name }</Link>
+                                            </BetaIf>
+                                            <BetaIfNot>
+                                                { policy.name }
+                                            </BetaIfNot>
+                                        </BetaDetector>
+                                    ) : policy.name }
+                                </>
+                            );
                         case 'radioSelect':
                             return <>
                                 <Radio
@@ -223,8 +241,8 @@ export const PolicyTable: React.FunctionComponent<PolicyTableProps> = (props) =>
     }, [ actionResolver, policies ]);
 
     const rows = React.useMemo(
-        () => error ? [] : policiesToRows(policies, columnsToShow, onSelect),
-        [ error, policies, columnsToShow, onSelect ]
+        () => error ? [] : policiesToRows(policies, columnsToShow, props.linkToDetailPolicy, onSelect),
+        [ error, policies, columnsToShow, onSelect, props.linkToDetailPolicy ]
     );
 
     if (props.loading) {

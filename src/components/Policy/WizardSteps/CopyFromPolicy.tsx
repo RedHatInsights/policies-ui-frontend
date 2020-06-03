@@ -60,6 +60,7 @@ export const CopyFromPolicy: React.FunctionComponent<CopyFromPolicyProps> = (pro
                 loadingRowCount={ 5 }
                 onSort={ policySort.onSort }
                 sortBy={ policySort.sortBy }
+                linkToDetailPolicy={ false }
             />
         </>
     );

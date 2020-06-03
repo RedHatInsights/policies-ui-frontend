@@ -15,6 +15,7 @@ export interface EmptyStateSectionProps {
     title: string;
     content: React.ReactNode;
     action?: () => void;
+    actionNode?: React.ReactNode;
     actionLabel?: string;
     className?: string;
 }
@@ -28,6 +29,7 @@ export const EmptyStateSection: React.FunctionComponent<EmptyStateSectionProps> 
         <EmptyStateBody>
             { props.content }
         </EmptyStateBody>
+        { props.actionNode }
         { props.actionLabel && (
             <Button variant="primary" onClick={ props.action } isDisabled={ !props.action } >{ props.actionLabel }</Button>
         ) }

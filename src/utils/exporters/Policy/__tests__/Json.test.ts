@@ -1,21 +1,21 @@
-import { PolicyExporterType } from '../Type';
 import { PolicyExporterJson } from '../Json';
+import { ExporterType } from '../../Type';
 
-describe('src/utils/exporters/PolicyExporter/Json', () => {
+describe('src/utils/exporters/Policy/Json', () => {
     it('has json type', () => {
-        const exporter = PolicyExporterJson;
-        expect(exporter.type).toEqual(PolicyExporterType.JSON);
+        const exporter = new PolicyExporterJson();
+        expect(exporter.type).toEqual(ExporterType.JSON);
     });
 
     it('has application/json type', () => {
-        const result = PolicyExporterJson.export([]);
+        const result = new PolicyExporterJson().export([]);
         expect(result.type).toEqual('application/json');
     });
 
     // No way to compare blobs yet
     // https://github.com/facebook/jest/issues/7372
     it('empty export', () => {
-        const result = PolicyExporterJson.export([]);
+        const result = new PolicyExporterJson().export([]);
         expect(result.size).toEqual('[]'.length);
     });
 });

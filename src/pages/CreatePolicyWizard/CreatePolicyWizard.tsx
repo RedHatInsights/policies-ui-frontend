@@ -6,15 +6,14 @@ import * as HttpStatus from 'http-status-codes';
 import { addSuccessNotification } from '../../utils/AlertUtils';
 import { CreatePolicyResponse, VerifyPolicyResponse } from '../../components/Policy/PolicyWizardTypes';
 import { Policy, NewPolicy } from '../../types/Policy/Policy';
-import { Fact } from '../../types/Fact';
 import { useValidatePolicyNameParametrizedQuery } from '../../services/useValidatePolicyName';
+import { useFacts } from '../../hooks/useFacts';
 
 type CreatePolicyWizardBase = {
     close: (policyCreated: boolean) => void;
     initialValue?: NewPolicy;
     showCreateStep: boolean;
     policiesExist?: boolean;
-    facts?: Fact[];
     isEditing: boolean;
 };
 
@@ -40,6 +39,7 @@ export const CreatePolicyWizard: React.FunctionComponent<CreatePolicyWizardProps
     const saveMutation = useSavePolicyMutation();
     const verifyMutation = useVerifyPolicyMutation();
     const validateNameParamQuery = useValidatePolicyNameParametrizedQuery();
+    const facts = useFacts();
 
     const onSave = (policy: NewPolicy): Promise<CreatePolicyResponse> => {
         return saveMutation.mutate(policy).then((res) => {
@@ -124,7 +124,7 @@ export const CreatePolicyWizard: React.FunctionComponent<CreatePolicyWizardProps
                 onValidateName={ onValidateName }
                 showCreateStep={ props.policiesExist ? props.showCreateStep : false }
                 isLoading={ isLoading }
-                facts={ props.facts }
+                facts={ facts }
                 isEditing={ props.isEditing }
             />}
         </>

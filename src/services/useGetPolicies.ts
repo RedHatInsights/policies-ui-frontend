@@ -3,7 +3,7 @@ import { useTransformQueryResponse } from '../utils/ApiUtils';
 import { Policy } from '../types/Policy';
 import { useNewPaginatedQuery, UsePaginatedQueryResponse } from '../hooks';
 import { PagedServerPolicyResponse } from '../types/Policy/Policy';
-import { toPolicies } from '../utils/PolicyAdapter';
+import { toPolicies } from '../types/adapters/PolicyAdapter';
 import { useQuery } from 'react-fetching-library';
 import { actionGetPolicies } from '../generated/ActionCreators';
 import { pageToQuery } from './Api/ActionBuilder';

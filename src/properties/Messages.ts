@@ -26,6 +26,18 @@ const MutableMessages = {
                     'Use self defined-policies to monitor your RHEL configurations with instant or daily alerts.'
                 ]
             }
+        },
+        policyDetail: {
+            emptyState: {
+                title: 'Policy not found',
+                text: 'This policy with ID {0} cannot be found. It may have been deleted by another user.',
+                backText: 'Back to previous page'
+            },
+            errorState: {
+                title: 'Error when loading policy',
+                text: 'Error found when trying to load policy with ID {0}. (Error: {1})',
+                actionText: 'Try again'
+            }
         }
     },
     components: {
@@ -76,6 +88,13 @@ const MutableMessages = {
             toolTips: {
                 email: 'Send email',
                 hook: 'Send to hook'
+            }
+        },
+        trigger: {
+            title: 'Trigger',
+            columns: {
+                date: 'Date',
+                system: 'System'
             }
         }
     },

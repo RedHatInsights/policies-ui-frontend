@@ -6,11 +6,13 @@ import { ClientContextProvider, createClient } from 'react-fetching-library';
 import fetchMock, { UNMATCHED } from 'fetch-mock';
 import { formatConditionError } from '../CreatePolicyWizard';
 import { addSuccessNotification } from '../../../utils/AlertUtils';
+import { useFacts } from '../../../hooks/useFacts';
 
 jest.mock('../../../components/Policy/PolicyWizard', () => ({
     PolicyWizard: jest.fn()
 }));
 jest.mock('../../../utils/AlertUtils');
+jest.mock('../../../hooks/useFacts');
 
 const configurePolicyWizard = (implementation: React.FunctionComponent<PolicyWizardProps>) => {
     const mock = jest.requireMock('../../../components/Policy/PolicyWizard').PolicyWizard;
@@ -32,6 +34,7 @@ describe('src/pages/ListPage/CreatePolicyWizard', () => {
 
     beforeEach(() => {
         fetchMock.restore();
+        (useFacts as jest.Mock).mockImplementation(() => []);
         (addSuccessNotification as jest.Mock) .mockRestore();
     });
 

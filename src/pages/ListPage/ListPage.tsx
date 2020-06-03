@@ -6,7 +6,7 @@ import { Main, PageHeader, PageHeaderTitle, Section } from '@redhat-cloud-servic
 
 import { PolicyRow, PolicyTable } from '../../components/Policy/Table/PolicyTable';
 import { PolicyToolbar } from '../../components/Policy/TableToolbar/PolicyTableToolbar';
-import { CreatePolicyWizard } from './CreatePolicyWizard';
+import { CreatePolicyWizard } from '../CreatePolicyWizard/CreatePolicyWizard';
 import { AppContext } from '../../app/AppContext';
 import { policyTableError } from './PolicyTableError';
 import { ActionType } from '../../types/Policy';
@@ -14,23 +14,22 @@ import { DeletePolicy } from './DeletePolicy';
 import { NewPolicy, Uuid } from '../../types/Policy/Policy';
 import { usePolicyFilter, usePolicyPage, usePolicyRows } from '../../hooks';
 import { useSort } from '../../hooks/useSort';
-import { makeCopyOfPolicy } from '../../utils/PolicyAdapter';
+import { makeCopyOfPolicy } from '../../types/adapters/PolicyAdapter';
 import { PolicyFilterColumn } from '../../types/Policy/PolicyPaging';
 import { EmailOptIn } from '../../components/EmailOptIn/EmailOptIn';
 import { Messages } from '../../properties/Messages';
 import { style } from 'typestyle';
-import { useFacts } from '../../hooks/useFacts';
 import { ListPageEmptyState } from './EmptyState';
 import { usePrevious } from 'react-use';
 import { useGetPoliciesQuery } from '../../services/useGetPolicies';
 import { Page } from '../../types/Page';
-import { policyExporterFactory } from '../../utils/exporters/PolicyExporter/Factory';
-import { policyExporterTypeFromString } from '../../utils/exporters/PolicyExporter/Type';
+import { policyExporterFactory } from '../../utils/exporters/Policy/Factory';
 import { addDangerNotification } from '../../utils/AlertUtils';
 import { format } from 'date-fns';
 import { usePolicyToDelete } from '../../hooks/usePolicyToDelete';
 import { useMassChangePolicyEnabledMutation } from '../../services/useMassChangePolicyEnabled';
 import { useGetListPagePolicies } from './useGetListPagePolicies';
+import { exporterTypeFromString } from '../../utils/exporters/Type';
 
 type ListPageProps = {};
 
@@ -87,7 +86,6 @@ const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
         loadingSelected,
         removeSelection: policyRowsRemoveSelection
     } = policyRows;
-    const facts = useFacts();
 
     isLoading = isLoading || loadingSelected;
 
@@ -277,7 +275,7 @@ const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
     );
 
     const onExport = React.useCallback((_event, type) => {
-        const exporter = policyExporterFactory(policyExporterTypeFromString(type));
+        const exporter = policyExporterFactory(exporterTypeFromString(type));
         exportAllPoliciesQuery().then(response => {
             if (response.payload) {
                 inBrowserDownload(
@@ -337,6 +335,7 @@ const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
                             error={ policyTableErrorValue }
                             onSort={ sort.onSort }
                             sortBy={ sort.sortBy }
+                            linkToDetailPolicy={ true }
                         />
                     </Section>
                 )}
@@ -347,7 +346,6 @@ const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
                 initialValue={ policyWizardState.template }
                 showCreateStep={ policyWizardState.showCreateStep }
                 policiesExist={ getPoliciesQuery.hasPolicies === true }
-                facts={ facts }
                 isEditing={ policyWizardState.isEditing }
             /> }
             { policyToDelete.isOpen && <DeletePolicy

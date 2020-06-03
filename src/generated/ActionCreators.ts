@@ -66,6 +66,10 @@ export interface UsePostPoliciesByIdEnabledParams {
     enabled?: boolean;
 }
 
+export interface UseGetPoliciesByIdHistoryTriggerParams {
+    id: schemas.Uuid;
+}
+
 export interface UsePutPoliciesByPolicyIdParams {
     body?: schemas.Policy;
     policyId: schemas.Uuid;
@@ -227,6 +231,18 @@ export const actionPostPoliciesByIdEnabled = (params: UsePostPoliciesByIdEnabled
     query.enabled = params.enabled;
 
     return actionBuilder('POST', path)
+    .queryParams(query)
+    .build();
+};
+
+/** Retrieve the trigger history of a single policy */
+export const actionGetPoliciesByIdHistoryTrigger = (params: UseGetPoliciesByIdHistoryTriggerParams): Action => {
+    const path = withBaseUrl('/policies/{id}/history/trigger')
+    .replace('{id}', params.id);
+
+    const query = {} as Record<string, any>;
+
+    return actionBuilder('GET', path)
     .queryParams(query)
     .build();
 };

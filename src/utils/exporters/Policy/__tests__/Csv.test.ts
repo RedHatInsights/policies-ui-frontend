@@ -1,20 +1,20 @@
-import { PolicyExporterType } from '../Type';
 import { PolicyExporterCsv } from '../Csv';
 import { ActionType } from '../../../../types/Policy/Actions';
+import { ExporterType } from '../../Type';
 
-describe('src/utils/exporters/PolicyExporter/Csv', () => {
+describe('src/utils/exporters/Policy/Csv', () => {
     it('has csv type', () => {
-        const exporter = PolicyExporterCsv;
-        expect(exporter.type).toEqual(PolicyExporterType.CSV);
+        const exporter = new PolicyExporterCsv();
+        expect(exporter.type).toEqual(ExporterType.CSV);
     });
 
     it('has text/csv type', () => {
-        const result = PolicyExporterCsv.export([]);
+        const result = new PolicyExporterCsv().export([]);
         expect(result.type).toEqual('text/csv');
     });
 
     it('has 9 columns', () => {
-        const result = PolicyExporterCsv.export([
+        const result = new PolicyExporterCsv().export([
             {
                 id: '12345',
                 name: 'hello world',
@@ -49,7 +49,7 @@ describe('src/utils/exporters/PolicyExporter/Csv', () => {
     // No way to compare blobs yet
     // https://github.com/facebook/jest/issues/7372
     it('empty export has the headers', () => {
-        const result = PolicyExporterCsv.export([]);
+        const result = new PolicyExporterCsv().export([]);
         expect(result.size).toBeGreaterThan(0);
     });
 });
