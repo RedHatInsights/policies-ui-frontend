@@ -6,8 +6,8 @@ import { Policy, Uuid } from '../../types/Policy/Policy';
 import { useMassDeletePoliciesMutation } from '../../services/useMassDeletePolicies';
 
 export interface DeletePolicyProps {
-    getPolicies: () => Promise<Uuid[]>;
-    onDeleted: (policyId: Uuid) => void;
+    getPolicies?: () => Promise<Uuid[]>;
+    onDeleted?: (policyId: Uuid) => void;
     onClose: (deleted: boolean) => void;
     loading: boolean;
     count: number;
@@ -32,7 +32,7 @@ export const DeletePolicy: React.FunctionComponent<DeletePolicyProps> = (props) 
 
             if (errorCount === 0) {
                 errorCount =  policyIds.filter(id => response.payload && !response.payload.includes(id)).length;
-                response.payload?.forEach(id => onDeleted(id));
+                response.payload?.forEach(id => onDeleted && onDeleted(id));
             }
 
             if (errorCount > 0) {
@@ -52,7 +52,7 @@ export const DeletePolicy: React.FunctionComponent<DeletePolicyProps> = (props) 
     const deletePolicy = React.useCallback(async () => {
         if (policy) {
             deletePoliciesWithIds([ policy.id ]);
-        } else {
+        } else if (getPolicies) {
             try {
                 const policyIds = await getPolicies();
                 deletePoliciesWithIds(policyIds);
@@ -63,6 +63,8 @@ export const DeletePolicy: React.FunctionComponent<DeletePolicyProps> = (props) 
                 );
                 console.error('Error while fetching selection', error);
             }
+        } else {
+            throw new Error('Expected policy or getPolicies to bet set');
         }
     }, [ getPolicies, deletePoliciesWithIds, policy ]);
 

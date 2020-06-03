@@ -42,6 +42,8 @@ import { useMassChangePolicyEnabledMutation } from '../../services/useMassChange
 import { assertNever } from '../../utils/Assert';
 import { makeCopyOfPolicy } from '../../types/adapters/PolicyAdapter';
 import { NewPolicy } from '../../types/Policy/Policy';
+import { usePolicyToDelete } from '../../hooks/usePolicyToDelete';
+import { DeletePolicy } from '../ListPage/DeletePolicy';
 
 const recentTriggerVersionTitleClassname = style({
     paddingBottom: 8,
@@ -78,6 +80,8 @@ export const PolicyDetail: React.FunctionComponent = () => {
 
     const appContext = useContext(AppContext);
     const { canWriteAll, canReadAll } = appContext.rbac;
+
+    const policyToDelete = usePolicyToDelete();
 
     const getPolicyQuery = useGetPolicyParametrizedQuery();
     const getTriggers = useGetPolicyTriggersParametrizedQuery();
@@ -152,6 +156,19 @@ export const PolicyDetail: React.FunctionComponent = () => {
     const duplicatePolicy = React.useCallback(() => {
         policyWizardDispatch(PolicyDetailWizardAction.DUPLICATE);
     }, [ policyWizardDispatch ]);
+
+    const deletePolicy = React.useCallback(() => {
+        const open = policyToDelete.open;
+        if (policy) {
+            open(policy);
+        }
+    }, [ policy, policyToDelete.open ]);
+
+    const onCloseDeletePolicy = React.useCallback((deleted: boolean) => {
+        if (deleted) {
+            history.push(linkTo.listPage());
+        }
+    }, [ history ]);
 
     const statusChanged = React.useCallback((newStatus: boolean) => {
         setPolicy(oldState => {
@@ -233,6 +250,7 @@ export const PolicyDetail: React.FunctionComponent = () => {
                                     disabled={ !canWriteAll }
                                     edit={ editPolicy }
                                     duplicate={ duplicatePolicy }
+                                    delete={ deletePolicy }
                                     changeEnabled={ onChangeStatus }
                                     loadingEnabledChange={ changePolicyEnabled.loading }
                                 />
@@ -290,6 +308,12 @@ export const PolicyDetail: React.FunctionComponent = () => {
                 policiesExist={ false }
                 initialValue={ policyWizardState.initialValue }
                 isEditing={ policyWizardState.isEditing }
+            /> }
+            { policyToDelete.isOpen && <DeletePolicy
+                onClose={ onCloseDeletePolicy }
+                loading={ false }
+                count={ policyToDelete.count }
+                policy={ policyToDelete.policy }
             /> }
         </>
     );
