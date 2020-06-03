@@ -49,7 +49,7 @@ export const PolicyDetailActions: React.FunctionComponent<ActionsProps> = (props
         );
 
         return localItems;
-    }, [ props.isEnabled, props.changeEnabled, props.edit, props.duplicate, props.loadingEnabledChange ]);
+    }, [ props.isEnabled, props.changeEnabled, props.edit, props.duplicate, props.delete, props.loadingEnabledChange ]);
 
     return (
         <Dropdown
