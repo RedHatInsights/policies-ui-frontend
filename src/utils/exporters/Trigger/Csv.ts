@@ -9,9 +9,9 @@ export class TriggerExporterCsv extends ExporterCsv<Trigger> {
 
     public headers(): ExporterHeaders<TriggerExporterCsv, Trigger> {
         return [
-            [ 'id', 'id' ],
+            [ 'created', 'ctime' ],
             [ 'hostName', 'system' ],
-            [ 'created', 'ctime' ]
+            [ 'id', 'id' ]
         ];
     }
 }
