@@ -44,6 +44,7 @@ import { makeCopyOfPolicy } from '../../types/adapters/PolicyAdapter';
 import { NewPolicy } from '../../types/Policy/Policy';
 import { usePolicyToDelete } from '../../hooks/usePolicyToDelete';
 import { DeletePolicy } from '../ListPage/DeletePolicy';
+import { Direction, Sort } from '../../types/Page';
 
 const recentTriggerVersionTitleClassname = style({
     paddingBottom: 8,
@@ -68,6 +69,8 @@ const closeState: PolicyDetailWizardState = {
     isOpen: false
 };
 
+const defaultSort = Sort.by('date', Direction.DESCENDING);
+
 export const PolicyDetail: React.FunctionComponent = () => {
 
     const { policyId: policyIdFromUrl } = useParams<{
@@ -88,7 +91,7 @@ export const PolicyDetail: React.FunctionComponent = () => {
     const triggerFilter = useTriggerFilter();
     const changePolicyEnabled = useMassChangePolicyEnabledMutation();
 
-    const sort = useSort();
+    const sort = useSort(defaultSort);
     const {
         page,
         onPaginationChanged

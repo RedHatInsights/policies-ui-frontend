@@ -6,9 +6,9 @@ export interface UsePolicySortReturn {
     onSort: OnSortHandlerType;
 }
 
-export const useSort = (): UsePolicySortReturn => {
+export const useSort = (defaultSort?: Sort): UsePolicySortReturn => {
 
-    const [ sortBy, setSortBy ] = React.useState<Sort>();
+    const [ sortBy, setSortBy ] = React.useState<Sort | undefined>(defaultSort);
 
     const onSort = React.useCallback<OnSortHandlerType>((index: number, column: string, direction: Direction) => {
         setSortBy(Sort.by(column, direction));

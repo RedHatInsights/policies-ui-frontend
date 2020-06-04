@@ -85,6 +85,7 @@ export const TriggerTable: React.FunctionComponent<TriggerTableProps> = (props) 
     if (props.loading) {
         return (
             <SkeletonTable
+                testID="trigger-table-loading"
                 rowSize={ 10 }
                 columns={ cells }
                 sortBy={ sortBy }
