@@ -178,7 +178,7 @@ describe('src/components/Trigger/TableToolbar', () => {
                     category: 'Wrong'
                 }
             ]);
-        }).toThrowError(/Unknown filter found/i)
+        }).toThrowError(/Unknown filter found/i);
         expect(clearFn).not.toHaveBeenCalled();
     });
 

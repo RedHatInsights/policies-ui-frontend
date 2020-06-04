@@ -9,7 +9,7 @@ import {
     StackItem,
     Title
 } from '@patternfly/react-core';
-import { useParams, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import inBrowserDownload from 'in-browser-download';
 import { linkTo } from '../../Routes';
 import { BreadcrumbLinkItem } from '../../components/Wrappers/BreadcrumbLinkItem';
@@ -39,50 +39,26 @@ import { triggerExporterFactory } from '../../utils/exporters/Trigger/Factory';
 import { PolicyDetailTriggerEmptyState } from './TriggerEmptyState';
 import { PolicyDetailActions } from './Actions';
 import { useMassChangePolicyEnabledMutation } from '../../services/useMassChangePolicyEnabled';
-import { assertNever } from '../../utils/Assert';
-import { makeCopyOfPolicy } from '../../types/adapters/PolicyAdapter';
-import { NewPolicy } from '../../types/Policy/Policy';
 import { usePolicyToDelete } from '../../hooks/usePolicyToDelete';
 import { DeletePolicy } from '../ListPage/DeletePolicy';
 import { Direction, Sort } from '../../types/Page';
+import { useWizardState } from './hooks/useWizardState';
+import { usePolicy } from './hooks/usePolicy';
 
 const recentTriggerVersionTitleClassname = style({
     paddingBottom: 8,
     paddingTop: 16
 });
 
-type PolicyDetailWizardState = {
-    isOpen: boolean;
-    initialValue: NewPolicy | undefined;
-    isEditing: boolean;
-};
-
-enum PolicyDetailWizardAction {
-    EDIT,
-    DUPLICATE,
-    CLOSE
-}
-
-const closeState: PolicyDetailWizardState = {
-    isEditing: false,
-    initialValue: undefined,
-    isOpen: false
-};
-
 const defaultSort = Sort.by('date', Direction.DESCENDING);
 
 export const PolicyDetail: React.FunctionComponent = () => {
 
-    const { policyId: policyIdFromUrl } = useParams<{
-        policyId: string;
-    }>();
-    const history = useHistory();
-    const [ policy, setPolicy ] = React.useState<Policy>();
-
-    const policyId = policy?.id || policyIdFromUrl;
+    const { policyId, policy, setPolicy } = usePolicy();
 
     const appContext = useContext(AppContext);
     const { canWriteAll, canReadAll } = appContext.rbac;
+    const history = useHistory();
 
     const policyToDelete = usePolicyToDelete();
 
@@ -98,33 +74,7 @@ export const PolicyDetail: React.FunctionComponent = () => {
     } = useTriggerPage(sort.sortBy, triggerFilter.debouncedFilters);
 
     const { count, pagedTriggers, processedTriggers, rawCount } = usePagedTriggers(getTriggers.payload, page);
-
-    const [ policyWizardState, policyWizardDispatch ] = React.useReducer((_prev, action: PolicyDetailWizardAction): PolicyDetailWizardState => {
-        if (!policy) {
-            return closeState;
-        }
-
-        switch (action) {
-            case PolicyDetailWizardAction.CLOSE:
-                return closeState;
-            case PolicyDetailWizardAction.DUPLICATE:
-                return {
-                    isEditing: false,
-                    initialValue: makeCopyOfPolicy(policy),
-                    isOpen: true
-                };
-            case PolicyDetailWizardAction.EDIT:
-                return {
-                    isEditing: true,
-                    initialValue: policy,
-                    isOpen: true
-                };
-            default:
-                assertNever(action);
-        }
-
-        return closeState;
-    }, closeState);
+    const wizardState = useWizardState(policy);
 
     React.useEffect(() => {
         const query = getTriggers.query;
@@ -134,31 +84,20 @@ export const PolicyDetail: React.FunctionComponent = () => {
     }, [ policyId, getTriggers.query ]);
 
     React.useEffect(() => {
-        history.push(linkTo.policyDetail(policyId));
-    }, [ history, policyId ]);
-
-    React.useEffect(() => {
         const query = getPolicyQuery.query;
         if (policyId !== policy?.id) {
-            query(policyId).then(r => r.payload).then(setPolicy);
+            query(policyId).then(r => r.payload ? setPolicy(r.payload) : undefined);
         }
-    }, [ policyId, getPolicyQuery.query, policy ]);
+    }, [ policyId, getPolicyQuery.query, policy, setPolicy ]);
 
     const closePolicyWizard = React.useCallback((policy: Policy | undefined) => {
+        const close = wizardState.close;
         if (policy) {
             setPolicy(policy);
         }
 
-        policyWizardDispatch(PolicyDetailWizardAction.CLOSE);
-    }, [ setPolicy ]);
-
-    const editPolicy = React.useCallback(() => {
-        policyWizardDispatch(PolicyDetailWizardAction.EDIT);
-    }, [ policyWizardDispatch ]);
-
-    const duplicatePolicy = React.useCallback(() => {
-        policyWizardDispatch(PolicyDetailWizardAction.DUPLICATE);
-    }, [ policyWizardDispatch ]);
+        close();
+    }, [ setPolicy, wizardState.close ]);
 
     const deletePolicy = React.useCallback(() => {
         const open = policyToDelete.open;
@@ -174,14 +113,10 @@ export const PolicyDetail: React.FunctionComponent = () => {
     }, [ history ]);
 
     const statusChanged = React.useCallback((newStatus: boolean) => {
-        setPolicy(oldState => {
-            if (oldState) {
-                return { ...oldState, isEnabled: newStatus };
-            }
-
-            return oldState;
-        });
-    }, [ setPolicy ]);
+        if (policy) {
+            setPolicy({ ...policy, isEnabled: newStatus });
+        }
+    }, [ policy, setPolicy ]);
 
     const onChangeStatus = React.useCallback(newStatus => {
         const mutate = changePolicyEnabled.mutate;
@@ -251,8 +186,8 @@ export const PolicyDetail: React.FunctionComponent = () => {
                                 <PolicyDetailActions
                                     isEnabled={ policy.isEnabled }
                                     disabled={ !canWriteAll }
-                                    edit={ editPolicy }
-                                    duplicate={ duplicatePolicy }
+                                    edit={ wizardState.edit }
+                                    duplicate={ wizardState.duplicate }
                                     delete={ deletePolicy }
                                     changeEnabled={ onChangeStatus }
                                     loadingEnabledChange={ changePolicyEnabled.loading }
@@ -304,13 +239,13 @@ export const PolicyDetail: React.FunctionComponent = () => {
                     ) }
                 </Section>
             </Main>
-            { policyWizardState.isOpen && <CreatePolicyWizard
+            { wizardState.data.isOpen && <CreatePolicyWizard
                 isOpen={ true }
                 close={ closePolicyWizard }
                 showCreateStep={ false }
                 policiesExist={ false }
-                initialValue={ policyWizardState.initialValue }
-                isEditing={ policyWizardState.isEditing }
+                initialValue={ wizardState.data.initialValue }
+                isEditing={ wizardState.data.isEditing }
             /> }
             { policyToDelete.isOpen && <DeletePolicy
                 onClose={ onCloseDeletePolicy }
