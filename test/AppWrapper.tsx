@@ -5,8 +5,9 @@ import { MemoryRouter as Router } from 'react-router-dom';
 import { ClientContextProvider, createClient } from 'react-fetching-library';
 import { Provider } from 'react-redux';
 import fetchMock = require('fetch-mock');
-import { MemoryRouterProps } from 'react-router';
+import { MemoryRouterProps, useLocation } from 'react-router';
 import { AppContext } from '../src/app/AppContext';
+import { linkTo } from '../src/Routes';
 
 let setup = false;
 let client;
@@ -45,6 +46,7 @@ type Config = {
     router?: MemoryRouterProps;
     route?: RouteProps;
     appContext?: AppContext;
+    getLocation?: jest.Mock;
 }
 
 const defaultAppContextSettings = {
@@ -59,6 +61,15 @@ const defaultAppContextSettings = {
     }
 };
 
+const InternalWrapper: React.FunctionComponent<Config> = (props) => {
+    const location = useLocation();
+    if (props.getLocation) {
+        props.getLocation.mockImplementation(() => location);
+    }
+
+    return <>{ props.children }</>;
+};
+
 export const AppWrapper: React.FunctionComponent<Config> = (props) => {
     if (!setup) {
         throw new Error('appWrapperSetup has not been called, you need to call it on the beforeEach');
@@ -67,13 +78,15 @@ export const AppWrapper: React.FunctionComponent<Config> = (props) => {
     return (
         <Provider store={ store }>
             <Router { ...props.router } >
-                <Route { ...props.route } >
-                    <ClientContextProvider client={ client }>
-                        <AppContext.Provider value={ props.appContext || defaultAppContextSettings }>
-                            { props.children }
-                        </AppContext.Provider>
-                    </ClientContextProvider>
-                </Route>
+                <ClientContextProvider client={ client }>
+                    <AppContext.Provider value={ props.appContext || defaultAppContextSettings }>
+                        <InternalWrapper { ...props }>
+                            <Route { ...props.route } >
+                                { props.children }
+                            </Route>
+                        </InternalWrapper>
+                    </AppContext.Provider>
+                </ClientContextProvider>
             </Router>
         </Provider>
     );

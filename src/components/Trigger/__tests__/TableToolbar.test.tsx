@@ -229,7 +229,8 @@ describe('src/components/Trigger/TableToolbar', () => {
 
         expect(control.props.exportConfig).toEqual({
             extraItems: [ ],
-            onSelect: onSelectMockFn
+            onSelect: onSelectMockFn,
+            'data-testid': 'trigger-toolbar-export-container'
         });
 
         onSelectOriginal(undefined, 'json');

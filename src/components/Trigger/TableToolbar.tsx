@@ -118,7 +118,8 @@ export const TriggerTableToolbar: React.FunctionComponent<TriggerTableToolbarPro
             extraItems: [],
             onSelect: (_event, type: string) => {
                 onExport(exporterTypeFromString(type));
-            }
+            },
+            'data-testid': 'trigger-toolbar-export-container'
         };
     }, [ props.onExport ]);
 

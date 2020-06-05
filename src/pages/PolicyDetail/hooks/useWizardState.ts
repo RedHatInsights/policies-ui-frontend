@@ -44,10 +44,9 @@ export const useWizardState = (policy: Policy | undefined) => {
                     isOpen: true
                 };
             default:
-                assertNever(action);
+                return assertNever(action);
         }
 
-        return closedState;
     }, closedState);
 
     const close = useCallback(() => dispatch(PolicyDetailWizardAction.CLOSE), [ dispatch ]);

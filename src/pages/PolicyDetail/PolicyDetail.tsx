@@ -52,6 +52,8 @@ const recentTriggerVersionTitleClassname = style({
 
 const defaultSort = Sort.by('date', Direction.DESCENDING);
 
+type PolicyQueryResponse = ReturnType<ReturnType<typeof useGetPolicyParametrizedQuery>['query']> extends Promise<infer U> ? U : never
+
 export const PolicyDetail: React.FunctionComponent = () => {
 
     const { policyId, policy, setPolicy } = usePolicy();
@@ -83,12 +85,18 @@ export const PolicyDetail: React.FunctionComponent = () => {
         }
     }, [ policyId, getTriggers.query ]);
 
+    const processGetPolicyResponse = React.useCallback((response: PolicyQueryResponse) => {
+        if (response.status === 200 && response.payload) {
+            setPolicy(response.payload);
+        }
+    }, [ setPolicy ]);
+
     React.useEffect(() => {
         const query = getPolicyQuery.query;
         if (policyId !== policy?.id) {
-            query(policyId).then(r => r.payload ? setPolicy(r.payload) : undefined);
+            query(policyId).then(processGetPolicyResponse);
         }
-    }, [ policyId, getPolicyQuery.query, policy, setPolicy ]);
+    }, [ policyId, getPolicyQuery.query, policy, setPolicy, processGetPolicyResponse ]);
 
     const closePolicyWizard = React.useCallback((policy: Policy | undefined) => {
         const close = wizardState.close;
@@ -107,10 +115,14 @@ export const PolicyDetail: React.FunctionComponent = () => {
     }, [ policy, policyToDelete.open ]);
 
     const onCloseDeletePolicy = React.useCallback((deleted: boolean) => {
+        const close = policyToDelete.close;
+
         if (deleted) {
             history.push(linkTo.listPage());
+        } else {
+            close();
         }
-    }, [ history ]);
+    }, [ history, policyToDelete.close ]);
 
     const statusChanged = React.useCallback((newStatus: boolean) => {
         if (policy) {
@@ -131,7 +143,7 @@ export const PolicyDetail: React.FunctionComponent = () => {
         if (processedTriggers.length > 0) {
             inBrowserDownload(
                 exporter.export(processedTriggers),
-                `policy-${policyId}-triggers-${format(new Date(), 'y-dd-MM')}.${exporter.type}`
+                `policy-${policyId}-triggers-${format(new Date(Date.now()), 'y-dd-MM')}.${exporter.type}`
             );
         }
     }, [ processedTriggers, policyId ]);
@@ -156,7 +168,7 @@ export const PolicyDetail: React.FunctionComponent = () => {
         return <PolicyDetailErrorState
             action={ () => {
                 getTriggers.query(policyId);
-                getPolicyQuery.query(policyId);
+                getPolicyQuery.query(policyId).then(processGetPolicyResponse);
             } }
             policyId={ policyId }
             error={ error }
@@ -198,7 +210,7 @@ export const PolicyDetail: React.FunctionComponent = () => {
                 </Stack>
             </PageHeader>
             <Main>
-                <Section style={ { paddingBottom: '4px' } } className='pf-l-page__main-section pf-c-page__main-section pf-m-light'>
+                <Section style={ { paddingBottom: '4px' } }>
                     <PolicyDetailIsEnabled
                         isEnabled={ policy.isEnabled }
                         loading={ changePolicyEnabled.loading }

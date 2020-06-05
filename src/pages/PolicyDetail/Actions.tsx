@@ -55,7 +55,11 @@ export const PolicyDetailActions: React.FunctionComponent<ActionsProps> = (props
         <Dropdown
             position={ DropdownPosition.right }
             onSelect={ onSelect }
-            toggle={ <KebabToggle isDisabled={ props.disabled } onToggle={ setOpen } id="policy-detail-actions-menu"/> }
+            toggle={ <KebabToggle
+                data-testid="policy-detail-actions-button"
+                isDisabled={ props.disabled }
+                onToggle={ setOpen }
+                id="policy-detail-actions-menu"/> }
             isOpen={ isOpen }
             isPlain
             dropdownItems={ items }
