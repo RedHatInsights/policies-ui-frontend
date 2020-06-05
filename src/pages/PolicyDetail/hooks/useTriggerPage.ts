@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import { Filter, Operator, Page, Sort } from '../../../types/Page';
 import { TriggerFilterColumn, TriggerFilters } from './useTriggerFilter';
 
-const elementsPerPage = 10;
+const elementsPerPage = 50;
 
 export const useTriggerPage = (sort: Sort | undefined, filters: TriggerFilters) => {
     const [ page, setPage ] = React.useState<Page>(() => Page.of(1, elementsPerPage));

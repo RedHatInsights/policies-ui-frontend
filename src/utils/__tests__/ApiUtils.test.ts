@@ -18,8 +18,7 @@ describe('src/utils/ApiUtils', () => {
         expect(result.current.payload).toBe(5);
     });
 
-    // Todo: We might need to include the error types on the query response to lift-up the only-status-200 restriction
-    it('transforms payload to undefined if status is not 200', () => {
+    it('keeps payload if status is not 200', () => {
         const response: UseQueryResponse<string> = {
             payload: 'error response',
             status: 404,
@@ -31,7 +30,7 @@ describe('src/utils/ApiUtils', () => {
         };
 
         const { result } = renderHook(() => useTransformQueryResponse(response, (val: string) => +val));
-        expect(result.current.payload).toBe(undefined);
+        expect(result.current.payload).toBe('error response');
     });
 
     it('transforms query promises to use the adapters in case of status 200', async () => {
@@ -55,7 +54,7 @@ describe('src/utils/ApiUtils', () => {
         return expect(queryResponse.payload).toBe(33);
     });
 
-    it('transforms query promises to return undefined if status is not 200', async () => {
+    it('keeps query promises to return the payload if status is not 200', async () => {
         const response: UseQueryResponse<string> = {
             payload: undefined,
             status: undefined,
@@ -73,7 +72,7 @@ describe('src/utils/ApiUtils', () => {
         const { result } = renderHook(() => useTransformQueryResponse(response, (val: string) => +val));
         const queryResponse = await result.current.query();
 
-        return expect(queryResponse.payload).toBe(undefined);
+        return expect(queryResponse.payload).toBe('33');
     });
 
 });

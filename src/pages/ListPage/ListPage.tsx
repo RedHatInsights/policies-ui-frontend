@@ -205,9 +205,9 @@ const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
         });
     }, [ setPolicyWizardState ]);
 
-    const closePolicyWizard = React.useCallback((policyCreated: boolean) => {
+    const closePolicyWizard = React.useCallback((policy: NewPolicy | undefined) => {
         const refreshUserSettings = appContext.userSettings.refresh;
-        if (policyCreated) {
+        if (policy) {
             getPoliciesQueryReload();
             refreshUserSettings();
         }

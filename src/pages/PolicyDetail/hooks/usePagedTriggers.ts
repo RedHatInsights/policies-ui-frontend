@@ -7,6 +7,7 @@ export interface UsePagedTriggersResponse {
     count: number;
     pagedTriggers: Array<Trigger>;
     processedTriggers: Array<Trigger>;
+    rawCount: number;
 }
 
 export const usePagedTriggers = (triggers: Array<Trigger> | undefined, page: Page): UsePagedTriggersResponse => {
@@ -58,6 +59,7 @@ export const usePagedTriggers = (triggers: Array<Trigger> | undefined, page: Pag
     return {
         count,
         pagedTriggers,
-        processedTriggers
+        processedTriggers,
+        rawCount: triggers ? triggers.length : 0
     };
 };

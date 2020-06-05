@@ -3,13 +3,13 @@ import { Main, PageHeader, PageHeaderTitle, Skeleton, Spinner } from '@redhat-cl
 import {
     Breadcrumb,
     Bullseye,
-    Button,
-    ButtonVariant,
+    Button, ButtonVariant,
     Split,
     SplitItem,
     Stack,
     StackItem
 } from '@patternfly/react-core';
+import { EllipsisVIcon } from '@patternfly/react-icons';
 import { Section } from '../../components/FrontendComponents/Section';
 import { BreadcrumbLinkItem } from '../../components/Wrappers/BreadcrumbLinkItem';
 import { linkTo } from '../../Routes';
@@ -33,12 +33,7 @@ export const PolicyDetailSkeleton: React.FunctionComponent = () => {
                                 <PageHeaderTitle title={ <Skeleton size="sm"/> } />
                             </SplitItem>
                             <SplitItem>
-                                <Button
-                                    variant={ ButtonVariant.secondary }
-                                    isDisabled={ true }
-                                >
-                                    Edit policy
-                                </Button>
+                                <Button isDisabled variant={ ButtonVariant.plain }><EllipsisVIcon/></Button>
                             </SplitItem>
                         </Split>
                     </StackItem>

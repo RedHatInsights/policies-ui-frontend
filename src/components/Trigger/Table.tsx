@@ -15,6 +15,9 @@ import { Trigger } from '../../types/Trigger';
 import format from 'date-fns/format';
 import { Direction, Sort } from '../../types/Page';
 import { toUtc } from '../../utils/Date';
+import { Button, ButtonVariant } from '@patternfly/react-core';
+import { localUrl } from '../../config/Config';
+import { TriggerTableEmptyState } from './Table/EmptyState';
 
 interface TriggerTableProps {
     rows?: Trigger[];
@@ -36,8 +39,7 @@ const cells: ICell[] = [
 
 const dateFormatString = 'dd MMM yyyy HH:mm:ss';
 
-// Todo: Uncomment next line once we have the correct id
-// const linkToHost = (id: string) => localUrl(`/insights/inventory/${id}/`);
+const linkToHost = (id: string) => localUrl(`/insights/inventory/${id}/`);
 
 export const TriggerTable: React.FunctionComponent<TriggerTableProps> = (props) => {
 
@@ -49,9 +51,11 @@ export const TriggerTable: React.FunctionComponent<TriggerTableProps> = (props) 
                 key: `${t.id}-${index}`,
                 cells: [
                     <>{ format(toUtc(t.created), dateFormatString) } UTC</>,
-                    // Todo: Looks like the id from the trigger does not point to the inventory element
-                    // <><Button component="a" variant={ ButtonVariant.link } href={ linkToHost(t.id) } >{ t.hostName }</Button></>
-                    <>{ t.hostName }</>
+                    t.id ? (
+                        <><Button component="a" variant={ ButtonVariant.link } href={ linkToHost(t.id) } isInline>{ t.hostName }</Button></>
+                    ) : (
+                        <>{ t.hostName }</>
+                    )
                 ]
             }));
         }
@@ -81,10 +85,17 @@ export const TriggerTable: React.FunctionComponent<TriggerTableProps> = (props) 
     if (props.loading) {
         return (
             <SkeletonTable
+                testID="trigger-table-loading"
                 rowSize={ 10 }
                 columns={ cells }
                 sortBy={ sortBy }
             />
+        );
+    }
+
+    if (rows.length === 0) {
+        return (
+            <TriggerTableEmptyState/>
         );
     }
 

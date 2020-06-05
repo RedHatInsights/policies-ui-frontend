@@ -194,7 +194,7 @@ describe('src/pages/ListPage/CreatePolicyWizard', () => {
             });
         });
 
-        it('Calls props.close with true when the policy is created / saved', async () => {
+        it('Calls props.close with the policy when the policy is created / saved', async () => {
             const trigger = jest.fn();
             configurePolicyWizard(props => {
                 trigger.mockImplementation(props.onSave);
@@ -204,7 +204,15 @@ describe('src/pages/ListPage/CreatePolicyWizard', () => {
                 '/api/policies/v1.0/policies?alsoStore=true',
                 {
                     headers: {},
-                    status: 201
+                    status: 201,
+                    body: {
+                        id: '1234',
+                        name: 'foo',
+                        mtime: 1,
+                        ctime: 1,
+                        isEnabled: false,
+                        description: ''
+                    }
                 }
             );
 
@@ -221,7 +229,16 @@ describe('src/pages/ListPage/CreatePolicyWizard', () => {
                 expect(result.created).toBe(true);
             });
 
-            expect(closeFn).toHaveBeenCalledWith(true);
+            expect(closeFn).toHaveBeenCalledWith({
+                id: '1234',
+                name: 'foo',
+                actions: [],
+                isEnabled: false,
+                lastTriggered: undefined,
+                description: '',
+                ctime: new Date('1970-01-01T00:00:00.001Z'),
+                mtime: new Date('1970-01-01T00:00:00.001Z')
+            });
         });
 
         it('Adds a success notification when a policy is created', async () => {

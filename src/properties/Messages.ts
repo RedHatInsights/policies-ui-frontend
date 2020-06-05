@@ -33,6 +33,10 @@ const MutableMessages = {
                 text: 'This policy with ID {0} cannot be found. It may have been deleted by another user.',
                 backText: 'Back to previous page'
             },
+            triggerEmptyState: {
+                title: 'No triggers found',
+                text: 'This policy does not have any recent triggers'
+            },
             errorState: {
                 title: 'Error when loading policy',
                 text: 'Error found when trying to load policy with ID {0}. (Error: {1})',
@@ -95,6 +99,12 @@ const MutableMessages = {
             columns: {
                 date: 'Date',
                 system: 'System'
+            },
+            emptyState: {
+                notFound: {
+                    title: 'No matching triggers found',
+                    content: 'No triggers matching the search terms.'
+                }
             }
         }
     },

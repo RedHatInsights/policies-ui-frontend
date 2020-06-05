@@ -1,50 +1,28 @@
 import * as React from 'react';
-import { Button, ButtonVariant, Stack, StackItem } from '@patternfly/react-core';
+import { Stack, StackItem } from '@patternfly/react-core';
 import { style } from 'typestyle';
 
 import { Skeleton } from '@redhat-cloud-services/frontend-components';
 
 import { DisabledPolicyIcon, EnabledPolicyIcon } from '../../components/Icons';
 import { Spacer } from '../../utils/Spacer';
-import { Uuid } from '../../types/Policy/Policy';
-import { useMassChangePolicyEnabledMutation } from '../../services/useMassChangePolicyEnabled';
 
 const isEnabledTextClassname = style({
     marginLeft: Spacer.MD
 });
 
 const loadingClassname = style({
-    minHeight: 60
+    minHeight: 48
 });
 
 interface PolicyDetailIsEnabledProps {
-    policyId: Uuid;
     isEnabled: boolean;
-    statusChanged: (newStatus: boolean) => void;
+    loading: boolean;
 }
 
 export const PolicyDetailIsEnabled: React.FunctionComponent<PolicyDetailIsEnabledProps> = (props) => {
 
-    const changePolicyEnabled = useMassChangePolicyEnabledMutation();
-
-    const onChangeStatus = React.useCallback(newStatus => {
-        const mutate = changePolicyEnabled.mutate;
-        const statusChanged = props.statusChanged;
-        mutate({
-            policyIds: [ props.policyId ],
-            shouldBeEnabled: newStatus
-        }).then(() => statusChanged(newStatus));
-    }, [ props.policyId, changePolicyEnabled.mutate, props.statusChanged ]);
-
-    const enablePolicy = React.useCallback(() => {
-        onChangeStatus(true);
-    },  [ onChangeStatus ]);
-
-    const disablePolicy = React.useCallback(() => {
-        onChangeStatus(false);
-    },  [ onChangeStatus ]);
-
-    if (changePolicyEnabled.loading) {
+    if (props.loading) {
         return (
             <Stack data-testid="loading" className={ loadingClassname }>
                 <StackItem>
@@ -54,14 +32,12 @@ export const PolicyDetailIsEnabled: React.FunctionComponent<PolicyDetailIsEnable
         );
     }
 
-    const { icon, text, switchLink } = props.isEnabled ? {
+    const { icon, text } = props.isEnabled ? {
         icon: <EnabledPolicyIcon/>,
-        text: 'Enabled',
-        switchLink: <Button onClick={ disablePolicy } variant={ ButtonVariant.link }> Disable policy </Button>
+        text: 'Enabled'
     } : {
         icon: <DisabledPolicyIcon/>,
-        text: 'Disabled',
-        switchLink: <Button onClick={ enablePolicy } variant={ ButtonVariant.link }> Enable policy </Button>
+        text: 'Disabled'
     };
 
     return (
@@ -69,9 +45,6 @@ export const PolicyDetailIsEnabled: React.FunctionComponent<PolicyDetailIsEnable
             <StackItem>
                 { icon }
                 <span className={ isEnabledTextClassname }>{ text }</span>
-            </StackItem>
-            <StackItem>
-                { switchLink }
             </StackItem>
         </Stack>
     );
