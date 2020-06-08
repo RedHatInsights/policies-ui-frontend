@@ -1,7 +1,5 @@
 import * as React from 'react';
 import inBrowserDownload from 'in-browser-download';
-import { policyExporterFactory } from '../../../utils/exporters/PolicyExporter/Factory';
-import { policyExporterTypeFromString } from '../../../utils/exporters/PolicyExporter/Type';
 import { format } from 'date-fns';
 import { addDangerNotification } from '../../../utils/AlertUtils';
 import { PolicyWizardState } from '../ListPage';
@@ -9,6 +7,8 @@ import { Policy } from '../../../types/Policy';
 import { UsePaginatedQueryResponse, UsePolicyRowsReturn } from '../../../hooks';
 import { useMassChangePolicyEnabledMutation } from '../../../services/useMassChangePolicyEnabled';
 import { UsePolicyToDeleteResponse } from '../../../hooks/usePolicyToDelete';
+import { policyExporterFactory } from '../../../utils/exporters/Policy/Factory';
+import { exporterTypeFromString } from '../../../utils/exporters/Type';
 
 type Params = {
     setPolicyWizardState: (params: PolicyWizardState) => void;
@@ -61,7 +61,7 @@ export const useToolbarActions = (params: Params) => {
     );
 
     const onExport = React.useCallback((_event, type) => {
-        const exporter = policyExporterFactory(policyExporterTypeFromString(type));
+        const exporter = policyExporterFactory(exporterTypeFromString(type));
         return exportAllPoliciesQuery().then(response => {
             if (response.payload) {
                 inBrowserDownload(

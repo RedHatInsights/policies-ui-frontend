@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { PolicyRow } from '../../../components/Policy/Table/PolicyTable';
-import { makeCopyOfPolicy } from '../../../utils/PolicyAdapter';
 import { UseMassChangePolicyEnabledParams } from '../../../services/useMassChangePolicyEnabled';
 import { UsePolicyToDeleteResponse } from '../../../hooks/usePolicyToDelete';
 import { PolicyWizardState } from '../ListPage';
+import { makeCopyOfPolicy } from '../../../types/adapters/PolicyAdapter';
 
 type Params = {
     canWriteAll: boolean;

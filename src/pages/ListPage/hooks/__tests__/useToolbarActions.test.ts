@@ -5,7 +5,7 @@ import { PolicyRow } from '../../../../components/Policy/Table/PolicyTable';
 import { ImmutableContainerSet } from '../../../../types/ImmutableContainerSet';
 import { Uuid } from '../../../../types/Policy/Policy';
 import { addDangerNotification } from '../../../../utils/AlertUtils';
-import { PolicyExporterType } from '../../../../utils/exporters/PolicyExporter/Type';
+import { ExporterType } from '../../../../utils/exporters/Type';
 
 jest.mock('in-browser-download');
 jest.mock('../../../../utils/AlertUtils');
@@ -133,7 +133,7 @@ describe('src/pages/ListPage/hooks/useToolbarActions', () => {
         const { result } = renderHook(() => useToolbarActions(params));
 
         expect(params.exportAllPoliciesQuery).toHaveBeenCalledTimes(0);
-        result.current.onExport(undefined, PolicyExporterType.JSON);
+        result.current.onExport(undefined, ExporterType.JSON);
         expect(params.exportAllPoliciesQuery).toHaveBeenCalledTimes(1);
     });
 
@@ -152,7 +152,7 @@ describe('src/pages/ListPage/hooks/useToolbarActions', () => {
 
         expect(params.exportAllPoliciesQuery).toHaveBeenCalledTimes(0);
         expect(inBrowserDownload).toHaveBeenCalledTimes(0);
-        await result.current.onExport(undefined, PolicyExporterType.JSON);
+        await result.current.onExport(undefined, ExporterType.JSON);
         expect(params.exportAllPoliciesQuery).toHaveBeenCalledTimes(1);
         expect(inBrowserDownload.mock.calls[0][1]).toEqual('policies-2020-12-02.json');
     });
@@ -167,7 +167,7 @@ describe('src/pages/ListPage/hooks/useToolbarActions', () => {
         expect(params.exportAllPoliciesQuery).toHaveBeenCalledTimes(0);
         expect(inBrowserDownload).toHaveBeenCalledTimes(0);
         expect(addDangerNotification).toHaveBeenCalledTimes(0);
-        await result.current.onExport(undefined, PolicyExporterType.JSON);
+        await result.current.onExport(undefined, ExporterType.JSON);
         expect(params.exportAllPoliciesQuery).toHaveBeenCalledTimes(1);
         expect(inBrowserDownload).toHaveBeenCalledTimes(0);
         expect(addDangerNotification).toHaveBeenCalledTimes(1);

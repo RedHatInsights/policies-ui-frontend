@@ -1,7 +1,7 @@
 import { renderHook } from '@testing-library/react-hooks';
 import { useTableActionResolverCallback } from '../useTableActionResolverCallback';
 import { PolicyRow } from '../../../../components/Policy/Table/PolicyTable';
-import { makeCopyOfPolicy } from '../../../../utils/PolicyAdapter';
+import { makeCopyOfPolicy } from '../../../../types/adapters/PolicyAdapter';
 
 describe('src/pages/ListPage/hooks/useTableActionResolverCallback', () => {
     it('Returns a callback', () => {
