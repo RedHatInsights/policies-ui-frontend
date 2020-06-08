@@ -227,7 +227,7 @@ export const PolicyDetail: React.FunctionComponent = () => {
                     <Title size="lg">Recent trigger history</Title>
                 </div>
                 <Section>
-                    { rawCount > 0 ? (
+                    { rawCount > 0 || getTriggers.loading ? (
                         <>
                             <TriggerTableToolbar
                                 count={ count }
