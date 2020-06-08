@@ -17,6 +17,14 @@ import { ServerPolicyRequest } from '../../../types/Policy/Policy';
 
 jest.mock('../../../hooks/useFacts');
 jest.mock('in-browser-download', () => jest.fn());
+jest.mock('@redhat-cloud-services/frontend-components', () => {
+    const MockedSkeletonTable = () => <div>Loading Triggers</div>;
+
+    return {
+        ...jest.requireActual('@redhat-cloud-services/frontend-components'),
+        SkeletonTable: MockedSkeletonTable
+    };
+});
 
 describe('src/Pages/PolicyDetail/PolicyDetail', () => {
 
@@ -34,6 +42,7 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
         policyId?: string;
         policy?: any;
         triggers?: any;
+        triggerLoading?: boolean;
     };
 
     const mockPolicy = {
@@ -83,7 +92,7 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
 
         fetchMock.getOnce(actionGetPoliciesByIdHistoryTrigger({
             id: config?.policyId || 'foo'
-        }).endpoint, {
+        }).endpoint, config?.triggerLoading === true ? new Promise(() => '') : {
             body: (config?.triggers || mockTriggers)
         }, {
             overwriteRoutes: false
@@ -602,5 +611,51 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
 
         await waitForAsyncEvents();
         expect(screen.queryByTestId('trigger-toolbar-export-container')).toBeFalsy();
+    });
+
+    it('Trigger history does not show loading when not loading', async () => {
+        fetchMockSetup({
+            triggerLoading: false
+        });
+        render((
+            <>
+                <PolicyDetail/>
+            </>
+        ), {
+            wrapper: getConfiguredAppWrapper({
+                router: {
+                    initialEntries: [ linkTo.policyDetail('foo') ]
+                },
+                route: {
+                    path: linkTo.policyDetail(':policyId')
+                }
+            })
+        });
+
+        await waitForAsyncEvents();
+        expect(screen.queryByText('Loading Triggers')).toBeFalsy(); // Mocked the loading element
+    });
+
+    it('Trigger history shows loading when loading it', async () => {
+        fetchMockSetup({
+            triggerLoading: true
+        });
+        render((
+            <>
+                <PolicyDetail/>
+            </>
+        ), {
+            wrapper: getConfiguredAppWrapper({
+                router: {
+                    initialEntries: [ linkTo.policyDetail('foo') ]
+                },
+                route: {
+                    path: linkTo.policyDetail(':policyId')
+                }
+            })
+        });
+
+        await waitForAsyncEvents();
+        expect(screen.getByText('Loading Triggers')).toBeVisible(); // Mocked the loading element
     });
 });
