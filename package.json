@@ -111,7 +111,7 @@
     "server:ctr": "node src/server/generateServerKey.js",
     "start": "NODE_ENV=development webpack-dev-server --config config/dev.webpack.config.ts",
     "build:prod": "NODE_ENV=production webpack --config config/prod.webpack.config.ts",
-    "deploy": "npm-run-all build:prod lint test",
+    "travis": "npm-run-all build:prod lint 'test --coverage --forceExit --maxWorkers=4 --detectOpenHandles'",
     "verify": "npm-run-all build lint test",
     "nightly": "npm run deploy",
     "proxy": "SPANDX_CONFIG=\"profiles/local-frontend-and-api.ts\" bash $PROXY_PATH/scripts/run.sh",
