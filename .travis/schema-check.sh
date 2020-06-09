@@ -1,4 +1,4 @@
-#!/bin/env bash
+#!/bin/bash
 
 if [ "${TRAVIS_BRANCH}" = "prod" ]
 then
