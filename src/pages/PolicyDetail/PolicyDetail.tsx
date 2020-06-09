@@ -30,7 +30,6 @@ import { PolicyDetailErrorState } from './ErrorState';
 import { PolicyDetailIsEnabled } from './IsEnabled';
 import { Policy } from '../../types/Policy';
 import { NoPermissionsPage } from '../NoPermissions/NoPermissionsPage';
-import { usePagedTriggers } from './hooks/usePagedTriggers';
 import { useTriggerPage } from './hooks/useTriggerPage';
 import { useTriggerFilter } from './hooks/useTriggerFilter';
 import { ExporterType, exporterTypeFromString } from '../../utils/exporters/Type';
@@ -56,6 +55,9 @@ type PolicyQueryResponse = ReturnType<ReturnType<typeof useGetPolicyParametrized
 
 export const PolicyDetail: React.FunctionComponent = () => {
 
+    // Todo: Remove this
+    const totalCount = 500;
+
     const { policyId, policy, setPolicy } = usePolicy();
 
     const appContext = useContext(AppContext);
@@ -75,15 +77,17 @@ export const PolicyDetail: React.FunctionComponent = () => {
         onPaginationChanged
     } = useTriggerPage(sort.sortBy, triggerFilter.debouncedFilters);
 
-    const { count, pagedTriggers, processedTriggers, rawCount } = usePagedTriggers(getTriggers.payload, page);
     const wizardState = useWizardState(policy);
 
     React.useEffect(() => {
         const query = getTriggers.query;
         if (policyId) {
-            query(policyId);
+            query({
+                policyId,
+                page
+            });
         }
-    }, [ policyId, getTriggers.query ]);
+    }, [ policyId, getTriggers.query, page ]);
 
     const processGetPolicyResponse = React.useCallback((response: PolicyQueryResponse) => {
         if (response.status === 200 && response.payload) {
@@ -138,7 +142,9 @@ export const PolicyDetail: React.FunctionComponent = () => {
         }).then(() => statusChanged(newStatus));
     }, [ policyId, changePolicyEnabled.mutate, statusChanged ]);
 
-    const onExport = React.useCallback((type: ExporterType) => {
+
+    // Todo: Enable this
+    /*const onExport = React.useCallback((type: ExporterType) => {
         const exporter = triggerExporterFactory(exporterTypeFromString(type));
         if (processedTriggers.length > 0) {
             inBrowserDownload(
@@ -146,7 +152,10 @@ export const PolicyDetail: React.FunctionComponent = () => {
                 `policy-${policyId}-triggers-${format(new Date(Date.now()), 'y-dd-MM')}.${exporter.type}`
             );
         }
-    }, [ processedTriggers, policyId ]);
+    }, [ processedTriggers, policyId ]);*/
+    const onExport = React.useCallback(() => {
+
+    }, []);
 
     const loading = policy === undefined && getPolicyQuery.loading;
 
@@ -167,7 +176,10 @@ export const PolicyDetail: React.FunctionComponent = () => {
 
         return <PolicyDetailErrorState
             action={ () => {
-                getTriggers.query(policyId);
+                getTriggers.query({
+                    policyId,
+                    page
+                });
                 getPolicyQuery.query(policyId).then(processGetPolicyResponse);
             } }
             policyId={ policyId }
@@ -227,20 +239,20 @@ export const PolicyDetail: React.FunctionComponent = () => {
                     <Title size="lg">Recent trigger history</Title>
                 </div>
                 <Section>
-                    { rawCount > 0 || getTriggers.loading ? (
+                    { totalCount > 0 || getTriggers.loading ? (
                         <>
                             <TriggerTableToolbar
-                                count={ count }
+                                count={ totalCount }
                                 page={ page }
                                 onPaginationChanged={ onPaginationChanged }
-                                pageCount={ pagedTriggers.length }
+                                pageCount={ getTriggers.payload?.length }
                                 filters={ triggerFilter.filters }
                                 setFilters={ triggerFilter.setFilters }
                                 clearFilters={ triggerFilter.clearFilter }
                                 onExport={ onExport }
                             />
                             <TriggerTable
-                                rows={ pagedTriggers }
+                                rows={ getTriggers.payload }
                                 onSort={ sort.onSort }
                                 sortBy={ sort.sortBy }
                                 loading={ getTriggers.loading }

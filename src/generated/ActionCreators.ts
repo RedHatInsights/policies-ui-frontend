@@ -68,6 +68,8 @@ export interface UsePostPoliciesByIdEnabledParams {
 
 export interface UseGetPoliciesByIdHistoryTriggerParams {
     id: schemas.Uuid;
+    limit?: number;
+    offset?: number;
 }
 
 export interface UsePutPoliciesByPolicyIdParams {
@@ -241,6 +243,9 @@ export const actionGetPoliciesByIdHistoryTrigger = (params: UseGetPoliciesByIdHi
     .replace('{id}', params.id);
 
     const query = {} as Record<string, any>;
+
+    query.limit = params.limit;
+    query.offset = params.offset;
 
     return actionBuilder('GET', path)
     .queryParams(query)
