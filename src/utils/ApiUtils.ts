@@ -13,11 +13,11 @@ const transformPayload = <FROM, TO>(payload: FROM | undefined, status: number | 
 };
 
 type ExpectedQueryResponse<FROM> = QueryResponse<FROM> & {
-    query: (...args: Array<unknown>) => Promise<QueryResponse<FROM>>;
+    query: (...args: Array<any>) => Promise<QueryResponse<FROM>>;
 }
 
 type ExpectedMutateResponse<FROM> = QueryResponse<FROM> & {
-    mutate: (...args: Array<unknown>) => Promise<QueryResponse<FROM>>;
+    mutate: (...args: Array<any>) => Promise<QueryResponse<FROM>>;
 }
 
 type UseTransformQueryResponseTypeQuery<
@@ -74,7 +74,7 @@ export const useTransformQueryResponse: UseTransformQueryResponseType = <FROM, T
     const field = isQuery(queryResponse) ? 'query' : 'mutate';
     const func = isQuery(queryResponse) ? queryResponse.query : queryResponse.mutate;
 
-    const transformedQuery = React.useCallback((...args: Array<unknown>): Promise<QueryResponse<TO>> => {
+    const transformedQuery = React.useCallback((...args: Parameters<typeof func>): Promise<QueryResponse<TO>> => {
         return func(...args).then(response => {
             return {
                 ...response,
