@@ -63,54 +63,55 @@ export const TriggerTableToolbar: React.FunctionComponent<TriggerTableToolbarPro
         variant: PaginationVariant.right
     }), [ props.onPaginationChanged, props.page, props.count ]);
 
-    const filterConfigProps = React.useMemo(() => {
-        const filters = props.filters;
-        const setFilters = props.setFilters;
-        return {
-            items: [
-                {
-                    label: 'System',
-                    type: 'text',
-                    filterValues: {
-                        id: 'filter-system',
-                        value: filters[TriggerFilterColumn.SYSTEM],
-                        placeholder: 'Filter by system',
-                        onChange: (_event, value: string) => setFilters[TriggerFilterColumn.SYSTEM](value)
-                    }
-                }
-            ]
-        };
-    }, [ props.filters, props.setFilters ]);
-
-    const onFilterDelete = React.useCallback((_event, rawFilterConfigs: any[]) => {
-        const clearFilters = props.clearFilters;
-        const filtersToClear: Array<TriggerFilterColumn> = [];
-        for (const element of rawFilterConfigs) {
-            if (element.category === FilterColumnToLabel[TriggerFilterColumn.SYSTEM]) {
-                filtersToClear.push(TriggerFilterColumn.SYSTEM);
-            } else {
-                throw new Error(`Unknown filter found: ${element.category}`);
-            }
-        }
-
-        clearFilters(filtersToClear);
-    }, [ props.clearFilters ]);
-
-    const activeFiltersConfigProps = React.useMemo(() => {
-        const filters = props.filters;
-        const filterConfig: ReturnType<typeof getFilterConfig>[] = [];
-        for (const filter of Object.values(TriggerFilterColumn)) {
-            const config = getFilterConfig(filters, filter);
-            if (config) {
-                filterConfig.push(config);
-            }
-        }
-
-        return {
-            filters: filterConfig,
-            onDelete: onFilterDelete
-        };
-    }, [ props.filters, onFilterDelete ]);
+    // Todo: Enable filtering
+    // const filterConfigProps = React.useMemo(() => {
+    //     const filters = props.filters;
+    //     const setFilters = props.setFilters;
+    //     return {
+    //         items: [
+    //             {
+    //                 label: 'System',
+    //                 type: 'text',
+    //                 filterValues: {
+    //                     id: 'filter-system',
+    //                     value: filters[TriggerFilterColumn.SYSTEM],
+    //                     placeholder: 'Filter by system',
+    //                     onChange: (_event, value: string) => setFilters[TriggerFilterColumn.SYSTEM](value)
+    //                 }
+    //             }
+    //         ]
+    //     };
+    // }, [ props.filters, props.setFilters ]);
+    //
+    // const onFilterDelete = React.useCallback((_event, rawFilterConfigs: any[]) => {
+    //     const clearFilters = props.clearFilters;
+    //     const filtersToClear: Array<TriggerFilterColumn> = [];
+    //     for (const element of rawFilterConfigs) {
+    //         if (element.category === FilterColumnToLabel[TriggerFilterColumn.SYSTEM]) {
+    //             filtersToClear.push(TriggerFilterColumn.SYSTEM);
+    //         } else {
+    //             throw new Error(`Unknown filter found: ${element.category}`);
+    //         }
+    //     }
+    //
+    //     clearFilters(filtersToClear);
+    // }, [ props.clearFilters ]);
+    //
+    // const activeFiltersConfigProps = React.useMemo(() => {
+    //     const filters = props.filters;
+    //     const filterConfig: ReturnType<typeof getFilterConfig>[] = [];
+    //     for (const filter of Object.values(TriggerFilterColumn)) {
+    //         const config = getFilterConfig(filters, filter);
+    //         if (config) {
+    //             filterConfig.push(config);
+    //         }
+    //     }
+    //
+    //     return {
+    //         filters: filterConfig,
+    //         onDelete: onFilterDelete
+    //     };
+    // }, [ props.filters, onFilterDelete ]);
 
     const exportConfig = React.useMemo(() => {
         const onExport = props.onExport;
@@ -123,12 +124,14 @@ export const TriggerTableToolbar: React.FunctionComponent<TriggerTableToolbarPro
         };
     }, [ props.onExport ]);
 
+    // Todo: Enable filtering
+    // filterConfig={ filterConfigProps }
+    // activeFiltersConfig={ activeFiltersConfigProps }
+
     return (
         <>
             <PrimaryToolbar
                 pagination={ paginationProps }
-                filterConfig={ filterConfigProps }
-                activeFiltersConfig={ activeFiltersConfigProps }
                 exportConfig={ exportConfig }
             />
         </>

@@ -29,11 +29,11 @@ interface TriggerTableProps {
 const cells: ICell[] = [
     {
         title: Messages.tables.trigger.columns.date,
-        transforms: [ sortable ]
+        transforms: [ ]
     },
     {
         title: Messages.tables.trigger.columns.system,
-        transforms: [ sortable ]
+        transforms: [ ]
     }
 ];
 
