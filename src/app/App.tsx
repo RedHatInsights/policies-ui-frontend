@@ -2,11 +2,11 @@ import * as React from 'react';
 import { RouteComponentProps, withRouter } from 'react-router';
 import { NotificationsPortal } from '@redhat-cloud-services/frontend-components-notifications';
 
+import './App.scss';
+
 import { Routes } from '../Routes';
 import { AppSkeleton } from '../components/AppSkeleton/AppSkeleton';
 
-import '@redhat-cloud-services/frontend-components/index.css';
-import '@redhat-cloud-services/frontend-components-notifications/index.css';
 import { AppContext } from './AppContext';
 import { NoPermissionsPage } from '../pages/NoPermissions/NoPermissionsPage';
 import { useApp } from './useApp';
