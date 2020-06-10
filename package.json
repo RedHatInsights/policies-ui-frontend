@@ -62,6 +62,7 @@
     "@typescript-eslint/eslint-plugin": "^2.9.0",
     "@typescript-eslint/parser": "^2.9.0",
     "antlr4ts-cli": "^0.5.0-alpha.3",
+    "axios-mock-adapter": "1.18.1",
     "babel-core": "^7.0.0-bridge.0",
     "babel-eslint": "^10.0.3",
     "babel-jest": "^24.9.0",

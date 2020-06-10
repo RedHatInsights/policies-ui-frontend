@@ -37,6 +37,20 @@ describe('src/types/Page', () => {
         expect(page.sort).toEqual(sort);
     });
 
+    it('Page.of without size is the same as the defaultPage.size', () => {
+        const page = Page.of(90);
+        expect(page.size).toEqual(Page.defaultPage().size);
+    });
+
+    it('hasFilter checks if we have any filter', () => {
+        expect(Page.defaultPage().hasFilter()).toBeFalsy();
+        expect(Page.of(
+            1,
+            1,
+            new Filter().and('col', Operator.EQUAL, 'foo')
+        ).hasFilter()).toBeTruthy();
+    });
+
     describe('lastPageForElements', () => {
         it('last page is 1 for 0 elements', () => {
             expect(Page.lastPageForElements(0, 10).index).toEqual(1);
