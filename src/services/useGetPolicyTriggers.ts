@@ -1,7 +1,7 @@
 import { actionGetPoliciesByIdHistoryTrigger } from '../generated/ActionCreators';
 import { Uuid } from '../types/Policy/Policy';
 import { useParameterizedQuery } from 'react-fetching-library';
-import { ServerTrigger } from '../types/Trigger';
+import { PagedServerTriggerResponse } from '../types/Trigger';
 import { useTransformQueryResponse } from '../utils/ApiUtils';
 import { toTriggers } from '../types/adapters/TriggerAdapter';
 import { Page } from '../types/Page';
@@ -21,7 +21,7 @@ const actionCreator = (params: UseGetPolicyTriggersParams) => {
 
 export const useGetPolicyTriggersParametrizedQuery = () => {
     return useTransformQueryResponse(
-        useParameterizedQuery<ServerTrigger[], {}, UseGetPolicyTriggersParams>(actionCreator),
+        useParameterizedQuery<PagedServerTriggerResponse, {}, UseGetPolicyTriggersParams>(actionCreator),
         toTriggers
     );
 };

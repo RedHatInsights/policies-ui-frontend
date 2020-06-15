@@ -27,23 +27,31 @@ export interface HistoryItem {
 export type List = Array<{
 }>;
 
+export type ListHistoryItem = Array<HistoryItem>;
+
 export type ListObject = Array<{
 }>;
 
 export type ListUUID = Array<string>;
 
-export interface MapStringLong {
-  [key: string]: number;
-}
-
 export interface MapStringString {
   [key: string]: string;
+}
+
+export interface Meta {
+  count?: number;
 }
 
 export interface PagedResponse {
   data?: ListObject;
   links?: MapStringString;
-  meta?: MapStringLong;
+  meta?: Meta;
+}
+
+export interface PagedResponseOfHistoryItem {
+  data?: ListHistoryItem;
+  links?: MapStringString;
+  meta?: Meta;
 }
 
 export interface Policy {

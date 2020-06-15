@@ -20,11 +20,6 @@ export type ServerPolicyResponse = Generated.Policy;
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface PagedServerPolicyResponse extends Generated.PagedResponse {
-    data: ServerPolicyResponse[];
-}
-
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface PagedServerPolicyResponse extends Generated.PagedResponse {
     data: Array<ServerPolicyResponse>;
 }
 

@@ -1,4 +1,4 @@
-import { ServerTrigger, Trigger } from '../Trigger';
+import { PagedServerTriggerResponse, ServerTrigger, Trigger } from '../Trigger';
 import fromUnixTime from 'date-fns/fromUnixTime';
 
 export const toTrigger = (serverTrigger: ServerTrigger): Trigger => {
@@ -9,6 +9,6 @@ export const toTrigger = (serverTrigger: ServerTrigger): Trigger => {
     };
 };
 
-export const toTriggers = (serverTriggers: ServerTrigger[]): Trigger[] => {
-    return serverTriggers.map(toTrigger);
+export const toTriggers = (serverTriggers: PagedServerTriggerResponse): Trigger[] => {
+    return serverTriggers.data ? serverTriggers.data.map(toTrigger) : [];
 };
