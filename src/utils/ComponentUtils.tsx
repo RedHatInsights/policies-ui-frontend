@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-type JoinType = (elements: Array<React.ReactNode>, GlueComponent: React.ComponentType) => Array<React.ReactNode>;
+type JoinType = (elements: Array<React.ReactNode>, GlueComponent: React.ElementType) => Array<React.ReactNode>;
 
 export const join: JoinType = (elements, GlueComponent) => {
     const initialValue: Array<React.ReactNode> = [];
