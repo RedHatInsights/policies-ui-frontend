@@ -48,7 +48,7 @@ describe('src/components/Trigger/TableToolbar', () => {
             onLastClick: paginationChanged,
             onPageInput: paginationChanged,
             isCompact: true,
-            variant: PaginationVariant.right
+            variant: PaginationVariant.top
         });
     });
 

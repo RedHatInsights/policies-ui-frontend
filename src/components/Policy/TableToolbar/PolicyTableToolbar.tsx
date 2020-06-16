@@ -262,7 +262,7 @@ export const PolicyToolbar: React.FunctionComponent<TablePolicyToolbarProps> = (
         onPageInput: onPaginationChanged,
         onPerPageSelect: onPaginationSizeChanged,
         isCompact: true,
-        variant: PaginationVariant.right
+        variant: PaginationVariant.top
     }), [ showPerPageOptions, count, page, perPage, onPaginationChanged, onPaginationSizeChanged ]);
 
     const activeFiltersConfigProps = React.useMemo(() => {

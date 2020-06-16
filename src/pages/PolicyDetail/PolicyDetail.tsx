@@ -231,7 +231,7 @@ export const PolicyDetail: React.FunctionComponent = () => {
                     />
                 </Section>
                 <div className={ recentTriggerVersionTitleClassname }>
-                    <Title size="lg">Recent trigger history</Title>
+                    <Title headingLevel="h2" size="lg">Recent trigger history</Title>
                 </div>
                 <Section>
                     { (getTriggers.payload && getTriggers.payload.count > 0) || getTriggers.loading ? (

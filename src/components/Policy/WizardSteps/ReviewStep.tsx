@@ -28,7 +28,7 @@ const ReviewStep: React.FunctionComponent = () => {
     return (
         <>
             <Form>
-                <Title size="xl">{ Messages.wizards.policy.review.title }</Title>
+                <Title headingLevel="h2" size="xl">{ Messages.wizards.policy.review.title }</Title>
                 <Switch
                     isDisabled={ context.isLoading }
                     type="checkbox"
@@ -38,7 +38,7 @@ const ReviewStep: React.FunctionComponent = () => {
                     labelOff={ Messages.wizards.policy.review.policyIsDisabled }
                     label={ Messages.wizards.policy.review.enableThisPolicy }
                 />
-                <Title size="md">{ Messages.wizards.policy.review.policy.details }</Title>
+                <Title headingLevel="h2" size="md">{ Messages.wizards.policy.review.policy.details }</Title>
                 <FormText label={ Messages.wizards.policy.review.policy.name } name="name" id="name"/>
                 <FormText label={ Messages.wizards.policy.review.policy.description } name="description" id="description"/>
                 <div className={ conditionsAndActionsBlockClassName }>

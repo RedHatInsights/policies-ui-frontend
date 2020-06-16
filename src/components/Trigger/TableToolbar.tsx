@@ -29,7 +29,7 @@ export const TriggerTableToolbar: React.FunctionComponent<TriggerTableToolbarPro
         onLastClick: props.onPaginationChanged,
         onPageInput: props.onPaginationChanged,
         isCompact: true,
-        variant: PaginationVariant.right
+        variant: PaginationVariant.top
     }), [ props.onPaginationChanged, props.page, props.count ]);
 
     const exportConfig = React.useMemo(() => {

@@ -28,7 +28,8 @@ const cardClassName = style({
 });
 
 const marginLeftClassName = style({
-    marginLeft: 10
+    marginLeft: 10,
+    display: 'inline'
 });
 
 interface ActionsFormProps {
