@@ -241,9 +241,6 @@ export const PolicyDetail: React.FunctionComponent = () => {
                                 page={ page }
                                 onPaginationChanged={ onPaginationChanged }
                                 pageCount={ getTriggers.payload.data.length }
-                                filters={ triggerFilter.filters }
-                                setFilters={ triggerFilter.setFilters }
-                                clearFilters={ triggerFilter.clearFilter }
                                 onExport={ onExport }
                             />
                             <TriggerTable

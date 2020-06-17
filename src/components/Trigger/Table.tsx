@@ -4,7 +4,6 @@ import {
     TableHeader,
     TableBody,
     ICell,
-    sortable,
     IRow,
     SortByDirection,
     ISortBy

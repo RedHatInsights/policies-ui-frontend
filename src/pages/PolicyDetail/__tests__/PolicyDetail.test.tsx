@@ -215,25 +215,6 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
         expect(screen.queryAllByText('random host').length).toBe(2);
     });
 
-    it('Sorts date descending by default ', async () => {
-        fetchMockSetup();
-        render(<PolicyDetail/>, {
-            wrapper: getConfiguredAppWrapper({
-                router: {
-                    initialEntries: [ linkTo.policyDetail('foo') ]
-                },
-                route: {
-                    path: linkTo.policyDetail(':policyId')
-                }
-            })
-        });
-
-        await waitForAsyncEvents();
-        expect(screen.getByText(/date/i, {
-            selector: 'th > button'
-        }).parentElement).toHaveAttribute('aria-sort', 'descending');
-    });
-
     it('Shows empty state when policy is not found ', async () => {
         fetchMockSetup({
             policyStatus: 404,
