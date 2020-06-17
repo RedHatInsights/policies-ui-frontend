@@ -8,6 +8,7 @@ import fetchMock = require('fetch-mock');
 import { MemoryRouterProps, useLocation } from 'react-router';
 import { AppContext } from '../src/app/AppContext';
 import { linkTo } from '../src/Routes';
+import { getInsights } from '../src/utils/Insights';
 
 let setup = false;
 let client;
@@ -46,7 +47,7 @@ type Config = {
     router?: MemoryRouterProps;
     route?: RouteProps;
     appContext?: AppContext;
-    getLocation?: jest.Mock;
+    getLocation?: jest.Mock; // Pass a jest.fn() to get back the location hook
 }
 
 const defaultAppContextSettings = {
@@ -63,6 +64,11 @@ const defaultAppContextSettings = {
 
 const InternalWrapper: React.FunctionComponent<Config> = (props) => {
     const location = useLocation();
+
+    (getInsights().chrome.isBeta as jest.Mock).mockImplementation(() => {
+        return location.pathname.startsWith('/beta/');
+    });
+
     if (props.getLocation) {
         props.getLocation.mockImplementation(() => location);
     }

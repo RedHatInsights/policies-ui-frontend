@@ -4,7 +4,6 @@ import { EmptyStateSectionProps } from '../../components/Policy/EmptyState/Secti
 import { Messages } from '../../properties/Messages';
 
 export type Handlers = {
-    clearAllFiltersAndTryAgain: () => void;
     refreshPage: () => void;
     tryAgain: () => void;
 };

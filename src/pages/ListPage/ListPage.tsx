@@ -145,14 +145,6 @@ const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
         () => {
             return policyTableError(
                 {
-                    clearAllFiltersAndTryAgain: () => {
-                        policyFilters.setFilters[PolicyFilterColumn.NAME]('');
-                        policyFilters.setFilters[PolicyFilterColumn.IS_ACTIVE]({
-                            disabled: false,
-                            enabled: false
-                        });
-                        changePage(undefined, 1);
-                    },
                     refreshPage: () => {
                         window.location.reload();
                     },
