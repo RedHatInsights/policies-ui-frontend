@@ -12,14 +12,14 @@ export interface UseGetPolicyTriggersParams {
     page: Page;
 }
 
-const actionCreator = (params: UseGetPolicyTriggersParams) => {
+export const actionCreator = (params: UseGetPolicyTriggersParams) => {
     return actionGetPoliciesByIdHistoryTrigger({
         id: params.policyId,
         ...pageToQuery(params.page)
     });
 };
 
-const dataToTriggers = (paged: PagedServerTriggerResponse): PagedTrigger => {
+export const dataToTriggers = (paged: PagedServerTriggerResponse): PagedTrigger => {
     return {
         count: paged.meta?.count || 0,
         data: toTriggers(paged.data)

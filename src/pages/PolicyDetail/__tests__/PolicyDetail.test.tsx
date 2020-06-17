@@ -43,6 +43,9 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
         policy?: any;
         triggers?: any;
         triggerLoading?: boolean;
+        triggerOffset?: number;
+        triggerLimit?: number;
+        triggersCount?: number;
     };
 
     const mockPolicy = {
@@ -91,9 +94,16 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
         });
 
         fetchMock.getOnce(actionGetPoliciesByIdHistoryTrigger({
-            id: config?.policyId || 'foo'
+            id: config?.policyId || 'foo',
+            offset: config?.triggerOffset || 0,
+            limit: config?.triggerLimit || 50
         }).endpoint, config?.triggerLoading === true ? new Promise(() => '') : {
-            body: (config?.triggers || mockTriggers)
+            body: {
+                data: (config?.triggers || mockTriggers),
+                meta: {
+                    count: config?.triggersCount || (config?.triggers || mockTriggers).length
+                }
+            }
         }, {
             overwriteRoutes: false
         });
@@ -582,6 +592,22 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
         });
 
         await waitForAsyncEvents();
+        fetchMockSetup({
+            triggersCount: 430,
+            triggerLimit: 200,
+            triggerOffset: 0
+        });
+        fetchMockSetup({
+            triggersCount: 430,
+            triggerLimit: 200,
+            triggerOffset: 200
+        });
+        fetchMockSetup({
+            triggersCount: 430,
+            triggerLimit: 200,
+            triggerOffset: 400
+        });
+
         userEvent.click(getByRole(screen.getByTestId('trigger-toolbar-export-container'), 'button'));
         userEvent.click(screen.getByText(/Export to JSON/i));
 

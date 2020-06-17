@@ -6,7 +6,6 @@ import { TriggerFilterColumn, TriggerFilters } from './useTriggerFilter';
 const elementsPerPage = 50;
 
 export const useTriggerPage = (sort: Sort | undefined, filters: TriggerFilters) => {
-    const [ page, setPage ] = React.useState<Page>(() => Page.of(1, elementsPerPage));
 
     const pageFilter = React.useMemo(() => {
         const pageFilter = new Filter();
@@ -18,12 +17,26 @@ export const useTriggerPage = (sort: Sort | undefined, filters: TriggerFilters) 
         return pageFilter;
     }, [ filters ]);
 
+    const [ page, setPage ] = React.useState<Page>(() => Page.of(1, elementsPerPage, pageFilter, sort));
+
     useEffect(() => {
-        setPage(oldPage => Page.of(oldPage.index, oldPage.size, oldPage.filter, sort));
+        setPage(oldPage => {
+            if (oldPage.sort !== sort) {
+                return Page.of(oldPage.index, oldPage.size, oldPage.filter, sort);
+            }
+
+            return oldPage;
+        });
     }, [ sort ]);
 
     useEffect(() => {
-        setPage(oldPage => Page.of(1, oldPage.size, pageFilter, oldPage.sort));
+        setPage(oldPage => {
+            if (oldPage.filter !== pageFilter) {
+                return Page.of(1, oldPage.size, pageFilter, oldPage.sort);
+            }
+
+            return oldPage;
+        });
     }, [ pageFilter ]);
 
     const onPaginationChanged = React.useCallback((_event, page: number) => {

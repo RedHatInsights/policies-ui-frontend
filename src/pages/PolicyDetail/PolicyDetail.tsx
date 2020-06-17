@@ -43,6 +43,7 @@ import { DeletePolicy } from '../ListPage/DeletePolicy';
 import { Direction, Sort } from '../../types/Page';
 import { useWizardState } from './hooks/useWizardState';
 import { usePolicy } from './hooks/usePolicy';
+import { useGetAllTriggers } from './hooks/useGetAllTriggers';
 
 const recentTriggerVersionTitleClassname = style({
     paddingBottom: 8,
@@ -64,6 +65,7 @@ export const PolicyDetail: React.FunctionComponent = () => {
 
     const getPolicyQuery = useGetPolicyParametrizedQuery();
     const getTriggers = useGetPolicyTriggersParametrizedQuery();
+    const getAllTriggers = useGetAllTriggers(policyId);
     const triggerFilter = useTriggerFilter();
     const changePolicyEnabled = useMassChangePolicyEnabledMutation();
 
@@ -138,19 +140,17 @@ export const PolicyDetail: React.FunctionComponent = () => {
         }).then(() => statusChanged(newStatus));
     }, [ policyId, changePolicyEnabled.mutate, statusChanged ]);
 
-    // Todo: Enable this
-    /*const onExport = React.useCallback((type: ExporterType) => {
+    const onExport = React.useCallback((type: ExporterType) => {
         const exporter = triggerExporterFactory(exporterTypeFromString(type));
-        if (processedTriggers.length > 0) {
-            inBrowserDownload(
-                exporter.export(processedTriggers),
-                `policy-${policyId}-triggers-${format(new Date(Date.now()), 'y-dd-MM')}.${exporter.type}`
-            );
-        }
-    }, [ processedTriggers, policyId ]);*/
-    const onExport = React.useCallback(() => {
-
-    }, []);
+        getAllTriggers().then(triggers => {
+            if (triggers.length > 0) {
+                inBrowserDownload(
+                    exporter.export(triggers),
+                    `policy-${policyId}-triggers-${format(new Date(Date.now()), 'y-dd-MM')}.${exporter.type}`
+                );
+            }
+        });
+    }, [ getAllTriggers, policyId ]);
 
     const loading = policy === undefined && getPolicyQuery.loading;
 
