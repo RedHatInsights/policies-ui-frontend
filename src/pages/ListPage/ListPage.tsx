@@ -13,7 +13,6 @@ import { DeletePolicy } from './DeletePolicy';
 import { NewPolicy } from '../../types/Policy/Policy';
 import { usePolicyFilter, usePolicyPage, usePolicyRows } from '../../hooks';
 import { useSort } from '../../hooks/useSort';
-import { PolicyFilterColumn } from '../../types/Policy/PolicyPaging';
 import { EmailOptIn } from '../../components/EmailOptIn/EmailOptIn';
 import { Messages } from '../../properties/Messages';
 import { style } from 'typestyle';
@@ -85,7 +84,6 @@ const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
     const { query: getPoliciesQueryReload, count: getPoliciesQueryCount } = getPoliciesQuery;
     const { mutate: mutateChangePolicyEnabled, loading: loadingChangePolicyEnabled } = changePolicyEnabledMutation;
 
-    const { changePage } = policyPage;
     const { open: openPolicyToDelete } = policyToDelete;
 
     const prevLoadingChangePolicyEnabled = usePrevious(loadingChangePolicyEnabled);
@@ -159,8 +157,6 @@ const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
         [
             getPoliciesQuery.error,
             getPoliciesQuery.status,
-            policyFilters.setFilters,
-            changePage,
             getPoliciesQueryReload
         ]
     );

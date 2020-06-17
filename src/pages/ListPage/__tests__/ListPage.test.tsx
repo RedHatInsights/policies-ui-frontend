@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { render, act, screen } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import ListPage from '../ListPage';
 import { appWrapperCleanup, appWrapperSetup, getConfiguredAppWrapper } from '../../../../test/AppWrapper';
 import { waitForAsyncEvents } from '../../../../test/TestUtils';
