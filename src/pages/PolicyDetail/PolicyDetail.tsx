@@ -54,10 +54,6 @@ const defaultSort = Sort.by('date', Direction.DESCENDING);
 type PolicyQueryResponse = ReturnType<ReturnType<typeof useGetPolicyParametrizedQuery>['query']> extends Promise<infer U> ? U : never
 
 export const PolicyDetail: React.FunctionComponent = () => {
-
-    // Todo: Remove this
-    const totalCount = 500;
-
     const { policyId, policy, setPolicy } = usePolicy();
 
     const appContext = useContext(AppContext);
@@ -141,7 +137,6 @@ export const PolicyDetail: React.FunctionComponent = () => {
             shouldBeEnabled: newStatus
         }).then(() => statusChanged(newStatus));
     }, [ policyId, changePolicyEnabled.mutate, statusChanged ]);
-
 
     // Todo: Enable this
     /*const onExport = React.useCallback((type: ExporterType) => {
@@ -239,20 +234,20 @@ export const PolicyDetail: React.FunctionComponent = () => {
                     <Title size="lg">Recent trigger history</Title>
                 </div>
                 <Section>
-                    { totalCount > 0 || getTriggers.loading ? (
+                    { (getTriggers.payload && getTriggers.payload.count > 0) || getTriggers.loading ? (
                         <>
                             <TriggerTableToolbar
-                                count={ totalCount }
+                                count={ getTriggers.payload.count }
                                 page={ page }
                                 onPaginationChanged={ onPaginationChanged }
-                                pageCount={ getTriggers.payload?.length }
+                                pageCount={ getTriggers.payload.data.length }
                                 filters={ triggerFilter.filters }
                                 setFilters={ triggerFilter.setFilters }
                                 clearFilters={ triggerFilter.clearFilter }
                                 onExport={ onExport }
                             />
                             <TriggerTable
-                                rows={ getTriggers.payload }
+                                rows={ getTriggers.payload.data }
                                 onSort={ sort.onSort }
                                 sortBy={ sort.sortBy }
                                 loading={ getTriggers.loading }

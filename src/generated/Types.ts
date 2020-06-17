@@ -29,8 +29,7 @@ export type List = Array<{
 
 export type ListHistoryItem = Array<HistoryItem>;
 
-export type ListObject = Array<{
-}>;
+export type ListPolicy = Array<Policy>;
 
 export type ListUUID = Array<string>;
 
@@ -42,14 +41,14 @@ export interface Meta {
   count?: number;
 }
 
-export interface PagedResponse {
-  data?: ListObject;
+export interface PagedResponseOfHistoryItem {
+  data?: ListHistoryItem;
   links?: MapStringString;
   meta?: Meta;
 }
 
-export interface PagedResponseOfHistoryItem {
-  data?: ListHistoryItem;
+export interface PagedResponseOfPolicy {
+  data?: ListPolicy;
   links?: MapStringString;
   meta?: Meta;
 }

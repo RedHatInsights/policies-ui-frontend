@@ -8,4 +8,9 @@ export interface Trigger {
     created: Date;
 }
 
+export interface PagedTrigger {
+    data: Array<Trigger>;
+    count: number;
+}
+
 export type PagedServerTriggerResponse = Generated.PagedResponseOfHistoryItem;
