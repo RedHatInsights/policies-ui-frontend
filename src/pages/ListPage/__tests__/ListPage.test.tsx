@@ -7,6 +7,7 @@ import fetchMock  from 'fetch-mock';
 import { actionGetPolicies } from '../../../generated/ActionCreators';
 import { linkTo } from '../../../Routes';
 import userEvent from '@testing-library/user-event';
+import { insights } from '../../../../test/Insights';
 
 jest.mock('../../../hooks/useUrlState');
 jest.mock('../../../hooks/useFacts');
@@ -118,7 +119,8 @@ describe('src/pages/ListPage', () => {
                         isSubscribedForNotifications: false,
                         refresh: () => '',
                         settings: undefined
-                    }
+                    },
+                    insights
                 }
             })
         });
