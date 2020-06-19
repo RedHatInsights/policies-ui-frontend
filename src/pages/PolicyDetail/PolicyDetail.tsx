@@ -237,14 +237,14 @@ export const PolicyDetail: React.FunctionComponent = () => {
                     { (getTriggers.payload && getTriggers.payload.count > 0) || getTriggers.loading ? (
                         <>
                             <TriggerTableToolbar
-                                count={ getTriggers.payload.count }
+                                count={ getTriggers.payload?.count }
                                 page={ page }
                                 onPaginationChanged={ onPaginationChanged }
-                                pageCount={ getTriggers.payload.data.length }
+                                pageCount={ getTriggers.payload?.data.length }
                                 onExport={ onExport }
                             />
                             <TriggerTable
-                                rows={ getTriggers.payload.data }
+                                rows={ getTriggers.payload?.data }
                                 onSort={ sort.onSort }
                                 sortBy={ sort.sortBy }
                                 loading={ getTriggers.loading }
