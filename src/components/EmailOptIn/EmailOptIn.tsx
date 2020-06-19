@@ -3,14 +3,17 @@ import { Alert, AlertVariant, Text, TextContent } from '@patternfly/react-core';
 
 import { Messages } from '../../properties/Messages';
 import Config from '../../config/Config';
+import { useContext } from 'react';
+import { AppContext } from '../../app/AppContext';
 
 interface EmailOptInProps {
     content: string;
 }
 
-const emailUrl = Config.pages.emailPreferences();
-
 export const EmailOptIn: React.FunctionComponent<EmailOptInProps> = (props) => {
+
+    const { insights } = useContext(AppContext);
+    const emailUrl = Config.pages.emailPreferences(insights);
 
     return (
         <Alert

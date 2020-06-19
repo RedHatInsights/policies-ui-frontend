@@ -2,27 +2,39 @@ import * as React from 'react';
 import { render, fireEvent, getByText, act } from '@testing-library/react';
 import { AddTriggersDropdown } from '../AddTriggersDropdown';
 import { ActionType } from '../../../types/Policy/Actions';
+import { AppContext } from '../../../app/AppContext';
+import { defaultAppContextSettings } from '../../../../test/AppWrapper';
+import { BetaDetector } from '../../Beta/BetaDetector';
 
 describe('src/components/Policy/AddTriggersDropdown', () => {
 
-    const mockInsightsIsBeta = (isBeta: boolean) => {
-        (global as any).insights = {
-            chrome: {
-                isBeta: jest.fn(() => isBeta)
-            }
+    const getWrapper = (isBeta: boolean) => {
+        const Wrapper = (props) => {
+            return (
+                <AppContext.Provider value={ {
+                    ...defaultAppContextSettings,
+                    insights: {
+                        chrome: {
+                            ...defaultAppContextSettings.insights.chrome,
+                            isBeta: jest.fn(() => isBeta)
+                        }
+                    }
+                } }>
+                    { props.children }
+                </AppContext.Provider>
+            );
         };
+
+        return Wrapper;
     };
 
-    beforeEach(() => {
-        (global as any).insights = undefined;
-    });
-
     it('should show hooks and email in beta', async () => {
-        mockInsightsIsBeta(true);
         const element = render(<AddTriggersDropdown
             isTypeEnabled={ jest.fn(() => true) }
             onTypeSelected={ jest.fn() }
-        />);
+        />, {
+            wrapper: getWrapper(true)
+        });
 
         act(() => {
             fireEvent(
@@ -39,11 +51,12 @@ describe('src/components/Policy/AddTriggersDropdown', () => {
     });
 
     it('should only show email in non beta', async () => {
-        mockInsightsIsBeta(false);
         const element = render(<AddTriggersDropdown
             isTypeEnabled={ jest.fn(() => true) }
             onTypeSelected={ jest.fn() }
-        />);
+        />, {
+            wrapper: getWrapper(false)
+        });
 
         act(() => {
             fireEvent(
@@ -60,11 +73,12 @@ describe('src/components/Policy/AddTriggersDropdown', () => {
     });
 
     it('should disable type if isTypeEnabled returns false', () => {
-        mockInsightsIsBeta(false);
         const element = render(<AddTriggersDropdown
             isTypeEnabled={ jest.fn((t) => t !== ActionType.EMAIL) }
             onTypeSelected={ jest.fn() }
-        />);
+        />, {
+            wrapper: getWrapper(false)
+        });
         act(() => {
             fireEvent(
                 getByText(element.container, 'Add trigger actions'),
@@ -79,12 +93,13 @@ describe('src/components/Policy/AddTriggersDropdown', () => {
     });
 
     it('should call onTypeSelected when clicking over an active type', () => {
-        mockInsightsIsBeta(true);
         const onTypeSelected = jest.fn();
         const element = render(<AddTriggersDropdown
             isTypeEnabled={ jest.fn(() => true) }
             onTypeSelected={ onTypeSelected }
-        />);
+        />, {
+            wrapper: getWrapper(true)
+        });
         act(() => {
             fireEvent(
                 getByText(element.container, 'Add trigger actions'),
@@ -109,12 +124,13 @@ describe('src/components/Policy/AddTriggersDropdown', () => {
     });
 
     it('should not call onTypeSelected when clicking over a disabled type', () => {
-        mockInsightsIsBeta(true);
         const onTypeSelected = jest.fn();
         const element = render(<AddTriggersDropdown
             isTypeEnabled={ jest.fn(() => false) }
             onTypeSelected={ onTypeSelected }
-        />);
+        />, {
+            wrapper: getWrapper(true)
+        });
         act(() => {
             fireEvent(
                 getByText(element.container, 'Add trigger actions'),

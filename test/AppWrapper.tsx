@@ -7,7 +7,7 @@ import { Provider } from 'react-redux';
 import fetchMock = require('fetch-mock');
 import { MemoryRouterProps, useLocation } from 'react-router';
 import { AppContext } from '../src/app/AppContext';
-import { getInsights } from '../src/utils/Insights';
+import { insights } from './Insights';
 
 let setup = false;
 let client;
@@ -49,7 +49,7 @@ type Config = {
     getLocation?: jest.Mock; // Pass a jest.fn() to get back the location hook
 }
 
-const defaultAppContextSettings = {
+export const defaultAppContextSettings: AppContext = {
     rbac: {
         canReadAll: true,
         canWriteAll: true
@@ -58,13 +58,14 @@ const defaultAppContextSettings = {
         settings: undefined,
         isSubscribedForNotifications: false,
         refresh: () => {}
-    }
+    },
+    insights
 };
 
 const InternalWrapper: React.FunctionComponent<Config> = (props) => {
     const location = useLocation();
 
-    (getInsights().chrome.isBeta as jest.Mock).mockImplementation(() => {
+    (insights.chrome.isBeta as jest.Mock).mockImplementation(() => {
         return location.pathname.startsWith('/beta/');
     });
 

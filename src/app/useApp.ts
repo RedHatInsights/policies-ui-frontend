@@ -1,13 +1,25 @@
 import { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Rbac } from '../types/Rbac';
-import { getInsights, waitForInsights } from '../utils/Insights';
 import Config from '../config/Config';
 import { fetchRBAC } from '../utils/RbacUtils';
 import { AppContext } from './AppContext';
 import { useUserSettings } from './useUserSettings';
+import { Insights } from '../types/Insights';
 
-export const useApp = (): Omit<AppContext, 'rbac'> & Partial<Pick<AppContext, 'rbac'>> => {
+declare const insights: Insights | undefined;
+
+const waitForInsights = (): Promise<Insights> => {
+    return new Promise<Insights>(async (resolve) => {
+        while (!global.hasOwnProperty('insights')) {
+            await new Promise(timeout => setTimeout(timeout, 250));
+        }
+
+        resolve(insights);
+    });
+};
+
+export const useApp = (): Omit<AppContext, 'rbac' | 'insights'> & Partial<Pick<AppContext, 'rbac' | 'insights'>> => {
 
     const history = useHistory();
     const [ rbac, setRbac ] = useState<Rbac | undefined>(undefined);
@@ -19,8 +31,9 @@ export const useApp = (): Omit<AppContext, 'rbac'> & Partial<Pick<AppContext, 'r
             insights.chrome.identifyApp(Config.appId);
         });
         return () => {
-            const insights = getInsights();
-            insights.chrome.on('APP_NAVIGATION', (event: any) => history.push(`/${event.navId}`));
+            if (insights) {
+                insights.chrome.on('APP_NAVIGATION', (event: any) => history.push(`/${event.navId}`));
+            }
         };
     }, [ history ]);
 
@@ -34,6 +47,7 @@ export const useApp = (): Omit<AppContext, 'rbac'> & Partial<Pick<AppContext, 'r
 
     return {
         rbac,
-        userSettings
+        userSettings,
+        insights
     };
 };

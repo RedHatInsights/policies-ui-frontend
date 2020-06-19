@@ -10,6 +10,10 @@ describe('src/config/Config', () => {
         };
     };
 
+    const getInsights = () => {
+        return (global as any).insights;
+    };
+
     beforeEach(() => {
         (global as any).insights = undefined;
     });
@@ -20,11 +24,11 @@ describe('src/config/Config', () => {
 
     it('localUrl does prepend beta to path if running on beta', () => {
         mockInsightsIsBeta(true);
-        expect(localUrl('/foo/bar')).toBe('/beta/foo/bar');
+        expect(localUrl(getInsights(), '/foo/bar')).toBe('/beta/foo/bar');
     });
 
     it('localUrl does not prepend beta to path when not in beta ', () => {
         mockInsightsIsBeta(false);
-        expect(localUrl('/baz/bar')).toBe('/baz/bar');
+        expect(localUrl(getInsights(), '/baz/bar')).toBe('/baz/bar');
     });
 });

@@ -1,12 +1,14 @@
 import * as React from 'react';
-import { getInsights } from '../../utils/Insights';
+import { useContext } from 'react';
+import { AppContext } from '../../app/AppContext';
 
 interface RenderIfProps {
     renderIfBeta: boolean;
 }
 
 const RenderIf: React.FunctionComponent<RenderIfProps> = (props) => {
-    const isBeta = getInsights().chrome.isBeta();
+    const { insights } = useContext(AppContext);
+    const isBeta = insights.chrome.isBeta();
     if (props.renderIfBeta === isBeta) {
         return <>{ props.children }</>;
     }

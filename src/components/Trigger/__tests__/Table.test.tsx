@@ -1,15 +1,30 @@
 import * as React from 'react';
 import { render, screen } from '@testing-library/react';
 import { TriggerTable } from '../Table';
+import { AppContext } from '../../../app/AppContext';
+import { defaultAppContextSettings } from '../../../../test/AppWrapper';
 
 describe('src/components/Trigger/Table', () => {
+
+    const Wrapper = (props) => {
+        return (
+            <AppContext.Provider value={ defaultAppContextSettings }>
+                { props.children }
+            </AppContext.Provider>
+        );
+    };
+
     it('renders empty state when no rows', () => {
-        render(<TriggerTable/>);
+        render(<TriggerTable/>, {
+            wrapper: Wrapper
+        });
         expect(screen.getByText('No matching triggers found')).toBeVisible();
     });
 
     it('renders loading when loading is true', () => {
-        render(<TriggerTable loading={ true }/>);
+        render(<TriggerTable loading={ true }/>, {
+            wrapper: Wrapper
+        });
         expect(screen.getByRole('grid')).toHaveAttribute('aria-label', 'Loading');
     });
 
@@ -27,7 +42,9 @@ describe('src/components/Trigger/Table', () => {
                     created: new Date(1590606990814)
                 }
             ] }
-        />);
+        />, {
+            wrapper: Wrapper
+        });
         expect(screen.getByText('my-hostname-foo')).toBeTruthy();
         expect(screen.getByText('my-hostname-bar')).toBeTruthy();
         expect(screen.getByText('28 May 2020 21:20:36 UTC')).toBeTruthy();
@@ -48,7 +65,9 @@ describe('src/components/Trigger/Table', () => {
                     created: new Date(1590606990814)
                 }
             ] }
-        />);
+        />, {
+            wrapper: Wrapper
+        });
         expect(screen.getByText('my-hostname-foo').closest('a')).toHaveAttribute('href', '/beta/insights/inventory/foo-id/');
         expect(screen.getByText('my-hostname-bar').closest('a')).toHaveAttribute('href', '/beta/insights/inventory/meep/');
         expect(screen.getByText('28 May 2020 21:20:36 UTC')).toBeTruthy();

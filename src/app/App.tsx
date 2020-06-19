@@ -13,9 +13,9 @@ import { useApp } from './useApp';
 
 const App: React.FunctionComponent<RouteComponentProps> = () => {
 
-    const { rbac, userSettings } = useApp();
+    const { rbac, userSettings, insights } = useApp();
 
-    if (!rbac) {
+    if (!rbac || !insights) {
         return (
             <AppSkeleton/>
         );
@@ -24,7 +24,8 @@ const App: React.FunctionComponent<RouteComponentProps> = () => {
     return (
         <AppContext.Provider value={ {
             rbac,
-            userSettings
+            userSettings,
+            insights
         } }>
             { rbac.canReadAll ? (
                 <>

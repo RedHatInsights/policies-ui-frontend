@@ -1,9 +1,15 @@
 import { createClient, RequestInterceptor } from 'react-fetching-library';
-import { getInsights } from '../utils/Insights';
+import { Insights } from '../types/Insights';
+
+declare const insights: Insights | undefined;
 
 const refreshAuthTokenInterceptor: RequestInterceptor = (_client) => (action) => {
-    return getInsights().chrome.auth.getUser()
-    .then(() => action);
+    if (insights) {
+        return insights.chrome.auth.getUser()
+        .then(() => action);
+    }
+
+    return Promise.resolve(action);
 };
 
 export const client = createClient({

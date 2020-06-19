@@ -1,14 +1,12 @@
-import { InsightsType } from '../Insights';
+import { Insights } from '../src/types/Insights';
 
-const on = jest.fn((type: string, callback: ((event: any) => void)) => {
-    callback(new Event('fake'));
-});
-
-export const mockedInsight: InsightsType = {
+export const insights: Insights = {
     chrome: {
         init: jest.fn(),
         identifyApp: jest.fn((_appId: string) => Promise.resolve()),
-        on,
+        on: jest.fn((type: string, callback: ((event: any) => void)) => {
+            callback(new Event('fake'));
+        }),
         isProd: false,
         isBeta: jest.fn(() => true),
         auth: {
@@ -61,11 +59,3 @@ export const mockedInsight: InsightsType = {
         }
     }
 };
-
-(global as any).insights = mockedInsight;
-
-export const waitForInsights = () => {
-    return Promise.resolve(mockedInsight);
-};
-
-export const getInsights = () => mockedInsight;

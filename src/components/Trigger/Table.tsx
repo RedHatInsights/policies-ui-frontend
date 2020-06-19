@@ -17,6 +17,8 @@ import { toUtc } from '../../utils/Date';
 import { Button, ButtonVariant } from '@patternfly/react-core';
 import { localUrl } from '../../config/Config';
 import { TriggerTableEmptyState } from './Table/EmptyState';
+import { useContext } from 'react';
+import { AppContext } from '../../app/AppContext';
 
 interface TriggerTableProps {
     rows?: Trigger[];
@@ -38,9 +40,10 @@ const cells: ICell[] = [
 
 const dateFormatString = 'dd MMM yyyy HH:mm:ss';
 
-const linkToHost = (id: string) => localUrl(`/insights/inventory/${id}/`);
-
 export const TriggerTable: React.FunctionComponent<TriggerTableProps> = (props) => {
+
+    const { insights } = useContext(AppContext);
+    const linkToHost = React.useCallback((id: string) => localUrl(insights, `/insights/inventory/${id}/`), [ insights ]);
 
     const rows = React.useMemo((): IRow[] => {
         const triggers = props.rows;
@@ -60,7 +63,7 @@ export const TriggerTable: React.FunctionComponent<TriggerTableProps> = (props) 
         }
 
         return [];
-    }, [ props.rows ]);
+    }, [ linkToHost, props.rows ]);
 
     const onSortHandler = React.useCallback((_event, index: number, direction: SortByDirection) => {
         const onSort = props.onSort;

@@ -1,11 +1,12 @@
 import * as React from 'react';
-import { getInsights } from '../../utils/Insights';
 import { ActionType } from '../../types/Policy/Actions';
 import { Button, ButtonVariant, Dropdown, DropdownItem } from '@patternfly/react-core';
 import { Messages } from '../../properties/Messages';
 import { Toggle } from '@patternfly/react-core/dist/js/components/Dropdown/Toggle';
 import { AngleDownIcon } from '@patternfly/react-icons';
 import { style } from 'typestyle';
+import { useContext } from 'react';
+import { AppContext } from '../../app/AppContext';
 
 interface AddTriggersDropdownProps {
     onTypeSelected: (type: ActionType) => void;
@@ -18,7 +19,8 @@ const dropdownClassName = style({
 
 export const AddTriggersDropdown: React.FunctionComponent<AddTriggersDropdownProps> = (props) => {
     const [ isOpen, setOpen ] = React.useState<boolean>(false);
-    const isBeta = getInsights().chrome.isBeta();
+    const { insights } = useContext(AppContext);
+    const isBeta = insights.chrome.isBeta();
 
     const typeSelected = type => {
         props.onTypeSelected(type);

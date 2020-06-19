@@ -14,6 +14,7 @@ import {
 } from '../../../generated/ActionCreators';
 import { waitForAsyncEvents } from '../../../../test/TestUtils';
 import { ServerPolicyRequest } from '../../../types/Policy/Policy';
+import { insights } from '../../../../test/Insights';
 
 jest.mock('../../../hooks/useFacts');
 jest.mock('in-browser-download', () => jest.fn());
@@ -184,7 +185,8 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
                         isSubscribedForNotifications: false,
                         refresh: () => '',
                         settings: undefined
-                    }
+                    },
+                    insights: { ...insights }
                 }
             })
         });
