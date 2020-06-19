@@ -16,6 +16,17 @@ const MutableMessages = {
                 content: 'Contact your organization administrator(s) for more information.'
             }
         },
+        error: {
+            title: 'Policies',
+            emptyState: {
+                title: 'Unhandled error',
+                content: 'There was a problem trying to process your request.',
+                showDetails: 'Show details',
+                actions: {
+                    goToIndex: 'Go to Policy list'
+                }
+            }
+        },
         listPage: {
             title: 'Policies',
             emailOptIn: 'One or more of your policies have an email alert. To receive these emails, opt in to email alerts.',

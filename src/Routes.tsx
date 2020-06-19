@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { RouteProps, Route, Switch, Redirect } from 'react-router';
 
+import { ErrorPage } from './pages/Error/Page';
 import ListPage from './pages/ListPage/ListPage';
 import { PolicyDetail } from './pages/PolicyDetail/PolicyDetail';
 
@@ -43,7 +44,11 @@ const InsightsRoute: React.FunctionComponent<InsightsRouteProps> = (props: Insig
     root.classList.add(`page__${rootClass}`, 'pf-c-page__main');
     root.setAttribute('role', 'main');
 
-    return (<Route { ...rest }/>);
+    return (
+        <ErrorPage>
+            <Route { ...rest }/>
+        </ErrorPage>
+    );
 };
 
 type RoutesProps = {};

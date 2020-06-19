@@ -7,7 +7,6 @@ import { Provider } from 'react-redux';
 import fetchMock = require('fetch-mock');
 import { MemoryRouterProps, useLocation } from 'react-router';
 import { AppContext } from '../src/app/AppContext';
-import { linkTo } from '../src/Routes';
 import { getInsights } from '../src/utils/Insights';
 
 let setup = false;
