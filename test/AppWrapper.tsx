@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { init } from '../src/store';
+import { init, restore } from '../src/store';
 import { RouteProps, Route } from 'react-router';
 import { MemoryRouter as Router } from 'react-router-dom';
 import { ClientContextProvider, createClient } from 'react-fetching-library';
@@ -11,13 +11,14 @@ import { insights } from './Insights';
 
 let setup = false;
 let client;
-const store = init().getStore();
+let store;
 
 export const appWrapperSetup = () => {
     if (setup) {
         throw new Error('Looks like appWrapperCleanup has not been called, you need to call it on the afterEach');
     }
 
+    store = init().getStore();
     const rootDiv = document.createElement('div');
     rootDiv.id = 'root';
     document.body.appendChild(rootDiv);
@@ -38,6 +39,8 @@ export const appWrapperCleanup = () => {
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         document.getElementById('root')!.remove();
 
+        store = undefined;
+        restore();
         fetchMock.restore();
     }
 };
@@ -70,7 +73,7 @@ const InternalWrapper: React.FunctionComponent<Config> = (props) => {
     });
 
     if (props.getLocation) {
-        props.getLocation.mockImplementation(() => location);
+        (props.getLocation as jest.Mock).mockImplementation(() => location);
     }
 
     return <>{ props.children }</>;

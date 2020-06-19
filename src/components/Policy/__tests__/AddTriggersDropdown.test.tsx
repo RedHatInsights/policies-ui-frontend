@@ -4,7 +4,6 @@ import { AddTriggersDropdown } from '../AddTriggersDropdown';
 import { ActionType } from '../../../types/Policy/Actions';
 import { AppContext } from '../../../app/AppContext';
 import { defaultAppContextSettings } from '../../../../test/AppWrapper';
-import { BetaDetector } from '../../Beta/BetaDetector';
 
 describe('src/components/Policy/AddTriggersDropdown', () => {
 
