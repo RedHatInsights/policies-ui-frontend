@@ -20,7 +20,7 @@ const MutableMessages = {
             title: 'Policies',
             emptyState: {
                 title: 'Unhandled error',
-                content: 'There was a problem trying to process you request.',
+                content: 'There was a problem trying to process your request.',
                 showDetails: 'Show details',
                 actions: {
                     goToIndex: 'Go to Policy list'
