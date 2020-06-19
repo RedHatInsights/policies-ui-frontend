@@ -1,5 +1,5 @@
 import * as React from 'react';
-import fetchMock = require('fetch-mock');
+import fetchMock  from 'fetch-mock';
 import { render, screen, getByRole } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import inBrowserDownload from 'in-browser-download';
