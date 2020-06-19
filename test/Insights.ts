@@ -1,26 +1,17 @@
 import { Insights } from '../src/types/Insights';
-
-const jestProxy = {
-    fn: (a?: any) => {
-        if (a) {
-            return a;
-        }
-
-        return () => '';
-    }
-};
+import jestMock from 'jest-mock';
 
 export const insights: Insights = {
     chrome: {
-        init: jestProxy.fn(),
-        identifyApp: jestProxy.fn((_appId: string) => Promise.resolve()),
-        on: jestProxy.fn((type: string, callback: ((event: any) => void)) => {
+        init: jestMock.fn(),
+        identifyApp: jestMock.fn((_appId: string) => Promise.resolve()),
+        on: jestMock.fn((type: string, callback: ((event: any) => void)) => {
             callback(new Event('fake'));
         }),
         isProd: false,
-        isBeta: jestProxy.fn(() => true),
+        isBeta: jestMock.fn(() => true),
         auth: {
-            getUser: jestProxy.fn(() => Promise.resolve({
+            getUser: jestMock.fn(() => Promise.resolve({
                 identity: {
                     account_number: '123456',
                     internal: {
