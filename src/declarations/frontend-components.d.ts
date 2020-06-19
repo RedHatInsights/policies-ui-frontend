@@ -19,6 +19,7 @@ declare module '@redhat-cloud-services/frontend-components' {
 
     export class Section extends React.Component<{
         type?: string;
+        style?: Partial<CSSStyleDeclaration>;
         className?: string;
         children: React.ReactNode
     }> {
@@ -42,6 +43,9 @@ declare module '@redhat-cloud-services/frontend-components' {
         colSize?: number;
         rowSize?: number;
         columns: (ICell | string)[];
+        paddingColumnSize?: number;
+        sortBy: any;
+        testID?: string;
     }> {
 
     }
@@ -54,4 +58,6 @@ declare module '@redhat-cloud-services/frontend-components' {
 
     export class PrimaryToolbar extends React.Component<any> {
     }
+
+    export const DarkContext: React.ContextType;
 }
