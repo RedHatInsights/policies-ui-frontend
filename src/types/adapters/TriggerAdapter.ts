@@ -9,6 +9,6 @@ export const toTrigger = (serverTrigger: ServerTrigger): Trigger => {
     };
 };
 
-export const toTriggers = (serverTriggers: ServerTrigger[]): Trigger[] => {
-    return serverTriggers.map(toTrigger);
+export const toTriggers = (serverTriggers: Array<ServerTrigger> | undefined): Trigger[] => {
+    return serverTriggers ? serverTriggers.map(toTrigger) : [];
 };

@@ -34,6 +34,10 @@ export class Page {
         return Page.of(index, this.size, this.filter, this.sort);
     }
 
+    public nextPage() {
+        return Page.of(this.index + 1, this.size, this.filter, this.sort);
+    }
+
     public withSort(sort: Sort | undefined) {
         return Page.of(this.index, this.size, this.filter, sort);
     }

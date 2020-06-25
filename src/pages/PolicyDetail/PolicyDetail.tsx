@@ -30,7 +30,6 @@ import { PolicyDetailErrorState } from './ErrorState';
 import { PolicyDetailIsEnabled } from './IsEnabled';
 import { Policy } from '../../types/Policy';
 import { NoPermissionsPage } from '../NoPermissions/NoPermissionsPage';
-import { usePagedTriggers } from './hooks/usePagedTriggers';
 import { useTriggerPage } from './hooks/useTriggerPage';
 import { useTriggerFilter } from './hooks/useTriggerFilter';
 import { ExporterType, exporterTypeFromString } from '../../utils/exporters/Type';
@@ -44,6 +43,7 @@ import { DeletePolicy } from '../ListPage/DeletePolicy';
 import { Direction, Sort } from '../../types/Page';
 import { useWizardState } from './hooks/useWizardState';
 import { usePolicy } from './hooks/usePolicy';
+import { useGetAllTriggers } from './hooks/useGetAllTriggers';
 
 const recentTriggerVersionTitleClassname = style({
     paddingBottom: 8,
@@ -55,7 +55,6 @@ const defaultSort = Sort.by('date', Direction.DESCENDING);
 type PolicyQueryResponse = ReturnType<ReturnType<typeof useGetPolicyParametrizedQuery>['query']> extends Promise<infer U> ? U : never
 
 export const PolicyDetail: React.FunctionComponent = () => {
-
     const { policyId, policy, setPolicy } = usePolicy();
 
     const appContext = useContext(AppContext);
@@ -66,6 +65,7 @@ export const PolicyDetail: React.FunctionComponent = () => {
 
     const getPolicyQuery = useGetPolicyParametrizedQuery();
     const getTriggers = useGetPolicyTriggersParametrizedQuery();
+    const getAllTriggers = useGetAllTriggers(policyId);
     const triggerFilter = useTriggerFilter();
     const changePolicyEnabled = useMassChangePolicyEnabledMutation();
 
@@ -75,15 +75,17 @@ export const PolicyDetail: React.FunctionComponent = () => {
         onPaginationChanged
     } = useTriggerPage(sort.sortBy, triggerFilter.debouncedFilters);
 
-    const { count, pagedTriggers, processedTriggers, rawCount } = usePagedTriggers(getTriggers.payload, page);
     const wizardState = useWizardState(policy);
 
     React.useEffect(() => {
         const query = getTriggers.query;
         if (policyId) {
-            query(policyId);
+            query({
+                policyId,
+                page
+            });
         }
-    }, [ policyId, getTriggers.query ]);
+    }, [ policyId, getTriggers.query, page ]);
 
     const processGetPolicyResponse = React.useCallback((response: PolicyQueryResponse) => {
         if (response.status === 200 && response.payload) {
@@ -140,13 +142,15 @@ export const PolicyDetail: React.FunctionComponent = () => {
 
     const onExport = React.useCallback((type: ExporterType) => {
         const exporter = triggerExporterFactory(exporterTypeFromString(type));
-        if (processedTriggers.length > 0) {
-            inBrowserDownload(
-                exporter.export(processedTriggers),
-                `policy-${policyId}-triggers-${format(new Date(Date.now()), 'y-dd-MM')}.${exporter.type}`
-            );
-        }
-    }, [ processedTriggers, policyId ]);
+        getAllTriggers().then(triggers => {
+            if (triggers.length > 0) {
+                inBrowserDownload(
+                    exporter.export(triggers),
+                    `policy-${policyId}-triggers-${format(new Date(Date.now()), 'y-dd-MM')}.${exporter.type}`
+                );
+            }
+        });
+    }, [ getAllTriggers, policyId ]);
 
     const loading = policy === undefined && getPolicyQuery.loading;
 
@@ -167,7 +171,10 @@ export const PolicyDetail: React.FunctionComponent = () => {
 
         return <PolicyDetailErrorState
             action={ () => {
-                getTriggers.query(policyId);
+                getTriggers.query({
+                    policyId,
+                    page
+                });
                 getPolicyQuery.query(policyId).then(processGetPolicyResponse);
             } }
             policyId={ policyId }
@@ -227,20 +234,17 @@ export const PolicyDetail: React.FunctionComponent = () => {
                     <Title size="lg">Recent trigger history</Title>
                 </div>
                 <Section>
-                    { rawCount > 0 || getTriggers.loading ? (
+                    { (getTriggers.payload && getTriggers.payload.count > 0) || getTriggers.loading ? (
                         <>
                             <TriggerTableToolbar
-                                count={ count }
+                                count={ getTriggers.payload?.count }
                                 page={ page }
                                 onPaginationChanged={ onPaginationChanged }
-                                pageCount={ pagedTriggers.length }
-                                filters={ triggerFilter.filters }
-                                setFilters={ triggerFilter.setFilters }
-                                clearFilters={ triggerFilter.clearFilter }
+                                pageCount={ getTriggers.payload?.data.length }
                                 onExport={ onExport }
                             />
                             <TriggerTable
-                                rows={ pagedTriggers }
+                                rows={ getTriggers.payload?.data }
                                 onSort={ sort.onSort }
                                 sortBy={ sort.sortBy }
                                 loading={ getTriggers.loading }
