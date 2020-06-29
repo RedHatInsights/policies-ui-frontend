@@ -15,6 +15,7 @@ import {
 import { waitForAsyncEvents } from '../../../../test/TestUtils';
 import { ServerPolicyRequest } from '../../../types/Policy/Policy';
 import { insights } from '../../../../test/Insights';
+import jestMock from 'jest-mock';
 
 jest.mock('../../../hooks/useFacts');
 jest.mock('in-browser-download', () => jest.fn());
@@ -359,7 +360,7 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
             policyId: 'bar-123'
         });
 
-        const getLocation = jest.fn();
+        const getLocation = jestMock.fn<any, any>();
 
         render(<PolicyDetail/>, {
             wrapper: getConfiguredAppWrapper({
@@ -473,7 +474,7 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
         fetchMockSetup();
         fetchMockDelete();
 
-        const getLocation = jest.fn();
+        const getLocation = jestMock.fn<any, any>();
         render((
             <>
                 <PolicyDetail/>

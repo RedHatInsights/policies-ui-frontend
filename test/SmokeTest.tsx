@@ -1,40 +1,18 @@
 import * as React from 'react';
 import { render, screen } from '@testing-library/react';
 import App from '../src/app/App';
-import { Provider } from 'react-redux';
-import { MemoryRouter as Router } from 'react-router';
-import { ClientContextProvider, createClient } from 'react-fetching-library';
-import { init, restore } from '../src/store';
 import { insights } from './Insights';
 import MockAdapter from 'axios-mock-adapter';
 import axios from 'axios';
 import { waitForAsyncEvents } from './TestUtils';
-
-const AppWrapper = (props) => {
-
-    restore();
-    const store = init().getStore();
-    const client = createClient();
-
-    return (
-        <Provider store={ store }>
-            <ClientContextProvider client={ client }>
-                <div id="root">
-                    <Router>
-                        { props.children }
-                    </Router>*
-                </div>
-            </ClientContextProvider>
-        </Provider>
-    );
-};
+import { AppWrapper, appWrapperCleanup, appWrapperSetup } from './AppWrapper';
+import fetchMock from 'fetch-mock';
 
 describe('Smoketest', () => {
     it('Opens the main page in multiple browsers', async () => {
         (global as any).insights = insights;
-        const fetchMock = require('fetch-mock/es5/client');
+        appWrapperSetup();
         fetchMock.mock();
-        (global as any).fetchMock = fetchMock;
         fetchMock.get('/api/policies/v1.0/user-config/email-preference', {
             body: [{
                 fields: [{
@@ -121,11 +99,12 @@ describe('Smoketest', () => {
             }
         });
 
-        render(<App/>, {
+        render(<div id="root"><App/></div>, {
             wrapper: AppWrapper
         });
 
         await waitForAsyncEvents();
         expect(screen.queryByText('Policies')).toBeTruthy();
+        appWrapperCleanup();
     });
 });

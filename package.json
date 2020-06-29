@@ -113,7 +113,7 @@
   "scripts": {
     "build": "webpack --config config/prod.webpack.config.ts",
     "test": "jest --verbose",
-    "smoketest": "karma start",
+    "smoketest": "karma start ./config/karma.conf.ts",
     "lint": "npm-run-all lint:*",
     "lint:ts": "eslint --ext js,ts,tsx config src",
     "lint:ts:fix": "eslint --ext js,ts,tsx config src --fix",

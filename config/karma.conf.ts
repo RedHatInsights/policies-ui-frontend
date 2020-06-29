@@ -5,14 +5,14 @@ import { resolve } from 'path';
 import config from '@redhat-cloud-services/frontend-components-config';
 
 const { config: webpackConfig, plugins } = config({
-    rootFolder: resolve(__dirname, '.')
+    rootFolder: resolve(__dirname, '..')
 });
 
 module.exports = function(config) {
     config.set({
 
         // base path that will be used to resolve all patterns (eg. files, exclude)
-        basePath: '',
+        basePath: '..',
 
         // frameworks to use
         // available frameworks: https://npmjs.org/browse/keyword/karma-adapter

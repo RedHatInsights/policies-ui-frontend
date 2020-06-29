@@ -4,7 +4,8 @@ import { RouteProps, Route } from 'react-router';
 import { MemoryRouter as Router } from 'react-router-dom';
 import { ClientContextProvider, createClient } from 'react-fetching-library';
 import { Provider } from 'react-redux';
-import fetchMock = require('fetch-mock');
+import fetchMock from 'fetch-mock';
+import jestMock from 'jest-mock';
 import { MemoryRouterProps, useLocation } from 'react-router';
 import { AppContext } from '../src/app/AppContext';
 import { insights } from './Insights';
@@ -12,6 +13,8 @@ import { insights } from './Insights';
 let setup = false;
 let client;
 let store;
+
+type Mock = ReturnType<typeof jestMock['fn']>;
 
 export const appWrapperSetup = () => {
     if (setup) {
@@ -49,7 +52,7 @@ type Config = {
     router?: MemoryRouterProps;
     route?: RouteProps;
     appContext?: AppContext;
-    getLocation?: jest.Mock; // Pass a jest.fn() to get back the location hook
+    getLocation?: Mock; // Pass a jestMock.fn() to get back the location hook
 }
 
 export const defaultAppContextSettings: AppContext = {
@@ -68,12 +71,12 @@ export const defaultAppContextSettings: AppContext = {
 const InternalWrapper: React.FunctionComponent<Config> = (props) => {
     const location = useLocation();
 
-    (insights.chrome.isBeta as jest.Mock).mockImplementation(() => {
+    (insights.chrome.isBeta as Mock).mockImplementation(() => {
         return location.pathname.startsWith('/beta/');
     });
 
     if (props.getLocation) {
-        (props.getLocation as jest.Mock).mockImplementation(() => location);
+        (props.getLocation as Mock).mockImplementation(() => location);
     }
 
     return <>{ props.children }</>;

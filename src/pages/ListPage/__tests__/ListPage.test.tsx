@@ -8,6 +8,7 @@ import { actionGetPolicies } from '../../../generated/ActionCreators';
 import { linkTo } from '../../../Routes';
 import userEvent from '@testing-library/user-event';
 import { insights } from '../../../../test/Insights';
+import jestMock from 'jest-mock';
 
 jest.mock('../../../hooks/useUrlState');
 jest.mock('../../../hooks/useFacts');
@@ -155,7 +156,7 @@ describe('src/pages/ListPage', () => {
 
     it('Policy name is not a link in stable"', async () => {
         fetchMockSetup();
-        const getLocation = jest.fn();
+        const getLocation = jestMock.fn<any, any>();
         render(<ListPage/>, {
             wrapper: getConfiguredAppWrapper({
                 router: {
@@ -176,7 +177,7 @@ describe('src/pages/ListPage', () => {
 
     it('Policy name is a link in beta"', async () => {
         fetchMockSetup();
-        const getLocation = jest.fn();
+        const getLocation = jestMock.fn<any, any>();
         render(<ListPage/>, {
             wrapper: getConfiguredAppWrapper({
                 router: {
