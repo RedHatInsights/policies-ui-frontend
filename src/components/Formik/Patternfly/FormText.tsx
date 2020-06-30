@@ -12,7 +12,7 @@ export const FormText = (props: any) => {
             fieldId={ props.id }
             helperTextInvalid={ meta.error }
             isRequired={ props.isRequired }
-            isValid={ isValid }
+            validated={ (isValid) ? 'default' : 'error' }
             label={ props.label }
         >
             <Text component={ TextVariants.p }

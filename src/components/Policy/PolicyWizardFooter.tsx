@@ -5,7 +5,7 @@ import {
     WizardContextConsumer,
     ButtonVariant, SplitItem, Split
 } from '@patternfly/react-core';
-import { Spinner } from '@patternfly/react-core/dist/js/experimental';
+import { Spinner } from '@patternfly/react-core';
 import { style } from 'typestyle';
 import { ExclamationCircleIcon } from '@patternfly/react-icons';
 import { GlobalDangerColor100 } from '../../utils/PFColors';
