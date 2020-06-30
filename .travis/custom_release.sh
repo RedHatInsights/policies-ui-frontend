@@ -4,24 +4,25 @@ set -x
 
 source ./.github/scripts/commands.sh
 
-if [ "${TRAVIS_BRANCH}" = "master" ]
-then
-    ensure_beta
-    for env in ci qa
-    do
-        echo "PUSHING ${env}-beta"
-        rm -rf ./dist/.git
-        .travis/release.sh "${env}-beta"
-    done
-
-    ensure_stable
-    for env in ci qa
-    do
-        echo "PUSHING ${env}-stable"
-        rm -rf ./dist/.git
-        .travis/release.sh "${env}-stable"
-    done
-fi
+# Commenting them out to avoid any push to {ci|qa}-{stable|beta} when merging to master
+#if [ "${TRAVIS_BRANCH}" = "master" ]
+#then
+#    ensure_beta
+#    for env in ci qa
+#    do
+#        echo "PUSHING ${env}-beta"
+#        rm -rf ./dist/.git
+#        .travis/release.sh "${env}-beta"
+#    done
+#
+#    ensure_stable
+#    for env in ci qa
+#    do
+#        echo "PUSHING ${env}-stable"
+#        rm -rf ./dist/.git
+#        .travis/release.sh "${env}-stable"
+#    done
+#fi
 
 if [ "${TRAVIS_BRANCH}" = "prod" ]
 then
