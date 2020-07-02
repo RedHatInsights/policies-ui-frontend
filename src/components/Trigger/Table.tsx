@@ -9,13 +9,11 @@ import {
     ISortBy
 } from '@patternfly/react-table';
 import { SkeletonTable } from '@redhat-cloud-services/frontend-components';
+import { Direction, Sort, toUtc, localUrl } from 'common-code-ui';
 import { Messages } from '../../properties/Messages';
 import { Trigger } from '../../types/Trigger';
 import format from 'date-fns/format';
-import { Direction, Sort } from '../../types/Page';
-import { toUtc } from '../../utils/Date';
 import { Button, ButtonVariant } from '@patternfly/react-core';
-import { localUrl } from '../../config/Config';
 import { TriggerTableEmptyState } from './Table/EmptyState';
 
 interface TriggerTableProps {

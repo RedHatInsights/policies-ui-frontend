@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Rbac } from '../types/Rbac';
+import { Rbac } from 'common-code-ui';
 import { UserSettings } from '../types/UserSettings';
 
 export interface AppContext {

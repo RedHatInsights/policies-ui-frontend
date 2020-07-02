@@ -1,5 +1,5 @@
 import { ExclamationCircleIcon, PlusCircleIcon } from '@patternfly/react-icons';
-import { GlobalDangerColor200 } from '../../utils/PFColors';
+import { PFColors } from 'common-code-ui';
 import { EmptyStateSectionProps } from '../../components/Policy/EmptyState/Section';
 import { Messages } from '../../properties/Messages';
 
@@ -32,7 +32,7 @@ export const policyTableError = (
             case 500:
                 return {
                     icon: ExclamationCircleIcon,
-                    iconColor: GlobalDangerColor200,
+                    iconColor: PFColors.GlobalDangerColor200,
                     title: 'Internal server error',
                     content: 'The server was unable to process the request, please try again.',
                     action: handlers.tryAgain,
@@ -41,7 +41,7 @@ export const policyTableError = (
             default:
                 return {
                     icon: ExclamationCircleIcon,
-                    iconColor: GlobalDangerColor200,
+                    iconColor: PFColors.GlobalDangerColor200,
                     title: 'Unable to connect',
                     content: 'There was an error retrieving data. Check your connection and try again.',
                     action: handlers.tryAgain,

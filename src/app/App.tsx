@@ -5,7 +5,7 @@ import { NotificationsPortal } from '@redhat-cloud-services/frontend-components-
 import './App.scss';
 
 import { Routes } from '../Routes';
-import { AppSkeleton } from '../components/AppSkeleton/AppSkeleton';
+import { AppSkeleton } from 'common-code-ui';
 
 import { AppContext } from './AppContext';
 import { NoPermissionsPage } from '../pages/NoPermissions/NoPermissionsPage';

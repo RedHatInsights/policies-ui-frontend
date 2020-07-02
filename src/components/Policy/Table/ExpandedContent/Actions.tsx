@@ -9,8 +9,7 @@ import {
 import { style } from 'typestyle';
 import { Action, ActionType } from '../../../../types/Policy/Actions';
 import { Messages } from '../../../../properties/Messages';
-import { assertNever } from '../../../../utils/Assert';
-import { join } from '../../../../utils/ComponentUtils';
+import { assertNever, join } from 'common-code-ui';
 import { SVGIconProps } from '@patternfly/react-icons/dist/js/createIcon';
 import { ActionEmailIcon, ActionWebhookIcon } from '../../ActionIcons';
 

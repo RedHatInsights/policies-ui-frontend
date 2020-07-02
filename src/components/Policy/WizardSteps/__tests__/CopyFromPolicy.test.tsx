@@ -7,7 +7,7 @@ import {
     usePolicyPage,
     usePolicyRows
 } from '../../../../hooks';
-import { useSort } from '../../../../hooks/useSort';
+import { useSort } from 'common-code-ui';
 import { useGetPoliciesQuery } from '../../../../services/useGetPolicies';
 import { MemoryRouter } from 'react-router-dom';
 

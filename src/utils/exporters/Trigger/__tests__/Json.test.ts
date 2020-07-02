@@ -1,5 +1,5 @@
 import { TriggerExporterJson } from '../Json';
-import { ExporterType } from '../../Type';
+import { ExporterType } from 'common-code-ui';
 
 describe('src/utils/exporters/Trigger/Json', () => {
     it('has json type', () => {

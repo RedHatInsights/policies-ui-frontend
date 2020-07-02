@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Action, ActionType } from '../../../types/Policy/Actions';
-import { assertNever } from '../../../utils/Assert';
+import { assertNever } from 'common-code-ui';
 import { Badge, Split, SplitItem, Tooltip, TooltipPosition } from '@patternfly/react-core';
 import { style } from 'typestyle';
 import { ActionEmailIcon, ActionWebhookIcon } from '../ActionIcons';

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { act, renderHook } from '@testing-library/react-hooks';
+import { actionBuilder } from 'common-code-ui';
 import { useNewPaginatedQuery } from '../usePaginated';
-import { actionBuilder } from '../../services/Api/ActionBuilder';
 import fetchMock from 'fetch-mock';
 import { ClientContextProvider, createClient } from 'react-fetching-library';
 

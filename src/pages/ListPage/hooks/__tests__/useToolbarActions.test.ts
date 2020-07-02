@@ -2,10 +2,8 @@ import { renderHook } from '@testing-library/react-hooks';
 import inBrowserDownload from 'in-browser-download';
 import { useToolbarActions } from '../useToolbarActions';
 import { PolicyRow } from '../../../../components/Policy/Table/PolicyTable';
-import { ImmutableContainerSet } from '../../../../types/ImmutableContainerSet';
+import { addDangerNotification, ImmutableContainerSet, ExporterType } from 'common-code-ui';
 import { Uuid } from '../../../../types/Policy/Policy';
-import { addDangerNotification } from '../../../../utils/AlertUtils';
-import { ExporterType } from '../../../../utils/exporters/Type';
 
 jest.mock('in-browser-download');
 jest.mock('../../../../utils/AlertUtils');

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Uuid } from '../../../types/Policy/Policy';
-import { Page } from '../../../types/Page';
+import { Page } from 'common-code-ui';
 import { UsePolicyPageReturn, UsePolicyRowsReturn } from '../../../hooks';
 import { UsePolicyToDeleteResponse } from '../../../hooks/usePolicyToDelete';
 

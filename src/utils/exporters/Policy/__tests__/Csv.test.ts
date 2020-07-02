@@ -1,6 +1,6 @@
 import { PolicyExporterCsv } from '../Csv';
 import { ActionType } from '../../../../types/Policy/Actions';
-import { ExporterType } from '../../Type';
+import { ExporterType } from 'common-code-ui';
 
 describe('src/utils/exporters/Policy/Csv', () => {
     it('has csv type', () => {

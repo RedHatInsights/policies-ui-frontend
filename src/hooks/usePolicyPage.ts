@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Filter, Operator, Page, Sort } from '../types/Page';
+import { Filter, Operator, Page, Sort } from 'common-code-ui';
 import { PolicyFilterColumn, PolicyFilters } from '../types/Policy/PolicyPaging';
 
 export interface UsePolicyPageReturn {

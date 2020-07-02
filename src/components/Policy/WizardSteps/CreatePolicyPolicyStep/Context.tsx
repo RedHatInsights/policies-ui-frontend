@@ -6,7 +6,7 @@ import {
     UsePolicyPageReturn,
     UsePolicyRowsReturn
 } from '../../../../hooks';
-import { UsePolicySortReturn } from '../../../../hooks/useSort';
+import { UsePolicySortReturn } from 'common-code-ui';
 
 export interface CreatePolicyStepContextType {
     copyPolicy: boolean;

@@ -2,12 +2,10 @@ import * as React from 'react';
 import { PolicyRow } from '../components/Policy/Table/PolicyTable';
 import { Policy } from '../types/Policy';
 import { SelectionCommand } from '../components/Policy/TableToolbar/PolicyTableToolbar';
-import { assertNever } from '../utils/Assert';
+import { assertNever, ImmutableContainerSetMode, ImmutableContainerSet, Page } from 'common-code-ui';
 import { Uuid } from '../types/Policy/Policy';
 import { usePrevious } from 'react-use';
-import { ImmutableContainerSetMode, ImmutableContainerSet } from '../types/ImmutableContainerSet';
 import { useGetPoliciesIdsQuery } from '../services/useGetPoliciesIds';
-import { Page } from '../types/Page';
 
 export interface UsePolicyRowsReturn {
     rows: PolicyRow[];

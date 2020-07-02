@@ -9,15 +9,13 @@ import {
     Title
 } from '@patternfly/react-core';
 import { ExclamationCircleIcon, CheckCircleIcon } from '@patternfly/react-icons';
+import { joinClasses, PFColors, Form } from 'common-code-ui';
 
 import { PartialPolicy, WizardActionType, WizardContext, WizardStepExtended } from '../PolicyWizardTypes';
 import { PolicyFormConditions } from '../../../schemas/CreatePolicy/PolicySchema';
 import { useFormikContext } from 'formik';
 import { style } from 'typestyle';
-import { GlobalDangerColor100, GlobalSuccessColor200 } from '../../../utils/PFColors';
 import { Messages } from '../../../properties/Messages';
-import { joinClasses } from '../../../utils/ComponentUtils';
-import { Form } from '../../Formik/Patternfly/Form';
 import Usage from '../Table/ExpandedContent/Usage';
 import { ConditionFieldWithForkmik } from '../../Condition/ConditionFieldWithFormik';
 
@@ -36,11 +34,11 @@ const marginTopClassName = style({
 });
 
 const fontRedColor = style({
-    color: GlobalDangerColor100
+    color: PFColors.GlobalDangerColor100
 });
 
 const fontGreenColor = style({
-    color: GlobalSuccessColor200
+    color: PFColors.GlobalSuccessColor200
 });
 
 const fontWeightBold = style({
@@ -78,7 +76,7 @@ const ConditionStatus: React.FunctionComponent<ConditionStatusProps> = (props) =
         return (
             <Split>
                 <SplitItem>
-                    <CheckCircleIcon className={ elementClassName } color={ GlobalSuccessColor200 }/>
+                    <CheckCircleIcon className={ elementClassName } color={ PFColors.GlobalSuccessColor200 }/>
                 </SplitItem>
                 <SplitItem>
                     <div className={ joinClasses(elementClassName, fontGreenColor, fontWeightBold) }>
@@ -95,7 +93,7 @@ const ConditionStatus: React.FunctionComponent<ConditionStatusProps> = (props) =
                 <StackItem>
                     <Split>
                         <SplitItem>
-                            <ExclamationCircleIcon className={ elementClassName } color={ GlobalDangerColor100 }/>
+                            <ExclamationCircleIcon className={ elementClassName } color={ PFColors.GlobalDangerColor100 }/>
                         </SplitItem>
                         <SplitItem>
                             <div className={ joinClasses(elementClassName, fontRedColor, fontWeightBold) }>

@@ -1,7 +1,6 @@
 import { renderHook } from '@testing-library/react-hooks';
 import { useListPageDelete } from '../useListPageDelete';
-import { ImmutableContainerSet } from '../../../../types/ImmutableContainerSet';
-import { Page } from '../../../../types/Page';
+import { ImmutableContainerSet, Page } from 'common-code-ui';
 import { PolicyRow } from '../../../../components/Policy/Table/PolicyTable';
 import { Uuid } from '../../../../types/Policy/Policy';
 import { UsePolicyToDeleteResponse } from '../../../../hooks/usePolicyToDelete';

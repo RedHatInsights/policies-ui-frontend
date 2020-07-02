@@ -3,9 +3,8 @@ import { act, renderHook } from '@testing-library/react-hooks';
 import fetchMock, { UNMATCHED } from 'fetch-mock';
 import { ClientContextProvider, createClient } from 'react-fetching-library';
 import { useGetListPagePolicies } from '../useGetListPagePolicies';
-import { Page } from '../../../types/Page';
+import { Page, pageToQuery } from 'common-code-ui';
 import { actionGetPolicies } from '../../../generated/ActionCreators';
-import { pageToQuery } from '../../../services/Api/ActionBuilder';
 
 describe('src/hooks/usePaginated', () => {
 

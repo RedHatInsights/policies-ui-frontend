@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { CubesIcon } from '@patternfly/react-icons';
 import { Messages } from '../../properties/Messages';
-import { join } from '../../utils/ComponentUtils';
+import { join } from 'common-code-ui';
 import { EmptyStateSection } from '../../components/Policy/EmptyState/Section';
 
 interface ListPageEmptyStateProps {

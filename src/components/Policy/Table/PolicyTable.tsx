@@ -15,17 +15,16 @@ import { Radio } from '@patternfly/react-core';
 import { SkeletonTable } from '@redhat-cloud-services/frontend-components';
 
 import { Policy } from '../../../types/Policy';
-import { Direction, Sort } from '../../../types/Page';
+import { Direction, Sort, assertNever } from 'common-code-ui';
 import { ExpandedContent } from './ExpandedContent';
 import { Messages } from '../../../properties/Messages';
-import { assertNever } from '../../../utils/Assert';
 import { ActionsCell } from './ActionsCell';
 import { LastTriggeredCell } from './LastTriggeredCell';
 import { EmptyStateSection, EmptyStateSectionProps } from '../EmptyState/Section';
 import { style } from 'typestyle';
 import { Link } from 'react-router-dom';
 import { linkTo } from '../../../Routes';
-import { BetaDetector, BetaIf, BetaIfNot } from '../../Beta/BetaDetector';
+import { BetaDetector, BetaIf, BetaIfNot } from 'common-code-ui';
 
 const emptyStateSectionBackgroundColor = style({
     backgroundColor: 'white'

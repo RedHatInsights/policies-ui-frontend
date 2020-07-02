@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { getInsights } from '../../utils/Insights';
+import { getInsights } from 'common-code-ui';
 import { ActionType } from '../../types/Policy/Actions';
 import { Button, ButtonVariant, Dropdown, DropdownItem } from '@patternfly/react-core';
 import { Messages } from '../../properties/Messages';

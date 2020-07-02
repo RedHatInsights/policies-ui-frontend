@@ -21,7 +21,7 @@ import { useMountedState } from 'react-use';
 import { Fact } from '../../types/Fact';
 import { Messages } from '../../properties/Messages';
 import { CreatePolicyStepContextProvider } from './WizardSteps/CreatePolicyPolicyStep/Provider';
-import { assertNever } from '../../utils/Assert';
+import { assertNever } from 'common-code-ui';
 
 export interface PolicyWizardProps {
     initialValue: PartialPolicy;

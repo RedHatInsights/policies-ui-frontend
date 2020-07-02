@@ -1,5 +1,5 @@
 import { useGetPoliciesQuery, useHasPoliciesQuery } from '../../services/useGetPolicies';
-import { Page } from '../../types/Page';
+import { Page } from 'common-code-ui';
 import { useCallback, useMemo, useState } from 'react';
 
 export interface UseGetListPagePoliciesResponse extends ReturnType<typeof useGetPoliciesQuery> {

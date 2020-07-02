@@ -1,9 +1,7 @@
-import { assertNever } from '../../Assert';
+import { assertNever, Exporter, ExporterType } from 'common-code-ui';
 import { PolicyExporterCsv } from './Csv';
 import { PolicyExporterJson } from './Json';
-import { Exporter } from '../Base';
 import { Policy } from '../../../types/Policy';
-import { ExporterType } from '../Type';
 
 export const policyExporterFactory = (type: ExporterType): Exporter<Policy> => {
     switch (type) {

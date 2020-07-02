@@ -2,10 +2,8 @@ import { actionGetPoliciesByIdHistoryTrigger } from '../generated/ActionCreators
 import { Uuid } from '../types/Policy/Policy';
 import { useParameterizedQuery } from 'react-fetching-library';
 import { PagedServerTriggerResponse, PagedTrigger } from '../types/Trigger';
-import { useTransformQueryResponse } from '../utils/ApiUtils';
 import { toTriggers } from '../types/adapters/TriggerAdapter';
-import { Page } from '../types/Page';
-import { pageToQuery } from './Api/ActionBuilder';
+import { pageToQuery, Page, useTransformQueryResponse } from 'common-code-ui';
 
 export interface UseGetPolicyTriggersParams {
     policyId: Uuid;

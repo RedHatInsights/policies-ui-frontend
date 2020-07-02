@@ -17,6 +17,7 @@
     "axios": "^0.19.2",
     "camelcase": "5.3.1",
     "classnames": "^2.2.6",
+    "common-code-ui": "file:.yalc/common-code-ui",
     "csstips": "^1.2.0",
     "csx": "^10.0.1",
     "date-fns": "^2.9.0",

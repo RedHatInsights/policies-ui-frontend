@@ -3,7 +3,7 @@ import { Uuid } from '../../../types/Policy/Policy';
 import { useCallback } from 'react';
 import { useClient } from 'react-fetching-library';
 import { Trigger } from '../../../types/Trigger';
-import { Page } from '../../../types/Page';
+import { Page } from 'common-code-ui';
 
 // This is the maximum batch size supported by the backend
 const BATCH_SIZE = 200;

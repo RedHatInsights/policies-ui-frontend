@@ -12,10 +12,9 @@ import {
 import * as React from 'react';
 import { TimesIcon } from '@patternfly/react-icons';
 import { ActionForm } from './ActionForm/ActionForm';
-import { assertNever } from '../../utils/Assert';
+import { assertNever, Spacer } from 'common-code-ui';
 import { style } from 'typestyle';
 import { ActionIcon } from './ActionIcons';
-import { Spacer } from '../../utils/Spacer';
 
 const formClassName = style({
     gridGap: Spacer.MD

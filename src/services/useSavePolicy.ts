@@ -2,7 +2,7 @@ import { NewPolicy, ServerPolicyResponse } from '../types/Policy/Policy';
 import { toPolicy, toServerPolicy } from '../types/adapters/PolicyAdapter';
 import { useMutation } from 'react-fetching-library';
 import { actionPostPolicies, actionPutPoliciesByPolicyId } from '../generated/ActionCreators';
-import { useTransformQueryResponse } from '../utils/ApiUtils';
+import { useTransformQueryResponse } from 'common-code-ui';
 
 export const savePolicyActionCreator = (policy: NewPolicy) => {
     if (policy.id) {

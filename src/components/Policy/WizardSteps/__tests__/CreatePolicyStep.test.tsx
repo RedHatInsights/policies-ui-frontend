@@ -5,13 +5,12 @@ import fetchMock, { UNMATCHED } from 'fetch-mock';
 import { createPolicyStep, CreatePolicyStep } from '../CreatePolicyStep';
 import { Formik } from 'formik';
 import { CreatePolicyStepContextProvider, defaultPerPage } from '../CreatePolicyPolicyStep/Provider';
-import { pageToQuery } from '../../../../services/Api/ActionBuilder';
+import { pageToQuery, Page } from 'common-code-ui';
 import { ClientContextProvider, createClient } from 'react-fetching-library';
-import { Page } from '../../../../types/Page';
 import { act } from 'react-dom/test-utils';
 import { WizardContext } from '../../PolicyWizardTypes';
 import { PagedServerPolicyResponse } from '../../../../types/Policy/Policy';
-import { FormTextInput } from '../../../Formik/Patternfly';
+import { FormTextInput } from 'common-code-ui';
 import { actionGetPolicies } from '../../../../generated/ActionCreators';
 
 jest.mock('../../../../hooks/useUrlState');

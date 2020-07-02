@@ -10,8 +10,7 @@ import {
     StackItem
 } from '@patternfly/react-core';
 import { EllipsisVIcon } from '@patternfly/react-icons';
-import { Section } from '../../components/FrontendComponents/Section';
-import { BreadcrumbLinkItem } from '../../components/Wrappers/BreadcrumbLinkItem';
+import { Section, BreadcrumbLinkItem } from 'common-code-ui';
 import { linkTo } from '../../Routes';
 
 export const PolicyDetailSkeleton: React.FunctionComponent = () => {

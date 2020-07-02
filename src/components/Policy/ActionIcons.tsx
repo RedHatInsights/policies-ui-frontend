@@ -2,7 +2,7 @@ import * as React from 'react';
 import { EnvelopeIcon } from '@patternfly/react-icons';
 import { SVGIconProps } from '@patternfly/react-icons/dist/js/createIcon';
 import { ActionType } from '../../types/Policy/Actions';
-import { assertNever } from '../../utils/Assert';
+import { assertNever } from 'common-code-ui';
 import { WebhookIcon } from '../Icons';
 
 export const ActionEmailIcon = EnvelopeIcon;

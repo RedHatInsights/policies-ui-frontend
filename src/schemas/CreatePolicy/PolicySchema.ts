@@ -3,7 +3,7 @@ import * as Yup from 'yup';
 import { ValidationError } from 'yup';
 import { maxPolicyNameLength } from '../../types/Policy/Policy';
 import { ActionEmailSchema, ActionSchema, ActionWebhookSchema } from './Actions';
-import { assertNever } from '../../utils/Assert';
+import { assertNever } from 'common-code-ui';
 import { isAction } from '../../types/Policy/Actions/Action';
 
 const ActionSchemaSelector = (action: Action | any): Yup.Schema<any> => {

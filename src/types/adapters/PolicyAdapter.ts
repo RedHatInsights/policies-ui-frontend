@@ -1,3 +1,4 @@
+import { assertNever } from 'common-code-ui';
 import parseJSON from 'date-fns/parseJSON';
 import fromUnixTime from 'date-fns/fromUnixTime';
 
@@ -10,7 +11,6 @@ import {
     ServerPolicyResponse
 } from '../Policy/Policy';
 import { Action, ActionType } from '../Policy/Actions';
-import { assertNever } from '../../utils/Assert';
 import { DeepPartial } from 'ts-essentials';
 
 export const toServerAction = (actions: DeepPartial<Action[]>): string => {

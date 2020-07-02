@@ -3,7 +3,7 @@ import { PolicyWizard } from '../../components/Policy/PolicyWizard';
 import { useVerifyPolicyMutation } from '../../services/useVerifyPolicy';
 import { useSavePolicyMutation } from '../../services/useSavePolicy';
 import * as HttpStatus from 'http-status-codes';
-import { addSuccessNotification } from '../../utils/AlertUtils';
+import { addSuccessNotification } from 'common-code-ui';
 import { CreatePolicyResponse, VerifyPolicyResponse } from '../../components/Policy/PolicyWizardTypes';
 import { Policy, NewPolicy } from '../../types/Policy/Policy';
 import { useValidatePolicyNameParametrizedQuery } from '../../services/useValidatePolicyName';

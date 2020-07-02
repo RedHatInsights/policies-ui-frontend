@@ -1,5 +1,5 @@
 import { act, renderHook } from '@testing-library/react-hooks';
-import { Filter, Operator, Page } from '../../types/Page';
+import { Filter, Operator, Page } from 'common-code-ui';
 import { usePolicyPage } from '../usePolicyPage';
 import { PolicyFilterColumn, PolicyFilters } from '../../types/Policy/PolicyPaging';
 

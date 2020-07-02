@@ -1,7 +1,7 @@
 import { policyExporterFactory } from '../Factory';
 import { PolicyExporterCsv } from '../Csv';
 import { PolicyExporterJson } from '../Json';
-import { ExporterType } from '../../Type';
+import { ExporterType } from 'common-code-ui';
 
 describe('src/utils/exporters/Policy/Factory', () => {
     it('get CSV Exporter', () => {

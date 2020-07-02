@@ -1,14 +1,13 @@
 import * as React from 'react';
 import inBrowserDownload from 'in-browser-download';
 import { format } from 'date-fns';
-import { addDangerNotification } from '../../../utils/AlertUtils';
+import { addDangerNotification, exporterTypeFromString } from 'common-code-ui';
 import { PolicyWizardState } from '../ListPage';
 import { Policy } from '../../../types/Policy';
 import { UsePaginatedQueryResponse, UsePolicyRowsReturn } from '../../../hooks';
 import { useMassChangePolicyEnabledMutation } from '../../../services/useMassChangePolicyEnabled';
 import { UsePolicyToDeleteResponse } from '../../../hooks/usePolicyToDelete';
 import { policyExporterFactory } from '../../../utils/exporters/Policy/Factory';
-import { exporterTypeFromString } from '../../../utils/exporters/Type';
 
 type Params = {
     setPolicyWizardState: (params: PolicyWizardState) => void;

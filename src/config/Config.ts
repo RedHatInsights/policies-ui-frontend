@@ -1,18 +1,10 @@
 import { DeepReadonly } from 'ts-essentials';
-import { getInsights } from '../utils/Insights';
+import { localUrl } from 'common-code-ui';
 
 const apiVersion = 'v1.0';
 const apiBaseUrl = `/api/policies/${apiVersion}`;
 
 export const withBaseUrl = (path: string) => `${apiBaseUrl}${path}`;
-export const localUrl = (path: string): string => {
-    const insights = getInsights();
-    if (insights.chrome.isBeta()) {
-        return `/beta${path}`;
-    }
-
-    return path;
-};
 
 const Config = {
     appId: 'policies',

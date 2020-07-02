@@ -5,7 +5,7 @@ import { PolicyWizardProps } from '../../../components/Policy/PolicyWizard';
 import { ClientContextProvider, createClient } from 'react-fetching-library';
 import fetchMock, { UNMATCHED } from 'fetch-mock';
 import { formatConditionError } from '../CreatePolicyWizard';
-import { addSuccessNotification } from '../../../utils/AlertUtils';
+import { addSuccessNotification } from 'common-code-ui';
 import { useFacts } from '../../../hooks/useFacts';
 
 jest.mock('../../../components/Policy/PolicyWizard', () => ({

@@ -1,4 +1,4 @@
-import { ExporterCsv, ExporterHeaders } from '../Csv';
+import { ExporterCsv, ExporterHeaders } from 'common-code-ui';
 import { Trigger } from '../../../types/Trigger';
 
 export class TriggerExporterCsv extends ExporterCsv<Trigger> {

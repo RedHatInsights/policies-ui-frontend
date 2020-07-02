@@ -2,9 +2,8 @@ import * as React from 'react';
 import { render } from '@testing-library/react';
 import { PrimaryToolbar } from '@redhat-cloud-services/frontend-components';
 import { TriggerTableToolbar } from '../TableToolbar';
-import { Page } from '../../../types/Page';
+import { Page, ExporterType } from 'common-code-ui';
 import { PaginationVariant } from '@patternfly/react-core';
-import { ExporterType } from '../../../utils/exporters/Type';
 
 jest.mock('@redhat-cloud-services/frontend-components');
 

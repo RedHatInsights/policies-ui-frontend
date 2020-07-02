@@ -1,9 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
-import { Rbac } from '../types/Rbac';
-import { getInsights, waitForInsights } from '../utils/Insights';
+import { getInsights, waitForInsights, Rbac, fetchRBAC } from 'common-code-ui';
 import Config from '../config/Config';
-import { fetchRBAC } from '../utils/RbacUtils';
 import { AppContext } from './AppContext';
 import { useUserSettings } from './useUserSettings';
 
@@ -27,7 +25,7 @@ export const useApp = (): Omit<AppContext, 'rbac'> & Partial<Pick<AppContext, 'r
     useEffect(() => {
         waitForInsights().then(insights => {
             insights.chrome.auth.getUser().then(() => {
-                fetchRBAC().then(setRbac);
+                fetchRBAC(Config.appId).then(setRbac);
             });
         });
     }, []);

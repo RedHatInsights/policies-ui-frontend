@@ -2,7 +2,7 @@ import * as React from 'react';
 import { ActionFormProps } from './ActionFormProps';
 import { Text } from '@patternfly/react-core';
 import { Messages } from '../../../properties/Messages';
-import { EmailOptIn } from '../../EmailOptIn/EmailOptIn';
+import { EmailOptIn } from 'common-code-ui';
 import { useContext } from 'react';
 import { AppContext } from '../../../app/AppContext';
 

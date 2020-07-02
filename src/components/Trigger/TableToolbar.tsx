@@ -1,8 +1,7 @@
 import * as React from 'react';
 import { PaginationProps, PaginationVariant } from '@patternfly/react-core';
 import { PrimaryToolbar } from '@redhat-cloud-services/frontend-components';
-import { Page } from '../../types/Page';
-import { ExporterType, exporterTypeFromString } from '../../utils/exporters/Type';
+import { Page, ExporterType, exporterTypeFromString } from 'common-code-ui';
 
 type OnPaginationPageChangedHandler = (
     event: React.SyntheticEvent<HTMLButtonElement> | React.MouseEvent | React.KeyboardEvent | MouseEvent, page: number) => void;

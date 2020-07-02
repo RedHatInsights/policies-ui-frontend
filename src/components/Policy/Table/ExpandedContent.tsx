@@ -5,7 +5,7 @@ import { Grid, GridItem, Stack, StackItem } from '@patternfly/react-core';
 import { Description } from './ExpandedContent/Description';
 import { Dates } from './ExpandedContent/Dates';
 import { Conditions } from './ExpandedContent/Conditions';
-import * as PFColors from '../../../utils/PFColors';
+import { PFColors } from 'common-code-ui';
 import { padding } from 'csstips';
 import { Actions } from './ExpandedContent/Actions';
 

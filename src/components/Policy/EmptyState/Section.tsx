@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Button, EmptyState as EmptyStatePf, EmptyStateBody, EmptyStateIcon, EmptyStateVariant, Title } from '@patternfly/react-core';
 import { style } from 'typestyle';
 import { calc } from 'csx';
-import { Spacer } from '../../../utils/Spacer';
+import { Spacer } from 'common-code-ui';
 
 const emptyStateClassName = style({
     paddingTop: calc(`${ Spacer.XL_3 }px - var(--pf-c-page__main-section--PaddingTop)`)

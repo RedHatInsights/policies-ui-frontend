@@ -1,4 +1,5 @@
-import { localUrl, withBaseUrl } from '../Config';
+import { withBaseUrl } from '../Config';
+import { localUrl } from 'common-code-ui';
 
 describe('src/config/Config', () => {
 

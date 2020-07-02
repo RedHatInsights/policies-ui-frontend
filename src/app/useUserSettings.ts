@@ -1,6 +1,6 @@
 import { useUserSettingsEmailQuery } from '../services/useUserSettingsEmailQuery';
 import { useCallback, useMemo } from 'react';
-import { useSyncInterval } from '../hooks/useSyncInterval';
+import { useSyncInterval } from 'common-code-ui';
 import { UserSettingsAppContext } from './AppContext';
 
 export const useUserSettings = (refreshEveryMs: number): UserSettingsAppContext => {

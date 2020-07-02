@@ -1,5 +1,5 @@
 import { TriggerExporterCsv } from '../Csv';
-import { ExporterType } from '../../Type';
+import { ExporterType } from 'common-code-ui';
 
 describe('src/utils/exporters/Trigger/Csv', () => {
     it('has csv type', () => {
