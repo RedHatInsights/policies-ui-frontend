@@ -5,7 +5,7 @@ import { EmptyStateSection } from '../../components/Policy/EmptyState/Section';
 import { ErrorCircleOIcon } from '@patternfly/react-icons';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 import { linkTo } from '../../Routes';
-import { Expandable, Text } from '@patternfly/react-core';
+import { Text, ExpandableSection } from '@patternfly/react-core';
 import { join } from '../../utils/ComponentUtils';
 import { style } from 'typestyle';
 import { GlobalBackgroundColorDark300 } from '../../utils/PFColors';
@@ -100,9 +100,9 @@ class ErrorPageInternal extends React.Component<ErrorPageProps, ErrorPageState> 
                             content={ <>
                                 { Messages.pages.error.emptyState.content }
                                 { this.state.error && (
-                                    <Expandable toggleText={ Messages.pages.error.emptyState.showDetails }>
+                                    <ExpandableSection toggleText={ Messages.pages.error.emptyState.showDetails }>
                                         <ErrorStack error={ this.state.error } />
-                                    </Expandable>
+                                    </ExpandableSection>
                                 )}
                             </> }
                             action={ this.goToListPage }

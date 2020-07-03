@@ -14,14 +14,14 @@ export const FormTextArea = (props: any) => {
             fieldId={ props.id }
             helperTextInvalid={ meta.error }
             isRequired={ props.isRequired }
-            isValid={ isValid }
+            validated={ (isValid) ? 'default' : 'error' }
             label={ props.label }
         >
             <PFTextArea
                 { ...props }
                 { ...field }
                 value={ field.value || '' }
-                isValid={ isValid }
+                validated={ (isValid) ? 'default' : 'error' }
                 onChange={ onChangePFAdapter<string | number>(field) }
             />
         </FormGroup>

@@ -15,14 +15,14 @@ export const FormTextInput = (props: any) => {
             fieldId={ props.id }
             helperTextInvalid={ meta.error }
             isRequired={ props.isRequired }
-            isValid={ isValid }
+            validated={ (isValid) ? 'default' : 'error' }
             label={ props.label }
         >
             <PFTextInput
                 { ...otherProps }
                 { ...field }
                 value={ field.value !== undefined ? field.value.toString() : '' }
-                isValid={ isValid }
+                validated={ (isValid) ? 'default' : 'error' }
                 onChange={ onChangePFAdapter<string | number>(field) }
             />
             { hint && <Text component={ TextVariants.small }>{ hint }</Text> }

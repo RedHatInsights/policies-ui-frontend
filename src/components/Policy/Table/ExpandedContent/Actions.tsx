@@ -4,15 +4,14 @@ import {
     Stack,
     StackItem,
     Text,
-    Title,
-    TitleSize
+    Title
 } from '@patternfly/react-core';
 import { style } from 'typestyle';
 import { Action, ActionType } from '../../../../types/Policy/Actions';
 import { Messages } from '../../../../properties/Messages';
 import { assertNever } from '../../../../utils/Assert';
 import { join } from '../../../../utils/ComponentUtils';
-import { IconType } from '@patternfly/react-icons/dist/js/createIcon';
+import { SVGIconProps } from '@patternfly/react-icons/dist/js/createIcon';
 import { ActionEmailIcon, ActionWebhookIcon } from '../../ActionIcons';
 
 interface ActionsProps {
@@ -25,7 +24,8 @@ const titleClassName = style({
 
 const titleActionClassName = style({
     marginBottom: 5,
-    marginLeft: 10
+    marginLeft: 10,
+    display: 'inline'
 });
 
 const wrapperClassName = style({
@@ -42,12 +42,12 @@ const actionContentWrapperClassName = style({
 
 const ActionWrapper: React.FunctionComponent<{
     title: string;
-    icon: IconType;
+    icon: React.ElementType<SVGIconProps>;
 }> = (props) => {
     return (
         <StackItem className={ wrapperClassName }>
             { <props.icon/> }
-            <Title className={ titleActionClassName } size={ TitleSize.md }>{ props.title }</Title>
+            <Title headingLevel="h2" className={ titleActionClassName } size="md">{ props.title }</Title>
             { props.children &&
                 <div className={ actionContentWrapperClassName }>
                     { props.children }
@@ -90,7 +90,7 @@ export const Actions: React.FunctionComponent<ActionsProps> = (props) => {
         <>
             <Stack>
                 <StackItem>
-                    <Title className={ titleClassName } size={ TitleSize.md }>{ Messages.components.actions.title }</Title>
+                    <Title headingLevel="h2" className={ titleClassName } size="md">{ Messages.components.actions.title }</Title>
                 </StackItem>
                 {
                     props.actions.length === 0 ? (

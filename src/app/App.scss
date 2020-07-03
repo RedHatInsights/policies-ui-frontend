@@ -2,3 +2,7 @@
 @import '~@redhat-cloud-services/frontend-components/index.css';
 @import "~@redhat-cloud-services/frontend-components-utilities/files/Utilities/_all";
 @import '~@redhat-cloud-services/frontend-components-notifications/index.css';
+
+.pf-c-wizard__main-body {
+  max-height: 100%;
+}

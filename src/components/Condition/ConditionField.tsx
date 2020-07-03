@@ -114,13 +114,13 @@ export const ConditionField: React.FunctionComponent<ConditionFieldProps> = (pro
             toggleId={ props.id }
             name={ props.name }
             onToggle={ () => setOpen(() => !isOpen) }
-            isExpanded={ isOpen }
+            isOpen={ isOpen }
             selections={ value }
             variant={ SelectVariant.typeahead }
             onSelect={ onSelectCallback }
             onFilter={ onFilter }
             onClear={ onClear }
-            ariaLabelTypeAhead="Condition writer"
+            typeAheadAriaLabel="Condition writer"
             style={ {
                 maxWidth: '100%'
             } }

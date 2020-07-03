@@ -200,17 +200,19 @@ export const PolicyTable: React.FunctionComponent<PolicyTableProps> = (props) =>
     }, [ onSort, columns, columnOffset ]);
 
     const onCollapseHandler = React.useCallback((_event, _index: number, isOpen: boolean, data: IRowData) => {
-        const index = policies?.findIndex(policy => policy.id === data.id);
-        if (onCollapse && policies && index !== undefined && index !== -1) {
-            const policy = policies[index];
+        const localPolicies = policies; // see https://github.com/facebook/react/issues/19061
+        const index = localPolicies?.findIndex(policy => policy.id === data.id);
+        if (onCollapse && localPolicies && index !== undefined && index !== -1) {
+            const policy = localPolicies[index];
             onCollapse(policy, index, isOpen);
         }
     }, [ policies, onCollapse ]);
 
     const onSelectHandler = React.useCallback((_event, isSelected: boolean, _index: number, data: IRowData) => {
-        const index = policies?.findIndex(policy => policy.id === data.id);
-        if (onSelect && policies && index !== undefined && index !== -1) {
-            const policy = policies[index];
+        const localPolicies = policies; // see https://github.com/facebook/react/issues/19061
+        const index = localPolicies?.findIndex(policy => policy.id === data.id);
+        if (onSelect && localPolicies && index !== undefined && index !== -1) {
+            const policy = localPolicies[index];
             onSelect(policy, index, isSelected);
         }
     }, [ policies, onSelect ]);

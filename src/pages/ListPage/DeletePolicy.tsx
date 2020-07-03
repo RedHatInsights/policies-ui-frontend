@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Button, ButtonVariant, Modal } from '@patternfly/react-core';
-import { Spinner } from '@patternfly/react-core/dist/js/experimental';
+import { Spinner } from '@patternfly/react-core';
 import { addDangerNotification } from '../../utils/AlertUtils';
 import { Policy, Uuid } from '../../types/Policy/Policy';
 import { useMassDeletePoliciesMutation } from '../../services/useMassDeletePolicies';
@@ -95,8 +95,8 @@ export const DeletePolicy: React.FunctionComponent<DeletePolicyProps> = (props) 
             isOpen={ true }
             onClose={ onCancel }
             actions={ actions }
-            isFooterLeftAligned
-            isSmall
+
+            variant="small"
         >
             { content }
         </Modal>

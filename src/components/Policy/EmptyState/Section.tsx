@@ -2,7 +2,6 @@ import * as React from 'react';
 import { Button, EmptyState as EmptyStatePf, EmptyStateBody, EmptyStateIcon, EmptyStateVariant, Title } from '@patternfly/react-core';
 import { style } from 'typestyle';
 import { calc } from 'csx';
-import { IconType } from '@patternfly/react-icons/dist/js/createIcon';
 import { Spacer } from '../../../utils/Spacer';
 
 const emptyStateClassName = style({
@@ -10,7 +9,7 @@ const emptyStateClassName = style({
 });
 
 export interface EmptyStateSectionProps {
-    icon?: IconType;
+    icon?: React.ComponentType<any>;
     iconColor?: string;
     title: string;
     content: React.ReactNode;

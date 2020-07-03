@@ -124,7 +124,7 @@ describe('src/pages/ListPage', () => {
         });
 
         await waitForAsyncEvents();
-        expect(screen.getByText(/0 - 0/)).toBeVisible();
+        expect(screen.getAllByText(/0 - 0/).length).toBeGreaterThan(0);
     });
 
     it('Has title "Policies"', async () => {
@@ -202,8 +202,8 @@ describe('src/pages/ListPage', () => {
         await waitForAsyncEvents();
 
         expect(screen.getByText(/name/i, {
-            selector: 'th > button'
-        }).parentElement).toHaveAttribute('aria-sort', 'none');
+            selector: 'th span'
+        }).closest('th')).toHaveAttribute('aria-sort', 'none');
     });
 
     it('Shows empty state when no policy is found ', async () => {

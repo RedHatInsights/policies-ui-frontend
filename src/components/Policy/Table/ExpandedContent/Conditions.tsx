@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Text, Title, TitleSize } from '@patternfly/react-core';
+import { Text, Title  } from '@patternfly/react-core';
 import { style } from 'typestyle';
 import { Messages } from '../../../../properties/Messages';
 
@@ -15,7 +15,7 @@ export const Conditions: React.FunctionComponent<ConditionsProps> = (props) => {
 
     return (
         <>
-            <Title className={ titleClassName } size={ TitleSize.md }>Conditions</Title>
+            <Title headingLevel="h2" className={ titleClassName } size="md">Conditions</Title>
             <Text>{ props.conditions || Messages.tables.policy.emptyState.noConditions }</Text>
         </>
     );

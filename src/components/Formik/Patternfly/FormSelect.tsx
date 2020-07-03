@@ -14,14 +14,14 @@ export const FormSelect = (props: any) => {
             fieldId={ props.id }
             helperTextInvalid={ meta.error }
             isRequired={ props.isRequired }
-            isValid={ isValid }
+            validated={ (isValid) ? 'default' : 'error' }
             label={ props.label }
         >
             <PFFormSelect
                 { ...props }
                 { ...field }
                 onChange={ onChangePFAdapter<string | number>(field) }
-                isValid={ isValid }
+                validated={ (isValid) ? 'default' : 'error' }
             >
                 { props.children }
             </PFFormSelect>

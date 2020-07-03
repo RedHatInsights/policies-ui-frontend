@@ -5,9 +5,9 @@ import {
     Button,
     Card,
     CardActions,
-    CardBody,
-    CardHead, CardHeader, Form,
-    Title
+    CardBody
+    , CardHeader, Form,
+    Title, CardTitle
 } from '@patternfly/react-core';
 import * as React from 'react';
 import { TimesIcon } from '@patternfly/react-icons';
@@ -28,7 +28,8 @@ const cardClassName = style({
 });
 
 const marginLeftClassName = style({
-    marginLeft: 10
+    marginLeft: 10,
+    display: 'inline'
 });
 
 interface ActionsFormProps {
@@ -56,21 +57,21 @@ export const ActionsForm: React.FunctionComponent<ActionsFormProps> = (props) =>
             { props.actions?.map((action, index) => (
                 <React.Fragment key={ index }>
                     <Card className={ cardClassName }>
-                        <CardHead>
+                        <CardHeader data-codemods="true">
                             <CardActions>
                                 <Button variant="plain" aria-label="Action" onClick={ props.arrayHelpers.handleRemove(index) }>
                                     <TimesIcon/>
                                 </Button>
                             </CardActions>
-                            <CardHeader>
+                            <CardTitle>
                                 <>
                                     <ActionIcon actionType={ action?.type }/>
-                                    <Title className={ marginLeftClassName } size="sm">
+                                    <Title headingLevel="h2" className={ marginLeftClassName } size="md">
                                         { action?.type ? titleForActionType(action.type) : '' }
                                     </Title>
                                 </>
-                            </CardHeader>
-                        </CardHead>
+                            </CardTitle>
+                        </CardHeader>
                         { /* Adding this pf-c-form class is a hack (i think).
                         It looks like We should not use Card inside the Form as it breaks the layout.
                         */ }

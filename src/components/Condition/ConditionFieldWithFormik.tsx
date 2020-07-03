@@ -22,7 +22,7 @@ export const ConditionFieldWithForkmik: React.FunctionComponent<ConditionFieldWi
             fieldId={ props.id }
             helperTextInvalid={ meta.error }
             isRequired={ props.isRequired }
-            isValid={ isValid }
+            validated={ (isValid) ? 'default' : 'error' }
             label={ props.label }
         >
             <ConditionField
