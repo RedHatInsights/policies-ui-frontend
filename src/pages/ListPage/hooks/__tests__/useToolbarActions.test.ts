@@ -6,7 +6,13 @@ import { addDangerNotification, ImmutableContainerSet, ExporterType } from 'comm
 import { Uuid } from '../../../../types/Policy/Policy';
 
 jest.mock('in-browser-download');
-jest.mock('../../../../utils/AlertUtils');
+jest.mock('common-code-ui', () => {
+    const real = jest.requireActual('common-code-ui');
+    return {
+        ...real,
+        addDangerNotification: jest.fn(() => {})
+    };
+});
 
 const mockParams = () => ({
     setPolicyWizardState: jest.fn(),

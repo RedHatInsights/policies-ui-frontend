@@ -2,23 +2,22 @@ import * as React from 'react';
 import { render, screen, act } from '@testing-library/react';
 import App from '../App';
 import { AppWrapper, appWrapperSetup, appWrapperCleanup } from '../../../test/AppWrapper';
-import * as CommonCodeUI from 'common-code-ui';
-import { Rbac } from 'common-code-ui';
+import { Rbac, fetchRBAC } from 'common-code-ui';
 
-jest.mock('common-code-ui');
+jest.mock('common-code-ui', () => {
+    const real = jest.requireActual('common-code-ui');
+    const MockedAppSkeleton: React.FunctionComponent = () => <div data-testid="loading"><real.AppSkeleton/></div>;
+    return {
+        ...real,
+        AppSkeleton: MockedAppSkeleton,
+        fetchRBAC: jest.fn(real.fetchRBAC)
+    };
+});
 jest.mock('../../services/useUserSettingsEmailQuery');
 jest.mock('../../Routes', () => {
     const MockedRoutes: React.FunctionComponent = () => <div data-testid="content"/>;
     return {
         Routes: MockedRoutes
-    };
-});
-
-jest.mock('common-code-ui/dist/components/AppSkeleton/AppSkeleton', () => {
-    const RealAppSkeleton = jest.requireActual('common-code-ui/dist/components/AppSkeleton/AppSkeleton').AppSkeleton;
-    const MockedAppSkeleton: React.FunctionComponent = () => <div data-testid="loading"><RealAppSkeleton/></div>;
-    return {
-        AppSkeleton: MockedAppSkeleton
     };
 });
 
@@ -35,7 +34,7 @@ describe('src/app/App', () => {
     it('Shows loading when RBAC is not set', async () => {
         jest.useFakeTimers();
         const promise = new Promise<Rbac>(() => {});
-        jest.spyOn(CommonCodeUI, 'fetchRBAC').mockImplementation(() => promise);
+        (fetchRBAC as jest.Mock).mockImplementation(() => promise);
         render(
             <App/>,
             {
@@ -53,7 +52,7 @@ describe('src/app/App', () => {
 
     it('Shows the content when RBAC.canReadAll is set', async () => {
         jest.useFakeTimers();
-        jest.spyOn(CommonCodeUI, 'fetchRBAC').mockImplementation(() => Promise.resolve({
+        (fetchRBAC as jest.Mock).mockImplementation(() => Promise.resolve({
             canReadAll: true,
             canWriteAll: true
         }));
@@ -73,7 +72,7 @@ describe('src/app/App', () => {
 
     it('Shows error when RBAC does not have read access', async () => {
         jest.useFakeTimers();
-        jest.spyOn(CommonCodeUI, 'fetchRBAC').mockImplementation(() => Promise.resolve({
+        (fetchRBAC as jest.Mock).mockImplementation(() => Promise.resolve({
             canReadAll: false,
             canWriteAll: true
         }));

@@ -4,11 +4,18 @@ import { CreatePolicyStepContextProvider } from '../Provider';
 import { ClientContextProvider, createClient } from 'react-fetching-library';
 import fetchMock from 'fetch-mock';
 import { PolicyFilterColumn } from '../../../../../types/Policy/PolicyPaging';
+import { useState } from 'react';
 
 let query;
 let setCurrentPage;
 let setFilters;
-jest.mock('../../../../../hooks/useUrlState');
+jest.mock('common-code-ui', () => {
+    const real = jest.requireActual('common-code-ui');
+    return {
+        ...real,
+        useUrlState: (p) => useState(p)
+    };
+});
 jest.mock('../../../../../services/useGetPolicies', () => {
     return {
         useGetPoliciesQuery: () => {

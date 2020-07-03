@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { init } from '../src/store';
+import { init, getInsights } from 'common-code-ui';
 import { RouteProps, Route } from 'react-router';
 import { MemoryRouter as Router } from 'react-router-dom';
 import { ClientContextProvider, createClient } from 'react-fetching-library';
@@ -7,7 +7,6 @@ import { Provider } from 'react-redux';
 import fetchMock = require('fetch-mock');
 import { MemoryRouterProps, useLocation } from 'react-router';
 import { AppContext } from '../src/app/AppContext';
-import { getInsights } from 'common-code-ui';
 
 let setup = false;
 let client;

@@ -12,9 +12,15 @@ import { WizardContext } from '../../PolicyWizardTypes';
 import { PagedServerPolicyResponse } from '../../../../types/Policy/Policy';
 import { FormTextInput } from 'common-code-ui';
 import { actionGetPolicies } from '../../../../generated/ActionCreators';
+import { useState } from 'react';
 
-jest.mock('../../../../hooks/useUrlState');
-
+jest.mock('common-code-ui', () => {
+    const real = jest.requireActual('common-code-ui');
+    return {
+        ...real,
+        useUrlState: (p) => useState(p)
+    };
+});
 describe('src/components/Policy/WizardSteps/CreatePolicyStep', () => {
 
     const client = createClient();

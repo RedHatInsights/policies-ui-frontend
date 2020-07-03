@@ -7,8 +7,15 @@ import fetchMock  from 'fetch-mock';
 import { actionGetPolicies } from '../../../generated/ActionCreators';
 import { linkTo } from '../../../Routes';
 import userEvent from '@testing-library/user-event';
+import { useState } from 'react';
 
-jest.mock('../../../hooks/useUrlState');
+jest.mock('common-code-ui', () => {
+    const real = jest.requireActual('common-code-ui');
+    return {
+        ...real,
+        useUrlState: (p) => useState(p)
+    };
+});
 jest.mock('../../../hooks/useFacts');
 jest.mock('@redhat-cloud-services/frontend-components', () => {
     const MockedSkeletonTable = () => <div>Loading Policies</div>;
