@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { init, getInsights } from 'common-code-ui';
+import { initStore, getInsights } from 'common-code-ui';
 import { RouteProps, Route } from 'react-router';
 import { MemoryRouter as Router } from 'react-router-dom';
 import { ClientContextProvider, createClient } from 'react-fetching-library';
@@ -10,7 +10,7 @@ import { AppContext } from '../src/app/AppContext';
 
 let setup = false;
 let client;
-const store = init().getStore();
+const store = initStore().getStore();
 
 export const appWrapperSetup = () => {
     if (setup) {

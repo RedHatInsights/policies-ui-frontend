@@ -2,12 +2,15 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import { init, getBaseName, client } from 'common-code-ui';
+import { initStore, createFetchingClient, getBaseName, getStore } from 'common-code-ui';
 import App from './app/App';
 import { ClientContextProvider } from 'react-fetching-library';
 
+const client = createFetchingClient();
+initStore();
+
 ReactDOM.render(
-    <Provider store={ init().getStore() }>
+    <Provider store={ getStore() }>
         <Router basename={ getBaseName(window.location.pathname) }>
             <ClientContextProvider client={ client }>
                 <App />
