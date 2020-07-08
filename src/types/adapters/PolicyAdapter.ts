@@ -1,4 +1,4 @@
-import { assertNever } from 'common-code-ui';
+import { assertNever } from '@redhat-cloud-services/insights-common-typescript';
 import parseJSON from 'date-fns/parseJSON';
 import fromUnixTime from 'date-fns/fromUnixTime';
 

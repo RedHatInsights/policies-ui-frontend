@@ -12,7 +12,7 @@ import { ActionType } from '../../types/Policy';
 import { DeletePolicy } from './DeletePolicy';
 import { NewPolicy } from '../../types/Policy/Policy';
 import { usePolicyFilter, usePolicyPage, usePolicyRows } from '../../hooks';
-import { EmailOptIn, useSort, Page } from 'common-code-ui';
+import { useSort, Page, InsightsEmailOptIn, getInsights } from '@redhat-cloud-services/insights-common-typescript';
 import { Messages } from '../../properties/Messages';
 import { style } from 'typestyle';
 import { ListPageEmptyState } from './EmptyState';
@@ -168,7 +168,7 @@ const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
             getPoliciesQuery.payload &&
             getPoliciesQuery.payload.find(p => p.actions.find(a => a.type === ActionType.EMAIL)) && (
                 <PageSection className={ emailOptinPageClassName }>
-                    <EmailOptIn content={ Messages.pages.listPage.emailOptIn } />
+                    <InsightsEmailOptIn content={ Messages.pages.listPage.emailOptIn } insights={ getInsights() } />
                 </PageSection>
             )}
             <Main>

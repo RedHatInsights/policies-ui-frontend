@@ -5,17 +5,17 @@ import fetchMock, { UNMATCHED } from 'fetch-mock';
 import { createPolicyStep, CreatePolicyStep } from '../CreatePolicyStep';
 import { Formik } from 'formik';
 import { CreatePolicyStepContextProvider, defaultPerPage } from '../CreatePolicyPolicyStep/Provider';
-import { pageToQuery, Page } from 'common-code-ui';
+import { pageToQuery, Page } from '@redhat-cloud-services/insights-common-typescript';
 import { ClientContextProvider, createClient } from 'react-fetching-library';
 import { act } from 'react-dom/test-utils';
 import { WizardContext } from '../../PolicyWizardTypes';
 import { PagedServerPolicyResponse } from '../../../../types/Policy/Policy';
-import { FormTextInput } from 'common-code-ui';
+import { FormTextInput } from '@redhat-cloud-services/insights-common-typescript';
 import { actionGetPolicies } from '../../../../generated/ActionCreators';
 import { useState } from 'react';
 
-jest.mock('common-code-ui', () => {
-    const real = jest.requireActual('common-code-ui');
+jest.mock('@redhat-cloud-services/insights-common-typescript', () => {
+    const real = jest.requireActual('@redhat-cloud-services/insights-common-typescript');
     return {
         ...real,
         useUrlState: (p) => useState(p)

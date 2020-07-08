@@ -2,7 +2,7 @@ import * as React from 'react';
 import { PolicyRow } from '../components/Policy/Table/PolicyTable';
 import { Policy } from '../types/Policy';
 import { SelectionCommand } from '../components/Policy/TableToolbar/PolicyTableToolbar';
-import { assertNever, ImmutableContainerSetMode, ImmutableContainerSet, Page } from 'common-code-ui';
+import { assertNever, ImmutableContainerSetMode, ImmutableContainerSet, Page } from '@redhat-cloud-services/insights-common-typescript';
 import { Uuid } from '../types/Policy/Policy';
 import { usePrevious } from 'react-use';
 import { useGetPoliciesIdsQuery } from '../services/useGetPoliciesIds';

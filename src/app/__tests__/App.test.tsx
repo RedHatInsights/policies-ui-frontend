@@ -2,10 +2,10 @@ import * as React from 'react';
 import { render, screen, act } from '@testing-library/react';
 import App from '../App';
 import { AppWrapper, appWrapperSetup, appWrapperCleanup } from '../../../test/AppWrapper';
-import { Rbac, fetchRBAC } from 'common-code-ui';
+import { Rbac, fetchRBAC } from '@redhat-cloud-services/insights-common-typescript';
 
-jest.mock('common-code-ui', () => {
-    const real = jest.requireActual('common-code-ui');
+jest.mock('@redhat-cloud-services/insights-common-typescript', () => {
+    const real = jest.requireActual('@redhat-cloud-services/insights-common-typescript');
     const MockedAppSkeleton: React.FunctionComponent = () => <div data-testid="loading"><real.AppSkeleton/></div>;
     return {
         ...real,

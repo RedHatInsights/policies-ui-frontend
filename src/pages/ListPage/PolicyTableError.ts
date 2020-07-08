@@ -1,5 +1,5 @@
 import { ExclamationCircleIcon, PlusCircleIcon } from '@patternfly/react-icons';
-import { PFColors } from 'common-code-ui';
+import { PFColors } from '@redhat-cloud-services/insights-common-typescript';
 import { EmptyStateSectionProps } from '../../components/Policy/EmptyState/Section';
 import { Messages } from '../../properties/Messages';
 

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { initStore, getInsights } from 'common-code-ui';
+import { initStore, getInsights } from '@redhat-cloud-services/insights-common-typescript';
 import { RouteProps, Route } from 'react-router';
 import { MemoryRouter as Router } from 'react-router-dom';
 import { ClientContextProvider, createClient } from 'react-fetching-library';

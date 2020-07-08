@@ -2,11 +2,11 @@ import * as React from 'react';
 import { useFormikContext } from 'formik';
 
 import { PartialPolicy, WizardContext, WizardStepExtended } from '../PolicyWizardTypes';
-import { Switch, FormText, Form } from 'common-code-ui';
+import { Switch, FormText, Form } from '@redhat-cloud-services/insights-common-typescript';
 import { Title } from '@patternfly/react-core';
 import { PolicyFormSchema } from '../../../schemas/CreatePolicy/PolicySchema';
 import { useContext } from 'react';
-import { PFColors } from 'common-code-ui';
+import { PFColors } from '@redhat-cloud-services/insights-common-typescript';
 import { style } from 'typestyle';
 import { Messages } from '../../../properties/Messages';
 import { Conditions } from '../Table/ExpandedContent/Conditions';

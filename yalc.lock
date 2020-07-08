@@ -1,0 +1,14 @@
+{
+  "version": "v1",
+  "packages": {
+    "'@redhat-cloud-services/insights-common-typescript'": {
+      "signature": "21563313ea4359a8dcc965dce562edb7",
+      "file": true
+    },
+    "@redhat-cloud-services/insights-common-typescript": {
+      "signature": "c1db27544d17357a6620b6c1c173466a",
+      "file": true,
+      "replaced": "0.0.2"
+    }
+  }
+}

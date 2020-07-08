@@ -1,6 +1,6 @@
 import { useUserSettingsEmailQuery } from '../services/useUserSettingsEmailQuery';
 import { useCallback, useMemo } from 'react';
-import { useSyncInterval } from 'common-code-ui';
+import { useSyncInterval } from '@redhat-cloud-services/insights-common-typescript';
 import { UserSettingsAppContext } from './AppContext';
 
 export const useUserSettings = (refreshEveryMs: number): UserSettingsAppContext => {

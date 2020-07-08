@@ -1,4 +1,4 @@
-import { ExporterCsv, ExporterHeaders } from 'common-code-ui';
+import { ExporterCsv, ExporterHeaders } from '@redhat-cloud-services/insights-common-typescript';
 import { Trigger } from '../../../types/Trigger';
 
 export class TriggerExporterCsv extends ExporterCsv<Trigger> {

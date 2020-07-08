@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Button, ButtonVariant, Modal } from '@patternfly/react-core';
 import { Spinner } from '@patternfly/react-core';
-import { addDangerNotification } from 'common-code-ui';
+import { addDangerNotification } from '@redhat-cloud-services/insights-common-typescript';
 import { Policy, Uuid } from '../../types/Policy/Policy';
 import { useMassDeletePoliciesMutation } from '../../services/useMassDeletePolicies';
 

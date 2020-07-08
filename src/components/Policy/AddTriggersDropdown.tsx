@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { getInsights } from 'common-code-ui';
+import { getInsights } from '@redhat-cloud-services/insights-common-typescript';
 import { ActionType } from '../../types/Policy/Actions';
 import { Button, ButtonVariant, Dropdown, DropdownItem } from '@patternfly/react-core';
 import { Messages } from '../../properties/Messages';

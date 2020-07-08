@@ -12,7 +12,7 @@ import {
 import * as React from 'react';
 import { TimesIcon } from '@patternfly/react-icons';
 import { ActionForm } from './ActionForm/ActionForm';
-import { assertNever, Spacer } from 'common-code-ui';
+import { assertNever, Spacer } from '@redhat-cloud-services/insights-common-typescript';
 import { style } from 'typestyle';
 import { ActionIcon } from './ActionIcons';
 

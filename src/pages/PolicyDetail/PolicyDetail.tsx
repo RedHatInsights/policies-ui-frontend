@@ -12,7 +12,7 @@ import {
 import { useHistory } from 'react-router-dom';
 import inBrowserDownload from 'in-browser-download';
 import { linkTo } from '../../Routes';
-import { BreadcrumbLinkItem, Section, useSort } from 'common-code-ui';
+import { BreadcrumbLinkItem, Section, useSort } from '@redhat-cloud-services/insights-common-typescript';
 import { useGetPolicyParametrizedQuery } from '../../services/useGetPolicy';
 import { ExpandedContent } from '../../components/Policy/Table/ExpandedContent';
 import { style } from 'typestyle';
@@ -30,7 +30,7 @@ import { Policy } from '../../types/Policy';
 import { NoPermissionsPage } from '../NoPermissions/NoPermissionsPage';
 import { useTriggerPage } from './hooks/useTriggerPage';
 import { useTriggerFilter } from './hooks/useTriggerFilter';
-import { ExporterType, exporterTypeFromString, Direction, Sort } from 'common-code-ui';
+import { ExporterType, exporterTypeFromString, Direction, Sort } from '@redhat-cloud-services/insights-common-typescript';
 import { format } from 'date-fns';
 import { triggerExporterFactory } from '../../utils/exporters/Trigger/Factory';
 import { PolicyDetailTriggerEmptyState } from './TriggerEmptyState';

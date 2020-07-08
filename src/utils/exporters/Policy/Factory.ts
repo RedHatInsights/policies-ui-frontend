@@ -1,4 +1,4 @@
-import { assertNever, Exporter, ExporterType } from 'common-code-ui';
+import { assertNever, Exporter, ExporterType } from '@redhat-cloud-services/insights-common-typescript';
 import { PolicyExporterCsv } from './Csv';
 import { PolicyExporterJson } from './Json';
 import { Policy } from '../../../types/Policy';

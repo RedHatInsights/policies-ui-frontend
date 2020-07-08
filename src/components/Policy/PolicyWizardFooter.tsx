@@ -8,7 +8,7 @@ import {
 import { Spinner } from '@patternfly/react-core';
 import { style } from 'typestyle';
 import { ExclamationCircleIcon } from '@patternfly/react-icons';
-import { PFColors } from 'common-code-ui';
+import { PFColors } from '@redhat-cloud-services/insights-common-typescript';
 import { useContext } from 'react';
 import { WizardContext } from './PolicyWizardTypes';
 

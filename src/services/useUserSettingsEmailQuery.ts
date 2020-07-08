@@ -1,7 +1,7 @@
 import Config from '../config/Config';
 import { UserSettings } from '../types/UserSettings';
 import { useQuery } from 'react-fetching-library';
-import { actionBuilder, useTransformQueryResponse } from 'common-code-ui';
+import { actionBuilder, useTransformQueryResponse } from '@redhat-cloud-services/insights-common-typescript';
 
 const urls = Config.apis.urls;
 

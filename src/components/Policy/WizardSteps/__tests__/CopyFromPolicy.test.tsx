@@ -7,7 +7,7 @@ import {
     usePolicyPage,
     usePolicyRows
 } from '../../../../hooks';
-import { useSort } from 'common-code-ui';
+import { useSort } from '@redhat-cloud-services/insights-common-typescript';
 import { useGetPoliciesQuery } from '../../../../services/useGetPolicies';
 import { MemoryRouter } from 'react-router-dom';
 

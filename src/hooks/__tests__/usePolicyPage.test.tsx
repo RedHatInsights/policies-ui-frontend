@@ -1,5 +1,5 @@
 import { act, renderHook } from '@testing-library/react-hooks';
-import { Filter, Operator, Page } from 'common-code-ui';
+import { Filter, Operator, Page } from '@redhat-cloud-services/insights-common-typescript';
 import { usePolicyPage } from '../usePolicyPage';
 import { PolicyFilterColumn, PolicyFilters } from '../../types/Policy/PolicyPaging';
 

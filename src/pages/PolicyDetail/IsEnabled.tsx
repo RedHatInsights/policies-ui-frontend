@@ -5,7 +5,7 @@ import { style } from 'typestyle';
 import { Skeleton } from '@redhat-cloud-services/frontend-components';
 
 import { DisabledPolicyIcon, EnabledPolicyIcon } from '../../components/Icons';
-import { Spacer } from 'common-code-ui';
+import { Spacer } from '@redhat-cloud-services/insights-common-typescript';
 
 const isEnabledTextClassname = style({
     marginLeft: Spacer.MD

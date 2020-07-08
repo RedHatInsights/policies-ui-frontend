@@ -1,4 +1,4 @@
-import { pageToQuery, useTransformQueryResponse, Page } from 'common-code-ui';
+import { pageToQuery, useTransformQueryResponse, Page } from '@redhat-cloud-services/insights-common-typescript';
 import { Policy } from '../types/Policy';
 import { useNewPaginatedQuery, UsePaginatedQueryResponse } from '../hooks';
 import { PagedServerPolicyResponse } from '../types/Policy/Policy';

@@ -1,4 +1,4 @@
-import { assertNever, Exporter, ExporterType } from 'common-code-ui';
+import { assertNever, Exporter, ExporterType } from '@redhat-cloud-services/insights-common-typescript';
 import { TriggerExporterCsv } from './Csv';
 import { TriggerExporterJson } from './Json';
 import { Trigger } from '../../../types/Trigger';

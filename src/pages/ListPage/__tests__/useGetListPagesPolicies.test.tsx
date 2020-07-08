@@ -3,7 +3,7 @@ import { act, renderHook } from '@testing-library/react-hooks';
 import fetchMock, { UNMATCHED } from 'fetch-mock';
 import { ClientContextProvider, createClient } from 'react-fetching-library';
 import { useGetListPagePolicies } from '../useGetListPagePolicies';
-import { Page, pageToQuery } from 'common-code-ui';
+import { Page, pageToQuery } from '@redhat-cloud-services/insights-common-typescript';
 import { actionGetPolicies } from '../../../generated/ActionCreators';
 
 describe('src/hooks/usePaginated', () => {

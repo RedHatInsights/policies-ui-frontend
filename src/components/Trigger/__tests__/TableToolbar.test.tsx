@@ -2,7 +2,7 @@ import * as React from 'react';
 import { render } from '@testing-library/react';
 import { PrimaryToolbar } from '@redhat-cloud-services/frontend-components';
 import { TriggerTableToolbar } from '../TableToolbar';
-import { Page, ExporterType } from 'common-code-ui';
+import { Page, ExporterType } from '@redhat-cloud-services/insights-common-typescript';
 import { PaginationVariant } from '@patternfly/react-core';
 
 jest.mock('@redhat-cloud-services/frontend-components');

@@ -9,7 +9,7 @@ import {
     Title
 } from '@patternfly/react-core';
 import { ExclamationCircleIcon, CheckCircleIcon } from '@patternfly/react-icons';
-import { joinClasses, PFColors, Form } from 'common-code-ui';
+import { joinClasses, PFColors, Form } from '@redhat-cloud-services/insights-common-typescript';
 
 import { PartialPolicy, WizardActionType, WizardContext, WizardStepExtended } from '../PolicyWizardTypes';
 import { PolicyFormConditions } from '../../../schemas/CreatePolicy/PolicySchema';

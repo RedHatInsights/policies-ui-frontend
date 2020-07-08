@@ -2,12 +2,12 @@ import { renderHook } from '@testing-library/react-hooks';
 import inBrowserDownload from 'in-browser-download';
 import { useToolbarActions } from '../useToolbarActions';
 import { PolicyRow } from '../../../../components/Policy/Table/PolicyTable';
-import { addDangerNotification, ImmutableContainerSet, ExporterType } from 'common-code-ui';
+import { addDangerNotification, ImmutableContainerSet, ExporterType } from '@redhat-cloud-services/insights-common-typescript';
 import { Uuid } from '../../../../types/Policy/Policy';
 
 jest.mock('in-browser-download');
-jest.mock('common-code-ui', () => {
-    const real = jest.requireActual('common-code-ui');
+jest.mock('@redhat-cloud-services/insights-common-typescript', () => {
+    const real = jest.requireActual('@redhat-cloud-services/insights-common-typescript');
     return {
         ...real,
         addDangerNotification: jest.fn(() => {})

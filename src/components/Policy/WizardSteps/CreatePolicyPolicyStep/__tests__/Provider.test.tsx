@@ -9,8 +9,8 @@ import { useState } from 'react';
 let query;
 let setCurrentPage;
 let setFilters;
-jest.mock('common-code-ui', () => {
-    const real = jest.requireActual('common-code-ui');
+jest.mock('@redhat-cloud-services/insights-common-typescript', () => {
+    const real = jest.requireActual('@redhat-cloud-services/insights-common-typescript');
     return {
         ...real,
         useUrlState: (p) => useState(p)

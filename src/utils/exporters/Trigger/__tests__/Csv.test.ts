@@ -1,5 +1,5 @@
 import { TriggerExporterCsv } from '../Csv';
-import { ExporterType } from 'common-code-ui';
+import { ExporterType } from '@redhat-cloud-services/insights-common-typescript';
 
 describe('src/utils/exporters/Trigger/Csv', () => {
     it('has csv type', () => {

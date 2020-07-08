@@ -1,5 +1,5 @@
-import { useDebouncedState, useUrlStateString } from 'common-code-ui';
-import { assertNever } from 'common-code-ui';
+import { useDebouncedState, useUrlStateString } from '@redhat-cloud-services/insights-common-typescript';
+import { assertNever } from '@redhat-cloud-services/insights-common-typescript';
 import { useCallback, useMemo } from 'react';
 
 export enum TriggerFilterColumn {

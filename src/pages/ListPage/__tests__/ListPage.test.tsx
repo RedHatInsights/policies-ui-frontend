@@ -9,8 +9,8 @@ import { linkTo } from '../../../Routes';
 import userEvent from '@testing-library/user-event';
 import { useState } from 'react';
 
-jest.mock('common-code-ui', () => {
-    const real = jest.requireActual('common-code-ui');
+jest.mock('@redhat-cloud-services/insights-common-typescript', () => {
+    const real = jest.requireActual('@redhat-cloud-services/insights-common-typescript');
     return {
         ...real,
         useUrlState: (p) => useState(p)

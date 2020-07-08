@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useUrlState, useUrlStateString, useDebouncedState } from 'common-code-ui';
+import { useUrlState, useUrlStateString, useDebouncedState } from '@redhat-cloud-services/insights-common-typescript';
 import {
     ClearFilterCommand, ClearFilterHandlerType, IsActiveFilter,
     PolicyFilterBase,

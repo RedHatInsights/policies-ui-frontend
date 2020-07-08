@@ -1,6 +1,6 @@
 import { Policy } from '../../../types/Policy';
 import { toServerAction } from '../../../types/adapters/PolicyAdapter';
-import { ExporterCsv, ExporterHeaders } from 'common-code-ui';
+import { ExporterCsv, ExporterHeaders } from '@redhat-cloud-services/insights-common-typescript';
 
 export class PolicyExporterCsv extends ExporterCsv<Policy> {
 

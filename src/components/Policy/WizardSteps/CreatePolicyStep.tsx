@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Radio, Text, TextVariants, Title } from '@patternfly/react-core';
-import { Form, joinClasses } from 'common-code-ui';
+import { Form, joinClasses } from '@redhat-cloud-services/insights-common-typescript';
 import { WizardContext, WizardStepExtended } from '../PolicyWizardTypes';
 import { Messages } from '../../../properties/Messages';
 import { CopyFromPolicy } from './CopyFromPolicy';

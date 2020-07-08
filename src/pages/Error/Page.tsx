@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Messages } from '../../properties/Messages';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 import { linkTo } from '../../Routes';
-import { ErrorBoundaryPage } from 'common-code-ui';
+import { ErrorBoundaryPage } from '@redhat-cloud-services/insights-common-typescript';
 
 type ErrorPageProps = RouteComponentProps<any>;
 

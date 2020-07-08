@@ -1,7 +1,7 @@
 import * as React from 'react';
 import inBrowserDownload from 'in-browser-download';
 import { format } from 'date-fns';
-import { addDangerNotification, exporterTypeFromString } from 'common-code-ui';
+import { addDangerNotification, exporterTypeFromString } from '@redhat-cloud-services/insights-common-typescript';
 import { PolicyWizardState } from '../ListPage';
 import { Policy } from '../../../types/Policy';
 import { UsePaginatedQueryResponse, UsePolicyRowsReturn } from '../../../hooks';

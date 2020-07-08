@@ -6,9 +6,9 @@ import { ClientContextProvider, createClient } from 'react-fetching-library';
 import fetchMock, { UNMATCHED } from 'fetch-mock';
 import { formatConditionError } from '../CreatePolicyWizard';
 import { useFacts } from '../../../hooks/useFacts';
-import { addSuccessNotification } from 'common-code-ui';
-jest.mock('common-code-ui', () => {
-    const real = jest.requireActual('common-code-ui');
+import { addSuccessNotification } from '@redhat-cloud-services/insights-common-typescript';
+jest.mock('@redhat-cloud-services/insights-common-typescript', () => {
+    const real = jest.requireActual('@redhat-cloud-services/insights-common-typescript');
     return {
         ...real,
         addSuccessNotification: jest.fn(() => {})
