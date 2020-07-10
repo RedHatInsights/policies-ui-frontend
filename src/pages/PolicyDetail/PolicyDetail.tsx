@@ -240,7 +240,7 @@ export const PolicyDetail: React.FunctionComponent = () => {
                                 count={ getTriggers.payload?.count }
                                 page={ page }
                                 onPaginationChanged={ onPaginationChanged }
-                                pageCount={ getTriggers.payload?.data.length }
+                                pageCount={ getTriggers.payload?.data?.length }
                                 onExport={ onExport }
                             />
                             <TriggerTable
