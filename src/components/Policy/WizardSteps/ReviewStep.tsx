@@ -2,21 +2,20 @@ import * as React from 'react';
 import { useFormikContext } from 'formik';
 
 import { PartialPolicy, WizardContext, WizardStepExtended } from '../PolicyWizardTypes';
-import { Switch, FormText } from '../../Formik/Patternfly';
+import { Switch, FormText, Form } from '@redhat-cloud-services/insights-common-typescript';
 import { Title } from '@patternfly/react-core';
 import { PolicyFormSchema } from '../../../schemas/CreatePolicy/PolicySchema';
 import { useContext } from 'react';
-import { GlobalBackgroundColorLight300 } from '../../../utils/PFColors';
+import { PFColors } from '@redhat-cloud-services/insights-common-typescript';
 import { style } from 'typestyle';
 import { Messages } from '../../../properties/Messages';
-import { Form } from '../../Formik/Patternfly/Form';
 import { Conditions } from '../Table/ExpandedContent/Conditions';
 import { Actions } from '../Table/ExpandedContent/Actions';
 import { Action } from '../../../types/Policy/Actions';
 import { padding } from 'csstips';
 
 const conditionsAndActionsBlockClassName = style({
-    backgroundColor: GlobalBackgroundColorLight300,
+    backgroundColor: PFColors.GlobalBackgroundColorLight300,
     ...padding(18, 14),
     margin: 5
 });

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { NewPolicy } from '../../../../types/Policy/Policy';
 import { usePolicyFilter, usePolicyPage, usePolicyRows } from '../../../../hooks';
-import { useSort } from '../../../../hooks/useSort';
+import { useSort } from '@redhat-cloud-services/insights-common-typescript';
 import { useGetPoliciesQuery } from '../../../../services/useGetPolicies';
 import { useUpdateEffect } from 'react-use';
 import { CreatePolicyStepContext } from './Context';

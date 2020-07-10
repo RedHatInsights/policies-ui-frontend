@@ -1,5 +1,5 @@
 import { actionCreator } from '../useGetPoliciesIds';
-import { Page } from '../../types/Page';
+import { Page } from '@redhat-cloud-services/insights-common-typescript';
 
 describe('src/services/useGetPoliciesIds', () => {
     it('is a get request', () => {

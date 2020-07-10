@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { makeCopyOfPolicy } from '../../../types/adapters/PolicyAdapter';
-import { assertNever } from '../../../utils/Assert';
+import { assertNever } from '@redhat-cloud-services/insights-common-typescript';
 import { NewPolicy, Policy } from '../../../types/Policy/Policy';
 import { useCallback } from 'react';
 

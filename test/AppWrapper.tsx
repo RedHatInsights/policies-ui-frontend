@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { init } from '../src/store';
+import { initStore, getInsights } from '@redhat-cloud-services/insights-common-typescript';
 import { RouteProps, Route } from 'react-router';
 import { MemoryRouter as Router } from 'react-router-dom';
 import { ClientContextProvider, createClient } from 'react-fetching-library';
@@ -7,11 +7,10 @@ import { Provider } from 'react-redux';
 import fetchMock = require('fetch-mock');
 import { MemoryRouterProps, useLocation } from 'react-router';
 import { AppContext } from '../src/app/AppContext';
-import { getInsights } from '../src/utils/Insights';
 
 let setup = false;
 let client;
-const store = init().getStore();
+const store = initStore().getStore();
 
 export const appWrapperSetup = () => {
     if (setup) {

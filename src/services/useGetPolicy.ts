@@ -1,7 +1,7 @@
 import { useParameterizedQuery, useQuery } from 'react-fetching-library';
 import { actionGetPoliciesById } from '../generated/ActionCreators';
 import { ServerPolicyResponse, Uuid } from '../types/Policy/Policy';
-import { useTransformQueryResponse } from '../utils/ApiUtils';
+import { useTransformQueryResponse } from '@redhat-cloud-services/insights-common-typescript';
 import { toPolicy } from '../types/adapters/PolicyAdapter';
 
 export const actionCreator = (policyId: Uuid) => {

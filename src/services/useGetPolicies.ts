@@ -1,12 +1,10 @@
-import { Page } from '../types/Page';
-import { useTransformQueryResponse } from '../utils/ApiUtils';
+import { pageToQuery, useTransformQueryResponse, Page } from '@redhat-cloud-services/insights-common-typescript';
 import { Policy } from '../types/Policy';
 import { useNewPaginatedQuery, UsePaginatedQueryResponse } from '../hooks';
 import { PagedServerPolicyResponse } from '../types/Policy/Policy';
 import { toPolicies } from '../types/adapters/PolicyAdapter';
 import { useQuery } from 'react-fetching-library';
 import { actionGetPolicies } from '../generated/ActionCreators';
-import { pageToQuery } from './Api/ActionBuilder';
 
 export const actionCreator = (page?: Page) => actionGetPolicies(pageToQuery(page));
 

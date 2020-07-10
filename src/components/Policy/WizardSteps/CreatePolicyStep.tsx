@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { Radio, Text, TextVariants, Title } from '@patternfly/react-core';
+import { Form, joinClasses } from '@redhat-cloud-services/insights-common-typescript';
 import { WizardContext, WizardStepExtended } from '../PolicyWizardTypes';
 import { Messages } from '../../../properties/Messages';
 import { CopyFromPolicy } from './CopyFromPolicy';
@@ -9,10 +10,8 @@ import * as Yup from 'yup';
 import { useContext } from 'react';
 import { makeCopyOfPolicy } from '../../../types/adapters/PolicyAdapter';
 import { NewPolicy } from '../../../types/Policy/Policy';
-import { Form } from '../../Formik/Patternfly/Form';
 import { useUpdateEffect } from 'react-use';
 import { CreatePolicyStepContext } from './CreatePolicyPolicyStep/Context';
-import { joinClasses } from '../../../utils/ComponentUtils';
 
 type CreateCustomPolicyFormType = NewPolicy & {
     isValid?: boolean;

@@ -2,24 +2,36 @@ import * as React from 'react';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { PolicyDetailEmptyState } from '../EmptyState';
-import { getRouterWrapper } from '../../../../test/RouterWrapper';
+import { appWrapperCleanup, appWrapperSetup, getConfiguredAppWrapper } from '../../../../test/AppWrapper';
 
 describe('src/pages/PolicyDetail/EmptyState', () => {
+
+    beforeEach(() => {
+        appWrapperSetup();
+    });
+
+    afterEach(() => {
+        appWrapperCleanup();
+    });
+
     it('Renders the passed policyId', () => {
-        const { RouterWrapper } = getRouterWrapper('/');
+        const AppWrapper = getConfiguredAppWrapper();
         render(<PolicyDetailEmptyState policyId="foo-policy-id"/>, {
-            wrapper: RouterWrapper
+            wrapper: AppWrapper
         });
         expect(screen.getByText(/foo-policy-id/i)).toBeVisible();
     });
 
     it('Goes to list page when clicking the button', async () => {
-        const { RouterWrapper, data } = getRouterWrapper('/');
+        const getLocation = jest.fn();
+        const AppWrapper = getConfiguredAppWrapper({
+            getLocation
+        });
         render(<PolicyDetailEmptyState policyId="foo-policy-id"/>, {
-            wrapper: RouterWrapper
+            wrapper: AppWrapper
         });
 
         await userEvent.click(screen.getByRole('button'));
-        expect(data.location.pathname).toBe('/list');
+        expect(getLocation().pathname).toBe('/list');
     });
 });

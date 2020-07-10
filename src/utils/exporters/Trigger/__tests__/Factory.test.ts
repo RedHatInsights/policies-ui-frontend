@@ -1,7 +1,7 @@
 import { triggerExporterFactory } from '../Factory';
 import { TriggerExporterCsv } from '../Csv';
 import { TriggerExporterJson } from '../Json';
-import { ExporterType } from '../../Type';
+import { ExporterType } from '@redhat-cloud-services/insights-common-typescript';
 
 describe('src/utils/exporters/Trigger/Factory', () => {
     it('get CSV Exporter', () => {

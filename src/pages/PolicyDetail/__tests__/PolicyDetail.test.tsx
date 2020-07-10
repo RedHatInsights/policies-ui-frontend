@@ -372,6 +372,7 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
         });
 
         await waitForAsyncEvents();
+        expect(getLocation().pathname).toEqual(linkTo.policyDetail('foo'));
         userEvent.click(screen.getByTestId('policy-detail-actions-button'));
         userEvent.click(screen.getByText(/duplicate/i));
         await waitForAsyncEvents();

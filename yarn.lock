@@ -1251,6 +1251,34 @@
     "@redhat-cloud-services/frontend-components-utilities" "*"
     sanitize-html "^1.25.0"
 
+"@redhat-cloud-services/insights-common-typescript@0.0.3":
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/@redhat-cloud-services/insights-common-typescript/-/insights-common-typescript-0.0.3.tgz#23de01ce5723898eef31552374c5220fcb58a91e"
+  integrity sha512-9GMWtfYApzWIo+WuNGjrXapGyikzLFIFBug+XOwotlAHNZGPbR5VM+sEeQDxFvIup/p5ZIeQd0JHp/zu33Oh1A==
+  dependencies:
+    "@patternfly/react-core" "4.18.5"
+    "@patternfly/react-icons" "4.3.5"
+    "@patternfly/react-table" "4.5.7"
+    "@redhat-cloud-services/frontend-components" "2.1.2"
+    "@redhat-cloud-services/frontend-components-notifications" "2.1.0"
+    "@redhat-cloud-services/frontend-components-utilities" "2.1.0"
+    "@redhat-cloud-services/rbac-client" "1.0.67"
+    axios "^0.19.2"
+    camelcase "5.3.1"
+    classnames "^2.2.6"
+    csx "^10.0.1"
+    formik "2.1.4"
+    lodash "4.17.15"
+    react-content-loader "^3.4.2"
+    react-fetching-library "1.7.4"
+    react-redux "^5.1.2"
+    react-router-dom "5.1.2"
+    react-use "^13.24.0"
+    redux "^4.0.4"
+    redux-logger "^3.0.6"
+    redux-promise-middleware "^5.1.1"
+    typestyle "^2.0.4"
+
 "@redhat-cloud-services/rbac-client@1.0.67":
   version "1.0.67"
   resolved "https://registry.yarnpkg.com/@redhat-cloud-services/rbac-client/-/rbac-client-1.0.67.tgz#409c83f50d566ef48d6db443db856a7261d6b2dd"

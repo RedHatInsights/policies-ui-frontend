@@ -5,17 +5,22 @@ import fetchMock, { UNMATCHED } from 'fetch-mock';
 import { createPolicyStep, CreatePolicyStep } from '../CreatePolicyStep';
 import { Formik } from 'formik';
 import { CreatePolicyStepContextProvider, defaultPerPage } from '../CreatePolicyPolicyStep/Provider';
-import { pageToQuery } from '../../../../services/Api/ActionBuilder';
+import { pageToQuery, Page } from '@redhat-cloud-services/insights-common-typescript';
 import { ClientContextProvider, createClient } from 'react-fetching-library';
-import { Page } from '../../../../types/Page';
 import { act } from 'react-dom/test-utils';
 import { WizardContext } from '../../PolicyWizardTypes';
 import { PagedServerPolicyResponse } from '../../../../types/Policy/Policy';
-import { FormTextInput } from '../../../Formik/Patternfly';
+import { FormTextInput } from '@redhat-cloud-services/insights-common-typescript';
 import { actionGetPolicies } from '../../../../generated/ActionCreators';
+import { useState } from 'react';
 
-jest.mock('../../../../hooks/useUrlState');
-
+jest.mock('@redhat-cloud-services/insights-common-typescript', () => {
+    const real = jest.requireActual('@redhat-cloud-services/insights-common-typescript');
+    return {
+        ...real,
+        useUrlState: (p) => useState(p)
+    };
+});
 describe('src/components/Policy/WizardSteps/CreatePolicyStep', () => {
 
     const client = createClient();

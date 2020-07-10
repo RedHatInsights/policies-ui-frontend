@@ -1,8 +1,6 @@
-import { assertNever } from '../../Assert';
+import { assertNever, Exporter, ExporterType } from '@redhat-cloud-services/insights-common-typescript';
 import { TriggerExporterCsv } from './Csv';
 import { TriggerExporterJson } from './Json';
-import { Exporter } from '../Base';
-import { ExporterType } from '../Type';
 import { Trigger } from '../../../types/Trigger';
 
 export const triggerExporterFactory = (type: ExporterType): Exporter<Trigger> => {

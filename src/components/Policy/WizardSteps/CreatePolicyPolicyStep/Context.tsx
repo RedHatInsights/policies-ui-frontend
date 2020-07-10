@@ -6,7 +6,7 @@ import {
     UsePolicyPageReturn,
     UsePolicyRowsReturn
 } from '../../../../hooks';
-import { UsePolicySortReturn } from '../../../../hooks/useSort';
+import { UsePolicySortReturn } from '@redhat-cloud-services/insights-common-typescript';
 
 export interface CreatePolicyStepContextType {
     copyPolicy: boolean;

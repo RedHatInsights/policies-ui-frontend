@@ -8,7 +8,7 @@ import {
 import { Spinner } from '@patternfly/react-core';
 import { style } from 'typestyle';
 import { ExclamationCircleIcon } from '@patternfly/react-icons';
-import { GlobalDangerColor100 } from '../../utils/PFColors';
+import { PFColors } from '@redhat-cloud-services/insights-common-typescript';
 import { useContext } from 'react';
 import { WizardContext } from './PolicyWizardTypes';
 
@@ -76,7 +76,7 @@ export const PolicyWizardFooter: React.FunctionComponent<PolicyWizardFooterProps
                             { !props.isLoading && props.error && (
                                 <Split className={ loadingClassName }>
                                     <SplitItem>
-                                        <ExclamationCircleIcon className={ exclamationClassName } color={ GlobalDangerColor100 }/>
+                                        <ExclamationCircleIcon className={ exclamationClassName } color={ PFColors.GlobalDangerColor100 }/>
                                     </SplitItem>
                                     <SplitItem>{ props.error }</SplitItem>
                                 </Split>

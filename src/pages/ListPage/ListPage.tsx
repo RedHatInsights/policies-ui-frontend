@@ -12,14 +12,12 @@ import { ActionType } from '../../types/Policy';
 import { DeletePolicy } from './DeletePolicy';
 import { NewPolicy } from '../../types/Policy/Policy';
 import { usePolicyFilter, usePolicyPage, usePolicyRows } from '../../hooks';
-import { useSort } from '../../hooks/useSort';
-import { EmailOptIn } from '../../components/EmailOptIn/EmailOptIn';
+import { useSort, Page, InsightsEmailOptIn, getInsights } from '@redhat-cloud-services/insights-common-typescript';
 import { Messages } from '../../properties/Messages';
 import { style } from 'typestyle';
 import { ListPageEmptyState } from './EmptyState';
 import { usePrevious } from 'react-use';
 import { useGetPoliciesQuery } from '../../services/useGetPolicies';
-import { Page } from '../../types/Page';
 import { usePolicyToDelete } from '../../hooks/usePolicyToDelete';
 import { useMassChangePolicyEnabledMutation } from '../../services/useMassChangePolicyEnabled';
 import { useGetListPagePolicies } from './useGetListPagePolicies';
@@ -170,7 +168,7 @@ const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
             getPoliciesQuery.payload &&
             getPoliciesQuery.payload.find(p => p.actions.find(a => a.type === ActionType.EMAIL)) && (
                 <PageSection className={ emailOptinPageClassName }>
-                    <EmailOptIn content={ Messages.pages.listPage.emailOptIn } />
+                    <InsightsEmailOptIn content={ Messages.pages.listPage.emailOptIn } insights={ getInsights() } />
                 </PageSection>
             )}
             <Main>

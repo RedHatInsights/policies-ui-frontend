@@ -15,17 +15,23 @@ import { Radio } from '@patternfly/react-core';
 import { SkeletonTable } from '@redhat-cloud-services/frontend-components';
 
 import { Policy } from '../../../types/Policy';
-import { Direction, Sort } from '../../../types/Page';
+import {
+    Direction,
+    Sort,
+    assertNever,
+    InsightsBetaDetector,
+    BetaIf,
+    BetaIfNot,
+    getInsights
+} from '@redhat-cloud-services/insights-common-typescript';
 import { ExpandedContent } from './ExpandedContent';
 import { Messages } from '../../../properties/Messages';
-import { assertNever } from '../../../utils/Assert';
 import { ActionsCell } from './ActionsCell';
 import { LastTriggeredCell } from './LastTriggeredCell';
 import { EmptyStateSection, EmptyStateSectionProps } from '../EmptyState/Section';
 import { style } from 'typestyle';
 import { Link } from 'react-router-dom';
 import { linkTo } from '../../../Routes';
-import { BetaDetector, BetaIf, BetaIfNot } from '../../Beta/BetaDetector';
 
 const emptyStateSectionBackgroundColor = style({
     backgroundColor: 'white'
@@ -76,14 +82,14 @@ const policiesToRows = (policies: PolicyRow[] | undefined, columnsToShow: ValidC
                             return (
                                 <>
                                     { linksToDetail ? (
-                                        <BetaDetector>
+                                        <InsightsBetaDetector insights={ getInsights() } >
                                             <BetaIf>
                                                 <Link to={ linkTo.policyDetail(policy.id) }>{ policy.name }</Link>
                                             </BetaIf>
                                             <BetaIfNot>
                                                 { policy.name }
                                             </BetaIfNot>
-                                        </BetaDetector>
+                                        </InsightsBetaDetector>
                                     ) : policy.name }
                                 </>
                             );

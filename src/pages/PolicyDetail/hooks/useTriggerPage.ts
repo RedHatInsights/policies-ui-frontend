@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useEffect } from 'react';
-import { Filter, Operator, Page, Sort } from '../../../types/Page';
+import { Filter, Operator, Page, Sort } from '@redhat-cloud-services/insights-common-typescript';
 import { TriggerFilterColumn, TriggerFilters } from './useTriggerFilter';
 
 const elementsPerPage = 50;

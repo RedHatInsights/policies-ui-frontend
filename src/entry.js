@@ -2,14 +2,15 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import { init } from './store';
+import { initStore, createFetchingClient, getBaseName, getStore } from '@redhat-cloud-services/insights-common-typescript';
 import App from './app/App';
-import getBaseName from './utils/getBaseName';
-import { client } from './app/FetchingConfiguration';
 import { ClientContextProvider } from 'react-fetching-library';
 
+const client = createFetchingClient();
+initStore();
+
 ReactDOM.render(
-    <Provider store={ init().getStore() }>
+    <Provider store={ getStore() }>
         <Router basename={ getBaseName(window.location.pathname) }>
             <ClientContextProvider client={ client }>
                 <App />

@@ -5,7 +5,7 @@
 * Note: As the time of writing, the schema is taken from:
 *   http://localhost:8080/api/policies/v1.0/openapi.json
 */
-import { actionBuilder } from '../services/Api/ActionBuilder';
+import { actionBuilder } from '@redhat-cloud-services/insights-common-typescript';
 import { Action } from 'react-fetching-library';
 import { withBaseUrl } from '../config/Config';
 import * as schemas from './Types';

@@ -2,11 +2,21 @@ import * as React from 'react';
 import { render, screen, act } from '@testing-library/react';
 import { PolicyWizard } from '../PolicyWizard';
 import userEvent from '@testing-library/user-event';
+import { useState } from 'react';
+import { mockInsights } from '@redhat-cloud-services/insights-common-typescript';
 
-jest.mock('../../../utils/Insights');
-jest.mock('../../../hooks/useUrlState');
-
+jest.mock('@redhat-cloud-services/insights-common-typescript', () => {
+    const real = jest.requireActual('@redhat-cloud-services/insights-common-typescript');
+    return {
+        ...real,
+        useUrlState: (p) => useState(p)
+    };
+});
 describe('src/components/Policy/PolicyWizard', () => {
+
+    beforeAll(() => {
+        mockInsights();
+    });
 
     it('Title is "Create a Policy" when not editing', async () => {
         jest.useFakeTimers();

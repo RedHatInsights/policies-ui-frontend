@@ -2,22 +2,22 @@ import * as React from 'react';
 import { render, screen, act } from '@testing-library/react';
 import App from '../App';
 import { AppWrapper, appWrapperSetup, appWrapperCleanup } from '../../../test/AppWrapper';
-import * as RbacUtils from '../../utils/RbacUtils';
-import { Rbac } from '../../types/Rbac';
+import { Rbac, fetchRBAC } from '@redhat-cloud-services/insights-common-typescript';
 
-jest.mock('../../utils/RbacUtils');
+jest.mock('@redhat-cloud-services/insights-common-typescript', () => {
+    const real = jest.requireActual('@redhat-cloud-services/insights-common-typescript');
+    const MockedAppSkeleton: React.FunctionComponent = () => <div data-testid="loading"><real.AppSkeleton/></div>;
+    return {
+        ...real,
+        AppSkeleton: MockedAppSkeleton,
+        fetchRBAC: jest.fn(real.fetchRBAC)
+    };
+});
 jest.mock('../../services/useUserSettingsEmailQuery');
 jest.mock('../../Routes', () => {
     const MockedRoutes: React.FunctionComponent = () => <div data-testid="content"/>;
     return {
         Routes: MockedRoutes
-    };
-});
-jest.mock('../../components/AppSkeleton/AppSkeleton', () => {
-    const RealAppSkeleton = jest.requireActual('../../components/AppSkeleton/AppSkeleton').AppSkeleton;
-    const MockedAppSkeleton: React.FunctionComponent = () => <div data-testid="loading"><RealAppSkeleton/></div>;
-    return {
-        AppSkeleton: MockedAppSkeleton
     };
 });
 
@@ -34,7 +34,7 @@ describe('src/app/App', () => {
     it('Shows loading when RBAC is not set', async () => {
         jest.useFakeTimers();
         const promise = new Promise<Rbac>(() => {});
-        jest.spyOn(RbacUtils, 'fetchRBAC').mockImplementation(() => promise);
+        (fetchRBAC as jest.Mock).mockImplementation(() => promise);
         render(
             <App/>,
             {
@@ -52,7 +52,7 @@ describe('src/app/App', () => {
 
     it('Shows the content when RBAC.canReadAll is set', async () => {
         jest.useFakeTimers();
-        jest.spyOn(RbacUtils, 'fetchRBAC').mockImplementation(() => Promise.resolve({
+        (fetchRBAC as jest.Mock).mockImplementation(() => Promise.resolve({
             canReadAll: true,
             canWriteAll: true
         }));
@@ -72,7 +72,7 @@ describe('src/app/App', () => {
 
     it('Shows error when RBAC does not have read access', async () => {
         jest.useFakeTimers();
-        jest.spyOn(RbacUtils, 'fetchRBAC').mockImplementation(() => Promise.resolve({
+        (fetchRBAC as jest.Mock).mockImplementation(() => Promise.resolve({
             canReadAll: false,
             canWriteAll: true
         }));

@@ -1,11 +1,10 @@
 import * as React from 'react';
 import { Title } from '@patternfly/react-core';
 
-import { FormTextArea, FormTextInput } from '../../Formik/Patternfly';
+import { FormTextArea, FormTextInput, Form } from '@redhat-cloud-services/insights-common-typescript';
 import { WizardActionType, WizardStepExtended } from '../PolicyWizardTypes';
 import { PolicyFormDetails } from '../../../schemas/CreatePolicy/PolicySchema';
 import { Messages } from '../../../properties/Messages';
-import { Form } from '../../Formik/Patternfly/Form';
 import { maxPolicyNameLength } from '../../../types/Policy/Policy';
 
 export const DetailsStep = () => {
