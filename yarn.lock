@@ -1221,10 +1221,10 @@
   resolved "https://registry.yarnpkg.com/@patternfly/react-tokens/-/react-tokens-4.6.0.tgz#1a9648537e3a7f0202663af49cba4ceda5886dfd"
   integrity sha512-zpA4AlYqJNJm5aqsarBVjod1gjP9muJ5oWI2ZwGUFiw4YNRn8eY7QKQ1VvNZxqwI+WSXl98jTqJiKuJGF3DEvw==
 
-"@redhat-cloud-services/frontend-components-config@2.1.0":
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/@redhat-cloud-services/frontend-components-config/-/frontend-components-config-2.1.0.tgz#c699ce6810d68f2d1a9b5c2782696e495333c89f"
-  integrity sha512-XYAFHAjIDSRf0kydIY96AYk0QLnrOBZgV4aAgWrPFLcnYY0MexJXss0skq/iCm+vmMtjHlsQPIoir+uUD0atKw==
+"@redhat-cloud-services/frontend-components-config@2.1.1":
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/@redhat-cloud-services/frontend-components-config/-/frontend-components-config-2.1.1.tgz#2318d995e3acbe2b6af1467eb82e8f0133ccbac5"
+  integrity sha512-RcPUzG09PXCO9fZDTBaF5Q99rCBgOcJ6THY8U3UmgPLKF8kN9XqCBU8IpwQqPt+SlhKqqjIu71xK5FHcOsSo4A==
   dependencies:
     babel-loader "^8.0.6"
     clean-webpack-plugin "^2.0.2"
