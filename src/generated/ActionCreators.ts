@@ -1,13 +1,8 @@
 /**
 * Generated code, DO NOT modify directly.
-* Instead update the openapi in policies-ui-backend and run in policies-ui-frontend
-*   `yarn schema` to re-generate this file.
-* Note: As the time of writing, the schema is taken from:
-*   http://localhost:8080/api/policies/v1.0/openapi.json
 */
 import { actionBuilder } from '@redhat-cloud-services/insights-common-typescript';
 import { Action } from 'react-fetching-library';
-import { withBaseUrl } from '../config/Config';
 import * as schemas from './Types';
 
 export interface UseGetPoliciesParams {
@@ -80,7 +75,7 @@ export interface UsePutPoliciesByPolicyIdParams {
 
 /** Just a filler to have a defined return code for the base path */
 export const actionGet = (): Action => {
-    const path = withBaseUrl('/');
+    const path = '/api/policies/v1.0/';
 
     const query = {} as Record<string, any>;
 
@@ -91,7 +86,7 @@ export const actionGet = (): Action => {
 
 /** Retrieve a list of fact (keys) along with their data types */
 export const actionGetFacts = (): Action => {
-    const path = withBaseUrl('/facts');
+    const path = '/api/policies/v1.0/facts';
 
     const query = {} as Record<string, any>;
 
@@ -102,7 +97,7 @@ export const actionGetFacts = (): Action => {
 
 /** Return all policies for a given account */
 export const actionGetPolicies = (params: UseGetPoliciesParams): Action => {
-    const path = withBaseUrl('/policies');
+    const path = '/api/policies/v1.0/policies';
 
     const query = {} as Record<string, any>;
     query['filter:op[description]'] = params.filterOpDescription;
@@ -122,7 +117,7 @@ export const actionGetPolicies = (params: UseGetPoliciesParams): Action => {
 
 /** Validate (and possibly persist) a passed policy for the given account */
 export const actionPostPolicies = (params: UsePostPoliciesParams): Action => {
-    const path = withBaseUrl('/policies');
+    const path = '/api/policies/v1.0/policies';
 
     const query = {} as Record<string, any>;
     query.alsoStore = params.alsoStore;
@@ -135,7 +130,7 @@ export const actionPostPolicies = (params: UsePostPoliciesParams): Action => {
 
 /** Return all policy ids for a given account after applying the filters */
 export const actionGetPoliciesIds = (params: UseGetPoliciesIdsParams): Action => {
-    const path = withBaseUrl('/policies/ids');
+    const path = '/api/policies/v1.0/policies/ids';
 
     const query = {} as Record<string, any>;
     query['filter:op[description]'] = params.filterOpDescription;
@@ -151,7 +146,7 @@ export const actionGetPoliciesIds = (params: UseGetPoliciesIdsParams): Action =>
 
 /** Delete policies for a customer by the ids passed in the body. Result will be a list of deleted UUIDs */
 export const actionDeletePoliciesIds = (params: UseDeletePoliciesIdsParams): Action => {
-    const path = withBaseUrl('/policies/ids');
+    const path = '/api/policies/v1.0/policies/ids';
 
     const query = {} as Record<string, any>;
 
@@ -163,7 +158,7 @@ export const actionDeletePoliciesIds = (params: UseDeletePoliciesIdsParams): Act
 
 /** Enable/disable policies identified by list of uuid in body */
 export const actionPostPoliciesIdsEnabled = (params: UsePostPoliciesIdsEnabledParams): Action => {
-    const path = withBaseUrl('/policies/ids/enabled');
+    const path = '/api/policies/v1.0/policies/ids/enabled';
 
     const query = {} as Record<string, any>;
     query.enabled = params.enabled;
@@ -176,7 +171,7 @@ export const actionPostPoliciesIdsEnabled = (params: UsePostPoliciesIdsEnabledPa
 
 /** Validates a Policy condition */
 export const actionPostPoliciesValidate = (params: UsePostPoliciesValidateParams): Action => {
-    const path = withBaseUrl('/policies/validate');
+    const path = '/api/policies/v1.0/policies/validate';
 
     const query = {} as Record<string, any>;
 
@@ -188,7 +183,7 @@ export const actionPostPoliciesValidate = (params: UsePostPoliciesValidateParams
 
 /** Validates the Policy.name and verifies if it is unique. */
 export const actionPostPoliciesValidateName = (params: UsePostPoliciesValidateNameParams): Action => {
-    const path = withBaseUrl('/policies/validate-name');
+    const path = '/api/policies/v1.0/policies/validate-name';
 
     const query = {} as Record<string, any>;
     query.id = params.id;
@@ -201,7 +196,7 @@ export const actionPostPoliciesValidateName = (params: UsePostPoliciesValidateNa
 
 /** Retrieve a single policy for a customer by its id */
 export const actionGetPoliciesById = (params: UseGetPoliciesByIdParams): Action => {
-    const path = withBaseUrl('/policies/{id}')
+    const path = '/api/policies/v1.0/policies/{id}'
     .replace('{id}', params.id);
 
     const query = {} as Record<string, any>;
@@ -213,7 +208,7 @@ export const actionGetPoliciesById = (params: UseGetPoliciesByIdParams): Action 
 
 /** Delete a single policy for a customer by its id */
 export const actionDeletePoliciesById = (params: UseDeletePoliciesByIdParams): Action => {
-    const path = withBaseUrl('/policies/{id}')
+    const path = '/api/policies/v1.0/policies/{id}'
     .replace('{id}', params.id);
 
     const query = {} as Record<string, any>;
@@ -225,7 +220,7 @@ export const actionDeletePoliciesById = (params: UseDeletePoliciesByIdParams): A
 
 /** Enable/disable a policy */
 export const actionPostPoliciesByIdEnabled = (params: UsePostPoliciesByIdEnabledParams): Action => {
-    const path = withBaseUrl('/policies/{id}/enabled')
+    const path = '/api/policies/v1.0/policies/{id}/enabled'
     .replace('{id}', params.id);
 
     const query = {} as Record<string, any>;
@@ -239,7 +234,7 @@ export const actionPostPoliciesByIdEnabled = (params: UsePostPoliciesByIdEnabled
 
 /** Retrieve the trigger history of a single policy */
 export const actionGetPoliciesByIdHistoryTrigger = (params: UseGetPoliciesByIdHistoryTriggerParams): Action => {
-    const path = withBaseUrl('/policies/{id}/history/trigger')
+    const path = '/api/policies/v1.0/policies/{id}/history/trigger'
     .replace('{id}', params.id);
 
     const query = {} as Record<string, any>;
@@ -254,7 +249,7 @@ export const actionGetPoliciesByIdHistoryTrigger = (params: UseGetPoliciesByIdHi
 
 /** Update a single policy for a customer by its id */
 export const actionPutPoliciesByPolicyId = (params: UsePutPoliciesByPolicyIdParams): Action => {
-    const path = withBaseUrl('/policies/{policyId}')
+    const path = '/api/policies/v1.0/policies/{policyId}'
     .replace('{policyId}', params.policyId);
 
     const query = {} as Record<string, any>;

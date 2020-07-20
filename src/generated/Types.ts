@@ -1,9 +1,5 @@
 /**
 * Generated code, DO NOT modify directly.
-* Instead update the openapi in policies-ui-backend and run in policies-ui-frontend
-*   `yarn schema` to re-generate this file.
-* Note: As the time of writing, the schema is taken from:
-*   http://localhost:8080/api/policies/v1.0/openapi.json
 */
 export interface Fact {
   id?: number;
