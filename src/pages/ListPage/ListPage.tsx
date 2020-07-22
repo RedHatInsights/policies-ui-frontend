@@ -8,7 +8,7 @@ import { PolicyToolbar } from '../../components/Policy/TableToolbar/PolicyTableT
 import { CreatePolicyWizard } from '../CreatePolicyWizard/CreatePolicyWizard';
 import { AppContext } from '../../app/AppContext';
 import { policyTableError } from './PolicyTableError';
-import { ActionType } from '../../types/Policy';
+import { ActionType, Policy } from '../../types/Policy';
 import { DeletePolicy } from './DeletePolicy';
 import { NewPolicy } from '../../types/Policy/Policy';
 import { usePolicyFilter, usePolicyPage, usePolicyRows } from '../../hooks';
@@ -47,6 +47,14 @@ const emailOptinPageClassName = style({
     paddingBottom: 0
 });
 
+const getPoliciesFromPayload = (payload: unknown, status: number | undefined): Array<Policy> | undefined => {
+    if (status === 200 || status === 404) {
+        return payload as Array<Policy>;
+    }
+
+    return undefined;
+};
+
 const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
 
     const [ policyWizardState, setPolicyWizardState ] = React.useState<PolicyWizardState>({
@@ -69,7 +77,12 @@ const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
 
     let isLoading = getPoliciesQuery.loading || changePolicyEnabledMutation.loading;
 
-    const policyRows = usePolicyRows(getPoliciesQuery.payload, isLoading, getPoliciesQuery.count, policyPage.page);
+    const policyRows = usePolicyRows(
+        getPoliciesFromPayload(getPoliciesQuery.payload, getPoliciesQuery.status),
+        isLoading,
+        getPoliciesQuery.count,
+        policyPage.page
+    );
     const {
         clearSelection,
         loadingSelected
@@ -165,8 +178,7 @@ const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
                 <PageHeaderTitle title={ Messages.pages.listPage.title }/>
             </PageHeader>
             { !appContext.userSettings.isSubscribedForNotifications &&
-            getPoliciesQuery.payload &&
-            getPoliciesQuery.payload.find(p => p.actions.find(a => a.type === ActionType.EMAIL)) && (
+            policyRows.rows.find(p => p.actions.find(a => a.type === ActionType.EMAIL)) && (
                 <PageSection className={ emailOptinPageClassName }>
                     <InsightsEmailOptIn content={ Messages.pages.listPage.emailOptIn } insights={ getInsights() } />
                 </PageSection>
@@ -188,7 +200,7 @@ const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
                             onSelectionChanged={ policyRows.onSelectionChanged }
                             selectedCount={ policyRows.selectionCount }
                             page={ policyPage.page.index }
-                            pageCount={ getPoliciesQuery.payload?.length }
+                            pageCount={ policyRows.rows.length }
                             perPage={ policyPage.page.size }
                             showPerPageOptions={ true }
                             filterElements={ policyFilters.filters }

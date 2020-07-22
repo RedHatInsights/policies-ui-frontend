@@ -30,6 +30,7 @@ export const policyTableError = (
                     actionLabel: 'Reload page'
                 };
             case 500:
+            case 502:
                 return {
                     icon: ExclamationCircleIcon,
                     iconColor: PFColors.GlobalDangerColor200,
