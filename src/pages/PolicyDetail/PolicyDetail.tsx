@@ -16,7 +16,6 @@ import { BreadcrumbLinkItem, Section, useSort } from '@redhat-cloud-services/ins
 import { useGetPolicyParametrizedQuery } from '../../services/useGetPolicy';
 import { ExpandedContent } from '../../components/Policy/Table/ExpandedContent';
 import { style } from 'typestyle';
-import { useGetPolicyTriggersParametrizedQuery } from '../../services/useGetPolicyTriggers';
 import { TriggerTable } from '../../components/Trigger/Table';
 import { TriggerTableToolbar } from '../../components/Trigger/TableToolbar';
 import { CreatePolicyWizard } from '../CreatePolicyWizard/CreatePolicyWizard';
@@ -41,6 +40,8 @@ import { DeletePolicy } from '../ListPage/DeletePolicy';
 import { useWizardState } from './hooks/useWizardState';
 import { usePolicy } from './hooks/usePolicy';
 import { useGetAllTriggers } from './hooks/useGetAllTriggers';
+import { useGetPolicyDetailTriggerHistory } from './hooks/useGetPolicyDetailTriggerHistory';
+import { TriggerTableEmptyState } from '../../components/Trigger/Table/EmptyState';
 
 const recentTriggerVersionTitleClassname = style({
     paddingBottom: 8,
@@ -61,8 +62,7 @@ export const PolicyDetail: React.FunctionComponent = () => {
     const policyToDelete = usePolicyToDelete();
 
     const getPolicyQuery = useGetPolicyParametrizedQuery();
-    const getTriggers = useGetPolicyTriggersParametrizedQuery();
-    const getAllTriggers = useGetAllTriggers(policyId);
+    const getTriggers = useGetPolicyDetailTriggerHistory();
     const triggerFilter = useTriggerFilter();
     const changePolicyEnabled = useMassChangePolicyEnabledMutation();
 
@@ -71,6 +71,8 @@ export const PolicyDetail: React.FunctionComponent = () => {
         page,
         onPaginationChanged
     } = useTriggerPage(sort.sortBy, triggerFilter.debouncedFilters);
+
+    const getAllTriggers = useGetAllTriggers(policyId, page.filter);
 
     const wizardState = useWizardState(policy);
 
@@ -231,25 +233,34 @@ export const PolicyDetail: React.FunctionComponent = () => {
                     <Title headingLevel="h2" size="lg">Recent trigger history</Title>
                 </div>
                 <Section>
-                    { (getTriggers.payload && getTriggers.payload.count > 0) || getTriggers.loading ? (
+                    { getTriggers.hasTriggers === false ? (
+                        <PolicyDetailTriggerEmptyState/>
+                    ) : (
                         <>
                             <TriggerTableToolbar
                                 count={ getTriggers.payload?.count }
                                 page={ page }
                                 onPaginationChanged={ onPaginationChanged }
                                 pageCount={ getTriggers.payload?.data?.length }
+                                filters={ triggerFilter.filters }
+                                setFilters={ triggerFilter.setFilters }
+                                clearFilters={ triggerFilter.clearFilter }
                                 onExport={ onExport }
                             />
-                            <TriggerTable
-                                rows={ getTriggers.payload?.data }
-                                onSort={ sort.onSort }
-                                sortBy={ sort.sortBy }
-                                loading={ getTriggers.loading }
-                            />
+                            {
+                                (getTriggers.payload && getTriggers.payload.count > 0) || getTriggers.loading ? (
+                                    <TriggerTable
+                                        rows={ getTriggers.payload?.data }
+                                        onSort={ sort.onSort }
+                                        sortBy={ sort.sortBy }
+                                        loading={ getTriggers.loading }
+                                    />
+                                ) : (
+                                    <TriggerTableEmptyState/>
+                                )
+                            }
                         </>
-                    ) : (
-                        <PolicyDetailTriggerEmptyState/>
-                    ) }
+                    )}
                 </Section>
             </Main>
             { wizardState.data.isOpen && <CreatePolicyWizard
