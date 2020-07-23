@@ -1,6 +1,6 @@
 import { actionGetPoliciesByIdHistoryTrigger } from '../generated/ActionCreators';
 import { Uuid } from '../types/Policy/Policy';
-import { useParameterizedQuery, useQuery } from 'react-fetching-library';
+import { useParameterizedQuery } from 'react-fetching-library';
 import { PagedServerTriggerResponse, PagedTrigger } from '../types/Trigger';
 import { toTriggers } from '../types/adapters/TriggerAdapter';
 import { pageToQuery, Page, useTransformQueryResponse } from '@redhat-cloud-services/insights-common-typescript';

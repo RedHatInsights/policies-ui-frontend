@@ -36,7 +36,7 @@ export const useGetAllTriggers = (policyId: Uuid, filter: Filter | undefined) =>
 
             resolve(triggers);
         });
-    }, [ client, policyId ]);
+    }, [ client, policyId, filter ]);
 
     return getAllTriggers;
 };
