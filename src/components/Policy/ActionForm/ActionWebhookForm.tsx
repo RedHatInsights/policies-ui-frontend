@@ -19,9 +19,9 @@ const TextWithLink: React.FunctionComponent<TextWithLinkProps> = (props) => {
     );
 };
 
-const hooksUrl = Config.pages.hooks();
-
 export const ActionWebhookForm: React.FunctionComponent<ActionFormProps> = (_props: ActionFormProps) => {
+
+    const hooksUrl = React.useMemo(() => Config.pages.hooks(), []);
 
     return (
         <>
