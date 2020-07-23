@@ -63,6 +63,10 @@ export interface UsePostPoliciesByIdEnabledParams {
 
 export interface UseGetPoliciesByIdHistoryTriggerParams {
     id: schemas.Uuid;
+    filterOpId?: 'equal' | 'not_equal';
+    filterOpName?: 'equal' | 'like' | 'not_equal';
+    filterId?: string;
+    filterName?: string;
     limit?: number;
     offset?: number;
 }
@@ -239,6 +243,10 @@ export const actionGetPoliciesByIdHistoryTrigger = (params: UseGetPoliciesByIdHi
 
     const query = {} as Record<string, any>;
 
+    query['filter:op[id]'] = params.filterOpId;
+    query['filter:op[name]'] = params.filterOpName;
+    query['filter[id]'] = params.filterId;
+    query['filter[name]'] = params.filterName;
     query.limit = params.limit;
     query.offset = params.offset;
 
