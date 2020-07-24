@@ -6,7 +6,7 @@ import {
     ICell,
     IRow,
     SortByDirection,
-    ISortBy
+    ISortBy, sortable
 } from '@patternfly/react-table';
 import { SkeletonTable } from '@redhat-cloud-services/frontend-components';
 import { Direction, Sort, toUtc, localUrl, getInsights } from '@redhat-cloud-services/insights-common-typescript';
@@ -26,11 +26,11 @@ interface TriggerTableProps {
 const cells: ICell[] = [
     {
         title: Messages.tables.trigger.columns.date,
-        transforms: [ ]
+        transforms: [ sortable ]
     },
     {
         title: Messages.tables.trigger.columns.system,
-        transforms: [ ]
+        transforms: [ sortable ]
     }
 ];
 
@@ -63,7 +63,7 @@ export const TriggerTable: React.FunctionComponent<TriggerTableProps> = (props) 
     const onSortHandler = React.useCallback((_event, index: number, direction: SortByDirection) => {
         const onSort = props.onSort;
         if (onSort) {
-            const column = index === 0 ? 'date' : 'system';
+            const column = index === 0 ? 'ctime' : 'name';
             onSort(index, column, direction === SortByDirection.asc ? Direction.ASCENDING : Direction.DESCENDING);
         }
     }, [ props.onSort ]);
@@ -71,7 +71,7 @@ export const TriggerTable: React.FunctionComponent<TriggerTableProps> = (props) 
     const sortBy = React.useMemo<ISortBy | undefined>(() => {
         if (props.sortBy) {
             return {
-                index: props.sortBy.column === 'date' ? 0 : 1,
+                index: props.sortBy.column === 'ctime' ? 0 : 1,
                 direction: props.sortBy.direction === Direction.ASCENDING ? 'asc' : 'desc'
             };
         }

@@ -69,6 +69,8 @@ export interface UseGetPoliciesByIdHistoryTriggerParams {
     filterName?: string;
     limit?: number;
     offset?: number;
+    sortColumn?: 'hostName' | 'id' | 'ctime';
+    sortDirection?: 'asc' | 'desc';
 }
 
 export interface UsePutPoliciesByPolicyIdParams {
@@ -249,6 +251,8 @@ export const actionGetPoliciesByIdHistoryTrigger = (params: UseGetPoliciesByIdHi
     query['filter[name]'] = params.filterName;
     query.limit = params.limit;
     query.offset = params.offset;
+    query.sortColumn = params.sortColumn;
+    query.sortDirection = params.sortDirection;
 
     return actionBuilder('GET', path)
     .queryParams(query)

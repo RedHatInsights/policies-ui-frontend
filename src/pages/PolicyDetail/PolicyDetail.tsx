@@ -48,7 +48,7 @@ const recentTriggerVersionTitleClassname = style({
     paddingTop: 16
 });
 
-const defaultSort = Sort.by('date', Direction.DESCENDING);
+const defaultSort = Sort.by('ctime', Direction.DESCENDING);
 
 type PolicyQueryResponse = ReturnType<ReturnType<typeof useGetPolicyParametrizedQuery>['query']> extends Promise<infer U> ? U : never
 
