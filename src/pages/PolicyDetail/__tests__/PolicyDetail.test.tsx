@@ -1,6 +1,6 @@
 import * as React from 'react';
-import fetchMock  from 'fetch-mock';
-import { render, screen, getByRole } from '@testing-library/react';
+import fetchMock from 'fetch-mock';
+import { getByRole, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import inBrowserDownload from 'in-browser-download';
 import { PolicyDetail } from '../PolicyDetail';
@@ -9,11 +9,17 @@ import { linkTo } from '../../../Routes';
 import {
     actionDeletePoliciesIds,
     actionGetPoliciesById,
-    actionGetPoliciesByIdHistoryTrigger, actionPostPolicies, actionPostPoliciesIdsEnabled, actionPostPoliciesValidate,
-    actionPostPoliciesValidateName, actionPutPoliciesByPolicyId
+    actionGetPoliciesByIdHistoryTrigger,
+    actionPostPolicies,
+    actionPostPoliciesIdsEnabled,
+    actionPostPoliciesValidate,
+    actionPostPoliciesValidateName,
+    actionPutPoliciesByPolicyId,
+    UseGetPoliciesByIdHistoryTriggerParams
 } from '../../../generated/ActionCreators';
 import { waitForAsyncEvents } from '../../../../test/TestUtils';
 import { ServerPolicyRequest } from '../../../types/Policy/Policy';
+import { Direction, Page, pageToQuery, Sort } from '@redhat-cloud-services/insights-common-typescript';
 
 jest.mock('../../../hooks/useFacts');
 jest.mock('in-browser-download', () => jest.fn());
@@ -43,10 +49,11 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
         policy?: any;
         triggers?: any;
         triggerLoading?: jest.Mock;
-        triggerOffset?: number;
+        triggerPage?: number;
         triggerLimit?: number;
         triggersCount?: number;
         triggerStatus?: number;
+        noSort?: boolean;
     };
 
     const mockPolicy = {
@@ -96,9 +103,14 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
 
         fetchMock.getOnce(actionGetPoliciesByIdHistoryTrigger({
             id: config?.policyId || 'foo',
-            offset: config?.triggerOffset || 0,
-            limit: config?.triggerLimit || 50
-        }).endpoint, config?.triggerLoading ? new Promise((resolver) => config.triggerLoading?.mockImplementation(resolver)) : {
+            ...pageToQuery(Page.of(
+                config?.triggerPage !== undefined ? config.triggerPage : 1,
+                config?.triggerLimit || 50,
+                undefined,
+                config?.noSort === true ? undefined : Sort.by('ctime', Direction.DESCENDING)
+            ))
+        } as unknown as UseGetPoliciesByIdHistoryTriggerParams)
+        .endpoint, config?.triggerLoading ? new Promise((resolver) => config.triggerLoading?.mockImplementation(resolver)) : {
             body: {
                 data: (config?.triggers || mockTriggers),
                 meta: {
@@ -579,17 +591,20 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
         fetchMockSetup({
             triggersCount: 430,
             triggerLimit: 200,
-            triggerOffset: 0
+            triggerPage: 1,
+            noSort: true
         });
         fetchMockSetup({
             triggersCount: 430,
             triggerLimit: 200,
-            triggerOffset: 200
+            triggerPage: 2,
+            noSort: true
         });
         fetchMockSetup({
             triggersCount: 430,
             triggerLimit: 200,
-            triggerOffset: 400
+            triggerPage: 3,
+            noSort: true
         });
 
         userEvent.click(getByRole(screen.getByTestId('trigger-toolbar-export-container'), 'button'));
@@ -670,5 +685,24 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
         // Prevents the timeout
         finishLoading();
         await waitForAsyncEvents();
+    });
+
+    it('Sorts date descending by default ', async () => {
+        fetchMockSetup();
+        render(<PolicyDetail/>, {
+            wrapper: getConfiguredAppWrapper({
+                router: {
+                    initialEntries: [ linkTo.policyDetail('foo') ]
+                },
+                route: {
+                    path: linkTo.policyDetail(':policyId')
+                }
+            })
+        });
+
+        await waitForAsyncEvents();
+        expect(screen.getByText(/date/i, {
+            selector: 'th span'
+        }).closest('th')).toHaveAttribute('aria-sort', 'descending');
     });
 });
