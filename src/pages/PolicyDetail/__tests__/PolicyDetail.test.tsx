@@ -42,10 +42,11 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
         policyId?: string;
         policy?: any;
         triggers?: any;
-        triggerLoading?: boolean;
+        triggerLoading?: jest.Mock;
         triggerOffset?: number;
         triggerLimit?: number;
         triggersCount?: number;
+        triggerStatus?: number;
     };
 
     const mockPolicy = {
@@ -97,13 +98,14 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
             id: config?.policyId || 'foo',
             offset: config?.triggerOffset || 0,
             limit: config?.triggerLimit || 50
-        }).endpoint, config?.triggerLoading === true ? new Promise(() => '') : {
+        }).endpoint, config?.triggerLoading ? new Promise((resolver) => config.triggerLoading?.mockImplementation(resolver)) : {
             body: {
                 data: (config?.triggers || mockTriggers),
                 meta: {
                     count: config?.triggersCount || (config?.triggers || mockTriggers).length
                 }
-            }
+            },
+            status: config?.triggerStatus ?? 200
         }, {
             overwriteRoutes: false
         });
@@ -600,7 +602,7 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
 
     it('Export button is not found when no triggers', async () => {
         fetchMockSetup({
-            triggers: []
+            triggerStatus: 404
         });
         render((
             <>
@@ -622,9 +624,7 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
     });
 
     it('Trigger history does not show loading when not loading', async () => {
-        fetchMockSetup({
-            triggerLoading: false
-        });
+        fetchMockSetup();
         render((
             <>
                 <PolicyDetail/>
@@ -645,8 +645,9 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
     });
 
     it('Trigger history shows loading when loading it', async () => {
+        const finishLoading = jest.fn();
         fetchMockSetup({
-            triggerLoading: true
+            triggerLoading: finishLoading
         });
         render((
             <>
@@ -665,5 +666,9 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
 
         await waitForAsyncEvents();
         expect(screen.getByText('Loading Triggers')).toBeVisible(); // Mocked the loading element
+
+        // Prevents the timeout
+        finishLoading();
+        await waitForAsyncEvents();
     });
 });

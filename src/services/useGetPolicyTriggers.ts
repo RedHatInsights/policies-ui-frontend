@@ -30,3 +30,19 @@ export const useGetPolicyTriggersParametrizedQuery = () => {
         dataToTriggers
     );
 };
+
+const triggersToBooleanAdapter = (pagedTriggerResponse: PagedServerTriggerResponse) => {
+    return pagedTriggerResponse.data?.length;
+};
+
+export const hasTriggersQueryActionCreator = (policyId: Uuid) => actionGetPoliciesByIdHistoryTrigger({
+    id: policyId,
+    ...pageToQuery(Page.of(1, 1))
+});
+
+export const useHasPolicyTriggersParametrizedQuery = () => {
+    return useTransformQueryResponse(
+        useParameterizedQuery<PagedServerTriggerResponse>(hasTriggersQueryActionCreator),
+        triggersToBooleanAdapter
+    );
+};

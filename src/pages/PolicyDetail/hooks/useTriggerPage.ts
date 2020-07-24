@@ -9,9 +9,14 @@ export const useTriggerPage = (sort: Sort | undefined, filters: TriggerFilters) 
 
     const pageFilter = React.useMemo(() => {
         const pageFilter = new Filter();
-        const system = filters[TriggerFilterColumn.SYSTEM];
-        if (system && system.trim() !== '') {
-            pageFilter.and('system', Operator.ILIKE, system.trim().toLowerCase());
+        const name = filters[TriggerFilterColumn.NAME];
+        const id = filters[TriggerFilterColumn.ID];
+        if (name && name.trim() !== '') {
+            pageFilter.and('name', Operator.LIKE, name.trim().toLowerCase());
+        }
+
+        if (id && id.trim() !== '') {
+            pageFilter.and('id', Operator.EQUAL, id.trim().toLowerCase());
         }
 
         return pageFilter;
