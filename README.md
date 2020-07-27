@@ -92,3 +92,18 @@ When you want to test your code with unit tests please use `jest` which is preco
 
 The ui-frontend depends on types from the ui-backend, these are generated from the Openapi spec file, run `yarn schema` to reload the types.
 Generate types can be found in: `src/generated/`, check `package.json` for more info.
+
+## Generating random trigger history
+
+To generate random trigger history, it is needed to have access to kafka and kafkacat installed.
+
+To do so, simple run `yarn pushhost --account <account-number> --alert-count <number-of-elements>`.
+Use `yarn pushhost --help` for more information. For the specifics of what information is being sent, 
+check [src/cli/pushhost.ts](src/cli/pushhost.ts).
+
+You can store the account number in .push-host.env under the `INSIGHTS_ACCOUNT` and omit the argument from the command line.
+
+```bash
+$ cat .push-host.env 
+INSIGHTS_ACCOUNT=940527
+```
