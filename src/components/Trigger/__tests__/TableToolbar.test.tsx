@@ -12,10 +12,15 @@ describe('src/components/Trigger/TableToolbar', () => {
 
     const mockPrimaryToolbar = () => {
         const mockedControl = {
-            props: undefined
+            topProps: undefined,
+            bottomProps: undefined
         };
         (PrimaryToolbar as jest.Mock).mockImplementation(props => {
-            mockedControl.props = props;
+            if (mockedControl.topProps === undefined) {
+                mockedControl.topProps = props;
+            } else if (mockedControl.bottomProps === undefined) {
+                mockedControl.bottomProps = props;
+            }
         });
 
         return mockedControl as any;
@@ -43,6 +48,7 @@ describe('src/components/Trigger/TableToolbar', () => {
     it('Passes pagination props to the PrimaryToolbar', () => {
         const control = mockPrimaryToolbar();
         const paginationChanged = jest.fn();
+        const paginationSizeChanged = jest.fn();
         render(<TriggerTableToolbar
             page={ Page.of(33, 10) }
             onExport={ jest.fn() }
@@ -51,22 +57,40 @@ describe('src/components/Trigger/TableToolbar', () => {
             setFilters={ setFilterMocks() }
             clearFilters={ jest.fn() }
             onPaginationChanged={ paginationChanged }
+            onPaginationSizeChanged={ paginationSizeChanged }
             pageCount={ 1 }
         />);
 
-        expect(control.props.pagination).toEqual({
+        expect(control.topProps.pagination).toEqual({
             itemCount: 1337,
             page: 33,
             perPage: 10,
-            perPageOptions: [],
+            perPageOptions: undefined,
             onSetPage: paginationChanged,
             onFirstClick: paginationChanged,
             onPreviousClick: paginationChanged,
             onNextClick: paginationChanged,
             onLastClick: paginationChanged,
             onPageInput: paginationChanged,
+            onPerPageSelect: paginationSizeChanged,
             isCompact: true,
             variant: PaginationVariant.top
+        });
+
+        expect(control.bottomProps.pagination).toEqual({
+            itemCount: 1337,
+            page: 33,
+            perPage: 10,
+            perPageOptions: undefined,
+            onSetPage: paginationChanged,
+            onFirstClick: paginationChanged,
+            onPreviousClick: paginationChanged,
+            onNextClick: paginationChanged,
+            onLastClick: paginationChanged,
+            onPageInput: paginationChanged,
+            onPerPageSelect: paginationSizeChanged,
+            isCompact: false,
+            variant: PaginationVariant.bottom
         });
     });
 
@@ -89,11 +113,11 @@ describe('src/components/Trigger/TableToolbar', () => {
         />);
 
         const onChangeMockFn = jest.fn();
-        const onChangeOriginal = control.props.filterConfig.items[0].filterValues.onChange;
-        control.props.filterConfig.items[0].filterValues.onChange = onChangeMockFn;
-        control.props.filterConfig.items[1].filterValues.onChange = onChangeMockFn;
+        const onChangeOriginal = control.topProps.filterConfig.items[0].filterValues.onChange;
+        control.topProps.filterConfig.items[0].filterValues.onChange = onChangeMockFn;
+        control.topProps.filterConfig.items[1].filterValues.onChange = onChangeMockFn;
 
-        expect(control.props.filterConfig).toEqual({
+        expect(control.topProps.filterConfig).toEqual({
             items: [
                 {
                     label: 'Name',
@@ -142,10 +166,10 @@ describe('src/components/Trigger/TableToolbar', () => {
         />);
 
         const onDeleteMockFn = jest.fn();
-        const onDeleteOriginal = control.props.activeFiltersConfig.onDelete;
-        control.props.activeFiltersConfig.onDelete = onDeleteMockFn;
+        const onDeleteOriginal = control.topProps.activeFiltersConfig.onDelete;
+        control.topProps.activeFiltersConfig.onDelete = onDeleteMockFn;
 
-        expect(control.props.activeFiltersConfig).toEqual({
+        expect(control.topProps.activeFiltersConfig).toEqual({
             filters: [
                 {
                     category: 'Name',
@@ -187,7 +211,7 @@ describe('src/components/Trigger/TableToolbar', () => {
             pageCount={ 1 }
         />);
 
-        const onDeleteOriginal = control.props.activeFiltersConfig.onDelete;
+        const onDeleteOriginal = control.topProps.activeFiltersConfig.onDelete;
 
         expect(() => {
             onDeleteOriginal(undefined, [
@@ -217,9 +241,9 @@ describe('src/components/Trigger/TableToolbar', () => {
         />);
 
         const onDeleteMockFn = jest.fn();
-        control.props.activeFiltersConfig.onDelete = onDeleteMockFn;
+        control.topProps.activeFiltersConfig.onDelete = onDeleteMockFn;
 
-        expect(control.props.activeFiltersConfig).toEqual({
+        expect(control.topProps.activeFiltersConfig).toEqual({
             filters: [ ],
             onDelete: onDeleteMockFn
         });
@@ -241,10 +265,10 @@ describe('src/components/Trigger/TableToolbar', () => {
         />);
 
         const onSelectMockFn = jest.fn();
-        const onSelectOriginal = control.props.exportConfig.onSelect;
-        control.props.exportConfig.onSelect = onSelectMockFn;
+        const onSelectOriginal = control.topProps.exportConfig.onSelect;
+        control.topProps.exportConfig.onSelect = onSelectMockFn;
 
-        expect(control.props.exportConfig).toEqual({
+        expect(control.topProps.exportConfig).toEqual({
             extraItems: [ ],
             onSelect: onSelectMockFn,
             'data-testid': 'trigger-toolbar-export-container'

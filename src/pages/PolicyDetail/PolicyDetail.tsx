@@ -66,11 +66,13 @@ export const PolicyDetail: React.FunctionComponent = () => {
     const triggerFilter = useTriggerFilter();
     const changePolicyEnabled = useMassChangePolicyEnabledMutation();
 
+    const [ triggersPerPage, setTriggersPerPage ] = React.useState<number>(50);
+
     const sort = useSort(defaultSort);
     const {
         page,
         onPaginationChanged
-    } = useTriggerPage(sort.sortBy, triggerFilter.debouncedFilters);
+    } = useTriggerPage(triggersPerPage, sort.sortBy, triggerFilter.debouncedFilters);
 
     const getAllTriggers = useGetAllTriggers(policyId, page.filter);
 
@@ -151,14 +153,12 @@ export const PolicyDetail: React.FunctionComponent = () => {
         });
     }, [ getAllTriggers, policyId ]);
 
-    const loading = policy === undefined && getPolicyQuery.loading;
+    const onChangeTriggersPerPage = React.useCallback((_events, perPage: number) => {
+        setTriggersPerPage(perPage);
+    }, [ setTriggersPerPage ]);
 
     if (!canReadAll) {
         return <NoPermissionsPage/>;
-    }
-
-    if (loading) {
-        return <PolicyDetailSkeleton/>;
     }
 
     if (policy === undefined) {
@@ -166,19 +166,23 @@ export const PolicyDetail: React.FunctionComponent = () => {
             return <PolicyDetailEmptyState policyId={ policyId || '' }/>;
         }
 
-        const error = (getPolicyQuery.payload as any)?.msg || `code: ${getPolicyQuery.status}`;
+        if (getPolicyQuery.error) {
+            const error = (getPolicyQuery.payload as any)?.msg || `code: ${getPolicyQuery.status}`;
 
-        return <PolicyDetailErrorState
-            action={ () => {
-                getTriggers.query({
-                    policyId,
-                    page
-                });
-                getPolicyQuery.query(policyId).then(processGetPolicyResponse);
-            } }
-            policyId={ policyId }
-            error={ error }
-        />;
+            return <PolicyDetailErrorState
+                action={ () => {
+                    getTriggers.query({
+                        policyId,
+                        page
+                    });
+                    getPolicyQuery.query(policyId).then(processGetPolicyResponse);
+                } }
+                policyId={ policyId }
+                error={ error }
+            />;
+        }
+
+        return <PolicyDetailSkeleton/>;
     }
 
     return (
@@ -241,24 +245,26 @@ export const PolicyDetail: React.FunctionComponent = () => {
                                 count={ getTriggers.payload?.count }
                                 page={ page }
                                 onPaginationChanged={ onPaginationChanged }
+                                onPaginationSizeChanged={ onChangeTriggersPerPage }
                                 pageCount={ getTriggers.payload?.data?.length }
                                 filters={ triggerFilter.filters }
                                 setFilters={ triggerFilter.setFilters }
                                 clearFilters={ triggerFilter.clearFilter }
                                 onExport={ onExport }
-                            />
-                            {
-                                (getTriggers.payload && getTriggers.payload.count > 0) || getTriggers.loading ? (
-                                    <TriggerTable
-                                        rows={ getTriggers.payload?.data }
-                                        onSort={ sort.onSort }
-                                        sortBy={ sort.sortBy }
-                                        loading={ getTriggers.loading }
-                                    />
-                                ) : (
-                                    <TriggerTableEmptyState/>
-                                )
-                            }
+                            >
+                                {
+                                    (getTriggers.payload && getTriggers.payload.count > 0) || getTriggers.loading ? (
+                                        <TriggerTable
+                                            rows={ getTriggers.payload?.data }
+                                            onSort={ sort.onSort }
+                                            sortBy={ sort.sortBy }
+                                            loading={ getTriggers.loading }
+                                        />
+                                    ) : (
+                                        <TriggerTableEmptyState/>
+                                    )
+                                }
+                            </TriggerTableToolbar>
                         </>
                     )}
                 </Section>

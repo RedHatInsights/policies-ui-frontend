@@ -687,7 +687,7 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
         await waitForAsyncEvents();
     });
 
-    it('Sorts date descending by default ', async () => {
+    it('Sorts date descending by default', async () => {
         fetchMockSetup();
         render(<PolicyDetail/>, {
             wrapper: getConfiguredAppWrapper({
@@ -704,5 +704,89 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
         expect(screen.getByText(/date/i, {
             selector: 'th span'
         }).closest('th')).toHaveAttribute('aria-sort', 'descending');
+    });
+
+    it('Allows to change the elements per page on compact (top) paginator', async () => {
+        fetchMockSetup();
+        render(<PolicyDetail/>, {
+            wrapper: getConfiguredAppWrapper({
+                router: {
+                    initialEntries: [ linkTo.policyDetail('foo') ]
+                },
+                route: {
+                    path: linkTo.policyDetail(':policyId')
+                }
+            })
+        });
+
+        await waitForAsyncEvents();
+        userEvent.click(screen.getByLabelText ('Items per page', {
+            selector: '.pf-m-compact *'
+        }));
+
+        await waitForAsyncEvents();
+        fetchMockSetup({
+            triggerLimit: 10
+        });
+        userEvent.click(screen.getByText(/10 per page/i));
+
+        await waitForAsyncEvents();
+        expect(fetchMock.calls(/limit=10/)).toHaveLength(1);
+
+        await waitForAsyncEvents();
+        userEvent.click(screen.getByLabelText ('Items per page', {
+            selector: '.pf-m-compact *'
+        }));
+
+        await waitForAsyncEvents();
+        fetchMockSetup({
+            triggerLimit: 100
+        });
+        userEvent.click(screen.getByText(/100 per page/i));
+
+        await waitForAsyncEvents();
+        expect(fetchMock.calls(/limit=100/)).toHaveLength(1);
+    });
+
+    it('Allows to change the elements per page on bottom paginator', async () => {
+        fetchMockSetup();
+        render(<PolicyDetail/>, {
+            wrapper: getConfiguredAppWrapper({
+                router: {
+                    initialEntries: [ linkTo.policyDetail('foo') ]
+                },
+                route: {
+                    path: linkTo.policyDetail(':policyId')
+                }
+            })
+        });
+
+        await waitForAsyncEvents();
+        userEvent.click(screen.getByLabelText ('Items per page', {
+            selector: '.pf-m-bottom *'
+        }));
+
+        await waitForAsyncEvents();
+        fetchMockSetup({
+            triggerLimit: 10
+        });
+        userEvent.click(screen.getByText(/10 per page/i));
+
+        await waitForAsyncEvents();
+        expect(fetchMock.calls(/limit=10/)).toHaveLength(1);
+
+        await waitForAsyncEvents();
+        userEvent.click(screen.getByLabelText ('Items per page', {
+            selector: '.pf-m-bottom *'
+        }));
+
+        await waitForAsyncEvents();
+        fetchMockSetup({
+            triggerLimit: 100
+        });
+        userEvent.click(screen.getByText(/100 per page/i));
+
+        await waitForAsyncEvents();
+        expect(fetchMock.calls(/limit=100/)).toHaveLength(1);
     });
 });

@@ -3,9 +3,7 @@ import { useEffect } from 'react';
 import { Filter, Operator, Page, Sort } from '@redhat-cloud-services/insights-common-typescript';
 import { TriggerFilterColumn, TriggerFilters } from './useTriggerFilter';
 
-const elementsPerPage = 50;
-
-export const useTriggerPage = (sort: Sort | undefined, filters: TriggerFilters) => {
+export const useTriggerPage = (elementsPerPage: number, sort: Sort | undefined, filters: TriggerFilters) => {
 
     const pageFilter = React.useMemo(() => {
         const pageFilter = new Filter();
@@ -43,6 +41,16 @@ export const useTriggerPage = (sort: Sort | undefined, filters: TriggerFilters) 
             return oldPage;
         });
     }, [ pageFilter ]);
+
+    useEffect(() => {
+        setPage(oldPage => {
+            if (oldPage.size !== elementsPerPage) {
+                return Page.of(1, elementsPerPage, oldPage.filter, oldPage.sort);
+            }
+
+            return oldPage;
+        });
+    }, [ elementsPerPage ]);
 
     const onPaginationChanged = React.useCallback((_event, page: number) => {
         setPage(oldPage => oldPage.withPage(page));
