@@ -10,11 +10,11 @@ export const useTriggerPage = (elementsPerPage: number, sort: Sort | undefined, 
         const name = filters[TriggerFilterColumn.NAME];
         const id = filters[TriggerFilterColumn.ID];
         if (name && name.trim() !== '') {
-            pageFilter.and('name', Operator.LIKE, name.trim().toLowerCase());
+            pageFilter.and('name', Operator.LIKE, name.trim());
         }
 
         if (id && id.trim() !== '') {
-            pageFilter.and('id', Operator.EQUAL, id.trim().toLowerCase());
+            pageFilter.and('id', Operator.LIKE, id.trim());
         }
 
         return pageFilter;
