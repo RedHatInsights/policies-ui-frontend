@@ -51,17 +51,18 @@ export const CopyFromPolicy: React.FunctionComponent<CopyFromPolicyProps> = (pro
                 setFilterElements={ policyFilter.setFilters }
                 clearFilters={ policyFilter.clearFilterHandler }
                 count={ getPoliciesQuery.count }
-            />
-            <PolicyTable
-                columnsToShow={ [ 'radioSelect', 'name', 'actions' ] }
-                policies={ policyRows.rows }
-                onSelect={ onSelectHandler }
-                loading={ getPoliciesQuery.loading }
-                loadingRowCount={ 5 }
-                onSort={ policySort.onSort }
-                sortBy={ policySort.sortBy }
-                linkToDetailPolicy={ false }
-            />
+            >
+                <PolicyTable
+                    columnsToShow={ [ 'radioSelect', 'name', 'actions' ] }
+                    policies={ policyRows.rows }
+                    onSelect={ onSelectHandler }
+                    loading={ getPoliciesQuery.loading }
+                    loadingRowCount={ 5 }
+                    onSort={ policySort.onSort }
+                    sortBy={ policySort.sortBy }
+                    linkToDetailPolicy={ false }
+                />
+            </PolicyToolbar>
         </>
     );
 };

@@ -41,6 +41,7 @@ interface TablePolicyToolbarProps {
     perPage: number;
     showPerPageOptions: boolean;
     onExport?: (event: Event, type: string) => void;
+    showBottomPagination?: boolean;
 }
 
 const FilterColumnToLabel: Record<PolicyFilterColumn, string> = {
@@ -249,7 +250,7 @@ export const PolicyToolbar: React.FunctionComponent<TablePolicyToolbarProps> = (
         ]
     }), [ filterElements, setFilterElements ]);
 
-    const paginationProps = React.useMemo<PaginationProps>(() => ({
+    const topPaginationProps = React.useMemo<PaginationProps>(() => ({
         itemCount: count || 0,
         page,
         perPage,
@@ -263,6 +264,22 @@ export const PolicyToolbar: React.FunctionComponent<TablePolicyToolbarProps> = (
         onPerPageSelect: onPaginationSizeChanged,
         isCompact: true,
         variant: PaginationVariant.top
+    }), [ showPerPageOptions, count, page, perPage, onPaginationChanged, onPaginationSizeChanged ]);
+
+    const bottomPaginationProps = React.useMemo<PaginationProps>(() => ({
+        itemCount: count || 0,
+        page,
+        perPage,
+        perPageOptions: showPerPageOptions ? undefined : [],
+        onSetPage: onPaginationChanged,
+        onFirstClick: onPaginationChanged,
+        onPreviousClick: onPaginationChanged,
+        onNextClick: onPaginationChanged,
+        onLastClick: onPaginationChanged,
+        onPageInput: onPaginationChanged,
+        onPerPageSelect: onPaginationSizeChanged,
+        isCompact: false,
+        variant: PaginationVariant.bottom
     }), [ showPerPageOptions, count, page, perPage, onPaginationChanged, onPaginationSizeChanged ]);
 
     const activeFiltersConfigProps = React.useMemo(() => {
@@ -344,11 +361,15 @@ export const PolicyToolbar: React.FunctionComponent<TablePolicyToolbarProps> = (
             <PrimaryToolbar
                 bulkSelect={ bulkSelectProps }
                 filterConfig={ filterConfigProps }
-                pagination={ paginationProps }
+                pagination={ topPaginationProps }
                 actionsConfig={ actionsConfigProps }
                 activeFiltersConfig={ activeFiltersConfigProps }
                 exportConfig={ exportConfig }
             />
+            { props.children }
+            { props.showBottomPagination && <PrimaryToolbar
+                pagination={ bottomPaginationProps }
+            /> }
         </>
     );
 };

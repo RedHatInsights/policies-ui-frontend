@@ -208,18 +208,20 @@ const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
                             clearFilters={ policyFilters.clearFilterHandler }
                             count={ getPoliciesQuery.count }
                             onExport={ toolbarActions.onExport }
-                        />
-                        <PolicyTable
-                            policies={ policyRows.rows }
-                            onCollapse={ policyRows.onCollapse }
-                            onSelect={ policyRows.onSelect }
-                            actionResolver={ tableActionsResolver }
-                            loading={ isLoading }
-                            error={ policyTableErrorValue }
-                            onSort={ sort.onSort }
-                            sortBy={ sort.sortBy }
-                            linkToDetailPolicy={ true }
-                        />
+                            showBottomPagination={ true }
+                        >
+                            <PolicyTable
+                                policies={ policyRows.rows }
+                                onCollapse={ policyRows.onCollapse }
+                                onSelect={ policyRows.onSelect }
+                                actionResolver={ tableActionsResolver }
+                                loading={ isLoading }
+                                error={ policyTableErrorValue }
+                                onSort={ sort.onSort }
+                                sortBy={ sort.sortBy }
+                                linkToDetailPolicy={ true }
+                            />
+                        </PolicyToolbar>
                     </Section>
                 )}
             </Main>
