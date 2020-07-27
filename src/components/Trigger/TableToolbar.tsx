@@ -15,10 +15,12 @@ import {
 
 type OnPaginationPageChangedHandler = (
     event: React.SyntheticEvent<HTMLButtonElement> | React.MouseEvent | React.KeyboardEvent | MouseEvent, page: number) => void;
+type OnPaginationSizeChangedHandler = (event: React.MouseEvent | React.KeyboardEvent | MouseEvent, perPage: number) => void;
 
 export interface TriggerTableToolbarProps {
     count?: number;
     onPaginationChanged?: OnPaginationPageChangedHandler;
+    onPaginationSizeChanged?: OnPaginationSizeChangedHandler;
     page: Page;
     pageCount?: number;
     onExport: (type: ExporterType) => void;
@@ -51,20 +53,37 @@ const getFilterConfig = (filters: TriggerFilters, filter: TriggerFilterColumn) =
 
 export const TriggerTableToolbar: React.FunctionComponent<TriggerTableToolbarProps> = (props) => {
 
-    const paginationProps = React.useMemo<PaginationProps>(() => ({
+    const topPaginationProps = React.useMemo<PaginationProps>(() => ({
         itemCount: props.count || 0,
         page: props.page.index,
         perPage: props.page.size,
-        perPageOptions: [],
+        perPageOptions: undefined,
         onSetPage: props.onPaginationChanged,
         onFirstClick: props.onPaginationChanged,
         onPreviousClick: props.onPaginationChanged,
         onNextClick: props.onPaginationChanged,
         onLastClick: props.onPaginationChanged,
         onPageInput: props.onPaginationChanged,
+        onPerPageSelect: props.onPaginationSizeChanged,
         isCompact: true,
         variant: PaginationVariant.top
-    }), [ props.onPaginationChanged, props.page, props.count ]);
+    }), [ props.onPaginationChanged, props.page, props.count, props.onPaginationSizeChanged ]);
+
+    const bottomPaginationProps = React.useMemo<PaginationProps>(() => ({
+        itemCount: props.count || 0,
+        page: props.page.index,
+        perPage: props.page.size,
+        perPageOptions: undefined,
+        onSetPage: props.onPaginationChanged,
+        onFirstClick: props.onPaginationChanged,
+        onPreviousClick: props.onPaginationChanged,
+        onNextClick: props.onPaginationChanged,
+        onLastClick: props.onPaginationChanged,
+        onPageInput: props.onPaginationChanged,
+        onPerPageSelect: props.onPaginationSizeChanged,
+        isCompact: false,
+        variant: PaginationVariant.bottom
+    }), [ props.onPaginationChanged, props.page, props.count, props.onPaginationSizeChanged ]);
 
     const filterConfigProps = React.useMemo(() => {
         const filters = props.filters;
@@ -145,10 +164,14 @@ export const TriggerTableToolbar: React.FunctionComponent<TriggerTableToolbarPro
     return (
         <>
             <PrimaryToolbar
-                pagination={ paginationProps }
+                pagination={ topPaginationProps }
                 exportConfig={ exportConfig }
                 filterConfig={ filterConfigProps }
                 activeFiltersConfig={ activeFiltersConfigProps }
+            />
+            { props.children }
+            <PrimaryToolbar
+                pagination={ bottomPaginationProps }
             />
         </>
     );
