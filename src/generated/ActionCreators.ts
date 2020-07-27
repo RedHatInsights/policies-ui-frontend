@@ -63,7 +63,7 @@ export interface UsePostPoliciesByIdEnabledParams {
 
 export interface UseGetPoliciesByIdHistoryTriggerParams {
     id: schemas.Uuid;
-    filterOpId?: 'equal' | 'not_equal';
+    filterOpId?: 'equal' | 'not_equal' | 'like';
     filterOpName?: 'equal' | 'like' | 'not_equal';
     filterId?: string;
     filterName?: string;
