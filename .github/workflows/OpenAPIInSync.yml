@@ -21,7 +21,14 @@ jobs:
       - name: Install
         run: yarn install
       - name: Download openapi.json from RedHatInsights/policies-backend-ui@master into ./openapi.json
-        run: ACTIONS_RUNTIME_TOKEN=${{ secrets.GITHUB_TOKEN }} TARGET_BRANCH=master TARGET_PATH=./openapi.json bash .github/scripts/download-latest-openapi.sh
+        uses: dawidd6/action-download-artifact@v2
+        with:
+          github_token: ${{secrets.GITHUB_TOKEN}}
+          workflow: main.yml
+          branch: master
+          name: openapi.json
+          path: ./
+          repo: RedHatInsights/policies-ui-backend
       - name: Generate types from openapi.json
         run: yarn schema:generate -i openapi.json && rm openapi.json
       - name: Check differences
