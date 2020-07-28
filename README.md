@@ -88,20 +88,26 @@ prod-stable -> prod-stable
 
 When you want to test your code with unit tests please use `jest` which is preconfigured in a way to collect codecoverage as well. If you want to see your coverage on server the travis config has been set in a way that it will send data to [codecov.io](https://codecov.io) the only thing you have to do is visit their website (register), enable your repository and add CODECOV_TOKEN to your travis web config (do not add it to .travis file, but trough [travis-ci.org](https://travis-ci.org/))
 
-## Generating types from Openapi file
+## Tools
+
+### Generating types from Openapi file
 
 The ui-frontend depends on types from the ui-backend, these are generated from the Openapi spec file, run `yarn schema` to reload the types.
 Generate types can be found in: `src/generated/`, check `package.json` for more info.
 
-## Generating random trigger history
+### Generating random trigger history
 
-To generate random trigger history, it is needed to have access to kafka and kafkacat installed.
+#### Requirements
+ - Access to Kafka topic
+ - kafkacat installed and in the PATH
 
-To do so, simple run `yarn pushhost --account <account-number> --alert-count <number-of-elements>`.
-Use `yarn pushhost --help` for more information. For the specifics of what information is being sent, 
+#### Usage
+Run `yarn pushhost --account <account-number>`.
+
+Use `yarn pushhost --help` for more information. For the data being sent, 
 check [src/cli/pushhost.ts](src/cli/pushhost.ts).
 
-You can store the account number in .push-host.env under the `INSIGHTS_ACCOUNT` and omit the argument from the command line.
+You can store the account number in .push-host.env under the `INSIGHTS_ACCOUNT` and omit the argument from the command line if used frequently.
 
 ```bash
 $ cat .push-host.env 
