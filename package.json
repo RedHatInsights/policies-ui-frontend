@@ -73,6 +73,7 @@
     "babel-jest": "^24.9.0",
     "babel-loader": "^8.1.0",
     "babel-plugin-lodash": "^3.3.4",
+    "cli-progress": "^3.8.2",
     "commander": "^6.0.0",
     "cross-fetch": "^3.0.4",
     "css-loader": "^3.2.0",

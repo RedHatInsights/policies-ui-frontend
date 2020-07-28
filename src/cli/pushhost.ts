@@ -6,9 +6,10 @@ import { exec } from 'child_process';
 import { createHash } from 'crypto';
 import randomWords from 'random-words';
 import { lookpath } from 'lookpath';
+import * as cliProgress from 'cli-progress';
 
 const getHost = (account) => {
-    const hostname = randomWords({ min: 1, max: 4, join: ' ', formatter: (word, index) => {
+    const hostname = randomWords({ min: 1, max: 2, join: ' ', formatter: (word, index) => {
         return index === 0 ? word.slice(0, 1).toUpperCase().concat(word.slice(1)) : word;
     } });
     const inventoryId = createHash('md5').update(hostname).digest('hex');
@@ -140,6 +141,12 @@ const run = async () => {
         'Number of alerts to generate',
         (value: string) => parseInt(value) || 20,
         20
+    )
+    .option<number>(
+        '-s, --sleep <sleep-time-between-each-ms>',
+        'Sleep time (ms) between each data to avoid having them all at the same time',
+        (value: string) => parseInt(value) || 100,
+        100
     );
 
     program.parse();
@@ -149,6 +156,7 @@ const run = async () => {
         kafka: string;
         topic: string;
         alertCount: number;
+        sleep: number;
     }
 
     const params = program as unknown as Params;
@@ -159,21 +167,40 @@ const run = async () => {
 
     if (!params.account) {
         if (!process.env.INSIGHTS_ACCOUNT) {
-            console.log('-account was not used and INSIGHTS_ACCOUNT env was not found, exiting');
+            console.error('-account was not used and INSIGHTS_ACCOUNT env was not found, exiting');
             process.exit(1);
         }
+
+        params.account = process.env.INSIGHTS_ACCOUNT;
     }
+
+    console.info('Using arguments:', {
+        account: params.account,
+        kafka: params.kafka,
+        topic: params.topic,
+        alertCount: params.alertCount,
+        sleep: params.sleep
+    });
 
     const kafkacatProcess = exec(`${kafkacat} -P -t ${params.topic} -b ${params.kafka} -H "event_type=updated"`);
 
     if (kafkacatProcess.stdin) {
+        const progressBar = new cliProgress.SingleBar({}, cliProgress.Presets.shades_classic);
+        progressBar.start(params.alertCount, 0);
         for (let i = 0; i < params.alertCount; ++i) {
             kafkacatProcess.stdin.write(JSON.stringify(getHost(params.account)));
             kafkacatProcess.stdin.write('\n');
+            progressBar.increment();
+            await new Promise(resolve => setTimeout(resolve, params.sleep));
         }
 
+        progressBar.stop();
         kafkacatProcess.stdin.end();
     }
+
+    kafkacatProcess.stdout?.pipe(process.stdout);
+    kafkacatProcess.stderr?.pipe(process.stderr);
+
 };
 
 run();
