@@ -62,7 +62,7 @@ const TriggerDetailSectionInternal: React.ForwardRefRenderFunction<TriggerDetail
 
     const { policyId } = props;
     const triggerFilter = useTriggerFilter();
-    const getTriggers = useGetPolicyDetailTriggerHistory()
+    const getTriggers = useGetPolicyDetailTriggerHistory();
     const [ triggersPerPage, setTriggersPerPage ] = React.useState<number>(50);
     const sort = useSort(defaultSort);
     const {
