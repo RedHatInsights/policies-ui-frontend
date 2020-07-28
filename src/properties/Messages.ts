@@ -52,6 +52,11 @@ const MutableMessages = {
                 title: 'Error when loading policy',
                 text: 'Error found when trying to load policy with ID {0}. (Error: {1})',
                 actionText: 'Try again'
+            },
+            triggerErrorState: {
+                title: 'Error when loading trigger history for policy',
+                text: 'Error found when trying to load trigger history for policy with ID {0}. (Error: {1})',
+                actionText: 'Try again'
             }
         }
     },
