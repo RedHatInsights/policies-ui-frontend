@@ -133,7 +133,7 @@ const run = async () => {
     .option(
         '-t, --topic <topic>',
         'Topic to send the data',
-        'platform.inventory.host-egress'
+        'platform.inventory.events'
     )
     .option<number>(
         '-ac, --alert-count <alert-count>',
@@ -164,7 +164,7 @@ const run = async () => {
         }
     }
 
-    const kafkacatProcess = exec(`${kafkacat} -P -t ${params.topic} -b ${params.kafka}`);
+    const kafkacatProcess = exec(`${kafkacat} -P -t ${params.topic} -b ${params.kafka} -H "event_type=updated"`);
 
     if (kafkacatProcess.stdin) {
         for (let i = 0; i < params.alertCount; ++i) {
