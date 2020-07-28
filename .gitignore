@@ -21,3 +21,6 @@ coverage
 
 .yalc
 yalc.lock
+
+# local config
+.push-host.env

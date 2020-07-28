@@ -73,8 +73,11 @@
     "babel-jest": "^24.9.0",
     "babel-loader": "^8.1.0",
     "babel-plugin-lodash": "^3.3.4",
+    "cli-progress": "^3.8.2",
+    "commander": "^6.0.0",
     "cross-fetch": "^3.0.4",
     "css-loader": "^3.2.0",
+    "dotenv": "^8.2.0",
     "download-cli": "1.1.1",
     "enzyme": "^3.10.0",
     "enzyme-adapter-react-16": "^1.15.1",
@@ -97,11 +100,13 @@
     "karma-firefox-launcher": "^1.3.0",
     "karma-jasmine": "^3.3.1",
     "karma-webpack": "^4.0.2",
+    "lookpath": "^1.1.0",
     "node-sass": "4.14.1",
     "npm-run-all": "^4.1.5",
     "openapi3-typescript-codegen": "0.0.13",
     "postcss": "^7.0.21",
     "prop-types": "^15.7.2",
+    "random-words": "^1.1.1",
     "react-test-renderer": "^16.13.1",
     "stylelint": "^11.1.1",
     "stylelint-config-recommended-scss": "^4.0.0",
@@ -137,7 +142,8 @@
     "expression:download": "mkdir -p utils/expression; download https://raw.githubusercontent.com/RedHatInsights/policies-engine/master/api/src/main/antlr4/com/redhat/cloud/policies/api/model/condition/expression/parser/Expression.g4 -o utils/expression",
     "expression:generate": "antlr4ts -visitor utils/expression/Expression.g4",
     "expression:copy": "cp ./utils/expression/*.ts ./src/utils/Expression/; cp ./utils/expression/Expression.g4 ./src/utils/Expression",
-    "expression:clean": "rm -rf ./utils/expression"
+    "expression:clean": "rm -rf ./utils/expression",
+    "pushhost": "./src/cli/pushhost.ts"
   },
   "insights": {
     "appname": "policies"
