@@ -47,7 +47,10 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
         policyIsUndefined?: boolean;
         policyId?: string;
         policy?: any;
+        policyLoading?: jest.Mock;
+
         triggers?: any;
+        triggerBody?: any;
         triggerLoading?: jest.Mock;
         triggerPage?: number;
         triggerLimit?: number;
@@ -94,7 +97,7 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
     const fetchMockSetup = (config?: FetchMockConfig) => {
         fetchMock.getOnce(actionGetPoliciesById({
             id: config?.policyId || 'foo'
-        }).endpoint, {
+        }).endpoint, config?.policyLoading ? new Promise(resolver => config.policyLoading?.mockImplementation(resolver)) : {
             body: config?.policyIsUndefined === true ? undefined : (config?.policy || mockPolicy),
             status: config?.policyStatus || 200
         }, {
@@ -111,7 +114,7 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
             ))
         } as unknown as UseGetPoliciesByIdHistoryTriggerParams)
         .endpoint, config?.triggerLoading ? new Promise((resolver) => config.triggerLoading?.mockImplementation(resolver)) : {
-            body: {
+            body: config?.triggerBody ?? {
                 data: (config?.triggers || mockTriggers),
                 meta: {
                     count: config?.triggersCount || (config?.triggers || mockTriggers).length
@@ -788,5 +791,110 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
 
         await waitForAsyncEvents();
         expect(fetchMock.calls(/limit=100/)).toHaveLength(1);
+    });
+
+    it('Shows loading when clicking try again button on the policy load', async () => {
+        fetchMockSetup({
+            policyStatus: 500
+        });
+
+        render(<PolicyDetail/>, {
+            wrapper: getConfiguredAppWrapper({
+                router: {
+                    initialEntries: [ linkTo.policyDetail('foo') ]
+                },
+                route: {
+                    path: linkTo.policyDetail(':policyId')
+                }
+            })
+        });
+
+        await waitForAsyncEvents();
+        const finishLoading = jest.fn();
+        fetchMockSetup({
+            policyLoading: finishLoading
+        });
+        userEvent.click(screen.getByText(/try again/i));
+
+        await waitForAsyncEvents();
+        expect(screen.getByTestId('policy-loading')).toBeTruthy();
+
+        finishLoading();
+        await waitForAsyncEvents();
+    });
+
+    it('Shows error when trigger history fails to load', async () => {
+        fetchMockSetup({
+            triggerStatus: 500,
+            triggers: []
+        });
+
+        render(<PolicyDetail/>, {
+            wrapper: getConfiguredAppWrapper({
+                router: {
+                    initialEntries: [ linkTo.policyDetail('foo') ]
+                },
+                route: {
+                    path: linkTo.policyDetail(':policyId')
+                }
+            })
+        });
+
+        await waitForAsyncEvents();
+        expect(screen.getByText(/Error when loading trigger history for policy/i)).toBeTruthy();
+    });
+
+    it('Shows error when trigger history fails to load, uses payload.msg if provided', async () => {
+        fetchMockSetup({
+            triggerStatus: 500,
+            triggerBody: {
+                msg: 'foo bar baz!!!'
+            }
+        });
+
+        render(<PolicyDetail/>, {
+            wrapper: getConfiguredAppWrapper({
+                router: {
+                    initialEntries: [ linkTo.policyDetail('foo') ]
+                },
+                route: {
+                    path: linkTo.policyDetail(':policyId')
+                }
+            })
+        });
+
+        await waitForAsyncEvents();
+        expect(screen.getByText(/foo bar baz!!!/i)).toBeTruthy();
+    });
+
+    it('Shows loading when clicking try again button on the trigger history load', async () => {
+        fetchMockSetup({
+            triggerStatus: 500,
+            triggers: []
+        });
+
+        render(<PolicyDetail/>, {
+            wrapper: getConfiguredAppWrapper({
+                router: {
+                    initialEntries: [ linkTo.policyDetail('foo') ]
+                },
+                route: {
+                    path: linkTo.policyDetail(':policyId')
+                }
+            })
+        });
+
+        await waitForAsyncEvents();
+        const finishLoading = jest.fn();
+        fetchMockSetup({
+            triggerLoading: finishLoading
+        });
+        userEvent.click(screen.getByText(/try again/i));
+        await waitForAsyncEvents();
+
+        expect(screen.getByText('Loading Triggers')).toBeTruthy();
+
+        finishLoading();
+        await waitForAsyncEvents();
     });
 });

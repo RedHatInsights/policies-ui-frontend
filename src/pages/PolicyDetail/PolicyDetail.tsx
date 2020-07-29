@@ -10,14 +10,11 @@ import {
     Title
 } from '@patternfly/react-core';
 import { useHistory } from 'react-router-dom';
-import inBrowserDownload from 'in-browser-download';
 import { linkTo } from '../../Routes';
-import { BreadcrumbLinkItem, Section, useSort } from '@redhat-cloud-services/insights-common-typescript';
+import { BreadcrumbLinkItem, Section } from '@redhat-cloud-services/insights-common-typescript';
 import { useGetPolicyParametrizedQuery } from '../../services/useGetPolicy';
 import { ExpandedContent } from '../../components/Policy/Table/ExpandedContent';
 import { style } from 'typestyle';
-import { TriggerTable } from '../../components/Trigger/Table';
-import { TriggerTableToolbar } from '../../components/Trigger/TableToolbar';
 import { CreatePolicyWizard } from '../CreatePolicyWizard/CreatePolicyWizard';
 import { useContext } from 'react';
 import { AppContext } from '../../app/AppContext';
@@ -27,28 +24,18 @@ import { PolicyDetailErrorState } from './ErrorState';
 import { PolicyDetailIsEnabled } from './IsEnabled';
 import { Policy } from '../../types/Policy';
 import { NoPermissionsPage } from '../NoPermissions/NoPermissionsPage';
-import { useTriggerPage } from './hooks/useTriggerPage';
-import { useTriggerFilter } from './hooks/useTriggerFilter';
-import { ExporterType, exporterTypeFromString, Direction, Sort } from '@redhat-cloud-services/insights-common-typescript';
-import { format } from 'date-fns';
-import { triggerExporterFactory } from '../../utils/exporters/Trigger/Factory';
-import { PolicyDetailTriggerEmptyState } from './TriggerEmptyState';
 import { PolicyDetailActions } from './Actions';
 import { useMassChangePolicyEnabledMutation } from '../../services/useMassChangePolicyEnabled';
 import { usePolicyToDelete } from '../../hooks/usePolicyToDelete';
 import { DeletePolicy } from '../ListPage/DeletePolicy';
 import { useWizardState } from './hooks/useWizardState';
 import { usePolicy } from './hooks/usePolicy';
-import { useGetAllTriggers } from './hooks/useGetAllTriggers';
-import { useGetPolicyDetailTriggerHistory } from './hooks/useGetPolicyDetailTriggerHistory';
-import { TriggerTableEmptyState } from '../../components/Trigger/Table/EmptyState';
+import { TriggerDetailAPI, TriggerDetailSection } from './TriggerDetailSection';
 
 const recentTriggerVersionTitleClassname = style({
     paddingBottom: 8,
     paddingTop: 16
 });
-
-const defaultSort = Sort.by('ctime', Direction.DESCENDING);
 
 type PolicyQueryResponse = ReturnType<ReturnType<typeof useGetPolicyParametrizedQuery>['query']> extends Promise<infer U> ? U : never
 
@@ -62,31 +49,10 @@ export const PolicyDetail: React.FunctionComponent = () => {
     const policyToDelete = usePolicyToDelete();
 
     const getPolicyQuery = useGetPolicyParametrizedQuery();
-    const getTriggers = useGetPolicyDetailTriggerHistory();
-    const triggerFilter = useTriggerFilter();
     const changePolicyEnabled = useMassChangePolicyEnabledMutation();
 
-    const [ triggersPerPage, setTriggersPerPage ] = React.useState<number>(50);
-
-    const sort = useSort(defaultSort);
-    const {
-        page,
-        onPaginationChanged
-    } = useTriggerPage(triggersPerPage, sort.sortBy, triggerFilter.debouncedFilters);
-
-    const getAllTriggers = useGetAllTriggers(policyId, page.filter);
-
     const wizardState = useWizardState(policy);
-
-    React.useEffect(() => {
-        const query = getTriggers.query;
-        if (policyId) {
-            query({
-                policyId,
-                page
-            });
-        }
-    }, [ policyId, getTriggers.query, page ]);
+    const triggerDetailRef = React.useRef<TriggerDetailAPI>(null);
 
     const processGetPolicyResponse = React.useCallback((response: PolicyQueryResponse) => {
         if (response.status === 200 && response.payload) {
@@ -141,22 +107,6 @@ export const PolicyDetail: React.FunctionComponent = () => {
         }).then(() => statusChanged(newStatus));
     }, [ policyId, changePolicyEnabled.mutate, statusChanged ]);
 
-    const onExport = React.useCallback((type: ExporterType) => {
-        const exporter = triggerExporterFactory(exporterTypeFromString(type));
-        getAllTriggers().then(triggers => {
-            if (triggers.length > 0) {
-                inBrowserDownload(
-                    exporter.export(triggers),
-                    `policy-${policyId}-triggers-${format(new Date(Date.now()), 'y-dd-MM')}.${exporter.type}`
-                );
-            }
-        });
-    }, [ getAllTriggers, policyId ]);
-
-    const onChangeTriggersPerPage = React.useCallback((_events, perPage: number) => {
-        setTriggersPerPage(perPage);
-    }, [ setTriggersPerPage ]);
-
     if (!canReadAll) {
         return <NoPermissionsPage/>;
     }
@@ -166,15 +116,12 @@ export const PolicyDetail: React.FunctionComponent = () => {
             return <PolicyDetailEmptyState policyId={ policyId || '' }/>;
         }
 
-        if (getPolicyQuery.error) {
+        if (!getPolicyQuery.loading && getPolicyQuery.error) {
             const error = (getPolicyQuery.payload as any)?.msg || `code: ${getPolicyQuery.status}`;
 
             return <PolicyDetailErrorState
                 action={ () => {
-                    getTriggers.query({
-                        policyId,
-                        page
-                    });
+                    triggerDetailRef.current?.refresh();
                     getPolicyQuery.query(policyId).then(processGetPolicyResponse);
                 } }
                 policyId={ policyId }
@@ -236,38 +183,10 @@ export const PolicyDetail: React.FunctionComponent = () => {
                 <div className={ recentTriggerVersionTitleClassname }>
                     <Title headingLevel="h2" size="lg">Recent trigger history</Title>
                 </div>
-                <Section>
-                    { getTriggers.hasTriggers === false ? (
-                        <PolicyDetailTriggerEmptyState/>
-                    ) : (
-                        <>
-                            <TriggerTableToolbar
-                                count={ getTriggers.payload?.count }
-                                page={ page }
-                                onPaginationChanged={ onPaginationChanged }
-                                onPaginationSizeChanged={ onChangeTriggersPerPage }
-                                pageCount={ getTriggers.payload?.data?.length }
-                                filters={ triggerFilter.filters }
-                                setFilters={ triggerFilter.setFilters }
-                                clearFilters={ triggerFilter.clearFilter }
-                                onExport={ onExport }
-                            >
-                                {
-                                    (getTriggers.payload && getTriggers.payload.count > 0) || getTriggers.loading ? (
-                                        <TriggerTable
-                                            rows={ getTriggers.payload?.data }
-                                            onSort={ sort.onSort }
-                                            sortBy={ sort.sortBy }
-                                            loading={ getTriggers.loading }
-                                        />
-                                    ) : (
-                                        <TriggerTableEmptyState/>
-                                    )
-                                }
-                            </TriggerTableToolbar>
-                        </>
-                    )}
-                </Section>
+                <TriggerDetailSection
+                    policyId={ policyId }
+                    ref={ triggerDetailRef }
+                />
             </Main>
             { wizardState.data.isOpen && <CreatePolicyWizard
                 isOpen={ true }

@@ -21,7 +21,7 @@ const skeletonClassName = style({
 export const PolicyDetailSkeleton: React.FunctionComponent = () => {
     return (
         <>
-            <PageHeader>
+            <PageHeader data-testid="policy-loading">
                 <Stack>
                     <StackItem>
                         <Breadcrumb>
