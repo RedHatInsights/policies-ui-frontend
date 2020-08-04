@@ -219,7 +219,7 @@ describe('src/components/Trigger/TableToolbar', () => {
                     category: 'Wrong'
                 }
             ]);
-        }).toThrowError(/Unknown filter found/i);
+        }).toThrowError(/Unexpected filter column label found: Wrong/i);
         expect(clearFn).not.toHaveBeenCalled();
     });
 
