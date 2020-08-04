@@ -4,7 +4,7 @@ import { PrimaryToolbar } from '@redhat-cloud-services/frontend-components';
 import { TriggerTableToolbar } from '../TableToolbar';
 import { Page, ExporterType } from '@redhat-cloud-services/insights-common-typescript';
 import { PaginationVariant } from '@patternfly/react-core';
-import { TriggerFilterColumn } from '../../../pages/PolicyDetail/hooks/useTriggerFilter';
+import { TriggerFilterColumn } from '../Filters';
 
 jest.mock('@redhat-cloud-services/frontend-components');
 

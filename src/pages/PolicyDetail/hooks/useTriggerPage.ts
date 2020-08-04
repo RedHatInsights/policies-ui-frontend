@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useEffect } from 'react';
 import { Filter, Operator, Page, Sort } from '@redhat-cloud-services/insights-common-typescript';
-import { TriggerFilterColumn, TriggerFilters } from './useTriggerFilter';
+import { TriggerFilterColumn, TriggerFilters } from '../../../components/Trigger/Filters';
 
 export const useTriggerPage = (elementsPerPage: number, sort: Sort | undefined, filters: TriggerFilters) => {
 
