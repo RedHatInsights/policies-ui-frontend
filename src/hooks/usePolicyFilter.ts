@@ -1,102 +1,29 @@
-import * as React from 'react';
-import { useUrlState, useUrlStateString, useDebouncedState } from '@redhat-cloud-services/insights-common-typescript';
+import { PolicyFilterColumn } from '../types/Policy/Filters';
 import {
-    ClearFilterCommand, ClearFilterHandlerType, IsActiveFilter,
-    PolicyFilterBase,
-    PolicyFilterColumn,
-    PolicyFilters,
-    SetPolicyFilters
-} from '../types/Policy/PolicyPaging';
+    assertNever,
+    useFilters,
+    useUrlStateExclusiveOptions,
+    useUrlStateString
+} from '@redhat-cloud-services/insights-common-typescript';
 
 const DEBOUNCE_MS = 250;
 
-const usePolicyFilterBase =
-    <Name, Active>(name: Name, active: Active):
-        PolicyFilterBase<Name, Active> => {
-        return React.useMemo(() => ({
-            [PolicyFilterColumn.NAME]: name,
-            [PolicyFilterColumn.IS_ACTIVE]: active
-        }), [ name, active ]);
-    };
-
-export interface UsePolicyFilterReturn {
-    filters: PolicyFilters;
-    setFilters: SetPolicyFilters;
-    debouncedFilters: PolicyFilters;
-    clearFilterHandler: ClearFilterHandlerType;
-    isClear: boolean;
-}
-
-const defaultName = '';
-const defaultIsActive = {
-    enabled: false,
-    disabled: false
-};
-
 const useUrlStateName = (defaultValue?: string) => useUrlStateString('name', defaultValue);
-const useUrlStateIsActive = (defaultValue?: IsActiveFilter) => {
+const useUrlStateEnabled = (_defaultValue?: string) => useUrlStateExclusiveOptions('enabled', [ 'Enabled', 'Disabled', '' ],  '');
 
-    const serializer = React.useCallback((value: IsActiveFilter | undefined) => {
-        if (value === undefined || value.enabled === value.disabled) {
-            return undefined;
-        }
-
-        return value.enabled ? '1' : '0';
-    }, []);
-
-    const deserializer = React.useCallback((value: string | undefined) => {
-        const val = {
-            enabled: false,
-            disabled: false
-        };
-
-        if (value === '1') {
-            val.enabled = true;
-        } else if (value === '0') {
-            val.disabled = true;
-        }
-
-        return val;
-    }, []);
-
-    return useUrlState<IsActiveFilter>('enabled', serializer, deserializer, defaultValue);
+const useStateFactory = (column: PolicyFilterColumn) => {
+    switch (column) {
+        case PolicyFilterColumn.NAME:
+            return useUrlStateName;
+        case PolicyFilterColumn.IS_ACTIVE:
+            return useUrlStateEnabled;
+        default:
+            assertNever(column);
+    }
 };
 
-export const usePolicyFilter = (debounce = DEBOUNCE_MS as number, saveFiltersInUrl = true as boolean): UsePolicyFilterReturn => {
-
-    const [ filterName, setFilterName, debouncedFilterName ] = useDebouncedState<string>(
-        defaultName, debounce, saveFiltersInUrl ? useUrlStateName : undefined
-    );
-    const [ filterIsActive, setFilterIsActive, debouncedFilterIsActive ] = useDebouncedState<IsActiveFilter>(
-        defaultIsActive, debounce, saveFiltersInUrl ? useUrlStateIsActive : undefined
-    );
-
-    const clearFilterHandler = React.useCallback((clearFilterCommands: ClearFilterCommand[]) => {
-        for (const clearFilterCommand of clearFilterCommands) {
-            switch (clearFilterCommand.filter) {
-                case PolicyFilterColumn.NAME:
-                    setFilterName(defaultName);
-                    break;
-                case PolicyFilterColumn.IS_ACTIVE:
-                    setFilterIsActive(defaultIsActive);
-                    break;
-            }
-        }
-    }, [ setFilterName, setFilterIsActive ]);
-
-    const filters = usePolicyFilterBase(filterName, filterIsActive);
-    const setFilters = usePolicyFilterBase(setFilterName, setFilterIsActive);
-    const debouncedFilters = usePolicyFilterBase(debouncedFilterName, debouncedFilterIsActive);
-
-    const isClear = React.useMemo(() => {
-        return debouncedFilterName === defaultName && debouncedFilterIsActive === defaultIsActive;
-    }, [ debouncedFilterName, debouncedFilterIsActive ]);
-
-    return {
-        filters,
-        setFilters,
-        debouncedFilters,
-        clearFilterHandler,
-        isClear
-    };
+export const usePolicyFilter = (debounce = DEBOUNCE_MS, saveFilterInUrl = true) => {
+    return useFilters(PolicyFilterColumn, debounce, saveFilterInUrl ? useStateFactory : undefined);
 };
+
+export type UsePolicyFilterReturn = ReturnType<typeof usePolicyFilter>;
