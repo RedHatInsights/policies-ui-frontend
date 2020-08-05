@@ -7,7 +7,6 @@ import { PFColors } from '@redhat-cloud-services/insights-common-typescript';
 
 interface ListPageEmptyStateProps {
     action: () => void;
-    policyId: string;
     error: string;
 }
 

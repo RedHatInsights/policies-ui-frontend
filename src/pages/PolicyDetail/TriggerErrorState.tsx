@@ -7,7 +7,6 @@ import { useTextFormat } from '../../hooks/useTextFormat';
 
 interface TriggerErrorStateProps {
     action: () => void;
-    policyId: string;
     error: string;
 }
 
