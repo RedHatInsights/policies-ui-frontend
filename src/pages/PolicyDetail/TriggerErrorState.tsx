@@ -2,7 +2,8 @@ import * as React from 'react';
 import { ExclamationCircleIcon } from '@patternfly/react-icons';
 import { Messages } from '../../properties/Messages';
 import { EmptyStateSection } from '../../components/Policy/EmptyState/Section';
-import { format } from 'react-string-format';
+import { PFColors } from '@redhat-cloud-services/insights-common-typescript';
+import { useTextFormat } from '../../hooks/useTextFormat';
 
 interface TriggerErrorStateProps {
     action: () => void;
@@ -10,12 +11,18 @@ interface TriggerErrorStateProps {
     error: string;
 }
 
-export const TriggerErrorState: React.FunctionComponent<TriggerErrorStateProps> = (props) => (
-    <EmptyStateSection
+export const TriggerErrorState: React.FunctionComponent<TriggerErrorStateProps> = (props) => {
+    const content = useTextFormat(
+        Messages.pages.policyDetail.triggerErrorState.text,
+        [ props.error ]
+    );
+
+    return <EmptyStateSection
         icon={ ExclamationCircleIcon }
+        iconColor={ PFColors.GlobalDangerColor100 }
         title={ Messages.pages.policyDetail.triggerErrorState.title }
-        content={ format(Messages.pages.policyDetail.triggerErrorState.text, props.policyId, props.error) }
+        content={ content }
         action={ props.action }
         actionLabel={ Messages.pages.policyDetail.triggerErrorState.actionText }
-    />
-);
+    />;
+};
