@@ -1,5 +1,6 @@
 import * as React from 'react';
-import { initStore, getInsights } from '@redhat-cloud-services/insights-common-typescript';
+import { initStore, getInsights, restoreStore } from '@redhat-cloud-services/insights-common-typescript';
+import { NotificationsPortal } from '@redhat-cloud-services/frontend-components-notifications';
 import { RouteProps, Route } from 'react-router';
 import { MemoryRouter as Router } from 'react-router-dom';
 import { ClientContextProvider, createClient } from 'react-fetching-library';
@@ -10,7 +11,7 @@ import { AppContext } from '../src/app/AppContext';
 
 let setup = false;
 let client;
-const store = initStore().getStore();
+let store;
 
 export const appWrapperSetup = () => {
     if (setup) {
@@ -24,6 +25,7 @@ export const appWrapperSetup = () => {
     setup = true;
     fetchMock.mock();
     client = createClient();
+    store = initStore().getStore();
 };
 
 export const appWrapperCleanup = () => {
@@ -36,7 +38,9 @@ export const appWrapperCleanup = () => {
         setup = false;
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         document.getElementById('root')!.remove();
-
+        restoreStore();
+        client = undefined;
+        store = undefined;
         fetchMock.restore();
     }
 };
@@ -85,6 +89,7 @@ export const AppWrapper: React.FunctionComponent<Config> = (props) => {
                 <ClientContextProvider client={ client }>
                     <AppContext.Provider value={ props.appContext || defaultAppContextSettings }>
                         <InternalWrapper { ...props }>
+                            <NotificationsPortal/>
                             <Route { ...props.route } >
                                 { props.children }
                             </Route>

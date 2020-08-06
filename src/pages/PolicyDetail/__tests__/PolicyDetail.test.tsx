@@ -18,7 +18,7 @@ import {
     UseGetPoliciesByIdHistoryTriggerParams
 } from '../../../generated/ActionCreators';
 import { waitForAsyncEvents } from '../../../../test/TestUtils';
-import { ServerPolicyRequest } from '../../../types/Policy/Policy';
+import { ServerPolicyRequest, Uuid } from '../../../types/Policy/Policy';
 import { Direction, Page, pageToQuery, Sort } from '@redhat-cloud-services/insights-common-typescript';
 
 jest.mock('../../../hooks/useFacts');
@@ -174,11 +174,12 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
         });
     };
 
-    const fetchMockChangeStatus = (enabled: boolean) => {
+    const fetchMockChangeStatus = (enabled: boolean, policyIds: Array<Uuid>, status = 200) => {
         fetchMock.postOnce(actionPostPoliciesIdsEnabled({
             enabled
         }).endpoint, {
-            body: []
+            status,
+            body: policyIds
         });
     };
 
@@ -518,7 +519,7 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
     });
     it('When policy is disabled, it updates the enabled status in the page', async () => {
         fetchMockSetup();
-        fetchMockChangeStatus(false);
+        fetchMockChangeStatus(false, [ 'foo' ]);
         render((
             <>
                 <PolicyDetail/>
@@ -546,7 +547,7 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
         fetchMockSetup({
             policy: { ...mockPolicy, isEnabled: false }
         });
-        fetchMockChangeStatus(true);
+        fetchMockChangeStatus(true, [ 'foo' ]);
         render((
             <>
                 <PolicyDetail/>
@@ -568,6 +569,64 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
 
         await waitForAsyncEvents();
         expect(screen.getByText('Enabled')).toBeVisible();
+    });
+
+    it('When policy is enabled, if the policy was deleted, do not change status and show error', async () => {
+        fetchMockSetup({
+            policy: { ...mockPolicy, isEnabled: false }
+        });
+        fetchMockChangeStatus(true, []);
+        render((
+            <>
+                <PolicyDetail/>
+            </>
+        ), {
+            wrapper: getConfiguredAppWrapper({
+                router: {
+                    initialEntries: [ linkTo.policyDetail('foo') ]
+                },
+                route: {
+                    path: linkTo.policyDetail(':policyId')
+                }
+            })
+        });
+
+        await waitForAsyncEvents();
+        userEvent.click(screen.getByTestId('policy-detail-actions-button'));
+        userEvent.click(screen.getByText(/enable/i));
+
+        await waitForAsyncEvents();
+        expect(screen.getByText('Disabled')).toBeVisible();
+        expect(screen.getByText(/It may have been deleted by another user/i)).toBeVisible();
+    });
+
+    it('When policy is enabled, if server fails, do not change status and show error', async () => {
+        fetchMockSetup({
+            policy: { ...mockPolicy, isEnabled: false }
+        });
+        fetchMockChangeStatus(true, [], 500);
+        render((
+            <>
+                <PolicyDetail/>
+            </>
+        ), {
+            wrapper: getConfiguredAppWrapper({
+                router: {
+                    initialEntries: [ linkTo.policyDetail('foo') ]
+                },
+                route: {
+                    path: linkTo.policyDetail(':policyId')
+                }
+            })
+        });
+
+        await waitForAsyncEvents();
+        userEvent.click(screen.getByTestId('policy-detail-actions-button'));
+        userEvent.click(screen.getByText(/enable/i));
+
+        await waitForAsyncEvents();
+        expect(screen.getByText('Disabled')).toBeVisible();
+        expect(screen.getByText(/There was an error setting the enabled/i)).toBeVisible();
     });
 
     it('Export button downloads a file with the current time', async () => {
