@@ -40,8 +40,14 @@ const MutableMessages = {
         },
         policyDetail: {
             errorChangingEnabledStatus: {
-                title: 'Enabled status change failed for policy',
-                text: 'There was an error setting the enabled status for this policy. Please try again.'
+                notFound: {
+                    title: 'Policy not found',
+                    text: 'The policy does not exists on the server. It may have been deleted by another user.'
+                },
+                else: {
+                    title: 'Enabled status change failed for policy',
+                    text: 'There was an error setting the enabled status for this policy. Please try again.'
+                }
             },
             emptyState: {
                 title: 'Policy not found',

@@ -107,11 +107,18 @@ export const PolicyDetail: React.FunctionComponent = () => {
             shouldBeEnabled: newStatus
         }).then((result) => {
             if (result.status === 200) {
-                statusChanged(newStatus);
+                if (result.payload?.includes(policyId)) {
+                    statusChanged(newStatus);
+                } else {
+                    addDangerNotification(
+                        Messages.pages.policyDetail.errorChangingEnabledStatus.notFound.title,
+                        Messages.pages.policyDetail.errorChangingEnabledStatus.notFound.text
+                    );
+                }
             } else {
                 addDangerNotification(
-                    Messages.pages.policyDetail.errorChangingEnabledStatus.title,
-                    Messages.pages.policyDetail.errorChangingEnabledStatus.text
+                    Messages.pages.policyDetail.errorChangingEnabledStatus.else.title,
+                    Messages.pages.policyDetail.errorChangingEnabledStatus.else.text
                 );
             }
         });
