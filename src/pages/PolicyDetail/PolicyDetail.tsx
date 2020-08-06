@@ -11,7 +11,7 @@ import {
 } from '@patternfly/react-core';
 import { useHistory } from 'react-router-dom';
 import { linkTo } from '../../Routes';
-import { BreadcrumbLinkItem, Section } from '@redhat-cloud-services/insights-common-typescript';
+import { addDangerNotification, BreadcrumbLinkItem, Section } from '@redhat-cloud-services/insights-common-typescript';
 import { useGetPolicyParametrizedQuery } from '../../services/useGetPolicy';
 import { ExpandedContent } from '../../components/Policy/Table/ExpandedContent';
 import { style } from 'typestyle';
@@ -31,6 +31,7 @@ import { DeletePolicy } from '../ListPage/DeletePolicy';
 import { useWizardState } from './hooks/useWizardState';
 import { usePolicy } from './hooks/usePolicy';
 import { TriggerDetailAPI, TriggerDetailSection } from './TriggerDetailSection';
+import { Messages } from '../../properties/Messages';
 
 const recentTriggerVersionTitleClassname = style({
     paddingBottom: 8,
@@ -104,7 +105,16 @@ export const PolicyDetail: React.FunctionComponent = () => {
         mutate({
             policyIds: [ policyId ],
             shouldBeEnabled: newStatus
-        }).then(() => statusChanged(newStatus));
+        }).then((result) => {
+            if (result.status === 200) {
+                statusChanged(newStatus);
+            } else {
+                addDangerNotification(
+                    Messages.pages.policyDetail.errorChangingEnabledStatus.title,
+                    Messages.pages.policyDetail.errorChangingEnabledStatus.text
+                );
+            }
+        });
     }, [ policyId, changePolicyEnabled.mutate, statusChanged ]);
 
     if (!canReadAll) {
