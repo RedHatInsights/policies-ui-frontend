@@ -8,13 +8,8 @@ export const useTriggerPage = (elementsPerPage: number, sort: Sort | undefined, 
     const pageFilter = React.useMemo(() => {
         const pageFilter = new Filter();
         const name = filters[TriggerFilterColumn.NAME];
-        const id = filters[TriggerFilterColumn.ID];
         if (name && name.trim() !== '') {
             pageFilter.and('name', Operator.LIKE, name.trim());
-        }
-
-        if (id && id.trim() !== '') {
-            pageFilter.and('id', Operator.LIKE, id.trim());
         }
 
         return pageFilter;

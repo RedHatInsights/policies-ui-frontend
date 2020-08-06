@@ -7,8 +7,7 @@ describe('src/pages/PolicyDetail/hooks/useTriggerPage', () => {
     it('Does not change the filter case', () => {
         const { result } = renderHook(() => {
             return useTriggerPage(10, undefined, {
-                [TriggerFilterColumn.NAME]: 'FooBarBaz',
-                [TriggerFilterColumn.ID]: 'AbCdEfGG'
+                [TriggerFilterColumn.NAME]: 'FooBarBaz'
             });
         });
 
@@ -17,8 +16,7 @@ describe('src/pages/PolicyDetail/hooks/useTriggerPage', () => {
                 1,
                 10,
                 new Filter()
-                .and('name', Operator.LIKE, 'FooBarBaz')
-                .and('id', Operator.LIKE, 'AbCdEfGG'),
+                .and('name', Operator.LIKE, 'FooBarBaz'),
                 undefined
             )
         );
@@ -27,8 +25,7 @@ describe('src/pages/PolicyDetail/hooks/useTriggerPage', () => {
     it('Trims the name and the id', () => {
         const { result } = renderHook(() => {
             return useTriggerPage(10, undefined, {
-                [TriggerFilterColumn.NAME]: '   abc    ',
-                [TriggerFilterColumn.ID]: '       gg       '
+                [TriggerFilterColumn.NAME]: '   abc    '
             });
         });
 
@@ -37,8 +34,7 @@ describe('src/pages/PolicyDetail/hooks/useTriggerPage', () => {
                 1,
                 10,
                 new Filter()
-                .and('name', Operator.LIKE, 'abc')
-                .and('id', Operator.LIKE, 'gg'),
+                .and('name', Operator.LIKE, 'abc'),
                 undefined
             )
         );
@@ -47,8 +43,7 @@ describe('src/pages/PolicyDetail/hooks/useTriggerPage', () => {
     it('Does not include empty fields', () => {
         const { result } = renderHook(() => {
             return useTriggerPage(10, undefined, {
-                [TriggerFilterColumn.NAME]: '',
-                [TriggerFilterColumn.ID]: 'bar'
+                [TriggerFilterColumn.NAME]: ''
             });
         });
 
@@ -56,8 +51,7 @@ describe('src/pages/PolicyDetail/hooks/useTriggerPage', () => {
             Page.of(
                 1,
                 10,
-                new Filter()
-                .and('id', Operator.LIKE, 'bar'),
+                new Filter(),
                 undefined
             )
         );

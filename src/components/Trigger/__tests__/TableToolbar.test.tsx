@@ -31,14 +31,12 @@ describe('src/components/Trigger/TableToolbar', () => {
         id?: string;
     }
 
-    const filterMocks = ({ name, id }: FilterMock = { name: '', id: '' }) => ({
-        [TriggerFilterColumn.NAME]: name ?? '',
-        [TriggerFilterColumn.ID]: id ?? ''
+    const filterMocks = ({ name }: FilterMock = { name: '' }) => ({
+        [TriggerFilterColumn.NAME]: name ?? ''
     });
 
     const setFilterMocks = () => ({
-        [TriggerFilterColumn.NAME]: jest.fn(),
-        [TriggerFilterColumn.ID]: jest.fn()
+        [TriggerFilterColumn.NAME]: jest.fn()
     });
 
     beforeEach(() => {
