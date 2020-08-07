@@ -26,12 +26,8 @@ export interface TriggerTableToolbarProps {
 
 const filterMetadata: ColumnsMetada<typeof TriggerFilterColumn> = {
     [TriggerFilterColumn.NAME]: {
-        label: 'Name',
-        placeholder: 'Filter by System name'
-    },
-    [TriggerFilterColumn.ID]: {
-        label: 'Id',
-        placeholder: 'Filter by System id'
+        label: 'System',
+        placeholder: 'Filter by System'
     }
 };
 

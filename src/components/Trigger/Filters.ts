@@ -1,8 +1,7 @@
 import { ClearFilters, Filters, SetFilters } from '@redhat-cloud-services/insights-common-typescript';
 
 export enum TriggerFilterColumn {
-    NAME = 'name',
-    ID = 'id'
+    NAME = 'name'
 }
 
 export type TriggerFilters = Filters<typeof TriggerFilterColumn>;

@@ -31,14 +31,12 @@ describe('src/components/Trigger/TableToolbar', () => {
         id?: string;
     }
 
-    const filterMocks = ({ name, id }: FilterMock = { name: '', id: '' }) => ({
-        [TriggerFilterColumn.NAME]: name ?? '',
-        [TriggerFilterColumn.ID]: id ?? ''
+    const filterMocks = ({ name }: FilterMock = { name: '' }) => ({
+        [TriggerFilterColumn.NAME]: name ?? ''
     });
 
     const setFilterMocks = () => ({
-        [TriggerFilterColumn.NAME]: jest.fn(),
-        [TriggerFilterColumn.ID]: jest.fn()
+        [TriggerFilterColumn.NAME]: jest.fn()
     });
 
     beforeEach(() => {
@@ -115,27 +113,16 @@ describe('src/components/Trigger/TableToolbar', () => {
         const onChangeMockFn = jest.fn();
         const onChangeOriginal = control.topProps.filterConfig.items[0].filterValues.onChange;
         control.topProps.filterConfig.items[0].filterValues.onChange = onChangeMockFn;
-        control.topProps.filterConfig.items[1].filterValues.onChange = onChangeMockFn;
 
         expect(control.topProps.filterConfig).toEqual({
             items: [
                 {
-                    label: 'Name',
+                    label: 'System',
                     type: 'text',
                     filterValues: {
                         id: 'filter-name',
                         value: 'foo-bar',
-                        placeholder: 'Filter by System name',
-                        onChange: onChangeMockFn
-                    }
-                },
-                {
-                    label: 'Id',
-                    type: 'text',
-                    filterValues: {
-                        id: 'filter-id',
-                        value: '',
-                        placeholder: 'Filter by System id',
+                        placeholder: 'Filter by System',
                         onChange: onChangeMockFn
                     }
                 }
@@ -172,7 +159,7 @@ describe('src/components/Trigger/TableToolbar', () => {
         expect(control.topProps.activeFiltersConfig).toEqual({
             filters: [
                 {
-                    category: 'Name',
+                    category: 'System',
                     chips: [
                         {
                             name: 'foo-bar',
@@ -186,7 +173,7 @@ describe('src/components/Trigger/TableToolbar', () => {
 
         onDeleteOriginal(undefined, [
             {
-                category: 'Name'
+                category: 'System'
             }
         ]);
         expect(clearFn).toHaveBeenCalledWith([ TriggerFilterColumn.NAME ]);
