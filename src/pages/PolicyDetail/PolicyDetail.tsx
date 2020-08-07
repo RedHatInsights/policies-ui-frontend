@@ -141,7 +141,6 @@ export const PolicyDetail: React.FunctionComponent = () => {
                     triggerDetailRef.current?.refresh();
                     getPolicyQuery.query(policyId).then(processGetPolicyResponse);
                 } }
-                policyId={ policyId }
                 error={ error }
             />;
         }
