@@ -47,9 +47,9 @@ export const CopyFromPolicy: React.FunctionComponent<CopyFromPolicyProps> = (pro
                 showPerPageOptions={ false }
                 hideActions={ true }
                 hideBulkSelect={ true }
-                filterElements={ policyFilter.filters }
-                setFilterElements={ policyFilter.setFilters }
-                clearFilters={ policyFilter.clearFilterHandler }
+                filters={ policyFilter.filters }
+                setFilters={ policyFilter.setFilters }
+                clearFilters={ policyFilter.clearFilter }
                 count={ getPoliciesQuery.count }
             >
                 <PolicyTable

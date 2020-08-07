@@ -1,6 +1,6 @@
 import { renderHook, act } from '@testing-library/react-hooks';
 import { usePolicyFilter } from '../usePolicyFilter';
-import { PolicyFilterColumn } from '../../types/Policy/PolicyPaging';
+import { PolicyFilterColumn } from '../../types/Policy/Filters';
 import { MemoryRouter, useLocation } from 'react-router-dom';
 
 describe('src/hooks/usePolicyFilter', () => {
@@ -65,23 +65,17 @@ describe('src/hooks/usePolicyFilter', () => {
         );
 
         act(() => {
-            result.current.usePolicyFilter.setFilters[PolicyFilterColumn.IS_ACTIVE]({
-                enabled: true,
-                disabled: false
-            });
+            result.current.usePolicyFilter.setFilters[PolicyFilterColumn.IS_ACTIVE]('enabled');
         });
 
-        expect(result.current.usePolicyFilter.filters[PolicyFilterColumn.IS_ACTIVE]).toEqual({
-            enabled: true,
-            disabled: false
-        });
+        expect(result.current.usePolicyFilter.filters[PolicyFilterColumn.IS_ACTIVE]).toEqual('enabled');
         expect(result.current.useLocation.search).toBe('?');
 
         act(() => {
             jest.runAllTimers();
         });
 
-        expect(result.current.useLocation.search).toBe('?enabled=1');
+        expect(result.current.useLocation.search).toBe('?enabled=Enabled');
     });
 
     it('Does not save filter name as query param name when saveFiltersInUrl is false', () => {

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Filter, Operator, Page, Sort } from '@redhat-cloud-services/insights-common-typescript';
-import { PolicyFilterColumn, PolicyFilters } from '../types/Policy/PolicyPaging';
+import { PolicyFilterColumn, PolicyFilters } from '../types/Policy/Filters';
 
 export interface UsePolicyPageReturn {
     page: Page;
@@ -25,11 +25,11 @@ export const usePolicyPage = (filters: PolicyFilters, defaultPerPage?: number, s
             filter.and(PolicyFilterColumn.NAME, Operator.ILIKE, `%${filters[PolicyFilterColumn.NAME].trim()}%`);
         }
 
-        if (filters[PolicyFilterColumn.IS_ACTIVE].disabled !== filters[PolicyFilterColumn.IS_ACTIVE].enabled) {
+        if (filters[PolicyFilterColumn.IS_ACTIVE] !== '') {
             filter.and(
                 PolicyFilterColumn.IS_ACTIVE,
                 Operator.BOOLEAN_IS,
-                filters[PolicyFilterColumn.IS_ACTIVE].enabled ? 'true' : 'false');
+                filters[PolicyFilterColumn.IS_ACTIVE] === 'Enabled' ? 'true' : 'false');
         }
 
         return Page.of(currentPage, itemsPerPage, filter, sort);

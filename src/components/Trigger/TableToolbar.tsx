@@ -4,14 +4,9 @@ import { PrimaryToolbar } from '@redhat-cloud-services/frontend-components';
 import {
     Page,
     ExporterType,
-    exporterTypeFromString
+    exporterTypeFromString, ColumnsMetada, usePrimaryToolbarFilterConfig
 } from '@redhat-cloud-services/insights-common-typescript';
-import {
-    ClearFilters,
-    SetTriggerFilters,
-    TriggerFilterColumn,
-    TriggerFilters
-} from '../../pages/PolicyDetail/hooks/useTriggerFilter';
+import { ClearTriggerFilters, SetTriggerFilters, TriggerFilterColumn, TriggerFilters } from './Filters';
 
 type OnPaginationPageChangedHandler = (
     event: React.SyntheticEvent<HTMLButtonElement> | React.MouseEvent | React.KeyboardEvent | MouseEvent, page: number) => void;
@@ -26,32 +21,29 @@ export interface TriggerTableToolbarProps {
     onExport: (type: ExporterType) => void;
     filters: TriggerFilters;
     setFilters: SetTriggerFilters;
-    clearFilters: ClearFilters;
+    clearFilters: ClearTriggerFilters;
 }
 
-const filterColumnToLabel: Record<TriggerFilterColumn, string> = {
-    [TriggerFilterColumn.NAME]: 'Name',
-    [TriggerFilterColumn.ID]: 'Id'
-};
-
-const getFilterConfig = (filters: TriggerFilters, filter: TriggerFilterColumn) => {
-    const value = filters[filter].trim();
-    if (value === '') {
-        return undefined;
+const filterMetadata: ColumnsMetada<typeof TriggerFilterColumn> = {
+    [TriggerFilterColumn.NAME]: {
+        label: 'Name',
+        placeholder: 'Filter by System name'
+    },
+    [TriggerFilterColumn.ID]: {
+        label: 'Id',
+        placeholder: 'Filter by System id'
     }
-
-    return {
-        category: filterColumnToLabel[filter],
-        chips: [
-            {
-                name: value,
-                isRead: true
-            }
-        ]
-    };
 };
 
 export const TriggerTableToolbar: React.FunctionComponent<TriggerTableToolbarProps> = (props) => {
+
+    const primaryToolbarFilterConfig = usePrimaryToolbarFilterConfig(
+        TriggerFilterColumn,
+        props.filters,
+        props.setFilters,
+        props.clearFilters,
+        filterMetadata
+    );
 
     const topPaginationProps = React.useMemo<PaginationProps>(() => ({
         itemCount: props.count || 0,
@@ -85,71 +77,6 @@ export const TriggerTableToolbar: React.FunctionComponent<TriggerTableToolbarPro
         variant: PaginationVariant.bottom
     }), [ props.onPaginationChanged, props.page, props.count, props.onPaginationSizeChanged ]);
 
-    const filterConfigProps = React.useMemo(() => {
-        const filters = props.filters;
-        const setFilters = props.setFilters;
-        return {
-            items: [
-                {
-                    label: filterColumnToLabel[TriggerFilterColumn.NAME],
-                    type: 'text',
-                    filterValues: {
-                        id: 'filter-name',
-                        value: filters[TriggerFilterColumn.NAME],
-                        placeholder: 'Filter by System name',
-                        onChange: (_event, value: string) => setFilters[TriggerFilterColumn.NAME](value)
-                    }
-                },
-                {
-                    label: filterColumnToLabel[TriggerFilterColumn.ID],
-                    type: 'text',
-                    filterValues: {
-                        id: 'filter-id',
-                        value: filters[TriggerFilterColumn.ID],
-                        placeholder: 'Filter by System id',
-                        onChange: (_event, value: string) => setFilters[TriggerFilterColumn.ID](value)
-                    }
-                }
-            ]
-        };
-    }, [ props.filters, props.setFilters ]);
-
-    const onFilterDelete = React.useCallback((_event, rawFilterConfigs: any[]) => {
-        const clearFilters = props.clearFilters;
-        const filtersToClear: Array<TriggerFilterColumn> = [];
-        for (const element of rawFilterConfigs) {
-            const key = Object.keys(filterColumnToLabel).find(key => filterColumnToLabel[key] === element.category);
-            switch (key) {
-                case TriggerFilterColumn.NAME:
-                    filtersToClear.push(TriggerFilterColumn.NAME);
-                    break;
-                case TriggerFilterColumn.ID:
-                    filtersToClear.push(TriggerFilterColumn.ID);
-                    break;
-                default:
-                    throw new Error(`Unknown filter found: ${element.category}`);
-            }
-        }
-
-        clearFilters(filtersToClear);
-    }, [ props.clearFilters ]);
-
-    const activeFiltersConfigProps = React.useMemo(() => {
-        const filters = props.filters;
-        const filterConfig: ReturnType<typeof getFilterConfig>[] = [];
-        for (const filter of Object.values(TriggerFilterColumn)) {
-            const config = getFilterConfig(filters, filter);
-            if (config) {
-                filterConfig.push(config);
-            }
-        }
-
-        return {
-            filters: filterConfig,
-            onDelete: onFilterDelete
-        };
-    }, [ props.filters, onFilterDelete ]);
-
     const exportConfig = React.useMemo(() => {
         const onExport = props.onExport;
         return {
@@ -166,8 +93,8 @@ export const TriggerTableToolbar: React.FunctionComponent<TriggerTableToolbarPro
             <PrimaryToolbar
                 pagination={ topPaginationProps }
                 exportConfig={ exportConfig }
-                filterConfig={ filterConfigProps }
-                activeFiltersConfig={ activeFiltersConfigProps }
+                filterConfig={ primaryToolbarFilterConfig.filterConfig }
+                activeFiltersConfig={ primaryToolbarFilterConfig.activeFiltersConfig }
             />
             { props.children }
             <PrimaryToolbar

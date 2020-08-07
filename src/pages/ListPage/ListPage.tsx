@@ -203,9 +203,9 @@ const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
                             pageCount={ policyRows.rows.length }
                             perPage={ policyPage.page.size }
                             showPerPageOptions={ true }
-                            filterElements={ policyFilters.filters }
-                            setFilterElements = { policyFilters.setFilters }
-                            clearFilters={ policyFilters.clearFilterHandler }
+                            filters={ policyFilters.filters }
+                            setFilters= { policyFilters.setFilters }
+                            clearFilters={ policyFilters.clearFilter }
                             count={ getPoliciesQuery.count }
                             onExport={ toolbarActions.onExport }
                             showBottomPagination={ true }

@@ -3,7 +3,7 @@ import { render, act } from '@testing-library/react';
 import { CreatePolicyStepContextProvider } from '../Provider';
 import { ClientContextProvider, createClient } from 'react-fetching-library';
 import fetchMock from 'fetch-mock';
-import { PolicyFilterColumn } from '../../../../../types/Policy/PolicyPaging';
+import { PolicyFilterColumn } from '../../../../../types/Policy/Filters';
 import { useState } from 'react';
 
 let query;

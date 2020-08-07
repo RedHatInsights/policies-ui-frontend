@@ -1,16 +1,13 @@
 import { act, renderHook } from '@testing-library/react-hooks';
 import { Filter, Operator, Page } from '@redhat-cloud-services/insights-common-typescript';
 import { usePolicyPage } from '../usePolicyPage';
-import { PolicyFilterColumn, PolicyFilters } from '../../types/Policy/PolicyPaging';
+import { PolicyFilterColumn, PolicyFilters } from '../../types/Policy/Filters';
 
 describe('src/hooks/usePolicyPage', () => {
     it('Default PolicyPage', () => {
         const filters: PolicyFilters = {
             [PolicyFilterColumn.NAME]: '',
-            [PolicyFilterColumn.IS_ACTIVE]: {
-                enabled: false,
-                disabled: false
-            }
+            [PolicyFilterColumn.IS_ACTIVE]: ''
         };
         const defaultPage = Page.defaultPage();
         const { result } = renderHook(() => usePolicyPage(filters));
@@ -23,10 +20,7 @@ describe('src/hooks/usePolicyPage', () => {
         it('Created when using a non default value', () => {
             const filters: PolicyFilters = {
                 [PolicyFilterColumn.NAME]: 'abc',
-                [PolicyFilterColumn.IS_ACTIVE]: {
-                    enabled: false,
-                    disabled: false
-                }
+                [PolicyFilterColumn.IS_ACTIVE]: ''
             };
 
             const { result } = renderHook(() => usePolicyPage(filters));
@@ -41,10 +35,7 @@ describe('src/hooks/usePolicyPage', () => {
         it('Value is trimmed', () => {
             const filters: PolicyFilters = {
                 [PolicyFilterColumn.NAME]: '     abc    ',
-                [PolicyFilterColumn.IS_ACTIVE]: {
-                    enabled: false,
-                    disabled: false
-                }
+                [PolicyFilterColumn.IS_ACTIVE]: ''
             };
 
             const { result } = renderHook(() => usePolicyPage(filters));
@@ -61,24 +52,7 @@ describe('src/hooks/usePolicyPage', () => {
         it('Not created when both values are equal (all false)', () => {
             const filters: PolicyFilters = {
                 [PolicyFilterColumn.NAME]: '',
-                [PolicyFilterColumn.IS_ACTIVE]: {
-                    enabled: true,
-                    disabled: true
-                }
-            };
-
-            const { result } = renderHook(() => usePolicyPage(filters));
-
-            expect(result.current.page.filter).toEqual(new Filter());
-        });
-
-        it('Not created when both values are equal (all true)', () => {
-            const filters: PolicyFilters = {
-                [PolicyFilterColumn.NAME]: '',
-                [PolicyFilterColumn.IS_ACTIVE]: {
-                    enabled: true,
-                    disabled: true
-                }
+                [PolicyFilterColumn.IS_ACTIVE]: ''
             };
 
             const { result } = renderHook(() => usePolicyPage(filters));
@@ -89,10 +63,7 @@ describe('src/hooks/usePolicyPage', () => {
         it('Created when both values are different, disabled: true', () => {
             const filters: PolicyFilters = {
                 [PolicyFilterColumn.NAME]: '',
-                [PolicyFilterColumn.IS_ACTIVE]: {
-                    enabled: false,
-                    disabled: true
-                }
+                [PolicyFilterColumn.IS_ACTIVE]: 'Disabled'
             };
 
             const { result } = renderHook(() => usePolicyPage(filters));
@@ -107,10 +78,7 @@ describe('src/hooks/usePolicyPage', () => {
         it('Created when both values are different, enabled: true', () => {
             const filters: PolicyFilters = {
                 [PolicyFilterColumn.NAME]: '',
-                [PolicyFilterColumn.IS_ACTIVE]: {
-                    enabled: true,
-                    disabled: false
-                }
+                [PolicyFilterColumn.IS_ACTIVE]: 'Enabled'
             };
 
             const { result } = renderHook(() => usePolicyPage(filters));
@@ -126,10 +94,7 @@ describe('src/hooks/usePolicyPage', () => {
     it('Filter: mixed', () => {
         const filters: PolicyFilters = {
             [PolicyFilterColumn.NAME]: ' foo bar    abc       ',
-            [PolicyFilterColumn.IS_ACTIVE]: {
-                enabled: true,
-                disabled: false
-            }
+            [PolicyFilterColumn.IS_ACTIVE]: 'Enabled'
         };
 
         const { result } = renderHook(() => usePolicyPage(filters));
@@ -148,10 +113,7 @@ describe('src/hooks/usePolicyPage', () => {
     it('changePage changes the current page index', () => {
         const filters: PolicyFilters = {
             [PolicyFilterColumn.NAME]: '',
-            [PolicyFilterColumn.IS_ACTIVE]: {
-                enabled: false,
-                disabled: false
-            }
+            [PolicyFilterColumn.IS_ACTIVE]: ''
         };
 
         const { result } = renderHook(() => usePolicyPage(filters));
@@ -168,10 +130,7 @@ describe('src/hooks/usePolicyPage', () => {
     it('changeItemsPerPage changes the page.size', () => {
         const filters: PolicyFilters = {
             [PolicyFilterColumn.NAME]: '',
-            [PolicyFilterColumn.IS_ACTIVE]: {
-                enabled: false,
-                disabled: false
-            }
+            [PolicyFilterColumn.IS_ACTIVE]: ''
         };
 
         const { result } = renderHook(() => usePolicyPage(filters, 111));
@@ -188,17 +147,11 @@ describe('src/hooks/usePolicyPage', () => {
     it('page.index resets to 1 if there is a filter change', () => {
         const filters: PolicyFilters = {
             [PolicyFilterColumn.NAME]: '',
-            [PolicyFilterColumn.IS_ACTIVE]: {
-                enabled: false,
-                disabled: false
-            }
+            [PolicyFilterColumn.IS_ACTIVE]: ''
         };
         const filters2: PolicyFilters = {
             [PolicyFilterColumn.NAME]: 'foo bared',
-            [PolicyFilterColumn.IS_ACTIVE]: {
-                enabled: false,
-                disabled: false
-            }
+            [PolicyFilterColumn.IS_ACTIVE]: ''
         };
         const { result, rerender } = renderHook((argFilter) => usePolicyPage(argFilter), {
             initialProps: filters
