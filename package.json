@@ -122,6 +122,7 @@
   "scripts": {
     "build": "webpack --config config/prod.webpack.config.ts",
     "test": "jest --verbose",
+    "test:ci": "yarn test --coverage --forceExit --maxWorkers=4 --detectOpenHandles",
     "smoketest": "karma start ./config/karma.conf.ts",
     "lint": "npm-run-all lint:*",
     "lint:ts": "eslint --ext js,ts,tsx config src",
