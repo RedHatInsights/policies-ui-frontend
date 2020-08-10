@@ -8,7 +8,8 @@ module.exports = {
         '!test/**'
     ],
     coveragePathIgnorePatterns: [
-        '<rootDir>/src/utils/Expression/*'
+        '<rootDir>/src/utils/Expression/*',
+        '<rootDir>/src/cli/*'
     ],
     setupFiles: [
         '<rootDir>/config/setupTests.ts'

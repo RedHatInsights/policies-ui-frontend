@@ -13,4 +13,8 @@ describe('src/utils/exporters/Policy/Factory', () => {
         const exporter = policyExporterFactory(ExporterType.JSON);
         expect(exporter).toEqual(new PolicyExporterJson());
     });
+
+    it('Wrong type throws exception', () => {
+        expect(() => policyExporterFactory('foo' as any)).toThrowError();
+    });
 });

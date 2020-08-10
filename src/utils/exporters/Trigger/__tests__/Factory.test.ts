@@ -13,4 +13,8 @@ describe('src/utils/exporters/Trigger/Factory', () => {
         const exporter = triggerExporterFactory(ExporterType.JSON);
         expect(exporter).toEqual(new TriggerExporterJson());
     });
+
+    it('Wrong type throws exception', () => {
+        expect(() => triggerExporterFactory('foo' as any)).toThrowError();
+    });
 });
