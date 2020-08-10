@@ -20,6 +20,7 @@ import { useGetPolicyDetailTriggerHistory } from './hooks/useGetPolicyDetailTrig
 import { forwardRef, useCallback } from 'react';
 import { TriggerErrorState } from './TriggerErrorState';
 import { PagedTrigger } from '../../types/Trigger';
+import Config from '../../config/Config';
 
 const defaultSort = Sort.by('ctime', Direction.DESCENDING);
 
@@ -63,7 +64,7 @@ const TriggerDetailSectionInternal: React.ForwardRefRenderFunction<TriggerDetail
     const { policyId } = props;
     const triggerFilter = useTriggerFilter();
     const getTriggers = useGetPolicyDetailTriggerHistory();
-    const [ triggersPerPage, setTriggersPerPage ] = React.useState<number>(50);
+    const [ triggersPerPage, setTriggersPerPage ] = React.useState<number>(Config.defaultElementsPerPage);
     const sort = useSort(defaultSort);
     const {
         page,

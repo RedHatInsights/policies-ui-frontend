@@ -108,7 +108,7 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
             id: config?.policyId || 'foo',
             ...pageToQuery(Page.of(
                 config?.triggerPage !== undefined ? config.triggerPage : 1,
-                config?.triggerLimit || 50,
+                config?.triggerLimit || 20,
                 undefined,
                 config?.noSort === true ? undefined : Sort.by('ctime', Direction.DESCENDING)
             ))

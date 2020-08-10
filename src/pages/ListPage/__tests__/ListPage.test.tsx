@@ -92,7 +92,7 @@ describe('src/pages/ListPage', () => {
 
     const fetchMockSetup = (config?: FetchMockSetupType) => {
         fetchMock.getOnce(actionGetPolicies({
-            limit: 50,
+            limit: 20,
             offset: 0
         }).endpoint, {
             status: config?.status || 200,

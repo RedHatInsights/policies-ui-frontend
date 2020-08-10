@@ -2,6 +2,7 @@ import { act, renderHook } from '@testing-library/react-hooks';
 import { Filter, Operator, Page } from '@redhat-cloud-services/insights-common-typescript';
 import { usePolicyPage } from '../usePolicyPage';
 import { PolicyFilterColumn, PolicyFilters } from '../../types/Policy/Filters';
+import Config from '../../config/Config';
 
 describe('src/hooks/usePolicyPage', () => {
     it('Default PolicyPage', () => {
@@ -10,8 +11,8 @@ describe('src/hooks/usePolicyPage', () => {
             [PolicyFilterColumn.IS_ACTIVE]: ''
         };
         const defaultPage = Page.defaultPage();
-        const { result } = renderHook(() => usePolicyPage(filters));
-        const expected = Page.of(defaultPage.index, defaultPage.size, new Filter());
+        const { result } = renderHook(() => usePolicyPage(filters, Config.defaultElementsPerPage));
+        const expected = Page.of(defaultPage.index, 20, new Filter());
 
         expect(result.current.page).toEqual(expected);
     });
@@ -23,7 +24,7 @@ describe('src/hooks/usePolicyPage', () => {
                 [PolicyFilterColumn.IS_ACTIVE]: ''
             };
 
-            const { result } = renderHook(() => usePolicyPage(filters));
+            const { result } = renderHook(() => usePolicyPage(filters, 20));
 
             expect(result.current.page.filter).toEqual(new Filter().and(
                 PolicyFilterColumn.NAME,
@@ -38,7 +39,7 @@ describe('src/hooks/usePolicyPage', () => {
                 [PolicyFilterColumn.IS_ACTIVE]: ''
             };
 
-            const { result } = renderHook(() => usePolicyPage(filters));
+            const { result } = renderHook(() => usePolicyPage(filters, 20));
 
             expect(result.current.page.filter).toEqual(new Filter().and(
                 PolicyFilterColumn.NAME,
@@ -55,7 +56,7 @@ describe('src/hooks/usePolicyPage', () => {
                 [PolicyFilterColumn.IS_ACTIVE]: ''
             };
 
-            const { result } = renderHook(() => usePolicyPage(filters));
+            const { result } = renderHook(() => usePolicyPage(filters, 20));
 
             expect(result.current.page.filter).toEqual(new Filter());
         });
@@ -66,7 +67,7 @@ describe('src/hooks/usePolicyPage', () => {
                 [PolicyFilterColumn.IS_ACTIVE]: 'Disabled'
             };
 
-            const { result } = renderHook(() => usePolicyPage(filters));
+            const { result } = renderHook(() => usePolicyPage(filters, 20));
 
             expect(result.current.page.filter).toEqual(new Filter().and(
                 PolicyFilterColumn.IS_ACTIVE,
@@ -81,7 +82,7 @@ describe('src/hooks/usePolicyPage', () => {
                 [PolicyFilterColumn.IS_ACTIVE]: 'Enabled'
             };
 
-            const { result } = renderHook(() => usePolicyPage(filters));
+            const { result } = renderHook(() => usePolicyPage(filters, 20));
 
             expect(result.current.page.filter).toEqual(new Filter().and(
                 PolicyFilterColumn.IS_ACTIVE,
@@ -97,7 +98,7 @@ describe('src/hooks/usePolicyPage', () => {
             [PolicyFilterColumn.IS_ACTIVE]: 'Enabled'
         };
 
-        const { result } = renderHook(() => usePolicyPage(filters));
+        const { result } = renderHook(() => usePolicyPage(filters, 20));
 
         expect(result.current.page.filter).toEqual(new Filter().and(
             PolicyFilterColumn.NAME,
@@ -116,7 +117,7 @@ describe('src/hooks/usePolicyPage', () => {
             [PolicyFilterColumn.IS_ACTIVE]: ''
         };
 
-        const { result } = renderHook(() => usePolicyPage(filters));
+        const { result } = renderHook(() => usePolicyPage(filters, 20));
 
         expect(result.current.page.index).toBe(1);
 
@@ -153,7 +154,7 @@ describe('src/hooks/usePolicyPage', () => {
             [PolicyFilterColumn.NAME]: 'foo bared',
             [PolicyFilterColumn.IS_ACTIVE]: ''
         };
-        const { result, rerender } = renderHook((argFilter) => usePolicyPage(argFilter), {
+        const { result, rerender } = renderHook((argFilter) => usePolicyPage(argFilter, 20), {
             initialProps: filters
         });
 
