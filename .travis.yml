@@ -8,17 +8,19 @@ cache:
   directories:
     - node_modules
 install: yarn --frozen-lockfile --non-interactive || (echo 'package.json is not in sync with yarn.lock, check that you include yarn.lock' && false)
+
 env:
-  - ACTION=schema-check
-  - ACTION=lint
-  - ACTION=test:ci
-  - ACTION=smoketest
-  - ACTION=build
   global:
     - REPO="git@github.com:RedHatInsights/policies-ui-frontend-build"
     - REPO_DIR="policies-ui-frontend-build"
     - BRANCH=${TRAVIS_PULL_REQUEST_BRANCH:-$TRAVIS_BRANCH}
     - NODE_OPTIONS="--max-old-space-size=4096 --max_old_space_size=4096"
+  jobs:
+    - ACTION=schema-check
+    - ACTION=lint
+    - ACTION=test:ci
+    - ACTION=smoketest
+    - ACTION=build
 script: yarn $ACTION
 jobs:
   include:
