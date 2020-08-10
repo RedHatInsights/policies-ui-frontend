@@ -63,7 +63,7 @@ describe('Smoketest', () => {
             }
         );
 
-        fetchMock.get('/api/policies/v1.0/policies?limit=50&offset=0', {
+        fetchMock.get('/api/policies/v1.0/policies?limit=20&offset=0', {
             status: 200,
             body: {
                 data: [
