@@ -20,10 +20,8 @@ env:
 script: yarn $ACTION
 jobs:
   include:
-    - stage: Deploy
+    - stage: Build & Deploy
       if: type = push
-      env:
-        ACTION=build
       script: yarn build:prod && curl -sSL https://raw.githubusercontent.com/RedHatInsights/insights-frontend-builder-common/master/src/bootstrap.sh | bash -s
 notifications:
   irc:
