@@ -1,5 +1,6 @@
 language: node_js
-sudo: required
+dist: xenial
+os: linux
 node_js:
 - '10'
 cache:
