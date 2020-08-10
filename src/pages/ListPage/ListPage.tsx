@@ -24,6 +24,7 @@ import { useGetListPagePolicies } from './useGetListPagePolicies';
 import { useTableActionResolverCallback } from './hooks/useTableActionResolverCallback';
 import { useListPageDelete } from './hooks/useListPageDelete';
 import { useToolbarActions } from './hooks/useToolbarActions';
+import Config from '../../config/Config';
 
 type ListPageProps = {};
 
@@ -64,7 +65,7 @@ const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
     const changePolicyEnabledMutation = useMassChangePolicyEnabledMutation();
     const policyFilters = usePolicyFilter();
     const sort = useSort();
-    const policyPage = usePolicyPage(policyFilters.debouncedFilters, undefined, sort.sortBy);
+    const policyPage = usePolicyPage(policyFilters.debouncedFilters, Config.defaultElementsPerPage, sort.sortBy);
     const getPoliciesQuery = useGetListPagePolicies(policyPage.page);
     const { query: exportAllPoliciesQuery } = useGetPoliciesQuery(Page.of(
         0,

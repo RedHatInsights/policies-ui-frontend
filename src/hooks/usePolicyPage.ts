@@ -9,10 +9,10 @@ export interface UsePolicyPageReturn {
     changeItemsPerPage: (event: any, perPage: number) => void;
 }
 
-export const usePolicyPage = (filters: PolicyFilters, defaultPerPage?: number, sort?: Sort): UsePolicyPageReturn => {
+export const usePolicyPage = (filters: PolicyFilters, defaultPerPage: number, sort?: Sort): UsePolicyPageReturn => {
 
     const [ currentPage, setCurrentPage ] = React.useState<number>(1);
-    const [ itemsPerPage, setItemsPerPage ] = React.useState<number>(defaultPerPage || Page.defaultPage().size);
+    const [ itemsPerPage, setItemsPerPage ] = React.useState<number>(defaultPerPage);
 
     React.useEffect(() => {
         setCurrentPage(1);

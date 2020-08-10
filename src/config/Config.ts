@@ -8,6 +8,7 @@ export const withBaseUrl = (path: string) => `${apiBaseUrl}${path}`;
 
 const Config = {
     appId: 'policies',
+    defaultElementsPerPage: 20,
     apis: {
         version: apiVersion,
         urls: {
