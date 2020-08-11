@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { getInsights } from '@redhat-cloud-services/insights-common-typescript';
 import { ActionType } from '../../types/Policy/Actions';
 import { Button, ButtonVariant, Dropdown, DropdownItem } from '@patternfly/react-core';
 import { Messages } from '../../properties/Messages';
@@ -18,17 +17,13 @@ const dropdownClassName = style({
 
 export const AddTriggersDropdown: React.FunctionComponent<AddTriggersDropdownProps> = (props) => {
     const [ isOpen, setOpen ] = React.useState<boolean>(false);
-    const isBeta = getInsights().chrome.isBeta();
 
     const typeSelected = type => {
         props.onTypeSelected(type);
         setOpen(false);
     };
 
-    const items = Object.values(ActionType)
-    .filter(actionType => {
-        return isBeta || actionType !== ActionType.WEBHOOK;
-    })
+    const items = [ ActionType.EMAIL ]
     .map(type =>
         <DropdownItem
             key={ type }
