@@ -121,7 +121,7 @@
   },
   "scripts": {
     "build": "webpack --config config/prod.webpack.config.ts",
-    "ci:test": "yarn test --coverage --forceExit --maxWorkers=4 --detectOpenHandles && bash <(curl -s https://codecov.io/bash)",
+    "ci:test": "yarn test --coverage --forceExit --maxWorkers=4 --detectOpenHandles && curl -s https://codecov.io/bash | bash",
     "ci:schema": "bash ./.travis/schema-check.sh",
     "test": "jest --verbose",
     "smoketest": "karma start ./config/karma.conf.ts",
