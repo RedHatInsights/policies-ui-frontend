@@ -1,26 +1,31 @@
 language: node_js
-sudo: required
+dist: xenial
+os: linux
 node_js:
 - '10'
 cache:
   yarn: true
-  directories:
-    - node_modules
-install: yarn --frozen-lockfile --non-interactive || (echo 'package.json is not in sync with yarn.lock, check that you include yarn.lock' && false)
-script:
-- ./.travis/schema-check.sh && yarn travis && curl -sSL https://raw.githubusercontent.com/RedHatInsights/insights-frontend-builder-common/master/src/bootstrap.sh | bash -s
-after_success:
-  - bash <(curl -s https://codecov.io/bash)
 env:
- global:
- - REPO="git@github.com:RedHatInsights/policies-ui-frontend-build"
- - REPO_DIR="policies-ui-frontend-build"
- - BRANCH=${TRAVIS_PULL_REQUEST_BRANCH:-$TRAVIS_BRANCH}
- - NODE_OPTIONS="--max-old-space-size=4096 --max_old_space_size=4096"
+  global:
+    - REPO="git@github.com:RedHatInsights/policies-ui-frontend-build"
+    - REPO_DIR="policies-ui-frontend-build"
+    - BRANCH=${TRAVIS_PULL_REQUEST_BRANCH:-$TRAVIS_BRANCH}
+    - NODE_OPTIONS="--max-old-space-size=4096 --max_old_space_size=4096"
+  jobs:
+    - ACTION=ci:schema
+    - ACTION=lint
+    - ACTION=ci:test
+    - ACTION=smoketest
+    - ACTION=build
+script: yarn $ACTION
+jobs:
+  include:
+    - stage: Build & Deploy
+      if: type = push
+      script: yarn build:prod && curl -sSL https://raw.githubusercontent.com/RedHatInsights/insights-frontend-builder-common/master/src/bootstrap.sh | bash -s
 notifications:
   irc:
     channels:
       - chat.freenode.net#policies-ui-travis
     on_success: change
     on_failure: change
-#
