@@ -9,14 +9,22 @@ import {
     ISortBy, sortable
 } from '@patternfly/react-table';
 import { SkeletonTable } from '@redhat-cloud-services/frontend-components';
-import { Direction, Sort, toUtc, localUrl, getInsights } from '@redhat-cloud-services/insights-common-typescript';
+import {
+    Direction,
+    Sort,
+    toUtc,
+    localUrl,
+    getInsights,
+    OuiaComponentProps
+} from '@redhat-cloud-services/insights-common-typescript';
 import { Messages } from '../../properties/Messages';
 import { Trigger } from '../../types/Trigger';
 import format from 'date-fns/format';
 import { Button, ButtonVariant } from '@patternfly/react-core';
 import { TriggerTableEmptyState } from './Table/EmptyState';
+import { getOuiaProps } from '../../utils/getOuiaProps';
 
-interface TriggerTableProps {
+interface TriggerTableProps extends OuiaComponentProps {
     rows?: Trigger[];
     sortBy?: Sort;
     onSort?: (index: number, column: string, direction: Direction) => void;
@@ -103,6 +111,7 @@ export const TriggerTable: React.FunctionComponent<TriggerTableProps> = (props) 
             cells={ cells }
             onSort={ onSortHandler }
             sortBy={ sortBy }
+            { ...getOuiaProps('Trigger/Table', props) }
         >
             <TableHeader/>
             <TableBody/>
