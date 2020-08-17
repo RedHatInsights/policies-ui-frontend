@@ -13,6 +13,7 @@ export const ErrorPageInternal: React.FunctionComponent<ErrorPageProps> = (props
 
     return (
         <ErrorBoundaryPage
+            ouiaId="policy-error-page"
             action={ goToListPage }
             actionLabel={ Messages.pages.error.emptyState.actions.goToIndex }
             pageHeader={ Messages.pages.error.title }

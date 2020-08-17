@@ -154,7 +154,7 @@ export const PolicyDetail: React.FunctionComponent = () => {
                 <Stack>
                     <StackItem>
                         <Breadcrumb>
-                            <BreadcrumbLinkItem to={ linkTo.listPage() }>
+                            <BreadcrumbLinkItem ouiaId="to-list-page" to={ linkTo.listPage() }>
                                 Policies
                             </BreadcrumbLinkItem>
                             <BreadcrumbItem to='#' isActive>
@@ -183,7 +183,7 @@ export const PolicyDetail: React.FunctionComponent = () => {
                 </Stack>
             </PageHeader>
             <Main>
-                <Section style={ { paddingBottom: '4px' } }>
+                <Section ouiaId="policy-detail" style={ { paddingBottom: '4px' } }>
                     <PolicyDetailIsEnabled
                         isEnabled={ policy.isEnabled }
                         loading={ changePolicyEnabled.loading }

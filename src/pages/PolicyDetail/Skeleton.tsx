@@ -25,7 +25,7 @@ export const PolicyDetailSkeleton: React.FunctionComponent = () => {
                 <Stack>
                     <StackItem>
                         <Breadcrumb>
-                            <BreadcrumbLinkItem to={ linkTo.listPage() }>
+                            <BreadcrumbLinkItem ouiaId="to-list-page" to={ linkTo.listPage() }>
                                 Policies
                             </BreadcrumbLinkItem>
                             <BreadcrumbItem>
@@ -46,7 +46,7 @@ export const PolicyDetailSkeleton: React.FunctionComponent = () => {
                 </Stack>
             </PageHeader>
             <Main>
-                <Section>
+                <Section ouiaId="loading-spinner">
                     <Bullseye>
                         <Spinner centered/>
                     </Bullseye>

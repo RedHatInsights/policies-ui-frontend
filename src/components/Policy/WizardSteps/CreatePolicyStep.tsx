@@ -95,7 +95,7 @@ export const CreatePolicyStep: React.FunctionComponent = () => {
 
     return (
         <>
-            <Form className="pf-c-form">
+            <Form ouiaId="create-policy-step" className="pf-c-form">
                 <div className="pf-c-form__group">
                     <Title headingLevel="h4" size="xl" className={ smallVerticalMargin }>{ Messages.wizards.policy.createPolicy.title }</Title>
                     <Text className={ joinClasses(smallVerticalMargin, titleSmall) } component={ TextVariants.h6 }>Define a new policy:</Text>

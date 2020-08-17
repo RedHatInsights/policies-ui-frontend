@@ -16,7 +16,11 @@ export const ActionEmailForm: React.FunctionComponent<ActionFormProps> = (_props
                 An email will be sent to all users on this account with access to Policies according to their email preferences.
             </Text>
             { !appContext.userSettings.isSubscribedForNotifications && (
-                <InsightsEmailOptIn content={ Messages.wizards.policy.actions.emailOptIn } insights={ getInsights() } />
+                <InsightsEmailOptIn
+                    ouiaId="wizard-email-required"
+                    content={ Messages.wizards.policy.actions.emailOptIn }
+                    insights={ getInsights() }
+                />
             )}
         </>
     );

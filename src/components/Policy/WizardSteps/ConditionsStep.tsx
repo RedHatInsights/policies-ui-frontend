@@ -123,7 +123,7 @@ const ConditionsStep: React.FunctionComponent = () => {
     const validIsDisabled = !values.conditions || values.conditions === '' || context.isLoading;
 
     return (
-        <Form>
+        <Form ouiaId="condition-step">
             <Title className={ titleClassName } headingLevel="h4" size="xl">{ Messages.wizards.policy.conditions.title }</Title>
             { Messages.wizards.policy.conditions.summaryDesc }
             <ConditionFieldWithForkmik label="Condition text"
