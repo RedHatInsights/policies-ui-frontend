@@ -22,7 +22,7 @@ import {
     InsightsBetaDetector,
     BetaIf,
     BetaIfNot,
-    getInsights
+    getInsights, OuiaComponentProps
 } from '@redhat-cloud-services/insights-common-typescript';
 import { ExpandedContent } from './ExpandedContent';
 import { Messages } from '../../../properties/Messages';
@@ -32,6 +32,7 @@ import { EmptyStateSection, EmptyStateSectionProps } from '../EmptyState/Section
 import { style } from 'typestyle';
 import { Link } from 'react-router-dom';
 import { linkTo } from '../../../Routes';
+import { getOuiaProps } from '../../../utils/getOuiaProps';
 
 const emptyStateSectionBackgroundColor = style({
     backgroundColor: 'white'
@@ -39,7 +40,7 @@ const emptyStateSectionBackgroundColor = style({
 
 type OnSelectHandlerType = (policy: PolicyRow, index: number, isSelected: boolean) => void;
 
-interface PolicyTableProps {
+interface PolicyTableProps extends OuiaComponentProps {
     actionResolver?: (row: PolicyRow) => IActions;
     error?: EmptyStateSectionProps;
     loading?: boolean;
@@ -75,9 +76,13 @@ const policiesToRows = (policies: PolicyRow[] | undefined, columnsToShow: ValidC
                 cells: columnsToShow.map(column => {
                     switch (column) {
                         case 'actions':
-                            return  <><ActionsCell actions={ policy.actions }/></>;
+                            return  <><ActionsCell ouiaId={ policy.id } actions={ policy.actions }/></>;
                         case 'is_enabled':
-                            return <><LastTriggeredCell isEnabled={ policy.isEnabled } lastTriggered={ policy.lastTriggered }/></>;
+                            return <><LastTriggeredCell
+                                ouiaId={ policy.id }
+                                isEnabled={ policy.isEnabled }
+                                lastTriggered={ policy.lastTriggered }
+                            /></>;
                         case 'name':
                             return (
                                 <>
@@ -123,6 +128,7 @@ const policiesToRows = (policies: PolicyRow[] | undefined, columnsToShow: ValidC
                 cells: [
                     <>
                         <ExpandedContent
+                            ouiaId={ policy.id }
                             key={ policy.id + '-content' }
                             description={ policy.description ? policy.description : Messages.tables.policy.emptyState.noDescription }
                             conditions={ policy.conditions ? policy.conditions : Messages.tables.policy.emptyState.noConditions }
@@ -284,6 +290,7 @@ export const PolicyTable: React.FunctionComponent<PolicyTableProps> = (props) =>
             onSelect={  !props.error && onSelect && !usesRadioSelect ? onSelectHandler : undefined }
             sortBy={ sortBy }
             canSelectAll={ false }
+            { ...getOuiaProps('Policy/Table', props) }
         >
             <TableHeader/>
             <TableBody/>

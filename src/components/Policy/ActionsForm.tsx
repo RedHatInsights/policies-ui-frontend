@@ -75,7 +75,7 @@ export const ActionsForm: React.FunctionComponent<ActionsFormProps> = (props) =>
                         It looks like We should not use Card inside the Form as it breaks the layout.
                         */ }
                         <CardBody className="pf-c-form">
-                            <ActionForm isReadOnly={ props.isReadOnly } action={ action } prefix={ `actions.${index}` }/>
+                            <ActionForm ouiaId={ index.toString() } isReadOnly={ props.isReadOnly } action={ action } prefix={ `actions.${index}` }/>
                         </CardBody>
                     </Card>
                 </React.Fragment>

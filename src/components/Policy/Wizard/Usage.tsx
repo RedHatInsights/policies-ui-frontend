@@ -1,8 +1,10 @@
 import * as React from 'react';
 import { StackItem, TextContent, Text, TextVariants, ExpandableSection } from '@patternfly/react-core';
-import { Messages }  from '../../../../properties/Messages';
+import { Messages }  from '../../../properties/Messages';
 import { style } from 'typestyle';
-import Config from '../../../../config/Config';
+import Config from '../../../config/Config';
+import { OuiaComponentProps } from '@redhat-cloud-services/insights-common-typescript';
+import { getOuiaProps } from '../../../utils/getOuiaProps';
 
 const codeClass = style({
     fontFamily: 'monospace',
@@ -45,10 +47,10 @@ class TextItemExtension extends React.Component {
         );
     }
 }
-const Usage: React.FunctionComponent = (_props) => {
+const Usage: React.FunctionComponent<OuiaComponentProps> = (props) => {
     return (
         <>
-            <StackItem>
+            <StackItem { ...getOuiaProps('Policy/Wizard/Usage', props) }>
                 <ExpandableSection toggleText={ Messages.wizards.policy.hints.hintTitle }>
                     <TextItemExtension/>
                 </ExpandableSection>
