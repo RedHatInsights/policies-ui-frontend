@@ -140,7 +140,7 @@ describe('src/components/Policy/WizardSteps/CreatePolicyStep', () => {
         render(
             <MockContainer>
                 <CreatePolicyStep/>
-                <FormTextInput ouiaId="name" id="my-test-name" data-testid="name" name="name"/>
+                <FormTextInput id="my-test-name" data-testid="name" name="name"/>
             </MockContainer>
         );
 
@@ -162,7 +162,7 @@ describe('src/components/Policy/WizardSteps/CreatePolicyStep', () => {
         render(
             <MockContainer>
                 <CreatePolicyStep/>
-                <FormTextInput ouiaId="name" id="my-test-name" data-testid="name" name="name"/>
+                <FormTextInput id="my-test-name" data-testid="name" name="name"/>
             </MockContainer>
         );
 
@@ -188,7 +188,7 @@ describe('src/components/Policy/WizardSteps/CreatePolicyStep', () => {
         render(
             <MockContainer>
                 <CreatePolicyStep/>
-                <FormTextInput ouiaId="name" id="my-test-isValid" data-testid="isValid" name="isValid"/>
+                <FormTextInput id="my-test-isValid" data-testid="isValid" name="isValid"/>
             </MockContainer>
         );
 
@@ -206,7 +206,7 @@ describe('src/components/Policy/WizardSteps/CreatePolicyStep', () => {
         render(
             <MockContainer>
                 <CreatePolicyStep/>
-                <FormTextInput ouiaId="name" id="my-test-isValid" data-testid="isValid" name="isValid"/>
+                <FormTextInput id="my-test-isValid" data-testid="isValid" name="isValid"/>
             </MockContainer>
         );
 
@@ -228,7 +228,7 @@ describe('src/components/Policy/WizardSteps/CreatePolicyStep', () => {
         render(
             <MockContainer>
                 <CreatePolicyStep/>
-                <FormTextInput ouiaId="name" id="my-test-isValid" data-testid="isValid" name="isValid"/>
+                <FormTextInput id="my-test-isValid" data-testid="isValid" name="isValid"/>
             </MockContainer>
         );
 

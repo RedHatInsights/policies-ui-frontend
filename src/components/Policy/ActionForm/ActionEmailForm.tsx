@@ -18,7 +18,7 @@ export const ActionEmailForm: React.FunctionComponent<ActionFormProps> = (props)
             </Text>
             { !appContext.userSettings.isSubscribedForNotifications && (
                 <InsightsEmailOptIn
-                    ouiaId="wizard-email-required"
+                    ouiaId="action-email.wizard-email-required"
                     content={ Messages.wizards.policy.actions.emailOptIn }
                     insights={ getInsights() }
                 />

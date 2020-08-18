@@ -144,7 +144,7 @@ const ConditionsStep: React.FunctionComponent = () => {
                     />
                 </StackItem>
             </Stack>
-            <Usage ouiaId="usage"/>
+            <Usage/>
         </Form>
     );
 };

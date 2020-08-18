@@ -17,7 +17,7 @@ const App: React.FunctionComponent<RouteComponentProps> = () => {
 
     if (!rbac) {
         return (
-            <AppSkeleton ouiaId="app-skeleton"/>
+            <AppSkeleton/>
         );
     }
 

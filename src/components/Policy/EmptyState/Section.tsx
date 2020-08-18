@@ -21,7 +21,11 @@ export interface EmptyStateSectionProps extends OuiaComponentProps {
 }
 
 export const EmptyStateSection: React.FunctionComponent<EmptyStateSectionProps> = (props) => (
-    <EmptyStatePf variant={ EmptyStateVariant.full } className={ `${emptyStateClassName} ${props.className ? props.className : ''} ` } { ...getOuiaProps('Policy/EmptyState', props)}>
+    <EmptyStatePf
+        variant={ EmptyStateVariant.full }
+        className={ `${emptyStateClassName} ${props.className ? props.className : ''} ` }
+        { ...getOuiaProps('Policy/EmptyState', props) }
+    >
         { props.icon && <EmptyStateIcon icon={ props.icon } color={ props.iconColor } /> }
         <Title headingLevel="h5" size="lg">
             { props.title }

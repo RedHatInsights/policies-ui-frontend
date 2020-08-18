@@ -5,7 +5,7 @@ import { Grid, GridItem, Stack, StackItem } from '@patternfly/react-core';
 import { Description } from './ExpandedContent/Description';
 import { Dates } from './ExpandedContent/Dates';
 import { Conditions } from './ExpandedContent/Conditions';
-import { OuiaComponentProps, PFColors } from '@redhat-cloud-services/insights-common-typescript';
+import { OuiaComponentProps, ouiaIdConcat, PFColors } from '@redhat-cloud-services/insights-common-typescript';
 import { padding } from 'csstips';
 import { Actions } from './ExpandedContent/Actions';
 import { getOuiaProps } from '../../../utils/getOuiaProps';
@@ -43,19 +43,19 @@ export const ExpandedContent: React.FunctionComponent<ExpandedPolicyContentProps
         <Stack { ...getOuiaProps('Policy/Table/Expanded', props) } className={ blockPadding }>
             {props.description &&
                 <StackItem className={ descriptionBlockClassName }>
-                    <Description ouiaId="description" description={ props.description }/>
+                    <Description ouiaId={ ouiaIdConcat(props.ouiaId, 'description') } description={ props.description }/>
                 </StackItem>
             }
             <StackItem className={ dateBlockClassName }>
-                <Dates ouiaId="dates" updated={ props.updated } created={ props.created }/>
+                <Dates ouiaId={ ouiaIdConcat(props.ouiaId, 'dates') } updated={ props.updated } created={ props.created }/>
             </StackItem>
             <StackItem>
                 <Grid>
                     <GridItem className={ conditionsAndActionsBlockClassName } span={ 6 }>
-                        <Conditions ouiaId="condition" conditions={ props.conditions }/>
+                        <Conditions ouiaId={ ouiaIdConcat(props.ouiaId, 'conditions') } conditions={ props.conditions }/>
                     </GridItem>
                     <GridItem className={ conditionsAndActionsBlockClassName } span={ 6 }>
-                        <Actions ouiaId="actions" actions={ props.actions }/>
+                        <Actions ouiaId={ ouiaIdConcat(props.ouiaId, 'actions') } actions={ props.actions }/>
                     </GridItem>
                 </Grid>
             </StackItem>
