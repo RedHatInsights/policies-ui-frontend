@@ -40,6 +40,7 @@ export const CopyFromPolicy: React.FunctionComponent<CopyFromPolicyProps> = (pro
     return (
         <>
             <PolicyToolbar
+                ouiaId="copy-from-policy-toolbar"
                 onPaginationChanged={ policyPage.changePage }
                 page={ policyPage.page.index }
                 pageCount={ getPoliciesQuery.payload?.length }
@@ -53,6 +54,7 @@ export const CopyFromPolicy: React.FunctionComponent<CopyFromPolicyProps> = (pro
                 count={ getPoliciesQuery.count }
             >
                 <PolicyTable
+                    ouiaId="copy-from-policy-table"
                     columnsToShow={ [ 'radioSelect', 'name', 'actions' ] }
                     policies={ policyRows.rows }
                     onSelect={ onSelectHandler }

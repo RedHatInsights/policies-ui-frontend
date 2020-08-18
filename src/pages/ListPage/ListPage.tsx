@@ -192,6 +192,7 @@ const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
                 ) : (
                     <Section>
                         <PolicyToolbar
+                            ouiaId="main-toolbar"
                             onCreatePolicy={ canWriteAll ? toolbarActions.createCustomPolicy : undefined }
                             onDeletePolicy={ canWriteAll ? toolbarActions.onDeletePolicies : undefined }
                             onEnablePolicy={ canWriteAll ? toolbarActions.onEnablePolicies : undefined }
@@ -212,6 +213,7 @@ const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
                             showBottomPagination={ true }
                         >
                             <PolicyTable
+                                ouiaId="main-table"
                                 policies={ policyRows.rows }
                                 onCollapse={ policyRows.onCollapse }
                                 onSelect={ policyRows.onSelect }

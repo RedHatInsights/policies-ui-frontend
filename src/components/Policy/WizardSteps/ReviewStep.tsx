@@ -41,10 +41,10 @@ const ReviewStep: React.FunctionComponent = () => {
                 <FormText ouiaId="name" label={ Messages.wizards.policy.review.policy.name } name="name" id="name"/>
                 <FormText ouiaId="description" label={ Messages.wizards.policy.review.policy.description } name="description" id="description"/>
                 <div className={ conditionsAndActionsBlockClassName }>
-                    <Conditions conditions={ values.conditions }/>
+                    <Conditions ouiaId="review-step.conditions" conditions={ values.conditions }/>
                 </div>
                 <div className={ conditionsAndActionsBlockClassName }>
-                    <Actions actions={ (values.actions || []) as Action[] } />
+                    <Actions ouiaId="review-step.actions" actions={ (values.actions || []) as Action[] } />
                 </div>
             </Form>
         </>
