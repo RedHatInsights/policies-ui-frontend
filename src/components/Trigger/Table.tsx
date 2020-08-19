@@ -105,16 +105,17 @@ export const TriggerTable: React.FunctionComponent<TriggerTableProps> = (props) 
     }
 
     return (
-        <Table
-            aria-label={ Messages.tables.trigger.title }
-            rows={ rows }
-            cells={ cells }
-            onSort={ onSortHandler }
-            sortBy={ sortBy }
-            { ...getOuiaProps('Trigger/Table', props) }
-        >
-            <TableHeader/>
-            <TableBody/>
-        </Table>
+        <div { ...getOuiaProps('Trigger/Table', props) }>
+            <Table
+                aria-label={ Messages.tables.trigger.title }
+                rows={ rows }
+                cells={ cells }
+                onSort={ onSortHandler }
+                sortBy={ sortBy }
+            >
+                <TableHeader/>
+                <TableBody/>
+            </Table>
+        </div>
     );
 };

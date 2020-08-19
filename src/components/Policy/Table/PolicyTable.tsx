@@ -280,20 +280,21 @@ export const PolicyTable: React.FunctionComponent<PolicyTableProps> = (props) =>
     }
 
     return (
-        <Table
-            aria-label={ Messages.tables.policy.title }
-            cells={ columns }
-            rows={ rows }
-            actionResolver={ actionsResolverCallback }
-            onSort={ onSort ? onSortHandler : undefined }
-            onCollapse={ onCollapse ? onCollapseHandler : undefined }
-            onSelect={  !props.error && onSelect && !usesRadioSelect ? onSelectHandler : undefined }
-            sortBy={ sortBy }
-            canSelectAll={ false }
-            { ...getOuiaProps('Policy/Table', props) }
-        >
-            <TableHeader/>
-            <TableBody/>
-        </Table>
+        <div { ...getOuiaProps('Policy/Table', props) }>
+            <Table
+                aria-label={ Messages.tables.policy.title }
+                cells={ columns }
+                rows={ rows }
+                actionResolver={ actionsResolverCallback }
+                onSort={ onSort ? onSortHandler : undefined }
+                onCollapse={ onCollapse ? onCollapseHandler : undefined }
+                onSelect={  !props.error && onSelect && !usesRadioSelect ? onSelectHandler : undefined }
+                sortBy={ sortBy }
+                canSelectAll={ false }
+            >
+                <TableHeader/>
+                <TableBody/>
+            </Table>
+        </div>
     );
 };
