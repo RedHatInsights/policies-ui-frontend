@@ -2,7 +2,7 @@ import * as React from 'react';
 import { PaginationProps, PaginationVariant } from '@patternfly/react-core';
 import { PrimaryToolbar } from '@redhat-cloud-services/frontend-components';
 import {
-    ColumnsMetada,
+    ColumnsMetada, OuiaComponentProps,
     usePrimaryToolbarFilterConfig
 } from '@redhat-cloud-services/insights-common-typescript';
 import {
@@ -13,6 +13,7 @@ import {
 } from '../../../types/Policy/Filters';
 import { EnabledPolicyIcon, DisabledPolicyIcon } from '../../Icons';
 import { style } from 'typestyle';
+import { getOuiaProps } from '../../../utils/getOuiaProps';
 
 type OnPaginationPageChangedHandler = (
     event: React.SyntheticEvent<HTMLButtonElement> | React.MouseEvent | React.KeyboardEvent | MouseEvent, page: number) => void;
@@ -24,7 +25,7 @@ export enum SelectionCommand {
     ALL
 }
 
-interface TablePolicyToolbarProps {
+interface TablePolicyToolbarProps extends OuiaComponentProps {
     count?: number;
     filters: PolicyFilters;
     setFilters: SetPolicyFilters;
@@ -232,7 +233,7 @@ export const PolicyToolbar: React.FunctionComponent<TablePolicyToolbarProps> = (
     }, [ onExport ]);
 
     return (
-        <>
+        <div { ...getOuiaProps('Policy/DualToolbar', props) }>
             <PrimaryToolbar
                 bulkSelect={ bulkSelectProps }
                 filterConfig={ primaryToolbarFilterConfig.filterConfig }
@@ -245,6 +246,6 @@ export const PolicyToolbar: React.FunctionComponent<TablePolicyToolbarProps> = (
             { props.showBottomPagination && <PrimaryToolbar
                 pagination={ bottomPaginationProps }
             /> }
-        </>
+        </div>
     );
 };

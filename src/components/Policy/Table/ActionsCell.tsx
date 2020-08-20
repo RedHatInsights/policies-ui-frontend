@@ -1,12 +1,13 @@
 import * as React from 'react';
 import { Action, ActionType } from '../../../types/Policy/Actions';
-import { assertNever } from '@redhat-cloud-services/insights-common-typescript';
+import { assertNever, OuiaComponentProps } from '@redhat-cloud-services/insights-common-typescript';
 import { Badge, Split, SplitItem, Tooltip, TooltipPosition } from '@patternfly/react-core';
 import { style } from 'typestyle';
 import { ActionEmailIcon, ActionWebhookIcon } from '../ActionIcons';
 import { Messages } from '../../../properties/Messages';
+import { getOuiaProps } from '../../../utils/getOuiaProps';
 
-interface ActionsCellProps {
+interface ActionsCellProps extends OuiaComponentProps {
     actions: Action[];
 }
 
@@ -72,6 +73,6 @@ export const ActionsCell: React.FunctionComponent<ActionsCellProps> = (props) =>
     }
 
     return (
-        <Split className={ splitClassName }>{ toShow }</Split>
+        <Split { ...getOuiaProps('Policy/Table/Actions', props) } className={ splitClassName }>{ toShow }</Split>
     );
 };

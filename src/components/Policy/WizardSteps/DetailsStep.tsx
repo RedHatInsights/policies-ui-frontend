@@ -9,10 +9,10 @@ import { maxPolicyNameLength } from '../../../types/Policy/Policy';
 
 export const DetailsStep = () => {
     return (
-        <Form>
+        <Form ouiaId="detail-step">
             <Title headingLevel="h4" size="xl">{ Messages.wizards.policy.details.title }</Title>
-            <FormTextInput maxLength={ maxPolicyNameLength } isRequired={ true } label="Name" type="text" name="name" id="name"/>
-            <FormTextArea label="Description" type="text" id="description" name="description" resizeOrientation="vertical"/>
+            <FormTextInput ouiaId="name" maxLength={ maxPolicyNameLength } isRequired={ true } label="Name" type="text" name="name" id="name"/>
+            <FormTextArea ouiaId="description" label="Description" type="text" id="description" name="description" resizeOrientation="vertical"/>
         </Form>
     );
 };

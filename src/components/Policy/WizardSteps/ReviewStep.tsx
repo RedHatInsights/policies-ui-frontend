@@ -26,11 +26,11 @@ const ReviewStep: React.FunctionComponent = () => {
 
     return (
         <>
-            <Form>
+            <Form ouiaId="review-step">
                 <Title headingLevel="h2" size="xl">{ Messages.wizards.policy.review.title }</Title>
                 <Switch
+                    ouiaId="is-enabled"
                     isDisabled={ context.isLoading }
-                    type="checkbox"
                     id="isEnabled"
                     name="isEnabled"
                     labelOn={ Messages.wizards.policy.review.policyIsEnabled }
@@ -38,13 +38,13 @@ const ReviewStep: React.FunctionComponent = () => {
                     label={ Messages.wizards.policy.review.enableThisPolicy }
                 />
                 <Title headingLevel="h2" size="md">{ Messages.wizards.policy.review.policy.details }</Title>
-                <FormText label={ Messages.wizards.policy.review.policy.name } name="name" id="name"/>
-                <FormText label={ Messages.wizards.policy.review.policy.description } name="description" id="description"/>
+                <FormText ouiaId="name" label={ Messages.wizards.policy.review.policy.name } name="name" id="name"/>
+                <FormText ouiaId="description" label={ Messages.wizards.policy.review.policy.description } name="description" id="description"/>
                 <div className={ conditionsAndActionsBlockClassName }>
-                    <Conditions conditions={ values.conditions }/>
+                    <Conditions ouiaId="review-step.conditions" conditions={ values.conditions }/>
                 </div>
                 <div className={ conditionsAndActionsBlockClassName }>
-                    <Actions actions={ (values.actions || []) as Action[] } />
+                    <Actions ouiaId="review-step.actions" actions={ (values.actions || []) as Action[] } />
                 </div>
             </Form>
         </>

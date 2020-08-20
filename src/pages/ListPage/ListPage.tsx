@@ -181,7 +181,7 @@ const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
             { !appContext.userSettings.isSubscribedForNotifications &&
             policyRows.rows.find(p => p.actions.find(a => a.type === ActionType.EMAIL)) && (
                 <PageSection className={ emailOptinPageClassName }>
-                    <InsightsEmailOptIn content={ Messages.pages.listPage.emailOptIn } insights={ getInsights() } />
+                    <InsightsEmailOptIn ouiaId="list-email-required" content={ Messages.pages.listPage.emailOptIn } insights={ getInsights() } />
                 </PageSection>
             )}
             <Main>
@@ -192,6 +192,7 @@ const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
                 ) : (
                     <Section>
                         <PolicyToolbar
+                            ouiaId="main-toolbar"
                             onCreatePolicy={ canWriteAll ? toolbarActions.createCustomPolicy : undefined }
                             onDeletePolicy={ canWriteAll ? toolbarActions.onDeletePolicies : undefined }
                             onEnablePolicy={ canWriteAll ? toolbarActions.onEnablePolicies : undefined }
@@ -212,6 +213,7 @@ const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
                             showBottomPagination={ true }
                         >
                             <PolicyTable
+                                ouiaId="main-table"
                                 policies={ policyRows.rows }
                                 onCollapse={ policyRows.onCollapse }
                                 onSelect={ policyRows.onSelect }

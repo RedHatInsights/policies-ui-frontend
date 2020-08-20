@@ -5,6 +5,8 @@ import { Fact } from '../../types/Fact';
 import { style } from 'typestyle';
 import { useEffectOnce, useUpdateEffect } from 'react-use';
 import { computeOptions } from './ComputeOptions';
+import { OuiaComponentProps } from '@redhat-cloud-services/insights-common-typescript';
+import { getOuiaProps } from '../../utils/getOuiaProps';
 
 const selectOptionClassName = style({
     whiteSpace: 'nowrap',
@@ -45,7 +47,7 @@ export const buildOptionList = (condition: string, facts: Fact[]) => {
     return [];
 };
 
-export interface ConditionFieldProps {
+export interface ConditionFieldProps extends OuiaComponentProps {
     label: string;
     id: string;
     name: string;
@@ -110,6 +112,7 @@ export const ConditionField: React.FunctionComponent<ConditionFieldProps> = (pro
 
     return (
         <Select
+            { ...getOuiaProps('ConditionField', props) }
             label={ props.label }
             toggleId={ props.id }
             name={ props.name }

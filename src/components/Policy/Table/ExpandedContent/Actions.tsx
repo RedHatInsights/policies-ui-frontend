@@ -9,11 +9,12 @@ import {
 import { style } from 'typestyle';
 import { Action, ActionType } from '../../../../types/Policy/Actions';
 import { Messages } from '../../../../properties/Messages';
-import { assertNever, join } from '@redhat-cloud-services/insights-common-typescript';
+import { assertNever, join, OuiaComponentProps } from '@redhat-cloud-services/insights-common-typescript';
 import { SVGIconProps } from '@patternfly/react-icons/dist/js/createIcon';
 import { ActionEmailIcon, ActionWebhookIcon } from '../../ActionIcons';
+import { getOuiaProps } from '../../../../utils/getOuiaProps';
 
-interface ActionsProps {
+interface ActionsProps extends OuiaComponentProps {
     actions: Action[];
 }
 
@@ -87,7 +88,7 @@ export const Actions: React.FunctionComponent<ActionsProps> = (props) => {
 
     return (
         <>
-            <Stack>
+            <Stack { ...getOuiaProps('Policy/Table/Expanded/Actions', props) } >
                 <StackItem>
                     <Title headingLevel="h2" className={ titleClassName } size="md">{ Messages.components.actions.title }</Title>
                 </StackItem>

@@ -4,15 +4,16 @@ import { PrimaryToolbar } from '@redhat-cloud-services/frontend-components';
 import {
     Page,
     ExporterType,
-    exporterTypeFromString, ColumnsMetada, usePrimaryToolbarFilterConfig
+    exporterTypeFromString, ColumnsMetada, usePrimaryToolbarFilterConfig, OuiaComponentProps
 } from '@redhat-cloud-services/insights-common-typescript';
 import { ClearTriggerFilters, SetTriggerFilters, TriggerFilterColumn, TriggerFilters } from './Filters';
+import { getOuiaProps } from '../../utils/getOuiaProps';
 
 type OnPaginationPageChangedHandler = (
     event: React.SyntheticEvent<HTMLButtonElement> | React.MouseEvent | React.KeyboardEvent | MouseEvent, page: number) => void;
 type OnPaginationSizeChangedHandler = (event: React.MouseEvent | React.KeyboardEvent | MouseEvent, perPage: number) => void;
 
-export interface TriggerTableToolbarProps {
+export interface TriggerTableToolbarProps extends OuiaComponentProps {
     count?: number;
     onPaginationChanged?: OnPaginationPageChangedHandler;
     onPaginationSizeChanged?: OnPaginationSizeChangedHandler;
@@ -85,7 +86,7 @@ export const TriggerTableToolbar: React.FunctionComponent<TriggerTableToolbarPro
     }, [ props.onExport ]);
 
     return (
-        <>
+        <div { ...getOuiaProps('Trigger/TableDualToolbar', props) }>
             <PrimaryToolbar
                 pagination={ topPaginationProps }
                 exportConfig={ exportConfig }
@@ -96,6 +97,6 @@ export const TriggerTableToolbar: React.FunctionComponent<TriggerTableToolbarPro
             <PrimaryToolbar
                 pagination={ bottomPaginationProps }
             />
-        </>
+        </div>
     );
 };

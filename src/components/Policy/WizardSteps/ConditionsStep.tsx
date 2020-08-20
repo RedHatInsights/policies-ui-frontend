@@ -16,7 +16,7 @@ import { PolicyFormConditions } from '../../../schemas/CreatePolicy/PolicySchema
 import { useFormikContext } from 'formik';
 import { style } from 'typestyle';
 import { Messages } from '../../../properties/Messages';
-import Usage from '../Table/ExpandedContent/Usage';
+import Usage from '../Wizard/Usage';
 import { ConditionFieldWithForkmik } from '../../Condition/ConditionFieldWithFormik';
 
 const elementClassName = style({
@@ -123,10 +123,10 @@ const ConditionsStep: React.FunctionComponent = () => {
     const validIsDisabled = !values.conditions || values.conditions === '' || context.isLoading;
 
     return (
-        <Form>
+        <Form ouiaId="condition-step">
             <Title className={ titleClassName } headingLevel="h4" size="xl">{ Messages.wizards.policy.conditions.title }</Title>
             { Messages.wizards.policy.conditions.summaryDesc }
-            <ConditionFieldWithForkmik label="Condition text"
+            <ConditionFieldWithForkmik ouiaId="conditions" label="Condition text"
                 id="conditions" name="conditions" facts={ context.facts || [] }
                 hint={ Messages.wizards.policy.conditions.hint }
             />
