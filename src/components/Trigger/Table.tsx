@@ -6,7 +6,7 @@ import {
     ICell,
     IRow,
     SortByDirection,
-    ISortBy, sortable
+    ISortBy, sortable, nowrap, breakWord, wrappable, TableText
 } from '@patternfly/react-table';
 import { SkeletonTable } from '@redhat-cloud-services/frontend-components';
 import {
@@ -20,7 +20,6 @@ import {
 import { Messages } from '../../properties/Messages';
 import { Trigger } from '../../types/Trigger';
 import format from 'date-fns/format';
-import { Button, ButtonVariant } from '@patternfly/react-core';
 import { TriggerTableEmptyState } from './Table/EmptyState';
 import { getOuiaProps } from '../../utils/getOuiaProps';
 
@@ -34,11 +33,13 @@ interface TriggerTableProps extends OuiaComponentProps {
 const cells: ICell[] = [
     {
         title: Messages.tables.trigger.columns.date,
-        transforms: [ sortable ]
+        transforms: [ sortable ],
+        cellTransforms: [ nowrap ]
     },
     {
         title: Messages.tables.trigger.columns.system,
-        transforms: [ sortable ]
+        transforms: [ sortable ],
+        cellTransforms: [ wrappable, breakWord ]
     }
 ];
 
@@ -55,12 +56,16 @@ export const TriggerTable: React.FunctionComponent<TriggerTableProps> = (props) 
                 id: `${t.id}-${index}`,
                 key: `${t.id}-${index}`,
                 cells: [
-                    <>{ format(toUtc(t.created), dateFormatString) } UTC</>,
-                    t.id ? (
-                        <><Button component="a" variant={ ButtonVariant.link } href={ linkToHost(t.id) } isInline>{ t.hostName }</Button></>
-                    ) : (
-                        <>{ t.hostName }</>
-                    )
+                    {
+                        title: <TableText>{ format(toUtc(t.created), dateFormatString) } UTC</TableText>
+                    },
+                    {
+                        title: t.id ? (
+                            <TableText><a href={ linkToHost(t.id) }>{ t.hostName }</a></TableText>
+                        ) : (
+                            <TableText>{ t.hostName }</TableText>
+                        )
+                    }
                 ]
             }));
         }
