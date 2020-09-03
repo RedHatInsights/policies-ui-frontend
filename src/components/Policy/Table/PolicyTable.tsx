@@ -19,10 +19,7 @@ import {
     Direction,
     Sort,
     assertNever,
-    InsightsBetaDetector,
-    BetaIf,
-    BetaIfNot,
-    getInsights, OuiaComponentProps
+    OuiaComponentProps
 } from '@redhat-cloud-services/insights-common-typescript';
 import { ExpandedContent } from './ExpandedContent';
 import { Messages } from '../../../properties/Messages';
@@ -87,14 +84,7 @@ const policiesToRows = (policies: PolicyRow[] | undefined, columnsToShow: ValidC
                             return (
                                 <>
                                     { linksToDetail ? (
-                                        <InsightsBetaDetector insights={ getInsights() } >
-                                            <BetaIf>
-                                                <Link to={ linkTo.policyDetail(policy.id) }>{ policy.name }</Link>
-                                            </BetaIf>
-                                            <BetaIfNot>
-                                                { policy.name }
-                                            </BetaIfNot>
-                                        </InsightsBetaDetector>
+                                        <Link to={ linkTo.policyDetail(policy.id) }>{ policy.name }</Link>
                                     ) : policy.name }
                                 </>
                             );
