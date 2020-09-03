@@ -158,7 +158,7 @@ describe('src/pages/ListPage', () => {
         expect(screen.getByText('Policy 4')).toBeVisible();
     });
 
-    it('Policy name is not a link in stable"', async () => {
+    it('Policy name is a link in stable too"', async () => {
         fetchMockSetup();
         const getLocation = jest.fn();
         render(<ListPage/>, {
@@ -176,7 +176,7 @@ describe('src/pages/ListPage', () => {
         userEvent.click(screen.getByText('Policy 1'));
         await waitForAsyncEvents();
 
-        expect(getLocation().pathname).toEqual('/policies/list');
+        expect(getLocation().pathname).not.toEqual('/policies/list');
     });
 
     it('Policy name is a link in beta"', async () => {
