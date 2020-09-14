@@ -1,6 +1,8 @@
 /**
 * Generated code, DO NOT modify directly.
 */
+/* eslint-disable max-len */
+
 import { actionBuilder } from '@redhat-cloud-services/insights-common-typescript';
 import { Action } from 'react-fetching-library';
 import * as schemas from './Types';
@@ -203,7 +205,7 @@ export const actionPostPoliciesValidateName = (params: UsePostPoliciesValidateNa
 /** Retrieve a single policy for a customer by its id */
 export const actionGetPoliciesById = (params: UseGetPoliciesByIdParams): Action => {
     const path = '/api/policies/v1.0/policies/{id}'
-    .replace('{id}', params.id);
+    .replace('{id}', params.id.toString());
 
     const query = {} as Record<string, any>;
 
@@ -215,7 +217,7 @@ export const actionGetPoliciesById = (params: UseGetPoliciesByIdParams): Action 
 /** Delete a single policy for a customer by its id */
 export const actionDeletePoliciesById = (params: UseDeletePoliciesByIdParams): Action => {
     const path = '/api/policies/v1.0/policies/{id}'
-    .replace('{id}', params.id);
+    .replace('{id}', params.id.toString());
 
     const query = {} as Record<string, any>;
 
@@ -227,7 +229,7 @@ export const actionDeletePoliciesById = (params: UseDeletePoliciesByIdParams): A
 /** Enable/disable a policy */
 export const actionPostPoliciesByIdEnabled = (params: UsePostPoliciesByIdEnabledParams): Action => {
     const path = '/api/policies/v1.0/policies/{id}/enabled'
-    .replace('{id}', params.id);
+    .replace('{id}', params.id.toString());
 
     const query = {} as Record<string, any>;
 
@@ -241,7 +243,7 @@ export const actionPostPoliciesByIdEnabled = (params: UsePostPoliciesByIdEnabled
 /** Retrieve the trigger history of a single policy */
 export const actionGetPoliciesByIdHistoryTrigger = (params: UseGetPoliciesByIdHistoryTriggerParams): Action => {
     const path = '/api/policies/v1.0/policies/{id}/history/trigger'
-    .replace('{id}', params.id);
+    .replace('{id}', params.id.toString());
 
     const query = {} as Record<string, any>;
 
@@ -262,7 +264,7 @@ export const actionGetPoliciesByIdHistoryTrigger = (params: UseGetPoliciesByIdHi
 /** Update a single policy for a customer by its id */
 export const actionPutPoliciesByPolicyId = (params: UsePutPoliciesByPolicyIdParams): Action => {
     const path = '/api/policies/v1.0/policies/{policyId}'
-    .replace('{policyId}', params.policyId);
+    .replace('{policyId}', params.policyId.toString());
 
     const query = {} as Record<string, any>;
 
