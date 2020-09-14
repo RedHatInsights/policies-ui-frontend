@@ -5,7 +5,20 @@ import { ActionType } from '../../../types/Policy/Actions';
 
 describe('src/components/Policy/AddTriggersDropdown', () => {
 
-    it('should only show email', async () => {
+    const mockInsightsIsProd = (isProd: boolean) => {
+        (global as any).insights = {
+            chrome: {
+                isProd
+            }
+        };
+    };
+
+    beforeEach(() => {
+        (global as any).insights = undefined;
+        mockInsightsIsProd(true);
+    });
+
+    it('should show email in prod', async () => {
         const element = render(<AddTriggersDropdown
             isTypeEnabled={ jest.fn(() => true) }
             onTypeSelected={ jest.fn() }
@@ -21,7 +34,28 @@ describe('src/components/Policy/AddTriggersDropdown', () => {
             );
         });
 
-        expect(element.queryByText(/Hook/i)).toBeFalsy();
+        expect(element.queryByText(/Webhook/i)).toBeFalsy();
+        expect(element.queryByText(/Email/i)).toBeTruthy();
+    });
+
+    it('should show email and webhook in non prod', async () => {
+        mockInsightsIsProd(false);
+        const element = render(<AddTriggersDropdown
+            isTypeEnabled={ jest.fn(() => true) }
+            onTypeSelected={ jest.fn() }
+        />);
+
+        act(() => {
+            fireEvent(
+                getByText(element.container, 'Add trigger actions'),
+                new MouseEvent('click', {
+                    bubbles: true,
+                    cancelable: true
+                })
+            );
+        });
+
+        expect(element.queryByText(/Webhook/i)).toBeTruthy();
         expect(element.queryByText(/Email/i)).toBeTruthy();
     });
 

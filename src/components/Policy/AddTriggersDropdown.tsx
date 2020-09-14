@@ -5,7 +5,7 @@ import { Messages } from '../../properties/Messages';
 import { Toggle } from '@patternfly/react-core/dist/js/components/Dropdown/Toggle';
 import { AngleDownIcon } from '@patternfly/react-icons';
 import { style } from 'typestyle';
-import { OuiaComponentProps } from '@redhat-cloud-services/insights-common-typescript';
+import { getInsights, OuiaComponentProps } from '@redhat-cloud-services/insights-common-typescript';
 import { getOuiaProps } from '../../utils/getOuiaProps';
 
 interface AddTriggersDropdownProps extends OuiaComponentProps {
@@ -25,7 +25,12 @@ export const AddTriggersDropdown: React.FunctionComponent<AddTriggersDropdownPro
         setOpen(false);
     };
 
-    const items = [ ActionType.EMAIL ]
+    const isProd = getInsights().chrome.isProd;
+
+    const items = Object.values(ActionType)
+    .filter(actionType => {
+        return !isProd || actionType !== ActionType.WEBHOOK;
+    })
     .map(type =>
         <DropdownItem
             key={ type }
