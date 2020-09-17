@@ -1,10 +1,10 @@
 import { useParameterizedQuery } from 'react-fetching-library';
 import { Uuid } from '../types/Policy/Policy';
-import { actionGetPoliciesIds } from '../generated/ActionCreators';
-import { pageToQuery, Page } from '@redhat-cloud-services/insights-common-typescript';
+import { Page } from '@redhat-cloud-services/insights-common-typescript';
+import { Operations } from '../generated/Openapi';
 
 export const actionCreator = (page: Page) => {
-    return actionGetPoliciesIds(pageToQuery(page));
+    return Operations.GetPoliciesIds.actionCreator(page.toQuery());
 };
 
 export const useGetPoliciesIdsQuery = () => {

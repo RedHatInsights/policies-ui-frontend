@@ -1,6 +1,6 @@
-import * as Generated from '../generated/Types';
+import * as Generated from '../generated/Openapi';
 
-export type ServerTrigger = Generated.HistoryItem;
+export type ServerTrigger = Generated.Schemas.HistoryItem;
 
 export interface Trigger {
     id: string;
@@ -13,4 +13,4 @@ export interface PagedTrigger {
     count: number;
 }
 
-export type PagedServerTriggerResponse = Generated.PagedResponseOfHistoryItem;
+export type PagedServerTriggerResponse = Generated.Schemas.PagedResponseOfHistoryItem;

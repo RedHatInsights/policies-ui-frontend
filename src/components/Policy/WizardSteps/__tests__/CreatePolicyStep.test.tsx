@@ -5,15 +5,15 @@ import fetchMock, { UNMATCHED } from 'fetch-mock';
 import { createPolicyStep, CreatePolicyStep } from '../CreatePolicyStep';
 import { Formik } from 'formik';
 import { CreatePolicyStepContextProvider, defaultPerPage } from '../CreatePolicyPolicyStep/Provider';
-import { pageToQuery, Page } from '@redhat-cloud-services/insights-common-typescript';
+import { Page } from '@redhat-cloud-services/insights-common-typescript';
 import { ClientContextProvider, createClient } from 'react-fetching-library';
 import { act } from 'react-dom/test-utils';
 import { WizardContext } from '../../PolicyWizardTypes';
 import { PagedServerPolicyResponse } from '../../../../types/Policy/Policy';
 import { FormTextInput } from '@redhat-cloud-services/insights-common-typescript';
-import { actionGetPolicies } from '../../../../generated/ActionCreators';
 import { useState } from 'react';
 import { waitForAsyncEvents } from '../../../../../test/TestUtils';
+import { Operations } from '../../../../generated/Openapi';
 
 jest.mock('@redhat-cloud-services/insights-common-typescript', () => {
     const real = jest.requireActual('@redhat-cloud-services/insights-common-typescript');
@@ -86,7 +86,7 @@ describe('src/components/Policy/WizardSteps/CreatePolicyStep', () => {
 
     const mockPoliciesRequest = () => {
         fetchMock.getOnce(
-            actionGetPolicies(pageToQuery(Page.of(Page.defaultPage().index, defaultPerPage)))
+            Operations.GetPolicies.actionCreator(Page.of(Page.defaultPage().index, defaultPerPage).toQuery())
             .endpoint,
             {
                 headers: {},

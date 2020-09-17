@@ -1,4 +1,4 @@
-import { assertNever } from '@redhat-cloud-services/insights-common-typescript';
+import { assertNever } from 'assert-never';
 import parseJSON from 'date-fns/parseJSON';
 import fromUnixTime from 'date-fns/fromUnixTime';
 
@@ -34,7 +34,7 @@ export const toServerAction = (actions: DeepPartial<Action[]>): string => {
     }).join(';');
 };
 
-export const fromServerActions = (actions?: string): Action[] => {
+export const fromServerActions = (actions?: string | null): Action[] => {
     if (!actions || actions === '') {
         return [];
     }

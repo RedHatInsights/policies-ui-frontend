@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { act, renderHook } from '@testing-library/react-hooks';
-import { actionBuilder } from '@redhat-cloud-services/insights-common-typescript';
+import { actionBuilder } from 'openapi2typescript/react-fetching-library';
 import { useNewPaginatedQuery } from '../usePaginated';
 import fetchMock from 'fetch-mock';
 import { ClientContextProvider, createClient } from 'react-fetching-library';

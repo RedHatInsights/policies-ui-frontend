@@ -3,8 +3,8 @@ import { act, renderHook } from '@testing-library/react-hooks';
 import fetchMock, { UNMATCHED } from 'fetch-mock';
 import { ClientContextProvider, createClient } from 'react-fetching-library';
 import { useGetListPagePolicies } from '../useGetListPagePolicies';
-import { Page, pageToQuery } from '@redhat-cloud-services/insights-common-typescript';
-import { actionGetPolicies } from '../../../generated/ActionCreators';
+import { Page } from '@redhat-cloud-services/insights-common-typescript';
+import { Operations } from '../../../generated/Openapi';
 
 describe('src/hooks/usePaginated', () => {
 
@@ -25,7 +25,7 @@ describe('src/hooks/usePaginated', () => {
     it('hasPolicies is true when fetching the default page and status is 200', async () => {
         jest.useFakeTimers();
         fetchMock.getOnce(
-            actionGetPolicies(pageToQuery(Page.defaultPage()))
+            Operations.GetPolicies.actionCreator(Page.defaultPage().toQuery())
             .endpoint,
             {
                 headers: {},
@@ -51,7 +51,7 @@ describe('src/hooks/usePaginated', () => {
     it('hasPolicies is false when fetching the default page and status is 404', async () => {
         jest.useFakeTimers();
         fetchMock.getOnce(
-            actionGetPolicies(pageToQuery(Page.defaultPage()))
+            Operations.GetPolicies.actionCreator(Page.defaultPage().toQuery())
             .endpoint,
             {
                 headers: {},
@@ -77,7 +77,7 @@ describe('src/hooks/usePaginated', () => {
     it('hasPolicies is undefined before fetching', async () => {
         jest.useFakeTimers();
         fetchMock.getOnce(
-            actionGetPolicies(pageToQuery(Page.defaultPage()))
+            Operations.GetPolicies.actionCreator(Page.defaultPage().toQuery())
             .endpoint,
             {
                 headers: {},
@@ -98,7 +98,7 @@ describe('src/hooks/usePaginated', () => {
     it('hasPolicies is undefined when fetching the default page and status is not 200 or 404', async () => {
         jest.useFakeTimers();
         fetchMock.getOnce(
-            actionGetPolicies(pageToQuery(Page.defaultPage()))
+            Operations.GetPolicies.actionCreator(Page.defaultPage().toQuery())
             .endpoint,
             {
                 headers: {},
@@ -123,7 +123,7 @@ describe('src/hooks/usePaginated', () => {
 
     it('hasPolicies is undefined when fetching the default page and status is 200, then fetching again and status is not 200 or 404', async () => {
         jest.useFakeTimers();
-        const matcher = actionGetPolicies(pageToQuery(Page.defaultPage())).endpoint;
+        const matcher = Operations.GetPolicies.actionCreator(Page.defaultPage().toQuery()).endpoint;
 
         fetchMock.getOnce(matcher,
             {
@@ -170,14 +170,14 @@ describe('src/hooks/usePaginated', () => {
         jest.useFakeTimers();
         const secondPage = Page.of(2, Page.defaultPage().size);
         fetchMock.getOnce(
-            actionGetPolicies(pageToQuery(secondPage))
+            Operations.GetPolicies.actionCreator(secondPage.toQuery())
             .endpoint,
             {
                 headers: {},
                 status: 404
             }
         ).getOnce(
-            actionGetPolicies(pageToQuery(Page.of(1, 1)))
+            Operations.GetPolicies.actionCreator(Page.of(1, 1).toQuery())
             .endpoint,
             {
                 headers: {},
@@ -204,14 +204,14 @@ describe('src/hooks/usePaginated', () => {
         jest.useFakeTimers();
         const secondPage = Page.of(2, Page.defaultPage().size);
         fetchMock.getOnce(
-            actionGetPolicies(pageToQuery(secondPage))
+            Operations.GetPolicies.actionCreator((secondPage.toQuery()))
             .endpoint,
             {
                 headers: {},
                 status: 404
             }
         ).getOnce(
-            actionGetPolicies(pageToQuery(Page.of(1, 1)))
+            Operations.GetPolicies.actionCreator((Page.of(1, 1)).toQuery())
             .endpoint,
             {
                 headers: {},
@@ -238,7 +238,7 @@ describe('src/hooks/usePaginated', () => {
         jest.useFakeTimers();
         const secondPage = Page.of(2, Page.defaultPage().size);
         fetchMock.getOnce(
-            actionGetPolicies(pageToQuery(secondPage))
+            Operations.GetPolicies.actionCreator((secondPage).toQuery())
             .endpoint,
             {
                 headers: {},
@@ -266,14 +266,14 @@ describe('src/hooks/usePaginated', () => {
             jest.useFakeTimers();
             const secondPage = Page.of(2, Page.defaultPage().size);
             fetchMock.getOnce(
-                actionGetPolicies(pageToQuery(secondPage))
+                Operations.GetPolicies.actionCreator((secondPage).toQuery())
                 .endpoint,
                 {
                     headers: {},
                     status: 404
                 }
             ).getOnce(
-                actionGetPolicies(pageToQuery(Page.of(1, 1)))
+                Operations.GetPolicies.actionCreator((Page.of(1, 1)).toQuery())
                 .endpoint,
                 {
                     headers: {},
@@ -307,14 +307,14 @@ describe('src/hooks/usePaginated', () => {
         });
 
         fetchMock.getOnce(
-            actionGetPolicies(pageToQuery(secondPage))
+            Operations.GetPolicies.actionCreator((secondPage.toQuery()))
             .endpoint,
             {
                 headers: {},
                 status: 404
             }
         ).getOnce(
-            actionGetPolicies(pageToQuery(Page.of(1, 1)))
+            Operations.GetPolicies.actionCreator((Page.of(1, 1)).toQuery())
             .endpoint,
             firstPagePromise
         );

@@ -4,7 +4,7 @@ import ListPage from '../ListPage';
 import { appWrapperCleanup, appWrapperSetup, getConfiguredAppWrapper } from '../../../../test/AppWrapper';
 import { waitForAsyncEvents } from '../../../../test/TestUtils';
 import fetchMock  from 'fetch-mock';
-import { actionGetPolicies } from '../../../generated/ActionCreators';
+import { Operations } from '../../../generated/Openapi';
 import { linkTo } from '../../../Routes';
 import userEvent from '@testing-library/user-event';
 import { useState } from 'react';
@@ -91,7 +91,7 @@ describe('src/pages/ListPage', () => {
     };
 
     const fetchMockSetup = (config?: FetchMockSetupType) => {
-        fetchMock.getOnce(actionGetPolicies({
+        fetchMock.getOnce(Operations.GetPolicies.actionCreator({
             limit: 20,
             offset: 0
         }).endpoint, {

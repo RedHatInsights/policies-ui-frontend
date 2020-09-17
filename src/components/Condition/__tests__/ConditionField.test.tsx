@@ -4,7 +4,8 @@ import userEvent from '@testing-library/user-event';
 
 import { buildOptionList, ConditionField, ConditionFieldProps } from '../ConditionField';
 import { Fact } from '../../../types/Fact';
-import { FactType } from '../../../generated/Types';
+import { Schemas } from '../../../generated/Openapi';
+import FactType = Schemas.FactType;
 
 describe('src/components/Condition/ConditionVisitor', () => {
 
@@ -12,17 +13,17 @@ describe('src/components/Condition/ConditionVisitor', () => {
         {
             id: 1,
             name: 'foo.fact',
-            type: FactType.STRING
+            type: FactType.Enum.STRING
         },
         {
             id: 2,
             name: 'bar.fact',
-            type: FactType.STRING
+            type: FactType.Enum.STRING
         },
         {
             id: 3,
             name: 'baz',
-            type: FactType.STRING
+            type: FactType.Enum.STRING
         }
     ];
 

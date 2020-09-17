@@ -1,11 +1,12 @@
 import * as React from 'react';
 import { Action, ActionType } from '../../../types/Policy/Actions';
-import { assertNever, OuiaComponentProps } from '@redhat-cloud-services/insights-common-typescript';
+import { OuiaComponentProps } from '@redhat-cloud-services/insights-common-typescript';
 import { Badge, Split, SplitItem, Tooltip, TooltipPosition } from '@patternfly/react-core';
 import { style } from 'typestyle';
 import { ActionEmailIcon, ActionWebhookIcon } from '../ActionIcons';
 import { Messages } from '../../../properties/Messages';
 import { getOuiaProps } from '../../../utils/getOuiaProps';
+import { assertNever } from 'assert-never';
 
 interface ActionsCellProps extends OuiaComponentProps {
     actions: Action[];

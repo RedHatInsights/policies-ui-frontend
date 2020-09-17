@@ -43,36 +43,38 @@ export const CreatePolicyWizard: React.FunctionComponent<CreatePolicyWizardProps
 
     const onSave = (policy: NewPolicy): Promise<CreatePolicyResponse> => {
         return saveMutation.mutate(policy).then((res) => {
-            switch (res.status) {
-                case HttpStatus.CREATED:
-                case HttpStatus.OK:
-                    if (policy.id === undefined) {
-                        addSuccessNotification('Created', `Policy "${policy.name}" created`);
-                    } else {
-                        addSuccessNotification('Saved', `Policy "${policy.name}" has been updated`);
-                    }
+            if (res.payload?.type === 'Policy') {
+                if (policy.id === undefined) {
+                    addSuccessNotification('Created', `Policy "${policy.name}" created`);
+                } else {
+                    addSuccessNotification('Saved', `Policy "${policy.name}" has been updated`);
+                }
 
-                    props.close && props.close(res.payload);
-                    return {
-                        created: true
-                    };
-                case HttpStatus.NOT_FOUND:
-                    if (policy.id !== undefined) {
-                        return {
-                            created: false,
-                            error: 'This policy cannot be found. It may have been deleted by another user. Your changes cannot be saved.'
-                        };
-                    }
-
-                // On purpose falling to the default when previous condition did not match
-                default:
+                props.close && props.close(res.payload.value);
+                return {
+                    created: true
+                };
+            } else if (res.status === HttpStatus.NOT_FOUND) {
+                if (policy.id !== undefined) {
                     return {
                         created: false,
-                        error: (res.payload as any)?.msg || `Unknown Error when trying to ${
-                            policy.id === undefined ? 'create' : 'update'
-                        } the policy: (Code ${res.status})`
+                        error: 'This policy cannot be found. It may have been deleted by another user. Your changes cannot be saved.'
                     };
+                }
             }
+
+            let msg = `Unknown Error when trying to ${
+                policy.id === undefined ? 'create' : 'update'
+            } the policy: (Code ${res.status})`;
+
+            if (res.payload?.type === 'Msg') {
+                msg = res.payload.value.msg ?? msg;
+            }
+
+            return {
+                created: false,
+                error: msg
+            };
         });
     };
 
@@ -85,11 +87,9 @@ export const CreatePolicyWizard: React.FunctionComponent<CreatePolicyWizardProps
                 };
             }
 
-            const error = res.payload?.msg ? formatConditionError(res.payload?.msg as string) : undefined;
-
             return {
                 isValid: false,
-                error: error || `Unknown Error when trying to validate: (Code ${res.status})`,
+                error: `Unknown Error when trying to validate: (Code ${res.status})`,
                 policy
             };
         });
@@ -106,7 +106,7 @@ export const CreatePolicyWizard: React.FunctionComponent<CreatePolicyWizardProps
 
             return {
                 created: false,
-                error: res.payload?.msg || `Invalid name (Code: ${res.status})`
+                error: `Invalid name (Code: ${res.status})`
             };
         });
     }, [ validateNameParamQuery.query ]);

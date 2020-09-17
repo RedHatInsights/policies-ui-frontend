@@ -6,20 +6,11 @@ import inBrowserDownload from 'in-browser-download';
 import { PolicyDetail } from '../PolicyDetail';
 import { appWrapperCleanup, appWrapperSetup, getConfiguredAppWrapper } from '../../../../test/AppWrapper';
 import { linkTo } from '../../../Routes';
-import {
-    actionDeletePoliciesIds,
-    actionGetPoliciesById,
-    actionGetPoliciesByIdHistoryTrigger,
-    actionPostPolicies,
-    actionPostPoliciesIdsEnabled,
-    actionPostPoliciesValidate,
-    actionPostPoliciesValidateName,
-    actionPutPoliciesByPolicyId,
-    UseGetPoliciesByIdHistoryTriggerParams
-} from '../../../generated/ActionCreators';
+import { Operations, Schemas } from '../../../generated/Openapi';
 import { waitForAsyncEvents } from '../../../../test/TestUtils';
 import { ServerPolicyRequest, Uuid } from '../../../types/Policy/Policy';
-import { Direction, Page, pageToQuery, Sort } from '@redhat-cloud-services/insights-common-typescript';
+import { Direction, Page, Sort } from '@redhat-cloud-services/insights-common-typescript';
+import Policy = Schemas.Policy;
 
 jest.mock('../../../hooks/useFacts');
 jest.mock('in-browser-download', () => jest.fn());
@@ -95,7 +86,7 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
     ];
 
     const fetchMockSetup = (config?: FetchMockConfig) => {
-        fetchMock.getOnce(actionGetPoliciesById({
+        fetchMock.getOnce(Operations.GetPoliciesById.actionCreator({
             id: config?.policyId || 'foo'
         }).endpoint, config?.policyLoading ? new Promise(resolver => config.policyLoading?.mockImplementation(resolver)) : {
             body: config?.policyIsUndefined === true ? undefined : (config?.policy || mockPolicy),
@@ -104,15 +95,15 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
             overwriteRoutes: false
         });
 
-        fetchMock.getOnce(actionGetPoliciesByIdHistoryTrigger({
+        fetchMock.getOnce(Operations.GetPoliciesByIdHistoryTrigger.actionCreator({
             id: config?.policyId || 'foo',
-            ...pageToQuery(Page.of(
+            ...(Page.of(
                 config?.triggerPage !== undefined ? config.triggerPage : 1,
                 config?.triggerLimit || 20,
                 undefined,
                 config?.noSort === true ? undefined : Sort.by('ctime', Direction.DESCENDING)
-            ))
-        } as unknown as UseGetPoliciesByIdHistoryTriggerParams)
+            )).toQuery()
+        } as unknown as Operations.GetPoliciesByIdHistoryTrigger.Params)
         .endpoint, config?.triggerLoading ? new Promise((resolver) => config.triggerLoading?.mockImplementation(resolver)) : {
             body: config?.triggerBody ?? {
                 data: (config?.triggers || mockTriggers),
@@ -127,7 +118,7 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
     };
 
     const fetcMockValidateName = (id?: string) => {
-        fetchMock.postOnce(actionPostPoliciesValidateName({
+        fetchMock.postOnce(Operations.PostPoliciesValidateName.actionCreator({
             body: 'foo',
             id
         }).endpoint, {
@@ -136,8 +127,8 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
     };
 
     const fetchMockValidateCondition = () => {
-        fetchMock.postOnce(actionPostPoliciesValidate({
-            body: undefined
+        fetchMock.postOnce(Operations.PostPoliciesValidate.actionCreator({
+            body: undefined as unknown as Policy
         }).endpoint, {
             status: 200
         });
@@ -147,15 +138,15 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
         const policy = { ...mockPolicy, ...updatePolicy };
 
         if (edit) {
-            fetchMock.putOnce(actionPutPoliciesByPolicyId({
-                policyId: policy.id,
+            fetchMock.putOnce(Operations.PutPoliciesByPolicyId.actionCreator({
+                policyId: policy.id!,
                 body: policy
             }).endpoint, {
                 status: 200,
                 body: policy
             });
         } else {
-            fetchMock.postOnce(actionPostPolicies({
+            fetchMock.postOnce(Operations.PostPolicies.actionCreator({
                 alsoStore: true,
                 body: mockPolicy
             }).endpoint, {
@@ -166,7 +157,7 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
     };
 
     const fetchMockDelete = () => {
-        fetchMock.deleteOnce(actionDeletePoliciesIds({
+        fetchMock.deleteOnce(Operations.DeletePoliciesIds.actionCreator({
             body: []
         }).endpoint, {
             status: 200,
@@ -175,8 +166,9 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
     };
 
     const fetchMockChangeStatus = (enabled: boolean, policyIds: Array<Uuid>, status = 200) => {
-        fetchMock.postOnce(actionPostPoliciesIdsEnabled({
-            enabled
+        fetchMock.postOnce(Operations.PostPoliciesIdsEnabled.actionCreator({
+            enabled,
+            body: policyIds
         }).endpoint, {
             status,
             body: policyIds

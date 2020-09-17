@@ -3,8 +3,8 @@ import * as Yup from 'yup';
 import { ValidationError } from 'yup';
 import { maxPolicyNameLength } from '../../types/Policy/Policy';
 import { ActionEmailSchema, ActionSchema, ActionNotificationSchema } from './Actions';
-import { assertNever } from '@redhat-cloud-services/insights-common-typescript';
 import { isAction } from '../../types/Policy/Actions/Action';
+import { assertNever } from 'assert-never';
 
 const ActionSchemaSelector = (action: Action | any): Yup.Schema<any> => {
     if (action?.type && isAction(action)) {

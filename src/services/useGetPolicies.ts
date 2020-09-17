@@ -1,12 +1,12 @@
-import { pageToQuery, useTransformQueryResponse, Page } from '@redhat-cloud-services/insights-common-typescript';
+import { useTransformQueryResponse, Page } from '@redhat-cloud-services/insights-common-typescript';
 import { Policy } from '../types/Policy';
 import { useNewPaginatedQuery, UsePaginatedQueryResponse } from '../hooks';
 import { PagedServerPolicyResponse } from '../types/Policy/Policy';
 import { toPolicies } from '../types/adapters/PolicyAdapter';
 import { useQuery } from 'react-fetching-library';
-import { actionGetPolicies } from '../generated/ActionCreators';
+import { Operations } from '../generated/Openapi';
 
-export const actionCreator = (page?: Page) => actionGetPolicies(pageToQuery(page));
+export const actionCreator = (page?: Page) => Operations.GetPolicies.actionCreator(page?.toQuery() ?? {});
 
 export const useGetPoliciesQuery = (page?: Page, initFetch?: boolean): UsePaginatedQueryResponse<Policy[]> => {
     return useTransformQueryResponse(
@@ -19,7 +19,7 @@ const policiesToBooleanAdapter = (pagedPolicyResponse: PagedServerPolicyResponse
     return pagedPolicyResponse.data?.length;
 };
 
-export const hasPoliciesQueryActionCreator = () => actionGetPolicies((pageToQuery(Page.of(1, 1))));
+export const hasPoliciesQueryActionCreator = () => Operations.GetPolicies.actionCreator((Page.of(1, 1).toQuery()));
 
 export const useHasPoliciesQuery = () => {
     return useTransformQueryResponse(

@@ -18,7 +18,6 @@ import { Policy } from '../../../types/Policy';
 import {
     Direction,
     Sort,
-    assertNever,
     OuiaComponentProps
 } from '@redhat-cloud-services/insights-common-typescript';
 import { ExpandedContent } from './ExpandedContent';
@@ -30,6 +29,7 @@ import { style } from 'typestyle';
 import { Link } from 'react-router-dom';
 import { linkTo } from '../../../Routes';
 import { getOuiaProps } from '../../../utils/getOuiaProps';
+import { assertNever } from 'assert-never';
 
 const emptyStateSectionBackgroundColor = style({
     backgroundColor: 'white'
