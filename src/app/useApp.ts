@@ -15,6 +15,9 @@ export const useApp = (): Omit<AppContext, 'rbac'> & Partial<Pick<AppContext, 'r
         waitForInsights().then((insights) => {
             insights.chrome.init();
             insights.chrome.identifyApp(Config.appId);
+            if (insights.chrome.hasOwnProperty('hideGlobalFilter') && (insights.chrome as any).hideGlobalFilter) {
+                (insights.chrome as any).hideGlobalFilter();
+            }
         });
         return () => {
             const insights = getInsights();

@@ -89,4 +89,37 @@ describe('src/app/App', () => {
 
         expect(screen.getByText(/You do not have access to Policies/i)).toBeTruthy();
     });
+
+    it('Will call chrome.hideGlobalFilter when defined', async () => {
+        const hideGlobalFilter = jest.fn();
+        (global as any).insights.chrome.hideGlobalFilter = hideGlobalFilter;
+        render(
+            <App/>,
+            {
+                wrapper: AppWrapper
+            }
+        );
+
+        await act(async () => {
+            await jest.advanceTimersToNextTimer();
+        });
+
+        expect(hideGlobalFilter).toHaveBeenCalled();
+    });
+
+    it('Wont crash if chrome.hideGlobalFilter is undefined', async () => {
+        (global as any).insights.chrome.hideGlobalFilter = undefined;
+        expect(() => async () => {
+            render(
+                <App/>,
+                {
+                    wrapper: AppWrapper
+                }
+            );
+
+            await act(async () => {
+                await jest.advanceTimersToNextTimer();
+            });
+        }).not.toThrow();
+    });
 });
