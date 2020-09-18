@@ -1,29 +1,50 @@
 import { useTransformQueryResponse, Page } from '@redhat-cloud-services/insights-common-typescript';
-import { Policy } from '../types/Policy';
-import { useNewPaginatedQuery, UsePaginatedQueryResponse } from '../hooks';
-import { PagedServerPolicyResponse } from '../types/Policy/Policy';
 import { toPolicies } from '../types/adapters/PolicyAdapter';
 import { useQuery } from 'react-fetching-library';
 import { Operations } from '../generated/Openapi';
+import { validationResponseTransformer } from 'openapi2typescript';
 
 export const actionCreator = (page?: Page) => Operations.GetPolicies.actionCreator(page?.toQuery() ?? {});
 
-export const useGetPoliciesQuery = (page?: Page, initFetch?: boolean): UsePaginatedQueryResponse<Policy[]> => {
+const decoder = validationResponseTransformer((response: Operations.GetPolicies.Payload) => {
+    if (response.type === 'PagedResponseOfPolicy') {
+        return {
+            ...response,
+            value: {
+                data: toPolicies(response.value),
+                count: response.value.meta?.count || 0
+            }
+        };
+    }
+
+    return response;
+});
+
+export const useGetPoliciesQuery = (page?: Page, initFetch?: boolean) => {
     return useTransformQueryResponse(
-        useNewPaginatedQuery<PagedServerPolicyResponse>(actionCreator(page), initFetch),
-        toPolicies
+        useQuery(actionCreator(page), initFetch),
+        decoder
     );
 };
 
-const policiesToBooleanAdapter = (pagedPolicyResponse: PagedServerPolicyResponse) => {
-    return pagedPolicyResponse.data?.length;
-};
+const policiesToBooleanDecoder = validationResponseTransformer((response: Operations.GetPolicies.Payload) => {
+    let hasPolicies = true;
+    if (response.type === 'PagedResponseOfPolicy') {
+        hasPolicies = !!response.value.data?.length;
+    }
+
+    return {
+        ...response,
+        type: 'HasPolicies',
+        value: hasPolicies
+    };
+});
 
 export const hasPoliciesQueryActionCreator = () => Operations.GetPolicies.actionCreator((Page.of(1, 1).toQuery()));
 
 export const useHasPoliciesQuery = () => {
     return useTransformQueryResponse(
-        useQuery<PagedServerPolicyResponse>(hasPoliciesQueryActionCreator(), false),
-        policiesToBooleanAdapter
+        useQuery(hasPoliciesQueryActionCreator(), false),
+        policiesToBooleanDecoder
     );
 };

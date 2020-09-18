@@ -95,10 +95,15 @@ export const usePolicyRows = (policies: Policy[] | undefined, loading: boolean, 
                     throw response.errorObject;
                 }
 
-                const set = new Set<Uuid>(response.payload);
-                selectedPolicies.values().forEach(id => {
-                    set.delete(id);
-                });
+                let set: Set<Uuid> | Array<never> = [];
+                if (response.payload?.status === 200) {
+                    const tmpSet = new Set<Uuid>(response.payload.value);
+                    selectedPolicies.values().forEach(id => {
+                        tmpSet.delete(id);
+                    });
+                    set = tmpSet;
+                }
+
                 return Array.from(set.values());
             });
         }

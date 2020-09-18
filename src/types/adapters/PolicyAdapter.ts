@@ -92,7 +92,7 @@ export const toPolicy = (serverPolicy: ServerPolicyResponse): Policy => {
     };
 };
 
-export const toPolicies = (serverPolicies: PagedServerPolicyResponse): Policy[] => {
+export const toPolicies = (serverPolicies: PagedServerPolicyResponse): Array<Policy> => {
     return serverPolicies.data ? serverPolicies.data.map(toPolicy) : [];
 };
 

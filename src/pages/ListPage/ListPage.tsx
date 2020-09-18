@@ -49,9 +49,9 @@ const emailOptinPageClassName = style({
     paddingBottom: 0
 });
 
-const getPoliciesFromPayload = (payload: unknown, status: number | undefined): Array<Policy> | undefined => {
-    if (status === 200 || status === 404) {
-        return payload as Array<Policy>;
+const getPoliciesFromPayload = (payload: ReturnType<typeof useGetListPagePolicies>['payload']): Array<Policy> | undefined => {
+    if (payload?.status === 200) {
+        return payload.value.data;
     }
 
     return undefined;
@@ -79,10 +79,12 @@ const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
 
     let isLoading = getPoliciesQuery.loading || changePolicyEnabledMutation.loading;
 
+    const getPoliciesQueryCount = getPoliciesQuery.payload?.type === 'PagedResponseOfPolicy' ? getPoliciesQuery.payload.value.count : 0;
+
     const policyRows = usePolicyRows(
-        getPoliciesFromPayload(getPoliciesQuery.payload, getPoliciesQuery.status),
+        getPoliciesFromPayload(getPoliciesQuery.payload),
         isLoading,
-        getPoliciesQuery.count,
+        getPoliciesQueryCount,
         policyPage.page
     );
     const {
@@ -94,7 +96,7 @@ const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
 
     const { canWriteAll, canReadAll } = appContext.rbac;
 
-    const { query: getPoliciesQueryReload, count: getPoliciesQueryCount } = getPoliciesQuery;
+    const { query: getPoliciesQueryReload } = getPoliciesQuery;
     const { mutate: mutateChangePolicyEnabled, loading: loadingChangePolicyEnabled } = changePolicyEnabledMutation;
 
     const { open: openPolicyToDelete } = policyToDelete;
@@ -212,7 +214,7 @@ const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
                             filters={ policyFilters.filters }
                             setFilters= { policyFilters.setFilters }
                             clearFilters={ policyFilters.clearFilter }
-                            count={ getPoliciesQuery.count }
+                            count={ getPoliciesQueryCount }
                             onExport={ toolbarActions.onExport }
                             showBottomPagination={ true }
                         >

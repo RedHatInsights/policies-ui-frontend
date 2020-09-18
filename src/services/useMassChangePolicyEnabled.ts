@@ -12,4 +12,4 @@ export const actionCreator = (params: UseMassChangePolicyEnabledParams) => Opera
     enabled: params.shouldBeEnabled
 });
 
-export const useMassChangePolicyEnabledMutation = () => useMutation<Uuid[]>(actionCreator);
+export const useMassChangePolicyEnabledMutation = () => useMutation(actionCreator);

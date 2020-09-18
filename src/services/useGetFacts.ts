@@ -4,4 +4,4 @@ import { Operations } from '../generated/Openapi';
 
 export const actionCreator = Operations.GetFacts.actionCreator;
 
-export const useGetFactsQuery = (initFetch?: boolean) => useQuery<Fact[]>(actionCreator(), initFetch);
+export const useGetFactsQuery = (initFetch?: boolean) => useQuery(actionCreator(), initFetch);

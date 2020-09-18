@@ -3,6 +3,7 @@ import { Uuid } from '../types/Policy/Policy';
 import { useTransformQueryResponse } from '@redhat-cloud-services/insights-common-typescript';
 import { toPolicy } from '../types/adapters/PolicyAdapter';
 import { Operations } from '../generated/Openapi';
+import { validatedResponse, validationResponseTransformer } from 'openapi2typescript';
 
 export const actionCreator = (policyId: Uuid) => {
     return Operations.GetPoliciesById.actionCreator({
@@ -10,17 +11,18 @@ export const actionCreator = (policyId: Uuid) => {
     });
 };
 
-const decoder = (response: Operations.GetPoliciesById.Payload) => {
+const decoder = validationResponseTransformer((response: Operations.GetPoliciesById.Payload) => {
     if (response.type === 'Policy') {
-        return {
-            ...response,
-            type: 'UIPolicy',
-            value: toPolicy(response.value)
-        };
+        return validatedResponse(
+            'Policy',
+            response.status,
+            toPolicy(response.value),
+            response.errors
+        );
     }
 
     return response;
-};
+});
 
 export const useGetPolicyQuery = (policyId: Uuid, initFetch = true) => {
     return useTransformQueryResponse(

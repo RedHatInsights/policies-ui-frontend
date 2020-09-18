@@ -37,13 +37,21 @@ export const CopyFromPolicy: React.FunctionComponent<CopyFromPolicyProps> = (pro
         }
     }, [ propsOnSelect, policyRowsOnSelect, payload ]);
 
+    const { pageCount, count } = getPoliciesQuery.payload?.type ===  'PagedResponseOfPolicy' ? {
+        count: getPoliciesQuery.payload.value.count,
+        pageCount: getPoliciesQuery.payload.value.data.length
+    } : {
+        count: undefined,
+        pageCount: undefined
+    };
+
     return (
         <>
             <PolicyToolbar
                 ouiaId="copy-from-policy-toolbar"
                 onPaginationChanged={ policyPage.changePage }
                 page={ policyPage.page.index }
-                pageCount={ getPoliciesQuery.payload?.length }
+                pageCount={ pageCount }
                 perPage={ policyPage.page.size }
                 showPerPageOptions={ false }
                 hideActions={ true }
@@ -51,7 +59,7 @@ export const CopyFromPolicy: React.FunctionComponent<CopyFromPolicyProps> = (pro
                 filters={ policyFilter.filters }
                 setFilters={ policyFilter.setFilters }
                 clearFilters={ policyFilter.clearFilter }
-                count={ getPoliciesQuery.count }
+                count={ count }
             >
                 <PolicyTable
                     ouiaId="copy-from-policy-table"

@@ -22,7 +22,7 @@ export const useGetAllTriggers = (policyId: Uuid, filter: Filter | undefined) =>
                 })));
                 if (response.payload) {
                     const localTriggers = dataToTriggers(response.payload);
-                    if (localTriggers.type === 'PagedResponseOfHistoryItem') {
+                    if (localTriggers.type === 'PagedTriggers') {
                         if (localTriggers.value.data) {
                             triggers.push(...localTriggers.value.data);
                             page = page.nextPage();

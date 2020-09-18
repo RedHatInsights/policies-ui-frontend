@@ -3,6 +3,7 @@ import { useParameterizedQuery } from 'react-fetching-library';
 import { toTriggers } from '../types/adapters/TriggerAdapter';
 import { Page, useTransformQueryResponse } from '@redhat-cloud-services/insights-common-typescript';
 import { Operations } from '../generated/Openapi';
+import { validationResponseTransformer } from 'openapi2typescript';
 
 export interface UseGetPolicyTriggersParams {
     policyId: Uuid;
@@ -16,13 +17,13 @@ export const actionCreator = (params: UseGetPolicyTriggersParams) => {
     });
 };
 
-export const dataToTriggers = (validatedResponse: Operations.GetPoliciesByIdHistoryTrigger.Payload) => {
+export const dataToTriggers = validationResponseTransformer((validatedResponse: Operations.GetPoliciesByIdHistoryTrigger.Payload) => {
     if (validatedResponse.type === 'PagedResponseOfHistoryItem') {
         const value = validatedResponse.value;
 
         return {
             ...validatedResponse,
-            type: 'PagedTriggers',
+            type: 'PagedTriggers' as 'PagedTriggers',
             value: {
                 count: value.meta?.count || 0,
                 data: toTriggers(value.data ?? [])
@@ -31,7 +32,7 @@ export const dataToTriggers = (validatedResponse: Operations.GetPoliciesByIdHist
     }
 
     return validatedResponse;
-};
+});
 
 export const useGetPolicyTriggersParametrizedQuery = () => {
     return useTransformQueryResponse(
@@ -40,17 +41,17 @@ export const useGetPolicyTriggersParametrizedQuery = () => {
     );
 };
 
-const triggersToBooleanAdapter = (validatedResponse: Operations.GetPoliciesByIdHistoryTrigger.Payload) => {
+const triggersToBooleanAdapter = validationResponseTransformer((validatedResponse: Operations.GetPoliciesByIdHistoryTrigger.Payload) => {
     if (validatedResponse.type === 'PagedResponseOfHistoryItem') {
         return {
             ...validatedResponse,
-            type: 'boolean',
+            type: 'boolean' as 'boolean',
             value: validatedResponse.value.data && validatedResponse.value.data.length
         };
     }
 
     return validatedResponse;
-};
+});
 
 export const hasTriggersQueryActionCreator = (policyId: Uuid) => Operations.GetPoliciesByIdHistoryTrigger.actionCreator({
     id: policyId,

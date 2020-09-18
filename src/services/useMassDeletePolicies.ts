@@ -7,5 +7,5 @@ export const actionCreator = (policyIds: Uuid[]) => Operations.DeletePoliciesIds
 });
 
 export const useMassDeletePoliciesMutation = () => {
-    return useMutation<Uuid[]>(actionCreator);
+    return useMutation(actionCreator);
 };

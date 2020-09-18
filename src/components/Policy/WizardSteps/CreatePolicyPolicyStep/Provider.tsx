@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { NewPolicy } from '../../../../types/Policy/Policy';
+import { NewPolicy, Policy } from '../../../../types/Policy/Policy';
 import { usePolicyFilter, usePolicyPage, usePolicyRows } from '../../../../hooks';
 import { useSort } from '@redhat-cloud-services/insights-common-typescript';
 import { useGetPoliciesQuery } from '../../../../services/useGetPolicies';
@@ -19,7 +19,15 @@ export const CreatePolicyStepContextProvider: React.FunctionComponent<CreatePoli
     const policySort = useSort();
     const policyPage = usePolicyPage(policyFilter.debouncedFilters, defaultPerPage, policySort.sortBy);
     const policyQuery = useGetPoliciesQuery(policyPage.page, false);
-    const policyRows = usePolicyRows(policyQuery.payload, policyQuery.loading, policyQuery.count, policyPage.page);
+
+    let policiesOrUndefined: Array<Policy> | undefined = undefined;
+    let count = 0;
+    if (policyQuery.payload?.type === 'PagedResponseOfPolicy') {
+        policiesOrUndefined = policyQuery.payload.value.data;
+        count = policyQuery.payload.value.count;
+    }
+
+    const policyRows = usePolicyRows(policiesOrUndefined, policyQuery.loading, count, policyPage.page);
 
     const { query } = policyQuery;
 

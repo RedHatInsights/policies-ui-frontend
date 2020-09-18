@@ -57,6 +57,7 @@ export const PolicyDetail: React.FunctionComponent = () => {
     const triggerDetailRef = React.useRef<TriggerDetailAPI>(null);
 
     const processGetPolicyResponse = React.useCallback((response: PolicyQueryResponse) => {
+        console.log(response);
         if (response.payload?.type === 'Policy') {
             setPolicy(response.payload.value);
         }
@@ -107,8 +108,8 @@ export const PolicyDetail: React.FunctionComponent = () => {
             policyIds: [ policyId ],
             shouldBeEnabled: newStatus
         }).then((result) => {
-            if (result.status === 200) {
-                if (result.payload?.includes(policyId)) {
+            if (result.payload?.status === 200) {
+                if (result.payload.value.includes(policyId)) {
                     statusChanged(newStatus);
                 } else {
                     addDangerNotification(

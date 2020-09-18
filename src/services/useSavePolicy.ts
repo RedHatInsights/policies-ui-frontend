@@ -2,7 +2,7 @@ import { NewPolicy } from '../types/Policy/Policy';
 import { toPolicy, toServerPolicy } from '../types/adapters/PolicyAdapter';
 import { useMutation } from 'react-fetching-library';
 import { Operations } from '../generated/Openapi';
-import { validatedResponse } from 'openapi2typescript';
+import { validatedResponse, validationResponseTransformer } from 'openapi2typescript';
 import { useTransformQueryResponse } from '@redhat-cloud-services/insights-common-typescript';
 
 export const savePolicyActionCreator = (policy: NewPolicy) => {
@@ -19,7 +19,7 @@ export const savePolicyActionCreator = (policy: NewPolicy) => {
     });
 };
 
-const decoder = (response: Operations.PutPoliciesByPolicyId.Payload | Operations.PostPolicies.Payload) => {
+const decoder = validationResponseTransformer((response: Operations.PutPoliciesByPolicyId.Payload | Operations.PostPolicies.Payload) => {
     if (response.type === 'Policy') {
         return validatedResponse(
             'Policy',
@@ -30,6 +30,6 @@ const decoder = (response: Operations.PutPoliciesByPolicyId.Payload | Operations
     }
 
     return response;
-};
+});
 
 export const useSavePolicyMutation = () => useTransformQueryResponse(useMutation(savePolicyActionCreator), decoder);
