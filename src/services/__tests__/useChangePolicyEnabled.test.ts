@@ -17,6 +17,7 @@ describe('src/services/useSavePolicy', () => {
             shouldBeEnabled: false
         });
 
+        expect(false.toString()).toBe('false');
         expect(action.endpoint).toEqual('/api/policies/v1.0/policies/abc-foo-bar/enabled?enabled=false');
         expect(action.method).toEqual('POST');
     });

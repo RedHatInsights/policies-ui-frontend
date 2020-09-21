@@ -119,8 +119,7 @@ const TriggerDetailSectionInternal: React.ForwardRefRenderFunction<TriggerDetail
 
     let triggerErrorState;
     if (!getTriggers.loading && getTriggers.error && getTriggers.status !== 404) {
-        const error = (getTriggers.payload as any)?.msg ?? `code: ${getTriggers.status}`;
-        triggerErrorState = <TriggerErrorState action={ refresh } error={ error }/>;
+        triggerErrorState = <TriggerErrorState action={ refresh } error={ `code: ${getTriggers.status}` }/>;
     }
 
     return (

@@ -87,6 +87,14 @@ export const CreatePolicyWizard: React.FunctionComponent<CreatePolicyWizardProps
                 };
             }
 
+            if (res.payload?.type === 'Msg' && res.payload.value.msg) {
+                return {
+                    isValid: false,
+                    error: res.payload.value.msg,
+                    policy
+                };
+            }
+
             return {
                 isValid: false,
                 error: `Unknown Error when trying to validate: (Code ${res.status})`,

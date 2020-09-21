@@ -32,8 +32,8 @@ export const CopyFromPolicy: React.FunctionComponent<CopyFromPolicyProps> = (pro
 
     const onSelectHandler = React.useCallback((policyRow: PolicyRow, index: number, isSelected: boolean) => {
         policyRowsOnSelect(policyRow, index, isSelected);
-        if (payload && isSelected) {
-            propsOnSelect(payload[index]);
+        if (payload && payload.type === 'PagedResponseOfPolicy' && isSelected) {
+            propsOnSelect(payload.value.data[index]);
         }
     }, [ propsOnSelect, policyRowsOnSelect, payload ]);
 

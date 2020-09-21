@@ -1,5 +1,10 @@
 import * as React from 'react';
-import { initStore, getInsights, restoreStore } from '@redhat-cloud-services/insights-common-typescript';
+import {
+    initStore,
+    getInsights,
+    restoreStore,
+    validateSchemaResponseInterceptor
+} from '@redhat-cloud-services/insights-common-typescript';
 import { NotificationsPortal } from '@redhat-cloud-services/frontend-components-notifications';
 import { RouteProps, Route } from 'react-router';
 import { MemoryRouter as Router } from 'react-router-dom';
@@ -24,7 +29,9 @@ export const appWrapperSetup = () => {
 
     setup = true;
     fetchMock.mock();
-    client = createClient();
+    client = createClient({
+        responseInterceptors: [ validateSchemaResponseInterceptor ]
+    });
     store = initStore().getStore();
 };
 

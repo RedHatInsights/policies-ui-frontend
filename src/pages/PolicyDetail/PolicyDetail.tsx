@@ -57,7 +57,7 @@ export const PolicyDetail: React.FunctionComponent = () => {
     const triggerDetailRef = React.useRef<TriggerDetailAPI>(null);
 
     const processGetPolicyResponse = React.useCallback((response: PolicyQueryResponse) => {
-        console.log(response);
+        // console.log(response);
         if (response.payload?.type === 'Policy') {
             setPolicy(response.payload.value);
         }
@@ -135,8 +135,12 @@ export const PolicyDetail: React.FunctionComponent = () => {
             return <PolicyDetailEmptyState policyId={ policyId || '' }/>;
         }
 
-        if (!getPolicyQuery.loading && getPolicyQuery.error) {
-            const error = (getPolicyQuery.payload as any)?.msg || `code: ${getPolicyQuery.status}`;
+        if (!getPolicyQuery.loading && getPolicyQuery.payload?.type !== 'Policy') {
+
+            let error = `code: ${getPolicyQuery.status}`;
+            if (getPolicyQuery.payload?.type === 'Msg' && getPolicyQuery.payload.value.msg) {
+                error = getPolicyQuery.payload.value.msg;
+            }
 
             return <PolicyDetailErrorState
                 action={ () => {

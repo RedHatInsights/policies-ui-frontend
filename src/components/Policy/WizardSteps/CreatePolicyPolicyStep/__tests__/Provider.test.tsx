@@ -5,6 +5,7 @@ import { ClientContextProvider, createClient } from 'react-fetching-library';
 import fetchMock from 'fetch-mock';
 import { PolicyFilterColumn } from '../../../../../types/Policy/Filters';
 import { useState } from 'react';
+import { validateSchemaResponseInterceptor } from '@redhat-cloud-services/insights-common-typescript';
 
 let query;
 let setCurrentPage;
@@ -50,7 +51,11 @@ jest.mock('../../../../../hooks/usePolicyPage', () => {
     };
 });
 
-const client = createClient();
+const client = createClient({
+    responseInterceptors: [
+        validateSchemaResponseInterceptor
+    ]
+});
 
 const MockContainer: React.FunctionComponent = (props) => {
     return (

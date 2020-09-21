@@ -6,7 +6,10 @@ import { ClientContextProvider, createClient } from 'react-fetching-library';
 import fetchMock, { UNMATCHED } from 'fetch-mock';
 import { formatConditionError } from '../CreatePolicyWizard';
 import { useFacts } from '../../../hooks/useFacts';
-import { addSuccessNotification } from '@redhat-cloud-services/insights-common-typescript';
+import {
+    addSuccessNotification, suppressValidateError,
+    validateSchemaResponseInterceptor
+} from '@redhat-cloud-services/insights-common-typescript';
 jest.mock('@redhat-cloud-services/insights-common-typescript', () => {
     const real = jest.requireActual('@redhat-cloud-services/insights-common-typescript');
     return {
@@ -28,7 +31,13 @@ const configurePolicyWizard = (implementation: React.FunctionComponent<PolicyWiz
 describe('src/pages/ListPage/CreatePolicyWizard', () => {
 
     const Wrapper: React.FunctionComponent = (props) => {
-        return <ClientContextProvider client={ createClient() }>{ props.children }</ClientContextProvider>;
+        const client = createClient({
+            responseInterceptors: [
+                validateSchemaResponseInterceptor
+            ]
+        });
+
+        return <ClientContextProvider client={ client }>{ props.children }</ClientContextProvider>;
     };
 
     const failIfNoHttpCallMatched = () => {
@@ -90,32 +99,6 @@ describe('src/pages/ListPage/CreatePolicyWizard', () => {
     });
 
     describe('onSave', () => {
-        it('Created is true if creating a policy and server returns 200', async () => {
-            const trigger = jest.fn();
-            configurePolicyWizard((props) => {
-                trigger.mockImplementation(props.onSave);
-                return <>hello world</>;
-            });
-            fetchMock.post(
-                '/api/policies/v1.0/policies?alsoStore=true',
-                {
-                    headers: {},
-                    status: 200
-                }
-            );
-
-            render(<CreatePolicyWizard isOpen={ true } close={ jest.fn() } showCreateStep={ false } isEditing={ true }/>, {
-                wrapper: Wrapper
-            });
-
-            await act(async () => {
-                const result = await trigger({
-                });
-                expect(result).toEqual({
-                    created: true
-                });
-            });
-        });
 
         it('Created is true if creating a policy and server returns 201', async () => {
             const trigger = jest.fn();
@@ -127,7 +110,14 @@ describe('src/pages/ListPage/CreatePolicyWizard', () => {
                 '/api/policies/v1.0/policies?alsoStore=true',
                 {
                     headers: {},
-                    status: 201
+                    status: 201,
+                    body: {
+                        id: 'foo',
+                        name: 'foobar',
+                        actions: '',
+                        conditions: '',
+                        isEnabled: false
+                    }
                 }
             );
 
@@ -154,35 +144,14 @@ describe('src/pages/ListPage/CreatePolicyWizard', () => {
                 '/api/policies/v1.0/policies/abcd',
                 {
                     headers: {},
-                    status: 200
-                }
-            );
-
-            render(<CreatePolicyWizard isOpen={ true } close={ jest.fn() } showCreateStep={ false } isEditing={ true }/>, {
-                wrapper: Wrapper
-            });
-
-            await act(async () => {
-                const result = await trigger({
-                    id: 'abcd'
-                });
-                expect(result).toEqual({
-                    created: true
-                });
-            });
-        });
-
-        it('Created is true if editing a policy and server returns 201', async () => {
-            const trigger = jest.fn();
-            configurePolicyWizard((props) => {
-                trigger.mockImplementation(props.onSave);
-                return <>hello world</>;
-            });
-            fetchMock.put(
-                '/api/policies/v1.0/policies/abcd',
-                {
-                    headers: {},
-                    status: 201
+                    status: 200,
+                    body: {
+                        id: 'foo',
+                        name: 'foobar',
+                        actions: '',
+                        conditions: '',
+                        isEnabled: false
+                    }
                 }
             );
 
@@ -214,8 +183,10 @@ describe('src/pages/ListPage/CreatePolicyWizard', () => {
                     body: {
                         id: '1234',
                         name: 'foo',
-                        mtime: 1,
-                        ctime: 1,
+                        mtime: '1970-01-01T00:00:00.001Z',
+                        ctime: '1970-01-01T00:00:00.001Z',
+                        actions: '',
+                        conditions: '',
                         isEnabled: false,
                         description: ''
                     }
@@ -238,6 +209,7 @@ describe('src/pages/ListPage/CreatePolicyWizard', () => {
             expect(closeFn).toHaveBeenCalledWith({
                 id: '1234',
                 name: 'foo',
+                conditions: '',
                 actions: [],
                 isEnabled: false,
                 lastTriggered: undefined,
@@ -257,7 +229,17 @@ describe('src/pages/ListPage/CreatePolicyWizard', () => {
                 '/api/policies/v1.0/policies?alsoStore=true',
                 {
                     headers: {},
-                    status: 201
+                    status: 201,
+                    body: {
+                        id: '1234',
+                        name: 'foo',
+                        mtime: '1970-01-01T00:00:00.001Z',
+                        ctime: '1970-01-01T00:00:00.001Z',
+                        actions: '',
+                        conditions: '',
+                        isEnabled: false,
+                        description: ''
+                    }
                 }
             );
 
@@ -285,7 +267,17 @@ describe('src/pages/ListPage/CreatePolicyWizard', () => {
                 '/api/policies/v1.0/policies/some-id',
                 {
                     headers: {},
-                    status: 200
+                    status: 200,
+                    body: {
+                        id: '1234',
+                        name: 'foo',
+                        mtime: '1970-01-01T00:00:00.001Z',
+                        ctime: '1970-01-01T00:00:00.001Z',
+                        actions: '',
+                        conditions: '',
+                        isEnabled: false,
+                        description: ''
+                    }
                 }
             );
 
@@ -335,6 +327,7 @@ describe('src/pages/ListPage/CreatePolicyWizard', () => {
 
         it('Returns "Unknown error..." when saving a policy and returns a status different than 200,201 and 404', async () => {
             const trigger = jest.fn();
+            suppressValidateError(1);
             configurePolicyWizard((props) => {
                 trigger.mockImplementation(props.onSave);
                 return <>hello world</>;
@@ -374,7 +367,10 @@ describe('src/pages/ListPage/CreatePolicyWizard', () => {
                 '/api/policies/v1.0/policies/validate',
                 {
                     headers: {},
-                    status: 200
+                    status: 200,
+                    body: {
+                        msg: 'good!'
+                    }
                 }
             );
 
@@ -405,7 +401,7 @@ describe('src/pages/ListPage/CreatePolicyWizard', () => {
                 '/api/policies/v1.0/policies/validate',
                 {
                     headers: {},
-                    status: 404,
+                    status: 400,
                     body: {
                         msg: 'this is an error from the server'
                     }
@@ -432,6 +428,7 @@ describe('src/pages/ListPage/CreatePolicyWizard', () => {
 
         it('When status is different than 200, isValid is false and we get an error defined error if no payload.msg found', async () => {
             const trigger = jest.fn();
+            suppressValidateError(1);
             configurePolicyWizard((props) => {
                 trigger.mockImplementation(props.onVerify);
                 return <>hello world</>;
@@ -440,7 +437,7 @@ describe('src/pages/ListPage/CreatePolicyWizard', () => {
                 '/api/policies/v1.0/policies/validate',
                 {
                     headers: {},
-                    status: 404
+                    status: 500
                 }
             );
 
@@ -454,7 +451,7 @@ describe('src/pages/ListPage/CreatePolicyWizard', () => {
                 });
                 expect(result).toEqual({
                     isValid: false,
-                    error: 'Unknown Error when trying to validate: (Code 404)',
+                    error: 'Unknown Error when trying to validate: (Code 500)',
                     policy: {
                         id: 'abcd'
                     }

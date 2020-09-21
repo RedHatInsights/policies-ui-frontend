@@ -11,6 +11,7 @@ import { waitForAsyncEvents } from '../../../../test/TestUtils';
 import { ServerPolicyRequest, Uuid } from '../../../types/Policy/Policy';
 import { Direction, Page, Sort } from '@redhat-cloud-services/insights-common-typescript';
 import Policy = Schemas.Policy;
+import { suppressValidateError } from 'openapi2typescript/react-fetching-library';
 
 jest.mock('../../../hooks/useFacts');
 jest.mock('in-browser-download', () => jest.fn());
@@ -89,11 +90,23 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
         fetchMock.getOnce(Operations.GetPoliciesById.actionCreator({
             id: config?.policyId || 'foo'
         }).endpoint, config?.policyLoading ? new Promise(resolver => config.policyLoading?.mockImplementation(resolver)) : {
-            body: config?.policyIsUndefined === true ? undefined : (config?.policy || mockPolicy),
+            body: config?.policyIsUndefined === true ? undefined : (config?.policy ?? mockPolicy),
             status: config?.policyStatus || 200
         }, {
             overwriteRoutes: false
         });
+
+        /*
+        console.log(actionGetPoliciesByIdHistoryTrigger({
+            id: config?.policyId || 'foo',
+            ...pageToQuery(Page.of(
+                config?.triggerPage !== undefined ? config.triggerPage : 1,
+                config?.triggerLimit || 20,
+                undefined,
+                config?.noSort === true ? undefined : Sort.by('ctime', Direction.DESCENDING)
+            ))
+        } as unknown as GetPoliciesByIdHistoryTrigger)
+            .endpoint);*/
 
         fetchMock.getOnce(Operations.GetPoliciesByIdHistoryTrigger.actionCreator({
             id: config?.policyId || 'foo',
@@ -122,7 +135,10 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
             body: 'foo',
             id
         }).endpoint, {
-            status: 200
+            status: 200,
+            body: {
+                msg: 'All is cool'
+            }
         });
     };
 
@@ -130,7 +146,10 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
         fetchMock.postOnce(Operations.PostPoliciesValidate.actionCreator({
             body: undefined as unknown as Policy
         }).endpoint, {
-            status: 200
+            status: 200,
+            body: {
+                msg: 'good'
+            }
         });
     };
 
@@ -150,7 +169,7 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
                 alsoStore: true,
                 body: mockPolicy
             }).endpoint, {
-                status: 200,
+                status: 201,
                 body: policy
             });
         }
@@ -245,32 +264,11 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
         expect(screen.getByText(/Policy not found/i)).toBeVisible();
     });
 
-    it('Shows error state when policy is has status different than 200 or 404 ', async () => {
+    it('Shows error state when policy has status different than 200 or 404, show status when no error msg', async () => {
+        suppressValidateError(1);
         fetchMockSetup({
             policyStatus: 500,
-            policy: {
-                msg: 'this looks bad'
-            }
-        });
-        render(<PolicyDetail/>, {
-            wrapper: getConfiguredAppWrapper({
-                router: {
-                    initialEntries: [ linkTo.policyDetail('foo') ]
-                },
-                route: {
-                    path: linkTo.policyDetail(':policyId')
-                }
-            })
-        });
-
-        await waitForAsyncEvents();
-        expect(screen.getByText(/this looks bad/i)).toBeVisible();
-    });
-
-    it('Shows error state when policy is has status different than 200 or 404, show status when no error msg', async () => {
-        fetchMockSetup({
-            policyStatus: 500,
-            policy: {}
+            policy: ''
         });
         render(<PolicyDetail/>, {
             wrapper: getConfiguredAppWrapper({
@@ -288,8 +286,9 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
     });
 
     it('On the error state, clicking on the button retries the query', async () => {
+        suppressValidateError(1);
         fetchMockSetup({
-            policyStatus: 500,
+            policyStatus: 400,
             policy: {}
         });
         render(<PolicyDetail/>, {
@@ -593,6 +592,7 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
     });
 
     it('When policy is enabled, if server fails, do not change status and show error', async () => {
+        suppressValidateError(1);
         fetchMockSetup({
             policy: { ...mockPolicy, isEnabled: false }
         });
@@ -670,6 +670,7 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
     });
 
     it('Export button is not found when no triggers', async () => {
+        suppressValidateError(1);
         fetchMockSetup({
             triggerStatus: 404
         });
@@ -845,8 +846,9 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
     });
 
     it('Shows loading when clicking try again button on the policy load', async () => {
+        suppressValidateError(1);
         fetchMockSetup({
-            policyStatus: 500
+            policyStatus: 400
         });
 
         render(<PolicyDetail/>, {
@@ -875,6 +877,7 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
     });
 
     it('Shows error when trigger history fails to load', async () => {
+        suppressValidateError(1);
         fetchMockSetup({
             triggerStatus: 500,
             triggers: []
@@ -895,30 +898,8 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
         expect(screen.getByText(/Error when loading trigger history for policy/i)).toBeTruthy();
     });
 
-    it('Shows error when trigger history fails to load, uses payload.msg if provided', async () => {
-        fetchMockSetup({
-            triggerStatus: 500,
-            triggerBody: {
-                msg: 'foo bar baz!!!'
-            }
-        });
-
-        render(<PolicyDetail/>, {
-            wrapper: getConfiguredAppWrapper({
-                router: {
-                    initialEntries: [ linkTo.policyDetail('foo') ]
-                },
-                route: {
-                    path: linkTo.policyDetail(':policyId')
-                }
-            })
-        });
-
-        await waitForAsyncEvents();
-        expect(screen.getByText(/foo bar baz!!!/i)).toBeTruthy();
-    });
-
     it('Shows loading when clicking try again button on the trigger history load', async () => {
+        suppressValidateError(1);
         fetchMockSetup({
             triggerStatus: 500,
             triggers: []

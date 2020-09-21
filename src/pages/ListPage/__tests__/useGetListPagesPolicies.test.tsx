@@ -5,11 +5,18 @@ import { ClientContextProvider, createClient } from 'react-fetching-library';
 import { useGetListPagePolicies } from '../useGetListPagePolicies';
 import { Page } from '@redhat-cloud-services/insights-common-typescript';
 import { Operations } from '../../../generated/Openapi';
+import { suppressValidateError, validateSchemaResponseInterceptor } from 'openapi2typescript/react-fetching-library';
 
 describe('src/hooks/usePaginated', () => {
 
     const Wrapper: React.FunctionComponent = (props) => {
-        return <ClientContextProvider client={ createClient() }>{ props.children }</ClientContextProvider>;
+        const client = createClient({
+            responseInterceptors: [
+                validateSchemaResponseInterceptor
+            ]
+        });
+
+        return <ClientContextProvider client={ client }>{ props.children }</ClientContextProvider>;
     };
 
     const failIfNoHttpCallMatched = () => {
@@ -24,6 +31,7 @@ describe('src/hooks/usePaginated', () => {
 
     it('hasPolicies is true when fetching the default page and status is 200', async () => {
         jest.useFakeTimers();
+        suppressValidateError();
         fetchMock.getOnce(
             Operations.GetPolicies.actionCreator(Page.defaultPage().toQuery())
             .endpoint,
@@ -96,6 +104,7 @@ describe('src/hooks/usePaginated', () => {
     });
 
     it('hasPolicies is undefined when fetching the default page and status is not 200 or 404', async () => {
+        suppressValidateError();
         jest.useFakeTimers();
         fetchMock.getOnce(
             Operations.GetPolicies.actionCreator(Page.defaultPage().toQuery())
@@ -123,6 +132,7 @@ describe('src/hooks/usePaginated', () => {
 
     it('hasPolicies is undefined when fetching the default page and status is 200, then fetching again and status is not 200 or 404', async () => {
         jest.useFakeTimers();
+        suppressValidateError();
         const matcher = Operations.GetPolicies.actionCreator(Page.defaultPage().toQuery()).endpoint;
 
         fetchMock.getOnce(matcher,
@@ -147,6 +157,7 @@ describe('src/hooks/usePaginated', () => {
         expect(fetchMock.calls(matcher).length).toBe(1);
         expect(result.current.hasPolicies).toBe(true);
 
+        suppressValidateError();
         fetchMock.getOnce(matcher,
             {
                 headers: {},
@@ -168,6 +179,7 @@ describe('src/hooks/usePaginated', () => {
 
     it('hasPolicies is true when fetching the second page and status is 404 if any policy in unfiltered first page', async () => {
         jest.useFakeTimers();
+        suppressValidateError();
         const secondPage = Page.of(2, Page.defaultPage().size);
         fetchMock.getOnce(
             Operations.GetPolicies.actionCreator(secondPage.toQuery())
@@ -236,6 +248,7 @@ describe('src/hooks/usePaginated', () => {
 
     it('hasPolicies is undefined when fetching the second page and status is not 200 or 404', async () => {
         jest.useFakeTimers();
+        suppressValidateError();
         const secondPage = Page.of(2, Page.defaultPage().size);
         fetchMock.getOnce(
             Operations.GetPolicies.actionCreator((secondPage).toQuery())
@@ -263,6 +276,7 @@ describe('src/hooks/usePaginated', () => {
 
     it('hasPolicies is undefined when fetching the second page with status is 404 and query for first page yields other than 200 or 404',
         async () => {
+            suppressValidateError();
             jest.useFakeTimers();
             const secondPage = Page.of(2, Page.defaultPage().size);
             fetchMock.getOnce(

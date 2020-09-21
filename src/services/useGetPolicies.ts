@@ -2,19 +2,21 @@ import { useTransformQueryResponse, Page } from '@redhat-cloud-services/insights
 import { toPolicies } from '../types/adapters/PolicyAdapter';
 import { useQuery } from 'react-fetching-library';
 import { Operations } from '../generated/Openapi';
-import { validationResponseTransformer } from 'openapi2typescript';
+import { validatedResponse, validationResponseTransformer } from 'openapi2typescript';
 
 export const actionCreator = (page?: Page) => Operations.GetPolicies.actionCreator(page?.toQuery() ?? {});
 
 const decoder = validationResponseTransformer((response: Operations.GetPolicies.Payload) => {
     if (response.type === 'PagedResponseOfPolicy') {
-        return {
-            ...response,
-            value: {
+        return validatedResponse(
+            response.type,
+            response.status,
+            {
                 data: toPolicies(response.value),
                 count: response.value.meta?.count || 0
-            }
-        };
+            },
+            response.errors
+        );
     }
 
     return response;
@@ -33,11 +35,12 @@ const policiesToBooleanDecoder = validationResponseTransformer((response: Operat
         hasPolicies = !!response.value.data?.length;
     }
 
-    return {
-        ...response,
-        type: 'HasPolicies',
-        value: hasPolicies
-    };
+    return validatedResponse(
+        'HasPolicies',
+        response.status,
+        hasPolicies,
+        response.errors
+    );
 });
 
 export const hasPoliciesQueryActionCreator = () => Operations.GetPolicies.actionCreator((Page.of(1, 1).toQuery()));

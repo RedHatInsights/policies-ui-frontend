@@ -14,6 +14,7 @@ import { FormTextInput } from '@redhat-cloud-services/insights-common-typescript
 import { useState } from 'react';
 import { waitForAsyncEvents } from '../../../../../test/TestUtils';
 import { Operations } from '../../../../generated/Openapi';
+import { validateSchemaResponseInterceptor } from 'openapi2typescript/react-fetching-library';
 
 jest.mock('@redhat-cloud-services/insights-common-typescript', () => {
     const real = jest.requireActual('@redhat-cloud-services/insights-common-typescript');
@@ -24,7 +25,11 @@ jest.mock('@redhat-cloud-services/insights-common-typescript', () => {
 });
 describe('src/components/Policy/WizardSteps/CreatePolicyStep', () => {
 
-    const client = createClient();
+    const client = createClient({
+        responseInterceptors: [
+            validateSchemaResponseInterceptor
+        ]
+    });
 
     interface MockContainerProps {
         setVerifyResponse?: WizardContext['setVerifyResponse'];
