@@ -39,18 +39,19 @@ export class ExpressionParser extends Parser {
 	public static readonly EQUAL = 9;
 	public static readonly NOTEQUAL = 10;
 	public static readonly CONTAINS = 11;
-	public static readonly NEG = 12;
-	public static readonly GT = 13;
-	public static readonly GTE = 14;
-	public static readonly LT = 15;
-	public static readonly LTE = 16;
-	public static readonly IN = 17;
-	public static readonly NUMBER = 18;
-	public static readonly FLOAT = 19;
-	public static readonly INTEGER = 20;
-	public static readonly SIMPLETEXT = 21;
-	public static readonly STRING = 22;
-	public static readonly WS = 23;
+	public static readonly MATCHES = 12;
+	public static readonly NEG = 13;
+	public static readonly GT = 14;
+	public static readonly GTE = 15;
+	public static readonly LT = 16;
+	public static readonly LTE = 17;
+	public static readonly IN = 18;
+	public static readonly NUMBER = 19;
+	public static readonly FLOAT = 20;
+	public static readonly INTEGER = 21;
+	public static readonly SIMPLETEXT = 22;
+	public static readonly STRING = 23;
+	public static readonly WS = 24;
 	public static readonly RULE_expression = 0;
 	public static readonly RULE_object = 1;
 	public static readonly RULE_expr = 2;
@@ -73,12 +74,14 @@ export class ExpressionParser extends Parser {
 
 	private static readonly _LITERAL_NAMES: Array<string | undefined> = [
 		undefined, "'('", "')'", "'['", "','", "']'", undefined, undefined, undefined, 
-		"'='", "'!='", undefined, undefined, "'>'", "'>='", "'<'", "'<='",
+		"'='", "'!='", undefined, undefined, undefined, "'>'", "'>='", "'<'", 
+		"'<='",
 	];
 	private static readonly _SYMBOLIC_NAMES: Array<string | undefined> = [
 		undefined, undefined, undefined, undefined, undefined, undefined, "OR", 
-		"AND", "NOT", "EQUAL", "NOTEQUAL", "CONTAINS", "NEG", "GT", "GTE", "LT", 
-		"LTE", "IN", "NUMBER", "FLOAT", "INTEGER", "SIMPLETEXT", "STRING", "WS",
+		"AND", "NOT", "EQUAL", "NOTEQUAL", "CONTAINS", "MATCHES", "NEG", "GT", 
+		"GTE", "LT", "LTE", "IN", "NUMBER", "FLOAT", "INTEGER", "SIMPLETEXT", 
+		"STRING", "WS",
 	];
 	public static readonly VOCABULARY: Vocabulary = new VocabularyImpl(ExpressionParser._LITERAL_NAMES, ExpressionParser._SYMBOLIC_NAMES, []);
 
@@ -161,6 +164,7 @@ export class ExpressionParser extends Parser {
 				}
 				break;
 			case ExpressionParser.SIMPLETEXT:
+			case ExpressionParser.STRING:
 				{
 				this.state = 33;
 				this.expr();
@@ -427,11 +431,22 @@ export class ExpressionParser extends Parser {
 	public string_compare_operator(): String_compare_operatorContext {
 		let _localctx: String_compare_operatorContext = new String_compare_operatorContext(this._ctx, this.state);
 		this.enterRule(_localctx, 12, ExpressionParser.RULE_string_compare_operator);
+		let _la: number;
 		try {
 			this.enterOuterAlt(_localctx, 1);
 			{
 			this.state = 78;
-			this.match(ExpressionParser.CONTAINS);
+			_la = this._input.LA(1);
+			if (!(_la === ExpressionParser.CONTAINS || _la === ExpressionParser.MATCHES)) {
+			this._errHandler.recoverInline(this);
+			} else {
+				if (this._input.LA(1) === Token.EOF) {
+					this.matchedEOF = true;
+				}
+
+				this._errHandler.reportMatch(this);
+				this.consume();
+			}
 			}
 		}
 		catch (re) {
@@ -647,11 +662,22 @@ export class ExpressionParser extends Parser {
 	public key(): KeyContext {
 		let _localctx: KeyContext = new KeyContext(this._ctx, this.state);
 		this.enterRule(_localctx, 24, ExpressionParser.RULE_key);
+		let _la: number;
 		try {
 			this.enterOuterAlt(_localctx, 1);
 			{
 			this.state = 103;
-			this.match(ExpressionParser.SIMPLETEXT);
+			_la = this._input.LA(1);
+			if (!(_la === ExpressionParser.SIMPLETEXT || _la === ExpressionParser.STRING)) {
+			this._errHandler.recoverInline(this);
+			} else {
+				if (this._input.LA(1) === Token.EOF) {
+					this.matchedEOF = true;
+				}
+
+				this._errHandler.reportMatch(this);
+				this.consume();
+			}
 			}
 		}
 		catch (re) {
@@ -685,7 +711,7 @@ export class ExpressionParser extends Parser {
 	}
 
 	public static readonly _serializedATN: string =
-		"\x03\uC91D\uCABA\u058D\uAFBA\u4F53\u0607\uEA8B\uC241\x03\x19l\x04\x02" +
+		"\x03\uC91D\uCABA\u058D\uAFBA\u4F53\u0607\uEA8B\uC241\x03\x1Al\x04\x02" +
 		"\t\x02\x04\x03\t\x03\x04\x04\t\x04\x04\x05\t\x05\x04\x06\t\x06\x04\x07" +
 		"\t\x07\x04\b\t\b\x04\t\t\t\x04\n\t\n\x04\v\t\v\x04\f\t\f\x04\r\t\r\x04" +
 		"\x0E\t\x0E\x03\x02\x03\x02\x03\x02\x03\x03\x03\x03\x03\x03\x03\x03\x03" +
@@ -698,35 +724,35 @@ export class ExpressionParser extends Parser {
 		"\x03\n\x03\n\x03\n\x03\n\x05\nb\n\n\x03\v\x03\v\x03\f\x03\f\x03\r\x03" +
 		"\r\x03\x0E\x03\x0E\x03\x0E\x02\x02\x03\x04\x0F\x02\x02\x04\x02\x06\x02" +
 		"\b\x02\n\x02\f\x02\x0E\x02\x10\x02\x12\x02\x14\x02\x16\x02\x18\x02\x1A" +
-		"\x02\x02\b\x03\x02\b\t\x03\x02\v\f\x03\x02\x0F\x12\x04\x02\r\r\x13\x13" +
-		"\x04\x02\x14\x14\x18\x18\x04\x02\n\n\x0E\x0E\x02h\x02\x1C\x03\x02\x02" +
-		"\x02\x04(\x03\x02\x02\x02\x06H\x03\x02\x02\x02\bJ\x03\x02\x02\x02\nL\x03" +
-		"\x02\x02\x02\fN\x03\x02\x02\x02\x0EP\x03\x02\x02\x02\x10R\x03\x02\x02" +
-		"\x02\x12a\x03\x02\x02\x02\x14c\x03\x02\x02\x02\x16e\x03\x02\x02\x02\x18" +
-		"g\x03\x02\x02\x02\x1Ai\x03\x02\x02\x02\x1C\x1D\x05\x04\x03\x02\x1D\x1E" +
-		"\x07\x02\x02\x03\x1E\x03\x03\x02\x02\x02\x1F \b\x03\x01\x02 !\x05\x18" +
-		"\r\x02!\"\x05\x04\x03\x06\")\x03\x02\x02\x02#)\x05\x06\x04\x02$%\x07\x03" +
-		"\x02\x02%&\x05\x04\x03\x02&\'\x07\x04\x02\x02\')\x03\x02\x02\x02(\x1F" +
-		"\x03\x02\x02\x02(#\x03\x02\x02\x02($\x03\x02\x02\x02)0\x03\x02\x02\x02" +
-		"*+\f\x03\x02\x02+,\x05\b\x05\x02,-\x05\x04\x03\x04-/\x03\x02\x02\x02." +
-		"*\x03\x02\x02\x02/2\x03\x02\x02\x020.\x03\x02\x02\x0201\x03\x02\x02\x02" +
-		"1\x05\x03\x02\x02\x0220\x03\x02\x02\x023I\x05\x1A\x0E\x0245\x05\x1A\x0E" +
-		"\x0256\x05\n\x06\x0267\x05\x16\f\x027I\x03\x02\x02\x0289\x05\x1A\x0E\x02" +
-		"9:\x05\f\x07\x02:;\x05\x14\v\x02;I\x03\x02\x02\x02<=\x05\x1A\x0E\x02=" +
-		">\x05\x0E\b\x02>?\x05\x12\n\x02?I\x03\x02\x02\x02@A\x05\x1A\x0E\x02AB" +
-		"\x05\x0E\b\x02BC\x05\x16\f\x02CI\x03\x02\x02\x02DE\x05\x1A\x0E\x02EF\x05" +
-		"\x10\t\x02FG\x05\x12\n\x02GI\x03\x02\x02\x02H3\x03\x02\x02\x02H4\x03\x02" +
-		"\x02\x02H8\x03\x02\x02\x02H<\x03\x02\x02\x02H@\x03\x02\x02\x02HD\x03\x02" +
-		"\x02\x02I\x07\x03\x02\x02\x02JK\t\x02\x02\x02K\t\x03\x02\x02\x02LM\t\x03" +
-		"\x02\x02M\v\x03\x02\x02\x02NO\t\x04\x02\x02O\r\x03\x02\x02\x02PQ\x07\r" +
-		"\x02\x02Q\x0F\x03\x02\x02\x02RS\t\x05\x02\x02S\x11\x03\x02\x02\x02TU\x07" +
-		"\x05\x02\x02UZ\x05\x16\f\x02VW\x07\x06\x02\x02WY\x05\x16\f\x02XV\x03\x02" +
-		"\x02\x02Y\\\x03\x02\x02\x02ZX\x03\x02\x02\x02Z[\x03\x02\x02\x02[]\x03" +
-		"\x02\x02\x02\\Z\x03\x02\x02\x02]^\x07\x07\x02\x02^b\x03\x02\x02\x02_`" +
-		"\x07\x05\x02\x02`b\x07\x07\x02\x02aT\x03\x02\x02\x02a_\x03\x02\x02\x02" +
-		"b\x13\x03\x02\x02\x02cd\x07\x14\x02\x02d\x15\x03\x02\x02\x02ef\t\x06\x02" +
-		"\x02f\x17\x03\x02\x02\x02gh\t\x07\x02\x02h\x19\x03\x02\x02\x02ij\x07\x17" +
-		"\x02\x02j\x1B\x03\x02\x02\x02\x07(0HZa";
+		"\x02\x02\n\x03\x02\b\t\x03\x02\v\f\x03\x02\x10\x13\x03\x02\r\x0E\x04\x02" +
+		"\r\r\x14\x14\x04\x02\x15\x15\x19\x19\x04\x02\n\n\x0F\x0F\x03\x02\x18\x19" +
+		"\x02h\x02\x1C\x03\x02\x02\x02\x04(\x03\x02\x02\x02\x06H\x03\x02\x02\x02" +
+		"\bJ\x03\x02\x02\x02\nL\x03\x02\x02\x02\fN\x03\x02\x02\x02\x0EP\x03\x02" +
+		"\x02\x02\x10R\x03\x02\x02\x02\x12a\x03\x02\x02\x02\x14c\x03\x02\x02\x02" +
+		"\x16e\x03\x02\x02\x02\x18g\x03\x02\x02\x02\x1Ai\x03\x02\x02\x02\x1C\x1D" +
+		"\x05\x04\x03\x02\x1D\x1E\x07\x02\x02\x03\x1E\x03\x03\x02\x02\x02\x1F " +
+		"\b\x03\x01\x02 !\x05\x18\r\x02!\"\x05\x04\x03\x06\")\x03\x02\x02\x02#" +
+		")\x05\x06\x04\x02$%\x07\x03\x02\x02%&\x05\x04\x03\x02&\'\x07\x04\x02\x02" +
+		"\')\x03\x02\x02\x02(\x1F\x03\x02\x02\x02(#\x03\x02\x02\x02($\x03\x02\x02" +
+		"\x02)0\x03\x02\x02\x02*+\f\x03\x02\x02+,\x05\b\x05\x02,-\x05\x04\x03\x04" +
+		"-/\x03\x02\x02\x02.*\x03\x02\x02\x02/2\x03\x02\x02\x020.\x03\x02\x02\x02" +
+		"01\x03\x02\x02\x021\x05\x03\x02\x02\x0220\x03\x02\x02\x023I\x05\x1A\x0E" +
+		"\x0245\x05\x1A\x0E\x0256\x05\n\x06\x0267\x05\x16\f\x027I\x03\x02\x02\x02" +
+		"89\x05\x1A\x0E\x029:\x05\f\x07\x02:;\x05\x14\v\x02;I\x03\x02\x02\x02<" +
+		"=\x05\x1A\x0E\x02=>\x05\x0E\b\x02>?\x05\x12\n\x02?I\x03\x02\x02\x02@A" +
+		"\x05\x1A\x0E\x02AB\x05\x0E\b\x02BC\x05\x16\f\x02CI\x03\x02\x02\x02DE\x05" +
+		"\x1A\x0E\x02EF\x05\x10\t\x02FG\x05\x12\n\x02GI\x03\x02\x02\x02H3\x03\x02" +
+		"\x02\x02H4\x03\x02\x02\x02H8\x03\x02\x02\x02H<\x03\x02\x02\x02H@\x03\x02" +
+		"\x02\x02HD\x03\x02\x02\x02I\x07\x03\x02\x02\x02JK\t\x02\x02\x02K\t\x03" +
+		"\x02\x02\x02LM\t\x03\x02\x02M\v\x03\x02\x02\x02NO\t\x04\x02\x02O\r\x03" +
+		"\x02\x02\x02PQ\t\x05\x02\x02Q\x0F\x03\x02\x02\x02RS\t\x06\x02\x02S\x11" +
+		"\x03\x02\x02\x02TU\x07\x05\x02\x02UZ\x05\x16\f\x02VW\x07\x06\x02\x02W" +
+		"Y\x05\x16\f\x02XV\x03\x02\x02\x02Y\\\x03\x02\x02\x02ZX\x03\x02\x02\x02" +
+		"Z[\x03\x02\x02\x02[]\x03\x02\x02\x02\\Z\x03\x02\x02\x02]^\x07\x07\x02" +
+		"\x02^b\x03\x02\x02\x02_`\x07\x05\x02\x02`b\x07\x07\x02\x02aT\x03\x02\x02" +
+		"\x02a_\x03\x02\x02\x02b\x13\x03\x02\x02\x02cd\x07\x15\x02\x02d\x15\x03" +
+		"\x02\x02\x02ef\t\x07\x02\x02f\x17\x03\x02\x02\x02gh\t\b\x02\x02h\x19\x03" +
+		"\x02\x02\x02ij\t\t\x02\x02j\x1B\x03\x02\x02\x02\x07(0HZa";
 	public static __ATN: ATN;
 	public static get _ATN(): ATN {
 		if (!ExpressionParser.__ATN) {
@@ -967,7 +993,8 @@ export class Numeric_compare_operatorContext extends ParserRuleContext {
 
 
 export class String_compare_operatorContext extends ParserRuleContext {
-	public CONTAINS(): TerminalNode { return this.getToken(ExpressionParser.CONTAINS, 0); }
+	public CONTAINS(): TerminalNode | undefined { return this.tryGetToken(ExpressionParser.CONTAINS, 0); }
+	public MATCHES(): TerminalNode | undefined { return this.tryGetToken(ExpressionParser.MATCHES, 0); }
 	constructor(parent: ParserRuleContext | undefined, invokingState: number) {
 		super(parent, invokingState);
 	}
@@ -1158,7 +1185,8 @@ export class Negative_exprContext extends ParserRuleContext {
 
 
 export class KeyContext extends ParserRuleContext {
-	public SIMPLETEXT(): TerminalNode { return this.getToken(ExpressionParser.SIMPLETEXT, 0); }
+	public SIMPLETEXT(): TerminalNode | undefined { return this.tryGetToken(ExpressionParser.SIMPLETEXT, 0); }
+	public STRING(): TerminalNode | undefined { return this.tryGetToken(ExpressionParser.STRING, 0); }
 	constructor(parent: ParserRuleContext | undefined, invokingState: number) {
 		super(parent, invokingState);
 	}
