@@ -57,7 +57,6 @@ export const PolicyDetail: React.FunctionComponent = () => {
     const triggerDetailRef = React.useRef<TriggerDetailAPI>(null);
 
     const processGetPolicyResponse = React.useCallback((response: PolicyQueryResponse) => {
-        // console.log(response);
         if (response.payload?.type === 'Policy') {
             setPolicy(response.payload.value);
         }
