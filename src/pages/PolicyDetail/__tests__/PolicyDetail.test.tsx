@@ -96,18 +96,6 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
             overwriteRoutes: false
         });
 
-        /*
-        console.log(actionGetPoliciesByIdHistoryTrigger({
-            id: config?.policyId || 'foo',
-            ...pageToQuery(Page.of(
-                config?.triggerPage !== undefined ? config.triggerPage : 1,
-                config?.triggerLimit || 20,
-                undefined,
-                config?.noSort === true ? undefined : Sort.by('ctime', Direction.DESCENDING)
-            ))
-        } as unknown as GetPoliciesByIdHistoryTrigger)
-            .endpoint);*/
-
         fetchMock.getOnce(Operations.GetPoliciesByIdHistoryTrigger.actionCreator({
             id: config?.policyId || 'foo',
             ...(Page.of(
@@ -158,6 +146,7 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
 
         if (edit) {
             fetchMock.putOnce(Operations.PutPoliciesByPolicyId.actionCreator({
+                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
                 policyId: policy.id!,
                 body: policy
             }).endpoint, {
