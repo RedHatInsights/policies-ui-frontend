@@ -111,7 +111,18 @@ export class ConditionVisitor extends AbstractParseTreeVisitor<ReturnValue> impl
 
     visitKey(ctx: KeyContext) {
         // eslint-disable-next-line new-cap
-        return [ makeFact(ctx.SIMPLETEXT().text) ];
+        const simpleText = ctx.SIMPLETEXT();
+        if (simpleText) {
+            return [ makeFact(simpleText.text) ];
+        }
+
+        // eslint-disable-next-line new-cap
+        const text = ctx.STRING()?.text;
+        if (text && text.length >= 2) {
+            return [ makeFact(text.substr(1, text.length - 2)) ];
+        }
+
+        return [ makeFact('') ];
     }
 
     visitValue(ctx: ValueContext) {

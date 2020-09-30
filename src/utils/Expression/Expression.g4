@@ -40,6 +40,7 @@ numeric_compare_operator
 
 string_compare_operator
   : CONTAINS
+  | MATCHES
   ;
 
 array_operator
@@ -68,6 +69,7 @@ negative_expr
 
 key
  : SIMPLETEXT
+ | STRING
  ;
 
 //parser
@@ -77,6 +79,7 @@ NOT: N O T;
 EQUAL: '=';
 NOTEQUAL: '!=';
 CONTAINS: C O N T A I N S;
+MATCHES: M A T C H E S;
 NEG: NEG_OP;
 
 // Allow only for numbers
@@ -97,6 +100,7 @@ INTEGER : [0-9]+ ;
 SIMPLETEXT  : [a-zA-Z_0-9.]([\-a-zA-Z_0-9.] | ESC_DOT)* ;
 STRING :  '\'' ( ESC | ~('\\'|'\'') )* '\''
           |'"' ( ESC | ~('\\'|'"') )* '"';
+//COMPLEXTEXT : '\'' SIMPLETEXT '\'' ;
 //COMPLEXTEXT :  '\'' (ESC | ~['\\])* '\'' ;
 
 WS  :   [ \t\n\r]+ -> skip ;
