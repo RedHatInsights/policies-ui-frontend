@@ -21,7 +21,7 @@ jest.mock('@redhat-cloud-services/frontend-components', () => {
     const MockedSkeletonTable = () => <div>Loading Policies</div>;
 
     return {
-        ...jest.requireActual('@redhat-cloud-services/frontend-components'),
+        ...jest.requireActual('@redhat-cloud-services/frontend-components') as Record<string, any>,
         SkeletonTable: MockedSkeletonTable
     };
 });

@@ -1,6 +1,6 @@
-import { default as Generated, HistoryItem } from '../generated/Types';
+import * as Generated from '../generated/Types';
 
-export type ServerTrigger = HistoryItem;
+export type ServerTrigger = Generated.HistoryItem;
 
 export interface Trigger {
     id: string;
