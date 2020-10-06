@@ -115,18 +115,23 @@ const policiesToRows = (policies: PolicyRow[] | undefined, columnsToShow: ValidC
                 parent: idx * 2, // Every policy has two rows, the "row" and the "expanded row"
                 fullWidth: true,
                 showSelect: false,
+                props: {
+                    colSpan: 5
+                },
                 cells: [
-                    <>
-                        <ExpandedContent
-                            ouiaId={ policy.id }
-                            key={ policy.id + '-content' }
-                            description={ policy.description ? policy.description : Messages.tables.policy.emptyState.noDescription }
-                            conditions={ policy.conditions ? policy.conditions : Messages.tables.policy.emptyState.noConditions }
-                            actions={ policy.actions }
-                            created={ policy.ctime }
-                            updated={ policy.mtime }
-                        />
-                    </>
+                    {
+                        title: <>
+                            <ExpandedContent
+                                ouiaId={ policy.id }
+                                key={ policy.id + '-content' }
+                                description={ policy.description ? policy.description : Messages.tables.policy.emptyState.noDescription }
+                                conditions={ policy.conditions ? policy.conditions : Messages.tables.policy.emptyState.noConditions }
+                                actions={ policy.actions }
+                                created={ policy.ctime }
+                                updated={ policy.mtime }
+                            />
+                        </>
+                    }
                 ]
             });
             return rows;
