@@ -115,9 +115,6 @@ const policiesToRows = (policies: PolicyRow[] | undefined, columnsToShow: ValidC
                 parent: idx * 2, // Every policy has two rows, the "row" and the "expanded row"
                 fullWidth: true,
                 showSelect: false,
-                props: {
-                    colSpan: 5
-                },
                 cells: [
                     {
                         title: <>
