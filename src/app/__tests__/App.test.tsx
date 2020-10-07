@@ -33,7 +33,7 @@ describe('src/app/App', () => {
 
     it('Shows loading when RBAC is not set', async () => {
         jest.useFakeTimers();
-        const promise = new Promise<Rbac>(() => {});
+        const promise = new Promise<Rbac>(jest.fn());
         (fetchRBAC as jest.Mock).mockImplementation(() => promise);
         render(
             <App/>,

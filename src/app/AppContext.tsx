@@ -21,6 +21,8 @@ export const AppContext = React.createContext<AppContext>({
     userSettings: {
         settings: undefined,
         isSubscribedForNotifications: false,
-        refresh: () => {}
+        refresh: () => {
+            console.error('Using default refresh function');
+        }
     }
 });

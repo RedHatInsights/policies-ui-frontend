@@ -15,7 +15,7 @@ describe('src/hooks/useFacts', () => {
     });
 
     it('Facts are undefined when loading', async () => {
-        fetchMock.getOnce('/api/policies/v1.0/facts', new Promise((() => {})));
+        fetchMock.getOnce('/api/policies/v1.0/facts', new Promise((jest.fn())));
 
         const { result } = renderHook(() => useFacts(), {
             wrapper: AppWrapper

@@ -3,8 +3,13 @@ import { render, screen } from '@testing-library/react';
 import { Route } from 'react-router';
 import { Routes } from '../Routes';
 import { MemoryRouter } from 'react-router-dom';
-jest.mock('../pages/ListPage/ListPage', (): React.FunctionComponent => () => {
-    return <div>ListPage</div>;
+
+jest.mock('../pages/ListPage/ListPage', () => {
+    const ListPageDummyComponent: React.FunctionComponent = () => {
+        return <div>ListPage</div>;
+    };
+
+    return ListPageDummyComponent;
 });
 
 const getWrapper = (path: string) => {

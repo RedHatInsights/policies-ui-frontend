@@ -22,7 +22,9 @@ export const createDetailsStep: (stepOverrides?: Partial<WizardStepExtended>) =>
     component: <DetailsStep/>,
     validationSchema: PolicyFormDetails,
     onNext: (context, onNext) => {
-        context.triggerAction(WizardActionType.VALIDATE_NAME).then(onNext).catch(() => {});
+        context.triggerAction(WizardActionType.VALIDATE_NAME).then(onNext).catch(error => {
+            console.error('Error when validating:', error);
+        });
     },
     ...stepOverrides
 });

@@ -8,7 +8,6 @@ import { actionGetPolicies } from '../../../generated/ActionCreators';
 import { linkTo } from '../../../Routes';
 import userEvent from '@testing-library/user-event';
 import { useState } from 'react';
-import { ouiaSelectors } from '@redhat-cloud-services/insights-common-typescript/dev';
 
 jest.mock('@redhat-cloud-services/insights-common-typescript', () => {
     const real = jest.requireActual('@redhat-cloud-services/insights-common-typescript');
