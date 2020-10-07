@@ -57,7 +57,8 @@ module.exports = function(config) {
                         exclude: /(node_modules)/i
                     }
                 ]
-            }
+            },
+            watch: !isCi
         },
 
         webpackMiddleware: {
