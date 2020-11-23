@@ -2,6 +2,7 @@ import { renderHook, act } from '@testing-library/react-hooks';
 import { useUserSettings } from '../useUserSettings';
 import { useUserSettingsEmailQuery } from '../../services/useUserSettingsEmailQuery';
 import { UserSettings } from '../../types/UserSettings';
+import { waitForAsyncEventsHooks } from '../../../test/TestUtils';
 
 jest.mock('../../services/useUserSettingsEmailQuery', () => {
     return {
@@ -23,8 +24,7 @@ describe('src/app/useUserSettings', () => {
 
         renderHook(() => useUserSettings(1000));
 
-        await act(async() => {
-        });
+        await waitForAsyncEventsHooks();
 
         expect(refresh).toBeCalledTimes(0);
 
@@ -50,8 +50,7 @@ describe('src/app/useUserSettings', () => {
 
         const { result } = renderHook(() => useUserSettings(1000));
 
-        await act(async() => {
-        });
+        await waitForAsyncEventsHooks();
 
         expect(result.current.isSubscribedForNotifications).toBeFalsy();
 
@@ -72,8 +71,7 @@ describe('src/app/useUserSettings', () => {
 
         const { result, rerender } = renderHook(() => useUserSettings(1000));
 
-        await act(async() => {
-        });
+        await waitForAsyncEventsHooks();
 
         expect(result.current.isSubscribedForNotifications).toBeFalsy();
 

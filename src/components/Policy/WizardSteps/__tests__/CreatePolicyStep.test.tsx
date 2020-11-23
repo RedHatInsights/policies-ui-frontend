@@ -13,6 +13,7 @@ import { PagedServerPolicyResponse } from '../../../../types/Policy/Policy';
 import { FormTextInput } from '@redhat-cloud-services/insights-common-typescript';
 import { actionGetPolicies } from '../../../../generated/ActionCreators';
 import { useState } from 'react';
+import { waitForAsyncEvents } from '../../../../../test/TestUtils';
 
 jest.mock('@redhat-cloud-services/insights-common-typescript', () => {
     const real = jest.requireActual('@redhat-cloud-services/insights-common-typescript');
@@ -114,8 +115,7 @@ describe('src/components/Policy/WizardSteps/CreatePolicyStep', () => {
             </MockContainer>
         );
 
-        await act(async () => {
-        });
+        await waitForAsyncEvents();
 
         expect(screen.queryByText('This is my policy')).toBeFalsy();
     });

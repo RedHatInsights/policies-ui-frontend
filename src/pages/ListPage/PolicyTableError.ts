@@ -1,5 +1,6 @@
 import { ExclamationCircleIcon, PlusCircleIcon } from '@patternfly/react-icons';
-import { PFColors } from '@redhat-cloud-services/insights-common-typescript';
+// eslint-disable-next-line @typescript-eslint/camelcase
+import { global_danger_color_200 } from '@patternfly/react-tokens';
 import { EmptyStateSectionProps } from '../../components/Policy/EmptyState/Section';
 import { Messages } from '../../properties/Messages';
 
@@ -33,7 +34,7 @@ export const policyTableError = (
             case 502:
                 return {
                     icon: ExclamationCircleIcon,
-                    iconColor: PFColors.GlobalDangerColor200,
+                    iconColor: global_danger_color_200.value,
                     title: 'Internal server error',
                     content: 'The server was unable to process the request, please try again.',
                     action: handlers.tryAgain,
@@ -42,7 +43,7 @@ export const policyTableError = (
             default:
                 return {
                     icon: ExclamationCircleIcon,
-                    iconColor: PFColors.GlobalDangerColor200,
+                    iconColor: global_danger_color_200.value,
                     title: 'Unable to connect',
                     content: 'There was an error retrieving data. Check your connection and try again.',
                     action: handlers.tryAgain,

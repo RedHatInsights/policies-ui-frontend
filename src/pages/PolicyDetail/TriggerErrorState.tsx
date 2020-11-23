@@ -1,8 +1,9 @@
 import * as React from 'react';
 import { ExclamationCircleIcon } from '@patternfly/react-icons';
+// eslint-disable-next-line @typescript-eslint/camelcase
+import { global_danger_color_100 } from '@patternfly/react-tokens';
 import { Messages } from '../../properties/Messages';
 import { EmptyStateSection } from '../../components/Policy/EmptyState/Section';
-import { PFColors } from '@redhat-cloud-services/insights-common-typescript';
 import { useTextFormat } from '../../hooks/useTextFormat';
 
 interface TriggerErrorStateProps {
@@ -18,7 +19,7 @@ export const TriggerErrorState: React.FunctionComponent<TriggerErrorStateProps> 
 
     return <EmptyStateSection
         icon={ ExclamationCircleIcon }
-        iconColor={ PFColors.GlobalDangerColor100 }
+        iconColor={ global_danger_color_100.value }
         title={ Messages.pages.policyDetail.triggerErrorState.title }
         content={ content }
         action={ props.action }

@@ -10,7 +10,7 @@ jest.mock('@redhat-cloud-services/insights-common-typescript', () => {
     const real = jest.requireActual('@redhat-cloud-services/insights-common-typescript');
     return {
         ...real,
-        addDangerNotification: jest.fn(() => {})
+        addDangerNotification: jest.fn()
     };
 });
 

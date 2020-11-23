@@ -2,6 +2,10 @@ import { resolve } from 'path';
 import config from '@redhat-cloud-services/frontend-components-config';
 import isCi from 'is-ci';
 
+if (isCi) {
+    console.log(`Karma is running in CI environment, disabling watching files and doing a single run.`);
+}
+
 const { config: webpackConfig, plugins } = config({
     rootFolder: resolve(__dirname, '..')
 });
@@ -57,7 +61,11 @@ module.exports = function(config) {
                         exclude: /(node_modules)/i
                     }
                 ]
-            }
+            },
+            watch: !isCi,
+            watchOptions: isCi ? {
+                ignored: /node_modules/
+            } : {}
         },
 
         webpackMiddleware: {
@@ -82,7 +90,7 @@ module.exports = function(config) {
         logLevel: config.LOG_INFO,
 
         // enable / disable watching file and executing tests whenever any file changes
-        autoWatch: true,
+        autoWatch: !isCi,
 
         // start these browsers
         // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher

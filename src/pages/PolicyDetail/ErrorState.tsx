@@ -1,9 +1,10 @@
 import * as React from 'react';
 import { ExclamationCircleIcon } from '@patternfly/react-icons';
+// eslint-disable-next-line @typescript-eslint/camelcase
+import { global_danger_color_100 } from '@patternfly/react-tokens';
 import { Messages } from '../../properties/Messages';
 import { EmptyStateSection } from '../../components/Policy/EmptyState/Section';
 import { useTextFormat } from '../../hooks/useTextFormat';
-import { PFColors } from '@redhat-cloud-services/insights-common-typescript';
 
 interface ListPageEmptyStateProps {
     action: () => void;
@@ -19,7 +20,7 @@ export const PolicyDetailErrorState: React.FunctionComponent<ListPageEmptyStateP
 
     return <EmptyStateSection
         icon={ ExclamationCircleIcon }
-        iconColor={ PFColors.GlobalDangerColor100 }
+        iconColor={ global_danger_color_100.value }
         title={ Messages.pages.policyDetail.errorState.title }
         content={ content }
         action={ props.action }

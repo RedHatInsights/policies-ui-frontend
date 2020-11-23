@@ -9,7 +9,9 @@ import {
     Title
 } from '@patternfly/react-core';
 import { ExclamationCircleIcon, CheckCircleIcon } from '@patternfly/react-icons';
-import { joinClasses, PFColors, Form } from '@redhat-cloud-services/insights-common-typescript';
+// eslint-disable-next-line @typescript-eslint/camelcase
+import { global_danger_color_100, global_success_color_200 } from '@patternfly/react-tokens';
+import { joinClasses, Form } from '@redhat-cloud-services/insights-common-typescript';
 
 import { PartialPolicy, WizardActionType, WizardContext, WizardStepExtended } from '../PolicyWizardTypes';
 import { PolicyFormConditions } from '../../../schemas/CreatePolicy/PolicySchema';
@@ -34,11 +36,11 @@ const marginTopClassName = style({
 });
 
 const fontRedColor = style({
-    color: PFColors.GlobalDangerColor100
+    color: global_danger_color_100.var
 });
 
 const fontGreenColor = style({
-    color: PFColors.GlobalSuccessColor200
+    color: global_success_color_200.var
 });
 
 const fontWeightBold = style({
@@ -76,7 +78,7 @@ const ConditionStatus: React.FunctionComponent<ConditionStatusProps> = (props) =
         return (
             <Split>
                 <SplitItem>
-                    <CheckCircleIcon className={ elementClassName } color={ PFColors.GlobalSuccessColor200 }/>
+                    <CheckCircleIcon className={ elementClassName } color={ global_success_color_200.value }/>
                 </SplitItem>
                 <SplitItem>
                     <div className={ joinClasses(elementClassName, fontGreenColor, fontWeightBold) }>
@@ -93,7 +95,7 @@ const ConditionStatus: React.FunctionComponent<ConditionStatusProps> = (props) =
                 <StackItem>
                     <Split>
                         <SplitItem>
-                            <ExclamationCircleIcon className={ elementClassName } color={ PFColors.GlobalDangerColor100 }/>
+                            <ExclamationCircleIcon className={ elementClassName } color={ global_danger_color_100.value }/>
                         </SplitItem>
                         <SplitItem>
                             <div className={ joinClasses(elementClassName, fontRedColor, fontWeightBold) }>

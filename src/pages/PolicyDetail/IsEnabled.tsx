@@ -1,14 +1,15 @@
 import * as React from 'react';
 import { Stack, StackItem } from '@patternfly/react-core';
+// eslint-disable-next-line @typescript-eslint/camelcase
+import { global_spacer_md } from '@patternfly/react-tokens';
 import { style } from 'typestyle';
 
 import { Skeleton } from '@redhat-cloud-services/frontend-components';
 
 import { DisabledPolicyIcon, EnabledPolicyIcon } from '../../components/Icons';
-import { Spacer } from '@redhat-cloud-services/insights-common-typescript';
 
 const isEnabledTextClassname = style({
-    marginLeft: Spacer.MD
+    marginLeft: global_spacer_md.var
 });
 
 const loadingClassname = style({

@@ -2,10 +2,12 @@ import * as React from 'react';
 import { Action } from '../../../types/Policy/Actions';
 import { style } from 'typestyle';
 import { Grid, GridItem, Stack, StackItem } from '@patternfly/react-core';
+// eslint-disable-next-line @typescript-eslint/camelcase
+import { global_BackgroundColor_light_300 } from '@patternfly/react-tokens';
 import { Description } from './ExpandedContent/Description';
 import { Dates } from './ExpandedContent/Dates';
 import { Conditions } from './ExpandedContent/Conditions';
-import { OuiaComponentProps, ouiaIdConcat, PFColors } from '@redhat-cloud-services/insights-common-typescript';
+import { OuiaComponentProps, ouiaIdConcat } from '@redhat-cloud-services/insights-common-typescript';
 import { padding } from 'csstips';
 import { Actions } from './ExpandedContent/Actions';
 import { getOuiaProps } from '../../../utils/getOuiaProps';
@@ -32,7 +34,7 @@ const dateBlockClassName = style({
 });
 
 const conditionsAndActionsBlockClassName = style({
-    backgroundColor: PFColors.GlobalBackgroundColorLight300,
+    backgroundColor: global_BackgroundColor_light_300.var,
     ...padding(18, 14),
     margin: 5
 });

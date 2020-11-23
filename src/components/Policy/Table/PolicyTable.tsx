@@ -116,17 +116,19 @@ const policiesToRows = (policies: PolicyRow[] | undefined, columnsToShow: ValidC
                 fullWidth: true,
                 showSelect: false,
                 cells: [
-                    <>
-                        <ExpandedContent
-                            ouiaId={ policy.id }
-                            key={ policy.id + '-content' }
-                            description={ policy.description ? policy.description : Messages.tables.policy.emptyState.noDescription }
-                            conditions={ policy.conditions ? policy.conditions : Messages.tables.policy.emptyState.noConditions }
-                            actions={ policy.actions }
-                            created={ policy.ctime }
-                            updated={ policy.mtime }
-                        />
-                    </>
+                    {
+                        title: <>
+                            <ExpandedContent
+                                ouiaId={ policy.id }
+                                key={ policy.id + '-content' }
+                                description={ policy.description ? policy.description : Messages.tables.policy.emptyState.noDescription }
+                                conditions={ policy.conditions ? policy.conditions : Messages.tables.policy.emptyState.noConditions }
+                                actions={ policy.actions }
+                                created={ policy.ctime }
+                                updated={ policy.mtime }
+                            />
+                        </>
+                    }
                 ]
             });
             return rows;

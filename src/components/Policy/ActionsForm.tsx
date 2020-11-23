@@ -9,15 +9,17 @@ import {
     , CardHeader, Form,
     Title, CardTitle
 } from '@patternfly/react-core';
+// eslint-disable-next-line @typescript-eslint/camelcase
+import { global_spacer_md } from '@patternfly/react-tokens';
 import * as React from 'react';
 import { TimesIcon } from '@patternfly/react-icons';
 import { ActionForm } from './ActionForm/ActionForm';
-import { assertNever, Spacer } from '@redhat-cloud-services/insights-common-typescript';
+import { assertNever } from '@redhat-cloud-services/insights-common-typescript';
 import { style } from 'typestyle';
 import { ActionIcon } from './ActionIcons';
 
 const formClassName = style({
-    gridGap: Spacer.MD
+    gridGap: global_spacer_md.var
 });
 
 const cardClassName = style({

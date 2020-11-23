@@ -71,7 +71,7 @@ export interface UseGetPoliciesByIdHistoryTriggerParams {
     filterName?: string;
     limit?: number;
     offset?: number;
-    sortColumn?: 'hostName' | 'id' | 'ctime';
+    sortColumn?: 'hostName' | 'ctime';
     sortDirection?: 'asc' | 'desc';
 }
 
