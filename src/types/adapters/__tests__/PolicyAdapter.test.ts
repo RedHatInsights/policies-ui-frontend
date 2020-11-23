@@ -24,7 +24,7 @@ describe('src/utils/PolicyAdapter', () => {
             description: 'foo description',
             isEnabled: true,
             conditions: '1 == 2',
-            actions: 'email;webhook',
+            actions: 'email;notification',
             mtime: '2014-01-01T23:28:56.782Z',
             ctime: '2013-01-01T23:28:56.782Z',
             lastTriggered: 77897987000
@@ -40,7 +40,41 @@ describe('src/utils/PolicyAdapter', () => {
                     type: ActionType.EMAIL
                 },
                 {
-                    type: ActionType.WEBHOOK
+                    type: ActionType.NOTIFICATION
+                }
+            ],
+            mtime: new Date('2014-01-01T23:28:56.782Z'),
+            ctime: new Date('2013-01-01T23:28:56.782Z'),
+            lastTriggered: new Date('1972-06-20T14:19:47.000Z')
+        };
+
+        expect(toPolicy(sp)).toEqual(policy);
+    });
+
+    it('toPolicy silently ignores webhook', () => {
+        const sp: ServerPolicyResponse = {
+            id: '5151-5151',
+            name: 'foo policy',
+            description: 'foo description',
+            isEnabled: true,
+            conditions: '1 == 2',
+            actions: 'email;notification;webhook',
+            mtime: '2014-01-01T23:28:56.782Z',
+            ctime: '2013-01-01T23:28:56.782Z',
+            lastTriggered: 77897987000
+        };
+        const policy: Policy = {
+            id: '5151-5151',
+            name: 'foo policy',
+            description: 'foo description',
+            isEnabled: true,
+            conditions: '1 == 2',
+            actions: [
+                {
+                    type: ActionType.EMAIL
+                },
+                {
+                    type: ActionType.NOTIFICATION
                 }
             ],
             mtime: new Date('2014-01-01T23:28:56.782Z'),
@@ -71,7 +105,7 @@ describe('src/utils/PolicyAdapter', () => {
             description: 'foo description',
             isEnabled: true,
             conditions: '1 == 2',
-            actions: 'email;webhook',
+            actions: 'email;notification',
             mtime: '2014-01-01T23:28:56.782Z',
             ctime: '2013-01-01T23:28:56.782Z',
             lastTriggered: 0
@@ -87,7 +121,7 @@ describe('src/utils/PolicyAdapter', () => {
                     type: ActionType.EMAIL
                 },
                 {
-                    type: ActionType.WEBHOOK
+                    type: ActionType.NOTIFICATION
                 }
             ],
             mtime: new Date('2014-01-01T23:28:56.782Z'),
@@ -105,7 +139,7 @@ describe('src/utils/PolicyAdapter', () => {
             description: 'foo description',
             isEnabled: true,
             conditions: '1 == 2',
-            actions: 'email;webhook',
+            actions: 'email;notification',
             mtime: '2014-01-01T23:28:56.782Z',
             ctime: '2013-01-01T23:28:56.782Z',
             lastTriggered: 1589912060644
@@ -121,7 +155,7 @@ describe('src/utils/PolicyAdapter', () => {
                     type: ActionType.EMAIL
                 },
                 {
-                    type: ActionType.WEBHOOK
+                    type: ActionType.NOTIFICATION
                 }
             ],
             mtime: new Date('2014-01-01T23:28:56.782Z'),
@@ -233,7 +267,7 @@ describe('src/utils/PolicyAdapter', () => {
             description: 'foo description',
             isEnabled: true,
             conditions: '1 == 2',
-            actions: 'webhook',
+            actions: 'notification',
             mtime: '2014-01-01T23:28:56.782Z',
             ctime: '2013-01-01T23:28:56.782Z',
             lastTriggered: 458906840000
@@ -269,7 +303,7 @@ describe('src/utils/PolicyAdapter', () => {
             conditions: '1 == 2',
             actions: [
                 {
-                    type: ActionType.WEBHOOK
+                    type: ActionType.NOTIFICATION
                 }
             ],
             mtime: new Date('2014-01-01T23:28:56.782Z'),
@@ -319,7 +353,7 @@ describe('src/utils/PolicyAdapter', () => {
             description: 'foo description',
             isEnabled: true,
             conditions: '1 == 2',
-            actions: [{ type: ActionType.EMAIL }, { type: ActionType.WEBHOOK }],
+            actions: [{ type: ActionType.EMAIL }, { type: ActionType.NOTIFICATION }],
             mtime: new Date('2014-01-01T23:28:56.782Z'),
             ctime: new Date('2013-01-01T23:28:56.782Z'),
             lastTriggered: new Date('2015-01-01T23:28:56.782Z')
@@ -332,7 +366,7 @@ describe('src/utils/PolicyAdapter', () => {
             description: 'foo description',
             isEnabled: true,
             conditions: '1 == 2',
-            actions: [{ type: ActionType.EMAIL }, { type: ActionType.WEBHOOK }],
+            actions: [{ type: ActionType.EMAIL }, { type: ActionType.NOTIFICATION }],
             ctime: undefined,
             lastTriggered: undefined
         };
@@ -351,7 +385,7 @@ describe('src/utils/PolicyAdapter', () => {
             description: 'foo description',
             isEnabled: true,
             conditions: '1 == 2',
-            actions: [{ type: ActionType.EMAIL }, { type: ActionType.WEBHOOK }],
+            actions: [{ type: ActionType.EMAIL }, { type: ActionType.NOTIFICATION }],
             mtime: new Date('2014-01-01T23:28:56.782Z'),
             ctime: new Date('2013-01-01T23:28:56.782Z'),
             lastTriggered: new Date('2015-01-01T23:28:56.782Z')
@@ -364,7 +398,7 @@ describe('src/utils/PolicyAdapter', () => {
             description: 'foo description',
             isEnabled: true,
             conditions: '1 == 2',
-            actions: [{ type: ActionType.EMAIL }, { type: ActionType.WEBHOOK }],
+            actions: [{ type: ActionType.EMAIL }, { type: ActionType.NOTIFICATION }],
             ctime: undefined,
             lastTriggered: undefined
         };
@@ -377,7 +411,7 @@ describe('src/utils/PolicyAdapter', () => {
     });
 
     it('fromServerActions parses the actions action', () => {
-        const actions = 'email;email;webhook';
+        const actions = 'email;email;notification';
         expect(fromServerActions(actions)).toEqual([
             {
                 type: ActionType.EMAIL
@@ -386,7 +420,7 @@ describe('src/utils/PolicyAdapter', () => {
                 type: ActionType.EMAIL
             },
             {
-                type: ActionType.WEBHOOK
+                type: ActionType.NOTIFICATION
             }
         ]);
     });
@@ -407,12 +441,12 @@ describe('src/utils/PolicyAdapter', () => {
                 type: ActionType.EMAIL
             },
             {
-                type: ActionType.WEBHOOK
+                type: ActionType.NOTIFICATION
             },
             {
                 type: ActionType.EMAIL
             }
-        ])).toEqual('email;webhook;email');
+        ])).toEqual('email;notification;email');
     });
 
     it('toServerActions yields empty string for unspecified action', () => {

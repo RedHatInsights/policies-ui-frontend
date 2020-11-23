@@ -22,7 +22,7 @@ export const toServerAction = (actions: DeepPartial<Action[]>): string => {
         const encodedAction = `${action.type}`;
 
         switch (action.type) {
-            case ActionType.WEBHOOK:
+            case ActionType.NOTIFICATION:
                 break;
             case ActionType.EMAIL:
                 break;
@@ -42,10 +42,15 @@ export const fromServerActions = (actions?: string): Action[] => {
     const policyAction: Action[] = [];
     for (const action of actions.split(';')) {
         const [ actionType ] = action.split(' ', 2);
+        // Just in case the server still has the webhook, we will just skip it.
+        if (actionType === 'webhook') {
+            continue;
+        }
+
         switch (actionType) {
-            case ActionType.WEBHOOK:
+            case ActionType.NOTIFICATION:
                 policyAction.push({
-                    type: ActionType.WEBHOOK
+                    type: ActionType.NOTIFICATION
                 });
                 break;
             case ActionType.EMAIL:

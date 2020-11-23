@@ -24,7 +24,7 @@ describe('src/utils/exporters/Policy/Csv', () => {
                 lastTriggered: new Date(2030, 5, 5),
                 actions: [
                     {
-                        type: ActionType.WEBHOOK
+                        type: ActionType.NOTIFICATION
                     },
                     {
                         type: ActionType.EMAIL

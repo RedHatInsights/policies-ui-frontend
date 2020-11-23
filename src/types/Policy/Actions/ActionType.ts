@@ -1,5 +1,5 @@
 export enum ActionType {
     EMAIL = 'email',
-    WEBHOOK = 'webhook'
+    NOTIFICATION = 'notification'
 }
 

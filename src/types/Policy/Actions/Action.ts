@@ -1,17 +1,17 @@
 import { ActionEmail } from './ActionEmail';
-import { ActionWebhook } from './ActionWebhook';
+import { ActionNotification } from './ActionNotification';
 import { ActionType } from './ActionType';
 
-export type Action = ActionEmail | ActionWebhook;
+export type Action = ActionEmail | ActionNotification;
 
 export const isActionEmail = (action: Action): action is ActionEmail => {
     return action.type === ActionType.EMAIL;
 };
 
-export const isActionWebhook = (action: Action): action is ActionWebhook => {
-    return action.type === ActionType.WEBHOOK;
+export const isActionNotification = (action: Action): action is ActionNotification => {
+    return action.type === ActionType.NOTIFICATION;
 };
 
 export const isAction = (maybeAction: any): maybeAction is Action => {
-    return isActionEmail(maybeAction) || isActionWebhook(maybeAction);
+    return isActionEmail(maybeAction) || isActionNotification(maybeAction);
 };

@@ -52,7 +52,7 @@ export const ActionsCell: React.FunctionComponent<ActionsCellProps> = (props) =>
             case ActionType.EMAIL:
                 element = <ActionEmailIconTooltip/>;
                 break;
-            case ActionType.WEBHOOK:
+            case ActionType.NOTIFICATION:
                 element = <ActionWebhookIconTooltip/>;
                 break;
             default:

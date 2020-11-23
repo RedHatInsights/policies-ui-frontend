@@ -45,8 +45,8 @@ const titleForActionType = (actionType: ActionType) => {
     switch (actionType) {
         case ActionType.EMAIL:
             return 'Send email';
-        case ActionType.WEBHOOK:
-            return 'Send to hook';
+        case ActionType.NOTIFICATION:
+            return 'Send to notification';
         default:
             assertNever(actionType);
     }
