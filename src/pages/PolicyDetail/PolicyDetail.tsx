@@ -9,6 +9,7 @@ import {
     StackItem,
     Title
 } from '@patternfly/react-core';
+import { Helmet } from 'react-helmet';
 import { useHistory } from 'react-router-dom';
 import { linkTo } from '../../Routes';
 import { addDangerNotification, BreadcrumbLinkItem, Section } from '@redhat-cloud-services/insights-common-typescript';
@@ -150,6 +151,9 @@ export const PolicyDetail: React.FunctionComponent = () => {
 
     return (
         <>
+            <Helmet>
+                <title>{ policy.name } - Policies | Red Hat Insights</title>
+            </Helmet>
             <PageHeader>
                 <Stack>
                     <StackItem>

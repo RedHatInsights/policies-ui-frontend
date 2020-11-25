@@ -2,6 +2,7 @@ import * as React from 'react';
 import { useContext } from 'react';
 import { PageSection } from '@patternfly/react-core';
 import { Main, PageHeader, PageHeaderTitle, Section } from '@redhat-cloud-services/frontend-components';
+import { Helmet } from 'react-helmet';
 
 import { PolicyTable } from '../../components/Policy/Table/PolicyTable';
 import { PolicyToolbar } from '../../components/Policy/TableToolbar/PolicyTableToolbar';
@@ -175,6 +176,9 @@ const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
 
     return (
         <>
+            <Helmet>
+                <title>Policies | Red Hat Insights</title>
+            </Helmet>
             <PageHeader>
                 <PageHeaderTitle title={ Messages.pages.listPage.title }/>
             </PageHeader>
