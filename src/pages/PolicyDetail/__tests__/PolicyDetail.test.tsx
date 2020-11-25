@@ -956,4 +956,26 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
         finishLoading();
         await waitForAsyncEvents();
     });
+
+    it('Title should be "{ name of policy } - Policies | Red Hat Insights"', async () => {
+        fetchMockSetup({
+            policy: {
+                ...mockPolicy,
+                name: 'My Cool policy'
+            }
+        });
+        render(<PolicyDetail/>, {
+            wrapper: getConfiguredAppWrapper({
+                router: {
+                    initialEntries: [ linkTo.policyDetail('foo') ]
+                },
+                route: {
+                    path: linkTo.policyDetail(':policyId')
+                }
+            })
+        });
+
+        await waitForAsyncEvents();
+        expect(document.title).toEqual('My Cool policy - Policies | Red Hat Insights');
+    });
 });

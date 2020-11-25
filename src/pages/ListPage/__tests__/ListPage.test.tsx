@@ -368,4 +368,14 @@ describe('src/pages/ListPage', () => {
 
         expect(screen.queryByText('Create a policy')).toBeFalsy();
     });
+
+    it('Title is "Policies - Red Hat Insights"', async () => {
+        fetchMockSetup();
+        render(<ListPage/>, {
+            wrapper: getConfiguredAppWrapper()
+        });
+
+        await waitForAsyncEvents();
+        expect(document.title).toEqual('Policies | Red Hat Insights');
+    });
 });

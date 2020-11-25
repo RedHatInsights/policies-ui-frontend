@@ -276,13 +276,3 @@ export const actionPutPoliciesByPolicyId = (params: UsePutPoliciesByPolicyIdPara
     .build();
 };
 
-export const actionGetStatus = (): Action => {
-    const path = '/api/policies/v1.0/status';
-
-    const query = {} as Record<string, any>;
-
-    return actionBuilder('GET', path)
-    .queryParams(query)
-    .build();
-};
-
