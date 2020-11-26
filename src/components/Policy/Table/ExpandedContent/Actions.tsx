@@ -69,10 +69,10 @@ const getActions = (actions: Action[]) => {
                     </React.Fragment>
                 ));
                 break;
-            case ActionType.WEBHOOK:
+            case ActionType.NOTIFICATION:
                 elements.push((
                     <React.Fragment key={ index }>
-                        <ActionWrapper title="Send to Hook" icon={ ActionWebhookIcon }/>
+                        <ActionWrapper title="Send to notification" icon={ ActionWebhookIcon }/>
                     </React.Fragment>
                 ));
                 break;

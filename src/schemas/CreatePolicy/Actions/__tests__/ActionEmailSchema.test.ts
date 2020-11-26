@@ -18,9 +18,9 @@ describe('src/schemas/CreatePolicy/Actions/ActionEmailSchema', () => {
         })).toBeFalsy();
     });
 
-    it('should fail if type is ActionType.Webhook', () => {
+    it('should fail if type is ActionType.Notification', () => {
         expect(ActionEmailSchema.isValidSync({
-            type: ActionType.WEBHOOK
+            type: ActionType.NOTIFICATION
         })).toBeFalsy();
     });
 

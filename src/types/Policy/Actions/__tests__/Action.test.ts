@@ -1,7 +1,7 @@
 import { ActionEmail } from '../ActionEmail';
 import { ActionType } from '../ActionType';
-import { isAction, isActionEmail, isActionWebhook } from '../Action';
-import { ActionWebhook } from '../ActionWebhook';
+import { isAction, isActionEmail, isActionNotification } from '../Action';
+import { ActionNotification } from '../ActionNotification';
 
 describe('src/types/Policy/Actions', () => {
 
@@ -12,9 +12,9 @@ describe('src/types/Policy/Actions', () => {
         expect(isAction(action)).toBe(true);
     });
 
-    it('isAction returns true for ActionWebhook', () => {
-        const action: ActionWebhook = {
-            type: ActionType.WEBHOOK
+    it('isAction returns true for ActionNotification', () => {
+        const action: ActionNotification = {
+            type: ActionType.NOTIFICATION
         };
         expect(isAction(action)).toBe(true);
     });
@@ -42,23 +42,23 @@ describe('src/types/Policy/Actions', () => {
         expect(isActionEmail(action)).toBe(true);
     });
 
-    it('isActionWebhook returns false for ActionEmail', () => {
+    it('isActionNotification returns false for ActionEmail', () => {
         const action: ActionEmail = {
             type: ActionType.EMAIL
         };
-        expect(isActionWebhook(action)).toBe(false);
+        expect(isActionNotification(action)).toBe(false);
     });
 
-    it('isActionWebhook returns true for ActionWebhook', () => {
-        const action: ActionWebhook = {
-            type: ActionType.WEBHOOK
+    it('isActionNotification returns true for ActionNotification', () => {
+        const action: ActionNotification = {
+            type: ActionType.NOTIFICATION
         };
-        expect(isActionWebhook(action)).toBe(true);
+        expect(isActionNotification(action)).toBe(true);
     });
 
-    it('isActionEmail returns false for ActionWebhook', () => {
-        const action: ActionWebhook = {
-            type: ActionType.WEBHOOK
+    it('isActionEmail returns false for ActionNotification', () => {
+        const action: ActionNotification = {
+            type: ActionType.NOTIFICATION
         };
         expect(isActionEmail(action)).toBe(false);
     });

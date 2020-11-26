@@ -15,7 +15,7 @@ type ActionIconProps = {
 export const ActionIcon: React.FunctionComponent<ActionIconProps> = (props) => {
     const { actionType, ...iconProps } = props;
     switch (actionType) {
-        case ActionType.WEBHOOK:
+        case ActionType.NOTIFICATION:
             return <ActionWebhookIcon { ...iconProps }/>;
         case ActionType.EMAIL:
             return <ActionEmailIcon { ...iconProps }/>;

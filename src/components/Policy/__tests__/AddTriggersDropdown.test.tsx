@@ -34,7 +34,7 @@ describe('src/components/Policy/AddTriggersDropdown', () => {
             );
         });
 
-        expect(element.queryByText(/Webhook/i)).toBeFalsy();
+        expect(element.queryByText(/Notification/i)).toBeFalsy();
         expect(element.queryByText(/Email/i)).toBeTruthy();
     });
 
@@ -55,7 +55,7 @@ describe('src/components/Policy/AddTriggersDropdown', () => {
             );
         });
 
-        expect(element.queryByText(/Webhook/i)).toBeTruthy();
+        expect(element.queryByText(/Notification/i)).toBeTruthy();
         expect(element.queryByText(/Email/i)).toBeTruthy();
     });
 

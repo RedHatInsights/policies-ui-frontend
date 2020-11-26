@@ -2,7 +2,7 @@ import { Action, ActionType } from '../../types/Policy/Actions';
 import * as Yup from 'yup';
 import { ValidationError } from 'yup';
 import { maxPolicyNameLength } from '../../types/Policy/Policy';
-import { ActionEmailSchema, ActionSchema, ActionWebhookSchema } from './Actions';
+import { ActionEmailSchema, ActionSchema, ActionNotificationSchema } from './Actions';
 import { assertNever } from '@redhat-cloud-services/insights-common-typescript';
 import { isAction } from '../../types/Policy/Actions/Action';
 
@@ -12,8 +12,8 @@ const ActionSchemaSelector = (action: Action | any): Yup.Schema<any> => {
         switch (type) {
             case ActionType.EMAIL:
                 return ActionEmailSchema;
-            case ActionType.WEBHOOK:
-                return ActionWebhookSchema;
+            case ActionType.NOTIFICATION:
+                return ActionNotificationSchema;
             default:
                 assertNever(type);
         }
@@ -67,7 +67,7 @@ export const PolicyFormDetails = Yup.object().shape({
 export const PolicyFormActions = Yup.object().shape({
     actions: Yup.array(Yup.lazy(ActionSchemaSelector))
     .test(...oneActionOf(ActionType.EMAIL, 'Email', 'email'))
-    .test(...oneActionOf(ActionType.WEBHOOK, 'Hook', 'webhook'))
+    .test(...oneActionOf(ActionType.NOTIFICATION, 'Hook', 'notification'))
 });
 
 export const PolicyFormConditions = Yup.object().shape({

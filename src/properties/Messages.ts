@@ -3,7 +3,7 @@ import { ActionType } from '../types/Policy/Actions';
 
 const actionTypeToText: Record<ActionType, string> = {
     [ActionType.EMAIL]: 'Email',
-    [ActionType.WEBHOOK]: 'Webhook'
+    [ActionType.NOTIFICATION]: 'Notification'
 };
 
 //Capture some strings we reuse. Possibly use in i18n later?
@@ -85,16 +85,16 @@ const MutableMessages = {
             never: 'Never',
             ago: 'ago'
         },
-        actionWebhookForm: {
+        actionNotificationForm: {
             paragraph1: {
-                head: 'This action sends a post to all webhooks which have been activated for policies in the ',
-                link: 'application settings.',
+                head: 'This action sends a request notification to process the message as configured in ',
+                link: 'notification settings.',
                 tail: ''
             },
             paragraph2: {
-                head: 'To activate a webhook for policies, open the webhook in the ',
-                link: 'application settings',
-                tail: ' and select your preference for sending a post under "Policies".'
+                head: 'To configure it for policies, open the notification in the ',
+                link: 'notification settings',
+                tail: ' and select your preference for sending under "Policies / All".'
             }
         }
     },

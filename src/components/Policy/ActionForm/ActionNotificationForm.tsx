@@ -20,18 +20,18 @@ const TextWithLink: React.FunctionComponent<TextWithLinkProps> = (props) => {
     );
 };
 
-export const ActionWebhookForm: React.FunctionComponent<ActionFormProps> = (props: ActionFormProps) => {
+export const ActionNotificationForm: React.FunctionComponent<ActionFormProps> = (props: ActionFormProps) => {
 
-    const hooksUrl = React.useMemo(() => Config.pages.hooks(), []);
+    const hooksUrl = React.useMemo(() => Config.pages.notifications(), []);
 
     return (
         <div { ...getOuiaProps('Policy/Action/Hook', props) }>
             <TextWithLink
-                { ...Messages.components.actionWebhookForm.paragraph1 }
+                { ...Messages.components.actionNotificationForm.paragraph1 }
                 url={ hooksUrl }
             />
             <TextWithLink
-                { ...Messages.components.actionWebhookForm.paragraph2 }
+                { ...Messages.components.actionNotificationForm.paragraph2 }
                 url={ hooksUrl }
             />
         </div>

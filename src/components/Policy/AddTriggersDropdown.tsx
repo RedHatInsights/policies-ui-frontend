@@ -29,7 +29,7 @@ export const AddTriggersDropdown: React.FunctionComponent<AddTriggersDropdownPro
 
     const items = Object.values(ActionType)
     .filter(actionType => {
-        return !isProd || actionType !== ActionType.WEBHOOK;
+        return !isProd || actionType !== ActionType.NOTIFICATION;
     })
     .map(type =>
         <DropdownItem

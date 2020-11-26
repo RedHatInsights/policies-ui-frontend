@@ -1,32 +1,32 @@
-import { ActionWebhookSchema } from '../ActionWebhookSchema';
+import { ActionNotificationSchema } from '../ActionNotificationSchema';
 import { ActionType } from '../../../../types/Policy/Actions';
 
-describe('src/schemas/CreatePolicy/Actions/ActionWebhookSchema', () => {
+describe('src/schemas/CreatePolicy/Actions/ActionNotificationSchema', () => {
     it('should fail when type is undefined', () => {
-        expect(ActionWebhookSchema.isValidSync({
+        expect(ActionNotificationSchema.isValidSync({
             type: undefined
         })).toBeFalsy();
     });
 
     it('should fail when type is omitted', () => {
-        expect(ActionWebhookSchema.isValidSync({})).toBeFalsy();
+        expect(ActionNotificationSchema.isValidSync({})).toBeFalsy();
     });
 
     it('should fail if type is not an ActionType', () => {
-        expect(ActionWebhookSchema.isValidSync({
+        expect(ActionNotificationSchema.isValidSync({
             type: 'foo'
         })).toBeFalsy();
     });
 
     it('should fail if type is ActionType.EMAIL', () => {
-        expect(ActionWebhookSchema.isValidSync({
+        expect(ActionNotificationSchema.isValidSync({
             type: ActionType.EMAIL
         })).toBeFalsy();
     });
 
-    it('should succeed if using ActionType.WEBHOOK', () => {
-        expect(ActionWebhookSchema.isValidSync({
-            type: ActionType.WEBHOOK
+    it('should succeed if using ActionType.NOTIFICATION', () => {
+        expect(ActionNotificationSchema.isValidSync({
+            type: ActionType.NOTIFICATION
         })).toBeTruthy();
     });
 });

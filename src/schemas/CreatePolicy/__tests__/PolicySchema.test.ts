@@ -78,7 +78,7 @@ describe('src/schemas/CreatePolicy/PolicySchema', () => {
                         type: ActionType.EMAIL
                     },
                     {
-                        type: ActionType.WEBHOOK
+                        type: ActionType.NOTIFICATION
                     }
                 ]
             })).toBeTruthy();
@@ -91,7 +91,7 @@ describe('src/schemas/CreatePolicy/PolicySchema', () => {
                         type: ActionType.EMAIL
                     },
                     {
-                        type: ActionType.WEBHOOK
+                        type: ActionType.NOTIFICATION
                     },
                     {
                         type: ActionType.EMAIL
@@ -100,17 +100,17 @@ describe('src/schemas/CreatePolicy/PolicySchema', () => {
             })).toBeFalsy();
         });
 
-        it('Only allows one webhook', () => {
+        it('Only allows one notification', () => {
             expect(PolicyFormActions.isValidSync({
                 actions: [
                     {
                         type: ActionType.EMAIL
                     },
                     {
-                        type: ActionType.WEBHOOK
+                        type: ActionType.NOTIFICATION
                     },
                     {
-                        type: ActionType.WEBHOOK
+                        type: ActionType.NOTIFICATION
                     }
                 ]
             })).toBeFalsy();
