@@ -12,6 +12,61 @@ import {
 } from 'openapi2typescript/react-fetching-library';
 
 export namespace Schemas {
+  export const Fact = zodSchemaFact();
+  export type Fact = {
+    id?: number | undefined | null;
+    name?: string | undefined | null;
+    type?: FactType | undefined | null;
+  };
+
+  export const FactType = zodSchemaFactType();
+  export type FactType = 'BOOLEAN' | 'INT' | 'LIST' | 'STRING';
+
+  export const HistoryItem = zodSchemaHistoryItem();
+  export type HistoryItem = {
+    ctime?: number | undefined | null;
+    hostName?: string | undefined | null;
+    id?: string | undefined | null;
+  };
+
+  export const ListHistoryItem = zodSchemaListHistoryItem();
+  export type ListHistoryItem = Array<HistoryItem>;
+
+  export const ListPolicy = zodSchemaListPolicy();
+  export type ListPolicy = Array<Policy>;
+
+  export const ListUUID = zodSchemaListUUID();
+  export type ListUUID = Array<string>;
+
+  export const MapStringString = zodSchemaMapStringString();
+  export type MapStringString = {
+    [x: string]: string;
+  };
+
+  export const Meta = zodSchemaMeta();
+  export type Meta = {
+    count?: number | undefined | null;
+  };
+
+  export const Msg = zodSchemaMsg();
+  export type Msg = {
+    msg?: string | undefined | null;
+  };
+
+  export const PagedResponseOfHistoryItem = zodSchemaPagedResponseOfHistoryItem();
+  export type PagedResponseOfHistoryItem = {
+    data?: ListHistoryItem | undefined | null;
+    links?: MapStringString | undefined | null;
+    meta?: Meta | undefined | null;
+  };
+
+  export const PagedResponseOfPolicy = zodSchemaPagedResponseOfPolicy();
+  export type PagedResponseOfPolicy = {
+    data?: ListPolicy | undefined | null;
+    links?: MapStringString | undefined | null;
+    meta?: Meta | undefined | null;
+  };
+
   export const Policy = zodSchemaPolicy();
   export type Policy = {
     actions?: string | undefined | null;
@@ -25,66 +80,87 @@ export namespace Schemas {
     name: string;
   };
 
-  export const Msg = zodSchemaMsg();
-  export type Msg = {
-    msg?: string | undefined | null;
-  };
-
-  export const Meta = zodSchemaMeta();
-  export type Meta = {
-    count?: number | undefined | null;
-  };
-
-  export const MapStringString = zodSchemaMapStringString();
-  export type MapStringString = {
-    [x: string]: string;
-  };
-
-  export const HistoryItem = zodSchemaHistoryItem();
-  export type HistoryItem = {
-    ctime?: number | undefined | null;
-    hostName?: string | undefined | null;
-    id?: string | undefined | null;
-  };
-
-  export const Fact = zodSchemaFact();
-  export type Fact = {
-    id?: number | undefined | null;
-    name?: string | undefined | null;
-    type?: FactType | undefined | null;
-  };
-
-  export const PagedResponseOfHistoryItem = zodSchemaPagedResponseOfHistoryItem();
-  export type PagedResponseOfHistoryItem = {
-    links?: MapStringString | undefined | null;
-    meta?: Meta | undefined | null;
-    data?: ListHistoryItem | undefined | null;
-  };
-
-  export const FactType = zodSchemaFactType();
-  export type FactType = 'BOOLEAN' | 'INT' | 'LIST' | 'STRING';
-
-  export const ListUUID = zodSchemaListUUID();
-  export type ListUUID = Array<string>;
-
-  export const PagedResponseOfPolicy = zodSchemaPagedResponseOfPolicy();
-  export type PagedResponseOfPolicy = {
-    links?: MapStringString | undefined | null;
-    meta?: Meta | undefined | null;
-    data?: ListPolicy | undefined | null;
-  };
-
-  export const ListPolicy = zodSchemaListPolicy();
-  export type ListPolicy = Array<Policy>;
-
   export const UUID = zodSchemaUUID();
   export type UUID = string;
 
-  export const ListHistoryItem = zodSchemaListHistoryItem();
-  export type ListHistoryItem = Array<HistoryItem>;
-
   export const __Empty = zodSchema__Empty();
   export type __Empty = string | undefined;
+
+  function zodSchemaFact() {
+      return z
+      .object({
+          id: z.number().int().optional().nullable(),
+          name: z.string().optional().nullable(),
+          type: zodSchemaFactType().optional().nullable()
+      })
+      .nonstrict();
+  }
+
+  function zodSchemaFactType() {
+      return z.enum([ 'BOOLEAN', 'INT', 'LIST', 'STRING' ]);
+  }
+
+  function zodSchemaHistoryItem() {
+      return z
+      .object({
+          ctime: z.number().int().optional().nullable(),
+          hostName: z.string().optional().nullable(),
+          id: z.string().optional().nullable()
+      })
+      .nonstrict();
+  }
+
+  function zodSchemaListHistoryItem() {
+      return z.array(zodSchemaHistoryItem());
+  }
+
+  function zodSchemaListPolicy() {
+      return z.array(zodSchemaPolicy());
+  }
+
+  function zodSchemaListUUID() {
+      return z.array(z.string());
+  }
+
+  function zodSchemaMapStringString() {
+      return z.record(z.string());
+  }
+
+  function zodSchemaMeta() {
+      return z
+      .object({
+          count: z.number().int().optional().nullable()
+      })
+      .nonstrict();
+  }
+
+  function zodSchemaMsg() {
+      return z
+      .object({
+          msg: z.string().optional().nullable()
+      })
+      .nonstrict();
+  }
+
+  function zodSchemaPagedResponseOfHistoryItem() {
+      return z
+      .object({
+          data: zodSchemaListHistoryItem().optional().nullable(),
+          links: zodSchemaMapStringString().optional().nullable(),
+          meta: zodSchemaMeta().optional().nullable()
+      })
+      .nonstrict();
+  }
+
+  function zodSchemaPagedResponseOfPolicy() {
+      return z
+      .object({
+          data: zodSchemaListPolicy().optional().nullable(),
+          links: zodSchemaMapStringString().optional().nullable(),
+          meta: zodSchemaMeta().optional().nullable()
+      })
+      .nonstrict();
+  }
 
   function zodSchemaPolicy() {
       return z
@@ -102,84 +178,8 @@ export namespace Schemas {
       .nonstrict();
   }
 
-  function zodSchemaMsg() {
-      return z
-      .object({
-          msg: z.string().optional().nullable()
-      })
-      .nonstrict();
-  }
-
-  function zodSchemaMeta() {
-      return z
-      .object({
-          count: z.number().int().optional().nullable()
-      })
-      .nonstrict();
-  }
-
-  function zodSchemaMapStringString() {
-      return z.record(z.string());
-  }
-
-  function zodSchemaHistoryItem() {
-      return z
-      .object({
-          ctime: z.number().int().optional().nullable(),
-          hostName: z.string().optional().nullable(),
-          id: z.string().optional().nullable()
-      })
-      .nonstrict();
-  }
-
-  function zodSchemaFact() {
-      return z
-      .object({
-          id: z.number().int().optional().nullable(),
-          name: z.string().optional().nullable(),
-          type: zodSchemaFactType().optional().nullable()
-      })
-      .nonstrict();
-  }
-
-  function zodSchemaPagedResponseOfHistoryItem() {
-      return z
-      .object({
-          links: zodSchemaMapStringString().optional().nullable(),
-          meta: zodSchemaMeta().optional().nullable(),
-          data: zodSchemaListHistoryItem().optional().nullable()
-      })
-      .nonstrict();
-  }
-
-  function zodSchemaFactType() {
-      return z.enum([ 'BOOLEAN', 'INT', 'LIST', 'STRING' ]);
-  }
-
-  function zodSchemaListUUID() {
-      return z.array(z.string());
-  }
-
-  function zodSchemaPagedResponseOfPolicy() {
-      return z
-      .object({
-          links: zodSchemaMapStringString().optional().nullable(),
-          meta: zodSchemaMeta().optional().nullable(),
-          data: zodSchemaListPolicy().optional().nullable()
-      })
-      .nonstrict();
-  }
-
-  function zodSchemaListPolicy() {
-      return z.array(zodSchemaPolicy());
-  }
-
   function zodSchemaUUID() {
       return z.string();
-  }
-
-  function zodSchemaListHistoryItem() {
-      return z.array(zodSchemaHistoryItem());
   }
 
   function zodSchema__Empty() {
@@ -188,78 +188,20 @@ export namespace Schemas {
 }
 
 export namespace Operations {
-  // POST /policies/{id}/enabled
-  // Enable/disable a policy
-  export namespace PostPoliciesByIdEnabled {
-    const Enabled = z.boolean();
-    type Enabled = boolean;
-    export interface Params {
-      id: Schemas.UUID;
-      enabled?: Enabled;
-    }
-
+  // GET /
+  // Just a filler to have a defined return code for the base path
+  export namespace Get {
     export type Payload =
-      | ValidatedResponse<'__Empty', 200, Schemas.__Empty>
-      | ValidatedResponse<'__Empty', 403, Schemas.__Empty>
       | ValidatedResponse<'__Empty', 404, Schemas.__Empty>
-      | ValidatedResponse<'__Empty', 500, Schemas.__Empty>
       | ValidatedResponse<'unknown', undefined, unknown>;
     export type ActionCreator = Action<Payload, ActionValidatableConfig>;
-    export const actionCreator = (params: Params): ActionCreator => {
-        const path = '/api/policies/v1.0/policies/{id}/enabled'.replace(
-            '{id}',
-            params.id.toString()
-        );
+    export const actionCreator = (): ActionCreator => {
+        const path = '/api/policies/v1.0/';
         const query = {} as Record<string, any>;
-        if (params.enabled !== undefined) {
-            query.enabled = params.enabled;
-        }
-
-        return actionBuilder('POST', path)
+        return actionBuilder('GET', path)
         .queryParams(query)
         .config({
-            rules: [
-                new ValidateRule(Schemas.__Empty, '__Empty', 200),
-                new ValidateRule(Schemas.__Empty, '__Empty', 403),
-                new ValidateRule(Schemas.__Empty, '__Empty', 404),
-                new ValidateRule(Schemas.__Empty, '__Empty', 500)
-            ]
-        })
-        .build();
-    };
-  }
-  // POST /policies/ids/enabled
-  // Enable/disable policies identified by list of uuid in body
-  export namespace PostPoliciesIdsEnabled {
-    const Enabled = z.boolean();
-    type Enabled = boolean;
-    const Response200 = z.array(Schemas.UUID);
-    type Response200 = Array<Schemas.UUID>;
-    export interface Params {
-      enabled?: Enabled;
-      body: Schemas.ListUUID;
-    }
-
-    export type Payload =
-      | ValidatedResponse<'Response200', 200, Response200>
-      | ValidatedResponse<'__Empty', 403, Schemas.__Empty>
-      | ValidatedResponse<'unknown', undefined, unknown>;
-    export type ActionCreator = Action<Payload, ActionValidatableConfig>;
-    export const actionCreator = (params: Params): ActionCreator => {
-        const path = '/api/policies/v1.0/policies/ids/enabled';
-        const query = {} as Record<string, any>;
-        if (params.enabled !== undefined) {
-            query.enabled = params.enabled;
-        }
-
-        return actionBuilder('POST', path)
-        .queryParams(query)
-        .data(params.body)
-        .config({
-            rules: [
-                new ValidateRule(Response200, 'Response200', 200),
-                new ValidateRule(Schemas.__Empty, '__Empty', 403)
-            ]
+            rules: [ new ValidateRule(Schemas.__Empty, '__Empty', 404) ]
         })
         .build();
     };
@@ -426,152 +368,6 @@ export namespace Operations {
         .build();
     };
   }
-  // GET /policies/{id}
-  // Retrieve a single policy for a customer by its id
-  export namespace GetPoliciesById {
-    export interface Params {
-      id: Schemas.UUID;
-    }
-
-    export type Payload =
-      | ValidatedResponse<'Policy', 200, Schemas.Policy>
-      | ValidatedResponse<'Msg', 403, Schemas.Msg>
-      | ValidatedResponse<'__Empty', 404, Schemas.__Empty>
-      | ValidatedResponse<'unknown', undefined, unknown>;
-    export type ActionCreator = Action<Payload, ActionValidatableConfig>;
-    export const actionCreator = (params: Params): ActionCreator => {
-        const path = '/api/policies/v1.0/policies/{id}'.replace(
-            '{id}',
-            params.id.toString()
-        );
-        const query = {} as Record<string, any>;
-        return actionBuilder('GET', path)
-        .queryParams(query)
-        .config({
-            rules: [
-                new ValidateRule(Schemas.Policy, 'Policy', 200),
-                new ValidateRule(Schemas.Msg, 'Msg', 403),
-                new ValidateRule(Schemas.__Empty, '__Empty', 404)
-            ]
-        })
-        .build();
-    };
-  }
-  // DELETE /policies/{id}
-  // Delete a single policy for a customer by its id
-  export namespace DeletePoliciesById {
-    export interface Params {
-      id: Schemas.UUID;
-    }
-
-    export type Payload =
-      | ValidatedResponse<'__Empty', 200, Schemas.__Empty>
-      | ValidatedResponse<'__Empty', 403, Schemas.__Empty>
-      | ValidatedResponse<'__Empty', 404, Schemas.__Empty>
-      | ValidatedResponse<'unknown', undefined, unknown>;
-    export type ActionCreator = Action<Payload, ActionValidatableConfig>;
-    export const actionCreator = (params: Params): ActionCreator => {
-        const path = '/api/policies/v1.0/policies/{id}'.replace(
-            '{id}',
-            params.id.toString()
-        );
-        const query = {} as Record<string, any>;
-        return actionBuilder('DELETE', path)
-        .queryParams(query)
-        .config({
-            rules: [
-                new ValidateRule(Schemas.__Empty, '__Empty', 200),
-                new ValidateRule(Schemas.__Empty, '__Empty', 403),
-                new ValidateRule(Schemas.__Empty, '__Empty', 404)
-            ]
-        })
-        .build();
-    };
-  }
-  // PUT /policies/{policyId}
-  // Update a single policy for a customer by its id
-  export namespace PutPoliciesByPolicyId {
-    const Dry = z.boolean();
-    type Dry = boolean;
-    export interface Params {
-      policyId: Schemas.UUID;
-      dry?: Dry;
-      body: Schemas.Policy;
-    }
-
-    export type Payload =
-      | ValidatedResponse<'Policy', 200, Schemas.Policy>
-      | ValidatedResponse<'__Empty', 400, Schemas.__Empty>
-      | ValidatedResponse<'__Empty', 403, Schemas.__Empty>
-      | ValidatedResponse<'__Empty', 404, Schemas.__Empty>
-      | ValidatedResponse<'Msg', 409, Schemas.Msg>
-      | ValidatedResponse<'unknown', undefined, unknown>;
-    export type ActionCreator = Action<Payload, ActionValidatableConfig>;
-    export const actionCreator = (params: Params): ActionCreator => {
-        const path = '/api/policies/v1.0/policies/{policyId}'.replace(
-            '{policyId}',
-            params.policyId.toString()
-        );
-        const query = {} as Record<string, any>;
-        if (params.dry !== undefined) {
-            query.dry = params.dry;
-        }
-
-        return actionBuilder('PUT', path)
-        .queryParams(query)
-        .data(params.body)
-        .config({
-            rules: [
-                new ValidateRule(Schemas.Policy, 'Policy', 200),
-                new ValidateRule(Schemas.__Empty, '__Empty', 400),
-                new ValidateRule(Schemas.__Empty, '__Empty', 403),
-                new ValidateRule(Schemas.__Empty, '__Empty', 404),
-                new ValidateRule(Schemas.Msg, 'Msg', 409)
-            ]
-        })
-        .build();
-    };
-  }
-  // POST /policies/validate-name
-  // Validates the Policy.name and verifies if it is unique.
-  export namespace PostPoliciesValidateName {
-    const Body = z.string();
-    type Body = string;
-    export interface Params {
-      id?: Schemas.UUID;
-      body: Body;
-    }
-
-    export type Payload =
-      | ValidatedResponse<'Msg', 200, Schemas.Msg>
-      | ValidatedResponse<'Msg', 400, Schemas.Msg>
-      | ValidatedResponse<'Msg', 403, Schemas.Msg>
-      | ValidatedResponse<'__Empty', 409, Schemas.__Empty>
-      | ValidatedResponse<'__Empty', 500, Schemas.__Empty>
-      | ValidatedResponse<'unknown', undefined, unknown>;
-    export type ActionCreator = Action<Payload, ActionValidatableConfig>;
-    export const actionCreator = (params: Params): ActionCreator => {
-        const path = '/api/policies/v1.0/policies/validate-name';
-        const query = {} as Record<string, any>;
-        if (params.id !== undefined) {
-            query.id = params.id;
-        }
-
-        return actionBuilder('POST', path)
-        .queryParams(query)
-        .data(params.body)
-        .config({
-            rules: [
-                new ValidateRule(Schemas.Msg, 'Msg', 200),
-                new ValidateRule(Schemas.Msg, 'Msg', 400),
-                new ValidateRule(Schemas.Msg, 'Msg', 403),
-                new ValidateRule(Schemas.__Empty, '__Empty', 409),
-                new ValidateRule(Schemas.__Empty, '__Empty', 500)
-            ]
-        })
-        .build();
-    };
-  }
   // GET /policies/ids
   // Return all policy ids for a given account after applying the filters
   export namespace GetPoliciesIds {
@@ -667,6 +463,42 @@ export namespace Operations {
         .build();
     };
   }
+  // POST /policies/ids/enabled
+  // Enable/disable policies identified by list of uuid in body
+  export namespace PostPoliciesIdsEnabled {
+    const Enabled = z.boolean();
+    type Enabled = boolean;
+    const Response200 = z.array(Schemas.UUID);
+    type Response200 = Array<Schemas.UUID>;
+    export interface Params {
+      enabled?: Enabled;
+      body: Schemas.ListUUID;
+    }
+
+    export type Payload =
+      | ValidatedResponse<'Response200', 200, Response200>
+      | ValidatedResponse<'__Empty', 403, Schemas.__Empty>
+      | ValidatedResponse<'unknown', undefined, unknown>;
+    export type ActionCreator = Action<Payload, ActionValidatableConfig>;
+    export const actionCreator = (params: Params): ActionCreator => {
+        const path = '/api/policies/v1.0/policies/ids/enabled';
+        const query = {} as Record<string, any>;
+        if (params.enabled !== undefined) {
+            query.enabled = params.enabled;
+        }
+
+        return actionBuilder('POST', path)
+        .queryParams(query)
+        .data(params.body)
+        .config({
+            rules: [
+                new ValidateRule(Response200, 'Response200', 200),
+                new ValidateRule(Schemas.__Empty, '__Empty', 403)
+            ]
+        })
+        .build();
+    };
+  }
   // POST /policies/validate
   // Validates a Policy condition
   export namespace PostPoliciesValidate {
@@ -696,20 +528,144 @@ export namespace Operations {
         .build();
     };
   }
-  // GET /
-  // Just a filler to have a defined return code for the base path
-  export namespace Get {
+  // POST /policies/validate-name
+  // Validates the Policy.name and verifies if it is unique.
+  export namespace PostPoliciesValidateName {
+    const Body = z.string();
+    type Body = string;
+    export interface Params {
+      id?: Schemas.UUID;
+      body: Body;
+    }
+
     export type Payload =
+      | ValidatedResponse<'Msg', 200, Schemas.Msg>
+      | ValidatedResponse<'Msg', 400, Schemas.Msg>
+      | ValidatedResponse<'Msg', 403, Schemas.Msg>
+      | ValidatedResponse<'__Empty', 409, Schemas.__Empty>
+      | ValidatedResponse<'__Empty', 500, Schemas.__Empty>
+      | ValidatedResponse<'unknown', undefined, unknown>;
+    export type ActionCreator = Action<Payload, ActionValidatableConfig>;
+    export const actionCreator = (params: Params): ActionCreator => {
+        const path = '/api/policies/v1.0/policies/validate-name';
+        const query = {} as Record<string, any>;
+        if (params.id !== undefined) {
+            query.id = params.id;
+        }
+
+        return actionBuilder('POST', path)
+        .queryParams(query)
+        .data(params.body)
+        .config({
+            rules: [
+                new ValidateRule(Schemas.Msg, 'Msg', 200),
+                new ValidateRule(Schemas.Msg, 'Msg', 400),
+                new ValidateRule(Schemas.Msg, 'Msg', 403),
+                new ValidateRule(Schemas.__Empty, '__Empty', 409),
+                new ValidateRule(Schemas.__Empty, '__Empty', 500)
+            ]
+        })
+        .build();
+    };
+  }
+  // GET /policies/{id}
+  // Retrieve a single policy for a customer by its id
+  export namespace GetPoliciesById {
+    export interface Params {
+      id: Schemas.UUID;
+    }
+
+    export type Payload =
+      | ValidatedResponse<'Policy', 200, Schemas.Policy>
+      | ValidatedResponse<'Msg', 403, Schemas.Msg>
       | ValidatedResponse<'__Empty', 404, Schemas.__Empty>
       | ValidatedResponse<'unknown', undefined, unknown>;
     export type ActionCreator = Action<Payload, ActionValidatableConfig>;
-    export const actionCreator = (): ActionCreator => {
-        const path = '/api/policies/v1.0/';
+    export const actionCreator = (params: Params): ActionCreator => {
+        const path = '/api/policies/v1.0/policies/{id}'.replace(
+            '{id}',
+            params.id.toString()
+        );
         const query = {} as Record<string, any>;
         return actionBuilder('GET', path)
         .queryParams(query)
         .config({
-            rules: [ new ValidateRule(Schemas.__Empty, '__Empty', 404) ]
+            rules: [
+                new ValidateRule(Schemas.Policy, 'Policy', 200),
+                new ValidateRule(Schemas.Msg, 'Msg', 403),
+                new ValidateRule(Schemas.__Empty, '__Empty', 404)
+            ]
+        })
+        .build();
+    };
+  }
+  // DELETE /policies/{id}
+  // Delete a single policy for a customer by its id
+  export namespace DeletePoliciesById {
+    export interface Params {
+      id: Schemas.UUID;
+    }
+
+    export type Payload =
+      | ValidatedResponse<'__Empty', 200, Schemas.__Empty>
+      | ValidatedResponse<'__Empty', 403, Schemas.__Empty>
+      | ValidatedResponse<'__Empty', 404, Schemas.__Empty>
+      | ValidatedResponse<'unknown', undefined, unknown>;
+    export type ActionCreator = Action<Payload, ActionValidatableConfig>;
+    export const actionCreator = (params: Params): ActionCreator => {
+        const path = '/api/policies/v1.0/policies/{id}'.replace(
+            '{id}',
+            params.id.toString()
+        );
+        const query = {} as Record<string, any>;
+        return actionBuilder('DELETE', path)
+        .queryParams(query)
+        .config({
+            rules: [
+                new ValidateRule(Schemas.__Empty, '__Empty', 200),
+                new ValidateRule(Schemas.__Empty, '__Empty', 403),
+                new ValidateRule(Schemas.__Empty, '__Empty', 404)
+            ]
+        })
+        .build();
+    };
+  }
+  // POST /policies/{id}/enabled
+  // Enable/disable a policy
+  export namespace PostPoliciesByIdEnabled {
+    const Enabled = z.boolean();
+    type Enabled = boolean;
+    export interface Params {
+      id: Schemas.UUID;
+      enabled?: Enabled;
+    }
+
+    export type Payload =
+      | ValidatedResponse<'__Empty', 200, Schemas.__Empty>
+      | ValidatedResponse<'__Empty', 403, Schemas.__Empty>
+      | ValidatedResponse<'__Empty', 404, Schemas.__Empty>
+      | ValidatedResponse<'__Empty', 500, Schemas.__Empty>
+      | ValidatedResponse<'unknown', undefined, unknown>;
+    export type ActionCreator = Action<Payload, ActionValidatableConfig>;
+    export const actionCreator = (params: Params): ActionCreator => {
+        const path = '/api/policies/v1.0/policies/{id}/enabled'.replace(
+            '{id}',
+            params.id.toString()
+        );
+        const query = {} as Record<string, any>;
+        if (params.enabled !== undefined) {
+            query.enabled = params.enabled;
+        }
+
+        return actionBuilder('POST', path)
+        .queryParams(query)
+        .config({
+            rules: [
+                new ValidateRule(Schemas.__Empty, '__Empty', 200),
+                new ValidateRule(Schemas.__Empty, '__Empty', 403),
+                new ValidateRule(Schemas.__Empty, '__Empty', 404),
+                new ValidateRule(Schemas.__Empty, '__Empty', 500)
+            ]
         })
         .build();
     };
@@ -808,6 +764,50 @@ export namespace Operations {
                 new ValidateRule(Schemas.__Empty, '__Empty', 403),
                 new ValidateRule(Schemas.__Empty, '__Empty', 404),
                 new ValidateRule(Schemas.__Empty, '__Empty', 500)
+            ]
+        })
+        .build();
+    };
+  }
+  // PUT /policies/{policyId}
+  // Update a single policy for a customer by its id
+  export namespace PutPoliciesByPolicyId {
+    const Dry = z.boolean();
+    type Dry = boolean;
+    export interface Params {
+      policyId: Schemas.UUID;
+      dry?: Dry;
+      body: Schemas.Policy;
+    }
+
+    export type Payload =
+      | ValidatedResponse<'Policy', 200, Schemas.Policy>
+      | ValidatedResponse<'__Empty', 400, Schemas.__Empty>
+      | ValidatedResponse<'__Empty', 403, Schemas.__Empty>
+      | ValidatedResponse<'__Empty', 404, Schemas.__Empty>
+      | ValidatedResponse<'Msg', 409, Schemas.Msg>
+      | ValidatedResponse<'unknown', undefined, unknown>;
+    export type ActionCreator = Action<Payload, ActionValidatableConfig>;
+    export const actionCreator = (params: Params): ActionCreator => {
+        const path = '/api/policies/v1.0/policies/{policyId}'.replace(
+            '{policyId}',
+            params.policyId.toString()
+        );
+        const query = {} as Record<string, any>;
+        if (params.dry !== undefined) {
+            query.dry = params.dry;
+        }
+
+        return actionBuilder('PUT', path)
+        .queryParams(query)
+        .data(params.body)
+        .config({
+            rules: [
+                new ValidateRule(Schemas.Policy, 'Policy', 200),
+                new ValidateRule(Schemas.__Empty, '__Empty', 400),
+                new ValidateRule(Schemas.__Empty, '__Empty', 403),
+                new ValidateRule(Schemas.__Empty, '__Empty', 404),
+                new ValidateRule(Schemas.Msg, 'Msg', 409)
             ]
         })
         .build();
