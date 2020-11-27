@@ -12,7 +12,7 @@ describe('src/hooks/usePolicyFilter', () => {
             result.current.setFilters[PolicyFilterColumn.NAME]('foobar');
         });
 
-        expect(result.current.debouncedFilters[PolicyFilterColumn.NAME]).toBe('');
+        expect(result.current.debouncedFilters[PolicyFilterColumn.NAME]).toBe(undefined);
 
         act(() => {
             jest.runAllTimers();
@@ -33,14 +33,14 @@ describe('src/hooks/usePolicyFilter', () => {
             }
         );
 
-        expect(result.current.usePolicyFilter.debouncedFilters[PolicyFilterColumn.NAME]).toBe('');
-        expect(result.current.usePolicyFilter.filters[PolicyFilterColumn.NAME]).toBe('');
+        expect(result.current.usePolicyFilter.debouncedFilters[PolicyFilterColumn.NAME]).toBe(undefined);
+        expect(result.current.usePolicyFilter.filters[PolicyFilterColumn.NAME]).toBe(undefined);
 
         act(() => {
             result.current.usePolicyFilter.setFilters[PolicyFilterColumn.NAME]('foobar');
         });
 
-        expect(result.current.usePolicyFilter.debouncedFilters[PolicyFilterColumn.NAME]).toBe('');
+        expect(result.current.usePolicyFilter.debouncedFilters[PolicyFilterColumn.NAME]).toBe(undefined);
         expect(result.current.usePolicyFilter.filters[PolicyFilterColumn.NAME]).toBe('foobar');
         expect(result.current.useLocation.search).toBe('?');
 
@@ -90,14 +90,14 @@ describe('src/hooks/usePolicyFilter', () => {
             }
         );
 
-        expect(result.current.usePolicyFilter.debouncedFilters[PolicyFilterColumn.NAME]).toBe('');
-        expect(result.current.usePolicyFilter.filters[PolicyFilterColumn.NAME]).toBe('');
+        expect(result.current.usePolicyFilter.debouncedFilters[PolicyFilterColumn.NAME]).toBe(undefined);
+        expect(result.current.usePolicyFilter.filters[PolicyFilterColumn.NAME]).toBe(undefined);
 
         act(() => {
             result.current.usePolicyFilter.setFilters[PolicyFilterColumn.NAME]('foobar');
         });
 
-        expect(result.current.usePolicyFilter.debouncedFilters[PolicyFilterColumn.NAME]).toBe('');
+        expect(result.current.usePolicyFilter.debouncedFilters[PolicyFilterColumn.NAME]).toBe(undefined);
         expect(result.current.usePolicyFilter.filters[PolicyFilterColumn.NAME]).toBe('foobar');
         expect(result.current.useLocation.search).toBe('');
 

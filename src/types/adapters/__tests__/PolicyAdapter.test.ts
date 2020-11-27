@@ -462,6 +462,6 @@ describe('src/utils/PolicyAdapter', () => {
     it('toServerActions throws with unknown type (at runtime)', () => {
         expect(() => toServerAction([{
             type: 'foobared' as ActionType
-        }])).toThrowError('Invalid value received [foobared]');
+        }])).toThrowError();
     });
 });

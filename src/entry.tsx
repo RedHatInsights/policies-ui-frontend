@@ -7,10 +7,11 @@ import {
     createFetchingClient,
     getBaseName,
     getStore,
-    getInsights, validateSchemaResponseInterceptor
+    getInsights
 } from '@redhat-cloud-services/insights-common-typescript';
 import App from './app/App';
 import { ClientContextProvider } from 'react-fetching-library';
+import { validateSchemaResponseInterceptor } from 'openapi2typescript/react-fetching-library';
 
 const client = createFetchingClient(getInsights, {
     responseInterceptors: [ validateSchemaResponseInterceptor ]

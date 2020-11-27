@@ -3,7 +3,6 @@ import {
     initStore,
     getInsights,
     restoreStore,
-    validateSchemaResponseInterceptor
 } from '@redhat-cloud-services/insights-common-typescript';
 import { NotificationsPortal } from '@redhat-cloud-services/frontend-components-notifications';
 import { RouteProps, Route } from 'react-router';
@@ -13,6 +12,7 @@ import { Provider } from 'react-redux';
 import fetchMock from 'fetch-mock';
 import { MemoryRouterProps, useLocation } from 'react-router';
 import { AppContext } from '../src/app/AppContext';
+import { validateSchemaResponseInterceptor } from 'openapi2typescript/react-fetching-library';
 
 let setup = false;
 let client;

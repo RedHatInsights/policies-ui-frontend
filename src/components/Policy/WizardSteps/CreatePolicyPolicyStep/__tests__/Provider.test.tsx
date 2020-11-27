@@ -5,7 +5,7 @@ import { ClientContextProvider, createClient } from 'react-fetching-library';
 import fetchMock from 'fetch-mock';
 import { PolicyFilterColumn } from '../../../../../types/Policy/Filters';
 import { useState } from 'react';
-import { validateSchemaResponseInterceptor } from '@redhat-cloud-services/insights-common-typescript';
+import { validateSchemaResponseInterceptor } from 'openapi2typescript/react-fetching-library';
 
 let query;
 let setCurrentPage;

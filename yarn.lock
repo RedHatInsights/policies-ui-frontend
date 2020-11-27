@@ -6980,7 +6980,7 @@ inquirer@^7.0.0:
     strip-ansi "^5.1.0"
     through "^2.3.6"
 
-insights-common-typescript-dev@^0.1.2:
+insights-common-typescript-dev@0.1.2:
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/insights-common-typescript-dev/-/insights-common-typescript-dev-0.1.2.tgz#12b2ba9283cb590ef8ed1b016a8fd25b33fe674b"
   integrity sha512-hFaow0b0dwZgt5P0eyS6XjN5Sr5cATfV7l4SFpuoE4PF/flzG913c0vX+7hZZ6STcf2SE0JFQi77y6WulU41VA==
@@ -9685,7 +9685,7 @@ only@~0.0.2:
   resolved "https://registry.yarnpkg.com/only/-/only-0.0.2.tgz#2afde84d03e50b9a8edc444e30610a70295edfb4"
   integrity sha1-Kv3oTQPlC5qO3EROMGEKcCle37Q=
 
-openapi2typescript-cli@^0.3.0:
+openapi2typescript-cli@0.3.0:
   version "0.3.0"
   resolved "https://registry.yarnpkg.com/openapi2typescript-cli/-/openapi2typescript-cli-0.3.0.tgz#cfddd9ff7a573d577b3572ff82fce3f895433d76"
   integrity sha512-xXFsPPRWOlUuqQ0iCK7gWmdtPECPqp4U5kiBT/2iF1y4yKj31CCLwC1u68DqjCPnrWIKu6a4sZfJM8iX6cf6Iw==
@@ -9693,7 +9693,7 @@ openapi2typescript-cli@^0.3.0:
     eslint "6.0.0"
     prettier "2.1.1"
 
-openapi2typescript@^0.1.0:
+openapi2typescript@0.1.0:
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/openapi2typescript/-/openapi2typescript-0.1.0.tgz#2d2cddba7eef732ce85991a4bd803a0d0fa10c0a"
   integrity sha512-7gcfITFFszW791oK2sGNs3nN0HyR7cbW/qsGi40O+3E5OnPy/AuzKMTzS5JkklZYtftOj94hHHz6l5MwqhSl+Q==

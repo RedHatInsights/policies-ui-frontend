@@ -6,10 +6,8 @@ import { ClientContextProvider, createClient } from 'react-fetching-library';
 import fetchMock, { UNMATCHED } from 'fetch-mock';
 import { formatConditionError } from '../CreatePolicyWizard';
 import { useFacts } from '../../../hooks/useFacts';
-import {
-    addSuccessNotification, suppressValidateError,
-    validateSchemaResponseInterceptor
-} from '@redhat-cloud-services/insights-common-typescript';
+import { addSuccessNotification } from '@redhat-cloud-services/insights-common-typescript';
+import { suppressValidateError, validateSchemaResponseInterceptor } from 'openapi2typescript/react-fetching-library';
 jest.mock('@redhat-cloud-services/insights-common-typescript', () => {
     const real = jest.requireActual('@redhat-cloud-services/insights-common-typescript');
     return {

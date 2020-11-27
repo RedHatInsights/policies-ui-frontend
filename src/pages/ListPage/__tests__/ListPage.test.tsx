@@ -8,7 +8,7 @@ import { Operations } from '../../../generated/Openapi';
 import { linkTo } from '../../../Routes';
 import userEvent from '@testing-library/user-event';
 import { useState } from 'react';
-import { suppressValidateError } from '@redhat-cloud-services/insights-common-typescript';
+import { suppressValidateError } from 'openapi2typescript/react-fetching-library';
 
 jest.mock('@redhat-cloud-services/insights-common-typescript', () => {
     const real = jest.requireActual('@redhat-cloud-services/insights-common-typescript');

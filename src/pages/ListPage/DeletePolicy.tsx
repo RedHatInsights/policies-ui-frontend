@@ -30,7 +30,7 @@ export const DeletePolicy: React.FunctionComponent<DeletePolicyProps> = (props) 
         mutate(policyIds).then((response) => {
             let errorCount = policyIds.length;
 
-            if (response.payload?.type === 'DeletePoliciesIdsParamResponse200') {
+            if (response.payload?.status === 200) {
                 const success = response.payload.value;
                 errorCount = policyIds.filter(id => !success.includes(id)).length;
                 response.payload.value.forEach(uuid => onDeleted && onDeleted(uuid));

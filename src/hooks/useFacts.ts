@@ -7,7 +7,7 @@ export const useFacts = () => {
     const { payload: factsPayload } = useGetFactsQuery(true);
 
     useEffect(() => {
-        if (factsPayload?.type === 'GetFactsParamResponse200') {
+        if (factsPayload?.status === 200) {
             setFacts(factsPayload.value);
         }
     }, [ factsPayload, setFacts ]);

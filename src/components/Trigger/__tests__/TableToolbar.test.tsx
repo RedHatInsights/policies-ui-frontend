@@ -173,10 +173,16 @@ describe('src/components/Trigger/TableToolbar', () => {
 
         onDeleteOriginal(undefined, [
             {
-                category: 'System'
+                category: 'System',
+                chips: [
+                    {
+                        name: 'foo-bar',
+                        isRead: true
+                    }
+                ]
             }
         ]);
-        expect(clearFn).toHaveBeenCalledWith([ TriggerFilterColumn.NAME ]);
+        expect(clearFn).toHaveBeenCalledWith({ [TriggerFilterColumn.NAME]: [ 'foo-bar' ]});
     });
 
     it('activeFiltersConfig.onDelete throws with a invalid filter', () => {

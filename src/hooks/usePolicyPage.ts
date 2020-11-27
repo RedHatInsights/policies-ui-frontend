@@ -1,8 +1,6 @@
 import * as React from 'react';
-import { Filter, Operator, Page, Sort } from '@redhat-cloud-services/insights-common-typescript';
+import { Filter, Operator, Page, Sort, stringValue } from '@redhat-cloud-services/insights-common-typescript';
 import { PolicyFilterColumn, PolicyFilters } from '../types/Policy/Filters';
-import * as webpack from 'webpack';
-import asString = webpack.Template.asString;
 
 export interface UsePolicyPageReturn {
     page: Page;
@@ -23,8 +21,8 @@ export const usePolicyPage = (filters: PolicyFilters, defaultPerPage: number, so
     const page = React.useMemo(() => {
         const filter = new Filter();
 
-        const name = asString(filters[PolicyFilterColumn.NAME] || '').trim();
-        const isActive = asString(filters[PolicyFilterColumn.IS_ACTIVE] || '').trim();
+        const name = stringValue(filters[PolicyFilterColumn.NAME]).trim();
+        const isActive = stringValue(filters[PolicyFilterColumn.IS_ACTIVE]).trim();
 
         if (name !== '') {
             filter.and(PolicyFilterColumn.NAME, Operator.ILIKE, `%${name}%`);
