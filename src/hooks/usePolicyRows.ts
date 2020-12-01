@@ -2,10 +2,11 @@ import * as React from 'react';
 import { PolicyRow } from '../components/Policy/Table/PolicyTable';
 import { Policy } from '../types/Policy';
 import { SelectionCommand } from '../components/Policy/TableToolbar/PolicyTableToolbar';
-import { assertNever, ImmutableContainerSetMode, ImmutableContainerSet, Page } from '@redhat-cloud-services/insights-common-typescript';
+import { ImmutableContainerSetMode, ImmutableContainerSet, Page } from '@redhat-cloud-services/insights-common-typescript';
 import { Uuid } from '../types/Policy/Policy';
 import { usePrevious } from 'react-use';
 import { useGetPoliciesIdsQuery } from '../services/useGetPoliciesIds';
+import { assertNever } from 'assert-never';
 
 export interface UsePolicyRowsReturn {
     rows: PolicyRow[];
@@ -94,10 +95,15 @@ export const usePolicyRows = (policies: Policy[] | undefined, loading: boolean, 
                     throw response.errorObject;
                 }
 
-                const set = new Set<Uuid>(response.payload);
-                selectedPolicies.values().forEach(id => {
-                    set.delete(id);
-                });
+                let set: Set<Uuid> | Array<never> = [];
+                if (response.payload?.status === 200) {
+                    const tmpSet = new Set<Uuid>(response.payload.value);
+                    selectedPolicies.values().forEach(id => {
+                        tmpSet.delete(id);
+                    });
+                    set = tmpSet;
+                }
+
                 return Array.from(set.values());
             });
         }

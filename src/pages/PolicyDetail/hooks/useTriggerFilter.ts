@@ -1,5 +1,5 @@
 import { useFilters, useUrlStateString } from '@redhat-cloud-services/insights-common-typescript';
-import { assertNever } from '@redhat-cloud-services/insights-common-typescript';
+import { assertNever } from 'assert-never';
 import { TriggerFilterColumn } from '../../../components/Trigger/Filters';
 
 const DEBOUNCE_MS = 250;

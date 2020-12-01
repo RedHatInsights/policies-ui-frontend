@@ -146,11 +146,16 @@ describe('src/pages/ListPage/hooks/useToolbarActions', () => {
         jest.spyOn(Date, 'now').mockImplementation(() => now);
         const params = mockParams();
         params.exportAllPoliciesQuery.mockImplementation(() => Promise.resolve({
-            payload: [
-                mockPolicy('foo'),
-                mockPolicy('faa'),
-                mockPolicy('fee')
-            ]
+            payload: {
+                type: 'PagedResponseOfPolicy',
+                value: [
+                    mockPolicy('foo'),
+                    mockPolicy('faa'),
+                    mockPolicy('fee')
+                ],
+                status: 200,
+                errors: []
+            }
         }));
         const { result } = renderHook(() => useToolbarActions(params));
 

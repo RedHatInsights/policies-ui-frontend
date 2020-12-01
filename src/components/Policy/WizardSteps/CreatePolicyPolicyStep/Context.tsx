@@ -1,12 +1,12 @@
 import * as React from 'react';
-import { NewPolicy, Policy } from '../../../../types/Policy/Policy';
+import { NewPolicy } from '../../../../types/Policy/Policy';
 import {
-    UsePaginatedQueryResponse,
     UsePolicyFilterReturn,
     UsePolicyPageReturn,
     UsePolicyRowsReturn
 } from '../../../../hooks';
-import { UsePolicySortReturn } from '@redhat-cloud-services/insights-common-typescript';
+import { UseSortReturn } from '@redhat-cloud-services/insights-common-typescript';
+import { useGetPoliciesQuery } from '../../../../services/useGetPolicies';
 
 export interface CreatePolicyStepContextType {
     copyPolicy: boolean;
@@ -15,8 +15,8 @@ export interface CreatePolicyStepContextType {
     setCopiedPolicy: (param: NewPolicy | undefined) => void;
     policyFilter: UsePolicyFilterReturn;
     policyPage: UsePolicyPageReturn;
-    policySort: UsePolicySortReturn;
-    policyQuery: UsePaginatedQueryResponse<Policy[]>;
+    policySort: UseSortReturn;
+    policyQuery: ReturnType<typeof useGetPoliciesQuery>;
     policyRows: UsePolicyRowsReturn;
 }
 

@@ -57,8 +57,8 @@ export const PolicyDetail: React.FunctionComponent = () => {
     const triggerDetailRef = React.useRef<TriggerDetailAPI>(null);
 
     const processGetPolicyResponse = React.useCallback((response: PolicyQueryResponse) => {
-        if (response.status === 200 && response.payload) {
-            setPolicy(response.payload);
+        if (response.payload?.type === 'Policy') {
+            setPolicy(response.payload.value);
         }
     }, [ setPolicy ]);
 
@@ -107,8 +107,8 @@ export const PolicyDetail: React.FunctionComponent = () => {
             policyIds: [ policyId ],
             shouldBeEnabled: newStatus
         }).then((result) => {
-            if (result.status === 200) {
-                if (result.payload?.includes(policyId)) {
+            if (result.payload?.status === 200) {
+                if (result.payload.value.includes(policyId)) {
                     statusChanged(newStatus);
                 } else {
                     addDangerNotification(
@@ -134,8 +134,12 @@ export const PolicyDetail: React.FunctionComponent = () => {
             return <PolicyDetailEmptyState policyId={ policyId || '' }/>;
         }
 
-        if (!getPolicyQuery.loading && getPolicyQuery.error) {
-            const error = (getPolicyQuery.payload as any)?.msg || `code: ${getPolicyQuery.status}`;
+        if (!getPolicyQuery.loading && getPolicyQuery.payload?.type !== 'Policy') {
+
+            let error = `code: ${getPolicyQuery.status}`;
+            if (getPolicyQuery.payload?.type === 'Msg' && getPolicyQuery.payload.value.msg) {
+                error = getPolicyQuery.payload.value.msg;
+            }
 
             return <PolicyDetailErrorState
                 action={ () => {

@@ -21,7 +21,7 @@ import { useMountedState } from 'react-use';
 import { Fact } from '../../types/Fact';
 import { Messages } from '../../properties/Messages';
 import { CreatePolicyStepContextProvider } from './WizardSteps/CreatePolicyPolicyStep/Provider';
-import { assertNever } from '@redhat-cloud-services/insights-common-typescript';
+import { assertNever } from 'assert-never';
 
 export interface PolicyWizardProps {
     initialValue: PartialPolicy;

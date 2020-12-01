@@ -1,9 +1,9 @@
 import { useBulkMutation } from 'react-fetching-library';
 import { Uuid } from '../types/Policy/Policy';
-import { actionDeletePoliciesById } from '../generated/ActionCreators';
+import { Operations } from '../generated/Openapi';
 
 export const actionCreator = (policyId: Uuid) => {
-    return actionDeletePoliciesById({
+    return Operations.DeletePoliciesById.actionCreator({
         id: policyId
     });
 };

@@ -3,15 +3,15 @@ import inBrowserDownload from 'in-browser-download';
 import { format } from 'date-fns';
 import { addDangerNotification, exporterTypeFromString } from '@redhat-cloud-services/insights-common-typescript';
 import { PolicyWizardState } from '../ListPage';
-import { Policy } from '../../../types/Policy';
-import { UsePaginatedQueryResponse, UsePolicyRowsReturn } from '../../../hooks';
+import { UsePolicyRowsReturn } from '../../../hooks';
 import { useMassChangePolicyEnabledMutation } from '../../../services/useMassChangePolicyEnabled';
 import { UsePolicyToDeleteResponse } from '../../../hooks/usePolicyToDelete';
 import { policyExporterFactory } from '../../../utils/exporters/Policy/Factory';
+import { useGetPoliciesQuery } from '../../../services/useGetPolicies';
 
 type Params = {
     setPolicyWizardState: (params: PolicyWizardState) => void;
-    exportAllPoliciesQuery: UsePaginatedQueryResponse<Policy[]>['query'];
+    exportAllPoliciesQuery: ReturnType<typeof useGetPoliciesQuery>['query'];
     mutateChangePolicyEnabled: ReturnType<typeof useMassChangePolicyEnabledMutation>['mutate'];
     policyRows: UsePolicyRowsReturn;
     openPolicyToDelete: UsePolicyToDeleteResponse['open'];
@@ -62,9 +62,9 @@ export const useToolbarActions = (params: Params) => {
     const onExport = React.useCallback((_event, type) => {
         const exporter = policyExporterFactory(exporterTypeFromString(type));
         return exportAllPoliciesQuery().then(response => {
-            if (response.payload) {
+            if (response.payload?.type === 'PagedResponseOfPolicy') {
                 inBrowserDownload(
-                    exporter.export(response.payload),
+                    exporter.export(response.payload.value.data),
                     `policies-${format(new Date(Date.now()), 'y-dd-MM')}.${exporter.type}`
                 );
             } else {

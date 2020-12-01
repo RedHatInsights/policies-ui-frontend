@@ -20,18 +20,22 @@ export const useGetAllTriggers = (policyId: Uuid, filter: Filter | undefined) =>
                     policyId,
                     page
                 })));
-                if (response.status !== 200) {
-                    break;
-                }
+                if (response.payload) {
+                    const localTriggers = dataToTriggers(response.payload);
+                    if (localTriggers.type === 'PagedTriggers') {
+                        if (localTriggers.value.data) {
+                            triggers.push(...localTriggers.value.data);
+                            page = page.nextPage();
+                            if (page.index > Page.lastPageForElements(localTriggers.value.count, page.size).index) {
+                                break;
+                            }
 
-                const localTriggers = dataToTriggers(response.payload);
-                if (localTriggers.data) {
-                    triggers.push(...localTriggers.data);
-                    page = page.nextPage();
-                    if (page.index > Page.lastPageForElements(localTriggers.count, page.size).index) {
-                        break;
+                            continue;
+                        }
                     }
                 }
+
+                break;
             }
 
             resolve(triggers);

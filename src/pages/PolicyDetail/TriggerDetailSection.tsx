@@ -8,7 +8,7 @@ import {
     Direction,
     ExporterType,
     exporterTypeFromString,
-    Section, Sort, UsePolicySortReturn,
+    Section, Sort, UseSortReturn,
     useSort
 } from '@redhat-cloud-services/insights-common-typescript';
 import { triggerExporterFactory } from '../../utils/exporters/Trigger/Factory';
@@ -36,7 +36,7 @@ interface TableContent {
     errorContent?: React.ReactNode;
     payload?: PagedTrigger;
     loading: boolean;
-    sort: UsePolicySortReturn;
+    sort: UseSortReturn;
 }
 
 const TableContent: React.FunctionComponent<TableContent> = (props) => {
@@ -64,6 +64,16 @@ const TriggerDetailSectionInternal: React.ForwardRefRenderFunction<TriggerDetail
     const { policyId } = props;
     const triggerFilter = useTriggerFilter();
     const getTriggers = useGetPolicyDetailTriggerHistory();
+
+    const pagedTriggers = React.useMemo(() => {
+        const payload = getTriggers.payload;
+        if (payload?.type === 'PagedTriggers') {
+            return payload.value;
+        }
+
+        return undefined;
+    }, [ getTriggers.payload ]);
+
     const [ triggersPerPage, setTriggersPerPage ] = React.useState<number>(Config.defaultElementsPerPage);
     const sort = useSort(defaultSort);
     const {
@@ -109,8 +119,7 @@ const TriggerDetailSectionInternal: React.ForwardRefRenderFunction<TriggerDetail
 
     let triggerErrorState;
     if (!getTriggers.loading && getTriggers.error && getTriggers.status !== 404) {
-        const error = (getTriggers.payload as any)?.msg ?? `code: ${getTriggers.status}`;
-        triggerErrorState = <TriggerErrorState action={ refresh } error={ error }/>;
+        triggerErrorState = <TriggerErrorState action={ refresh } error={ `code: ${getTriggers.status}` }/>;
     }
 
     return (
@@ -120,11 +129,11 @@ const TriggerDetailSectionInternal: React.ForwardRefRenderFunction<TriggerDetail
             ) : (
                 <>
                     <TriggerTableToolbar
-                        count={ getTriggers.payload?.count }
+                        count={ pagedTriggers?.count }
                         page={ page }
                         onPaginationChanged={ onPaginationChanged }
                         onPaginationSizeChanged={ onChangeTriggersPerPage }
-                        pageCount={ getTriggers.payload?.data?.length }
+                        pageCount={ pagedTriggers?.data?.length }
                         filters={ triggerFilter.filters }
                         setFilters={ triggerFilter.setFilters }
                         clearFilters={ triggerFilter.clearFilter }
@@ -132,7 +141,7 @@ const TriggerDetailSectionInternal: React.ForwardRefRenderFunction<TriggerDetail
                     >
                         <TableContent
                             loading={ getTriggers.loading }
-                            payload={ getTriggers.payload }
+                            payload={ pagedTriggers }
                             sort={ sort }
                             errorContent={ triggerErrorState }
                         />

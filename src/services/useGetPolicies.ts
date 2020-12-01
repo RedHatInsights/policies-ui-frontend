@@ -1,29 +1,53 @@
-import { pageToQuery, useTransformQueryResponse, Page } from '@redhat-cloud-services/insights-common-typescript';
-import { Policy } from '../types/Policy';
-import { useNewPaginatedQuery, UsePaginatedQueryResponse } from '../hooks';
-import { PagedServerPolicyResponse } from '../types/Policy/Policy';
+import { useTransformQueryResponse, Page } from '@redhat-cloud-services/insights-common-typescript';
 import { toPolicies } from '../types/adapters/PolicyAdapter';
 import { useQuery } from 'react-fetching-library';
-import { actionGetPolicies } from '../generated/ActionCreators';
+import { Operations } from '../generated/Openapi';
+import { validatedResponse, validationResponseTransformer } from 'openapi2typescript';
 
-export const actionCreator = (page?: Page) => actionGetPolicies(pageToQuery(page));
+export const actionCreator = (page?: Page) => Operations.GetPolicies.actionCreator(page?.toQuery() ?? {});
 
-export const useGetPoliciesQuery = (page?: Page, initFetch?: boolean): UsePaginatedQueryResponse<Policy[]> => {
+const decoder = validationResponseTransformer((response: Operations.GetPolicies.Payload) => {
+    if (response.type === 'PagedResponseOfPolicy') {
+        return validatedResponse(
+            response.type,
+            response.status,
+            {
+                data: toPolicies(response.value),
+                count: response.value.meta?.count || 0
+            },
+            response.errors
+        );
+    }
+
+    return response;
+});
+
+export const useGetPoliciesQuery = (page?: Page, initFetch?: boolean) => {
     return useTransformQueryResponse(
-        useNewPaginatedQuery<PagedServerPolicyResponse>(actionCreator(page), initFetch),
-        toPolicies
+        useQuery(actionCreator(page), initFetch),
+        decoder
     );
 };
 
-const policiesToBooleanAdapter = (pagedPolicyResponse: PagedServerPolicyResponse) => {
-    return pagedPolicyResponse.data?.length;
-};
+const policiesToBooleanDecoder = validationResponseTransformer((response: Operations.GetPolicies.Payload) => {
+    let hasPolicies = true;
+    if (response.type === 'PagedResponseOfPolicy') {
+        hasPolicies = !!response.value.data?.length;
+    }
 
-export const hasPoliciesQueryActionCreator = () => actionGetPolicies((pageToQuery(Page.of(1, 1))));
+    return validatedResponse(
+        'HasPolicies',
+        response.status,
+        hasPolicies,
+        response.errors
+    );
+});
+
+export const hasPoliciesQueryActionCreator = () => Operations.GetPolicies.actionCreator((Page.of(1, 1).toQuery()));
 
 export const useHasPoliciesQuery = () => {
     return useTransformQueryResponse(
-        useQuery<PagedServerPolicyResponse>(hasPoliciesQueryActionCreator(), false),
-        policiesToBooleanAdapter
+        useQuery(hasPoliciesQueryActionCreator(), false),
+        policiesToBooleanDecoder
     );
 };

@@ -1,5 +1,5 @@
-import * as Generated from '../generated/Types';
+import * as Generated from '../generated/Openapi';
 
-export type FactType = Generated.FactType;
+export type FactType = Generated.Schemas.FactType;
 
-export type Fact = Generated.Fact;
+export type Fact = Generated.Schemas.Fact;

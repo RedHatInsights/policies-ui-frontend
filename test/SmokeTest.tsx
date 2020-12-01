@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { render, screen } from '@testing-library/react';
 import App from '../src/app/App';
-import { mockInsights } from '@redhat-cloud-services/insights-common-typescript';
+import { mockInsights } from 'insights-common-typescript-dev';
 import MockAdapter from 'axios-mock-adapter';
 import axios from 'axios';
 import { waitForAsyncEvents } from './TestUtils';

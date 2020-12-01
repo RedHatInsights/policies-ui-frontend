@@ -1,11 +1,11 @@
 import { useMutation } from 'react-fetching-library';
 import { Uuid } from '../types/Policy/Policy';
-import { actionDeletePoliciesIds } from '../generated/ActionCreators';
+import { Operations } from '../generated/Openapi';
 
-export const actionCreator = (policyIds: Uuid[]) => actionDeletePoliciesIds({
+export const actionCreator = (policyIds: Uuid[]) => Operations.DeletePoliciesIds.actionCreator({
     body: policyIds
 });
 
 export const useMassDeletePoliciesMutation = () => {
-    return useMutation<Uuid[]>(actionCreator);
+    return useMutation(actionCreator);
 };

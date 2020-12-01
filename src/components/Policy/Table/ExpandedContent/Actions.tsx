@@ -9,10 +9,11 @@ import {
 import { style } from 'typestyle';
 import { Action, ActionType } from '../../../../types/Policy/Actions';
 import { Messages } from '../../../../properties/Messages';
-import { assertNever, join, OuiaComponentProps } from '@redhat-cloud-services/insights-common-typescript';
+import { join, OuiaComponentProps } from '@redhat-cloud-services/insights-common-typescript';
 import { SVGIconProps } from '@patternfly/react-icons/dist/js/createIcon';
 import { ActionEmailIcon, ActionWebhookIcon } from '../../ActionIcons';
 import { getOuiaProps } from '../../../../utils/getOuiaProps';
+import { assertNever } from 'assert-never';
 
 interface ActionsProps extends OuiaComponentProps {
     actions: Action[];

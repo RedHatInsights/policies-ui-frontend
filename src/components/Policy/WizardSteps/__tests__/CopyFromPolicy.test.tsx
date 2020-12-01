@@ -10,6 +10,7 @@ import {
 import { useSort } from '@redhat-cloud-services/insights-common-typescript';
 import { useGetPoliciesQuery } from '../../../../services/useGetPolicies';
 import { MemoryRouter } from 'react-router-dom';
+import { Policy } from '../../../../types/Policy';
 
 describe('src/components/Policy/WizardSteps/CopyFromPolicy', () => {
     it('On render, it runs the query if payload is undefined', async () => {
@@ -24,7 +25,7 @@ describe('src/components/Policy/WizardSteps/CopyFromPolicy', () => {
                 query: queryMock,
                 payload: undefined
             };
-            const policyRows = usePolicyRows(policyQuery.payload, policyQuery.loading, policyQuery.count, policyPage.page);
+            const policyRows = usePolicyRows(policyQuery.payload, policyQuery.loading, 0, policyPage.page);
             return {
                 policyFilter,
                 policyPage,
@@ -48,7 +49,15 @@ describe('src/components/Policy/WizardSteps/CopyFromPolicy', () => {
         jest.useFakeTimers();
         let queryMock = jest.fn();
         let called = 0;
-        const policies = [];
+        const policies = {
+            value: {
+                data: [] as Array<Policy>,
+                count: 0
+            },
+            type: 'PagedResponseOfPolicy' as 'PagedResponseOfPolicy',
+            status: 200 as 200,
+            errors: []
+        };
         const { result } = renderHook(() => {
             const policyFilter = usePolicyFilter();
             const policyPage = usePolicyPage(policyFilter.debouncedFilters, 5);
@@ -63,7 +72,7 @@ describe('src/components/Policy/WizardSteps/CopyFromPolicy', () => {
                 query: queryMock,
                 payload: policies
             };
-            const policyRows = usePolicyRows(policyQuery.payload, policyQuery.loading, policyQuery.count, policyPage.page);
+            const policyRows = usePolicyRows(policyQuery.payload.value.data, policyQuery.loading, 0, policyPage.page);
             return {
                 policyFilter,
                 policyPage,

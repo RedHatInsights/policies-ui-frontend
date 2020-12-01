@@ -12,8 +12,11 @@ import {
 import App from './app/App';
 import logger from 'redux-logger';
 import { ClientContextProvider } from 'react-fetching-library';
+import { validateSchemaResponseInterceptor } from 'openapi2typescript/react-fetching-library';
 
-const client = createFetchingClient(getInsights);
+const client = createFetchingClient(getInsights, {
+    responseInterceptors: [ validateSchemaResponseInterceptor ]
+});
 initStore(logger);
 
 ReactDOM.render(

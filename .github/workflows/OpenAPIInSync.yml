@@ -30,7 +30,7 @@ jobs:
           path: ./
           repo: RedHatInsights/policies-ui-backend
       - name: Generate types from openapi.json
-        run: yarn schema:generate -i openapi.json && rm openapi.json
+        run: yarn schema:policies:generate -i openapi.json && rm openapi.json
       - name: Check differences
         run: >
           [[ -z $(git status --porcelain) ]] ||

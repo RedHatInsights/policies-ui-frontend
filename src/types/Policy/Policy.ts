@@ -1,7 +1,7 @@
 import { Action } from './Actions';
-import * as Generated from '../../generated/Types';
+import * as Generated from '../../generated/Openapi';
 
-export type Uuid = Generated.Uuid;
+export type Uuid = Generated.Schemas.UUID;
 export const maxPolicyNameLength = 150;
 
 export interface Policy {
@@ -16,10 +16,10 @@ export interface Policy {
     lastTriggered: Date | undefined;
 }
 
-export type ServerPolicyResponse = Generated.Policy;
+export type ServerPolicyResponse = Generated.Schemas.Policy;
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
-export type PagedServerPolicyResponse = Generated.PagedResponseOfPolicy;
+export type PagedServerPolicyResponse = Generated.Schemas.PagedResponseOfPolicy;
 
 type OptionalProperties = 'id' | 'mtime' | 'ctime' | 'lastTriggered';
 type OutputOnlyProperties = 'mtime' | 'ctime' | 'lastTriggered';

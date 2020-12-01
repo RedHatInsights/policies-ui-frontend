@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Filter, Operator, Page, Sort } from '@redhat-cloud-services/insights-common-typescript';
+import { Filter, Operator, Page, Sort, stringValue } from '@redhat-cloud-services/insights-common-typescript';
 import { PolicyFilterColumn, PolicyFilters } from '../types/Policy/Filters';
 
 export interface UsePolicyPageReturn {
@@ -21,15 +21,18 @@ export const usePolicyPage = (filters: PolicyFilters, defaultPerPage: number, so
     const page = React.useMemo(() => {
         const filter = new Filter();
 
-        if (filters[PolicyFilterColumn.NAME].trim() !== '') {
-            filter.and(PolicyFilterColumn.NAME, Operator.ILIKE, `%${filters[PolicyFilterColumn.NAME].trim()}%`);
+        const name = stringValue(filters[PolicyFilterColumn.NAME]).trim();
+        const isActive = stringValue(filters[PolicyFilterColumn.IS_ACTIVE]).trim();
+
+        if (name !== '') {
+            filter.and(PolicyFilterColumn.NAME, Operator.ILIKE, `%${name}%`);
         }
 
-        if (filters[PolicyFilterColumn.IS_ACTIVE] !== '') {
+        if (isActive !== '') {
             filter.and(
                 PolicyFilterColumn.IS_ACTIVE,
                 Operator.BOOLEAN_IS,
-                filters[PolicyFilterColumn.IS_ACTIVE] === 'Enabled' ? 'true' : 'false');
+                isActive === 'Enabled' ? 'true' : 'false');
         }
 
         return Page.of(currentPage, itemsPerPage, filter, sort);

@@ -14,7 +14,7 @@ import { global_spacer_md } from '@patternfly/react-tokens';
 import * as React from 'react';
 import { TimesIcon } from '@patternfly/react-icons';
 import { ActionForm } from './ActionForm/ActionForm';
-import { assertNever } from '@redhat-cloud-services/insights-common-typescript';
+import { assertNever } from 'assert-never';
 import { style } from 'typestyle';
 import { ActionIcon } from './ActionIcons';
 

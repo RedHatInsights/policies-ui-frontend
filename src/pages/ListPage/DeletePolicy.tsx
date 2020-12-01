@@ -28,11 +28,12 @@ export const DeletePolicy: React.FunctionComponent<DeletePolicyProps> = (props) 
 
     const deletePoliciesWithIds = React.useCallback((policyIds: Uuid[]) => {
         mutate(policyIds).then((response) => {
-            let errorCount = response.error ? policyIds.length : 0;
+            let errorCount = policyIds.length;
 
-            if (errorCount === 0) {
-                errorCount =  policyIds.filter(id => response.payload && !response.payload.includes(id)).length;
-                response.payload?.forEach(id => onDeleted && onDeleted(id));
+            if (response.payload?.status === 200) {
+                const success = response.payload.value;
+                errorCount = policyIds.filter(id => !success.includes(id)).length;
+                response.payload.value.forEach(uuid => onDeleted && onDeleted(uuid));
             }
 
             if (errorCount > 0) {

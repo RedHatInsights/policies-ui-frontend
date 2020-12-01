@@ -4,10 +4,11 @@ import ListPage from '../ListPage';
 import { appWrapperCleanup, appWrapperSetup, getConfiguredAppWrapper } from '../../../../test/AppWrapper';
 import { waitForAsyncEvents } from '../../../../test/TestUtils';
 import fetchMock  from 'fetch-mock';
-import { actionGetPolicies } from '../../../generated/ActionCreators';
+import { Operations } from '../../../generated/Openapi';
 import { linkTo } from '../../../Routes';
 import userEvent from '@testing-library/user-event';
 import { useState } from 'react';
+import { suppressValidateError } from 'openapi2typescript/react-fetching-library';
 
 jest.mock('@redhat-cloud-services/insights-common-typescript', () => {
     const real = jest.requireActual('@redhat-cloud-services/insights-common-typescript');
@@ -91,7 +92,7 @@ describe('src/pages/ListPage', () => {
     };
 
     const fetchMockSetup = (config?: FetchMockSetupType) => {
-        fetchMock.getOnce(actionGetPolicies({
+        fetchMock.getOnce(Operations.GetPolicies.actionCreator({
             limit: 20,
             offset: 0
         }).endpoint, {
@@ -229,6 +230,7 @@ describe('src/pages/ListPage', () => {
     });
 
     it('Shows reload required on 401', async () => {
+        suppressValidateError();
         fetchMockSetup({
             status: 401,
             emptyPayload: true
@@ -244,6 +246,7 @@ describe('src/pages/ListPage', () => {
     });
 
     it('Reloads browser when clicking on Reload page button', async () => {
+        suppressValidateError();
         fetchMockSetup({
             status: 401,
             emptyPayload: true
@@ -263,6 +266,7 @@ describe('src/pages/ListPage', () => {
     });
 
     it('Shows internal server errors on status 500', async () => {
+        suppressValidateError();
         fetchMockSetup({
             status: 500,
             emptyPayload: true
@@ -278,6 +282,7 @@ describe('src/pages/ListPage', () => {
     });
 
     it('Shows Unable to connect on other error status', async () => {
+        suppressValidateError();
         fetchMockSetup({
             status: 504,
             emptyPayload: true
@@ -293,6 +298,7 @@ describe('src/pages/ListPage', () => {
     });
 
     it('When clicking the retry button on the error status, it loads the query again', async () => {
+        suppressValidateError();
         fetchMockSetup({
             status: 504,
             emptyPayload: true

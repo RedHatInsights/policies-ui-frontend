@@ -1,25 +1,39 @@
 import { useParameterizedQuery, useQuery } from 'react-fetching-library';
-import { actionGetPoliciesById } from '../generated/ActionCreators';
-import { ServerPolicyResponse, Uuid } from '../types/Policy/Policy';
+import { Uuid } from '../types/Policy/Policy';
 import { useTransformQueryResponse } from '@redhat-cloud-services/insights-common-typescript';
 import { toPolicy } from '../types/adapters/PolicyAdapter';
+import { Operations } from '../generated/Openapi';
+import { validatedResponse, validationResponseTransformer } from 'openapi2typescript';
 
 export const actionCreator = (policyId: Uuid) => {
-    return actionGetPoliciesById({
+    return Operations.GetPoliciesById.actionCreator({
         id: policyId
     });
 };
 
+const decoder = validationResponseTransformer((response: Operations.GetPoliciesById.Payload) => {
+    if (response.type === 'Policy') {
+        return validatedResponse(
+            'Policy',
+            response.status,
+            toPolicy(response.value),
+            response.errors
+        );
+    }
+
+    return response;
+});
+
 export const useGetPolicyQuery = (policyId: Uuid, initFetch = true) => {
     return useTransformQueryResponse(
         useQuery(actionCreator(policyId), initFetch),
-        toPolicy
+        decoder
     );
 };
 
 export const useGetPolicyParametrizedQuery = () => {
     return useTransformQueryResponse(
-        useParameterizedQuery<ServerPolicyResponse>(actionCreator),
-        toPolicy
+        useParameterizedQuery(actionCreator),
+        decoder
     );
 };
