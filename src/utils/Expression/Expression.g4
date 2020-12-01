@@ -55,10 +55,12 @@ array
 
 numerical_value
   : NUMBER
+  | QUOTED_NUMBER
   ;
 
 value
  : NUMBER
+ | QUOTED_NUMBER
  | STRING
  ;
 
@@ -92,6 +94,7 @@ LTE: '<=';
 IN: I N;
 
 // Needs maybe INTEGER OR FLOAT? Use fragments?
+QUOTED_NUMBER : '\'' NUMBER '\'' | '"' NUMBER '"' ;
 NUMBER : INTEGER ('.' INTEGER)? ;
 
 FLOAT : INTEGER '.' INTEGER ;
