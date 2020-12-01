@@ -1,5 +1,6 @@
-import { ServerTrigger, Trigger } from '../Trigger';
 import fromUnixTime from 'date-fns/fromUnixTime';
+
+import { ServerTrigger, Trigger } from '../Trigger';
 
 export const toTrigger = (serverTrigger: ServerTrigger): Trigger => {
     return {

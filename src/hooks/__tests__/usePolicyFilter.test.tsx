@@ -1,7 +1,8 @@
-import { renderHook, act } from '@testing-library/react-hooks';
-import { usePolicyFilter } from '../usePolicyFilter';
-import { PolicyFilterColumn } from '../../types/Policy/Filters';
+import { act, renderHook } from '@testing-library/react-hooks';
 import { MemoryRouter, useLocation } from 'react-router-dom';
+
+import { PolicyFilterColumn } from '../../types/Policy/Filters';
+import { usePolicyFilter } from '../usePolicyFilter';
 
 describe('src/hooks/usePolicyFilter', () => {
     it('Waits ms before updating the debouncedFilters', () => {

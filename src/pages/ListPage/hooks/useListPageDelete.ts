@@ -1,8 +1,9 @@
-import * as React from 'react';
-import { Uuid } from '../../../types/Policy/Policy';
 import { Page } from '@redhat-cloud-services/insights-common-typescript';
+import * as React from 'react';
+
 import { UsePolicyPageReturn, UsePolicyRowsReturn } from '../../../hooks';
 import { UsePolicyToDeleteResponse } from '../../../hooks/usePolicyToDelete';
+import { Uuid } from '../../../types/Policy/Policy';
 
 type Params = {
     policyRows: UsePolicyRowsReturn;

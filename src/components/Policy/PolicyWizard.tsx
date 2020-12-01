@@ -1,6 +1,14 @@
-import * as React from 'react';
 import { Form, Wizard, WizardStepFunctionType } from '@patternfly/react-core';
+import { assertNever } from 'assert-never';
 import { Formik, FormikHelpers, useFormikContext } from 'formik';
+import * as React from 'react';
+import { useMountedState } from 'react-use';
+
+import { Messages } from '../../properties/Messages';
+import { PolicyFormSchema } from '../../schemas/CreatePolicy/PolicySchema';
+import { Fact } from '../../types/Fact';
+import { NewPolicy, Policy } from '../../types/Policy/Policy';
+import { PolicyWizardFooter } from './PolicyWizardFooter';
 import {
     CreatePolicyResponse,
     PartialPolicy,
@@ -9,19 +17,12 @@ import {
     WizardContext,
     WizardStepExtended
 } from './PolicyWizardTypes';
+import { createActionsStep } from './WizardSteps/ActionsStep';
+import { createConditionsStep } from './WizardSteps/ConditionsStep';
+import { CreatePolicyStepContextProvider } from './WizardSteps/CreatePolicyPolicyStep/Provider';
 import { createPolicyStep } from './WizardSteps/CreatePolicyStep';
 import { createDetailsStep } from './WizardSteps/DetailsStep';
-import { createConditionsStep } from './WizardSteps/ConditionsStep';
-import { createActionsStep } from './WizardSteps/ActionsStep';
 import { createReviewStep } from './WizardSteps/ReviewStep';
-import { PolicyFormSchema } from '../../schemas/CreatePolicy/PolicySchema';
-import { PolicyWizardFooter } from './PolicyWizardFooter';
-import { NewPolicy, Policy } from '../../types/Policy/Policy';
-import { useMountedState } from 'react-use';
-import { Fact } from '../../types/Fact';
-import { Messages } from '../../properties/Messages';
-import { CreatePolicyStepContextProvider } from './WizardSteps/CreatePolicyPolicyStep/Provider';
-import { assertNever } from 'assert-never';
 
 export interface PolicyWizardProps {
     initialValue: PartialPolicy;

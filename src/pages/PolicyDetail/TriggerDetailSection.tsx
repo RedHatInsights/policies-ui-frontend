@@ -1,26 +1,26 @@
-import * as React from 'react';
-import inBrowserDownload from 'in-browser-download';
-import { PolicyDetailTriggerEmptyState } from './TriggerEmptyState';
-import { TriggerTableToolbar } from '../../components/Trigger/TableToolbar';
-import { TriggerTable } from '../../components/Trigger/Table';
-import { TriggerTableEmptyState } from '../../components/Trigger/Table/EmptyState';
 import {
     Direction,
     ExporterType,
     exporterTypeFromString,
-    Section, Sort, UseSortReturn,
-    useSort
-} from '@redhat-cloud-services/insights-common-typescript';
-import { triggerExporterFactory } from '../../utils/exporters/Trigger/Factory';
+    Section, Sort,     useSort,
+    UseSortReturn } from '@redhat-cloud-services/insights-common-typescript';
 import { format } from 'date-fns';
-import { useGetAllTriggers } from './hooks/useGetAllTriggers';
-import { useTriggerPage } from './hooks/useTriggerPage';
-import { useTriggerFilter } from './hooks/useTriggerFilter';
-import { useGetPolicyDetailTriggerHistory } from './hooks/useGetPolicyDetailTriggerHistory';
+import inBrowserDownload from 'in-browser-download';
+import * as React from 'react';
 import { forwardRef, useCallback } from 'react';
-import { TriggerErrorState } from './TriggerErrorState';
-import { PagedTrigger } from '../../types/Trigger';
+
+import { TriggerTable } from '../../components/Trigger/Table';
+import { TriggerTableEmptyState } from '../../components/Trigger/Table/EmptyState';
+import { TriggerTableToolbar } from '../../components/Trigger/TableToolbar';
 import Config from '../../config/Config';
+import { PagedTrigger } from '../../types/Trigger';
+import { triggerExporterFactory } from '../../utils/exporters/Trigger/Factory';
+import { useGetAllTriggers } from './hooks/useGetAllTriggers';
+import { useGetPolicyDetailTriggerHistory } from './hooks/useGetPolicyDetailTriggerHistory';
+import { useTriggerFilter } from './hooks/useTriggerFilter';
+import { useTriggerPage } from './hooks/useTriggerPage';
+import { PolicyDetailTriggerEmptyState } from './TriggerEmptyState';
+import { TriggerErrorState } from './TriggerErrorState';
 
 const defaultSort = Sort.by('ctime', Direction.DESCENDING);
 
@@ -56,7 +56,7 @@ const TableContent: React.FunctionComponent<TableContent> = (props) => {
         );
     }
 
-    return <TriggerTableEmptyState/>;
+    return <TriggerTableEmptyState />;
 };
 
 const TriggerDetailSectionInternal: React.ForwardRefRenderFunction<TriggerDetailAPI, TriggerDetailSectionProps> = (props, ref) => {
@@ -119,13 +119,13 @@ const TriggerDetailSectionInternal: React.ForwardRefRenderFunction<TriggerDetail
 
     let triggerErrorState;
     if (!getTriggers.loading && getTriggers.error && getTriggers.status !== 404) {
-        triggerErrorState = <TriggerErrorState action={ refresh } error={ `code: ${getTriggers.status}` }/>;
+        triggerErrorState = <TriggerErrorState action={ refresh } error={ `code: ${getTriggers.status}` } />;
     }
 
     return (
         <Section ouiaId="trigger-detail-section">
             { getTriggers.hasTriggers === false ? (
-                <PolicyDetailTriggerEmptyState/>
+                <PolicyDetailTriggerEmptyState />
             ) : (
                 <>
                     <TriggerTableToolbar

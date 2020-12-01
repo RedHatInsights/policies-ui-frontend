@@ -1,7 +1,8 @@
-import { policyExporterFactory } from '../Factory';
-import { PolicyExporterCsv } from '../Csv';
-import { PolicyExporterJson } from '../Json';
 import { ExporterType } from '@redhat-cloud-services/insights-common-typescript';
+
+import { PolicyExporterCsv } from '../Csv';
+import { policyExporterFactory } from '../Factory';
+import { PolicyExporterJson } from '../Json';
 
 describe('src/utils/exporters/Policy/Factory', () => {
     it('get CSV Exporter', () => {

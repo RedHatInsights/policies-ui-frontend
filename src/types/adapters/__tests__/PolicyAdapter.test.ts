@@ -1,3 +1,13 @@
+import { DeepPartial } from 'ts-essentials';
+
+import { ActionType } from '../../Policy/Actions';
+import {
+    NewPolicy,
+    PagedServerPolicyResponse,
+    Policy,
+    ServerPolicyRequest,
+    ServerPolicyResponse
+} from '../../Policy/Policy';
 import {
     fromServerActions,
     makeCopyOfPolicy,
@@ -6,15 +16,6 @@ import {
     toServerAction,
     toServerPolicy
 } from '../PolicyAdapter';
-import {
-    NewPolicy,
-    PagedServerPolicyResponse,
-    Policy,
-    ServerPolicyRequest,
-    ServerPolicyResponse
-} from '../../Policy/Policy';
-import { DeepPartial } from 'ts-essentials';
-import { ActionType } from '../../Policy/Actions';
 
 describe('src/utils/PolicyAdapter', () => {
     it('toPolicy converts ServerPolicyResponse to Policy', () => {

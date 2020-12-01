@@ -1,31 +1,31 @@
-import * as React from 'react';
-import { useContext } from 'react';
 import { PageSection } from '@patternfly/react-core';
 import { Main, PageHeader, PageHeaderTitle, Section } from '@redhat-cloud-services/frontend-components';
+import { getInsights, InsightsEmailOptIn, Page, useSort } from '@redhat-cloud-services/insights-common-typescript';
+import * as React from 'react';
+import { useContext } from 'react';
 import { Helmet } from 'react-helmet';
+import { usePrevious } from 'react-use';
+import { style } from 'typestyle';
 
+import { AppContext } from '../../app/AppContext';
 import { PolicyTable } from '../../components/Policy/Table/PolicyTable';
 import { PolicyToolbar } from '../../components/Policy/TableToolbar/PolicyTableToolbar';
-import { CreatePolicyWizard } from '../CreatePolicyWizard/CreatePolicyWizard';
-import { AppContext } from '../../app/AppContext';
-import { policyTableError } from './PolicyTableError';
-import { ActionType, Policy } from '../../types/Policy';
-import { DeletePolicy } from './DeletePolicy';
-import { NewPolicy } from '../../types/Policy/Policy';
-import { usePolicyFilter, usePolicyPage, usePolicyRows } from '../../hooks';
-import { useSort, Page, InsightsEmailOptIn, getInsights } from '@redhat-cloud-services/insights-common-typescript';
-import { Messages } from '../../properties/Messages';
-import { style } from 'typestyle';
-import { ListPageEmptyState } from './EmptyState';
-import { usePrevious } from 'react-use';
-import { useGetPoliciesQuery } from '../../services/useGetPolicies';
-import { usePolicyToDelete } from '../../hooks/usePolicyToDelete';
-import { useMassChangePolicyEnabledMutation } from '../../services/useMassChangePolicyEnabled';
-import { useGetListPagePolicies } from './useGetListPagePolicies';
-import { useTableActionResolverCallback } from './hooks/useTableActionResolverCallback';
-import { useListPageDelete } from './hooks/useListPageDelete';
-import { useToolbarActions } from './hooks/useToolbarActions';
 import Config from '../../config/Config';
+import { usePolicyFilter, usePolicyPage, usePolicyRows } from '../../hooks';
+import { usePolicyToDelete } from '../../hooks/usePolicyToDelete';
+import { Messages } from '../../properties/Messages';
+import { useGetPoliciesQuery } from '../../services/useGetPolicies';
+import { useMassChangePolicyEnabledMutation } from '../../services/useMassChangePolicyEnabled';
+import { ActionType, Policy } from '../../types/Policy';
+import { NewPolicy } from '../../types/Policy/Policy';
+import { CreatePolicyWizard } from '../CreatePolicyWizard/CreatePolicyWizard';
+import { DeletePolicy } from './DeletePolicy';
+import { ListPageEmptyState } from './EmptyState';
+import { useListPageDelete } from './hooks/useListPageDelete';
+import { useTableActionResolverCallback } from './hooks/useTableActionResolverCallback';
+import { useToolbarActions } from './hooks/useToolbarActions';
+import { policyTableError } from './PolicyTableError';
+import { useGetListPagePolicies } from './useGetListPagePolicies';
 
 type ListPageProps = {};
 
@@ -182,7 +182,7 @@ const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
                 <title>Policies | Red Hat Insights</title>
             </Helmet>
             <PageHeader>
-                <PageHeaderTitle title={ Messages.pages.listPage.title }/>
+                <PageHeaderTitle title={ Messages.pages.listPage.title } />
             </PageHeader>
             { !appContext.userSettings.isSubscribedForNotifications &&
             policyRows.rows.find(p => p.actions.find(a => a.type === ActionType.EMAIL)) && (

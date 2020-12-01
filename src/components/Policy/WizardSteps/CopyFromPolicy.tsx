@@ -1,8 +1,9 @@
 import * as React from 'react';
-import { PolicyToolbar } from '../TableToolbar/PolicyTableToolbar';
-import { PolicyRow, PolicyTable } from '../Table/PolicyTable';
-import { Policy } from '../../../types/Policy';
 import { useEffectOnce } from 'react-use';
+
+import { Policy } from '../../../types/Policy';
+import { PolicyRow, PolicyTable } from '../Table/PolicyTable';
+import { PolicyToolbar } from '../TableToolbar/PolicyTableToolbar';
 import { CreatePolicyStepContextType } from './CreatePolicyPolicyStep/Context';
 
 type UsedAttributes = 'policyFilter' | 'policyPage' | 'policySort' | 'policyQuery' | 'policyRows';

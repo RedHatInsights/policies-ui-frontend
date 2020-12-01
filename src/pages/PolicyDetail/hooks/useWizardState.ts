@@ -1,8 +1,9 @@
+import { assertNever } from 'assert-never';
 import * as React from 'react';
+import { useCallback } from 'react';
+
 import { makeCopyOfPolicy } from '../../../types/adapters/PolicyAdapter';
 import { NewPolicy, Policy } from '../../../types/Policy/Policy';
-import { useCallback } from 'react';
-import { assertNever } from 'assert-never';
 
 type PolicyDetailWizardState = {
     isOpen: boolean;

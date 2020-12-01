@@ -1,7 +1,8 @@
+import { act, fireEvent, getByText, render } from '@testing-library/react';
 import * as React from 'react';
-import { render, fireEvent, getByText, act } from '@testing-library/react';
-import { AddTriggersDropdown } from '../AddTriggersDropdown';
+
 import { ActionType } from '../../../types/Policy/Actions';
+import { AddTriggersDropdown } from '../AddTriggersDropdown';
 
 describe('src/components/Policy/AddTriggersDropdown', () => {
 

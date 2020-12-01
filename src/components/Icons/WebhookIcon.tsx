@@ -1,5 +1,5 @@
-import * as React from 'react';
 import { SVGIconProps } from '@patternfly/react-icons/dist/js/createIcon';
+import * as React from 'react';
 import { style } from 'typestyle';
 
 import icon from './WebhookIcon.svg';

@@ -1,15 +1,16 @@
-import * as React from 'react';
-import fetchMock from 'fetch-mock';
+import { Direction, Page, Sort } from '@redhat-cloud-services/insights-common-typescript';
 import { getByRole, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import fetchMock from 'fetch-mock';
 import inBrowserDownload from 'in-browser-download';
-import { PolicyDetail } from '../PolicyDetail';
+import * as React from 'react';
+
 import { appWrapperCleanup, appWrapperSetup, getConfiguredAppWrapper } from '../../../../test/AppWrapper';
-import { linkTo } from '../../../Routes';
-import { Operations, Schemas } from '../../../generated/Openapi';
 import { waitForAsyncEvents } from '../../../../test/TestUtils';
+import { Operations, Schemas } from '../../../generated/Openapi';
+import { linkTo } from '../../../Routes';
 import { ServerPolicyRequest, Uuid } from '../../../types/Policy/Policy';
-import { Direction, Page, Sort } from '@redhat-cloud-services/insights-common-typescript';
+import { PolicyDetail } from '../PolicyDetail';
 import Policy = Schemas.Policy;
 import { suppressValidateError } from 'openapi2typescript/react-fetching-library';
 
@@ -185,7 +186,7 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
 
     it('Refuses to show data if rbac.readAll is false', async () => {
         fetchMockSetup();
-        render(<PolicyDetail/>, {
+        render(<PolicyDetail />, {
             wrapper: getConfiguredAppWrapper({
                 router: {
                     initialEntries: [ linkTo.policyDetail('foo') ]
@@ -213,7 +214,7 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
 
     it('Renders policy data', async () => {
         fetchMockSetup();
-        render(<PolicyDetail/>, {
+        render(<PolicyDetail />, {
             wrapper: getConfiguredAppWrapper({
                 router: {
                     initialEntries: [ linkTo.policyDetail('foo') ]
@@ -238,7 +239,7 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
             policyStatus: 404,
             policyIsUndefined: true
         });
-        render(<PolicyDetail/>, {
+        render(<PolicyDetail />, {
             wrapper: getConfiguredAppWrapper({
                 router: {
                     initialEntries: [ linkTo.policyDetail('foo') ]
@@ -259,7 +260,7 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
             policyStatus: 500,
             policy: ''
         });
-        render(<PolicyDetail/>, {
+        render(<PolicyDetail />, {
             wrapper: getConfiguredAppWrapper({
                 router: {
                     initialEntries: [ linkTo.policyDetail('foo') ]
@@ -280,7 +281,7 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
             policyStatus: 400,
             policy: {}
         });
-        render(<PolicyDetail/>, {
+        render(<PolicyDetail />, {
             wrapper: getConfiguredAppWrapper({
                 router: {
                     initialEntries: [ linkTo.policyDetail('foo') ]
@@ -303,7 +304,7 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
 
     it('Click on edit brings up edit wizard ', async () => {
         fetchMockSetup();
-        render(<PolicyDetail/>, {
+        render(<PolicyDetail />, {
             wrapper: getConfiguredAppWrapper({
                 router: {
                     initialEntries: [ linkTo.policyDetail('foo') ]
@@ -324,7 +325,7 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
 
     it('Click on duplicate brings up create wizard ', async () => {
         fetchMockSetup();
-        render(<PolicyDetail/>, {
+        render(<PolicyDetail />, {
             wrapper: getConfiguredAppWrapper({
                 router: {
                     initialEntries: [ linkTo.policyDetail('foo') ]
@@ -357,7 +358,7 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
 
         const getLocation = jest.fn();
 
-        render(<PolicyDetail/>, {
+        render(<PolicyDetail />, {
             wrapper: getConfiguredAppWrapper({
                 router: {
                     initialEntries: [ linkTo.policyDetail('foo') ]
@@ -395,7 +396,7 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
             name: 'my new name'
         });
 
-        render(<PolicyDetail/>, {
+        render(<PolicyDetail />, {
             wrapper: getConfiguredAppWrapper({
                 router: {
                     initialEntries: [ linkTo.policyDetail('foo') ]
@@ -423,7 +424,7 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
 
     it('Click on delete brings up the delete dialog ', async () => {
         fetchMockSetup();
-        render(<PolicyDetail/>, {
+        render(<PolicyDetail />, {
             wrapper: getConfiguredAppWrapper({
                 router: {
                     initialEntries: [ linkTo.policyDetail('foo') ]
@@ -444,7 +445,7 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
 
     it('Delete dialog can be closed ', async () => {
         fetchMockSetup();
-        render(<PolicyDetail/>, {
+        render(<PolicyDetail />, {
             wrapper: getConfiguredAppWrapper({
                 router: {
                     initialEntries: [ linkTo.policyDetail('foo') ]
@@ -473,7 +474,7 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
         const getLocation = jest.fn();
         render((
             <>
-                <PolicyDetail/>
+                <PolicyDetail />
             </>
         ), {
             wrapper: getConfiguredAppWrapper({
@@ -502,7 +503,7 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
         fetchMockChangeStatus(false, [ 'foo' ]);
         render((
             <>
-                <PolicyDetail/>
+                <PolicyDetail />
             </>
         ), {
             wrapper: getConfiguredAppWrapper({
@@ -530,7 +531,7 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
         fetchMockChangeStatus(true, [ 'foo' ]);
         render((
             <>
-                <PolicyDetail/>
+                <PolicyDetail />
             </>
         ), {
             wrapper: getConfiguredAppWrapper({
@@ -558,7 +559,7 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
         fetchMockChangeStatus(true, []);
         render((
             <>
-                <PolicyDetail/>
+                <PolicyDetail />
             </>
         ), {
             wrapper: getConfiguredAppWrapper({
@@ -588,7 +589,7 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
         fetchMockChangeStatus(true, [], 500);
         render((
             <>
-                <PolicyDetail/>
+                <PolicyDetail />
             </>
         ), {
             wrapper: getConfiguredAppWrapper({
@@ -617,7 +618,7 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
 
         render((
             <>
-                <PolicyDetail/>
+                <PolicyDetail />
             </>
         ), {
             wrapper: getConfiguredAppWrapper({
@@ -665,7 +666,7 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
         });
         render((
             <>
-                <PolicyDetail/>
+                <PolicyDetail />
             </>
         ), {
             wrapper: getConfiguredAppWrapper({
@@ -686,7 +687,7 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
         fetchMockSetup();
         render((
             <>
-                <PolicyDetail/>
+                <PolicyDetail />
             </>
         ), {
             wrapper: getConfiguredAppWrapper({
@@ -710,7 +711,7 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
         });
         render((
             <>
-                <PolicyDetail/>
+                <PolicyDetail />
             </>
         ), {
             wrapper: getConfiguredAppWrapper({
@@ -733,7 +734,7 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
 
     it('Sorts date descending by default', async () => {
         fetchMockSetup();
-        render(<PolicyDetail/>, {
+        render(<PolicyDetail />, {
             wrapper: getConfiguredAppWrapper({
                 router: {
                     initialEntries: [ linkTo.policyDetail('foo') ]
@@ -752,7 +753,7 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
 
     it('Allows to change the elements per page on compact (top) paginator', async () => {
         fetchMockSetup();
-        render(<PolicyDetail/>, {
+        render(<PolicyDetail />, {
             wrapper: getConfiguredAppWrapper({
                 router: {
                     initialEntries: [ linkTo.policyDetail('foo') ]
@@ -794,7 +795,7 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
 
     it('Allows to change the elements per page on bottom paginator', async () => {
         fetchMockSetup();
-        render(<PolicyDetail/>, {
+        render(<PolicyDetail />, {
             wrapper: getConfiguredAppWrapper({
                 router: {
                     initialEntries: [ linkTo.policyDetail('foo') ]
@@ -840,7 +841,7 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
             policyStatus: 400
         });
 
-        render(<PolicyDetail/>, {
+        render(<PolicyDetail />, {
             wrapper: getConfiguredAppWrapper({
                 router: {
                     initialEntries: [ linkTo.policyDetail('foo') ]
@@ -872,7 +873,7 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
             triggers: []
         });
 
-        render(<PolicyDetail/>, {
+        render(<PolicyDetail />, {
             wrapper: getConfiguredAppWrapper({
                 router: {
                     initialEntries: [ linkTo.policyDetail('foo') ]
@@ -894,7 +895,7 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
             triggers: []
         });
 
-        render(<PolicyDetail/>, {
+        render(<PolicyDetail />, {
             wrapper: getConfiguredAppWrapper({
                 router: {
                     initialEntries: [ linkTo.policyDetail('foo') ]
@@ -926,7 +927,7 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
                 name: 'My Cool policy'
             }
         });
-        render(<PolicyDetail/>, {
+        render(<PolicyDetail />, {
             wrapper: getConfiguredAppWrapper({
                 router: {
                     initialEntries: [ linkTo.policyDetail('foo') ]

@@ -1,8 +1,9 @@
 import { Exporter, ExporterType } from '@redhat-cloud-services/insights-common-typescript';
+import { assertNever } from 'assert-never';
+
+import { Policy } from '../../../types/Policy';
 import { PolicyExporterCsv } from './Csv';
 import { PolicyExporterJson } from './Json';
-import { Policy } from '../../../types/Policy';
-import { assertNever } from 'assert-never';
 
 export const policyExporterFactory = (type: ExporterType): Exporter<Policy> => {
     switch (type) {

@@ -1,10 +1,9 @@
-import * as React from 'react';
 import { Stack, StackItem } from '@patternfly/react-core';
 // eslint-disable-next-line @typescript-eslint/camelcase
 import { global_spacer_md } from '@patternfly/react-tokens';
-import { style } from 'typestyle';
-
 import { Skeleton } from '@redhat-cloud-services/frontend-components';
+import * as React from 'react';
+import { style } from 'typestyle';
 
 import { DisabledPolicyIcon, EnabledPolicyIcon } from '../../components/Icons';
 
@@ -27,17 +26,17 @@ export const PolicyDetailIsEnabled: React.FunctionComponent<PolicyDetailIsEnable
         return (
             <Stack data-testid="loading" className={ loadingClassname }>
                 <StackItem>
-                    <Skeleton size="sm"/>
+                    <Skeleton size="sm" />
                 </StackItem>
             </Stack>
         );
     }
 
     const { icon, text } = props.isEnabled ? {
-        icon: <EnabledPolicyIcon/>,
+        icon: <EnabledPolicyIcon />,
         text: 'Enabled'
     } : {
-        icon: <DisabledPolicyIcon/>,
+        icon: <DisabledPolicyIcon />,
         text: 'Disabled'
     };
 

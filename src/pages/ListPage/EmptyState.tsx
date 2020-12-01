@@ -1,14 +1,15 @@
-import * as React from 'react';
 import { CubesIcon } from '@patternfly/react-icons';
-import { Messages } from '../../properties/Messages';
 import { join } from '@redhat-cloud-services/insights-common-typescript';
+import * as React from 'react';
+
 import { EmptyStateSection } from '../../components/Policy/EmptyState/Section';
+import { Messages } from '../../properties/Messages';
 
 interface ListPageEmptyStateProps {
     createPolicy?: () => void;
 }
 
-const Br: React.FunctionComponent = () => <br/>;
+const Br: React.FunctionComponent = () => <br />;
 
 export const ListPageEmptyState: React.FunctionComponent<ListPageEmptyStateProps> = (props) => (
     <EmptyStateSection

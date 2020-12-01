@@ -1,8 +1,9 @@
 import { renderHook } from '@testing-library/react-hooks';
 import fetchMock from 'fetch-mock';
-import { useFacts } from '../useFacts';
-import { waitForAsyncEventsHooks } from '../../../test/TestUtils';
+
 import { AppWrapper, appWrapperCleanup, appWrapperSetup } from '../../../test/AppWrapper';
+import { waitForAsyncEventsHooks } from '../../../test/TestUtils';
+import { useFacts } from '../useFacts';
 
 describe('src/hooks/useFacts', () => {
 

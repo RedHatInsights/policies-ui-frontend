@@ -1,5 +1,6 @@
-import { Policy } from '../types/Policy';
 import * as React from 'react';
+
+import { Policy } from '../types/Policy';
 
 export interface UsePolicyToDeleteResponse {
     open: (policyOrCount: Policy | number) => void;

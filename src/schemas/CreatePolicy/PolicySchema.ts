@@ -1,10 +1,11 @@
-import { Action, ActionType } from '../../types/Policy/Actions';
+import { assertNever } from 'assert-never';
 import * as Yup from 'yup';
 import { ValidationError } from 'yup';
-import { maxPolicyNameLength } from '../../types/Policy/Policy';
-import { ActionEmailSchema, ActionSchema, ActionNotificationSchema } from './Actions';
+
+import { Action, ActionType } from '../../types/Policy/Actions';
 import { isAction } from '../../types/Policy/Actions/Action';
-import { assertNever } from 'assert-never';
+import { maxPolicyNameLength } from '../../types/Policy/Policy';
+import { ActionEmailSchema, ActionNotificationSchema, ActionSchema } from './Actions';
 
 const ActionSchemaSelector = (action: Action | any): Yup.Schema<any> => {
     if (action?.type && isAction(action)) {

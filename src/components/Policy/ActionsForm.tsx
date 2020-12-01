@@ -1,21 +1,22 @@
-import { ArrayHelpers } from 'formik';
-import { DeepPartial } from 'ts-essentials';
-import { Action, ActionType } from '../../types/Policy/Actions';
 import {
     Button,
     Card,
     CardActions,
     CardBody
-    , CardHeader, Form,
-    Title, CardTitle
-} from '@patternfly/react-core';
+    , CardHeader, CardTitle,
+    Form,
+    Title } from '@patternfly/react-core';
+import { TimesIcon } from '@patternfly/react-icons';
 // eslint-disable-next-line @typescript-eslint/camelcase
 import { global_spacer_md } from '@patternfly/react-tokens';
-import * as React from 'react';
-import { TimesIcon } from '@patternfly/react-icons';
-import { ActionForm } from './ActionForm/ActionForm';
 import { assertNever } from 'assert-never';
+import { ArrayHelpers } from 'formik';
+import * as React from 'react';
+import { DeepPartial } from 'ts-essentials';
 import { style } from 'typestyle';
+
+import { Action, ActionType } from '../../types/Policy/Actions';
+import { ActionForm } from './ActionForm/ActionForm';
 import { ActionIcon } from './ActionIcons';
 
 const formClassName = style({
@@ -61,12 +62,12 @@ export const ActionsForm: React.FunctionComponent<ActionsFormProps> = (props) =>
                         <CardHeader data-codemods="true">
                             <CardActions>
                                 <Button variant="plain" aria-label="Action" onClick={ props.arrayHelpers.handleRemove(index) }>
-                                    <TimesIcon/>
+                                    <TimesIcon />
                                 </Button>
                             </CardActions>
                             <CardTitle>
                                 <>
-                                    <ActionIcon actionType={ action?.type }/>
+                                    <ActionIcon actionType={ action?.type } />
                                     <Title headingLevel="h2" className={ marginLeftClassName } size="md">
                                         { action?.type ? titleForActionType(action.type) : '' }
                                     </Title>

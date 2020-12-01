@@ -1,5 +1,5 @@
-import { ActionSchema } from '../ActionSchema';
 import { ActionType } from '../../../../types/Policy/Actions';
+import { ActionSchema } from '../ActionSchema';
 
 describe('src/schemas/CreatePolicy/Actions/ActionSchema', () => {
     it('should fail when type is undefined', () => {

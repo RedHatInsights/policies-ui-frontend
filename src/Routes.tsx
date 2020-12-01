@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { RouteProps, Route, Switch, Redirect } from 'react-router';
+import { Redirect, Route, RouteProps, Switch } from 'react-router';
 
 import { ErrorPage } from './pages/Error/Page';
 import ListPage from './pages/ListPage/ListPage';
@@ -46,7 +46,7 @@ const InsightsRoute: React.FunctionComponent<InsightsRouteProps> = (props: Insig
 
     return (
         <ErrorPage>
-            <Route { ...rest }/>
+            <Route { ...rest } />
         </ErrorPage>
     );
 };
@@ -64,7 +64,7 @@ export const Routes: React.FunctionComponent<RoutesProps> = () => {
                     path={ pathRoute.path }
                 />
             ))}
-            <Redirect to={ linkTo.listPage() }/>
+            <Redirect to={ linkTo.listPage() } />
         </Switch>
     );
 };

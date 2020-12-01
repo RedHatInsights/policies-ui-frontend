@@ -1,11 +1,12 @@
-import * as React from 'react';
-import { ActionType } from '../../types/Policy/Actions';
 import { Button, ButtonVariant, Dropdown, DropdownItem } from '@patternfly/react-core';
-import { Messages } from '../../properties/Messages';
 import { Toggle } from '@patternfly/react-core/dist/js/components/Dropdown/Toggle';
 import { AngleDownIcon } from '@patternfly/react-icons';
-import { style } from 'typestyle';
 import { getInsights, OuiaComponentProps } from '@redhat-cloud-services/insights-common-typescript';
+import * as React from 'react';
+import { style } from 'typestyle';
+
+import { Messages } from '../../properties/Messages';
+import { ActionType } from '../../types/Policy/Actions';
 import { getOuiaProps } from '../../utils/getOuiaProps';
 
 interface AddTriggersDropdownProps extends OuiaComponentProps {
@@ -47,7 +48,7 @@ export const AddTriggersDropdown: React.FunctionComponent<AddTriggersDropdownPro
             isPlain
             className={ dropdownClassName }
             toggle={ <Toggle isPlain onToggle={ open => setOpen(open) } id="add-action-toggle">
-                <Button component="a" variant={ ButtonVariant.link } isInline> Add trigger actions <AngleDownIcon/> </Button>
+                <Button component="a" variant={ ButtonVariant.link } isInline> Add trigger actions <AngleDownIcon /> </Button>
             </Toggle> }
             { ...getOuiaProps('Policy/Wizard/AddTrigger', props) }
         />

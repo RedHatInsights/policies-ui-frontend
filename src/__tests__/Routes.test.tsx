@@ -1,8 +1,9 @@
-import * as React from 'react';
 import { render, screen } from '@testing-library/react';
+import * as React from 'react';
 import { Route } from 'react-router';
-import { Routes } from '../Routes';
 import { MemoryRouter } from 'react-router-dom';
+
+import { Routes } from '../Routes';
 
 jest.mock('../pages/ListPage/ListPage', () => {
     const ListPageDummyComponent: React.FunctionComponent = () => {
@@ -46,7 +47,7 @@ describe('src/Routes', () => {
         const mockConsole = jest.spyOn(console, 'error');
         mockConsole.mockImplementation(() => '');
 
-        expect(() => render(<Routes/>, {
+        expect(() => render(<Routes />, {
             wrapper: LocalWrapper
         })).toThrowError();
 
@@ -56,7 +57,7 @@ describe('src/Routes', () => {
     it('Should render the ListPage on /', async () => {
         jest.useFakeTimers();
         const { Wrapper, data } = getWrapper('/');
-        render(<Routes/>, {
+        render(<Routes />, {
             wrapper: Wrapper
         });
 
@@ -67,7 +68,7 @@ describe('src/Routes', () => {
     it('Should render the ListPage on /list', async () => {
         jest.useFakeTimers();
         const { Wrapper, data } = getWrapper('/');
-        render(<Routes/>, {
+        render(<Routes />, {
             wrapper: Wrapper
         });
 
@@ -78,7 +79,7 @@ describe('src/Routes', () => {
     it('Should render the ListPage on /random-stuff', async () => {
         jest.useFakeTimers();
         const { Wrapper, data } = getWrapper('/random-stuff');
-        render(<Routes/>, {
+        render(<Routes />, {
             wrapper: Wrapper
         });
 

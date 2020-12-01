@@ -1,9 +1,10 @@
-import * as React from 'react';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { ErrorPage } from '../Page';
-import { linkTo } from '../../../Routes';
+import * as React from 'react';
+
 import { appWrapperCleanup, appWrapperSetup, getConfiguredAppWrapper } from '../../../../test/AppWrapper';
+import { linkTo } from '../../../Routes';
+import { ErrorPage } from '../Page';
 
 jest.mock('@redhat-cloud-services/frontend-components', () => {
 
@@ -50,7 +51,7 @@ describe('src/pages/Error/Page', () => {
             throw new Error('surprise');
         };
 
-        render(<ErrorPage><Surprise/></ErrorPage>, {
+        render(<ErrorPage><Surprise /></ErrorPage>, {
             wrapper: AppWrapper
         });
 

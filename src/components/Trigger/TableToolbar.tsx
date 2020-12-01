@@ -1,13 +1,14 @@
-import * as React from 'react';
 import { PaginationProps, PaginationVariant } from '@patternfly/react-core';
 import { PrimaryToolbar } from '@redhat-cloud-services/frontend-components';
 import {
+    ColumnsMetada,     ExporterType,
+    exporterTypeFromString, OuiaComponentProps,
     Page,
-    ExporterType,
-    exporterTypeFromString, ColumnsMetada, usePrimaryToolbarFilterConfig, OuiaComponentProps
-} from '@redhat-cloud-services/insights-common-typescript';
-import { ClearTriggerFilters, SetTriggerFilters, TriggerFilterColumn, TriggerFilters } from './Filters';
+    usePrimaryToolbarFilterConfig } from '@redhat-cloud-services/insights-common-typescript';
+import * as React from 'react';
+
 import { getOuiaProps } from '../../utils/getOuiaProps';
+import { ClearTriggerFilters, SetTriggerFilters, TriggerFilterColumn, TriggerFilters } from './Filters';
 
 type OnPaginationPageChangedHandler = (
     event: React.SyntheticEvent<HTMLButtonElement> | React.MouseEvent | React.KeyboardEvent | MouseEvent, page: number) => void;

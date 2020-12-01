@@ -1,13 +1,13 @@
-import * as React from 'react';
 import { Title } from '@patternfly/react-core';
-
-import { PartialPolicy, WizardStepExtended } from '../PolicyWizardTypes';
-import { PolicyFormActions } from '../../../schemas/CreatePolicy/PolicySchema';
 import { FieldArray, FieldArrayRenderProps, useFormikContext } from 'formik';
-import { ActionsForm } from '../ActionsForm';
+import * as React from 'react';
+
 import { Messages } from '../../../properties/Messages';
+import { PolicyFormActions } from '../../../schemas/CreatePolicy/PolicySchema';
 import { ActionType } from '../../../types/Policy/Actions';
+import { ActionsForm } from '../ActionsForm';
 import { AddTriggersDropdown } from '../AddTriggersDropdown';
+import { PartialPolicy, WizardStepExtended } from '../PolicyWizardTypes';
 
 export const ActionsStep = () => {
 
@@ -41,7 +41,7 @@ export const ActionsStep = () => {
                                 isTypeEnabled={ isTypeEnabled }
                                 onTypeSelected={ addType }
                             />
-                            <ActionsForm id="actions" name="actions" actions={ helpers.form.values.actions } arrayHelpers={ helpers }/>
+                            <ActionsForm id="actions" name="actions" actions={ helpers.form.values.actions } arrayHelpers={ helpers } />
                         </>
                     );
                 } }
@@ -52,7 +52,7 @@ export const ActionsStep = () => {
 
 export const createActionsStep: (stepOverrides?: Partial<WizardStepExtended>) => WizardStepExtended = (stepOverrides) => ({
     name: Messages.wizards.policy.actions.title,
-    component: <ActionsStep/>,
+    component: <ActionsStep />,
     validationSchema: PolicyFormActions,
     ...stepOverrides
 });

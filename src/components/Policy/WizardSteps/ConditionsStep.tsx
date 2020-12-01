@@ -1,4 +1,3 @@
-import * as React from 'react';
 import {
     Button,
     ButtonVariant,
@@ -8,18 +7,19 @@ import {
     StackItem,
     Title
 } from '@patternfly/react-core';
-import { ExclamationCircleIcon, CheckCircleIcon } from '@patternfly/react-icons';
+import { CheckCircleIcon, ExclamationCircleIcon } from '@patternfly/react-icons';
 // eslint-disable-next-line @typescript-eslint/camelcase
 import { global_danger_color_100, global_success_color_200 } from '@patternfly/react-tokens';
-import { joinClasses, Form } from '@redhat-cloud-services/insights-common-typescript';
-
-import { PartialPolicy, WizardActionType, WizardContext, WizardStepExtended } from '../PolicyWizardTypes';
-import { PolicyFormConditions } from '../../../schemas/CreatePolicy/PolicySchema';
+import { Form, joinClasses } from '@redhat-cloud-services/insights-common-typescript';
 import { useFormikContext } from 'formik';
+import * as React from 'react';
 import { style } from 'typestyle';
+
 import { Messages } from '../../../properties/Messages';
-import Usage from '../Wizard/Usage';
+import { PolicyFormConditions } from '../../../schemas/CreatePolicy/PolicySchema';
 import { ConditionFieldWithForkmik } from '../../Condition/ConditionFieldWithFormik';
+import { PartialPolicy, WizardActionType, WizardContext, WizardStepExtended } from '../PolicyWizardTypes';
+import Usage from '../Wizard/Usage';
 
 const elementClassName = style({
     marginTop: 'auto',
@@ -78,7 +78,7 @@ const ConditionStatus: React.FunctionComponent<ConditionStatusProps> = (props) =
         return (
             <Split>
                 <SplitItem>
-                    <CheckCircleIcon className={ elementClassName } color={ global_success_color_200.value }/>
+                    <CheckCircleIcon className={ elementClassName } color={ global_success_color_200.value } />
                 </SplitItem>
                 <SplitItem>
                     <div className={ joinClasses(elementClassName, fontGreenColor, fontWeightBold) }>
@@ -95,7 +95,7 @@ const ConditionStatus: React.FunctionComponent<ConditionStatusProps> = (props) =
                 <StackItem>
                     <Split>
                         <SplitItem>
-                            <ExclamationCircleIcon className={ elementClassName } color={ global_danger_color_100.value }/>
+                            <ExclamationCircleIcon className={ elementClassName } color={ global_danger_color_100.value } />
                         </SplitItem>
                         <SplitItem>
                             <div className={ joinClasses(elementClassName, fontRedColor, fontWeightBold) }>
@@ -146,14 +146,14 @@ const ConditionsStep: React.FunctionComponent = () => {
                     />
                 </StackItem>
             </Stack>
-            <Usage/>
+            <Usage />
         </Form>
     );
 };
 
 export const createConditionsStep: (stepOverrides?: Partial<WizardStepExtended>) => WizardStepExtended = (stepOverrides) => ({
     name: Messages.wizards.policy.conditions.title,
-    component: <ConditionsStep/>,
+    component: <ConditionsStep />,
     validationSchema: PolicyFormConditions,
     isValid: (context, values) => {
         if (values.conditions === context.verifyResponse.policy?.conditions) {

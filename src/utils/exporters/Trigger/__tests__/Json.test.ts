@@ -1,5 +1,6 @@
-import { TriggerExporterJson } from '../Json';
 import { ExporterType } from '@redhat-cloud-services/insights-common-typescript';
+
+import { TriggerExporterJson } from '../Json';
 
 describe('src/utils/exporters/Trigger/Json', () => {
     it('has json type', () => {

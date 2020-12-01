@@ -1,7 +1,7 @@
-import { ActionEmail } from '../ActionEmail';
-import { ActionType } from '../ActionType';
 import { isAction, isActionEmail, isActionNotification } from '../Action';
+import { ActionEmail } from '../ActionEmail';
 import { ActionNotification } from '../ActionNotification';
+import { ActionType } from '../ActionType';
 
 describe('src/types/Policy/Actions', () => {
 

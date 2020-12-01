@@ -1,11 +1,12 @@
-import * as React from 'react';
-import { render, act } from '@testing-library/react';
-import { CreatePolicyStepContextProvider } from '../Provider';
-import { ClientContextProvider, createClient } from 'react-fetching-library';
+import { act, render } from '@testing-library/react';
 import fetchMock from 'fetch-mock';
-import { PolicyFilterColumn } from '../../../../../types/Policy/Filters';
-import { useState } from 'react';
 import { validateSchemaResponseInterceptor } from 'openapi2typescript/react-fetching-library';
+import * as React from 'react';
+import { useState } from 'react';
+import { ClientContextProvider, createClient } from 'react-fetching-library';
+
+import { PolicyFilterColumn } from '../../../../../types/Policy/Filters';
+import { CreatePolicyStepContextProvider } from '../Provider';
 
 let query;
 let setCurrentPage;

@@ -1,19 +1,20 @@
-import * as React from 'react';
 import { PaginationProps, PaginationVariant } from '@patternfly/react-core';
 import { PrimaryToolbar } from '@redhat-cloud-services/frontend-components';
 import {
     ColumnsMetada, OuiaComponentProps,
     usePrimaryToolbarFilterConfig
 } from '@redhat-cloud-services/insights-common-typescript';
+import * as React from 'react';
+import { style } from 'typestyle';
+
 import {
     ClearPolicyFilters,
     PolicyFilterColumn,
     PolicyFilters,
     SetPolicyFilters
 } from '../../../types/Policy/Filters';
-import { EnabledPolicyIcon, DisabledPolicyIcon } from '../../Icons';
-import { style } from 'typestyle';
 import { getOuiaProps } from '../../../utils/getOuiaProps';
+import { DisabledPolicyIcon, EnabledPolicyIcon } from '../../Icons';
 
 type OnPaginationPageChangedHandler = (
     event: React.SyntheticEvent<HTMLButtonElement> | React.MouseEvent | React.KeyboardEvent | MouseEvent, page: number) => void;
@@ -71,11 +72,11 @@ const filterMetadata: ColumnsMetada<typeof PolicyFilterColumn> = {
                 },
                 {
                     value: 'Enabled',
-                    label: <><EnabledPolicyIcon/> <span className={ enabledTextClassName }>Enabled</span></>
+                    label: <><EnabledPolicyIcon /> <span className={ enabledTextClassName }>Enabled</span></>
                 },
                 {
                     value: 'Disabled',
-                    label: <><DisabledPolicyIcon/> <span className={ enabledTextClassName }>Disabled</span></>
+                    label: <><DisabledPolicyIcon /> <span className={ enabledTextClassName }>Disabled</span></>
                 }
             ]
         }

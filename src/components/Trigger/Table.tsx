@@ -1,27 +1,27 @@
-import * as React from 'react';
 import {
-    Table,
-    TableHeader,
-    TableBody,
-    ICell,
+    breakWord,     ICell,
     IRow,
-    SortByDirection,
-    ISortBy, sortable, nowrap, breakWord, wrappable, TableText
-} from '@patternfly/react-table';
+    ISortBy, nowrap, sortable,     SortByDirection,
+    Table,
+    TableBody,
+    TableHeader,
+    TableText,
+    wrappable } from '@patternfly/react-table';
 import { SkeletonTable } from '@redhat-cloud-services/frontend-components';
 import {
     Direction,
-    Sort,
-    toUtc,
-    localUrl,
     getInsights,
-    OuiaComponentProps
-} from '@redhat-cloud-services/insights-common-typescript';
+    localUrl,
+    OuiaComponentProps,
+    Sort,
+    toUtc } from '@redhat-cloud-services/insights-common-typescript';
+import format from 'date-fns/format';
+import * as React from 'react';
+
 import { Messages } from '../../properties/Messages';
 import { Trigger } from '../../types/Trigger';
-import format from 'date-fns/format';
-import { TriggerTableEmptyState } from './Table/EmptyState';
 import { getOuiaProps } from '../../utils/getOuiaProps';
+import { TriggerTableEmptyState } from './Table/EmptyState';
 
 interface TriggerTableProps extends OuiaComponentProps {
     rows?: Trigger[];
@@ -105,7 +105,7 @@ export const TriggerTable: React.FunctionComponent<TriggerTableProps> = (props) 
 
     if (rows.length === 0) {
         return (
-            <TriggerTableEmptyState/>
+            <TriggerTableEmptyState />
         );
     }
 
@@ -118,8 +118,8 @@ export const TriggerTable: React.FunctionComponent<TriggerTableProps> = (props) 
                 onSort={ onSortHandler }
                 sortBy={ sortBy }
             >
-                <TableHeader/>
-                <TableBody/>
+                <TableHeader />
+                <TableBody />
             </Table>
         </div>
     );

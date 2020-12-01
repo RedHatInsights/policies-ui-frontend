@@ -1,12 +1,13 @@
-import * as React from 'react';
-import { PolicyRow } from '../components/Policy/Table/PolicyTable';
-import { Policy } from '../types/Policy';
-import { SelectionCommand } from '../components/Policy/TableToolbar/PolicyTableToolbar';
-import { ImmutableContainerSetMode, ImmutableContainerSet, Page } from '@redhat-cloud-services/insights-common-typescript';
-import { Uuid } from '../types/Policy/Policy';
-import { usePrevious } from 'react-use';
-import { useGetPoliciesIdsQuery } from '../services/useGetPoliciesIds';
+import { ImmutableContainerSet, ImmutableContainerSetMode, Page } from '@redhat-cloud-services/insights-common-typescript';
 import { assertNever } from 'assert-never';
+import * as React from 'react';
+import { usePrevious } from 'react-use';
+
+import { PolicyRow } from '../components/Policy/Table/PolicyTable';
+import { SelectionCommand } from '../components/Policy/TableToolbar/PolicyTableToolbar';
+import { useGetPoliciesIdsQuery } from '../services/useGetPoliciesIds';
+import { Policy } from '../types/Policy';
+import { Uuid } from '../types/Policy/Policy';
 
 export interface UsePolicyRowsReturn {
     rows: PolicyRow[];

@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { Radio } from '@patternfly/react-core';
 import {
     expandable,
     IActions, IActionsResolver,
@@ -11,25 +11,24 @@ import {
     TableBody,
     TableHeader
 } from '@patternfly/react-table';
-import { Radio } from '@patternfly/react-core';
 import { SkeletonTable } from '@redhat-cloud-services/frontend-components';
-
-import { Policy } from '../../../types/Policy';
 import {
     Direction,
-    Sort,
-    OuiaComponentProps
-} from '@redhat-cloud-services/insights-common-typescript';
-import { ExpandedContent } from './ExpandedContent';
-import { Messages } from '../../../properties/Messages';
-import { ActionsCell } from './ActionsCell';
-import { LastTriggeredCell } from './LastTriggeredCell';
-import { EmptyStateSection, EmptyStateSectionProps } from '../EmptyState/Section';
-import { style } from 'typestyle';
-import { Link } from 'react-router-dom';
-import { linkTo } from '../../../Routes';
-import { getOuiaProps } from '../../../utils/getOuiaProps';
+    OuiaComponentProps,
+    Sort } from '@redhat-cloud-services/insights-common-typescript';
 import { assertNever } from 'assert-never';
+import * as React from 'react';
+import { Link } from 'react-router-dom';
+import { style } from 'typestyle';
+
+import { Messages } from '../../../properties/Messages';
+import { linkTo } from '../../../Routes';
+import { Policy } from '../../../types/Policy';
+import { getOuiaProps } from '../../../utils/getOuiaProps';
+import { EmptyStateSection, EmptyStateSectionProps } from '../EmptyState/Section';
+import { ActionsCell } from './ActionsCell';
+import { ExpandedContent } from './ExpandedContent';
+import { LastTriggeredCell } from './LastTriggeredCell';
 
 const emptyStateSectionBackgroundColor = style({
     backgroundColor: 'white'
@@ -73,7 +72,7 @@ const policiesToRows = (policies: PolicyRow[] | undefined, columnsToShow: ValidC
                 cells: columnsToShow.map(column => {
                     switch (column) {
                         case 'actions':
-                            return  <><ActionsCell ouiaId={ policy.id } actions={ policy.actions }/></>;
+                            return  <><ActionsCell ouiaId={ policy.id } actions={ policy.actions } /></>;
                         case 'is_enabled':
                             return <><LastTriggeredCell
                                 ouiaId={ policy.id }
@@ -284,8 +283,8 @@ export const PolicyTable: React.FunctionComponent<PolicyTableProps> = (props) =>
                 sortBy={ sortBy }
                 canSelectAll={ false }
             >
-                <TableHeader/>
-                <TableBody/>
+                <TableHeader />
+                <TableBody />
             </Table>
         </div>
     );

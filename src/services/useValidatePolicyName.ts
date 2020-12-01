@@ -1,6 +1,7 @@
 import { useParameterizedQuery } from 'react-fetching-library';
-import { Policy } from '../types/Policy';
+
 import { Operations } from '../generated/Openapi';
+import { Policy } from '../types/Policy';
 
 export const actionCreator = (policy: Partial<Policy>) => {
     return Operations.PostPoliciesValidateName.actionCreator({

@@ -1,9 +1,10 @@
-import { Uuid } from '../types/Policy/Policy';
-import { useParameterizedQuery } from 'react-fetching-library';
-import { toTriggers } from '../types/adapters/TriggerAdapter';
 import { Page, useTransformQueryResponse } from '@redhat-cloud-services/insights-common-typescript';
-import { Operations } from '../generated/Openapi';
 import { validationResponseTransformer } from 'openapi2typescript';
+import { useParameterizedQuery } from 'react-fetching-library';
+
+import { Operations } from '../generated/Openapi';
+import { toTriggers } from '../types/adapters/TriggerAdapter';
+import { Uuid } from '../types/Policy/Policy';
 
 export interface UseGetPolicyTriggersParams {
     policyId: Uuid;

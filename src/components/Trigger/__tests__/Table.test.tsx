@@ -1,12 +1,13 @@
-import * as React from 'react';
-import userEvent from '@testing-library/user-event';
-import { render, screen } from '@testing-library/react';
 import { Direction, Sort } from '@redhat-cloud-services/insights-common-typescript';
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import * as React from 'react';
+
 import { TriggerTable } from '../Table';
 
 describe('src/components/Trigger/Table', () => {
     it('renders empty state when no rows', () => {
-        render(<TriggerTable/>);
+        render(<TriggerTable />);
         expect(screen.getByText('No matching triggers found')).toBeVisible();
     });
 
@@ -185,7 +186,7 @@ describe('src/components/Trigger/Table', () => {
     });
 
     it('renders loading when loading is true', () => {
-        render(<TriggerTable loading={ true }/>);
+        render(<TriggerTable loading={ true } />);
         expect(screen.getByRole('grid')).toHaveAttribute('aria-label', 'Loading');
     });
 

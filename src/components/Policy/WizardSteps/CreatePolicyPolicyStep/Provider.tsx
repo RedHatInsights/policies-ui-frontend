@@ -1,9 +1,10 @@
-import * as React from 'react';
-import { NewPolicy, Policy } from '../../../../types/Policy/Policy';
-import { usePolicyFilter, usePolicyPage, usePolicyRows } from '../../../../hooks';
 import { useSort } from '@redhat-cloud-services/insights-common-typescript';
-import { useGetPoliciesQuery } from '../../../../services/useGetPolicies';
+import * as React from 'react';
 import { useUpdateEffect } from 'react-use';
+
+import { usePolicyFilter, usePolicyPage, usePolicyRows } from '../../../../hooks';
+import { useGetPoliciesQuery } from '../../../../services/useGetPolicies';
+import { NewPolicy, Policy } from '../../../../types/Policy/Policy';
 import { CreatePolicyStepContext } from './Context';
 
 export const defaultPerPage = 5;

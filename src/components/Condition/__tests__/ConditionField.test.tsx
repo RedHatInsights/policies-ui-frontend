@@ -1,10 +1,10 @@
-import * as React from 'react';
-import { render, act, screen } from '@testing-library/react';
+import { act, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import * as React from 'react';
 
-import { buildOptionList, ConditionField, ConditionFieldProps } from '../ConditionField';
-import { Fact } from '../../../types/Fact';
 import { Schemas } from '../../../generated/Openapi';
+import { Fact } from '../../../types/Fact';
+import { buildOptionList, ConditionField, ConditionFieldProps } from '../ConditionField';
 import FactType = Schemas.FactType;
 
 describe('src/components/Condition/ConditionVisitor', () => {
@@ -153,6 +153,9 @@ describe('src/components/Condition/ConditionVisitor', () => {
 
         await act(async () => {
             await userEvent.type(screen.getByLabelText('Condition writer'), 'fact');
+        });
+
+        await act(async () => {
             userEvent.click(screen.getByText(/foo.fact/));
         });
 
@@ -173,6 +176,9 @@ describe('src/components/Condition/ConditionVisitor', () => {
 
         await act(async () => {
             await userEvent.type(screen.getByLabelText('Condition writer'), 'fact');
+        });
+
+        await act(async () => {
             await userEvent.click(screen.getByText(/foo.fact/));
         });
 

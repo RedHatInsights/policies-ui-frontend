@@ -1,6 +1,7 @@
 import { useBulkMutation } from 'react-fetching-library';
-import { Uuid } from '../types/Policy/Policy';
+
 import { Operations } from '../generated/Openapi';
+import { Uuid } from '../types/Policy/Policy';
 
 export interface UsePolicyEnabledParams {
     policyId: Uuid;

@@ -1,8 +1,9 @@
-import * as React from 'react';
 import { Text, Title  } from '@patternfly/react-core';
-import { style } from 'typestyle';
-import { Messages } from '../../../../properties/Messages';
 import { OuiaComponentProps } from '@redhat-cloud-services/insights-common-typescript';
+import * as React from 'react';
+import { style } from 'typestyle';
+
+import { Messages } from '../../../../properties/Messages';
 import { getOuiaProps } from '../../../../utils/getOuiaProps';
 
 interface ConditionsProps extends OuiaComponentProps {

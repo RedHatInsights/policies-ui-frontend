@@ -1,9 +1,10 @@
-import { NewPolicy } from '../types/Policy/Policy';
-import { toPolicy, toServerPolicy } from '../types/adapters/PolicyAdapter';
-import { useMutation } from 'react-fetching-library';
-import { Operations } from '../generated/Openapi';
-import { validatedResponse, validationResponseTransformer } from 'openapi2typescript';
 import { useTransformQueryResponse } from '@redhat-cloud-services/insights-common-typescript';
+import { validatedResponse, validationResponseTransformer } from 'openapi2typescript';
+import { useMutation } from 'react-fetching-library';
+
+import { Operations } from '../generated/Openapi';
+import { toPolicy, toServerPolicy } from '../types/adapters/PolicyAdapter';
+import { NewPolicy } from '../types/Policy/Policy';
 
 export const savePolicyActionCreator = (policy: NewPolicy) => {
     if (policy.id) {

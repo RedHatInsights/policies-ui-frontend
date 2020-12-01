@@ -1,7 +1,8 @@
-import * as React from 'react';
-import { render, act } from '@testing-library/react';
+import { act, render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { Formik } from 'formik';
+import * as React from 'react';
+
 import { DetailsStep } from '../DetailsStep';
 
 const FormikMockContainer: React.FunctionComponent = (props) => (
@@ -14,7 +15,7 @@ describe('src/components/Policy/WizardSteps/DetailStep', () => {
     it('Name allows 150 characters', async () => {
         render(
             <FormikMockContainer>
-                <DetailsStep/>
+                <DetailsStep />
             </FormikMockContainer>
         );
 
@@ -35,7 +36,7 @@ describe('src/components/Policy/WizardSteps/DetailStep', () => {
     it('Name allows below 150 characters', async () => {
         render(
             <FormikMockContainer>
-                <DetailsStep/>
+                <DetailsStep />
             </FormikMockContainer>
         );
 
@@ -55,7 +56,7 @@ describe('src/components/Policy/WizardSteps/DetailStep', () => {
     it('Name prevents above 150 characters', async () => {
         render(
             <FormikMockContainer>
-                <DetailsStep/>
+                <DetailsStep />
             </FormikMockContainer>
         );
 

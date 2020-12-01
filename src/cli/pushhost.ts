@@ -1,12 +1,12 @@
 #!/usr/bin/env ts-node
 
-import { config as dotenvConfig } from 'dotenv';
-import { Command } from 'commander';
 import { exec } from 'child_process';
-import { createHash } from 'crypto';
-import randomWords from 'random-words';
-import { lookpath } from 'lookpath';
 import * as cliProgress from 'cli-progress';
+import { Command } from 'commander';
+import { createHash } from 'crypto';
+import { config as dotenvConfig } from 'dotenv';
+import { lookpath } from 'lookpath';
+import randomWords from 'random-words';
 
 const getHost = (account) => {
     const hostname = randomWords({ min: 1, max: 2, join: ' ', formatter: (word, index) => {

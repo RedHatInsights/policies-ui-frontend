@@ -1,9 +1,10 @@
-import * as React from 'react';
-import { ActionFormProps } from './ActionFormProps';
 import { Text } from '@patternfly/react-core';
+import * as React from 'react';
+
 import Config from '../../../config/Config';
 import { Messages } from '../../../properties/Messages';
 import { getOuiaProps } from '../../../utils/getOuiaProps';
+import { ActionFormProps } from './ActionFormProps';
 
 interface TextWithLinkProps {
     head: string;

@@ -1,14 +1,13 @@
-import * as React from 'react';
-import { RouteComponentProps, withRouter } from 'react-router';
-import { NotificationsPortal } from '@redhat-cloud-services/frontend-components-notifications';
-
 import './App.scss';
 
-import { Routes } from '../Routes';
+import { NotificationsPortal } from '@redhat-cloud-services/frontend-components-notifications';
 import { AppSkeleton } from '@redhat-cloud-services/insights-common-typescript';
+import * as React from 'react';
+import { RouteComponentProps, withRouter } from 'react-router';
 
-import { AppContext } from './AppContext';
 import { NoPermissionsPage } from '../pages/NoPermissions/NoPermissionsPage';
+import { Routes } from '../Routes';
+import { AppContext } from './AppContext';
 import { useApp } from './useApp';
 
 const App: React.FunctionComponent<RouteComponentProps> = () => {
@@ -17,7 +16,7 @@ const App: React.FunctionComponent<RouteComponentProps> = () => {
 
     if (!rbac) {
         return (
-            <AppSkeleton/>
+            <AppSkeleton />
         );
     }
 
@@ -28,11 +27,11 @@ const App: React.FunctionComponent<RouteComponentProps> = () => {
         } }>
             { rbac.canReadAll ? (
                 <>
-                    <NotificationsPortal/>
-                    <Routes/>
+                    <NotificationsPortal />
+                    <Routes />
                 </>
             ) : (
-                <NoPermissionsPage/>
+                <NoPermissionsPage />
             ) }
         </AppContext.Provider>
     );

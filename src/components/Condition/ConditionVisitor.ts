@@ -1,6 +1,6 @@
+import { Token } from 'antlr4ts';
 import { AbstractParseTreeVisitor, ErrorNode, TerminalNode } from 'antlr4ts/tree';
 
-import { ExpressionVisitor } from '../../utils/Expression/ExpressionVisitor';
 import {
     // eslint-disable-next-line @typescript-eslint/camelcase
     ArrayContext, Boolean_operatorContext, ExprContext,
@@ -8,7 +8,7 @@ import {
     KeyContext, Logical_operatorContext, Numeric_compare_operatorContext, Numerical_valueContext,
     ValueContext
 } from '../../utils/Expression/ExpressionParser';
-import { Token } from 'antlr4ts';
+import { ExpressionVisitor } from '../../utils/Expression/ExpressionVisitor';
 
 export enum ElementType {
     FACT = 'FACT',

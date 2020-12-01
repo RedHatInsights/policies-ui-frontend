@@ -1,16 +1,16 @@
-import * as React from 'react';
 import {
     Button,
-    WizardFooter,
-    WizardContextConsumer,
-    ButtonVariant, SplitItem, Split
-} from '@patternfly/react-core';
+    ButtonVariant, Split,
+    SplitItem,     WizardContextConsumer,
+    WizardFooter } from '@patternfly/react-core';
 import { Spinner } from '@patternfly/react-core';
+import { ExclamationCircleIcon } from '@patternfly/react-icons';
 // eslint-disable-next-line @typescript-eslint/camelcase
 import { global_danger_color_100 } from '@patternfly/react-tokens';
-import { style } from 'typestyle';
-import { ExclamationCircleIcon } from '@patternfly/react-icons';
+import * as React from 'react';
 import { useContext } from 'react';
+import { style } from 'typestyle';
+
 import { WizardContext } from './PolicyWizardTypes';
 
 const loadingClassName = style({
@@ -77,7 +77,7 @@ export const PolicyWizardFooter: React.FunctionComponent<PolicyWizardFooterProps
                             { !props.isLoading && props.error && (
                                 <Split className={ loadingClassName }>
                                     <SplitItem>
-                                        <ExclamationCircleIcon className={ exclamationClassName } color={ global_danger_color_100.value }/>
+                                        <ExclamationCircleIcon className={ exclamationClassName } color={ global_danger_color_100.value } />
                                     </SplitItem>
                                     <SplitItem>{ props.error }</SplitItem>
                                 </Split>

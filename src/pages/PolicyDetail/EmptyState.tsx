@@ -1,9 +1,10 @@
+import { UnknownIcon } from '@patternfly/react-icons';
 import * as React from 'react';
 import { useHistory } from 'react-router-dom';
-import { UnknownIcon } from '@patternfly/react-icons';
-import { Messages } from '../../properties/Messages';
-import { EmptyStateSection } from '../../components/Policy/EmptyState/Section';
 import { format } from 'react-string-format';
+
+import { EmptyStateSection } from '../../components/Policy/EmptyState/Section';
+import { Messages } from '../../properties/Messages';
 import { linkTo } from '../../Routes';
 
 interface ListPageEmptyStateProps {

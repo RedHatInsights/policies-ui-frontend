@@ -1,7 +1,8 @@
-import * as React from 'react';
-import { ConditionField, ConditionFieldProps } from './ConditionField';
-import { useField } from 'formik';
 import { FormGroup, Text, TextVariants } from '@patternfly/react-core';
+import { useField } from 'formik';
+import * as React from 'react';
+
+import { ConditionField, ConditionFieldProps } from './ConditionField';
 
 type ConditionFieldWithFormikProp = Omit<ConditionFieldProps, 'onSelect' | 'value'> & {
     isRequired?: boolean;
