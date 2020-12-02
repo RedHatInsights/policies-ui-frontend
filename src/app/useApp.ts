@@ -1,6 +1,7 @@
-import { useState, useEffect } from 'react';
+import { fetchRBAC, getInsights, Rbac, waitForInsights } from '@redhat-cloud-services/insights-common-typescript';
+import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { getInsights, waitForInsights, Rbac, fetchRBAC } from '@redhat-cloud-services/insights-common-typescript';
+
 import Config from '../config/Config';
 import { AppContext } from './AppContext';
 import { useUserSettings } from './useUserSettings';

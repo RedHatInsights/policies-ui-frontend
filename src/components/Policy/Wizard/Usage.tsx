@@ -1,9 +1,10 @@
-import * as React from 'react';
-import { StackItem, TextContent, Text, TextVariants, ExpandableSection } from '@patternfly/react-core';
-import { Messages }  from '../../../properties/Messages';
-import { style } from 'typestyle';
-import Config from '../../../config/Config';
+import { ExpandableSection, StackItem, Text, TextContent, TextVariants } from '@patternfly/react-core';
 import { OuiaComponentProps } from '@redhat-cloud-services/insights-common-typescript';
+import * as React from 'react';
+import { style } from 'typestyle';
+
+import Config from '../../../config/Config';
+import { Messages }  from '../../../properties/Messages';
 import { getOuiaProps } from '../../../utils/getOuiaProps';
 
 const codeClass = style({
@@ -52,7 +53,7 @@ const Usage: React.FunctionComponent<OuiaComponentProps> = (props) => {
         <>
             <StackItem { ...getOuiaProps('Policy/Wizard/Usage', props) }>
                 <ExpandableSection toggleText={ Messages.wizards.policy.hints.hintTitle }>
-                    <TextItemExtension/>
+                    <TextItemExtension />
                 </ExpandableSection>
             </StackItem>
         </>

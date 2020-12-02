@@ -1,5 +1,5 @@
-import * as React from 'react';
 import { Dropdown, DropdownItem, DropdownPosition, KebabToggle } from '@patternfly/react-core';
+import * as React from 'react';
 
 interface ActionsProps {
     edit: () => void;
@@ -59,7 +59,7 @@ export const PolicyDetailActions: React.FunctionComponent<ActionsProps> = (props
                 data-testid="policy-detail-actions-button"
                 isDisabled={ props.disabled }
                 onToggle={ setOpen }
-                id="policy-detail-actions-menu"/> }
+                id="policy-detail-actions-menu" /> }
             isOpen={ isOpen }
             isPlain
             dropdownItems={ items }

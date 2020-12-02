@@ -1,16 +1,17 @@
-import * as React from 'react';
+import { useSort } from '@redhat-cloud-services/insights-common-typescript';
 import { render } from '@testing-library/react';
 import { renderHook } from '@testing-library/react-hooks';
-import { CopyFromPolicy } from '../CopyFromPolicy';
+import * as React from 'react';
+import { MemoryRouter } from 'react-router-dom';
+
 import {
     usePolicyFilter,
     usePolicyPage,
     usePolicyRows
 } from '../../../../hooks';
-import { useSort } from '@redhat-cloud-services/insights-common-typescript';
 import { useGetPoliciesQuery } from '../../../../services/useGetPolicies';
-import { MemoryRouter } from 'react-router-dom';
 import { Policy } from '../../../../types/Policy';
+import { CopyFromPolicy } from '../CopyFromPolicy';
 
 describe('src/components/Policy/WizardSteps/CopyFromPolicy', () => {
     it('On render, it runs the query if payload is undefined', async () => {

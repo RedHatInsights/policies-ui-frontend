@@ -1,10 +1,11 @@
-import { PolicyFilterColumn } from '../types/Policy/Filters';
 import {
     useFilters,
     useUrlStateExclusiveOptions,
     useUrlStateString
 } from '@redhat-cloud-services/insights-common-typescript';
 import { assertNever } from 'assert-never';
+
+import { PolicyFilterColumn } from '../types/Policy/Filters';
 
 const DEBOUNCE_MS = 250;
 

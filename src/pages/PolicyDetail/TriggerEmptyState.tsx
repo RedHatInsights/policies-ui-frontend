@@ -1,6 +1,7 @@
 import * as React from 'react';
-import { Messages } from '../../properties/Messages';
+
 import { EmptyStateSection } from '../../components/Policy/EmptyState/Section';
+import { Messages } from '../../properties/Messages';
 
 export const PolicyDetailTriggerEmptyState: React.FunctionComponent = () => {
     return <EmptyStateSection

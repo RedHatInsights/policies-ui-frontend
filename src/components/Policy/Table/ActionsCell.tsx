@@ -1,12 +1,13 @@
-import * as React from 'react';
-import { Action, ActionType } from '../../../types/Policy/Actions';
-import { OuiaComponentProps } from '@redhat-cloud-services/insights-common-typescript';
 import { Badge, Split, SplitItem, Tooltip, TooltipPosition } from '@patternfly/react-core';
-import { style } from 'typestyle';
-import { ActionEmailIcon, ActionWebhookIcon } from '../ActionIcons';
-import { Messages } from '../../../properties/Messages';
-import { getOuiaProps } from '../../../utils/getOuiaProps';
+import { OuiaComponentProps } from '@redhat-cloud-services/insights-common-typescript';
 import { assertNever } from 'assert-never';
+import * as React from 'react';
+import { style } from 'typestyle';
+
+import { Messages } from '../../../properties/Messages';
+import { Action, ActionType } from '../../../types/Policy/Actions';
+import { getOuiaProps } from '../../../utils/getOuiaProps';
+import { ActionEmailIcon, ActionWebhookIcon } from '../ActionIcons';
 
 interface ActionsCellProps extends OuiaComponentProps {
     actions: Action[];
@@ -31,7 +32,7 @@ const ActionEmailIconTooltip = () => (
         content={ Messages.tables.policy.toolTips.email }
         position={ iconPosition }
     >
-        <ActionEmailIcon/>
+        <ActionEmailIcon />
     </Tooltip>
 );
 const ActionWebhookIconTooltip = () => (
@@ -39,7 +40,7 @@ const ActionWebhookIconTooltip = () => (
         content={ Messages.tables.policy.toolTips.hook }
         position={ iconPosition }
     >
-        <ActionWebhookIcon/>
+        <ActionWebhookIcon />
     </Tooltip>
 );
 export const ActionsCell: React.FunctionComponent<ActionsCellProps> = (props) => {
@@ -51,10 +52,10 @@ export const ActionsCell: React.FunctionComponent<ActionsCellProps> = (props) =>
         let element;
         switch (action.type) {
             case ActionType.EMAIL:
-                element = <ActionEmailIconTooltip/>;
+                element = <ActionEmailIconTooltip />;
                 break;
             case ActionType.NOTIFICATION:
-                element = <ActionWebhookIconTooltip/>;
+                element = <ActionWebhookIconTooltip />;
                 break;
             default:
                 assertNever(action);

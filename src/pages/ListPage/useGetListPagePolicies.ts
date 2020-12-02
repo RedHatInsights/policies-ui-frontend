@@ -1,6 +1,7 @@
-import { useGetPoliciesQuery, useHasPoliciesQuery } from '../../services/useGetPolicies';
 import { Page } from '@redhat-cloud-services/insights-common-typescript';
 import { useCallback, useMemo, useState } from 'react';
+
+import { useGetPoliciesQuery, useHasPoliciesQuery } from '../../services/useGetPolicies';
 
 export interface UseGetListPagePoliciesResponse extends ReturnType<typeof useGetPoliciesQuery> {
     hasPolicies: boolean | undefined;

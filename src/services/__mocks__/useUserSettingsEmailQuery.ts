@@ -1,4 +1,5 @@
 import { UseQueryResponse } from 'react-fetching-library';
+
 import { UserSettings } from '../../types/UserSettings';
 
 const actual = { ...jest.requireActual('../useUserSettingsEmailQuery') };

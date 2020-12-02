@@ -1,13 +1,14 @@
-import * as React from 'react';
-import { render, screen, act } from '@testing-library/react';
-import { CreatePolicyWizard } from '../CreatePolicyWizard';
-import { PolicyWizardProps } from '../../../components/Policy/PolicyWizard';
-import { ClientContextProvider, createClient } from 'react-fetching-library';
-import fetchMock, { UNMATCHED } from 'fetch-mock';
-import { formatConditionError } from '../CreatePolicyWizard';
-import { useFacts } from '../../../hooks/useFacts';
 import { addSuccessNotification } from '@redhat-cloud-services/insights-common-typescript';
+import { act, render, screen } from '@testing-library/react';
+import fetchMock, { UNMATCHED } from 'fetch-mock';
 import { suppressValidateError, validateSchemaResponseInterceptor } from 'openapi2typescript/react-fetching-library';
+import * as React from 'react';
+import { ClientContextProvider, createClient } from 'react-fetching-library';
+
+import { PolicyWizardProps } from '../../../components/Policy/PolicyWizard';
+import { useFacts } from '../../../hooks/useFacts';
+import { CreatePolicyWizard } from '../CreatePolicyWizard';
+import { formatConditionError } from '../CreatePolicyWizard';
 jest.mock('@redhat-cloud-services/insights-common-typescript', () => {
     const real = jest.requireActual('@redhat-cloud-services/insights-common-typescript');
     return {
@@ -60,7 +61,7 @@ describe('src/pages/ListPage/CreatePolicyWizard', () => {
             return <>hello world</>;
         });
 
-        render(<CreatePolicyWizard isOpen={ true } close={ jest.fn() } showCreateStep={ false } isEditing={ true }/>, {
+        render(<CreatePolicyWizard isOpen={ true } close={ jest.fn() } showCreateStep={ false } isEditing={ true } />, {
             wrapper: Wrapper
         });
         expect(screen.queryByText(/hello world/i)).toBeTruthy();
@@ -71,7 +72,7 @@ describe('src/pages/ListPage/CreatePolicyWizard', () => {
             return <>hello world</>;
         });
 
-        render(<CreatePolicyWizard isOpen={ false } close={ jest.fn() } showCreateStep={ false } isEditing={ true }/>, {
+        render(<CreatePolicyWizard isOpen={ false } close={ jest.fn() } showCreateStep={ false } isEditing={ true } />, {
             wrapper: Wrapper
         });
         expect(screen.queryByText(/hello world/i)).toBeFalsy();
@@ -119,7 +120,7 @@ describe('src/pages/ListPage/CreatePolicyWizard', () => {
                 }
             );
 
-            render(<CreatePolicyWizard isOpen={ true } close={ jest.fn() } showCreateStep={ false } isEditing={ true }/>, {
+            render(<CreatePolicyWizard isOpen={ true } close={ jest.fn() } showCreateStep={ false } isEditing={ true } />, {
                 wrapper: Wrapper
             });
 
@@ -153,7 +154,7 @@ describe('src/pages/ListPage/CreatePolicyWizard', () => {
                 }
             );
 
-            render(<CreatePolicyWizard isOpen={ true } close={ jest.fn() } showCreateStep={ false } isEditing={ true }/>, {
+            render(<CreatePolicyWizard isOpen={ true } close={ jest.fn() } showCreateStep={ false } isEditing={ true } />, {
                 wrapper: Wrapper
             });
 
@@ -193,7 +194,7 @@ describe('src/pages/ListPage/CreatePolicyWizard', () => {
 
             const closeFn = jest.fn();
 
-            render(<CreatePolicyWizard isOpen={ true } close={ closeFn } showCreateStep={ false } isEditing={ true }/>, {
+            render(<CreatePolicyWizard isOpen={ true } close={ closeFn } showCreateStep={ false } isEditing={ true } />, {
                 wrapper: Wrapper
             });
 
@@ -241,7 +242,7 @@ describe('src/pages/ListPage/CreatePolicyWizard', () => {
                 }
             );
 
-            render(<CreatePolicyWizard isOpen={ true } close={ jest.fn() } showCreateStep={ false } isEditing={ true }/>, {
+            render(<CreatePolicyWizard isOpen={ true } close={ jest.fn() } showCreateStep={ false } isEditing={ true } />, {
                 wrapper: Wrapper
             });
 
@@ -279,7 +280,7 @@ describe('src/pages/ListPage/CreatePolicyWizard', () => {
                 }
             );
 
-            render(<CreatePolicyWizard isOpen={ true } close={ jest.fn() } showCreateStep={ false } isEditing={ true }/>, {
+            render(<CreatePolicyWizard isOpen={ true } close={ jest.fn() } showCreateStep={ false } isEditing={ true } />, {
                 wrapper: Wrapper
             });
 
@@ -308,7 +309,7 @@ describe('src/pages/ListPage/CreatePolicyWizard', () => {
                 }
             );
 
-            render(<CreatePolicyWizard isOpen={ true } close={ jest.fn() } showCreateStep={ false } isEditing={ true }/>, {
+            render(<CreatePolicyWizard isOpen={ true } close={ jest.fn() } showCreateStep={ false } isEditing={ true } />, {
                 wrapper: Wrapper
             });
 
@@ -338,7 +339,7 @@ describe('src/pages/ListPage/CreatePolicyWizard', () => {
                 }
             );
 
-            render(<CreatePolicyWizard isOpen={ true } close={ jest.fn() } showCreateStep={ false } isEditing={ true }/>, {
+            render(<CreatePolicyWizard isOpen={ true } close={ jest.fn() } showCreateStep={ false } isEditing={ true } />, {
                 wrapper: Wrapper
             });
 
@@ -372,7 +373,7 @@ describe('src/pages/ListPage/CreatePolicyWizard', () => {
                 }
             );
 
-            render(<CreatePolicyWizard isOpen={ true } close={ jest.fn() } showCreateStep={ false } isEditing={ true }/>, {
+            render(<CreatePolicyWizard isOpen={ true } close={ jest.fn() } showCreateStep={ false } isEditing={ true } />, {
                 wrapper: Wrapper
             });
 
@@ -406,7 +407,7 @@ describe('src/pages/ListPage/CreatePolicyWizard', () => {
                 }
             );
 
-            render(<CreatePolicyWizard isOpen={ true } close={ jest.fn() } showCreateStep={ false } isEditing={ true }/>, {
+            render(<CreatePolicyWizard isOpen={ true } close={ jest.fn() } showCreateStep={ false } isEditing={ true } />, {
                 wrapper: Wrapper
             });
 
@@ -439,7 +440,7 @@ describe('src/pages/ListPage/CreatePolicyWizard', () => {
                 }
             );
 
-            render(<CreatePolicyWizard isOpen={ true } close={ jest.fn() } showCreateStep={ false } isEditing={ true }/>, {
+            render(<CreatePolicyWizard isOpen={ true } close={ jest.fn() } showCreateStep={ false } isEditing={ true } />, {
                 wrapper: Wrapper
             });
 

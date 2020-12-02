@@ -1,8 +1,9 @@
-import * as React from 'react';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { PolicyDetailEmptyState } from '../EmptyState';
+import * as React from 'react';
+
 import { appWrapperCleanup, appWrapperSetup, getConfiguredAppWrapper } from '../../../../test/AppWrapper';
+import { PolicyDetailEmptyState } from '../EmptyState';
 
 describe('src/pages/PolicyDetail/EmptyState', () => {
 
@@ -16,7 +17,7 @@ describe('src/pages/PolicyDetail/EmptyState', () => {
 
     it('Renders the passed policyId', () => {
         const AppWrapper = getConfiguredAppWrapper();
-        render(<PolicyDetailEmptyState policyId="foo-policy-id"/>, {
+        render(<PolicyDetailEmptyState policyId="foo-policy-id" />, {
             wrapper: AppWrapper
         });
         expect(screen.getByText(/foo-policy-id/i)).toBeVisible();
@@ -27,7 +28,7 @@ describe('src/pages/PolicyDetail/EmptyState', () => {
         const AppWrapper = getConfiguredAppWrapper({
             getLocation
         });
-        render(<PolicyDetailEmptyState policyId="foo-policy-id"/>, {
+        render(<PolicyDetailEmptyState policyId="foo-policy-id" />, {
             wrapper: AppWrapper
         });
 

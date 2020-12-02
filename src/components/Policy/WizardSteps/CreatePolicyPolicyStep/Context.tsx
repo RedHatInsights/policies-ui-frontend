@@ -1,12 +1,13 @@
+import { UseSortReturn } from '@redhat-cloud-services/insights-common-typescript';
 import * as React from 'react';
-import { NewPolicy } from '../../../../types/Policy/Policy';
+
 import {
     UsePolicyFilterReturn,
     UsePolicyPageReturn,
     UsePolicyRowsReturn
 } from '../../../../hooks';
-import { UseSortReturn } from '@redhat-cloud-services/insights-common-typescript';
 import { useGetPoliciesQuery } from '../../../../services/useGetPolicies';
+import { NewPolicy } from '../../../../types/Policy/Policy';
 
 export interface CreatePolicyStepContextType {
     copyPolicy: boolean;

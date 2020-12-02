@@ -1,12 +1,13 @@
+import { Select, SelectOption, SelectVariant } from '@patternfly/react-core';
+import { OuiaComponentProps } from '@redhat-cloud-services/insights-common-typescript';
 import * as React from 'react';
 import { ChangeEvent } from 'react';
-import { Select, SelectOption, SelectVariant } from '@patternfly/react-core';
-import { Fact } from '../../types/Fact';
-import { style } from 'typestyle';
 import { useEffectOnce, useUpdateEffect } from 'react-use';
-import { computeOptions } from './ComputeOptions';
-import { OuiaComponentProps } from '@redhat-cloud-services/insights-common-typescript';
+import { style } from 'typestyle';
+
+import { Fact } from '../../types/Fact';
 import { getOuiaProps } from '../../utils/getOuiaProps';
+import { computeOptions } from './ComputeOptions';
 
 const selectOptionClassName = style({
     whiteSpace: 'nowrap',

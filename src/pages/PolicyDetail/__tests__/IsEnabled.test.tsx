@@ -1,7 +1,8 @@
-import * as React from 'react';
 import { render, screen } from '@testing-library/react';
-import { PolicyDetailIsEnabled } from '../IsEnabled';
+import * as React from 'react';
+
 import { useMassChangePolicyEnabledMutation } from '../../../services/useMassChangePolicyEnabled';
+import { PolicyDetailIsEnabled } from '../IsEnabled';
 
 jest.mock('../../../services/useMassChangePolicyEnabled');
 

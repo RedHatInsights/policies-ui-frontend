@@ -1,5 +1,5 @@
-import { ActionNotificationSchema } from '../ActionNotificationSchema';
 import { ActionType } from '../../../../types/Policy/Actions';
+import { ActionNotificationSchema } from '../ActionNotificationSchema';
 
 describe('src/schemas/CreatePolicy/Actions/ActionNotificationSchema', () => {
     it('should fail when type is undefined', () => {

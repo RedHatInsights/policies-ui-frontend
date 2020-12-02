@@ -1,5 +1,5 @@
-import { adapter, UserSettingsServerResponse } from '../useUserSettingsEmailQuery';
 import { UserSettings } from '../../types/UserSettings';
+import { adapter, UserSettingsServerResponse } from '../useUserSettingsEmailQuery';
 
 describe('src/services/useUserSettingsEmailQuery', () => {
     it('adapter transforms server responses', () => {

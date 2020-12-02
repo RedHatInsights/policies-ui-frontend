@@ -1,6 +1,7 @@
-import { PolicyExporterCsv } from '../Csv';
-import { ActionType } from '../../../../types/Policy/Actions';
 import { ExporterType } from '@redhat-cloud-services/insights-common-typescript';
+
+import { ActionType } from '../../../../types/Policy/Actions';
+import { PolicyExporterCsv } from '../Csv';
 
 describe('src/utils/exporters/Policy/Csv', () => {
     it('has csv type', () => {

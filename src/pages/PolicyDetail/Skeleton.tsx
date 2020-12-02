@@ -1,5 +1,3 @@
-import * as React from 'react';
-import { Main, PageHeader, PageHeaderTitle, Skeleton, Spinner } from '@redhat-cloud-services/frontend-components';
 import {
     Breadcrumb, BreadcrumbItem,
     Bullseye,
@@ -10,9 +8,12 @@ import {
     StackItem
 } from '@patternfly/react-core';
 import { EllipsisVIcon } from '@patternfly/react-icons';
-import { Section, BreadcrumbLinkItem } from '@redhat-cloud-services/insights-common-typescript';
-import { linkTo } from '../../Routes';
+import { Main, PageHeader, PageHeaderTitle, Skeleton, Spinner } from '@redhat-cloud-services/frontend-components';
+import { BreadcrumbLinkItem, Section } from '@redhat-cloud-services/insights-common-typescript';
+import * as React from 'react';
 import { style } from 'typestyle';
+
+import { linkTo } from '../../Routes';
 
 const skeletonClassName = style({
     width: 200
@@ -29,17 +30,17 @@ export const PolicyDetailSkeleton: React.FunctionComponent = () => {
                                 Policies
                             </BreadcrumbLinkItem>
                             <BreadcrumbItem>
-                                <Skeleton className={ skeletonClassName } size="sm"/>
+                                <Skeleton className={ skeletonClassName } size="sm" />
                             </BreadcrumbItem>
                         </Breadcrumb>
                     </StackItem>
                     <StackItem>
                         <Split>
                             <SplitItem isFilled>
-                                <PageHeaderTitle title={ <Skeleton size="sm"/> } />
+                                <PageHeaderTitle title={ <Skeleton size="sm" /> } />
                             </SplitItem>
                             <SplitItem>
-                                <Button isDisabled variant={ ButtonVariant.plain }><EllipsisVIcon/></Button>
+                                <Button isDisabled variant={ ButtonVariant.plain }><EllipsisVIcon /></Button>
                             </SplitItem>
                         </Split>
                     </StackItem>
@@ -48,7 +49,7 @@ export const PolicyDetailSkeleton: React.FunctionComponent = () => {
             <Main>
                 <Section ouiaId="loading-spinner">
                     <Bullseye>
-                        <Spinner centered/>
+                        <Spinner centered />
                     </Bullseye>
                 </Section>
             </Main>

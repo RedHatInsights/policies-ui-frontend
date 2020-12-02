@@ -1,13 +1,14 @@
-import * as React from 'react';
-import inBrowserDownload from 'in-browser-download';
-import { format } from 'date-fns';
 import { addDangerNotification, exporterTypeFromString } from '@redhat-cloud-services/insights-common-typescript';
-import { PolicyWizardState } from '../ListPage';
+import { format } from 'date-fns';
+import inBrowserDownload from 'in-browser-download';
+import * as React from 'react';
+
 import { UsePolicyRowsReturn } from '../../../hooks';
-import { useMassChangePolicyEnabledMutation } from '../../../services/useMassChangePolicyEnabled';
 import { UsePolicyToDeleteResponse } from '../../../hooks/usePolicyToDelete';
-import { policyExporterFactory } from '../../../utils/exporters/Policy/Factory';
 import { useGetPoliciesQuery } from '../../../services/useGetPolicies';
+import { useMassChangePolicyEnabledMutation } from '../../../services/useMassChangePolicyEnabled';
+import { policyExporterFactory } from '../../../utils/exporters/Policy/Factory';
+import { PolicyWizardState } from '../ListPage';
 
 type Params = {
     setPolicyWizardState: (params: PolicyWizardState) => void;

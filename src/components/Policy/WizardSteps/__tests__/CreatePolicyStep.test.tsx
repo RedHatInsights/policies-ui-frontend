@@ -1,20 +1,21 @@
-import * as React from 'react';
+import { Page } from '@redhat-cloud-services/insights-common-typescript';
+import { FormTextInput } from '@redhat-cloud-services/insights-common-typescript';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import fetchMock, { UNMATCHED } from 'fetch-mock';
-import { createPolicyStep, CreatePolicyStep } from '../CreatePolicyStep';
 import { Formik } from 'formik';
-import { CreatePolicyStepContextProvider, defaultPerPage } from '../CreatePolicyPolicyStep/Provider';
-import { Page } from '@redhat-cloud-services/insights-common-typescript';
-import { ClientContextProvider, createClient } from 'react-fetching-library';
-import { act } from 'react-dom/test-utils';
-import { WizardContext } from '../../PolicyWizardTypes';
-import { PagedServerPolicyResponse } from '../../../../types/Policy/Policy';
-import { FormTextInput } from '@redhat-cloud-services/insights-common-typescript';
+import { validateSchemaResponseInterceptor } from 'openapi2typescript/react-fetching-library';
+import * as React from 'react';
 import { useState } from 'react';
+import { act } from 'react-dom/test-utils';
+import { ClientContextProvider, createClient } from 'react-fetching-library';
+
 import { waitForAsyncEvents } from '../../../../../test/TestUtils';
 import { Operations } from '../../../../generated/Openapi';
-import { validateSchemaResponseInterceptor } from 'openapi2typescript/react-fetching-library';
+import { PagedServerPolicyResponse } from '../../../../types/Policy/Policy';
+import { WizardContext } from '../../PolicyWizardTypes';
+import { CreatePolicyStepContextProvider, defaultPerPage } from '../CreatePolicyPolicyStep/Provider';
+import { CreatePolicyStep, createPolicyStep } from '../CreatePolicyStep';
 
 jest.mock('@redhat-cloud-services/insights-common-typescript', () => {
     const real = jest.requireActual('@redhat-cloud-services/insights-common-typescript');
@@ -116,7 +117,7 @@ describe('src/components/Policy/WizardSteps/CreatePolicyStep', () => {
     it('CopyFromPolicy table is not show by default', async () => {
         render(
             <MockContainer>
-                <CreatePolicyStep/>
+                <CreatePolicyStep />
             </MockContainer>
         );
 
@@ -129,7 +130,7 @@ describe('src/components/Policy/WizardSteps/CreatePolicyStep', () => {
         mockPoliciesRequest();
         render(
             <MockContainer>
-                <CreatePolicyStep/>
+                <CreatePolicyStep />
             </MockContainer>
         );
 
@@ -144,8 +145,8 @@ describe('src/components/Policy/WizardSteps/CreatePolicyStep', () => {
         mockPoliciesRequest();
         render(
             <MockContainer>
-                <CreatePolicyStep/>
-                <FormTextInput id="my-test-name" data-testid="name" name="name"/>
+                <CreatePolicyStep />
+                <FormTextInput id="my-test-name" data-testid="name" name="name" />
             </MockContainer>
         );
 
@@ -166,8 +167,8 @@ describe('src/components/Policy/WizardSteps/CreatePolicyStep', () => {
         mockPoliciesRequest();
         render(
             <MockContainer>
-                <CreatePolicyStep/>
-                <FormTextInput id="my-test-name" data-testid="name" name="name"/>
+                <CreatePolicyStep />
+                <FormTextInput id="my-test-name" data-testid="name" name="name" />
             </MockContainer>
         );
 
@@ -192,8 +193,8 @@ describe('src/components/Policy/WizardSteps/CreatePolicyStep', () => {
         mockPoliciesRequest();
         render(
             <MockContainer>
-                <CreatePolicyStep/>
-                <FormTextInput id="my-test-isValid" data-testid="isValid" name="isValid"/>
+                <CreatePolicyStep />
+                <FormTextInput id="my-test-isValid" data-testid="isValid" name="isValid" />
             </MockContainer>
         );
 
@@ -210,8 +211,8 @@ describe('src/components/Policy/WizardSteps/CreatePolicyStep', () => {
         mockPoliciesRequest();
         render(
             <MockContainer>
-                <CreatePolicyStep/>
-                <FormTextInput id="my-test-isValid" data-testid="isValid" name="isValid"/>
+                <CreatePolicyStep />
+                <FormTextInput id="my-test-isValid" data-testid="isValid" name="isValid" />
             </MockContainer>
         );
 
@@ -232,8 +233,8 @@ describe('src/components/Policy/WizardSteps/CreatePolicyStep', () => {
         mockPoliciesRequest();
         render(
             <MockContainer>
-                <CreatePolicyStep/>
-                <FormTextInput id="my-test-isValid" data-testid="isValid" name="isValid"/>
+                <CreatePolicyStep />
+                <FormTextInput id="my-test-isValid" data-testid="isValid" name="isValid" />
             </MockContainer>
         );
 
@@ -254,7 +255,7 @@ describe('src/components/Policy/WizardSteps/CreatePolicyStep', () => {
         mockPoliciesRequest();
         render(
             <MockContainer>
-                <CreatePolicyStep/>
+                <CreatePolicyStep />
             </MockContainer>
         );
 
@@ -293,7 +294,7 @@ describe('src/components/Policy/WizardSteps/CreatePolicyStep', () => {
         const setMaxStep = jest.fn();
         render(
             <MockContainer setMaxStep={ setMaxStep }>
-                <CreatePolicyStep/>
+                <CreatePolicyStep />
             </MockContainer>
         );
 
@@ -310,7 +311,7 @@ describe('src/components/Policy/WizardSteps/CreatePolicyStep', () => {
         const setMaxStep = jest.fn();
         render(
             <MockContainer setMaxStep={ setMaxStep }>
-                <CreatePolicyStep/>
+                <CreatePolicyStep />
             </MockContainer>
         );
 
@@ -331,7 +332,7 @@ describe('src/components/Policy/WizardSteps/CreatePolicyStep', () => {
         const setMaxStep = jest.fn();
         render(
             <MockContainer setMaxStep={ setMaxStep }>
-                <CreatePolicyStep/>
+                <CreatePolicyStep />
             </MockContainer>
         );
 
@@ -356,7 +357,7 @@ describe('src/components/Policy/WizardSteps/CreatePolicyStep', () => {
         const setVerifyResponse = jest.fn();
         render(
             <MockContainer setVerifyResponse={ setVerifyResponse }>
-                <CreatePolicyStep/>
+                <CreatePolicyStep />
             </MockContainer>
         );
 
@@ -379,7 +380,7 @@ describe('src/components/Policy/WizardSteps/CreatePolicyStep', () => {
         const setVerifyResponse = jest.fn();
         render(
             <MockContainer setVerifyResponse={ setVerifyResponse }>
-                <CreatePolicyStep/>
+                <CreatePolicyStep />
             </MockContainer>
         );
 

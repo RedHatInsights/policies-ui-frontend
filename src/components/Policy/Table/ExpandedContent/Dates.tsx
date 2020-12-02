@@ -1,7 +1,8 @@
-import * as React from 'react';
 import { Text } from '@patternfly/react-core';
-import { format } from 'date-fns';
 import { OuiaComponentProps } from '@redhat-cloud-services/insights-common-typescript';
+import { format } from 'date-fns';
+import * as React from 'react';
+
 import { getOuiaProps } from '../../../../utils/getOuiaProps';
 
 interface DateProps extends OuiaComponentProps {

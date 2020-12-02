@@ -1,10 +1,11 @@
+import { OuiaComponentProps } from '@redhat-cloud-services/insights-common-typescript';
+import { add, format, formatDistanceToNow, isAfter } from 'date-fns';
 import * as React from 'react';
 import { style } from 'typestyle';
-import { formatDistanceToNow, isAfter, format, add } from 'date-fns';
+
 import { Messages } from '../../../properties/Messages';
-import { EnabledPolicyIcon, DisabledPolicyIcon } from '../../Icons';
-import { OuiaComponentProps } from '@redhat-cloud-services/insights-common-typescript';
 import { getOuiaProps } from '../../../utils/getOuiaProps';
+import { DisabledPolicyIcon, EnabledPolicyIcon } from '../../Icons';
 
 interface LastTriggeredCellProps extends OuiaComponentProps {
     isEnabled: boolean;
@@ -31,7 +32,7 @@ export const LastTriggeredCell: React.FunctionComponent<LastTriggeredCellProps> 
 
     return (
         <div { ...getOuiaProps('Policy/Table/LastTriggered', props) }>
-            { props.isEnabled ? <EnabledPolicyIcon/> : <DisabledPolicyIcon/>}
+            { props.isEnabled ? <EnabledPolicyIcon /> : <DisabledPolicyIcon />}
             <span className={ lastTriggeredTextClassName }>
                 { lastTriggeredString }
             </span>

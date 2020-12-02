@@ -1,8 +1,9 @@
-import Config from '../config/Config';
-import { UserSettings } from '../types/UserSettings';
-import { useQuery } from 'react-fetching-library';
 import { useTransformQueryResponse } from '@redhat-cloud-services/insights-common-typescript';
 import { actionBuilder } from 'openapi2typescript/react-fetching-library';
+import { useQuery } from 'react-fetching-library';
+
+import Config from '../config/Config';
+import { UserSettings } from '../types/UserSettings';
 
 const urls = Config.apis.urls;
 

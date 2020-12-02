@@ -7,17 +7,18 @@ settings:
   react:
     version: '16.0'
 plugins:
-  - "react-hooks"
-  - "jest"
-  - "jest-dom"
-  - "testing-library"
+  - react-hooks
+  - jest
+  - jest-dom
+  - testing-library
+  - simple-import-sort
 extends:
-  - 'plugin:@typescript-eslint/recommended'
-  - 'prettier'
-  - 'plugin:react/recommended'
-  - 'plugin:jest/recommended'
-  - 'plugin:jest-dom/recommended'
-  - 'plugin:testing-library/react'
+  - plugin:@typescript-eslint/recommended
+  - prettier
+  - plugin:react/recommended
+  - plugin:jest/recommended
+  - plugin:jest-dom/recommended
+  - plugin:testing-library/react
 parserOptions:
   ecmaVersion: 7
   sourceType: module
@@ -34,13 +35,15 @@ globals:
   shallow: true
   React: true
 rules: # Todo: Remove javascript rules that are duplicated on typescript
+  simple-import-sort/imports: error
+  simple-import-sort/exports: error
   '@typescript-eslint/explicit-function-return-type':
     - off
   '@typescript-eslint/no-explicit-any':
     - off
   '@typescript-eslint/no-unused-vars':
     - error
-    - argsIgnorePattern: "^_"
+    - argsIgnorePattern: '^_'
       ignoreRestSiblings: true
   '@typescript-eslint/camelcase':
     - error
@@ -78,6 +81,12 @@ rules: # Todo: Remove javascript rules that are duplicated on typescript
       - objectLiterals:
         - never
   react/prop-types: off
+  react/jsx-tag-spacing:
+    - error
+    - closingSlash: never
+      beforeSelfClosing: always
+      afterOpening: never
+      beforeClosing: allow
   react-hooks/rules-of-hooks: error
   react-hooks/exhaustive-deps: error
   key-spacing: 2
@@ -116,7 +125,7 @@ rules: # Todo: Remove javascript rules that are duplicated on typescript
     - error
     - blankLine: always
       prev: block-like
-      next: "*"
+      next: '*'
   quote-props:
     - error
     - as-needed

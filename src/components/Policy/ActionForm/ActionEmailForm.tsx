@@ -1,11 +1,12 @@
-import * as React from 'react';
-import { ActionFormProps } from './ActionFormProps';
 import { Text } from '@patternfly/react-core';
-import { Messages } from '../../../properties/Messages';
 import { getInsights, InsightsEmailOptIn } from '@redhat-cloud-services/insights-common-typescript';
+import * as React from 'react';
 import { useContext } from 'react';
+
 import { AppContext } from '../../../app/AppContext';
+import { Messages } from '../../../properties/Messages';
 import { getOuiaProps } from '../../../utils/getOuiaProps';
+import { ActionFormProps } from './ActionFormProps';
 
 export const ActionEmailForm: React.FunctionComponent<ActionFormProps> = (props) => {
 

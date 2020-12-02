@@ -1,7 +1,9 @@
 import { assertNever } from 'assert-never';
-import parseJSON from 'date-fns/parseJSON';
 import fromUnixTime from 'date-fns/fromUnixTime';
+import parseJSON from 'date-fns/parseJSON';
+import { DeepPartial } from 'ts-essentials';
 
+import { Action, ActionType } from '../Policy/Actions';
 import {
     maxPolicyNameLength,
     NewPolicy,
@@ -10,8 +12,6 @@ import {
     ServerPolicyRequest,
     ServerPolicyResponse
 } from '../Policy/Policy';
-import { Action, ActionType } from '../Policy/Actions';
-import { DeepPartial } from 'ts-essentials';
 
 export const toServerAction = (actions: DeepPartial<Action[]>): string => {
     return actions.map((action): string => {

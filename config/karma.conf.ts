@@ -1,6 +1,6 @@
-import { resolve } from 'path';
 import config from '@redhat-cloud-services/frontend-components-config';
 import isCi from 'is-ci';
+import { resolve } from 'path';
 
 if (isCi) {
     console.log(`Karma is running in CI environment, disabling watching files and doing a single run.`);

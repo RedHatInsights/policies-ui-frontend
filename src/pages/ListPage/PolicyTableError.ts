@@ -1,6 +1,7 @@
 import { ExclamationCircleIcon, PlusCircleIcon } from '@patternfly/react-icons';
 // eslint-disable-next-line @typescript-eslint/camelcase
 import { global_danger_color_200 } from '@patternfly/react-tokens';
+
 import { EmptyStateSectionProps } from '../../components/Policy/EmptyState/Section';
 import { Messages } from '../../properties/Messages';
 

@@ -2,10 +2,11 @@ import {
     CharStreams,
     CommonTokenStream
 } from 'antlr4ts';
+
+import { Fact } from '../../types/Fact';
 import { ExpressionLexer } from '../../utils/Expression/ExpressionLexer';
 import { ExpressionParser } from '../../utils/Expression/ExpressionParser';
 import { ConditionVisitor, ConditionVisitorResult, ElementType } from './ConditionVisitor';
-import { Fact } from '../../types/Fact';
 
 const flattenResult = (result: ConditionVisitorResult): string => {
     return result.map(e => e.value).join(' ');

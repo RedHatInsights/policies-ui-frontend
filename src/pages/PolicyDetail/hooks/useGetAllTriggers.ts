@@ -1,9 +1,10 @@
-import { actionCreator, dataToTriggers } from '../../../services/useGetPolicyTriggers';
-import { Uuid } from '../../../types/Policy/Policy';
+import { Filter, Page } from '@redhat-cloud-services/insights-common-typescript';
 import { useCallback } from 'react';
 import { useClient } from 'react-fetching-library';
+
+import { actionCreator, dataToTriggers } from '../../../services/useGetPolicyTriggers';
+import { Uuid } from '../../../types/Policy/Policy';
 import { Trigger } from '../../../types/Trigger';
-import { Filter, Page } from '@redhat-cloud-services/insights-common-typescript';
 
 // This is the maximum batch size supported by the backend
 const BATCH_SIZE = 200;

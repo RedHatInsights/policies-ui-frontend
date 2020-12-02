@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
-import { Fact } from '../types/Fact';
+
 import { useGetFactsQuery } from '../services/useGetFacts';
+import { Fact } from '../types/Fact';
 
 export const useFacts = () => {
     const [ facts, setFacts ] = useState<Fact[]>();

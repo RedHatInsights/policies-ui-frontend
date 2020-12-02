@@ -1,8 +1,9 @@
-import { renderHook, act } from '@testing-library/react-hooks';
-import { useUserSettings } from '../useUserSettings';
+import { act, renderHook } from '@testing-library/react-hooks';
+
+import { waitForAsyncEventsHooks } from '../../../test/TestUtils';
 import { useUserSettingsEmailQuery } from '../../services/useUserSettingsEmailQuery';
 import { UserSettings } from '../../types/UserSettings';
-import { waitForAsyncEventsHooks } from '../../../test/TestUtils';
+import { useUserSettings } from '../useUserSettings';
 
 jest.mock('../../services/useUserSettingsEmailQuery', () => {
     return {

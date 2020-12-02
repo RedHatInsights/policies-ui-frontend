@@ -1,6 +1,7 @@
 import { useMutation } from 'react-fetching-library';
-import { Uuid } from '../types/Policy/Policy';
+
 import { Operations } from '../generated/Openapi';
+import { Uuid } from '../types/Policy/Policy';
 
 export interface UseMassChangePolicyEnabledParams {
     policyIds: Uuid[];

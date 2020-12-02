@@ -1,9 +1,10 @@
-import * as React from 'react';
 import { Button, ButtonVariant, Modal } from '@patternfly/react-core';
 import { Spinner } from '@patternfly/react-core';
 import { addDangerNotification } from '@redhat-cloud-services/insights-common-typescript';
-import { Policy, Uuid } from '../../types/Policy/Policy';
+import * as React from 'react';
+
 import { useMassDeletePoliciesMutation } from '../../services/useMassDeletePolicies';
+import { Policy, Uuid } from '../../types/Policy/Policy';
 
 export interface DeletePolicyProps {
     getPolicies?: () => Promise<Uuid[]>;
@@ -72,7 +73,7 @@ export const DeletePolicy: React.FunctionComponent<DeletePolicyProps> = (props) 
     const actions = React.useMemo(() => [
         <Button key="confirm" variant={ ButtonVariant.danger } onClick={ deletePolicy } isDisabled={ isLoading }>
             { isLoading ? (
-                <Spinner size="md"/>
+                <Spinner size="md" />
             ) : 'Delete' }
         </Button>,
         <Button key="cancel" variant={ ButtonVariant.link } onClick={ onCancel } isDisabled={ isLoading }>

@@ -1,10 +1,10 @@
+import { WizardStep } from '@patternfly/react-core';
 import * as React from 'react';
+import { DeepPartial, DeepReadonly } from 'ts-essentials';
 import * as Yup from 'yup';
 
-import { WizardStep } from '@patternfly/react-core';
-import { DeepPartial, DeepReadonly } from 'ts-essentials';
-import { Policy } from '../../types/Policy';
 import { Fact } from '../../types/Fact';
+import { Policy } from '../../types/Policy';
 
 export type PartialPolicy = DeepPartial<Policy>;
 

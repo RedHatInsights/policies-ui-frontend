@@ -1,6 +1,6 @@
-import { computeOptions } from '../ComputeOptions';
-import { Fact } from '../../../types/Fact';
 import { Schemas } from '../../../generated/Openapi';
+import { Fact } from '../../../types/Fact';
+import { computeOptions } from '../ComputeOptions';
 import FactType = Schemas.FactType;
 
 describe('src/components/Condition/ComputeOptions', () => {

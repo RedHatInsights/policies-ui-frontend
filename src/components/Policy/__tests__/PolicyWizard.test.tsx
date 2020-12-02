@@ -1,9 +1,10 @@
-import * as React from 'react';
-import { render, screen, act } from '@testing-library/react';
-import { PolicyWizard } from '../PolicyWizard';
+import { act, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { useState } from 'react';
 import { mockInsights } from 'insights-common-typescript-dev';
+import * as React from 'react';
+import { useState } from 'react';
+
+import { PolicyWizard } from '../PolicyWizard';
 
 jest.mock('@redhat-cloud-services/insights-common-typescript', () => {
     const real = jest.requireActual('@redhat-cloud-services/insights-common-typescript');

@@ -1,8 +1,9 @@
-import { act, renderHook } from '@testing-library/react-hooks';
 import { Filter, Operator, Page } from '@redhat-cloud-services/insights-common-typescript';
-import { usePolicyPage } from '../usePolicyPage';
-import { PolicyFilterColumn, PolicyFilters } from '../../types/Policy/Filters';
+import { act, renderHook } from '@testing-library/react-hooks';
+
 import Config from '../../config/Config';
+import { PolicyFilterColumn, PolicyFilters } from '../../types/Policy/Filters';
+import { usePolicyPage } from '../usePolicyPage';
 
 describe('src/hooks/usePolicyPage', () => {
     it('Default PolicyPage', () => {

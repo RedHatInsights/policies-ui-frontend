@@ -1,5 +1,6 @@
-import * as React from 'react';
 import { Filter, Operator, Page, Sort, stringValue } from '@redhat-cloud-services/insights-common-typescript';
+import * as React from 'react';
+
 import { PolicyFilterColumn, PolicyFilters } from '../types/Policy/Filters';
 
 export interface UsePolicyPageReturn {

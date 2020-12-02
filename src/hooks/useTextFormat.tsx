@@ -1,6 +1,6 @@
+import { join } from '@redhat-cloud-services/insights-common-typescript';
 import * as React from 'react';
 import { format } from 'react-string-format';
-import { join } from '@redhat-cloud-services/insights-common-typescript';
 
 export const useTextFormat = (text: string, dependencies: Array<string>, replaceNewLinesComponent: React.ElementType | undefined = 'br') => {
     return React.useMemo(() => {

@@ -1,5 +1,3 @@
-import * as React from 'react';
-import { Main, PageHeader, PageHeaderTitle } from '@redhat-cloud-services/frontend-components';
 import {
     Breadcrumb,
     BreadcrumbItem,
@@ -9,30 +7,33 @@ import {
     StackItem,
     Title
 } from '@patternfly/react-core';
+import { Main, PageHeader, PageHeaderTitle } from '@redhat-cloud-services/frontend-components';
+import { addDangerNotification, BreadcrumbLinkItem, Section } from '@redhat-cloud-services/insights-common-typescript';
+import * as React from 'react';
+import { useContext } from 'react';
 import { Helmet } from 'react-helmet';
 import { useHistory } from 'react-router-dom';
-import { linkTo } from '../../Routes';
-import { addDangerNotification, BreadcrumbLinkItem, Section } from '@redhat-cloud-services/insights-common-typescript';
-import { useGetPolicyParametrizedQuery } from '../../services/useGetPolicy';
-import { ExpandedContent } from '../../components/Policy/Table/ExpandedContent';
 import { style } from 'typestyle';
-import { CreatePolicyWizard } from '../CreatePolicyWizard/CreatePolicyWizard';
-import { useContext } from 'react';
+
 import { AppContext } from '../../app/AppContext';
-import { PolicyDetailSkeleton } from './Skeleton';
-import { PolicyDetailEmptyState } from './EmptyState';
-import { PolicyDetailErrorState } from './ErrorState';
-import { PolicyDetailIsEnabled } from './IsEnabled';
+import { ExpandedContent } from '../../components/Policy/Table/ExpandedContent';
+import { usePolicyToDelete } from '../../hooks/usePolicyToDelete';
+import { Messages } from '../../properties/Messages';
+import { linkTo } from '../../Routes';
+import { useGetPolicyParametrizedQuery } from '../../services/useGetPolicy';
+import { useMassChangePolicyEnabledMutation } from '../../services/useMassChangePolicyEnabled';
 import { Policy } from '../../types/Policy';
+import { CreatePolicyWizard } from '../CreatePolicyWizard/CreatePolicyWizard';
+import { DeletePolicy } from '../ListPage/DeletePolicy';
 import { NoPermissionsPage } from '../NoPermissions/NoPermissionsPage';
 import { PolicyDetailActions } from './Actions';
-import { useMassChangePolicyEnabledMutation } from '../../services/useMassChangePolicyEnabled';
-import { usePolicyToDelete } from '../../hooks/usePolicyToDelete';
-import { DeletePolicy } from '../ListPage/DeletePolicy';
-import { useWizardState } from './hooks/useWizardState';
+import { PolicyDetailEmptyState } from './EmptyState';
+import { PolicyDetailErrorState } from './ErrorState';
 import { usePolicy } from './hooks/usePolicy';
+import { useWizardState } from './hooks/useWizardState';
+import { PolicyDetailIsEnabled } from './IsEnabled';
+import { PolicyDetailSkeleton } from './Skeleton';
 import { TriggerDetailAPI, TriggerDetailSection } from './TriggerDetailSection';
-import { Messages } from '../../properties/Messages';
 
 const recentTriggerVersionTitleClassname = style({
     paddingBottom: 8,
@@ -126,12 +127,12 @@ export const PolicyDetail: React.FunctionComponent = () => {
     }, [ policyId, changePolicyEnabled.mutate, statusChanged ]);
 
     if (!canReadAll) {
-        return <NoPermissionsPage/>;
+        return <NoPermissionsPage />;
     }
 
     if (policy === undefined) {
         if (getPolicyQuery.status === 404) {
-            return <PolicyDetailEmptyState policyId={ policyId || '' }/>;
+            return <PolicyDetailEmptyState policyId={ policyId || '' } />;
         }
 
         if (!getPolicyQuery.loading && getPolicyQuery.payload?.type !== 'Policy') {
@@ -150,7 +151,7 @@ export const PolicyDetail: React.FunctionComponent = () => {
             />;
         }
 
-        return <PolicyDetailSkeleton/>;
+        return <PolicyDetailSkeleton />;
     }
 
     return (

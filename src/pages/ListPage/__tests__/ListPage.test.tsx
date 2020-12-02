@@ -1,14 +1,15 @@
-import * as React from 'react';
 import { render, screen } from '@testing-library/react';
-import ListPage from '../ListPage';
+import userEvent from '@testing-library/user-event';
+import fetchMock  from 'fetch-mock';
+import { suppressValidateError } from 'openapi2typescript/react-fetching-library';
+import * as React from 'react';
+import { useState } from 'react';
+
 import { appWrapperCleanup, appWrapperSetup, getConfiguredAppWrapper } from '../../../../test/AppWrapper';
 import { waitForAsyncEvents } from '../../../../test/TestUtils';
-import fetchMock  from 'fetch-mock';
 import { Operations } from '../../../generated/Openapi';
 import { linkTo } from '../../../Routes';
-import userEvent from '@testing-library/user-event';
-import { useState } from 'react';
-import { suppressValidateError } from 'openapi2typescript/react-fetching-library';
+import ListPage from '../ListPage';
 
 jest.mock('@redhat-cloud-services/insights-common-typescript', () => {
     const real = jest.requireActual('@redhat-cloud-services/insights-common-typescript');
@@ -109,7 +110,7 @@ describe('src/pages/ListPage', () => {
     };
 
     it('Refuses to show data if rbac.readAll is false', async () => {
-        render(<ListPage/>, {
+        render(<ListPage />, {
             wrapper: getConfiguredAppWrapper({
                 router: {
                     initialEntries: [ linkTo.listPage() ]
@@ -137,7 +138,7 @@ describe('src/pages/ListPage', () => {
 
     it('Has title "Policies"', async () => {
         fetchMockSetup();
-        render(<ListPage/>, {
+        render(<ListPage />, {
             wrapper: getConfiguredAppWrapper()
         });
         await waitForAsyncEvents();
@@ -147,7 +148,7 @@ describe('src/pages/ListPage', () => {
 
     it('Renders policies data"', async () => {
         fetchMockSetup();
-        render(<ListPage/>, {
+        render(<ListPage />, {
             wrapper: getConfiguredAppWrapper()
         });
 
@@ -162,7 +163,7 @@ describe('src/pages/ListPage', () => {
     it('Policy name is a link in stable too"', async () => {
         fetchMockSetup();
         const getLocation = jest.fn();
-        render(<ListPage/>, {
+        render(<ListPage />, {
             wrapper: getConfiguredAppWrapper({
                 router: {
                     initialEntries: [
@@ -183,7 +184,7 @@ describe('src/pages/ListPage', () => {
     it('Policy name is a link in beta"', async () => {
         fetchMockSetup();
         const getLocation = jest.fn();
-        render(<ListPage/>, {
+        render(<ListPage />, {
             wrapper: getConfiguredAppWrapper({
                 router: {
                     initialEntries: [
@@ -203,7 +204,7 @@ describe('src/pages/ListPage', () => {
 
     it('Nothing is sorted by default ', async () => {
         fetchMockSetup();
-        render(<ListPage/>, {
+        render(<ListPage />, {
             wrapper: getConfiguredAppWrapper()
         });
 
@@ -219,7 +220,7 @@ describe('src/pages/ListPage', () => {
             status: 404,
             emptyPayload: true
         });
-        render(<ListPage/>, {
+        render(<ListPage />, {
             wrapper: getConfiguredAppWrapper()
         });
 
@@ -235,7 +236,7 @@ describe('src/pages/ListPage', () => {
             status: 401,
             emptyPayload: true
         });
-        render(<ListPage/>, {
+        render(<ListPage />, {
             wrapper: getConfiguredAppWrapper()
         });
 
@@ -253,7 +254,7 @@ describe('src/pages/ListPage', () => {
         });
         const reloadMock = jest.spyOn(window.location, 'reload');
         reloadMock.mockImplementation(() => '');
-        render(<ListPage/>, {
+        render(<ListPage />, {
             wrapper: getConfiguredAppWrapper()
         });
 
@@ -271,7 +272,7 @@ describe('src/pages/ListPage', () => {
             status: 500,
             emptyPayload: true
         });
-        render(<ListPage/>, {
+        render(<ListPage />, {
             wrapper: getConfiguredAppWrapper()
         });
 
@@ -287,7 +288,7 @@ describe('src/pages/ListPage', () => {
             status: 504,
             emptyPayload: true
         });
-        render(<ListPage/>, {
+        render(<ListPage />, {
             wrapper: getConfiguredAppWrapper()
         });
 
@@ -303,7 +304,7 @@ describe('src/pages/ListPage', () => {
             status: 504,
             emptyPayload: true
         });
-        render(<ListPage/>, {
+        render(<ListPage />, {
             wrapper: getConfiguredAppWrapper()
         });
 
@@ -318,7 +319,7 @@ describe('src/pages/ListPage', () => {
 
     it('Clicking on the expanded button shows the description', async () => {
         fetchMockSetup();
-        render(<ListPage/>, {
+        render(<ListPage />, {
             wrapper: getConfiguredAppWrapper()
         });
 
@@ -331,7 +332,7 @@ describe('src/pages/ListPage', () => {
 
     it('Is possible to expand all policies at the same time', async () => {
         fetchMockSetup();
-        render(<ListPage/>, {
+        render(<ListPage />, {
             wrapper: getConfiguredAppWrapper()
         });
 
@@ -349,7 +350,7 @@ describe('src/pages/ListPage', () => {
 
     it('Create policy button opens the create policy wizard', async () => {
         fetchMockSetup();
-        render(<ListPage/>, {
+        render(<ListPage />, {
             wrapper: getConfiguredAppWrapper()
         });
 
@@ -362,7 +363,7 @@ describe('src/pages/ListPage', () => {
 
     it('Create policy wizard can be closed', async () => {
         fetchMockSetup();
-        render(<ListPage/>, {
+        render(<ListPage />, {
             wrapper: getConfiguredAppWrapper()
         });
 
@@ -377,7 +378,7 @@ describe('src/pages/ListPage', () => {
 
     it('Title is "Policies - Red Hat Insights"', async () => {
         fetchMockSetup();
-        render(<ListPage/>, {
+        render(<ListPage />, {
             wrapper: getConfiguredAppWrapper()
         });
 

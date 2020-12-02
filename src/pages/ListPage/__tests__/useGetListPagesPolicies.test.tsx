@@ -1,11 +1,12 @@
-import * as React from 'react';
+import { Page } from '@redhat-cloud-services/insights-common-typescript';
 import { act, renderHook } from '@testing-library/react-hooks';
 import fetchMock, { UNMATCHED } from 'fetch-mock';
-import { ClientContextProvider, createClient } from 'react-fetching-library';
-import { useGetListPagePolicies } from '../useGetListPagePolicies';
-import { Page } from '@redhat-cloud-services/insights-common-typescript';
-import { Operations } from '../../../generated/Openapi';
 import { suppressValidateError, validateSchemaResponseInterceptor } from 'openapi2typescript/react-fetching-library';
+import * as React from 'react';
+import { ClientContextProvider, createClient } from 'react-fetching-library';
+
+import { Operations } from '../../../generated/Openapi';
+import { useGetListPagePolicies } from '../useGetListPagePolicies';
 
 describe('src/hooks/usePaginated', () => {
 

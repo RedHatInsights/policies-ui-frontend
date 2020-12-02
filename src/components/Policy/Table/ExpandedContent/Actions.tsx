@@ -1,4 +1,3 @@
-import * as React from 'react';
 import {
     Divider,
     Stack,
@@ -6,14 +5,16 @@ import {
     Text,
     Title
 } from '@patternfly/react-core';
-import { style } from 'typestyle';
-import { Action, ActionType } from '../../../../types/Policy/Actions';
-import { Messages } from '../../../../properties/Messages';
-import { join, OuiaComponentProps } from '@redhat-cloud-services/insights-common-typescript';
 import { SVGIconProps } from '@patternfly/react-icons/dist/js/createIcon';
-import { ActionEmailIcon, ActionWebhookIcon } from '../../ActionIcons';
-import { getOuiaProps } from '../../../../utils/getOuiaProps';
+import { join, OuiaComponentProps } from '@redhat-cloud-services/insights-common-typescript';
 import { assertNever } from 'assert-never';
+import * as React from 'react';
+import { style } from 'typestyle';
+
+import { Messages } from '../../../../properties/Messages';
+import { Action, ActionType } from '../../../../types/Policy/Actions';
+import { getOuiaProps } from '../../../../utils/getOuiaProps';
+import { ActionEmailIcon, ActionWebhookIcon } from '../../ActionIcons';
 
 interface ActionsProps extends OuiaComponentProps {
     actions: Action[];
@@ -47,7 +48,7 @@ const ActionWrapper: React.FunctionComponent<{
 }> = (props) => {
     return (
         <StackItem className={ wrapperClassName }>
-            { <props.icon/> }
+            { <props.icon /> }
             <Title headingLevel="h2" className={ titleActionClassName } size="md">{ props.title }</Title>
             { props.children &&
                 <div className={ actionContentWrapperClassName }>
@@ -66,14 +67,14 @@ const getActions = (actions: Action[]) => {
             case ActionType.EMAIL:
                 elements.push((
                     <React.Fragment key={ index }>
-                        <ActionWrapper title="Send Email" icon={ ActionEmailIcon }/>
+                        <ActionWrapper title="Send Email" icon={ ActionEmailIcon } />
                     </React.Fragment>
                 ));
                 break;
             case ActionType.NOTIFICATION:
                 elements.push((
                     <React.Fragment key={ index }>
-                        <ActionWrapper title="Send to notification" icon={ ActionWebhookIcon }/>
+                        <ActionWrapper title="Send to notification" icon={ ActionWebhookIcon } />
                     </React.Fragment>
                 ));
                 break;

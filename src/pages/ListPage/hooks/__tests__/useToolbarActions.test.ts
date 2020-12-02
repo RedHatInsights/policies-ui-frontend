@@ -1,9 +1,10 @@
+import { addDangerNotification, ExporterType, ImmutableContainerSet } from '@redhat-cloud-services/insights-common-typescript';
 import { renderHook } from '@testing-library/react-hooks';
 import inBrowserDownload from 'in-browser-download';
-import { useToolbarActions } from '../useToolbarActions';
+
 import { PolicyRow } from '../../../../components/Policy/Table/PolicyTable';
-import { addDangerNotification, ImmutableContainerSet, ExporterType } from '@redhat-cloud-services/insights-common-typescript';
 import { Uuid } from '../../../../types/Policy/Policy';
+import { useToolbarActions } from '../useToolbarActions';
 
 jest.mock('in-browser-download');
 jest.mock('@redhat-cloud-services/insights-common-typescript', () => {

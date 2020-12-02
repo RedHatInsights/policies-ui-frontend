@@ -1,7 +1,8 @@
-import { renderHook } from '@testing-library/react-hooks';
-import { useTriggerPage } from '../useTriggerPage';
 import { Filter, Operator, Page } from '@redhat-cloud-services/insights-common-typescript';
+import { renderHook } from '@testing-library/react-hooks';
+
 import { TriggerFilterColumn } from '../../../../components/Trigger/Filters';
+import { useTriggerPage } from '../useTriggerPage';
 
 describe('src/pages/PolicyDetail/hooks/useTriggerPage', () => {
     it('Does not change the filter case', () => {

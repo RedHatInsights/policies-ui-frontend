@@ -1,6 +1,6 @@
-import * as React from 'react';
 import { CheckCircleIcon } from '@patternfly/react-icons';
+import * as React from 'react';
 
 export const EnabledPolicyIcon: React.FunctionComponent = () => {
-    return <CheckCircleIcon color="green"/>;
+    return <CheckCircleIcon color="green" />;
 };

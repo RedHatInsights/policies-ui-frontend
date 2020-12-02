@@ -1,14 +1,15 @@
-import { Policy } from '../../../types/Policy';
-import { Uuid } from '../../../types/Policy/Policy';
-import { useHistory, useParams } from 'react-router';
 import * as React from 'react';
-import { linkTo } from '../../../Routes';
+import { useEffect } from 'react';
 // This seems to be stable enough:
 // https://github.com/facebook/react/issues/14259#issuecomment-505918440
 // eslint-disable-next-line @typescript-eslint/camelcase
 import { unstable_batchedUpdates } from 'react-dom';
-import { useEffect } from 'react';
+import { useHistory, useParams } from 'react-router';
 import { usePrevious } from 'react-use';
+
+import { linkTo } from '../../../Routes';
+import { Policy } from '../../../types/Policy';
+import { Uuid } from '../../../types/Policy/Policy';
 
 export const usePolicy = () => {
 

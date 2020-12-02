@@ -1,5 +1,5 @@
-import { PolicyFormActions, PolicyFormConditions, PolicyFormDetails } from '../PolicySchema';
 import { ActionType } from '../../../types/Policy/Actions';
+import { PolicyFormActions, PolicyFormConditions, PolicyFormDetails } from '../PolicySchema';
 
 describe('src/schemas/CreatePolicy/PolicySchema', () => {
     describe('PolicyFormDetails', () => {

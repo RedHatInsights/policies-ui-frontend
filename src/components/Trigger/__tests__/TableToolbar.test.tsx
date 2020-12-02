@@ -1,10 +1,11 @@
-import * as React from 'react';
-import { render } from '@testing-library/react';
-import { PrimaryToolbar } from '@redhat-cloud-services/frontend-components';
-import { TriggerTableToolbar } from '../TableToolbar';
-import { Page, ExporterType } from '@redhat-cloud-services/insights-common-typescript';
 import { PaginationVariant } from '@patternfly/react-core';
+import { PrimaryToolbar } from '@redhat-cloud-services/frontend-components';
+import { ExporterType, Page } from '@redhat-cloud-services/insights-common-typescript';
+import { render } from '@testing-library/react';
+import * as React from 'react';
+
 import { TriggerFilterColumn } from '../Filters';
+import { TriggerTableToolbar } from '../TableToolbar';
 
 jest.mock('@redhat-cloud-services/frontend-components');
 

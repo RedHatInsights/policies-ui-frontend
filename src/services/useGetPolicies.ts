@@ -1,8 +1,9 @@
-import { useTransformQueryResponse, Page } from '@redhat-cloud-services/insights-common-typescript';
-import { toPolicies } from '../types/adapters/PolicyAdapter';
-import { useQuery } from 'react-fetching-library';
-import { Operations } from '../generated/Openapi';
+import { Page, useTransformQueryResponse } from '@redhat-cloud-services/insights-common-typescript';
 import { validatedResponse, validationResponseTransformer } from 'openapi2typescript';
+import { useQuery } from 'react-fetching-library';
+
+import { Operations } from '../generated/Openapi';
+import { toPolicies } from '../types/adapters/PolicyAdapter';
 
 export const actionCreator = (page?: Page) => Operations.GetPolicies.actionCreator(page?.toQuery() ?? {});
 

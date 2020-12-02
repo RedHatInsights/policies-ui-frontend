@@ -1,5 +1,6 @@
-import * as React from 'react';
 import { Rbac } from '@redhat-cloud-services/insights-common-typescript';
+import * as React from 'react';
+
 import { UserSettings } from '../types/UserSettings';
 
 export interface AppContext {

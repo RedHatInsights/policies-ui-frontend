@@ -1,12 +1,13 @@
+import { fetchRBAC, Rbac } from '@redhat-cloud-services/insights-common-typescript';
+import { act, render, screen } from '@testing-library/react';
 import * as React from 'react';
-import { render, screen, act } from '@testing-library/react';
+
+import { AppWrapper, appWrapperCleanup, appWrapperSetup } from '../../../test/AppWrapper';
 import App from '../App';
-import { AppWrapper, appWrapperSetup, appWrapperCleanup } from '../../../test/AppWrapper';
-import { Rbac, fetchRBAC } from '@redhat-cloud-services/insights-common-typescript';
 
 jest.mock('@redhat-cloud-services/insights-common-typescript', () => {
     const real = jest.requireActual('@redhat-cloud-services/insights-common-typescript');
-    const MockedAppSkeleton: React.FunctionComponent = () => <div data-testid="loading"><real.AppSkeleton/></div>;
+    const MockedAppSkeleton: React.FunctionComponent = () => <div data-testid="loading"><real.AppSkeleton /></div>;
     return {
         ...real,
         AppSkeleton: MockedAppSkeleton,
@@ -15,7 +16,7 @@ jest.mock('@redhat-cloud-services/insights-common-typescript', () => {
 });
 jest.mock('../../services/useUserSettingsEmailQuery');
 jest.mock('../../Routes', () => {
-    const MockedRoutes: React.FunctionComponent = () => <div data-testid="content"/>;
+    const MockedRoutes: React.FunctionComponent = () => <div data-testid="content" />;
     return {
         Routes: MockedRoutes
     };
@@ -36,7 +37,7 @@ describe('src/app/App', () => {
         const promise = new Promise<Rbac>(jest.fn());
         (fetchRBAC as jest.Mock).mockImplementation(() => promise);
         render(
-            <App/>,
+            <App />,
             {
                 wrapper: AppWrapper
             }
@@ -57,7 +58,7 @@ describe('src/app/App', () => {
             canWriteAll: true
         }));
         render(
-            <App/>,
+            <App />,
             {
                 wrapper: AppWrapper
             }
@@ -77,7 +78,7 @@ describe('src/app/App', () => {
             canWriteAll: true
         }));
         render(
-            <App/>,
+            <App />,
             {
                 wrapper: AppWrapper
             }
@@ -94,7 +95,7 @@ describe('src/app/App', () => {
         const hideGlobalFilter = jest.fn();
         (global as any).insights.chrome.hideGlobalFilter = hideGlobalFilter;
         render(
-            <App/>,
+            <App />,
             {
                 wrapper: AppWrapper
             }
@@ -111,7 +112,7 @@ describe('src/app/App', () => {
         (global as any).insights.chrome.hideGlobalFilter = undefined;
         expect(() => async () => {
             render(
-                <App/>,
+                <App />,
                 {
                     wrapper: AppWrapper
                 }

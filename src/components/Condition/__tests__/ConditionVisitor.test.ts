@@ -1,6 +1,7 @@
-import { ExpressionContext, ExpressionParser } from '../../../utils/Expression/ExpressionParser';
 import { CharStreams, CommonTokenStream } from 'antlr4ts';
+
 import { ExpressionLexer } from '../../../utils/Expression/ExpressionLexer';
+import { ExpressionContext, ExpressionParser } from '../../../utils/Expression/ExpressionParser';
 import { ConditionVisitor, ElementType } from '../ConditionVisitor';
 
 describe('src/components/Condition/ConditionVisitor', () => {

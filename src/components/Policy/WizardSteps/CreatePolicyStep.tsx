@@ -1,16 +1,17 @@
-import * as React from 'react';
 import { Radio, Text, TextVariants, Title } from '@patternfly/react-core';
 import { Form, joinClasses } from '@redhat-cloud-services/insights-common-typescript';
-import { WizardContext, WizardStepExtended } from '../PolicyWizardTypes';
-import { Messages } from '../../../properties/Messages';
-import { CopyFromPolicy } from './CopyFromPolicy';
-import { Policy } from '../../../types/Policy';
 import { useFormikContext } from 'formik';
-import * as Yup from 'yup';
+import * as React from 'react';
 import { useContext } from 'react';
-import { makeCopyOfPolicy } from '../../../types/adapters/PolicyAdapter';
-import { NewPolicy } from '../../../types/Policy/Policy';
 import { useUpdateEffect } from 'react-use';
+import * as Yup from 'yup';
+
+import { Messages } from '../../../properties/Messages';
+import { makeCopyOfPolicy } from '../../../types/adapters/PolicyAdapter';
+import { Policy } from '../../../types/Policy';
+import { NewPolicy } from '../../../types/Policy/Policy';
+import { WizardContext, WizardStepExtended } from '../PolicyWizardTypes';
+import { CopyFromPolicy } from './CopyFromPolicy';
 import { CreatePolicyStepContext } from './CreatePolicyPolicyStep/Context';
 
 type CreateCustomPolicyFormType = NewPolicy & {
@@ -129,7 +130,7 @@ export const CreatePolicyStep: React.FunctionComponent = () => {
 
 export const createPolicyStep = (stepOverrides?: Partial<WizardStepExtended>): WizardStepExtended => ({
     name: Messages.wizards.policy.createPolicy.title,
-    component: <CreatePolicyStep/>,
+    component: <CreatePolicyStep />,
     validationSchema: Yup.object().shape({
         isValid: Yup.boolean().oneOf([ true ])
     }),

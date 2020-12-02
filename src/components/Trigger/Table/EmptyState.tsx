@@ -1,6 +1,7 @@
 import * as React from 'react';
-import { EmptyStateSection } from '../../Policy/EmptyState/Section';
+
 import { Messages } from '../../../properties/Messages';
+import { EmptyStateSection } from '../../Policy/EmptyState/Section';
 
 export const TriggerTableEmptyState: React.FunctionComponent = () => {
     return <EmptyStateSection

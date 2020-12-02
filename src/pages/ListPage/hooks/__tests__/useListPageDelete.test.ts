@@ -1,10 +1,11 @@
-import { renderHook } from '@testing-library/react-hooks';
-import { useListPageDelete } from '../useListPageDelete';
 import { ImmutableContainerSet, Page } from '@redhat-cloud-services/insights-common-typescript';
+import { renderHook } from '@testing-library/react-hooks';
+
 import { PolicyRow } from '../../../../components/Policy/Table/PolicyTable';
-import { Uuid } from '../../../../types/Policy/Policy';
-import { UsePolicyToDeleteResponse } from '../../../../hooks/usePolicyToDelete';
 import { UsePolicyPageReturn } from '../../../../hooks';
+import { UsePolicyToDeleteResponse } from '../../../../hooks/usePolicyToDelete';
+import { Uuid } from '../../../../types/Policy/Policy';
+import { useListPageDelete } from '../useListPageDelete';
 
 const mockParams = () => ({
     policyRows: {

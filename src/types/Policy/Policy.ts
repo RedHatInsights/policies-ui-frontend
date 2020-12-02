@@ -1,5 +1,5 @@
-import { Action } from './Actions';
 import * as Generated from '../../generated/Openapi';
+import { Action } from './Actions';
 
 export type Uuid = Generated.Schemas.UUID;
 export const maxPolicyNameLength = 150;

@@ -1,9 +1,10 @@
-import * as React from 'react';
-import { render, screen } from '@testing-library/react';
 import { WizardContextProvider as PFWizardContextProvider, WizardContextType } from '@patternfly/react-core';
-import { WizardContext } from '../PolicyWizardTypes';
-import { PolicyWizardFooter } from '../PolicyWizardFooter';
+import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import * as React from 'react';
+
+import { PolicyWizardFooter } from '../PolicyWizardFooter';
+import { WizardContext } from '../PolicyWizardTypes';
 
 describe('src/components/Policy/PolicyWizardFooter', () => {
 
@@ -71,7 +72,7 @@ describe('src/components/Policy/PolicyWizardFooter', () => {
 
     it('LoadingText is visible when loading', () => {
         const Wrapper = getWrapper();
-        render(<PolicyWizardFooter isLoading={ true } loadingText={ 'Loading 123' }/>, {
+        render(<PolicyWizardFooter isLoading={ true } loadingText={ 'Loading 123' } />, {
             wrapper: Wrapper
         });
 
@@ -80,7 +81,7 @@ describe('src/components/Policy/PolicyWizardFooter', () => {
 
     it('LoadingText is hidden when not loading', () => {
         const Wrapper = getWrapper();
-        render(<PolicyWizardFooter isLoading={ false } loadingText={ 'Loading 123' }/>, {
+        render(<PolicyWizardFooter isLoading={ false } loadingText={ 'Loading 123' } />, {
             wrapper: Wrapper
         });
 
@@ -89,7 +90,7 @@ describe('src/components/Policy/PolicyWizardFooter', () => {
 
     it('Next is enabled when not loading', () => {
         const Wrapper = getWrapper();
-        render(<PolicyWizardFooter isLoading={ false } loadingText={ 'Loading 123' }/>, {
+        render(<PolicyWizardFooter isLoading={ false } loadingText={ 'Loading 123' } />, {
             wrapper: Wrapper
         });
 
@@ -98,7 +99,7 @@ describe('src/components/Policy/PolicyWizardFooter', () => {
 
     it('Next is disabled when loading', () => {
         const Wrapper = getWrapper();
-        render(<PolicyWizardFooter isLoading={ true } loadingText={ 'Loading 123' }/>, {
+        render(<PolicyWizardFooter isLoading={ true } loadingText={ 'Loading 123' } />, {
             wrapper: Wrapper
         });
 
@@ -107,7 +108,7 @@ describe('src/components/Policy/PolicyWizardFooter', () => {
 
     it('Error is show when set and not loading', () => {
         const Wrapper = getWrapper();
-        render(<PolicyWizardFooter isLoading={ false } loadingText={ 'Loading 123' } error={ 'I am a bug' }/>, {
+        render(<PolicyWizardFooter isLoading={ false } loadingText={ 'Loading 123' } error={ 'I am a bug' } />, {
             wrapper: Wrapper
         });
 
@@ -116,7 +117,7 @@ describe('src/components/Policy/PolicyWizardFooter', () => {
 
     it('Error is hidden when set and loading', () => {
         const Wrapper = getWrapper();
-        render(<PolicyWizardFooter isLoading={ true } loadingText={ 'Loading 123' } error={ 'I am a bug' }/>, {
+        render(<PolicyWizardFooter isLoading={ true } loadingText={ 'Loading 123' } error={ 'I am a bug' } />, {
             wrapper: Wrapper
         });
 
@@ -132,7 +133,7 @@ describe('src/components/Policy/PolicyWizardFooter', () => {
             expect(context).toBe(policyWizardContext);
             expect(wizardOnNext).toBe(innerOnNext);
         });
-        render(<PolicyWizardFooter isLoading={ false } loadingText={ 'Loading 123' } onNext={ onNext }/>, {
+        render(<PolicyWizardFooter isLoading={ false } loadingText={ 'Loading 123' } onNext={ onNext } />, {
             wrapper: Wrapper
         });
 
@@ -145,7 +146,7 @@ describe('src/components/Policy/PolicyWizardFooter', () => {
         const Wrapper = getWrapper({
             id: 0
         });
-        render(<PolicyWizardFooter isLoading={ false } loadingText={ 'Loading 123' }/>, {
+        render(<PolicyWizardFooter isLoading={ false } loadingText={ 'Loading 123' } />, {
             wrapper: Wrapper
         });
 
@@ -156,7 +157,7 @@ describe('src/components/Policy/PolicyWizardFooter', () => {
         const Wrapper = getWrapper({
             id: 5
         });
-        render(<PolicyWizardFooter isLoading={ false } loadingText={ 'Loading 123' }/>, {
+        render(<PolicyWizardFooter isLoading={ false } loadingText={ 'Loading 123' } />, {
             wrapper: Wrapper
         });
 
@@ -165,7 +166,7 @@ describe('src/components/Policy/PolicyWizardFooter', () => {
 
     it('Back is disabled when loading', () => {
         const Wrapper = getWrapper();
-        render(<PolicyWizardFooter isLoading={ true } loadingText={ 'Loading 123' }/>, {
+        render(<PolicyWizardFooter isLoading={ true } loadingText={ 'Loading 123' } />, {
             wrapper: Wrapper
         });
 
@@ -177,7 +178,7 @@ describe('src/components/Policy/PolicyWizardFooter', () => {
         const Wrapper = getWrapper({
             onNext
         });
-        render(<PolicyWizardFooter isLoading={ false } loadingText={ 'Loading 123' }/>, {
+        render(<PolicyWizardFooter isLoading={ false } loadingText={ 'Loading 123' } />, {
             wrapper: Wrapper
         });
 
@@ -191,7 +192,7 @@ describe('src/components/Policy/PolicyWizardFooter', () => {
             onBack,
             id: 5
         });
-        render(<PolicyWizardFooter isLoading={ false } loadingText={ 'Loading 123' }/>, {
+        render(<PolicyWizardFooter isLoading={ false } loadingText={ 'Loading 123' } />, {
             wrapper: Wrapper
         });
 
@@ -204,7 +205,7 @@ describe('src/components/Policy/PolicyWizardFooter', () => {
         const Wrapper = getWrapper({
             onClose
         });
-        render(<PolicyWizardFooter isLoading={ false } loadingText={ 'Loading 123' }/>, {
+        render(<PolicyWizardFooter isLoading={ false } loadingText={ 'Loading 123' } />, {
             wrapper: Wrapper
         });
 
@@ -216,7 +217,7 @@ describe('src/components/Policy/PolicyWizardFooter', () => {
         const Wrapper = getWrapper({
             enableNext: false
         });
-        render(<PolicyWizardFooter isLoading={ false } loadingText={ 'Loading 123' }/>, {
+        render(<PolicyWizardFooter isLoading={ false } loadingText={ 'Loading 123' } />, {
             wrapper: Wrapper
         });
 
@@ -227,7 +228,7 @@ describe('src/components/Policy/PolicyWizardFooter', () => {
         const Wrapper = getWrapper({
             nextButtonText: 'Go!'
         });
-        render(<PolicyWizardFooter isLoading={ false } loadingText={ 'Loading 123' }/>, {
+        render(<PolicyWizardFooter isLoading={ false } loadingText={ 'Loading 123' } />, {
             wrapper: Wrapper
         });
 
@@ -239,7 +240,7 @@ describe('src/components/Policy/PolicyWizardFooter', () => {
         const Wrapper = getWrapper({
             hideBackButton: true
         });
-        render(<PolicyWizardFooter isLoading={ false } loadingText={ 'Loading 123' }/>, {
+        render(<PolicyWizardFooter isLoading={ false } loadingText={ 'Loading 123' } />, {
             wrapper: Wrapper
         });
 
@@ -250,7 +251,7 @@ describe('src/components/Policy/PolicyWizardFooter', () => {
         const Wrapper = getWrapper({
             hideCancelButton: true
         });
-        render(<PolicyWizardFooter isLoading={ false } loadingText={ 'Loading 123' }/>, {
+        render(<PolicyWizardFooter isLoading={ false } loadingText={ 'Loading 123' } />, {
             wrapper: Wrapper
         });
 

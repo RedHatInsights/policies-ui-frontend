@@ -1,13 +1,14 @@
-import * as React from 'react';
-import { PolicyWizard } from '../../components/Policy/PolicyWizard';
-import { useVerifyPolicyMutation } from '../../services/useVerifyPolicy';
-import { useSavePolicyMutation } from '../../services/useSavePolicy';
-import * as HttpStatus from 'http-status-codes';
 import { addSuccessNotification } from '@redhat-cloud-services/insights-common-typescript';
+import * as HttpStatus from 'http-status-codes';
+import * as React from 'react';
+
+import { PolicyWizard } from '../../components/Policy/PolicyWizard';
 import { CreatePolicyResponse, VerifyPolicyResponse } from '../../components/Policy/PolicyWizardTypes';
-import { Policy, NewPolicy } from '../../types/Policy/Policy';
-import { useValidatePolicyNameParametrizedQuery } from '../../services/useValidatePolicyName';
 import { useFacts } from '../../hooks/useFacts';
+import { useSavePolicyMutation } from '../../services/useSavePolicy';
+import { useValidatePolicyNameParametrizedQuery } from '../../services/useValidatePolicyName';
+import { useVerifyPolicyMutation } from '../../services/useVerifyPolicy';
+import { NewPolicy, Policy } from '../../types/Policy/Policy';
 
 type CreatePolicyWizardBase = {
     close: (policy: Policy | undefined) => void;

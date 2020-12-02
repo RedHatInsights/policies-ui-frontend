@@ -2,14 +2,14 @@
 /**
  * Generated code, DO NOT modify directly.
  */
-import * as z from 'zod';
 import { ValidatedResponse } from 'openapi2typescript';
-import { Action } from 'react-fetching-library';
 import { ValidateRule } from 'openapi2typescript';
 import {
     actionBuilder,
     ActionValidatableConfig
 } from 'openapi2typescript/react-fetching-library';
+import { Action } from 'react-fetching-library';
+import * as z from 'zod';
 
 export namespace Schemas {
   export const Fact = zodSchemaFact();
