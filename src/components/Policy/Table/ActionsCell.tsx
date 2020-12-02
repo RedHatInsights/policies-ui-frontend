@@ -7,7 +7,7 @@ import { style } from 'typestyle';
 import { Messages } from '../../../properties/Messages';
 import { Action, ActionType } from '../../../types/Policy/Actions';
 import { getOuiaProps } from '../../../utils/getOuiaProps';
-import { ActionEmailIcon, ActionWebhookIcon } from '../ActionIcons';
+import { ActionEmailIcon, ActionNotificationIcon } from '../ActionIcons';
 
 interface ActionsCellProps extends OuiaComponentProps {
     actions: Action[];
@@ -29,18 +29,18 @@ const splitClassName = style({
 const iconPosition = TooltipPosition.bottom;
 const ActionEmailIconTooltip = () => (
     <Tooltip
-        content={ Messages.tables.policy.toolTips.email }
+        content={ Messages.tables.policy.actions.email }
         position={ iconPosition }
     >
         <ActionEmailIcon />
     </Tooltip>
 );
-const ActionWebhookIconTooltip = () => (
+const ActionNotificationIconTooltip = () => (
     <Tooltip
-        content={ Messages.tables.policy.toolTips.hook }
+        content={ Messages.tables.policy.actions.notification }
         position={ iconPosition }
     >
-        <ActionWebhookIcon />
+        <ActionNotificationIcon />
     </Tooltip>
 );
 export const ActionsCell: React.FunctionComponent<ActionsCellProps> = (props) => {
@@ -55,7 +55,7 @@ export const ActionsCell: React.FunctionComponent<ActionsCellProps> = (props) =>
                 element = <ActionEmailIconTooltip />;
                 break;
             case ActionType.NOTIFICATION:
-                element = <ActionWebhookIconTooltip />;
+                element = <ActionNotificationIconTooltip />;
                 break;
             default:
                 assertNever(action);

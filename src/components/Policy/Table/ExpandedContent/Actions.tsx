@@ -14,7 +14,7 @@ import { style } from 'typestyle';
 import { Messages } from '../../../../properties/Messages';
 import { Action, ActionType } from '../../../../types/Policy/Actions';
 import { getOuiaProps } from '../../../../utils/getOuiaProps';
-import { ActionEmailIcon, ActionWebhookIcon } from '../../ActionIcons';
+import { ActionEmailIcon, ActionNotificationIcon } from '../../ActionIcons';
 
 interface ActionsProps extends OuiaComponentProps {
     actions: Action[];
@@ -74,7 +74,7 @@ const getActions = (actions: Action[]) => {
             case ActionType.NOTIFICATION:
                 elements.push((
                     <React.Fragment key={ index }>
-                        <ActionWrapper title="Send to notification" icon={ ActionWebhookIcon } />
+                        <ActionWrapper title={ Messages.tables.policy.actions.notification } icon={ ActionNotificationIcon } />
                     </React.Fragment>
                 ));
                 break;

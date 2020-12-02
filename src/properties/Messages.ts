@@ -116,9 +116,9 @@ const MutableMessages = {
                     content: 'No policies matching the selected filter and search terms.'
                 }
             },
-            toolTips: {
+            actions: {
                 email: 'Send email',
-                hook: 'Send to webhook'
+                notification: 'Send a notification'
             }
         },
         trigger: {
