@@ -1,11 +1,4 @@
-import {
-    Button,
-    Card,
-    CardActions,
-    CardBody
-    , CardHeader, CardTitle,
-    Form,
-    Title } from '@patternfly/react-core';
+import { Button, Card, CardActions, CardBody, CardHeader, CardTitle, Form, Title } from '@patternfly/react-core';
 import { TimesIcon } from '@patternfly/react-icons';
 // eslint-disable-next-line @typescript-eslint/camelcase
 import { global_spacer_md } from '@patternfly/react-tokens';
@@ -15,6 +8,7 @@ import * as React from 'react';
 import { DeepPartial } from 'ts-essentials';
 import { style } from 'typestyle';
 
+import { Messages } from '../../properties/Messages';
 import { Action, ActionType } from '../../types/Policy/Actions';
 import { ActionForm } from './ActionForm/ActionForm';
 import { ActionIcon } from './ActionIcons';
@@ -45,9 +39,9 @@ interface ActionsFormProps {
 const titleForActionType = (actionType: ActionType) => {
     switch (actionType) {
         case ActionType.EMAIL:
-            return 'Send email';
+            return Messages.tables.policy.actions.email;
         case ActionType.NOTIFICATION:
-            return 'Send to notification';
+            return Messages.tables.policy.actions.notification;
         default:
             assertNever(actionType);
     }

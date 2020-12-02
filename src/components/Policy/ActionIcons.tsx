@@ -4,10 +4,10 @@ import { assertNever } from 'assert-never';
 import * as React from 'react';
 
 import { ActionType } from '../../types/Policy/Actions';
-import { WebhookIcon } from '../Icons';
+import { NotificationIcon } from '../Icons';
 
 export const ActionEmailIcon = EnvelopeIcon;
-export const ActionWebhookIcon = WebhookIcon;
+export const ActionNotificationIcon = NotificationIcon;
 
 type ActionIconProps = {
     actionType: ActionType | undefined;
@@ -17,7 +17,7 @@ export const ActionIcon: React.FunctionComponent<ActionIconProps> = (props) => {
     const { actionType, ...iconProps } = props;
     switch (actionType) {
         case ActionType.NOTIFICATION:
-            return <ActionWebhookIcon { ...iconProps } />;
+            return <ActionNotificationIcon { ...iconProps } />;
         case ActionType.EMAIL:
             return <ActionEmailIcon { ...iconProps } />;
         case undefined:
