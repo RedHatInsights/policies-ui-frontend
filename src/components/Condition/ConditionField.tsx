@@ -111,13 +111,17 @@ export const ConditionField: React.FunctionComponent<ConditionFieldProps> = (pro
         onSelect('');
     }, [ onSelect ]);
 
+    const onToggle = React.useCallback((shouldBeOpen) => {
+        setOpen(shouldBeOpen);
+    }, [ ]);
+
     return (
         <Select
             { ...getOuiaProps('ConditionField', props) }
             label={ props.label }
             toggleId={ props.id }
             name={ props.name }
-            onToggle={ () => setOpen(() => !isOpen) }
+            onToggle={ onToggle }
             isOpen={ isOpen }
             selections={ value }
             variant={ SelectVariant.typeahead }
