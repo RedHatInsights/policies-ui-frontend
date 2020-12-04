@@ -229,6 +229,25 @@ describe('src/components/Condition/ConditionVisitor', () => {
         expect(screen.getByText('baz')).toBeTruthy();
     });
 
+    it('allows to write facts.arch = "x86_64" without having to copy/paste', async() => {
+        render(
+            <ConditionFieldContainer
+                label="my label"
+                id="my-id"
+                name="my name"
+                facts={ testFacts }
+                value={ '' }
+                onSelect={ jest.fn() }
+            />
+        );
+
+        await act(async () => {
+            await userEvent.type(screen.getByLabelText('Condition writer'), 'facts.arch = "x86_64"');
+        });
+
+        expect(screen.getByDisplayValue('facts.arch = "x86_64"')).toBeTruthy();
+    });
+
     describe('buildOptionList', () => {
         it('Yields empty if there is no match', () => {
             const options = buildOptionList('may', testFacts);
