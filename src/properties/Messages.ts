@@ -43,7 +43,7 @@ const MutableMessages = {
             errorChangingEnabledStatus: {
                 notFound: {
                     title: 'Policy not found',
-                    text: 'The policy does not exists on the server. It may have been deleted by another user.'
+                    text: 'The policy does not exists on the server. It may have been removed by another user.'
                 },
                 else: {
                     title: 'Enabled status change failed for policy',
@@ -52,7 +52,7 @@ const MutableMessages = {
             },
             emptyState: {
                 title: 'Policy not found',
-                text: 'This policy with ID {0} cannot be found. It may have been deleted by another user.',
+                text: 'This policy with ID {0} cannot be found. It may have been removed by another user.',
                 backText: 'Back to previous page'
             },
             triggerEmptyState: {

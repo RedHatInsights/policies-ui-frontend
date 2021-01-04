@@ -36,7 +36,7 @@ describe('src/pages/PolicyDetail/Actions', () => {
         expect(screen.getByText(/disable/i)).toBeVisible();
         expect(screen.getByText(/edit/i)).toBeVisible();
         expect(screen.getByText(/duplicate/i)).toBeVisible();
-        expect(screen.getByText(/delete/i)).toBeVisible();
+        expect(screen.getByText(/remove/i)).toBeVisible();
     });
 
     it('Shows menu with enable when isEnabled is false', () => {
@@ -56,7 +56,7 @@ describe('src/pages/PolicyDetail/Actions', () => {
         expect(screen.getByText(/enable/i)).toBeVisible();
         expect(screen.getByText(/edit/i)).toBeVisible();
         expect(screen.getByText(/duplicate/i)).toBeVisible();
-        expect(screen.getByText(/delete/i)).toBeVisible();
+        expect(screen.getByText(/remove/i)).toBeVisible();
     });
 
     it('Calls changeEnabled with true when clicking enable', () => {
@@ -157,7 +157,7 @@ describe('src/pages/PolicyDetail/Actions', () => {
         expect(duplicate).toHaveBeenCalled();
     });
 
-    it('Calls delete when clicking', () => {
+    it('Calls remove when clicking', () => {
         const deleteFn = jest.fn();
         render(<PolicyDetailActions
             edit={ jest.fn() }
@@ -170,7 +170,7 @@ describe('src/pages/PolicyDetail/Actions', () => {
         />);
 
         userEvent.click(screen.getByRole('button'));
-        userEvent.click(screen.getByText(/delete/i));
+        userEvent.click(screen.getByText(/remove/i));
         expect(deleteFn).toHaveBeenCalled();
     });
 });

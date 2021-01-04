@@ -45,7 +45,7 @@ export const PolicyDetailActions: React.FunctionComponent<ActionsProps> = (props
         localItems.push(
             <DropdownItem key="edit" onClick={ props.edit }>Edit</DropdownItem>,
             <DropdownItem key="duplicate" onClick={ props.duplicate }>Duplicate</DropdownItem>,
-            <DropdownItem key="delete" onClick={ props.delete }>Delete</DropdownItem>
+            <DropdownItem key="delete" onClick={ props.delete }>Remove</DropdownItem>
         );
 
         return localItems;

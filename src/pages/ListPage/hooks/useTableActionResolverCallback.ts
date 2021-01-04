@@ -54,7 +54,7 @@ export const useTableActionResolverCallback = (params: Params) => {
                 }
             },
             {
-                title: 'Delete',
+                title: 'Remove',
                 onClick: () => {
                     openPolicyToDelete(policy);
                 }

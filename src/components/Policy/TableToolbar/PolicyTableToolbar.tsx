@@ -190,7 +190,7 @@ export const PolicyToolbar: React.FunctionComponent<TablePolicyToolbarProps> = (
             },
             {
                 key: 'delete-policy',
-                label: 'Delete',
+                label: 'Remove',
                 onClick: onDeletePolicy,
                 props: {
                     isDisabled: !(selectedCount && onDeletePolicy)
