@@ -422,7 +422,7 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
         expect(screen.getAllByText('my new name')).toBeTruthy();
     });
 
-    it('Click on delete brings up the delete dialog ', async () => {
+    it('Click on remove brings up the remove dialog ', async () => {
         fetchMockSetup();
         render(<PolicyDetail />, {
             wrapper: getConfiguredAppWrapper({
@@ -437,13 +437,13 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
 
         await waitForAsyncEvents();
         userEvent.click(screen.getByTestId('policy-detail-actions-button'));
-        userEvent.click(screen.getByText(/delete/i));
+        userEvent.click(screen.getByText(/remove/i));
 
         await waitForAsyncEvents();
-        expect(screen.getByText(/Do you want to delete the policy/i)).toBeVisible();
+        expect(screen.getByText(/Do you want to remove the policy/i)).toBeVisible();
     });
 
-    it('Delete dialog can be closed ', async () => {
+    it('Remove dialog can be closed ', async () => {
         fetchMockSetup();
         render(<PolicyDetail />, {
             wrapper: getConfiguredAppWrapper({
@@ -458,13 +458,13 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
 
         await waitForAsyncEvents();
         userEvent.click(screen.getByTestId('policy-detail-actions-button'));
-        userEvent.click(screen.getByText(/delete/i));
+        userEvent.click(screen.getByText(/remove/i));
 
         await waitForAsyncEvents();
         userEvent.click(screen.getByText('Cancel'));
 
         await waitForAsyncEvents();
-        expect(screen.queryByText(/Do you want to delete the policy/i)).toBeFalsy();
+        expect(screen.queryByText(/Do you want to remove the policy/i)).toBeFalsy();
     });
 
     it('When policy is deleted, navigates to list page', async () => {
@@ -490,10 +490,10 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
 
         await waitForAsyncEvents();
         userEvent.click(screen.getByTestId('policy-detail-actions-button'));
-        userEvent.click(screen.getByText(/delete/i));
+        userEvent.click(screen.getByText(/remove/i));
 
         await waitForAsyncEvents();
-        userEvent.click(screen.getByText('Delete'));
+        userEvent.click(screen.getByText('Remove'));
 
         await waitForAsyncEvents();
         expect(getLocation().pathname).toEqual(linkTo.listPage());
@@ -578,7 +578,7 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
 
         await waitForAsyncEvents();
         expect(screen.getByText('Disabled')).toBeVisible();
-        expect(screen.getByText(/It may have been deleted by another user/i)).toBeVisible();
+        expect(screen.getByText(/It may have been removed by another user/i)).toBeVisible();
     });
 
     it('When policy is enabled, if server fails, do not change status and show error', async () => {

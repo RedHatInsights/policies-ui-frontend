@@ -272,7 +272,7 @@ describe('src/pages/ListPage/hooks/useTableActionResolverCallback', () => {
         });
     });
 
-    it('Delete action is always present', () => {
+    it('Remove action is always present', () => {
         const policy: PolicyRow = {
             isOpen: false,
             isSelected: false,
@@ -295,11 +295,11 @@ describe('src/pages/ListPage/hooks/useTableActionResolverCallback', () => {
         };
 
         const { result } = renderHook(() => useTableActionResolverCallback(params));
-        const edit = result.current(policy).find(action => action.title === 'Delete');
+        const edit = result.current(policy).find(action => action.title === 'Remove');
         expect(edit).toBeTruthy();
     });
 
-    it('Delete action on Click calls openPolicyToDelete', () => {
+    it('Remove action on Click calls openPolicyToDelete', () => {
         const policy: PolicyRow = {
             isOpen: false,
             isSelected: false,
@@ -322,7 +322,7 @@ describe('src/pages/ListPage/hooks/useTableActionResolverCallback', () => {
         };
 
         const { result } = renderHook(() => useTableActionResolverCallback(params));
-        const edit = result.current(policy).find(action => action.title === 'Delete');
+        const edit = result.current(policy).find(action => action.title === 'Remove');
         expect(params.openPolicyToDelete).toHaveBeenCalledTimes(0);
         edit?.onClick();
         expect(params.openPolicyToDelete).toHaveBeenCalledWith(policy);
