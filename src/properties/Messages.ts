@@ -187,6 +187,9 @@ const MutableMessages = {
                 }
             }
         }
+    },
+    labels: {
+        description: 'Description'
     }
 };
 
