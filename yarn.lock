@@ -1294,10 +1294,10 @@
   resolved "https://registry.yarnpkg.com/@patternfly/react-tokens/-/react-tokens-4.9.18.tgz#b34afc5fd2567a50b7658aff004f31b536fd9096"
   integrity sha512-zQfqwKtoz1hDngyiGnF6oHeESDtgNY6C79Db97JxMMuRBV7i+5f6uC/DrYhcqNtqHA7mxrVJg0SM1xnPSAW9lA==
 
-"@redhat-cloud-services/frontend-components-config@2.1.8":
-  version "2.1.8"
-  resolved "https://registry.yarnpkg.com/@redhat-cloud-services/frontend-components-config/-/frontend-components-config-2.1.8.tgz#9418ee28eef83364c2d564deeee8902457ba9ae3"
-  integrity sha512-6CkLvjb64lbvz3L8a3D4bk5PJCl89SLDffQKYqPhrtEtZ0k8b9fdEfttia+cyI29Q7oVHQouLqIe+iHWpwRejQ==
+"@redhat-cloud-services/frontend-components-config@2.1.9":
+  version "2.1.9"
+  resolved "https://registry.yarnpkg.com/@redhat-cloud-services/frontend-components-config/-/frontend-components-config-2.1.9.tgz#e9eb4ebf5f193a68053302b4ef88b4bd0f6aee85"
+  integrity sha512-aRyOpm5tyfnKkJ6+ircPWhgGJwMSgXVhqbGzmWFN/r+NJnEcS/EHMXQXpGhkJhBEphsm/j3XO79LpV+zo+8j9g==
   dependencies:
     babel-loader "^8.0.6"
     clean-webpack-plugin "^2.0.2"
@@ -1312,7 +1312,6 @@
     lodash-webpack-plugin "^0.11.5"
     mini-css-extract-plugin "^0.6.0"
     node-sass "^4.12.0"
-    react-router-sitemap "^1.2.0"
     sass-loader "^7.1.0"
     source-map-loader "^0.2.4"
     style-loader "^0.23.1"
@@ -1322,12 +1321,12 @@
     webpack-serve "1.0.2"
     write-file-webpack-plugin "^4.5.0"
 
-"@redhat-cloud-services/frontend-components-notifications@2.1.2":
-  version "2.1.2"
-  resolved "https://registry.yarnpkg.com/@redhat-cloud-services/frontend-components-notifications/-/frontend-components-notifications-2.1.2.tgz#7d3897b5b3ea460140f2c5c35c37c3b99ee794b1"
-  integrity sha512-NnRfoWpJ67HweKbR8WGwvr5sMTyz8z4FnB7sWKaJkFhuACR+KSy+tw91cRK1DV+iFuYgOygnkXMMJEJdWxi/DA==
+"@redhat-cloud-services/frontend-components-notifications@2.2.4":
+  version "2.2.4"
+  resolved "https://registry.yarnpkg.com/@redhat-cloud-services/frontend-components-notifications/-/frontend-components-notifications-2.2.4.tgz#0ac2e0afd1ff192478cf0e8496efb4609f1a6eb0"
+  integrity sha512-FmUf77Z0XP7UaOfiE+a2nn1DjWxnOlo1B6HIOjnRoToHAKSuMEtuxHxMGIv02ru2NL0Pc1GhFLr+IJ+L2BeTaQ==
   dependencies:
-    "@redhat-cloud-services/frontend-components-utilities" "2.1.0-beta"
+    "@redhat-cloud-services/frontend-components-utilities" "*"
 
 "@redhat-cloud-services/frontend-components-utilities@*":
   version "0.0.13"
@@ -1340,34 +1339,25 @@
     commander "^2.20.0"
     react-content-loader "^3.4.1"
 
-"@redhat-cloud-services/frontend-components-utilities@2.1.0-beta":
-  version "2.1.0-beta"
-  resolved "https://registry.yarnpkg.com/@redhat-cloud-services/frontend-components-utilities/-/frontend-components-utilities-2.1.0-beta.tgz#ab8c7b0f34dfd24668c36acb2f3196676595d2f7"
-  integrity sha512-4qF+ElZaBRXnWtdpIY/VF2TA4sGTkHbHUQVy3gV6Uu1h2YHpuxhKuiJhB/Gq/BgPmkU7yVV2Dpm//iCe6ObOUg==
+"@redhat-cloud-services/frontend-components-utilities@2.2.9":
+  version "2.2.9"
+  resolved "https://registry.yarnpkg.com/@redhat-cloud-services/frontend-components-utilities/-/frontend-components-utilities-2.2.9.tgz#ae3fd5623178d037ab55e17de24fee1fabafa673"
+  integrity sha512-+rtCdi/fi89+DE1RO8Jvq9Vh026u9qStKagGFO+wZUspvDwAxkT3CvsOksQadocwj4J4d9znm8URHSDumBYeSw==
   dependencies:
     "@sentry/browser" "^5.4.0"
     awesome-debounce-promise "^2.1.0"
-    axios "^0.19.0"
+    axios "^0.21.1"
     commander ">=2.20.0"
     react-content-loader ">=3.4.1"
 
-"@redhat-cloud-services/frontend-components-utilities@2.1.5":
-  version "2.1.5"
-  resolved "https://registry.yarnpkg.com/@redhat-cloud-services/frontend-components-utilities/-/frontend-components-utilities-2.1.5.tgz#7c05aaddd4fd6331e4c46bc6cc858b2c38786914"
-  integrity sha512-gO9dYvFuwGUv6VhAx4Rc+JzkkKCYXLcfSlnpWjl9107sagqJwCs8ZsFP1D7Ct94nuPMuIdUDyqbo74az4gs1xQ==
-  dependencies:
-    "@sentry/browser" "^5.4.0"
-    awesome-debounce-promise "^2.1.0"
-    axios "^0.19.0"
-    commander ">=2.20.0"
-    react-content-loader ">=3.4.1"
-
-"@redhat-cloud-services/frontend-components@2.3.18":
-  version "2.3.18"
-  resolved "https://registry.yarnpkg.com/@redhat-cloud-services/frontend-components/-/frontend-components-2.3.18.tgz#daa1ee70d0043008ac3535346d39210eb9d4c914"
-  integrity sha512-QTTZ6aI9aM84zrRFB0YfK5fd82GpSRiUzdsgCCutVYPPBNniN4wdV9kxIvUscDpcwUFuZf+E6qFtn5QSGJQDRQ==
+"@redhat-cloud-services/frontend-components@2.5.6":
+  version "2.5.6"
+  resolved "https://registry.yarnpkg.com/@redhat-cloud-services/frontend-components/-/frontend-components-2.5.6.tgz#cf7642476ff6a06953a07f9e4773ca836869f053"
+  integrity sha512-KSqtkY1icYhUcPB906YMZPpgt01HXIzO1vASbcn01ZmuWzihmG2oQ/bIIZpUcLsaQXOMlBfyfwtvf4yP+F2IRQ==
   dependencies:
     "@redhat-cloud-services/frontend-components-utilities" "*"
+    "@scalprum/core" "0.0.10"
+    "@scalprum/react-core" "0.0.13"
     sanitize-html "^1.25.0"
 
 "@redhat-cloud-services/insights-common-typescript@4.2.2":
@@ -1389,6 +1379,23 @@
   integrity sha512-IYLQH1dovp19iJLSEHT3pAFz6187i+T7Tq6vnXVQ+r0uHeX7+O8lIPYBgKze9Z7LkkRkg9HKGVg7Wx5CcaZHwQ==
   dependencies:
     axios "^0.19.2"
+
+"@scalprum/core@*":
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/@scalprum/core/-/core-0.0.3.tgz#a7d60597af82a0911b7ffceec01a3e242de686e2"
+  integrity sha512-3fbzufqQhOMFZ3v6ua2BhTlnFwk8WeFfBJj8l8TO8ZiR9p/bFNGG0A17gCqBeZYvFOS4XTx8g2z4T1g+1eQfvA==
+
+"@scalprum/core@0.0.10":
+  version "0.0.10"
+  resolved "https://registry.yarnpkg.com/@scalprum/core/-/core-0.0.10.tgz#0bb4190180fd491a26301dac28e5ab9d3c83527b"
+  integrity sha512-eIE+nDHpAjRcG1HkBh10Iv6cXc33CZRH8qLFUQqFhj4CyJEWUG4QGUHItwC3ma2gEElVWe3qNong2D5v/cGIFg==
+
+"@scalprum/react-core@0.0.13":
+  version "0.0.13"
+  resolved "https://registry.yarnpkg.com/@scalprum/react-core/-/react-core-0.0.13.tgz#76e031e24cec6381d1002d101f74f006b860b4e9"
+  integrity sha512-2mGEUjiwG2J4r3FMG05pLsn2NULx36tYZRMyH6RqkANmtITLu+b8EzfNLFR1tGcRJxhamJLZhHhSYlNhNzpKng==
+  dependencies:
+    "@scalprum/core" "*"
 
 "@sentry/browser@^5.4.0":
   version "5.7.1"
@@ -2812,7 +2819,7 @@ axios-mock-adapter@1.18.2:
     fast-deep-equal "^3.1.1"
     is-buffer "^2.0.3"
 
-axios@0.21.1:
+axios@0.21.1, axios@^0.21.1:
   version "0.21.1"
   resolved "https://registry.yarnpkg.com/axios/-/axios-0.21.1.tgz#22563481962f4d6bde9a76d516ef0e5d3c09b2b8"
   integrity sha512-dKQiRHxGD9PPRIUNIWvZhPTPpl1rf/OxTYKsqKUDjBwYylTvV7SjSHJb9ratfyzM6wCdLCOYLzs73qpg5c4iGA==
@@ -11621,13 +11628,6 @@ react-router-dom@5.1.2:
     tiny-invariant "^1.0.2"
     tiny-warning "^1.0.0"
 
-react-router-sitemap@^1.2.0:
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/react-router-sitemap/-/react-router-sitemap-1.2.0.tgz#4a32ddf7a1adbb3ad3c59a4e3e5338ca00b4febb"
-  integrity sha512-3aETwxCFTGHsGbXpyh7sr+c/WDr0q1rpng0M4pgoV6Owl3673buejPHGvzDmZEdiqhRa+I0znRDneKRc1NC06Q==
-  dependencies:
-    sitemap "^1.6.0"
-
 react-router@5.1.2:
   version "5.1.2"
   resolved "https://registry.yarnpkg.com/react-router/-/react-router-5.1.2.tgz#6ea51d789cb36a6be1ba5f7c0d48dd9e817d3418"
@@ -12719,14 +12719,6 @@ sisteransi@^1.0.3:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/sisteransi/-/sisteransi-1.0.3.tgz#98168d62b79e3a5e758e27ae63c4a053d748f4eb"
   integrity sha512-SbEG75TzH8G7eVXFSN5f9EExILKfly7SUvVY5DhhYLvfhKqhDFY0OzevWa/zwak0RLRfWS5AvfMWpd9gJvr5Yg==
-
-sitemap@^1.6.0:
-  version "1.13.0"
-  resolved "https://registry.yarnpkg.com/sitemap/-/sitemap-1.13.0.tgz#569cbe2180202926a62a266cd3de09c9ceb43f83"
-  integrity sha1-Vpy+IYAgKSamKiZs094Jyc60P4M=
-  dependencies:
-    underscore "^1.7.0"
-    url-join "^1.1.0"
 
 slash@^2.0.0:
   version "2.0.0"
@@ -14124,11 +14116,6 @@ unbzip2-stream@^1.0.9:
     buffer "^5.2.1"
     through "^2.3.8"
 
-underscore@^1.7.0:
-  version "1.12.0"
-  resolved "https://registry.yarnpkg.com/underscore/-/underscore-1.12.0.tgz#4814940551fc80587cef7840d1ebb0f16453be97"
-  integrity sha512-21rQzss/XPMjolTiIezSu3JAjgagXKROtNrYFEOWK109qY1Uv2tVjPTZ1ci2HgvQDA16gHYSthQIJfB+XId/rQ==
-
 unherit@^1.0.4:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/unherit/-/unherit-1.1.2.tgz#14f1f397253ee4ec95cec167762e77df83678449"
@@ -14313,11 +14300,6 @@ url-join@3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/url-join/-/url-join-3.0.0.tgz#26e8113ace195ea30d0fc38186e45400f9cea672"
   integrity sha1-JugROs4ZXqMND8OBhuRUAPnOpnI=
-
-url-join@^1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/url-join/-/url-join-1.1.0.tgz#741c6c2f4596c4830d6718460920d0c92202dc78"
-  integrity sha1-dBxsL0WWxIMNZxhGCSDQySIC3Hg=
 
 url-parse-lax@^1.0.0:
   version "1.0.0"
