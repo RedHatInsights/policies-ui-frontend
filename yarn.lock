@@ -10407,10 +10407,10 @@ openapi2typescript-cli@0.3.1:
     eslint "6.0.0"
     prettier "2.1.1"
 
-openapi2typescript@0.1.0:
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/openapi2typescript/-/openapi2typescript-0.1.0.tgz#2d2cddba7eef732ce85991a4bd803a0d0fa10c0a"
-  integrity sha512-7gcfITFFszW791oK2sGNs3nN0HyR7cbW/qsGi40O+3E5OnPy/AuzKMTzS5JkklZYtftOj94hHHz6l5MwqhSl+Q==
+openapi2typescript@0.1.1:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/openapi2typescript/-/openapi2typescript-0.1.1.tgz#1e58c76127fb6f912a0a059bc82ed0eb46691ee2"
+  integrity sha512-liuZL16jJ8kLsFYQHPJX+8YsoeKbNoLnm2pOM/u469HUy4kKAspgu2socf6iAPW9kVavFwZRz4RbzxlVJu5hWQ==
   optionalDependencies:
     react-fetching-library "^1.7.4"
 
