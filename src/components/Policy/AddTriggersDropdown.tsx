@@ -26,11 +26,14 @@ export const AddTriggersDropdown: React.FunctionComponent<AddTriggersDropdownPro
         setOpen(false);
     };
 
+    const isBeta = getInsights().chrome.isBeta();
     const isProd = getInsights().chrome.isProd;
+
+    const hideNotification = !isBeta || isProd;
 
     const items = Object.values(ActionType)
     .filter(actionType => {
-        return !isProd || actionType !== ActionType.NOTIFICATION;
+        return !hideNotification || actionType !== ActionType.NOTIFICATION;
     })
     .map(type =>
         <DropdownItem
