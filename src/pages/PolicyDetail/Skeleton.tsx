@@ -2,13 +2,13 @@ import {
     Breadcrumb, BreadcrumbItem,
     Bullseye,
     Button, ButtonVariant,
+    Skeleton,
     Split,
     SplitItem,
     Stack,
-    StackItem
-} from '@patternfly/react-core';
+    StackItem } from '@patternfly/react-core';
 import { EllipsisVIcon } from '@patternfly/react-icons';
-import { Main, PageHeader, PageHeaderTitle, Skeleton, Spinner } from '@redhat-cloud-services/frontend-components';
+import { Main, PageHeader, PageHeaderTitle, Spinner } from '@redhat-cloud-services/frontend-components';
 import { BreadcrumbLinkItem, Section } from '@redhat-cloud-services/insights-common-typescript';
 import * as React from 'react';
 import { style } from 'typestyle';
@@ -30,14 +30,14 @@ export const PolicyDetailSkeleton: React.FunctionComponent = () => {
                                 Policies
                             </BreadcrumbLinkItem>
                             <BreadcrumbItem>
-                                <Skeleton className={ skeletonClassName } size="sm" />
+                                <Skeleton className={ skeletonClassName } />
                             </BreadcrumbItem>
                         </Breadcrumb>
                     </StackItem>
                     <StackItem>
                         <Split>
                             <SplitItem isFilled>
-                                <PageHeaderTitle title={ <Skeleton size="sm" /> } />
+                                <PageHeaderTitle title={ <Skeleton width="25%" /> } />
                             </SplitItem>
                             <SplitItem>
                                 <Button isDisabled variant={ ButtonVariant.plain }><EllipsisVIcon /></Button>
