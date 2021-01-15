@@ -1,7 +1,6 @@
-import { Stack, StackItem } from '@patternfly/react-core';
+import { Skeleton, Stack, StackItem } from '@patternfly/react-core';
 // eslint-disable-next-line @typescript-eslint/camelcase
 import { global_spacer_md } from '@patternfly/react-tokens';
-import { Skeleton } from '@redhat-cloud-services/frontend-components';
 import * as React from 'react';
 import { style } from 'typestyle';
 
@@ -9,10 +8,6 @@ import { DisabledPolicyIcon, EnabledPolicyIcon } from '../../components/Icons';
 
 const isEnabledTextClassname = style({
     marginLeft: global_spacer_md.var
-});
-
-const loadingClassname = style({
-    minHeight: 48
 });
 
 interface PolicyDetailIsEnabledProps {
@@ -24,9 +19,9 @@ export const PolicyDetailIsEnabled: React.FunctionComponent<PolicyDetailIsEnable
 
     if (props.loading) {
         return (
-            <Stack data-testid="loading" className={ loadingClassname }>
+            <Stack data-testid="loading">
                 <StackItem>
-                    <Skeleton size="sm" />
+                    <Skeleton width="140px" />
                 </StackItem>
             </Stack>
         );
