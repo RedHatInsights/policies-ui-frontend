@@ -82,7 +82,7 @@ describe('src/components/Policy/AddTriggersDropdown', () => {
         expect(element.queryByText(/Email/i)).toBeTruthy();
     });
 
-    it('should show email and notification in beta & non-prod', async () => {
+    it('should show notification in beta & non-prod', async () => {
         mockInsightsIsStableAndIsProd(false, false);
         const element = render(<AddTriggersDropdown
             isTypeEnabled={ jest.fn(() => true) }
@@ -100,7 +100,7 @@ describe('src/components/Policy/AddTriggersDropdown', () => {
         });
 
         expect(element.queryByText(/Notification/i)).toBeTruthy();
-        expect(element.queryByText(/Email/i)).toBeTruthy();
+        expect(element.queryByText(/Email/i)).toBeFalsy();
     });
 
     it('should disable type if isTypeEnabled returns false', () => {

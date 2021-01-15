@@ -31,10 +31,7 @@ export const AddTriggersDropdown: React.FunctionComponent<AddTriggersDropdownPro
 
     const hideNotification = !isBeta || isProd;
 
-    const items = Object.values(ActionType)
-    .filter(actionType => {
-        return !hideNotification || actionType !== ActionType.NOTIFICATION;
-    })
+    const items = [ hideNotification ? ActionType.EMAIL : ActionType.NOTIFICATION ]
     .map(type =>
         <DropdownItem
             key={ type }
