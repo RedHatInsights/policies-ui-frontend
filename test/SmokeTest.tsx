@@ -1,12 +1,13 @@
-import * as React from 'react';
 import { render, screen } from '@testing-library/react';
-import App from '../src/app/App';
-import { mockInsights } from 'insights-common-typescript-dev';
-import MockAdapter from 'axios-mock-adapter';
 import axios from 'axios';
-import { waitForAsyncEvents } from './TestUtils';
-import { AppWrapper, appWrapperCleanup, appWrapperSetup } from './AppWrapper';
+import MockAdapter from 'axios-mock-adapter';
 import fetchMock from 'fetch-mock';
+import { mockInsights } from 'insights-common-typescript-dev';
+import * as React from 'react';
+
+import App from '../src/app/App';
+import { AppWrapper, appWrapperCleanup, appWrapperSetup } from './AppWrapper';
+import { waitForAsyncEvents } from './TestUtils';
 
 describe('Smoketest', () => {
     it('Opens the main page in multiple browsers', async () => {
@@ -99,7 +100,7 @@ describe('Smoketest', () => {
             }
         });
 
-        render(<div id="root"><App/></div>, {
+        render(<div id="root"><App /></div>, {
             wrapper: AppWrapper
         });
 
