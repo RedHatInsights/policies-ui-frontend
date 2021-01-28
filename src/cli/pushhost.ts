@@ -13,16 +13,19 @@ const getHost = (account) => {
         return index === 0 ? word.slice(0, 1).toUpperCase().concat(word.slice(1)) : word;
     } });
     const inventoryId = createHash('md5').update(hostname).digest('hex');
+    const insightsId = createHash('md5').update(inventoryId).digest('hex');
+
     return {
         timestamp: new Date().toISOString(),
         host: {
             account,
             created: new Date().toISOString(),
+            updated: new Date().toISOString(), //'2011-12-03T10:15:30+01:00',
             display_name: hostname,
             tags: [],
             reporter: 'puptoo',
             id: inventoryId,
-            insights_id: 'd4039530-4e3c-44d8-83b9-44de55400c2b',
+            insights_id: insightsId,
             system_profile: {
                 arch: 'x86_64',
                 bios_release_date: 'string',
