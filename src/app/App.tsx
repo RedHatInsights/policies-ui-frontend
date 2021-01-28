@@ -25,7 +25,7 @@ const App: React.FunctionComponent<RouteComponentProps> = () => {
             rbac,
             userSettings
         } }>
-            { rbac.canReadAll ? (
+            { rbac.canReadPolicies ? (
                 <>
                     <NotificationsPortal />
                     <Routes />

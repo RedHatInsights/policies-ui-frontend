@@ -46,7 +46,7 @@ export const PolicyDetail: React.FunctionComponent = () => {
     const { policyId, policy, setPolicy } = usePolicy();
 
     const appContext = useContext(AppContext);
-    const { canWriteAll, canReadAll } = appContext.rbac;
+    const { canReadPolicies, canWritePolicies } = appContext.rbac;
     const history = useHistory();
 
     const policyToDelete = usePolicyToDelete();
@@ -126,7 +126,7 @@ export const PolicyDetail: React.FunctionComponent = () => {
         });
     }, [ policyId, changePolicyEnabled.mutate, statusChanged ]);
 
-    if (!canReadAll) {
+    if (!canReadPolicies) {
         return <NoPermissionsPage />;
     }
 
@@ -179,7 +179,7 @@ export const PolicyDetail: React.FunctionComponent = () => {
                             <SplitItem>
                                 <PolicyDetailActions
                                     isEnabled={ policy.isEnabled }
-                                    disabled={ !canWriteAll }
+                                    disabled={ !canWritePolicies }
                                     edit={ wizardState.edit }
                                     duplicate={ wizardState.duplicate }
                                     delete={ deletePolicy }

@@ -7,7 +7,7 @@ import { useTableActionResolverCallback } from '../useTableActionResolverCallbac
 describe('src/pages/ListPage/hooks/useTableActionResolverCallback', () => {
     it('Returns a callback', () => {
         const { result } = renderHook(() => useTableActionResolverCallback({
-            canWriteAll: false,
+            canWrite: false,
             mutateChangePolicyEnabled: jest.fn(),
             openPolicyToDelete: jest.fn(),
             setPolicyWizardState: jest.fn()
@@ -16,7 +16,7 @@ describe('src/pages/ListPage/hooks/useTableActionResolverCallback', () => {
         expect(result.current).toBeInstanceOf(Function);
     });
 
-    it('Resolves to nothing if canWriteAll is false', () => {
+    it('Resolves to nothing if canWrite is false', () => {
         const policy: PolicyRow = {
             isOpen: false,
             isSelected: false,
@@ -32,7 +32,7 @@ describe('src/pages/ListPage/hooks/useTableActionResolverCallback', () => {
         };
 
         const { result } = renderHook(() => useTableActionResolverCallback({
-            canWriteAll: false,
+            canWrite: false,
             mutateChangePolicyEnabled: jest.fn(),
             openPolicyToDelete: jest.fn(),
             setPolicyWizardState: jest.fn()
@@ -57,7 +57,7 @@ describe('src/pages/ListPage/hooks/useTableActionResolverCallback', () => {
         };
 
         const params = {
-            canWriteAll: true,
+            canWrite: true,
             mutateChangePolicyEnabled: jest.fn(),
             openPolicyToDelete: jest.fn(),
             setPolicyWizardState: jest.fn()
@@ -84,7 +84,7 @@ describe('src/pages/ListPage/hooks/useTableActionResolverCallback', () => {
         };
 
         const params = {
-            canWriteAll: true,
+            canWrite: true,
             mutateChangePolicyEnabled: jest.fn(),
             openPolicyToDelete: jest.fn(),
             setPolicyWizardState: jest.fn()
@@ -111,7 +111,7 @@ describe('src/pages/ListPage/hooks/useTableActionResolverCallback', () => {
         };
 
         const params = {
-            canWriteAll: true,
+            canWrite: true,
             mutateChangePolicyEnabled: jest.fn(),
             openPolicyToDelete: jest.fn(),
             setPolicyWizardState: jest.fn()
@@ -138,7 +138,7 @@ describe('src/pages/ListPage/hooks/useTableActionResolverCallback', () => {
         };
 
         const params = {
-            canWriteAll: true,
+            canWrite: true,
             mutateChangePolicyEnabled: jest.fn(),
             openPolicyToDelete: jest.fn(),
             setPolicyWizardState: jest.fn()
@@ -166,7 +166,7 @@ describe('src/pages/ListPage/hooks/useTableActionResolverCallback', () => {
         };
 
         const params = {
-            canWriteAll: true,
+            canWrite: true,
             mutateChangePolicyEnabled: jest.fn(),
             openPolicyToDelete: jest.fn(),
             setPolicyWizardState: jest.fn()
@@ -193,7 +193,7 @@ describe('src/pages/ListPage/hooks/useTableActionResolverCallback', () => {
         };
 
         const params = {
-            canWriteAll: true,
+            canWrite: true,
             mutateChangePolicyEnabled: jest.fn(),
             openPolicyToDelete: jest.fn(),
             setPolicyWizardState: jest.fn()
@@ -227,7 +227,7 @@ describe('src/pages/ListPage/hooks/useTableActionResolverCallback', () => {
         };
 
         const params = {
-            canWriteAll: true,
+            canWrite: true,
             mutateChangePolicyEnabled: jest.fn(),
             openPolicyToDelete: jest.fn(),
             setPolicyWizardState: jest.fn()
@@ -254,7 +254,7 @@ describe('src/pages/ListPage/hooks/useTableActionResolverCallback', () => {
         };
 
         const params = {
-            canWriteAll: true,
+            canWrite: true,
             mutateChangePolicyEnabled: jest.fn(),
             openPolicyToDelete: jest.fn(),
             setPolicyWizardState: jest.fn()
@@ -288,7 +288,7 @@ describe('src/pages/ListPage/hooks/useTableActionResolverCallback', () => {
         };
 
         const params = {
-            canWriteAll: true,
+            canWrite: true,
             mutateChangePolicyEnabled: jest.fn(),
             openPolicyToDelete: jest.fn(),
             setPolicyWizardState: jest.fn()
@@ -315,7 +315,7 @@ describe('src/pages/ListPage/hooks/useTableActionResolverCallback', () => {
         };
 
         const params = {
-            canWriteAll: true,
+            canWrite: true,
             mutateChangePolicyEnabled: jest.fn(),
             openPolicyToDelete: jest.fn(),
             setPolicyWizardState: jest.fn()

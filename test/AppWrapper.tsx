@@ -2,7 +2,7 @@ import * as React from 'react';
 import {
     initStore,
     getInsights,
-    restoreStore,
+    restoreStore, Rbac,
 } from '@redhat-cloud-services/insights-common-typescript';
 import { NotificationsPortal } from '@redhat-cloud-services/frontend-components-notifications';
 import { RouteProps, Route } from 'react-router';
@@ -61,8 +61,8 @@ type Config = {
 
 const defaultAppContextSettings = {
     rbac: {
-        canReadAll: true,
-        canWriteAll: true
+        canWritePolicies: true,
+        canReadPolicies: true
     },
     userSettings: {
         settings: undefined,
@@ -96,7 +96,7 @@ export const AppWrapper: React.FunctionComponent<Config> = (props) => {
                 <ClientContextProvider client={ client }>
                     <AppContext.Provider value={ props.appContext || defaultAppContextSettings }>
                         <InternalWrapper { ...props }>
-                            <NotificationsPortal/>
+                            <NotificationsPortal />
                             <Route { ...props.route } >
                                 { props.children }
                             </Route>

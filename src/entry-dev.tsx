@@ -17,7 +17,7 @@ import App from './app/App';
 const client = createFetchingClient(getInsights, {
     responseInterceptors: [ validateSchemaResponseInterceptor ]
 });
-initStore(logger);
+initStore(undefined, undefined, logger);
 
 ReactDOM.render(
     <Provider store={ getStore() }>

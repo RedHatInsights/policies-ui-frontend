@@ -212,7 +212,7 @@ export namespace Operations {
     const Response200 = z.array(Schemas.Fact);
     type Response200 = Array<Schemas.Fact>;
     export type Payload =
-      | ValidatedResponse<'Response200', 200, Response200>
+      | ValidatedResponse<'unknown', 200, Response200>
       | ValidatedResponse<'unknown', undefined, unknown>;
     export type ActionCreator = Action<Payload, ActionValidatableConfig>;
     export const actionCreator = (): ActionCreator => {
@@ -221,7 +221,7 @@ export namespace Operations {
         return actionBuilder('GET', path)
         .queryParams(query)
         .config({
-            rules: [ new ValidateRule(Response200, 'Response200', 200) ]
+            rules: [ new ValidateRule(Response200, 'unknown', 200) ]
         })
         .build();
     };
@@ -392,7 +392,7 @@ export namespace Operations {
     }
 
     export type Payload =
-      | ValidatedResponse<'Response200', 200, Response200>
+      | ValidatedResponse<'unknown', 200, Response200>
       | ValidatedResponse<'__Empty', 400, Schemas.__Empty>
       | ValidatedResponse<'__Empty', 403, Schemas.__Empty>
       | ValidatedResponse<'__Empty', 404, Schemas.__Empty>
@@ -425,7 +425,7 @@ export namespace Operations {
         .queryParams(query)
         .config({
             rules: [
-                new ValidateRule(Response200, 'Response200', 200),
+                new ValidateRule(Response200, 'unknown', 200),
                 new ValidateRule(Schemas.__Empty, '__Empty', 400),
                 new ValidateRule(Schemas.__Empty, '__Empty', 403),
                 new ValidateRule(Schemas.__Empty, '__Empty', 404)
@@ -444,7 +444,7 @@ export namespace Operations {
     }
 
     export type Payload =
-      | ValidatedResponse<'Response200', 200, Response200>
+      | ValidatedResponse<'unknown', 200, Response200>
       | ValidatedResponse<'__Empty', 403, Schemas.__Empty>
       | ValidatedResponse<'unknown', undefined, unknown>;
     export type ActionCreator = Action<Payload, ActionValidatableConfig>;
@@ -456,7 +456,7 @@ export namespace Operations {
         .data(params.body)
         .config({
             rules: [
-                new ValidateRule(Response200, 'Response200', 200),
+                new ValidateRule(Response200, 'unknown', 200),
                 new ValidateRule(Schemas.__Empty, '__Empty', 403)
             ]
         })
@@ -476,7 +476,7 @@ export namespace Operations {
     }
 
     export type Payload =
-      | ValidatedResponse<'Response200', 200, Response200>
+      | ValidatedResponse<'unknown', 200, Response200>
       | ValidatedResponse<'__Empty', 403, Schemas.__Empty>
       | ValidatedResponse<'unknown', undefined, unknown>;
     export type ActionCreator = Action<Payload, ActionValidatableConfig>;
@@ -492,7 +492,7 @@ export namespace Operations {
         .data(params.body)
         .config({
             rules: [
-                new ValidateRule(Response200, 'Response200', 200),
+                new ValidateRule(Response200, 'unknown', 200),
                 new ValidateRule(Schemas.__Empty, '__Empty', 403)
             ]
         })

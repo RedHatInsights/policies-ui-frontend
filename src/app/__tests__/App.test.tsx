@@ -53,10 +53,11 @@ describe('src/app/App', () => {
 
     it('Shows the content when RBAC.canReadAll is set', async () => {
         jest.useFakeTimers();
-        (fetchRBAC as jest.Mock).mockImplementation(() => Promise.resolve({
-            canReadAll: true,
-            canWriteAll: true
-        }));
+        (fetchRBAC as jest.Mock).mockImplementation(() => Promise.resolve(new Rbac({
+            policies: {
+                policies: [ 'read', 'write' ]
+            }
+        })));
         render(
             <App />,
             {
@@ -73,10 +74,11 @@ describe('src/app/App', () => {
 
     it('Shows error when RBAC does not have read access', async () => {
         jest.useFakeTimers();
-        (fetchRBAC as jest.Mock).mockImplementation(() => Promise.resolve({
-            canReadAll: false,
-            canWriteAll: true
-        }));
+        (fetchRBAC as jest.Mock).mockImplementation(() => Promise.resolve(new Rbac({
+            policies: {
+                policies: [ 'write' ]
+            }
+        })));
         render(
             <App />,
             {
