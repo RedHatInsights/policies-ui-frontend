@@ -7,17 +7,17 @@ import { makeCopyOfPolicy } from '../../../types/adapters/PolicyAdapter';
 import { PolicyWizardState } from '../ListPage';
 
 type Params = {
-    canWriteAll: boolean;
+    canWrite: boolean;
     openPolicyToDelete: UsePolicyToDeleteResponse['open'];
     mutateChangePolicyEnabled: (params: UseMassChangePolicyEnabledParams) => void;
     setPolicyWizardState: (params: PolicyWizardState) => void;
 };
 
 export const useTableActionResolverCallback = (params: Params) => {
-    const { canWriteAll, openPolicyToDelete, mutateChangePolicyEnabled, setPolicyWizardState } = params;
+    const { canWrite, openPolicyToDelete, mutateChangePolicyEnabled, setPolicyWizardState } = params;
 
     return React.useCallback((policy: PolicyRow) => {
-        if (!canWriteAll) {
+        if (!canWrite) {
             return [];
         }
 
@@ -60,5 +60,5 @@ export const useTableActionResolverCallback = (params: Params) => {
                 }
             }
         ];
-    }, [ canWriteAll, openPolicyToDelete, mutateChangePolicyEnabled, setPolicyWizardState ]);
+    }, [ canWrite, openPolicyToDelete, mutateChangePolicyEnabled, setPolicyWizardState ]);
 };

@@ -35,7 +35,10 @@ export const useApp = (): Omit<AppContext, 'rbac'> & Partial<Pick<AppContext, 'r
     }, []);
 
     return {
-        rbac,
+        rbac: rbac ? {
+            canReadPolicies: rbac.hasPermission('policies', 'policies', 'read'),
+            canWritePolicies: rbac.hasPermission('policies', 'policies', 'write')
+        } : undefined,
         userSettings
     };
 };

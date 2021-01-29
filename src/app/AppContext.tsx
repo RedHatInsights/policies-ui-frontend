@@ -1,10 +1,12 @@
-import { Rbac } from '@redhat-cloud-services/insights-common-typescript';
 import * as React from 'react';
 
 import { UserSettings } from '../types/UserSettings';
 
 export interface AppContext {
-    rbac: Rbac;
+    rbac: {
+        canReadPolicies: boolean;
+        canWritePolicies: boolean;
+    };
     userSettings: UserSettingsAppContext;
 }
 
@@ -16,8 +18,8 @@ export interface UserSettingsAppContext {
 
 export const AppContext = React.createContext<AppContext>({
     rbac: {
-        canReadAll: false,
-        canWriteAll: false
+        canReadPolicies: false,
+        canWritePolicies: false
     },
     userSettings: {
         settings: undefined,

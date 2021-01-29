@@ -120,8 +120,8 @@ describe('src/pages/ListPage', () => {
                 },
                 appContext: {
                     rbac: {
-                        canWriteAll: true,
-                        canReadAll: false
+                        canWritePolicies: true,
+                        canReadPolicies: false
                     },
                     userSettings: {
                         isSubscribedForNotifications: false,

@@ -94,7 +94,7 @@ const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
 
     isLoading = isLoading || loadingSelected;
 
-    const { canWriteAll, canReadAll } = appContext.rbac;
+    const { canReadPolicies, canWritePolicies } = appContext.rbac;
 
     const { query: getPoliciesQueryReload } = getPoliciesQuery;
     const { mutate: mutateChangePolicyEnabled, loading: loadingChangePolicyEnabled } = changePolicyEnabledMutation;
@@ -122,7 +122,7 @@ const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
     });
 
     const tableActionsResolver = useTableActionResolverCallback({
-        canWriteAll,
+        canWrite: canWritePolicies,
         openPolicyToDelete,
         mutateChangePolicyEnabled,
         setPolicyWizardState
@@ -137,10 +137,10 @@ const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
     });
 
     React.useEffect(() => {
-        if (canReadAll) {
+        if (canReadPolicies) {
             getPoliciesQueryReload();
         }
-    }, [ canReadAll, getPoliciesQueryReload ]);
+    }, [ canReadPolicies, getPoliciesQueryReload ]);
 
     const closePolicyWizard = React.useCallback((policy: NewPolicy | undefined) => {
         const refreshUserSettings = appContext.userSettings.refresh;
@@ -193,16 +193,16 @@ const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
             <Main>
                 { getPoliciesQuery.hasPolicies === false ? (
                     <ListPageEmptyState
-                        createPolicy={ canWriteAll ? toolbarActions.createCustomPolicy : undefined }
+                        createPolicy={ canWritePolicies ? toolbarActions.createCustomPolicy : undefined }
                     />
                 ) : (
                     <Section>
                         <PolicyToolbar
                             ouiaId="main-toolbar"
-                            onCreatePolicy={ canWriteAll ? toolbarActions.createCustomPolicy : undefined }
-                            onDeletePolicy={ canWriteAll ? toolbarActions.onDeletePolicies : undefined }
-                            onEnablePolicy={ canWriteAll ? toolbarActions.onEnablePolicies : undefined }
-                            onDisablePolicy={ canWriteAll ? toolbarActions.onDisablePolicies : undefined }
+                            onCreatePolicy={ canWritePolicies ? toolbarActions.createCustomPolicy : undefined }
+                            onDeletePolicy={ canWritePolicies ? toolbarActions.onDeletePolicies : undefined }
+                            onEnablePolicy={ canWritePolicies ? toolbarActions.onEnablePolicies : undefined }
+                            onDisablePolicy={ canWritePolicies ? toolbarActions.onDisablePolicies : undefined }
                             onPaginationChanged={ policyPage.changePage }
                             onPaginationSizeChanged={ policyPage.changeItemsPerPage }
                             onSelectionChanged={ policyRows.onSelectionChanged }

@@ -196,8 +196,8 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
                 },
                 appContext: {
                     rbac: {
-                        canWriteAll: true,
-                        canReadAll: false
+                        canWritePolicies: true,
+                        canReadPolicies: false
                     },
                     userSettings: {
                         isSubscribedForNotifications: false,
