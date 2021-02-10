@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/RedHatInsights/policies-ui-frontend.svg?branch=master)](https://travis-ci.org/RedHatInsights/policies-ui-frontend)
+[![Build Status](https://travis-ci.com/RedHatInsights/policies-ui-frontend.svg?branch=master)](https://travis-ci.com/RedHatInsights/policies-ui-frontend)
 
 # policies-ui-frontend
 
