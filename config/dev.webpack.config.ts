@@ -8,7 +8,8 @@ const { config: webpackConfig, plugins } = config({
     rootFolder: resolve(__dirname, '../'),
     debug: true,
     https: false,
-    useFileHash: false
+    useFileHash: false,
+    deployment: process.env.BETA ? 'beta/apps' : 'apps'
 });
 
 webpackConfig.devtool = 'eval-cheap-module-source-map';
