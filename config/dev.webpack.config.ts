@@ -7,7 +7,7 @@ import { updateTsLoaderRule } from './common.webpack.config';
 const { config: webpackConfig, plugins } = config({
     rootFolder: resolve(__dirname, '../'),
     debug: true,
-    https: true,
+    https: false,
     useFileHash: false
 });
 
@@ -17,7 +17,9 @@ plugins.push(
     federatedModules(
         {
             root: resolve(__dirname, '../'),
-            useFileHash: false
+            debug: true,
+            useFileHash: false,
+            exclude: [ 'react-router-dom' ]
         }
     )
 );

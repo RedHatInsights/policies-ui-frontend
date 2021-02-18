@@ -12,7 +12,7 @@ plugins.push(
     federatedModules(
         {
             root: resolve(__dirname, '../'),
-            useFileHash: false
+            exclude: [ 'react-router-dom' ]
         }
     )
 );
