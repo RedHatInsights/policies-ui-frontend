@@ -1,18 +1,19 @@
-import * as React from 'react';
-import {
-    initStore,
-    getInsights,
-    restoreStore, Rbac,
-} from '@redhat-cloud-services/insights-common-typescript';
 import { NotificationsPortal } from '@redhat-cloud-services/frontend-components-notifications';
-import { RouteProps, Route } from 'react-router';
-import { MemoryRouter as Router } from 'react-router-dom';
+import {
+    getInsights,
+    initStore,
+    restoreStore
+} from '@redhat-cloud-services/insights-common-typescript';
+import fetchMock from 'fetch-mock';
+import { validateSchemaResponseInterceptor } from 'openapi2typescript/react-fetching-library';
+import * as React from 'react';
 import { ClientContextProvider, createClient } from 'react-fetching-library';
 import { Provider } from 'react-redux';
-import fetchMock from 'fetch-mock';
+import { Route, RouteProps } from 'react-router';
 import { MemoryRouterProps, useLocation } from 'react-router';
+import { MemoryRouter as Router } from 'react-router-dom';
+
 import { AppContext } from '../src/app/AppContext';
-import { validateSchemaResponseInterceptor } from 'openapi2typescript/react-fetching-library';
 
 let setup = false;
 let client;
@@ -22,10 +23,6 @@ export const appWrapperSetup = () => {
     if (setup) {
         throw new Error('Looks like appWrapperCleanup has not been called, you need to call it on the afterEach');
     }
-
-    const rootDiv = document.createElement('div');
-    rootDiv.id = 'root';
-    document.body.appendChild(rootDiv);
 
     setup = true;
     fetchMock.mock();
@@ -43,8 +40,6 @@ export const appWrapperCleanup = () => {
         }
     } finally {
         setup = false;
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        document.getElementById('root')!.remove();
         restoreStore();
         client = undefined;
         store = undefined;

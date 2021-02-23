@@ -3,14 +3,13 @@ import './App.scss';
 import { NotificationsPortal } from '@redhat-cloud-services/frontend-components-notifications';
 import { AppSkeleton } from '@redhat-cloud-services/insights-common-typescript';
 import * as React from 'react';
-import { RouteComponentProps, withRouter } from 'react-router';
 
 import { NoPermissionsPage } from '../pages/NoPermissions/NoPermissionsPage';
 import { Routes } from '../Routes';
 import { AppContext } from './AppContext';
 import { useApp } from './useApp';
 
-const App: React.FunctionComponent<RouteComponentProps> = () => {
+const App: React.FunctionComponent = () => {
 
     const { rbac, userSettings } = useApp();
 
@@ -37,4 +36,4 @@ const App: React.FunctionComponent<RouteComponentProps> = () => {
     );
 };
 
-export default withRouter(App);
+export default App;

@@ -1,2 +1,2 @@
 export * from './Actions';
-export { Policy } from './Policy';
+export type { Policy } from './Policy';

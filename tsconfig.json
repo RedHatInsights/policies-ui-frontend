@@ -1,13 +1,12 @@
 {
   "compilerOptions": {
-    "module": "commonjs",
     "target": "es6",
+    "isolatedModules": true,
     "allowJs": true,
     "checkJs": false,
     "jsx": "react",
     "outDir": "./build",
     "removeComments": true,
-    /*"noEmit": true,*/
     "pretty": true,
     "skipLibCheck": true,
     "strict": true,

@@ -8,7 +8,6 @@ import { PolicyDetail } from './pages/PolicyDetail/PolicyDetail';
 interface Path {
     path: string;
     component: React.ComponentType;
-    rootClass: string;
 }
 
 export const linkTo = {
@@ -19,34 +18,20 @@ export const linkTo = {
 const pathRoutes: Path[] = [
     {
         path: linkTo.listPage(),
-        component: ListPage,
-        rootClass: 'list'
+        component: ListPage
     },
     {
         path: linkTo.policyDetail(':policyId'),
-        component: PolicyDetail,
-        rootClass: 'policy'
+        component: PolicyDetail
     }
 ];
 
-type InsightsRouteProps = {
-    rootClass: string;
-} & RouteProps;
+type InsightsRouteProps = RouteProps;
 
 const InsightsRoute: React.FunctionComponent<InsightsRouteProps> = (props: InsightsRouteProps) => {
-    const { rootClass, ...rest } = props;
-    const root = document.getElementById(('root'));
-    if (!root) {
-        throw new Error('Root element not found');
-    }
-
-    root.removeAttribute('class');
-    root.classList.add(`page__${rootClass}`, 'pf-c-page__main');
-    root.setAttribute('role', 'main');
-
     return (
         <ErrorPage>
-            <Route { ...rest } />
+            <Route { ...props } />
         </ErrorPage>
     );
 };
@@ -59,7 +44,6 @@ export const Routes: React.FunctionComponent<RoutesProps> = () => {
             { pathRoutes.map(pathRoute => (
                 <InsightsRoute
                     key={ pathRoute.path }
-                    rootClass={ pathRoute.rootClass }
                     component={ pathRoute.component }
                     path={ pathRoute.path }
                 />
