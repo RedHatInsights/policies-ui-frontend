@@ -1438,10 +1438,10 @@
   resolved "https://registry.yarnpkg.com/@patternfly/react-tokens/-/react-tokens-4.9.18.tgz#b34afc5fd2567a50b7658aff004f31b536fd9096"
   integrity sha512-zQfqwKtoz1hDngyiGnF6oHeESDtgNY6C79Db97JxMMuRBV7i+5f6uC/DrYhcqNtqHA7mxrVJg0SM1xnPSAW9lA==
 
-"@redhat-cloud-services/frontend-components-config@4.0.9-beta.1":
-  version "4.0.9-beta.1"
-  resolved "https://registry.yarnpkg.com/@redhat-cloud-services/frontend-components-config/-/frontend-components-config-4.0.9-beta.1.tgz#e26e1459f01a66262912a49cb4366b3c07dd9ba8"
-  integrity sha512-nwRJyLGSP/NnsY2qYCaFd0dR7C7rLO3W4ND0xIfyxl97j52xKJ1EaYYDmgJJLYum1nEkPmz3grg322ODMaZ0eQ==
+"@redhat-cloud-services/frontend-components-config@4.0.12":
+  version "4.0.12"
+  resolved "https://registry.yarnpkg.com/@redhat-cloud-services/frontend-components-config/-/frontend-components-config-4.0.12.tgz#f72be6ab3f55dded47f0b8e8f0616046b6b5d436"
+  integrity sha512-wa53s3VPwO+liw8vlXFcZzYbHXDnVdc44zviz/TU5nXpwFbP5aFWqc7dzqC0uwp9l8vwkASPRkgG1/OXtLNCow==
   dependencies:
     assert "^2.0.0"
     babel-loader "^8.2.1"

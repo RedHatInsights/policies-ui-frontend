@@ -1,4 +1,4 @@
-import { fetchRBAC, getInsights, Rbac, waitForInsights } from '@redhat-cloud-services/insights-common-typescript';
+import { fetchRBAC, Rbac, waitForInsights } from '@redhat-cloud-services/insights-common-typescript';
 import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
@@ -20,10 +20,6 @@ export const useApp = (): Omit<AppContext, 'rbac'> & Partial<Pick<AppContext, 'r
                 (insights.chrome as any).hideGlobalFilter();
             }
         });
-        return () => {
-            const insights = getInsights();
-            insights.chrome.on('APP_NAVIGATION', (event: any) => history.push(`/${event.navId}`));
-        };
     }, [ history ]);
 
     useEffect(() => {
