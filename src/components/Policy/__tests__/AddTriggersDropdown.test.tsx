@@ -40,7 +40,7 @@ describe('src/components/Policy/AddTriggersDropdown', () => {
         expect(element.queryByText(/Email/i)).toBeTruthy();
     });
 
-    it('should show only email in beta & prod', async () => {
+    it('should show only notification in beta & prod', async () => {
         mockInsightsIsStableAndIsProd(false, true);
         const element = render(<AddTriggersDropdown
             isTypeEnabled={ jest.fn(() => true) }
@@ -57,8 +57,8 @@ describe('src/components/Policy/AddTriggersDropdown', () => {
             );
         });
 
-        expect(element.queryByText(/Notification/i)).toBeFalsy();
-        expect(element.queryByText(/Email/i)).toBeTruthy();
+        expect(element.queryByText(/Notification/i)).toBeTruthy();
+        expect(element.queryByText(/Email/i)).toBeFalsy();
     });
 
     it('should show only email in stable & non-prod', async () => {
