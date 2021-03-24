@@ -20,7 +20,7 @@ describe('src/schemas/CreatePolicy/Actions/ActionSchema', () => {
 
     it('should succeed if using valid ActionType', () => {
         expect(ActionSchema.isValidSync({
-            type: ActionType.EMAIL
+            type: ActionType.NOTIFICATION
         })).toBeTruthy();
     });
 });

@@ -75,37 +75,15 @@ describe('src/schemas/CreatePolicy/PolicySchema', () => {
             expect(PolicyFormActions.isValidSync({
                 actions: [
                     {
-                        type: ActionType.EMAIL
-                    },
-                    {
                         type: ActionType.NOTIFICATION
                     }
                 ]
             })).toBeTruthy();
         });
 
-        it('Only allows one email', () => {
-            expect(PolicyFormActions.isValidSync({
-                actions: [
-                    {
-                        type: ActionType.EMAIL
-                    },
-                    {
-                        type: ActionType.NOTIFICATION
-                    },
-                    {
-                        type: ActionType.EMAIL
-                    }
-                ]
-            })).toBeFalsy();
-        });
-
         it('Only allows one notification', () => {
             expect(PolicyFormActions.isValidSync({
                 actions: [
-                    {
-                        type: ActionType.EMAIL
-                    },
                     {
                         type: ActionType.NOTIFICATION
                     },

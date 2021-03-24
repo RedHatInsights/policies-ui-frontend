@@ -21,10 +21,9 @@ export const toServerAction = (actions: DeepPartial<Action[]>): string => {
 
         const encodedAction = `${action.type}`;
 
+        // Use this when the actions have params
         switch (action.type) {
             case ActionType.NOTIFICATION:
-                break;
-            case ActionType.EMAIL:
                 break;
             default:
                 assertNever(action.type);
@@ -42,8 +41,8 @@ export const fromServerActions = (actions?: string | null): Action[] => {
     const policyAction: Action[] = [];
     for (const action of actions.split(';')) {
         const [ actionType ] = action.split(' ', 2);
-        // Just in case the server still has the webhook, we will just skip it.
-        if (actionType === 'webhook') {
+        // Just in case the server still has the webhook or email, we will just skip it.
+        if (actionType === 'webhook' || actionType === 'email') {
             continue;
         }
 
@@ -51,11 +50,6 @@ export const fromServerActions = (actions?: string | null): Action[] => {
             case ActionType.NOTIFICATION:
                 policyAction.push({
                     type: ActionType.NOTIFICATION
-                });
-                break;
-            case ActionType.EMAIL:
-                policyAction.push({
-                    type: ActionType.EMAIL
                 });
                 break;
             default:

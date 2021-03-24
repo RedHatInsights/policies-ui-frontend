@@ -20,7 +20,7 @@ describe('src/components/Policy/AddTriggersDropdown', () => {
         mockInsightsIsStableAndIsProd(true, true);
     });
 
-    it('should show only email in stable & prod', async () => {
+    it('should show only notification in stable & prod', async () => {
         const element = render(<AddTriggersDropdown
             isTypeEnabled={ jest.fn(() => true) }
             onTypeSelected={ jest.fn() }
@@ -36,8 +36,8 @@ describe('src/components/Policy/AddTriggersDropdown', () => {
             );
         });
 
-        expect(element.queryByText(/Notification/i)).toBeFalsy();
-        expect(element.queryByText(/Email/i)).toBeTruthy();
+        expect(element.queryByText(/Notification/i)).toBeTruthy();
+        expect(element.queryByText(/Email/i)).toBeFalsy();
     });
 
     it('should show only notification in beta & prod', async () => {
@@ -61,7 +61,7 @@ describe('src/components/Policy/AddTriggersDropdown', () => {
         expect(element.queryByText(/Email/i)).toBeFalsy();
     });
 
-    it('should show only email in stable & non-prod', async () => {
+    it('should show only notification in stable & non-prod', async () => {
         mockInsightsIsStableAndIsProd(true, false);
         const element = render(<AddTriggersDropdown
             isTypeEnabled={ jest.fn(() => true) }
@@ -78,8 +78,8 @@ describe('src/components/Policy/AddTriggersDropdown', () => {
             );
         });
 
-        expect(element.queryByText(/Notification/i)).toBeFalsy();
-        expect(element.queryByText(/Email/i)).toBeTruthy();
+        expect(element.queryByText(/Notification/i)).toBeTruthy();
+        expect(element.queryByText(/Email/i)).toBeFalsy();
     });
 
     it('should show notification in beta & non-prod', async () => {
@@ -105,7 +105,7 @@ describe('src/components/Policy/AddTriggersDropdown', () => {
 
     it('should disable type if isTypeEnabled returns false', () => {
         const element = render(<AddTriggersDropdown
-            isTypeEnabled={ jest.fn((t) => t !== ActionType.EMAIL) }
+            isTypeEnabled={ jest.fn((t) => t !== ActionType.NOTIFICATION) }
             onTypeSelected={ jest.fn() }
         />);
         act(() => {
@@ -118,7 +118,7 @@ describe('src/components/Policy/AddTriggersDropdown', () => {
             );
         });
 
-        expect(element.queryByText(/Email/i)?.className).toContain('pf-m-disabled');
+        expect(element.queryByText(/Notification/i)?.className).toContain('pf-m-disabled');
     });
 
     it('should call onTypeSelected when clicking over an active type', () => {
@@ -138,7 +138,7 @@ describe('src/components/Policy/AddTriggersDropdown', () => {
         });
         act(() => {
             fireEvent(
-                getByText(element.container, /Email/),
+                getByText(element.container, /Notification/),
                 new MouseEvent('click', {
                     bubbles: true,
                     cancelable: true
@@ -147,7 +147,7 @@ describe('src/components/Policy/AddTriggersDropdown', () => {
         });
 
         expect(onTypeSelected.mock.calls.length).toBe(1);
-        expect(onTypeSelected.mock.calls[0][0]).toBe(ActionType.EMAIL);
+        expect(onTypeSelected.mock.calls[0][0]).toBe(ActionType.NOTIFICATION);
     });
 
     it('should not call onTypeSelected when clicking over a disabled type', () => {
@@ -167,7 +167,7 @@ describe('src/components/Policy/AddTriggersDropdown', () => {
         });
         act(() => {
             fireEvent(
-                getByText(element.container, /Email/),
+                getByText(element.container, /Notification/),
                 new MouseEvent('click', {
                     bubbles: true,
                     cancelable: true

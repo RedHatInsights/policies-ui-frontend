@@ -3,7 +3,6 @@ import { DeepReadonly } from 'ts-essentials';
 import { ActionType } from '../types/Policy/Actions';
 
 const actionTypeToText: Record<ActionType, string> = {
-    [ActionType.EMAIL]: 'Email',
     [ActionType.NOTIFICATION]: 'Notification'
 };
 
@@ -117,7 +116,6 @@ const MutableMessages = {
                 }
             },
             actions: {
-                email: 'Send email',
                 notification: 'Send a notification'
             }
         },

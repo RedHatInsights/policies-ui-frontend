@@ -53,7 +53,7 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
     };
 
     const mockPolicy = {
-        actions: 'email',
+        actions: 'notification',
         conditions: 'facts.arch = "x86_64"',
         ctime: '2020-06-02 16:11:09.622',
         description: 'Fail if we are running on a x86_64',
