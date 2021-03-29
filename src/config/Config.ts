@@ -14,7 +14,7 @@ const Config = {
         urls: {
             base: apiBaseUrl,
             userSettings: {
-                email: withBaseUrl('/user-config/email-preference')
+                email: withBaseUrl('/user-config/preferences')
             }
         }
     },
