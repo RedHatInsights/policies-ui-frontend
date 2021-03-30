@@ -38,8 +38,6 @@ interface ActionsFormProps {
 
 const titleForActionType = (actionType: ActionType) => {
     switch (actionType) {
-        case ActionType.EMAIL:
-            return Messages.tables.policy.actions.email;
         case ActionType.NOTIFICATION:
             return Messages.tables.policy.actions.notification;
         default:

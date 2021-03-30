@@ -1,7 +1,7 @@
 import { Button, ButtonVariant, Dropdown, DropdownItem } from '@patternfly/react-core';
 import { Toggle } from '@patternfly/react-core/dist/js/components/Dropdown/Toggle';
 import { AngleDownIcon } from '@patternfly/react-icons';
-import { getInsights, OuiaComponentProps } from '@redhat-cloud-services/insights-common-typescript';
+import { OuiaComponentProps } from '@redhat-cloud-services/insights-common-typescript';
 import * as React from 'react';
 import { style } from 'typestyle';
 
@@ -26,11 +26,7 @@ export const AddTriggersDropdown: React.FunctionComponent<AddTriggersDropdownPro
         setOpen(false);
     };
 
-    const isBeta = getInsights().chrome.isBeta();
-
-    const hideNotification = !isBeta;
-
-    const items = [ hideNotification ? ActionType.EMAIL : ActionType.NOTIFICATION ]
+    const items = [ ActionType.NOTIFICATION ]
     .map(type =>
         <DropdownItem
             key={ type }

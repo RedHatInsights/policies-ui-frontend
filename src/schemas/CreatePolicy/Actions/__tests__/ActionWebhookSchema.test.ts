@@ -18,12 +18,6 @@ describe('src/schemas/CreatePolicy/Actions/ActionNotificationSchema', () => {
         })).toBeFalsy();
     });
 
-    it('should fail if type is ActionType.EMAIL', () => {
-        expect(ActionNotificationSchema.isValidSync({
-            type: ActionType.EMAIL
-        })).toBeFalsy();
-    });
-
     it('should succeed if using ActionType.NOTIFICATION', () => {
         expect(ActionNotificationSchema.isValidSync({
             type: ActionType.NOTIFICATION

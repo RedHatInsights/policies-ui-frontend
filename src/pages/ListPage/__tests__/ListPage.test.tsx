@@ -40,7 +40,7 @@ describe('src/pages/ListPage', () => {
 
     const mockPolicies = [
         {
-            actions: 'email',
+            actions: 'notification',
             conditions: 'facts.arch = "x86_64"',
             ctime: '2020-06-02 16:11:09.622',
             description: 'Description for policy 1',
@@ -51,7 +51,7 @@ describe('src/pages/ListPage', () => {
             name: 'Policy 1'
         },
         {
-            actions: 'email',
+            actions: 'notification',
             conditions: 'facts.arch = "x86_64"',
             ctime: '2020-06-02 16:11:09.622',
             description: 'Description for policy 2',
@@ -62,7 +62,7 @@ describe('src/pages/ListPage', () => {
             name: 'Policy 2'
         },
         {
-            actions: 'email',
+            actions: 'notification',
             conditions: 'facts.arch = "x86_64"',
             ctime: '2020-06-02 16:11:09.622',
             description: 'Description for policy 3',
@@ -73,7 +73,7 @@ describe('src/pages/ListPage', () => {
             name: 'Policy 3'
         },
         {
-            actions: 'email',
+            actions: 'notification',
             conditions: 'facts.arch = "x86_64"',
             ctime: '2020-06-02 16:11:09.622',
             description: 'Description for policy 4',

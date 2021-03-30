@@ -14,26 +14,11 @@ describe('Smoketest', () => {
         mockInsights();
         appWrapperSetup();
         fetchMock.mock();
-        fetchMock.get('/api/policies/v1.0/user-config/email-preference', {
-            body: [{
-                fields: [{
-                    name: 'immediateEmail',
-                    label: 'Instant notification',
-                    description: 'Immediate email for each system with triggered policies',
-                    initialValue: false,
-                    component: 'descriptiveCheckbox',
-                    validate: []
-                },
-                {
-                    name: 'dailyEmail',
-                    label: 'Daily digest',
-                    description: 'Daily summary of all systems with triggered policies in 24 hour span',
-                    initialValue: false,
-                    component: 'descriptiveCheckbox',
-                    validate: []
-
-                }]
-            }]
+        fetchMock.get('/api/policies/v1.0/user-config/preferences', {
+            body: {
+                instant_email: false,
+                daily_email: false
+            }
         });
 
         fetchMock.get('/api/rbac/v1/access/?application=policies', {

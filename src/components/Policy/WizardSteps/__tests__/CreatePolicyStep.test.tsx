@@ -85,7 +85,7 @@ describe('src/components/Policy/WizardSteps/CreatePolicyStep', () => {
                 description: 'foo description',
                 isEnabled: true,
                 conditions: '1 == 2',
-                actions: 'email'
+                actions: 'notification'
             }
         ]
     };

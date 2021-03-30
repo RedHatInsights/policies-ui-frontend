@@ -26,9 +26,6 @@ describe('src/utils/exporters/Policy/Csv', () => {
                 actions: [
                     {
                         type: ActionType.NOTIFICATION
-                    },
-                    {
-                        type: ActionType.EMAIL
                     }
                 ],
                 ctime: new Date(2030, 5, 4),

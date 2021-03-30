@@ -1,16 +1,8 @@
-import { isAction, isActionEmail, isActionNotification } from '../Action';
-import { ActionEmail } from '../ActionEmail';
+import { isAction, isActionNotification } from '../Action';
 import { ActionNotification } from '../ActionNotification';
 import { ActionType } from '../ActionType';
 
 describe('src/types/Policy/Actions', () => {
-
-    it('isAction returns true for ActionEmail', () => {
-        const action: ActionEmail = {
-            type: ActionType.EMAIL
-        };
-        expect(isAction(action)).toBe(true);
-    });
 
     it('isAction returns true for ActionNotification', () => {
         const action: ActionNotification = {
@@ -35,31 +27,10 @@ describe('src/types/Policy/Actions', () => {
         expect(isAction({ type: null })).toBe(false);
     });
 
-    it('isActionEmail returns true for ActionEmail', () => {
-        const action: ActionEmail = {
-            type: ActionType.EMAIL
-        };
-        expect(isActionEmail(action)).toBe(true);
-    });
-
-    it('isActionNotification returns false for ActionEmail', () => {
-        const action: ActionEmail = {
-            type: ActionType.EMAIL
-        };
-        expect(isActionNotification(action)).toBe(false);
-    });
-
     it('isActionNotification returns true for ActionNotification', () => {
         const action: ActionNotification = {
             type: ActionType.NOTIFICATION
         };
         expect(isActionNotification(action)).toBe(true);
-    });
-
-    it('isActionEmail returns false for ActionNotification', () => {
-        const action: ActionNotification = {
-            type: ActionType.NOTIFICATION
-        };
-        expect(isActionEmail(action)).toBe(false);
     });
 });

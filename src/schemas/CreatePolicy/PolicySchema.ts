@@ -5,14 +5,12 @@ import { ValidationError } from 'yup';
 import { Action, ActionType } from '../../types/Policy/Actions';
 import { isAction } from '../../types/Policy/Actions/Action';
 import { maxPolicyNameLength } from '../../types/Policy/Policy';
-import { ActionEmailSchema, ActionNotificationSchema, ActionSchema } from './Actions';
+import { ActionNotificationSchema, ActionSchema } from './Actions';
 
 const ActionSchemaSelector = (action: Action | any): Yup.Schema<any> => {
     if (action?.type && isAction(action)) {
         const type = action.type;
         switch (type) {
-            case ActionType.EMAIL:
-                return ActionEmailSchema;
             case ActionType.NOTIFICATION:
                 return ActionNotificationSchema;
             default:
@@ -67,7 +65,6 @@ export const PolicyFormDetails = Yup.object().shape({
 
 export const PolicyFormActions = Yup.object().shape({
     actions: Yup.array(Yup.lazy(ActionSchemaSelector))
-    .test(...oneActionOf(ActionType.EMAIL, 'Email', 'email'))
     .test(...oneActionOf(ActionType.NOTIFICATION, 'Hook', 'notification'))
 });
 

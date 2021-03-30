@@ -14,7 +14,7 @@ import { style } from 'typestyle';
 import { Messages } from '../../../../properties/Messages';
 import { Action, ActionType } from '../../../../types/Policy/Actions';
 import { getOuiaProps } from '../../../../utils/getOuiaProps';
-import { ActionEmailIcon, ActionNotificationIcon } from '../../ActionIcons';
+import { ActionNotificationIcon } from '../../ActionIcons';
 
 interface ActionsProps extends OuiaComponentProps {
     actions: Action[];
@@ -64,13 +64,6 @@ const getActions = (actions: Action[]) => {
     for (const index in actions) {
         const action = actions[index];
         switch (action.type) {
-            case ActionType.EMAIL:
-                elements.push((
-                    <React.Fragment key={ index }>
-                        <ActionWrapper title="Send Email" icon={ ActionEmailIcon } />
-                    </React.Fragment>
-                ));
-                break;
             case ActionType.NOTIFICATION:
                 elements.push((
                     <React.Fragment key={ index }>
@@ -79,7 +72,7 @@ const getActions = (actions: Action[]) => {
                 ));
                 break;
             default:
-                assertNever(action);
+                assertNever(action.type);
         }
     }
 
