@@ -1509,10 +1509,10 @@
     "@scalprum/react-core" "0.0.13"
     sanitize-html "^2.3.2"
 
-"@redhat-cloud-services/insights-common-typescript@4.6.1":
-  version "4.6.1"
-  resolved "https://registry.yarnpkg.com/@redhat-cloud-services/insights-common-typescript/-/insights-common-typescript-4.6.1.tgz#4cd8fd06f355180feed1440616e0b91884b98d80"
-  integrity sha512-m7u8X/rD08lMnhbA9GZX21VLhhIZ4rXScGZA2fwVAVLDDXJ+5N6/AgGP0oGEWlmnVA7pDyWV+4PE3IY80UcJKQ==
+"@redhat-cloud-services/insights-common-typescript@5.0.0":
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/@redhat-cloud-services/insights-common-typescript/-/insights-common-typescript-5.0.0.tgz#774fd9ec95a10d262a1f0ebc472dc017d3b376af"
+  integrity sha512-j6KY7O5IIGalstI8Un8tbmbPLAMl3/rw3PijTy6v2aXvkKmNGZJ+I+VExg0TlRZmg5wWCLAHJgrDFh26g8vpBw==
   dependencies:
     camelcase "5.3.1"
     classnames "2.2.6"
@@ -1521,6 +1521,7 @@
     node-fetch "2.6.0"
     node-jq "1.11.1"
     prettier "2.1.1"
+    react-string-format "0.1.0"
 
 "@redhat-cloud-services/rbac-client@1.0.93":
   version "1.0.93"
@@ -7081,10 +7082,10 @@ inquirer@^7.0.0:
     strip-ansi "^5.1.0"
     through "^2.3.6"
 
-insights-common-typescript-dev@0.1.11:
-  version "0.1.11"
-  resolved "https://registry.yarnpkg.com/insights-common-typescript-dev/-/insights-common-typescript-dev-0.1.11.tgz#a6dac894e5b7df5f1d41afbd486dd4901dfc688c"
-  integrity sha512-qoQ/119HPH1SZgFC3fiMZtRTNLfoHScUPq7KnwgOuoAgDtF1SkkoTTagwFZHE5Dv5+2PuyGaOY3jHZ1vzv/vcw==
+insights-common-typescript-dev@0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/insights-common-typescript-dev/-/insights-common-typescript-dev-0.2.0.tgz#3bcd539a803ebaae794f4c87fb55557d0c008452"
+  integrity sha512-LgCHMJ+WcnxMEPjKAuJS5oWu4+uouGYod4nMludf0u2qpp9niYyKiGc9xuFFlCdc7fR22tGf4kAfJWlaYYwILA==
 
 internal-ip@^4.3.0:
   version "4.3.0"
@@ -10949,6 +10950,11 @@ react-string-format@0.0.92:
   resolved "https://registry.yarnpkg.com/react-string-format/-/react-string-format-0.0.92.tgz#03feff586e57f95eff0743e30d3e200a3ac649cd"
   integrity sha512-kv9wd0nhaTk3dLuBeDssClDvVdTB2nWQ8oWn1qz9AwGqCjOQUs8KUY1LSFyX1bYw0A+Z5O4lJ4oK+65B/DOs/A==
 
+react-string-format@0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/react-string-format/-/react-string-format-0.1.0.tgz#a815c2400eff74559ba72d76af50024d157d9e29"
+  integrity sha512-xkIhnh2t1YmS4r8Zz92qs0Ia8EMbBoRlMEvvMtC0sQBSxxBmBujfssSA4PYYi0w2WvJYSEktgilB+320/mlsOQ==
+
 react-test-renderer@16.13.1:
   version "16.13.1"
   resolved "https://registry.yarnpkg.com/react-test-renderer/-/react-test-renderer-16.13.1.tgz#de25ea358d9012606de51e012d9742e7f0deabc1"
@@ -13265,9 +13271,9 @@ typestyle@2.0.4:
     free-style "2.6.1"
 
 ua-parser-js@^0.7.23:
-  version "0.7.23"
-  resolved "https://registry.yarnpkg.com/ua-parser-js/-/ua-parser-js-0.7.23.tgz#704d67f951e13195fbcd3d78818577f5bc1d547b"
-  integrity sha512-m4hvMLxgGHXG3O3fQVAyyAQpZzDOvwnhOTjYz5Xmr7r/+LpkNy3vJXdVRWgd1TkAb7NGROZuSy96CrlNVjA7KA==
+  version "0.7.28"
+  resolved "https://registry.yarnpkg.com/ua-parser-js/-/ua-parser-js-0.7.28.tgz#8ba04e653f35ce210239c64661685bf9121dec31"
+  integrity sha512-6Gurc1n//gjp9eQNXjD9O3M/sMwVtN5S8Lv9bvOYBfKfDNiIIhqiyi01vMBO45u4zkDE420w/e0se7Vs+sIg+g==
 
 uglify-js@^3.1.4:
   version "3.12.0"
