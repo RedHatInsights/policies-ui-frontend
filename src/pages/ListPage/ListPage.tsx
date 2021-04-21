@@ -187,7 +187,12 @@ const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
             { !appContext.userSettings.isSubscribedForNotifications &&
             policyRows.rows.find(p => p.actions.find(a => a.type === ActionType.NOTIFICATION)) && (
                 <PageSection className={ emailOptinPageClassName }>
-                    <InsightsEmailOptIn ouiaId="list-email-required" content={ Messages.pages.listPage.emailOptIn } insights={ getInsights() } />
+                    <InsightsEmailOptIn
+                        ouiaId="list-email-required"
+                        content={ Messages.pages.listPage.emailOptIn }
+                        insights={ getInsights() }
+                        bundle="rhel"
+                    />
                 </PageSection>
             )}
             <Main>

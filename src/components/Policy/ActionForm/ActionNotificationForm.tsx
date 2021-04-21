@@ -1,40 +1,38 @@
 import { Text } from '@patternfly/react-core';
+import { getInsights, InsightsEmailOptIn } from '@redhat-cloud-services/insights-common-typescript';
 import * as React from 'react';
+import { useContext } from 'react';
+import { format } from 'react-string-format';
 
+import { AppContext } from '../../../app/AppContext';
 import Config from '../../../config/Config';
 import { Messages } from '../../../properties/Messages';
 import { getOuiaProps } from '../../../utils/getOuiaProps';
 import { ActionFormProps } from './ActionFormProps';
 
-interface TextWithLinkProps {
-    head: string;
-    tail: string;
-    link: string;
-    url?: string;
-}
-
-const TextWithLink: React.FunctionComponent<TextWithLinkProps> = (props) => {
-    return (
-        <Text>
-            {props.head}<a href={ props.url } target='_blank' rel='noopener noreferrer' >{ props.link }</a>{props.tail}
-        </Text>
-    );
-};
-
 export const ActionNotificationForm: React.FunctionComponent<ActionFormProps> = (props: ActionFormProps) => {
 
     const hooksUrl = React.useMemo(() => Config.pages.notifications(), []);
+    const appContext = useContext(AppContext);
 
     return (
         <div { ...getOuiaProps('Policy/Action/Hook', props) }>
-            <TextWithLink
-                { ...Messages.components.actionNotificationForm.paragraph1 }
-                url={ hooksUrl }
-            />
-            <TextWithLink
-                { ...Messages.components.actionNotificationForm.paragraph2 }
-                url={ hooksUrl }
-            />
+            <Text>
+                { format(
+                    Messages.components.actionNotificationForm.text,
+                    <a href={ hooksUrl } target="_blank" rel="noopener noreferrer">
+                        { Messages.components.actionNotificationForm.link }
+                    </a>
+                ) }
+            </Text>
+            { !appContext.userSettings.isSubscribedForNotifications && (
+                <InsightsEmailOptIn
+                    ouiaId="action-email.wizard-email-required"
+                    content={ Messages.wizards.policy.actions.emailOptIn }
+                    bundle="rhel"
+                    insights={ getInsights() }
+                />
+            )}
         </div>
     );
 };

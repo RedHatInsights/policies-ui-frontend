@@ -29,7 +29,9 @@ const MutableMessages = {
         },
         listPage: {
             title: 'Policies',
-            emailOptIn: 'One or more of your policies have an email alert. To receive these emails, opt in to email alerts.',
+            emailOptIn: 'One or more of your policies has a notification which may send an email. You can configure these notifications in the ' +
+                '{0} for your organization. In order to receive emails from Insights, opt in to email notifications in your ' +
+                'user preferences.',
             emptyState: {
                 title: 'No Policies',
                 text: [
@@ -86,16 +88,8 @@ const MutableMessages = {
             ago: 'ago'
         },
         actionNotificationForm: {
-            paragraph1: {
-                head: 'This action sends a request notification to process the message as configured in ',
-                link: 'notification settings.',
-                tail: ''
-            },
-            paragraph2: {
-                head: 'To configure it for policies, open the notification in the ',
-                link: 'notification settings',
-                tail: ' and select your preference for sending under "Policies / All".'
-            }
+            text: 'This action sends a notification to process the message as configured in {0}.',
+            link: 'notification settings'
         }
     },
     tables: {
@@ -141,7 +135,8 @@ const MutableMessages = {
                 'If condition(s) are met, defined action(s) are triggered.',
             actions: {
                 title: 'Trigger actions',
-                emailOptIn: 'To receive emails for custom policies, opt in to email alerts from your user preferences.'
+                emailOptIn: 'The notification for this policy sends an email from Red Hat Insights.' +
+                    ' To receive emails from Insights, opt in to email notifications in your user preferences.'
             },
             conditions: {
                 title: 'Conditions',
