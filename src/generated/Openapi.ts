@@ -29,20 +29,6 @@ export namespace Schemas {
     id?: string | undefined | null;
   };
 
-  export const ListHistoryItem = zodSchemaListHistoryItem();
-  export type ListHistoryItem = Array<HistoryItem>;
-
-  export const ListPolicy = zodSchemaListPolicy();
-  export type ListPolicy = Array<Policy>;
-
-  export const ListUUID = zodSchemaListUUID();
-  export type ListUUID = Array<string>;
-
-  export const MapStringString = zodSchemaMapStringString();
-  export type MapStringString = {
-    [x: string]: string;
-  };
-
   export const Meta = zodSchemaMeta();
   export type Meta = {
     count?: number | undefined | null;
@@ -55,15 +41,25 @@ export namespace Schemas {
 
   export const PagedResponseOfHistoryItem = zodSchemaPagedResponseOfHistoryItem();
   export type PagedResponseOfHistoryItem = {
-    data?: ListHistoryItem | undefined | null;
-    links?: MapStringString | undefined | null;
+    data?: Array<HistoryItem> | undefined | null;
+    links?:
+      | {
+          [x: string]: string;
+        }
+      | undefined
+      | null;
     meta?: Meta | undefined | null;
   };
 
   export const PagedResponseOfPolicy = zodSchemaPagedResponseOfPolicy();
   export type PagedResponseOfPolicy = {
-    data?: ListPolicy | undefined | null;
-    links?: MapStringString | undefined | null;
+    data?: Array<Policy> | undefined | null;
+    links?:
+      | {
+          [x: string]: string;
+        }
+      | undefined
+      | null;
     meta?: Meta | undefined | null;
   };
 
@@ -82,6 +78,12 @@ export namespace Schemas {
 
   export const UUID = zodSchemaUUID();
   export type UUID = string;
+
+  export const UserPreferences = zodSchemaUserPreferences();
+  export type UserPreferences = {
+    daily_email?: boolean | undefined | null;
+    instant_email?: boolean | undefined | null;
+  };
 
   export const __Empty = zodSchema__Empty();
   export type __Empty = string | undefined;
@@ -110,22 +112,6 @@ export namespace Schemas {
       .nonstrict();
   }
 
-  function zodSchemaListHistoryItem() {
-      return z.array(zodSchemaHistoryItem());
-  }
-
-  function zodSchemaListPolicy() {
-      return z.array(zodSchemaPolicy());
-  }
-
-  function zodSchemaListUUID() {
-      return z.array(z.string());
-  }
-
-  function zodSchemaMapStringString() {
-      return z.record(z.string());
-  }
-
   function zodSchemaMeta() {
       return z
       .object({
@@ -145,8 +131,8 @@ export namespace Schemas {
   function zodSchemaPagedResponseOfHistoryItem() {
       return z
       .object({
-          data: zodSchemaListHistoryItem().optional().nullable(),
-          links: zodSchemaMapStringString().optional().nullable(),
+          data: z.array(zodSchemaHistoryItem()).optional().nullable(),
+          links: z.record(z.string()).optional().nullable(),
           meta: zodSchemaMeta().optional().nullable()
       })
       .nonstrict();
@@ -155,8 +141,8 @@ export namespace Schemas {
   function zodSchemaPagedResponseOfPolicy() {
       return z
       .object({
-          data: zodSchemaListPolicy().optional().nullable(),
-          links: zodSchemaMapStringString().optional().nullable(),
+          data: z.array(zodSchemaPolicy()).optional().nullable(),
+          links: z.record(z.string()).optional().nullable(),
           meta: zodSchemaMeta().optional().nullable()
       })
       .nonstrict();
@@ -180,6 +166,15 @@ export namespace Schemas {
 
   function zodSchemaUUID() {
       return z.string();
+  }
+
+  function zodSchemaUserPreferences() {
+      return z
+      .object({
+          daily_email: z.boolean().optional().nullable(),
+          instant_email: z.boolean().optional().nullable()
+      })
+      .nonstrict();
   }
 
   function zodSchema__Empty() {
@@ -437,10 +432,12 @@ export namespace Operations {
   // DELETE /policies/ids
   // Delete policies for a customer by the ids passed in the body. Result will be a list of deleted UUIDs
   export namespace DeletePoliciesIds {
+    const Body = z.array(z.string());
+    type Body = Array<string>;
     const Response200 = z.array(Schemas.UUID);
     type Response200 = Array<Schemas.UUID>;
     export interface Params {
-      body: Schemas.ListUUID;
+      body: Body;
     }
 
     export type Payload =
@@ -468,11 +465,13 @@ export namespace Operations {
   export namespace PostPoliciesIdsEnabled {
     const Enabled = z.boolean();
     type Enabled = boolean;
+    const Body = z.array(z.string());
+    type Body = Array<string>;
     const Response200 = z.array(Schemas.UUID);
     type Response200 = Array<Schemas.UUID>;
     export interface Params {
       enabled?: Enabled;
-      body: Schemas.ListUUID;
+      body: Body;
     }
 
     export type Payload =
