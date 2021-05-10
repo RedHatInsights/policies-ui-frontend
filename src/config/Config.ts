@@ -22,7 +22,7 @@ const Config = {
         emailPreferences: () => localUrl('/user-preferences/notifications/insights', getInsights().chrome.isBeta()),
         notifications: () => localUrl('/settings/notifications/rhel', getInsights().chrome.isBeta()),
         // eslint-disable-next-line max-len
-        factsDocumentation: 'https://access.redhat.com/documentation/en-us/red_hat_insights/2020-04/html/monitoring_and_reacting_to_configuration_changes_using_policies/appendix-policies#facts-and-functions'
+        factsDocumentation: 'https://access.redhat.com/documentation/en-us/red_hat_insights/2021/html/monitoring_and_reacting_to_configuration_changes_using_policies/assembly-policies-monitoring-appendix-ref-materials#ref-policies-monitoring-appendix-system-facts_policies-monitoring-appendix-ref-materials'
     }
 };
 
