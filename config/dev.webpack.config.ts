@@ -7,7 +7,7 @@ import { updateTsLoaderRule } from './common.webpack.config';
 const { config: webpackConfig, plugins } = config({
     rootFolder: resolve(__dirname, '../'),
     debug: true,
-    https: false,
+    https: true,
     useFileHash: false,
     deployment: process.env.BETA ? 'beta/apps' : 'apps'
 });
