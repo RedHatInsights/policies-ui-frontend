@@ -2,6 +2,8 @@ import config from '@redhat-cloud-services/frontend-components-config';
 import isCi from 'is-ci';
 import { resolve } from 'path';
 
+import { updateTsLoaderRule } from './common.webpack.config';
+
 if (isCi) {
     console.log(`Karma is running in CI environment, disabling watching files and doing a single run.`);
 }
@@ -9,6 +11,11 @@ if (isCi) {
 const { config: webpackConfig, plugins } = config({
     rootFolder: resolve(__dirname, '..')
 });
+
+updateTsLoaderRule(webpackConfig.module.rules);
+
+// For some reason karma doesn't like when we have this cacheGroups with priorities
+webpackConfig.optimization.splitChunks.cacheGroups = {};
 
 const browsers = () => {
     const browserList = [ 'Chrome', 'Firefox' ];
