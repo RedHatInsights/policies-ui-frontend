@@ -26,7 +26,7 @@
     "formik": "2.1.7",
     "http-status-codes": "1.4.0",
     "in-browser-download": "2.0.0",
-    "lodash": "4.17.20",
+    "lodash": "4.17.21",
     "openapi2typescript": "0.1.4",
     "react": "16.13.1",
     "react-content-loader": "3.4.2",
