@@ -1,10 +1,10 @@
-import { act, render, screen } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { Formik } from 'formik';
 import * as React from 'react';
 
-import { DetailsStep } from '../DetailsStep';
 import { waitForAsyncEvents } from '../../../../../test/TestUtils';
+import { DetailsStep } from '../DetailsStep';
 
 const FormikMockContainer: React.FunctionComponent = (props) => (
     <Formik initialValues={ [] } onSubmit={ jest.fn() }>
