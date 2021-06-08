@@ -61,6 +61,7 @@ describe('src/components/Policy/PolicyWizardFooter', () => {
             return (
                 <PFWizardContextProvider value={ pfContext }>
                     <WizardContext.Provider value={ policyWizardContext }>
+                        {/* eslint-disable-next-line testing-library/no-node-access */}
                         { props.children }
                     </WizardContext.Provider>
                 </PFWizardContextProvider>
@@ -85,7 +86,7 @@ describe('src/components/Policy/PolicyWizardFooter', () => {
             wrapper: Wrapper
         });
 
-        expect(screen.queryByText(/Loading 123/i)).toBeFalsy();
+        expect(screen.queryByText(/Loading 123/i)).not.toBeInTheDocument();
     });
 
     it('Next is enabled when not loading', () => {
@@ -112,7 +113,7 @@ describe('src/components/Policy/PolicyWizardFooter', () => {
             wrapper: Wrapper
         });
 
-        expect(screen.queryByText(/I am a bug/i)).toBeTruthy();
+        expect(screen.queryByText(/I am a bug/i)).toBeInTheDocument();
     });
 
     it('Error is hidden when set and loading', () => {
@@ -121,7 +122,7 @@ describe('src/components/Policy/PolicyWizardFooter', () => {
             wrapper: Wrapper
         });
 
-        expect(screen.queryByText(/I am a bug/i)).toBeFalsy();
+        expect(screen.queryByText(/I am a bug/i)).not.toBeInTheDocument();
     });
 
     it('onNext is called when provided with Context and "real" onNext handler', async () => {
@@ -232,8 +233,8 @@ describe('src/components/Policy/PolicyWizardFooter', () => {
             wrapper: Wrapper
         });
 
-        expect(screen.queryByText(/Next/i)).toBeFalsy();
-        expect(screen.getByText('Go!')).toBeTruthy();
+        expect(screen.queryByText(/Next/i)).not.toBeInTheDocument();
+        expect(screen.getByText('Go!')).toBeInTheDocument();
     });
 
     it('currentStep.hideBackButton controls if back button is show', async () => {
@@ -244,7 +245,7 @@ describe('src/components/Policy/PolicyWizardFooter', () => {
             wrapper: Wrapper
         });
 
-        expect(screen.queryByText(/Back/i)).toBeFalsy();
+        expect(screen.queryByText(/Back/i)).not.toBeInTheDocument();
     });
 
     it('currentStep.hideCancelButton controls if cancel button is show', async () => {
@@ -255,6 +256,6 @@ describe('src/components/Policy/PolicyWizardFooter', () => {
             wrapper: Wrapper
         });
 
-        expect(screen.queryByText(/Cancel/i)).toBeFalsy();
+        expect(screen.queryByText(/Cancel/i)).not.toBeInTheDocument();
     });
 });

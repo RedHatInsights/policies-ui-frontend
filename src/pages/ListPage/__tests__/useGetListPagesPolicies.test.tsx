@@ -17,6 +17,7 @@ describe('src/hooks/usePaginated', () => {
             ]
         });
 
+        // eslint-disable-next-line testing-library/no-node-access
         return <ClientContextProvider client={ client }>{ props.children }</ClientContextProvider>;
     };
 

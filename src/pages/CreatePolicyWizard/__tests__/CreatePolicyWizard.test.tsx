@@ -36,6 +36,7 @@ describe('src/pages/ListPage/CreatePolicyWizard', () => {
             ]
         });
 
+        // eslint-disable-next-line testing-library/no-node-access
         return <ClientContextProvider client={ client }>{ props.children }</ClientContextProvider>;
     };
 
@@ -64,7 +65,7 @@ describe('src/pages/ListPage/CreatePolicyWizard', () => {
         render(<CreatePolicyWizard isOpen={ true } close={ jest.fn() } showCreateStep={ false } isEditing={ true } />, {
             wrapper: Wrapper
         });
-        expect(screen.queryByText(/hello world/i)).toBeTruthy();
+        expect(screen.queryByText(/hello world/i)).toBeInTheDocument();
     });
 
     it('PolicyWizard is not rendered if isOpen is false', async () => {
@@ -75,7 +76,7 @@ describe('src/pages/ListPage/CreatePolicyWizard', () => {
         render(<CreatePolicyWizard isOpen={ false } close={ jest.fn() } showCreateStep={ false } isEditing={ true } />, {
             wrapper: Wrapper
         });
-        expect(screen.queryByText(/hello world/i)).toBeFalsy();
+        expect(screen.queryByText(/hello world/i)).not.toBeInTheDocument();
     });
 
     it('formatConditionError strips "lines 1" and adds 1 to positions', () => {

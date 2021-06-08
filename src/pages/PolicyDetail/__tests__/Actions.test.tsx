@@ -32,7 +32,7 @@ describe('src/pages/PolicyDetail/Actions', () => {
 
         userEvent.click(screen.getByRole('button'));
 
-        expect(screen.queryByText(/enable/i)).toBeFalsy();
+        expect(screen.queryByText(/enable/i)).not.toBeInTheDocument();
         expect(screen.getByText(/disable/i)).toBeVisible();
         expect(screen.getByText(/edit/i)).toBeVisible();
         expect(screen.getByText(/duplicate/i)).toBeVisible();
@@ -52,7 +52,7 @@ describe('src/pages/PolicyDetail/Actions', () => {
 
         userEvent.click(screen.getByRole('button'));
 
-        expect(screen.queryByText(/disable/i)).toBeFalsy();
+        expect(screen.queryByText(/disable/i)).not.toBeInTheDocument();
         expect(screen.getByText(/enable/i)).toBeVisible();
         expect(screen.getByText(/edit/i)).toBeVisible();
         expect(screen.getByText(/duplicate/i)).toBeVisible();

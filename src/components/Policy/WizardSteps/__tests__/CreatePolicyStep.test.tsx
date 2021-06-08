@@ -62,6 +62,7 @@ describe('src/components/Policy/WizardSteps/CreatePolicyStep', () => {
                 <WizardContext.Provider value={ wizardContext }>
                     <Formik initialValues={ [] } onSubmit={ jest.fn() }>
                         <CreatePolicyStepContextProvider showCreateStep={ true }>
+                            {/* eslint-disable-next-line testing-library/no-node-access */}
                             {props.children}
                         </CreatePolicyStepContextProvider>
                     </Formik>
@@ -123,7 +124,7 @@ describe('src/components/Policy/WizardSteps/CreatePolicyStep', () => {
 
         await waitForAsyncEvents();
 
-        expect(screen.queryByText('This is my policy')).toBeFalsy();
+        expect(screen.queryByText('This is my policy')).not.toBeInTheDocument();
     });
 
     it('CopyFromPolicy table is show when selecting the radio "as a copy of existing Policy"', async () => {
@@ -138,7 +139,7 @@ describe('src/components/Policy/WizardSteps/CreatePolicyStep', () => {
             await userEvent.click(screen.getByLabelText(/as a copy of existing policy/i));
         });
 
-        expect(screen.getByText('This is my policy')).toBeTruthy();
+        expect(screen.getByText('This is my policy')).toBeInTheDocument();
     });
 
     it('Sets the value of the selected policy', async () => {
@@ -263,7 +264,7 @@ describe('src/components/Policy/WizardSteps/CreatePolicyStep', () => {
             await userEvent.click(screen.getByLabelText(/as a copy of existing policy/i));
         });
 
-        expect(screen.getByText('This is my policy')).toBeTruthy();
+        expect(screen.getByText('This is my policy')).toBeInTheDocument();
 
         await act(async () => {
             await userEvent.click(screen.getByLabelText(/Radio select for policy This is my policy/i));
@@ -277,13 +278,13 @@ describe('src/components/Policy/WizardSteps/CreatePolicyStep', () => {
             await userEvent.click(screen.getByLabelText(/From scratch/i));
         });
 
-        expect(screen.queryByText('This is my policy')).toBeFalsy();
+        expect(screen.queryByText('This is my policy')).not.toBeInTheDocument();
 
         await act(async () => {
             await userEvent.click(screen.getByLabelText(/as a copy of existing policy/i));
         });
 
-        expect(screen.getByText('This is my policy')).toBeTruthy();
+        expect(screen.getByText('This is my policy')).toBeInTheDocument();
         expect(
             (screen.getByLabelText(/Radio select for policy This is my policy/i) as HTMLInputElement)
         ).not.toBeChecked();

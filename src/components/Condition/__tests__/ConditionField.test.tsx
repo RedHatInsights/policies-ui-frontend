@@ -6,6 +6,7 @@ import { Schemas } from '../../../generated/Openapi';
 import { Fact } from '../../../types/Fact';
 import { buildOptionList, ConditionField, ConditionFieldProps } from '../ConditionField';
 import FactType = Schemas.FactType;
+import { waitForAsyncEvents } from '../../../../test/TestUtils';
 
 describe('src/components/Condition/ConditionVisitor', () => {
 
@@ -55,7 +56,7 @@ describe('src/components/Condition/ConditionVisitor', () => {
             />
         );
 
-        expect(screen.queryByRole('listbox')).toBeFalsy();
+        expect(screen.queryByRole('listbox')).not.toBeInTheDocument();
     });
 
     it('shows the facts when clicking the toggle', async () => {
@@ -74,9 +75,9 @@ describe('src/components/Condition/ConditionVisitor', () => {
             await userEvent.click(screen.getByLabelText('Options menu'));
         });
 
-        expect(screen.getByText('foo.fact')).toBeTruthy();
-        expect(screen.getByText('bar.fact')).toBeTruthy();
-        expect(screen.getByText('baz')).toBeTruthy();
+        expect(screen.getByText('foo.fact')).toBeInTheDocument();
+        expect(screen.getByText('bar.fact')).toBeInTheDocument();
+        expect(screen.getByText('baz')).toBeInTheDocument();
     });
 
     it('should filter from initial value', async () => {
@@ -95,9 +96,9 @@ describe('src/components/Condition/ConditionVisitor', () => {
             await userEvent.click(screen.getByLabelText('Options menu'));
         });
 
-        expect(screen.getByText('foo.fact')).toBeTruthy();
-        expect(screen.queryByText('bar.fact')).toBeFalsy();
-        expect(screen.queryByText('baz')).toBeFalsy();
+        expect(screen.getByText('foo.fact')).toBeInTheDocument();
+        expect(screen.queryByText('bar.fact')).not.toBeInTheDocument();
+        expect(screen.queryByText('baz')).not.toBeInTheDocument();
     });
 
     it('Should appear when we got a fact match', async () => {
@@ -115,7 +116,7 @@ describe('src/components/Condition/ConditionVisitor', () => {
         await act(async () => {
             await userEvent.type(screen.getByLabelText('Condition writer'), 'fact');
         });
-        expect(screen.getByText('foo.fact')).toBeTruthy();
+        expect(screen.getByText('foo.fact')).toBeInTheDocument();
     });
 
     it('Should show all matches', async () => {
@@ -133,9 +134,9 @@ describe('src/components/Condition/ConditionVisitor', () => {
         await act(async () => {
             await userEvent.type(screen.getByLabelText('Condition writer'), 'fact');
         });
-        expect(screen.getByText('foo.fact')).toBeTruthy();
-        expect(screen.getByText('bar.fact')).toBeTruthy();
-        expect(screen.queryByText('baz')).toBeFalsy();
+        expect(screen.getByText('foo.fact')).toBeInTheDocument();
+        expect(screen.getByText('bar.fact')).toBeInTheDocument();
+        expect(screen.queryByText('baz')).not.toBeInTheDocument();
     });
 
     it('Sets selection when clicking over an option', async () => {
@@ -183,7 +184,7 @@ describe('src/components/Condition/ConditionVisitor', () => {
         });
 
         expect((screen.getByLabelText('Condition writer') as HTMLInputElement).value).toEqual('foo.fact');
-        expect(screen.queryByRole('listbox')).toBeFalsy();
+        expect(screen.queryByRole('listbox')).not.toBeInTheDocument();
     });
 
     it('clears selection when clicking the "clear all" button', async () => {
@@ -224,9 +225,9 @@ describe('src/components/Condition/ConditionVisitor', () => {
         });
 
         expect(onSelect).toHaveBeenCalledWith('');
-        expect(screen.getByText('foo.fact')).toBeTruthy();
-        expect(screen.getByText('bar.fact')).toBeTruthy();
-        expect(screen.getByText('baz')).toBeTruthy();
+        expect(screen.getByText('foo.fact')).toBeInTheDocument();
+        expect(screen.getByText('bar.fact')).toBeInTheDocument();
+        expect(screen.getByText('baz')).toBeInTheDocument();
     });
 
     it('allows to write facts.arch = "x86_64" without having to copy/paste', async() => {
@@ -241,11 +242,10 @@ describe('src/components/Condition/ConditionVisitor', () => {
             />
         );
 
-        await act(async () => {
-            await userEvent.type(screen.getByLabelText('Condition writer'), 'facts.arch = "x86_64"');
-        });
+        userEvent.type(screen.getByLabelText('Condition writer'), 'facts.arch = "x86_64"');
+        await waitForAsyncEvents();
 
-        expect(screen.getByDisplayValue('facts.arch = "x86_64"')).toBeTruthy();
+        expect(screen.getByDisplayValue('facts.arch = "x86_64"')).toBeInTheDocument();
     });
 
     describe('buildOptionList', () => {

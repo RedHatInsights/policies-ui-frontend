@@ -1,5 +1,5 @@
 import { Direction, Page, Sort } from '@redhat-cloud-services/insights-common-typescript';
-import { getByRole, render, screen } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import fetchMock from 'fetch-mock';
 import inBrowserDownload from 'in-browser-download';
@@ -12,6 +12,7 @@ import { linkTo } from '../../../Routes';
 import { ServerPolicyRequest, Uuid } from '../../../types/Policy/Policy';
 import { PolicyDetail } from '../PolicyDetail';
 import Policy = Schemas.Policy;
+import { within } from '@testing-library/dom';
 import { suppressValidateError } from 'openapi2typescript/react-fetching-library';
 
 jest.mock('../../../hooks/useFacts');
@@ -234,7 +235,7 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
         expect(screen.queryAllByText('random host').length).toBe(2);
     });
 
-    it('Shows empty state when policy is not found ', async () => {
+    it('Shows empty state when policy is not found', async () => {
         fetchMockSetup({
             policyStatus: 404,
             policyIsUndefined: true
@@ -299,10 +300,10 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
         userEvent.click(screen.getByRole('button'));
 
         await waitForAsyncEvents();
-        expect(screen.getAllByText(/Not arch x86/i)).toBeTruthy();
+        screen.getAllByText(/Not arch x86/i).forEach(e => expect(e).toBeInTheDocument());
     });
 
-    it('Click on edit brings up edit wizard ', async () => {
+    it('Click on edit brings up edit wizard', async () => {
         fetchMockSetup();
         render(<PolicyDetail />, {
             wrapper: getConfiguredAppWrapper({
@@ -323,7 +324,7 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
         expect(screen.getByText(/Edit a policy/i)).toBeVisible();
     });
 
-    it('Click on duplicate brings up create wizard ', async () => {
+    it('Click on duplicate brings up create wizard', async () => {
         fetchMockSetup();
         render(<PolicyDetail />, {
             wrapper: getConfiguredAppWrapper({
@@ -345,7 +346,7 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
         expect(screen.getByDisplayValue(/Copy of Not arch x86_64/i)).toBeVisible();
     });
 
-    it('Duplicates navigates to the new policy url ', async () => {
+    it('Duplicates navigates to the new policy url', async () => {
         fetchMockSetup();
         fetcMockValidateName(undefined);
         fetchMockValidateCondition();
@@ -388,7 +389,7 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
         expect(getLocation().pathname).toEqual(linkTo.policyDetail('bar-123'));
     });
 
-    it('Edits updates the policy with the new values ', async () => {
+    it('Edits updates the policy with the new values', async () => {
         fetchMockSetup();
         fetcMockValidateName('foo');
         fetchMockValidateCondition();
@@ -419,10 +420,10 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
         await waitForAsyncEvents();
         userEvent.click(screen.getByText(/Finish/i));
         await waitForAsyncEvents();
-        expect(screen.getAllByText('my new name')).toBeTruthy();
+        screen.getAllByText('my new name').forEach(e => expect(e).toBeVisible());
     });
 
-    it('Click on remove brings up the remove dialog ', async () => {
+    it('Click on remove brings up the remove dialog', async () => {
         fetchMockSetup();
         render(<PolicyDetail />, {
             wrapper: getConfiguredAppWrapper({
@@ -443,7 +444,7 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
         expect(screen.getByText(/Do you want to remove the policy/i)).toBeVisible();
     });
 
-    it('Remove dialog can be closed ', async () => {
+    it('Remove dialog can be closed', async () => {
         fetchMockSetup();
         render(<PolicyDetail />, {
             wrapper: getConfiguredAppWrapper({
@@ -464,7 +465,7 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
         userEvent.click(screen.getByText('Cancel'));
 
         await waitForAsyncEvents();
-        expect(screen.queryByText(/Do you want to remove the policy/i)).toBeFalsy();
+        expect(screen.queryByText(/Do you want to remove the policy/i)).not.toBeInTheDocument();
     });
 
     it('When policy is deleted, navigates to list page', async () => {
@@ -651,7 +652,7 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
             noSort: true
         });
 
-        userEvent.click(getByRole(screen.getByTestId('trigger-toolbar-export-container'), 'button'));
+        userEvent.click(within(screen.getByTestId('trigger-toolbar-export-container')).getByRole('button'));
         userEvent.click(screen.getByText(/Export to JSON/i));
 
         await waitForAsyncEvents();
@@ -680,7 +681,7 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
         });
 
         await waitForAsyncEvents();
-        expect(screen.queryByTestId('trigger-toolbar-export-container')).toBeFalsy();
+        expect(screen.queryByTestId('trigger-toolbar-export-container')).not.toBeInTheDocument();
     });
 
     it('Trigger history does not show loading when not loading', async () => {
@@ -701,7 +702,7 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
         });
 
         await waitForAsyncEvents();
-        expect(screen.queryByText('Loading Triggers')).toBeFalsy(); // Mocked the loading element
+        expect(screen.queryByText('Loading Triggers')).not.toBeInTheDocument(); // Mocked the loading element
     });
 
     it('Trigger history shows loading when loading it', async () => {
@@ -748,6 +749,7 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
         await waitForAsyncEvents();
         expect(screen.getByText(/date/i, {
             selector: 'th span'
+            // eslint-disable-next-line testing-library/no-node-access
         }).closest('th')).toHaveAttribute('aria-sort', 'descending');
     });
 
@@ -860,7 +862,7 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
         userEvent.click(screen.getByText(/try again/i));
 
         await waitForAsyncEvents();
-        expect(screen.getByTestId('policy-loading')).toBeTruthy();
+        expect(screen.getByTestId('policy-loading')).toBeInTheDocument();
 
         finishLoading();
         await waitForAsyncEvents();
@@ -885,7 +887,7 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
         });
 
         await waitForAsyncEvents();
-        expect(screen.getByText(/Error when loading trigger history for policy/i)).toBeTruthy();
+        expect(screen.getByText(/Error when loading trigger history for policy/i)).toBeInTheDocument();
     });
 
     it('Shows loading when clicking try again button on the trigger history load', async () => {
@@ -914,7 +916,7 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
         userEvent.click(screen.getByText(/try again/i));
         await waitForAsyncEvents();
 
-        expect(screen.getByText('Loading Triggers')).toBeTruthy();
+        expect(screen.getByText('Loading Triggers')).toBeInTheDocument();
 
         finishLoading();
         await waitForAsyncEvents();

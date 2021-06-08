@@ -2,9 +2,7 @@ import { Token } from 'antlr4ts';
 import { AbstractParseTreeVisitor, ErrorNode, TerminalNode } from 'antlr4ts/tree';
 
 import {
-    // eslint-disable-next-line @typescript-eslint/camelcase
     ArrayContext, Boolean_operatorContext, ExprContext,
-    // eslint-disable-next-line @typescript-eslint/camelcase
     KeyContext, Logical_operatorContext, Numeric_compare_operatorContext, Numerical_valueContext,
     ValueContext
 } from '../../utils/Expression/ExpressionParser';
@@ -94,17 +92,17 @@ export class ConditionVisitor extends AbstractParseTreeVisitor<ReturnValue> impl
         return [ makeError(node.text) ];
     }
 
-    // eslint-disable-next-line @typescript-eslint/camelcase
+    // eslint-disable-next-line @typescript-eslint/naming-convention
     visitLogical_operator(ctx: Logical_operatorContext) {
         return [ makeLogicalOperator(ctx.text) ];
     }
 
-    // eslint-disable-next-line @typescript-eslint/camelcase
+    // eslint-disable-next-line @typescript-eslint/naming-convention
     visitBoolean_operator(ctx: Boolean_operatorContext) {
         return [ makeBooleanOperator(ctx.text) ];
     }
 
-    // eslint-disable-next-line @typescript-eslint/camelcase
+    // eslint-disable-next-line @typescript-eslint/naming-convention
     visitNumeric_compare_operator(ctx: Numeric_compare_operatorContext) {
         return [ makeNumericCompareOperator(ctx.text) ];
     }
@@ -162,7 +160,7 @@ export class ConditionVisitor extends AbstractParseTreeVisitor<ReturnValue> impl
         return [ makeValue(nodeValue.text) ];
     }
 
-    // eslint-disable-next-line @typescript-eslint/camelcase
+    // eslint-disable-next-line @typescript-eslint/naming-convention
     visitNumerical_value(ctx: Numerical_valueContext) {
         return [ makeValue(ctx.text) ];
     }

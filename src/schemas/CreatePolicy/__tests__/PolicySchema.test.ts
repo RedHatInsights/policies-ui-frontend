@@ -80,19 +80,6 @@ describe('src/schemas/CreatePolicy/PolicySchema', () => {
                 ]
             })).toBeTruthy();
         });
-
-        it('Only allows one notification', () => {
-            expect(PolicyFormActions.isValidSync({
-                actions: [
-                    {
-                        type: ActionType.NOTIFICATION
-                    },
-                    {
-                        type: ActionType.NOTIFICATION
-                    }
-                ]
-            })).toBeFalsy();
-        });
     });
 
     describe('PolicyFormConditions', () => {

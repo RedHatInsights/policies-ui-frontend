@@ -24,7 +24,7 @@ export const dataToTriggers = validationResponseTransformer((validatedResponse: 
 
         return {
             ...validatedResponse,
-            type: 'PagedTriggers' as 'PagedTriggers',
+            type: 'PagedTriggers' as const,
             value: {
                 count: value.meta?.count || 0,
                 data: toTriggers(value.data ?? [])
@@ -46,7 +46,7 @@ const triggersToBooleanAdapter = validationResponseTransformer((validatedRespons
     if (validatedResponse.type === 'PagedResponseOfHistoryItem') {
         return {
             ...validatedResponse,
-            type: 'boolean' as 'boolean',
+            type: 'boolean' as const,
             value: validatedResponse.value.data && validatedResponse.value.data.length
         };
     }

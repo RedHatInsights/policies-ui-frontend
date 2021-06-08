@@ -202,7 +202,7 @@ describe('src/pages/ListPage', () => {
         expect(getLocation().pathname).not.toEqual('/policies/list');
     });
 
-    it('Nothing is sorted by default ', async () => {
+    it('Nothing is sorted by default', async () => {
         fetchMockSetup();
         render(<ListPage />, {
             wrapper: getConfiguredAppWrapper()
@@ -212,10 +212,11 @@ describe('src/pages/ListPage', () => {
 
         expect(screen.getByText(/name/i, {
             selector: 'th span'
+            // eslint-disable-next-line testing-library/no-node-access
         }).closest('th')).toHaveAttribute('aria-sort', 'none');
     });
 
-    it('Shows empty state when no policy is found ', async () => {
+    it('Shows empty state when no policy is found', async () => {
         fetchMockSetup({
             status: 404,
             emptyPayload: true
@@ -252,8 +253,14 @@ describe('src/pages/ListPage', () => {
             status: 401,
             emptyPayload: true
         });
-        const reloadMock = jest.spyOn(window.location, 'reload');
-        reloadMock.mockImplementation(() => '');
+
+        const location: Location = window.location;
+        delete window.location;
+        window.location = {
+            ...location,
+            reload: jest.fn()
+        };
+
         render(<ListPage />, {
             wrapper: getConfiguredAppWrapper()
         });
@@ -262,8 +269,8 @@ describe('src/pages/ListPage', () => {
         userEvent.click(screen.getByText('Reload page'));
         await waitForAsyncEvents();
 
-        expect(reloadMock).toHaveBeenCalledTimes(1);
-        reloadMock.mockRestore();
+        expect(window.location.reload).toHaveBeenCalledTimes(1);
+        window.location = location;
     });
 
     it('Shows internal server errors on status 500', async () => {
@@ -358,7 +365,7 @@ describe('src/pages/ListPage', () => {
         userEvent.click(screen.getByText('Create policy'));
 
         await waitForAsyncEvents();
-        expect(screen.getAllByText('Create a policy')).toBeTruthy();
+        expect(screen.getByText('Create a policy')).toBeInTheDocument();
     });
 
     it('Create policy wizard can be closed', async () => {
@@ -373,7 +380,7 @@ describe('src/pages/ListPage', () => {
         await waitForAsyncEvents();
         userEvent.click(screen.getByText('Cancel'));
 
-        expect(screen.queryByText('Create a policy')).toBeFalsy();
+        expect(screen.queryByText('Create a policy')).not.toBeInTheDocument();
     });
 
     it('Title is "Policies - Red Hat Insights"', async () => {

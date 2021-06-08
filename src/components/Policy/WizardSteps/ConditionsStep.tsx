@@ -8,7 +8,6 @@ import {
     Title
 } from '@patternfly/react-core';
 import { CheckCircleIcon, ExclamationCircleIcon } from '@patternfly/react-icons';
-// eslint-disable-next-line @typescript-eslint/camelcase
 import { global_danger_color_100, global_success_color_200 } from '@patternfly/react-tokens';
 import { Form, joinClasses } from '@redhat-cloud-services/insights-common-typescript';
 import { useFormikContext } from 'formik';

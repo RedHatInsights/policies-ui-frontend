@@ -61,6 +61,7 @@ const client = createClient({
 const MockContainer: React.FunctionComponent = (props) => {
     return (
         <ClientContextProvider client={ client }>
+            {/* eslint-disable-next-line testing-library/no-node-access */}
             {props.children}
         </ClientContextProvider>
     );

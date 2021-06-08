@@ -1,5 +1,4 @@
 import { Button, EmptyState as EmptyStatePf, EmptyStateBody, EmptyStateIcon, EmptyStateVariant, Title } from '@patternfly/react-core';
-// eslint-disable-next-line @typescript-eslint/camelcase
 import { global_spacer_3xl } from '@patternfly/react-tokens';
 import { OuiaComponentProps } from '@redhat-cloud-services/insights-common-typescript';
 import { calc } from 'csx';

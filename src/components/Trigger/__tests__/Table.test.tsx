@@ -79,9 +79,11 @@ describe('src/components/Trigger/Table', () => {
 
         expect(screen.getByText(/system/i, {
             selector: 'th span'
+            // eslint-disable-next-line testing-library/no-node-access
         }).closest('th')).toHaveAttribute('aria-sort', 'none');
         expect(screen.getByText(/date/i, {
             selector: 'th span'
+            // eslint-disable-next-line testing-library/no-node-access
         }).closest('th')).toHaveAttribute('aria-sort', 'none');
     });
 
@@ -104,9 +106,11 @@ describe('src/components/Trigger/Table', () => {
 
         expect(screen.getByText(/system/i, {
             selector: 'th span'
+            // eslint-disable-next-line testing-library/no-node-access
         }).closest('th')).toHaveAttribute('aria-sort', 'ascending');
         expect(screen.getByText(/date/i, {
             selector: 'th span'
+            // eslint-disable-next-line testing-library/no-node-access
         }).closest('th')).toHaveAttribute('aria-sort', 'none');
     });
 
@@ -129,9 +133,11 @@ describe('src/components/Trigger/Table', () => {
 
         expect(screen.getByText(/system/i, {
             selector: 'th span'
+            // eslint-disable-next-line testing-library/no-node-access
         }).closest('th')).toHaveAttribute('aria-sort', 'descending');
         expect(screen.getByText(/date/i, {
             selector: 'th span'
+            // eslint-disable-next-line testing-library/no-node-access
         }).closest('th')).toHaveAttribute('aria-sort', 'none');
     });
 
@@ -154,9 +160,11 @@ describe('src/components/Trigger/Table', () => {
 
         expect(screen.getByText(/system/i, {
             selector: 'th span'
+            // eslint-disable-next-line testing-library/no-node-access
         }).closest('th')).toHaveAttribute('aria-sort', 'none');
         expect(screen.getByText(/date/i, {
             selector: 'th span'
+            // eslint-disable-next-line testing-library/no-node-access
         }).closest('th')).toHaveAttribute('aria-sort', 'ascending');
     });
 
@@ -179,9 +187,11 @@ describe('src/components/Trigger/Table', () => {
 
         expect(screen.getByText(/system/i, {
             selector: 'th span'
+            // eslint-disable-next-line testing-library/no-node-access
         }).closest('th')).toHaveAttribute('aria-sort', 'none');
         expect(screen.getByText(/date/i, {
             selector: 'th span'
+            // eslint-disable-next-line testing-library/no-node-access
         }).closest('th')).toHaveAttribute('aria-sort', 'descending');
     });
 
@@ -205,10 +215,10 @@ describe('src/components/Trigger/Table', () => {
                 }
             ] }
         />);
-        expect(screen.getByText('my-hostname-foo')).toBeTruthy();
-        expect(screen.getByText('my-hostname-bar')).toBeTruthy();
-        expect(screen.getByText('28 May 2020 21:20:36 UTC')).toBeTruthy();
-        expect(screen.getByText('27 May 2020 19:16:30 UTC')).toBeTruthy();
+        expect(screen.getByText('my-hostname-foo')).toBeInTheDocument();
+        expect(screen.getByText('my-hostname-bar')).toBeInTheDocument();
+        expect(screen.getByText('28 May 2020 21:20:36 UTC')).toBeInTheDocument();
+        expect(screen.getByText('27 May 2020 19:16:30 UTC')).toBeInTheDocument();
     });
 
     it('Hostname creates a link to the inventory', () => {
@@ -226,9 +236,11 @@ describe('src/components/Trigger/Table', () => {
                 }
             ] }
         />);
+        // eslint-disable-next-line testing-library/no-node-access
         expect(screen.getByText('my-hostname-foo').closest('a')).toHaveAttribute('href', '/beta/insights/inventory/foo-id/');
+        // eslint-disable-next-line testing-library/no-node-access
         expect(screen.getByText('my-hostname-bar').closest('a')).toHaveAttribute('href', '/beta/insights/inventory/meep/');
-        expect(screen.getByText('28 May 2020 21:20:36 UTC')).toBeTruthy();
-        expect(screen.getByText('27 May 2020 19:16:30 UTC')).toBeTruthy();
+        expect(screen.getByText('28 May 2020 21:20:36 UTC')).toBeInTheDocument();
+        expect(screen.getByText('27 May 2020 19:16:30 UTC')).toBeInTheDocument();
     });
 });

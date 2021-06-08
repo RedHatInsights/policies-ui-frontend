@@ -1,5 +1,4 @@
 import { Title } from '@patternfly/react-core';
-// eslint-disable-next-line @typescript-eslint/camelcase
 import { global_BackgroundColor_light_300 } from '@patternfly/react-tokens';
 import { Form, FormText, Switch } from '@redhat-cloud-services/insights-common-typescript';
 import { padding } from 'csstips';

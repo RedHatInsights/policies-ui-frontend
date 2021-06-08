@@ -1,6 +1,5 @@
 import { Button, Card, CardActions, CardBody, CardHeader, CardTitle, Form, Title } from '@patternfly/react-core';
 import { TimesIcon } from '@patternfly/react-icons';
-// eslint-disable-next-line @typescript-eslint/camelcase
 import { global_spacer_md } from '@patternfly/react-tokens';
 import { assertNever } from 'assert-never';
 import { ArrayHelpers } from 'formik';
