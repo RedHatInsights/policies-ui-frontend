@@ -47,7 +47,7 @@ describe('src/app/App', () => {
             await jest.advanceTimersToNextTimer();
         });
 
-        expect(screen.getByTestId('loading')).toBeTruthy();
+        expect(screen.getByTestId('loading')).toBeInTheDocument();
         jest.restoreAllMocks();
     });
 
@@ -69,7 +69,7 @@ describe('src/app/App', () => {
             await jest.advanceTimersToNextTimer();
         });
 
-        expect(screen.getByTestId('content')).toBeTruthy();
+        expect(screen.getByTestId('content')).toBeInTheDocument();
     });
 
     it('Shows error when RBAC does not have read access', async () => {
@@ -90,7 +90,7 @@ describe('src/app/App', () => {
             await jest.advanceTimersToNextTimer();
         });
 
-        expect(screen.getByText(/You do not have access to Policies/i)).toBeTruthy();
+        expect(screen.getByText(/You do not have access to Policies/i)).toBeInTheDocument();
     });
 
     it('Will call chrome.hideGlobalFilter when defined', async () => {

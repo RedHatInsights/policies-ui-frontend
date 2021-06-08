@@ -27,8 +27,6 @@ import { useToolbarActions } from './hooks/useToolbarActions';
 import { policyTableError } from './PolicyTableError';
 import { useGetListPagePolicies } from './useGetListPagePolicies';
 
-type ListPageProps = {};
-
 type PolicyWizardStateBase = {
     template: NewPolicy | undefined;
     showCreateStep: boolean;
@@ -57,7 +55,7 @@ const getPoliciesFromPayload = (payload: ReturnType<typeof useGetListPagePolicie
     return undefined;
 };
 
-const ListPage: React.FunctionComponent<ListPageProps> = (_props) => {
+const ListPage: React.FunctionComponent<unknown> = () => {
 
     const [ policyWizardState, setPolicyWizardState ] = React.useState<PolicyWizardState>({
         isOpen: false

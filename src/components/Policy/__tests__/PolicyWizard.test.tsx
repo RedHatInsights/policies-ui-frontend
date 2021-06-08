@@ -39,7 +39,7 @@ describe('src/components/Policy/PolicyWizard', () => {
         });
 
         const title = screen.getByRole('heading', { name: /Create a policy/i });
-        expect(title).toBeTruthy();
+        expect(title).toBeInTheDocument();
         expect(title.id.startsWith('pf-wizard-title-')).toBeTruthy();
     });
 
@@ -63,7 +63,7 @@ describe('src/components/Policy/PolicyWizard', () => {
         });
 
         const title = screen.getByRole('heading', { name: /Edit a policy/i });
-        expect(title).toBeTruthy();
+        expect(title).toBeInTheDocument();
         expect(title.id.startsWith('pf-wizard-title-')).toBeTruthy();
     });
 
@@ -90,7 +90,7 @@ describe('src/components/Policy/PolicyWizard', () => {
             selector: 'h4'
         });
 
-        expect(title).toBeTruthy();
+        expect(title).toBeInTheDocument();
         expect(title.className.includes('pf-c-title')).toBeTruthy();
     });
 
@@ -117,13 +117,13 @@ describe('src/components/Policy/PolicyWizard', () => {
             selector: 'h4'
         });
 
-        expect(createPolicyTitle).toBeFalsy();
+        expect(createPolicyTitle).not.toBeInTheDocument();
 
         const policyDetailsTitle = screen.getByText('Policy Details', {
             selector: 'h4'
         });
 
-        expect(policyDetailsTitle).toBeTruthy();
+        expect(policyDetailsTitle).toBeInTheDocument();
         expect(policyDetailsTitle.className.includes('pf-c-title')).toBeTruthy();
 
     });
@@ -171,7 +171,7 @@ describe('src/components/Policy/PolicyWizard', () => {
             });
 
             await act(async () => {
-                await userEvent.type(document.getElementById('name') as HTMLInputElement, 'foo');
+                await userEvent.type(screen.getByLabelText(/name/i), 'foo');
             });
 
             expect(screen.getByText(/next/i)).toBeEnabled();
@@ -200,7 +200,7 @@ describe('src/components/Policy/PolicyWizard', () => {
             expect(onValidateName).toBeCalledTimes(0);
 
             await act(async () => {
-                await userEvent.type(document.getElementById('name') as HTMLInputElement, 'foo');
+                await userEvent.type(screen.getByLabelText(/name/i), 'foo');
             });
 
             await act(async () => {
@@ -233,7 +233,7 @@ describe('src/components/Policy/PolicyWizard', () => {
             expect(onValidateName).toBeCalledTimes(0);
 
             await act(async () => {
-                await userEvent.type(document.getElementById('name') as HTMLInputElement, 'foo');
+                await userEvent.type(screen.getByLabelText(/name/i), 'foo');
             });
 
             await act(async () => {
@@ -243,7 +243,7 @@ describe('src/components/Policy/PolicyWizard', () => {
             const policyDetailsTitle = screen.queryByText('Policy Details', {
                 selector: 'h4'
             });
-            expect(policyDetailsTitle).toBeFalsy();
+            expect(policyDetailsTitle).not.toBeInTheDocument();
             expect(onValidateName).toBeCalledTimes(1);
         });
 
@@ -270,7 +270,7 @@ describe('src/components/Policy/PolicyWizard', () => {
             expect(onValidateName).toBeCalledTimes(0);
 
             await act(async () => {
-                await userEvent.type(document.getElementById('name') as HTMLInputElement, 'foo');
+                await userEvent.type(screen.getByLabelText(/name/i), 'foo');
             });
 
             await act(async () => {
@@ -280,7 +280,7 @@ describe('src/components/Policy/PolicyWizard', () => {
             const policyDetailsTitle = screen.queryByText('Policy Details', {
                 selector: 'h4'
             });
-            expect(policyDetailsTitle).toBeTruthy();
+            expect(policyDetailsTitle).toBeInTheDocument();
             expect(onValidateName).toBeCalledTimes(1);
         });
     });

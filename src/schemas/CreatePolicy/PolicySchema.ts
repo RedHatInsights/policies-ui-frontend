@@ -1,13 +1,12 @@
 import { assertNever } from 'assert-never';
 import * as Yup from 'yup';
-import { ValidationError } from 'yup';
 
 import { Action, ActionType } from '../../types/Policy/Actions';
 import { isAction } from '../../types/Policy/Actions/Action';
 import { maxPolicyNameLength } from '../../types/Policy/Policy';
 import { ActionNotificationSchema, ActionSchema } from './Actions';
 
-const ActionSchemaSelector = (action: Action | any): Yup.Schema<any> => {
+const ActionSchemaSelector = (action: Action | any | undefined): typeof ActionSchema | typeof ActionNotificationSchema => {
     if (action?.type && isAction(action)) {
         const type = action.type;
         switch (type) {
@@ -21,42 +20,6 @@ const ActionSchemaSelector = (action: Action | any): Yup.Schema<any> => {
     return ActionSchema;
 };
 
-const oneActionOf =
-    (type: ActionType, typeDescription: string, value: string):
-        [string, string, (actions: Action[] | undefined) => ValidationError | true] => {
-        const message = `Only one ${typeDescription} action is allowed`;
-        return [
-            `one-${value}`,
-            message,
-            (actions: (Action | undefined)[] | undefined) => {
-                const indexes = actions && actions.reduce<number[]>((indexes, action, index) => {
-                    if (action?.type === type) {
-                        return indexes.concat([ index ]);
-                    }
-
-                    return indexes;
-                }, []);
-                if (!indexes || indexes.length <= 1) {
-                    return true;
-                }
-
-                const validationError = new ValidationError(
-                    '',
-                    '',
-                    'actions',
-                    ''
-                );
-
-                validationError.inner = indexes.map(index => new ValidationError(
-                    message,
-                    value,
-                    `actions.${index}.type`
-                ));
-                return validationError;
-            }
-        ];
-    };
-
 export const PolicyFormDetails = Yup.object().shape({
     description: Yup.string().notRequired().trim(),
     isEnabled: Yup.boolean().notRequired(),
@@ -65,7 +28,6 @@ export const PolicyFormDetails = Yup.object().shape({
 
 export const PolicyFormActions = Yup.object().shape({
     actions: Yup.array(Yup.lazy(ActionSchemaSelector))
-    .test(...oneActionOf(ActionType.NOTIFICATION, 'Hook', 'notification'))
 });
 
 export const PolicyFormConditions = Yup.object().shape({

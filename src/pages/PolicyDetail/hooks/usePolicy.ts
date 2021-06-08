@@ -2,7 +2,6 @@ import * as React from 'react';
 import { useEffect } from 'react';
 // This seems to be stable enough:
 // https://github.com/facebook/react/issues/14259#issuecomment-505918440
-// eslint-disable-next-line @typescript-eslint/camelcase
 import { unstable_batchedUpdates } from 'react-dom';
 import { useHistory, useParams } from 'react-router';
 import { usePrevious } from 'react-use';

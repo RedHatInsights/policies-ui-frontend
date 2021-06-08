@@ -1,5 +1,4 @@
 import { ExclamationCircleIcon } from '@patternfly/react-icons';
-// eslint-disable-next-line @typescript-eslint/camelcase
 import { global_danger_color_100 } from '@patternfly/react-tokens';
 import * as React from 'react';
 

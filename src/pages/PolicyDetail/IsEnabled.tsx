@@ -1,5 +1,4 @@
 import { Skeleton, Stack, StackItem } from '@patternfly/react-core';
-// eslint-disable-next-line @typescript-eslint/camelcase
 import { global_spacer_md } from '@patternfly/react-tokens';
 import * as React from 'react';
 import { style } from 'typestyle';

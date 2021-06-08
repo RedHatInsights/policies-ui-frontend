@@ -9,6 +9,7 @@ import { ErrorPage } from '../Page';
 jest.mock('@redhat-cloud-services/frontend-components', () => {
 
     const Children: React.FunctionComponent = (props) => {
+        // eslint-disable-next-line testing-library/no-node-access
         return <span>{ props.children }</span>;
     };
 

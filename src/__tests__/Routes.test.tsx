@@ -25,6 +25,7 @@ const getWrapper = (path: string) => {
                         return null;
                     } }
                 />
+                {/* eslint-disable-next-line testing-library/no-node-access */}
                 <div id="root">{ props.children }</div>
             </MemoryRouter>
         );

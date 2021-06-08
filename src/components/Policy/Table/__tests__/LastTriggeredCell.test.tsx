@@ -1,4 +1,4 @@
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import * as React from 'react';
 
 import { LastTriggeredCell } from '../LastTriggeredCell';
@@ -12,22 +12,22 @@ describe('src/components/Policy/Table/LastTriggeredCell', () => {
     });
 
     it('renders does not fail when isEnabled is false', () => {
-        const element = render(<LastTriggeredCell isEnabled={ false } lastTriggered={ undefined } />);
-        expect(element).toBeTruthy();
+        const view = render(<LastTriggeredCell isEnabled={ false } lastTriggered={ undefined } />);
+        expect(view).toBeTruthy();
     });
 
     it('lastTriggered is set to never when undefined', () => {
-        const element = render(<LastTriggeredCell isEnabled={ true } lastTriggered={ undefined } />);
-        expect(element.getByText('Never')).toBeTruthy();
+        render(<LastTriggeredCell isEnabled={ true } lastTriggered={ undefined } />);
+        expect(screen.getByText('Never')).toBeInTheDocument();
     });
 
     it('lastTriggered is set to relative when less than 1 month ago', () => {
-        const element = render(<LastTriggeredCell isEnabled={ true } lastTriggered={ new Date(2020, 0, 21) } />);
-        expect(element.getByText('20 days ago')).toBeTruthy();
+        render(<LastTriggeredCell isEnabled={ true } lastTriggered={ new Date(2020, 0, 21) } />);
+        expect(screen.getByText('20 days ago')).toBeInTheDocument();
     });
 
     it('lastTriggered is set to absolute when over 1 month ago', () => {
-        const element = render(<LastTriggeredCell isEnabled={ true } lastTriggered={ new Date(2019, 0, 21) } />);
-        expect(element.getByText('Jan 21 2019')).toBeTruthy();
+        render(<LastTriggeredCell isEnabled={ true } lastTriggered={ new Date(2019, 0, 21) } />);
+        expect(screen.getByText('Jan 21 2019')).toBeInTheDocument();
     });
 });

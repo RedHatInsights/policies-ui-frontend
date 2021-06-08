@@ -9,7 +9,7 @@ import { Policy } from '../../types/Policy';
 export type PartialPolicy = DeepPartial<Policy>;
 
 export type WizardStepExtended = WizardStep & {
-  validationSchema: Yup.Schema<unknown>;
+  validationSchema: Yup.AnyObjectSchema;
   isValid?: (context: WizardContext, values: DeepReadonly<PartialPolicy>) => boolean;
   onNext?: (context: WizardContext, goNext: () => void) => void;
 };

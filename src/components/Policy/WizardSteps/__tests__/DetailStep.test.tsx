@@ -1,12 +1,14 @@
-import { act, render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { Formik } from 'formik';
 import * as React from 'react';
 
+import { waitForAsyncEvents } from '../../../../../test/TestUtils';
 import { DetailsStep } from '../DetailsStep';
 
 const FormikMockContainer: React.FunctionComponent = (props) => (
     <Formik initialValues={ [] } onSubmit={ jest.fn() }>
+        {/* eslint-disable-next-line testing-library/no-node-access */}
         { props.children }
     </Formik>
 );
@@ -24,13 +26,11 @@ describe('src/components/Policy/WizardSteps/DetailStep', () => {
 
         expect(lotsOfCharacters.length).toBe(150);
 
-        const input = document.getElementById('name') as HTMLInputElement;
+        const input = screen.getByLabelText(/name/i);
+        userEvent.type(input, lotsOfCharacters);
+        await waitForAsyncEvents();
 
-        await act(async () => {
-            await userEvent.type(input, lotsOfCharacters);
-        });
-
-        expect(input.value).toBe(lotsOfCharacters);
+        expect(input).toHaveValue(lotsOfCharacters);
     });
 
     it('Name allows below 150 characters', async () => {
@@ -44,13 +44,11 @@ describe('src/components/Policy/WizardSteps/DetailStep', () => {
 
         expect(lessCharacters.length).toBeLessThan(150);
 
-        const input = document.getElementById('name') as HTMLInputElement;
+        const input = screen.getByLabelText(/name/i);
+        userEvent.type(input, lessCharacters);
+        await waitForAsyncEvents();
 
-        await act(async () => {
-            await userEvent.type(input, lessCharacters);
-        });
-
-        expect(input.value).toBe(lessCharacters);
+        expect(input).toHaveValue(lessCharacters);
     });
 
     it('Name prevents above 150 characters', async () => {
@@ -65,13 +63,11 @@ describe('src/components/Policy/WizardSteps/DetailStep', () => {
 
         expect(aLotMoreOfCharacters.length).toBeGreaterThan(150);
 
-        const input = document.getElementById('name') as HTMLInputElement;
+        const input = screen.getByLabelText(/name/i);
+        userEvent.type(input, aLotMoreOfCharacters);
+        await waitForAsyncEvents();
 
-        await act(async () => {
-            await userEvent.type(input, aLotMoreOfCharacters);
-        });
-
-        expect(input.value.length).toBe(150);
-        expect(input.value).toBe(aLotMoreOfCharacters.slice(0, 150));
+        expect(input).toHaveValue('Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula get dolor. ' +
+            'Aenean massa. Cum sociis natoque penatibus et magnis dis pa');
     });
 });

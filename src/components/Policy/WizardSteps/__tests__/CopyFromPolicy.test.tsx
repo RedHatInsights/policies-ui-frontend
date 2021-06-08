@@ -55,8 +55,8 @@ describe('src/components/Policy/WizardSteps/CopyFromPolicy', () => {
                 data: [] as Array<Policy>,
                 count: 0
             },
-            type: 'PagedResponseOfPolicy' as 'PagedResponseOfPolicy',
-            status: 200 as 200,
+            type: 'PagedResponseOfPolicy' as const,
+            status: 200 as const,
             errors: []
         };
         const { result } = renderHook(() => {

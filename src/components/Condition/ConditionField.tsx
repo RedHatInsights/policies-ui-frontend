@@ -15,7 +15,7 @@ const selectOptionClassName = style({
     textOverflow: 'ellipsis'
 });
 
-export const factToOptions = (prefix: string, options: string[], postfix: string): JSX.Element[] => {
+export const factToOptions = (prefix: string, options: string[], postfix: string): Array<React.ReactElement> => {
     prefix = prefix.trim();
     if (prefix.length > 0 && options.length > 0) {
         prefix += ' ';
@@ -61,7 +61,7 @@ export const ConditionField: React.FunctionComponent<ConditionFieldProps> = (pro
 
     const { facts, onSelect, value } = props;
     const [ isOpen, setOpen ] = React.useState<boolean>(false);
-    const [ options, setOptions ] = React.useState<JSX.Element[] | undefined>();
+    const [ options, setOptions ] = React.useState<Array<React.ReactElement> | undefined>();
 
     const buildOptionsWithCondition = React.useCallback((condition: string) => {
         return buildOptionList(condition, facts);
@@ -72,7 +72,7 @@ export const ConditionField: React.FunctionComponent<ConditionFieldProps> = (pro
 
         if (tryToOpen) {
             let isOpen = options.length > 0;
-            if (options.length === 1 && options[0].props.value === value) {
+            if (options.length === 1 && options[0]?.props?.value === value) {
                 isOpen = false;
             }
 

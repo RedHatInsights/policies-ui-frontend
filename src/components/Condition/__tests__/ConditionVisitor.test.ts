@@ -457,7 +457,7 @@ describe('src/components/Condition/ConditionVisitor', () => {
         ]);
     });
 
-    it('Detect fact inside a round bracket (and closes the bracket) ', () => {
+    it('Detect fact inside a round bracket (and closes the bracket)', () => {
         const conditionVisitor = new ConditionVisitor();
         const condition =  '( facts = 1 and myfac';
         const tree = treeForCondition(condition);

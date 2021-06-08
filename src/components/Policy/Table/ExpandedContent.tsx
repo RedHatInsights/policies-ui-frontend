@@ -1,5 +1,4 @@
 import { Grid, GridItem, Stack, StackItem } from '@patternfly/react-core';
-// eslint-disable-next-line @typescript-eslint/camelcase
 import { global_BackgroundColor_light_300 } from '@patternfly/react-tokens';
 import { OuiaComponentProps, ouiaIdConcat } from '@redhat-cloud-services/insights-common-typescript';
 import { padding } from 'csstips';
