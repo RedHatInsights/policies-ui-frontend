@@ -57,8 +57,9 @@ const MutableMessages = {
                 backText: 'Back to previous page'
             },
             triggerEmptyState: {
-                title: 'No triggers found',
-                text: 'This policy does not have any recent triggers'
+                title: 'No recent triggers',
+                text: 'This policy has not been triggered in the last 14 days.',
+                sub: 'Trigger history is held for 14 days. If this policy was triggered before this time, it cannot be shown.'
             },
             errorState: {
                 title: 'Error when loading policy',

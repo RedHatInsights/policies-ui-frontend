@@ -4,8 +4,8 @@ import * as React from 'react';
 import { PolicyDetailTriggerEmptyState } from '../TriggerEmptyState';
 
 describe('src/pages/PolicyDetail/TriggerEmptyState', () => {
-    it('renders with No triggers found', () => {
+    it('renders with No recent triggers', () => {
         render(<PolicyDetailTriggerEmptyState />);
-        expect(screen.getByText(/No triggers found/i)).toBeVisible();
+        expect(screen.getByText(/No recent triggers/i)).toBeVisible();
     });
 });
