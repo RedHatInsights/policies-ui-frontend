@@ -28,6 +28,6 @@ describe('src/components/Policy/Table/LastTriggeredCell', () => {
 
     it('lastTriggered is set to absolute when over 1 month ago', () => {
         render(<LastTriggeredCell isEnabled={ true } lastTriggered={ new Date(2019, 0, 21) } />);
-        expect(screen.getByText('Jan 21 2019')).toBeInTheDocument();
+        expect(screen.getByText('21 Jan 2019')).toBeInTheDocument();
     });
 });

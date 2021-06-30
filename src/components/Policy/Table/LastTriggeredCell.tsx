@@ -22,7 +22,7 @@ export const LastTriggeredCell: React.FunctionComponent<LastTriggeredCellProps> 
         const oneMonthAfterLastTriggered = add(props.lastTriggered, { months: 1 });
         const now = new Date(Date.now());
         if (isAfter(now, oneMonthAfterLastTriggered)) {
-            lastTriggeredString = format(props.lastTriggered, 'MMM dd y');
+            lastTriggeredString = format(props.lastTriggered, 'dd MMM yyyy');
         } else {
             lastTriggeredString = `${formatDistanceToNow(props.lastTriggered)} ${Messages.components.lastTriggeredCell.ago}`;
         }
