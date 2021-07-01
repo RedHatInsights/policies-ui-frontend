@@ -6,6 +6,7 @@ import {
     Page,
     usePrimaryToolbarFilterConfig } from '@redhat-cloud-services/insights-common-typescript';
 import * as React from 'react';
+import { style } from 'typestyle';
 
 import { getOuiaProps } from '../../utils/getOuiaProps';
 import { ClearTriggerFilters, SetTriggerFilters, TriggerFilterColumn, TriggerFilters } from './Filters';
@@ -25,6 +26,9 @@ export interface TriggerTableToolbarProps extends OuiaComponentProps {
     setFilters: SetTriggerFilters;
     clearFilters: ClearTriggerFilters;
 }
+const recentTriggerClassName = style({
+    padding: 0
+}); 
 
 const filterMetadata: ColumnsMetada<typeof TriggerFilterColumn> = {
     [TriggerFilterColumn.NAME]: {
@@ -88,7 +92,7 @@ export const TriggerTableToolbar: React.FunctionComponent<TriggerTableToolbarPro
 
     return (
         <div { ...getOuiaProps('Trigger/TableDualToolbar', props) }>
-            <PrimaryToolbar
+            <PrimaryToolbar className={ recentTriggerClassName }
                 pagination={ topPaginationProps }
                 exportConfig={ exportConfig }
                 filterConfig={ primaryToolbarFilterConfig.filterConfig }
