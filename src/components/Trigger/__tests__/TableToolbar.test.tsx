@@ -123,7 +123,7 @@ describe('src/components/Trigger/TableToolbar', () => {
                     filterValues: {
                         id: 'filter-name',
                         value: 'foo-bar',
-                        placeholder: 'Filter by System',
+                        placeholder: 'Filter by system name',
                         onChange: onChangeMockFn
                     }
                 }

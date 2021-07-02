@@ -1,8 +1,8 @@
+import { Section } from '@redhat-cloud-services/frontend-components';
 import {
     Direction,
     ExporterType,
-    exporterTypeFromString,
-    Section, Sort,     useSort,
+    exporterTypeFromString, Sort, useSort,
     UseSortReturn } from '@redhat-cloud-services/insights-common-typescript';
 import { format } from 'date-fns';
 import inBrowserDownload from 'in-browser-download';

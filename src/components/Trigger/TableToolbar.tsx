@@ -29,7 +29,7 @@ export interface TriggerTableToolbarProps extends OuiaComponentProps {
 const filterMetadata: ColumnsMetada<typeof TriggerFilterColumn> = {
     [TriggerFilterColumn.NAME]: {
         label: 'System',
-        placeholder: 'Filter by System'
+        placeholder: 'Filter by system name'
     }
 };
 
