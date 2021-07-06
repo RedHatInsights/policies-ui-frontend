@@ -107,7 +107,7 @@ const MutableMessages = {
                 noDescription: '--',
                 notFound: {
                     title: 'No matching policies found',
-                    content: 'No policies matching the selected filter and search terms.'
+                    content: 'No policies match the selected filter and search terms.'
                 }
             },
             actions: {
@@ -123,7 +123,7 @@ const MutableMessages = {
             emptyState: {
                 notFound: {
                     title: 'No matching triggers found',
-                    content: 'No triggers matching the search terms.'
+                    content: 'No triggers match the selected search terms.'
                 }
             }
         }
