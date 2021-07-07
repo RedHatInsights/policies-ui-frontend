@@ -1,4 +1,4 @@
-import { Button, EmptyState as EmptyStatePf, EmptyStateBody, EmptyStateVariant, Title } from '@patternfly/react-core';
+import { Button, EmptyState as EmptyStatePf, EmptyStateBody, EmptyStateIcon, EmptyStateVariant, Title } from '@patternfly/react-core';
 import { global_spacer_3xl } from '@patternfly/react-tokens';
 import { OuiaComponentProps } from '@redhat-cloud-services/insights-common-typescript';
 import { calc } from 'csx';
@@ -12,6 +12,8 @@ const emptyStateClassName = style({
 });
 
 export interface EmptyStateSectionProps extends OuiaComponentProps {
+    icon?: React.ComponentType<any>;
+    iconColor?: string;
     title: string;
     content: React.ReactNode;
     action?: () => void;
