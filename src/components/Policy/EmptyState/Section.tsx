@@ -1,4 +1,4 @@
-import { Button, EmptyState as EmptyStatePf, EmptyStateBody, EmptyStateVariant, Title } from '@patternfly/react-core';
+import { Button, EmptyState as EmptyStatePf, EmptyStateBody, EmptyStateIcon, EmptyStateVariant, Title } from '@patternfly/react-core';
 import { global_spacer_3xl } from '@patternfly/react-tokens';
 import { OuiaComponentProps } from '@redhat-cloud-services/insights-common-typescript';
 import { calc } from 'csx';
@@ -28,6 +28,7 @@ export const EmptyStateSection: React.FunctionComponent<EmptyStateSectionProps> 
         className={ `${emptyStateClassName} ${props.className ? props.className : ''} ` }
         { ...getOuiaProps('Policy/EmptyState', props) }
     >
+        { props.icon && <EmptyStateIcon icon={ props.icon } color={ props.iconColor } /> }
         <Title headingLevel="h5" size="lg">
             { props.title }
         </Title>
