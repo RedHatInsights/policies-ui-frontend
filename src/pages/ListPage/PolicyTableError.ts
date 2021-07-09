@@ -1,4 +1,4 @@
-import { ExclamationCircleIcon, PlusCircleIcon } from '@patternfly/react-icons';
+import { ExclamationCircleIcon } from '@patternfly/react-icons';
 import { global_danger_color_200 } from '@patternfly/react-tokens';
 
 import { EmptyStateSectionProps } from '../../components/Policy/EmptyState/Section';
@@ -18,7 +18,6 @@ export const policyTableError = (
         switch (httpCode) {
             case 404:
                 return {
-                    icon: PlusCircleIcon,
                     title: Messages.tables.policy.emptyState.notFound.title,
                     content: Messages.tables.policy.emptyState.notFound.content
                 };
