@@ -1,5 +1,5 @@
-import { join } from '@redhat-cloud-services/insights-common-typescript';
 import { CubesIcon } from '@patternfly/react-icons';
+import { join } from '@redhat-cloud-services/insights-common-typescript';
 import * as React from 'react';
 
 import { EmptyStateSection } from '../../components/Policy/EmptyState/Section';
