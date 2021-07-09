@@ -60,7 +60,7 @@ const filterMetadata: ColumnsMetada<typeof PolicyFilterColumn> = {
     },
     [PolicyFilterColumn.IS_ACTIVE]: {
         label: 'Enabled',
-        placeholder: 'Filter by Enable status',
+        placeholder: 'Filter by enabled status',
         options: {
             default: 'all',
             exclude: [ 'all' ],
