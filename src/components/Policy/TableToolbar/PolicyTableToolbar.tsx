@@ -228,7 +228,7 @@ export const PolicyToolbar: React.FunctionComponent<TablePolicyToolbarProps> = (
                 extraItems: [],
                 onSelect: onExport
             };
-        }
+         }
 
         return undefined;
     }, [ onExport ]);

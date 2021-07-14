@@ -1818,10 +1818,10 @@
     commander ">=2.20.0"
     react-content-loader ">=3.4.1"
 
-"@redhat-cloud-services/frontend-components-utilities@3.2.2":
-  version "3.2.2"
-  resolved "https://registry.yarnpkg.com/@redhat-cloud-services/frontend-components-utilities/-/frontend-components-utilities-3.2.2.tgz#b84e107a603b18473bbd8600a98eb003b2f8be55"
-  integrity sha512-HCiXpAuXCmxFc3+Lf/QS0niemGa/4Z6BbbghixA9y3NZytt9ggHVeYyVJNIfHa6aEkQn7OiHL7RaISfmhmirKw==
+"@redhat-cloud-services/frontend-components-utilities@3.2.3":
+  version "3.2.3"
+  resolved "https://registry.yarnpkg.com/@redhat-cloud-services/frontend-components-utilities/-/frontend-components-utilities-3.2.3.tgz#786cd0f980d5afd1b40f0844f3c676a8aa50e94c"
+  integrity sha512-ek5zlIB2TetmQB7GZX3OHOUmOSPerDwazf8JcPpQgcOkQhkG8AaMFxakq4Sf6g7XbmPPJ4lYTLs0QASTFAwXSw==
   dependencies:
     "@sentry/browser" "^5.4.0"
     awesome-debounce-promise "^2.1.0"
