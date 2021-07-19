@@ -64,10 +64,6 @@ const filterMetadata: ColumnsMetada<typeof PolicyFilterColumn> = {
             exclusive: false,
             items: [
                 {
-                    value: 'all',
-                    label: <>All</>
-                },
-                {
                     value: 'Enabled',
                     label: <><span className={ enabledTextClassName }>Enabled</span></>
                 },
