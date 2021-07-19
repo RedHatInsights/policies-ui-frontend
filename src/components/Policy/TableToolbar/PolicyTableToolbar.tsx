@@ -14,7 +14,6 @@ import {
     SetPolicyFilters
 } from '../../../types/Policy/Filters';
 import { getOuiaProps } from '../../../utils/getOuiaProps';
-import { DisabledPolicyIcon, EnabledPolicyIcon } from '../../Icons';
 
 type OnPaginationPageChangedHandler = (
     event: React.SyntheticEvent<HTMLButtonElement> | React.MouseEvent | React.KeyboardEvent | MouseEvent, page: number) => void;
@@ -62,9 +61,9 @@ const filterMetadata: ColumnsMetada<typeof PolicyFilterColumn> = {
         label: 'Enabled',
         placeholder: 'Filter by enabled status',
         options: {
-            default: 'all',
-            exclude: [ 'all' ],
-            exclusive: true,
+            // default: 'all',
+            // exclude: [ 'all' ],
+            exclusive: false,
             items: [
                 {
                     value: 'all',
@@ -72,11 +71,11 @@ const filterMetadata: ColumnsMetada<typeof PolicyFilterColumn> = {
                 },
                 {
                     value: 'Enabled',
-                    label: <><EnabledPolicyIcon /> <span className={ enabledTextClassName }>Enabled</span></>
+                    label: <><span className={ enabledTextClassName }>Enabled</span></>
                 },
                 {
                     value: 'Disabled',
-                    label: <><DisabledPolicyIcon /> <span className={ enabledTextClassName }>Disabled</span></>
+                    label: <><span className={ enabledTextClassName }>Disabled</span></>
                 }
             ]
         }
