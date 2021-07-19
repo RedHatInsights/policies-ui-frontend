@@ -46,7 +46,7 @@ export const CreatePolicyWizard: React.FunctionComponent<CreatePolicyWizardProps
         return saveMutation.mutate(policy).then((res) => {
             if (res.payload?.type === 'Policy') {
                 if (policy.id === undefined) {
-                    addSuccessNotification('Created', `Policy "${policy.name}" created`);
+                    addSuccessNotification('Created', `Created policy "${policy.name}" | From the Policies list, open ${policy.name}`);
                 } else {
                     addSuccessNotification('Saved', `Policy "${policy.name}" has been updated`);
                 }
