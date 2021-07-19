@@ -61,8 +61,6 @@ const filterMetadata: ColumnsMetada<typeof PolicyFilterColumn> = {
         label: 'Enabled',
         placeholder: 'Filter by enabled status',
         options: {
-            // default: 'all',
-            // exclude: [ 'all' ],
             exclusive: false,
             items: [
                 {
@@ -227,7 +225,7 @@ export const PolicyToolbar: React.FunctionComponent<TablePolicyToolbarProps> = (
                 extraItems: [],
                 onSelect: onExport
             };
-         }
+        }
 
         return undefined;
     }, [ onExport ]);
