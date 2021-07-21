@@ -254,7 +254,7 @@ describe('src/pages/ListPage/CreatePolicyWizard', () => {
                 expect(result.created).toBe(true);
             });
 
-            expect(addSuccessNotification).toHaveBeenCalledWith('Created', 'Policy "my foo" created');
+            expect(addSuccessNotification).toHaveBeenCalledWith('Created policy "my foo"', 'From the Policies list, open "my foo"');
         });
 
         it('Adds a success notification when a policy is edited', async () => {

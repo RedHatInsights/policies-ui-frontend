@@ -1,6 +1,7 @@
+import { Link } from "react-router-dom";
 import { addSuccessNotification } from '@redhat-cloud-services/insights-common-typescript';
 import * as HttpStatus from 'http-status-codes';
-import * as React from 'react';
+import * as React from 'react';  
 
 import { PolicyWizard } from '../../components/Policy/PolicyWizard';
 import { CreatePolicyResponse, VerifyPolicyResponse } from '../../components/Policy/PolicyWizardTypes';
@@ -9,6 +10,8 @@ import { useSavePolicyMutation } from '../../services/useSavePolicy';
 import { useValidatePolicyNameParametrizedQuery } from '../../services/useValidatePolicyName';
 import { useVerifyPolicyMutation } from '../../services/useVerifyPolicy';
 import { NewPolicy, Policy } from '../../types/Policy/Policy';
+import { linkTo } from '../../Routes';
+
 
 type CreatePolicyWizardBase = {
     close: (policy: Policy | undefined) => void;
@@ -46,7 +49,7 @@ export const CreatePolicyWizard: React.FunctionComponent<CreatePolicyWizardProps
         return saveMutation.mutate(policy).then((res) => {
             if (res.payload?.type === 'Policy') {
                 if (policy.id === undefined) {
-                    addSuccessNotification(`Created policy "${policy.name}"`, `From the Policies list, open ${policy.name}.`);
+                    addSuccessNotification(`Created policy "${policy.name}"`,<span> From the Policies list, open <Link to={ linkTo.policyDetail(policy.id as unknown as string) }>{ policy.name }</Link>.</span>);
                 } else {
                     addSuccessNotification('Saved', `Updated policy "${policy.name}"`);
                 }
