@@ -400,7 +400,7 @@ describe('src/utils/PolicyAdapter', () => {
     });
 
     it('fromServerActions does not fail with empty actions', () => {
-        const actions = fromServerActions('notification;;;;;;;;;;');
+        const actions = fromServerActions('notification;;    ;;;      ;;;;;');
         expect(actions.length).toEqual(1);
     });
 

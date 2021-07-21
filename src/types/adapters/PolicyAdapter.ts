@@ -39,7 +39,7 @@ export const fromServerActions = (actions?: string | null): Action[] => {
     }
 
     const policyAction: Action[] = [];
-    for (const action of actions.split(';')) {
+    for (const action of actions.split(';').map(a => a.trim())) {
         // Ignore empty actions
         if (action === '') {
             continue;
