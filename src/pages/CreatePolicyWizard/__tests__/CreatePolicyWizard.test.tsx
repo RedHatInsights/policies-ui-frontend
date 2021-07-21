@@ -254,7 +254,7 @@ describe('src/pages/ListPage/CreatePolicyWizard', () => {
                 expect(result.created).toBe(true);
             });
 
-            expect(addSuccessNotification).toHaveBeenCalledWith('Created policy "my foo"', 'From the Policies list, open "my foo"');
+            expect(addSuccessNotification).toHaveBeenCalledWith('Created policy "my foo"', '<span> From the Policies list, open <Link to="/policy/1234">my foo</Link>.</span>');
         });
 
         it('Adds a success notification when a policy is edited', async () => {
@@ -293,7 +293,7 @@ describe('src/pages/ListPage/CreatePolicyWizard', () => {
                 expect(result.created).toBe(true);
             });
 
-            expect(addSuccessNotification).toHaveBeenCalledWith('Saved', 'Policy "edited" has been updated');
+            expect(addSuccessNotification).toHaveBeenCalledWith('Updated policy "foo"');
         });
 
         it('Returns "This policy cannot be found..." when saving a policy that does not exist or has been deleted (returns 404)', async () => {
