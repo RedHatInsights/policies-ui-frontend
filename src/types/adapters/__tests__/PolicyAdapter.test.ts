@@ -399,6 +399,11 @@ describe('src/utils/PolicyAdapter', () => {
         expect(() => fromServerActions(actions)).toThrowError();
     });
 
+    it('fromServerActions does not fail with empty actions', () => {
+        const actions = fromServerActions('notification;;    ;;;      ;;;;;');
+        expect(actions.length).toEqual(1);
+    });
+
     it('fromServerActions parses the actions action', () => {
         const actions = 'notification;notification;notification';
         expect(fromServerActions(actions)).toEqual([

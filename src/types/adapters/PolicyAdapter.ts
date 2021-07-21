@@ -39,7 +39,12 @@ export const fromServerActions = (actions?: string | null): Action[] => {
     }
 
     const policyAction: Action[] = [];
-    for (const action of actions.split(';')) {
+    for (const action of actions.split(';').map(a => a.trim())) {
+        // Ignore empty actions
+        if (action === '') {
+            continue;
+        }
+
         const [ actionType ] = action.split(' ', 2);
         // Just in case the server still has the webhook or email, we will just skip it.
         if (actionType === 'webhook' || actionType === 'email') {
