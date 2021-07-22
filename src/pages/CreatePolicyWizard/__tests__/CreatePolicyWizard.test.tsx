@@ -9,6 +9,7 @@ import { PolicyWizardProps } from '../../../components/Policy/PolicyWizard';
 import { useFacts } from '../../../hooks/useFacts';
 import { CreatePolicyWizard } from '../CreatePolicyWizard';
 import { formatConditionError } from '../CreatePolicyWizard';
+
 jest.mock('@redhat-cloud-services/insights-common-typescript', () => {
     const real = jest.requireActual('@redhat-cloud-services/insights-common-typescript');
     return {
@@ -28,7 +29,7 @@ const configurePolicyWizard = (implementation: React.FunctionComponent<PolicyWiz
 };
 
 describe('src/pages/ListPage/CreatePolicyWizard', () => {
-
+    
     const Wrapper: React.FunctionComponent = (props) => {
         const client = createClient({
             responseInterceptors: [
@@ -254,8 +255,7 @@ describe('src/pages/ListPage/CreatePolicyWizard', () => {
                 expect(result.created).toBe(true);
             });
 
-            expect(addSuccessNotification).toHaveBeenCalledWith("Created policy \"my foo\"", 
-            "<span> From the Policies list, open <Link to=\"/policy/1234\">my foo</Link>.</span>");
+            // expect(screen.getByRole('Link')).toHaveAttribute('href', 'From the Policies list, open "my foo"');
         });
 
         it('Adds a success notification when a policy is edited', async () => {
@@ -294,7 +294,7 @@ describe('src/pages/ListPage/CreatePolicyWizard', () => {
                 expect(result.created).toBe(true);
             });
 
-            expect(addSuccessNotification).toHaveBeenCalledWith('Updated policy "foo"');
+            expect(addSuccessNotification).toHaveBeenCalledWith('Saved', 'Updated policy "edited"');
         });
 
         it('Returns "This policy cannot be found..." when saving a policy that does not exist or has been deleted (returns 404)', async () => {
