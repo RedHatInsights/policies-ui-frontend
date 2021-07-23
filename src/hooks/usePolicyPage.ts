@@ -1,4 +1,4 @@
-import { Filter, Operator, Page, Sort, stringValue } from '@redhat-cloud-services/insights-common-typescript';
+import { arrayValue, Filter, Operator, Page, Sort, stringValue } from '@redhat-cloud-services/insights-common-typescript';
 import * as React from 'react';
 
 import { PolicyFilterColumn, PolicyFilters } from '../types/Policy/Filters';
@@ -23,17 +23,17 @@ export const usePolicyPage = (filters: PolicyFilters, defaultPerPage: number, so
         const filter = new Filter();
 
         const name = stringValue(filters[PolicyFilterColumn.NAME]).trim();
-        const isActive = stringValue(filters[PolicyFilterColumn.IS_ACTIVE]).trim();
+        const isActive = arrayValue(filters[PolicyFilterColumn.IS_ACTIVE]);
 
         if (name !== '') {
             filter.and(PolicyFilterColumn.NAME, Operator.ILIKE, `%${name}%`);
         }
 
-        if (isActive !== '') {
+        if (isActive.length === 1) {
             filter.and(
                 PolicyFilterColumn.IS_ACTIVE,
                 Operator.BOOLEAN_IS,
-                isActive === 'Enabled' ? 'true' : 'false');
+                isActive.includes('Enabled') ? 'true' : 'false');
         }
 
         return Page.of(currentPage, itemsPerPage, filter, sort);
