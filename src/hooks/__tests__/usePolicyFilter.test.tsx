@@ -2,7 +2,7 @@ import { act, renderHook } from '@testing-library/react-hooks';
 import { MemoryRouter, useLocation } from 'react-router-dom';
 
 import { PolicyFilterColumn } from '../../types/Policy/Filters';
-import { usePolicyFilter } from '../usePolicyFilter';
+import { usePolicyFilter, useStateFactory } from '../usePolicyFilter';
 
 describe('src/hooks/usePolicyFilter', () => {
     it('Waits ms before updating the debouncedFilters', () => {
@@ -66,10 +66,10 @@ describe('src/hooks/usePolicyFilter', () => {
         );
 
         act(() => {
-            result.current.usePolicyFilter.setFilters[PolicyFilterColumn.IS_ACTIVE]('enabled');
+            result.current.usePolicyFilter.setFilters[PolicyFilterColumn.IS_ACTIVE](useStateFactory);
         });
 
-        expect(result.current.usePolicyFilter.filters[PolicyFilterColumn.IS_ACTIVE]).toEqual('enabled');
+        expect(result.current.usePolicyFilter.filters[PolicyFilterColumn.IS_ACTIVE]).toContain(useStateFactory);
         expect(result.current.useLocation.search).toBe('?');
 
         act(() => {
