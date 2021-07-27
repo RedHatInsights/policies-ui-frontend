@@ -90,10 +90,12 @@ export const ConditionField: React.FunctionComponent<ConditionFieldProps> = (pro
         processUpdate(false);
     });
 
-    const onFilter = React.useCallback((event: ChangeEvent<HTMLInputElement>) => {
-        const localSelection = event.target.value;
-        onSelect(localSelection);
-        return [];
+    const onFilter = React.useCallback((event: ChangeEvent<HTMLInputElement>, value: string) => {
+        if (event) {
+            onSelect(value);
+        }
+
+        return undefined;
     }, [ onSelect ]);
 
     const onSelectCallback = React.useCallback((event, selected) => {
@@ -126,7 +128,7 @@ export const ConditionField: React.FunctionComponent<ConditionFieldProps> = (pro
             selections={ value }
             variant={ SelectVariant.typeahead }
             onSelect={ onSelectCallback }
-            onFilter={ onFilter }
+            onFilter={ onFilter as any } // Todo: Remove `as any` if https://github.com/patternfly/patternfly-react/pull/6073 gets released
             onClear={ onClear }
             typeAheadAriaLabel="Condition writer"
             style={ {

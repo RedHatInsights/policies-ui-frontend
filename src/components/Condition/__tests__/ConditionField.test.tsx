@@ -92,9 +92,7 @@ describe('src/components/Condition/ConditionVisitor', () => {
             />
         );
 
-        await act(async () => {
-            await userEvent.click(screen.getByLabelText('Options menu'));
-        });
+        userEvent.click(screen.getByLabelText(/Options menu/i));
 
         expect(screen.getByText('foo.fact')).toBeInTheDocument();
         expect(screen.queryByText('bar.fact')).not.toBeInTheDocument();
