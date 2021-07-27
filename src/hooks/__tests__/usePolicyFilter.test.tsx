@@ -66,10 +66,10 @@ describe('src/hooks/usePolicyFilter', () => {
         );
 
         act(() => {
-            result.current.usePolicyFilter.setFilters[PolicyFilterColumn.IS_ACTIVE](['enabled'])});
+            result.current.usePolicyFilter.setFilters[PolicyFilterColumn.IS_ACTIVE]([ 'enabled' ]);});
 
-            expect(result.current.usePolicyFilter.filters[PolicyFilterColumn.IS_ACTIVE]).toEqual(['enabled']);        
-            expect(result.current.useLocation.search).toBe('?');
+        expect(result.current.usePolicyFilter.filters[PolicyFilterColumn.IS_ACTIVE]).toEqual([ 'enabled' ]);
+        expect(result.current.useLocation.search).toBe('?');
 
         act(() => {
             jest.runAllTimers();
