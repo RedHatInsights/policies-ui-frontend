@@ -255,7 +255,8 @@ describe('src/pages/ListPage', () => {
         });
 
         const location: Location = window.location;
-        delete window.location;
+        const windowAsAny = window as any;
+        delete windowAsAny.location;
         window.location = {
             ...location,
             reload: jest.fn()

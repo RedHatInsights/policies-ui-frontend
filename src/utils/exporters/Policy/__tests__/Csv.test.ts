@@ -34,7 +34,7 @@ describe('src/utils/exporters/Policy/Csv', () => {
         ]);
 
         const reader = new FileReader();
-        return new Promise((done, fail) => {
+        return new Promise<void>((done, fail) => {
             reader.addEventListener('loadend', () => {
                 try {
                     const text = (reader.result as string).split('\r');
