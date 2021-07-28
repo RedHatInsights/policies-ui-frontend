@@ -6,21 +6,22 @@ import { AddTriggersDropdown } from '../AddTriggersDropdown';
 
 describe('src/components/Policy/AddTriggersDropdown', () => {
 
-    const mockInsightsIsStableAndIsProd = (isStable: boolean, isProd: boolean) => {
+    const mockInsights = (isFedramp: boolean, isStage: boolean) => {
         (global as any).insights = {
             chrome: {
-                isBeta: () => !isStable,
-                isProd
+                getEnvironment: () => isFedramp ? isStage ? 'govStage' : 'gov' : isStage ? 'stage' : 'prod',
+                isBeta: () => false
             }
         };
     };
 
     beforeEach(() => {
         (global as any).insights = undefined;
-        mockInsightsIsStableAndIsProd(true, true);
+        mockInsights(false, false);
     });
 
-    it('should show only notification in stable & prod', async () => {
+    it('should show only notification in prod', async () => {
+        mockInsights(false, false);
         render(<AddTriggersDropdown
             isTypeEnabled={ jest.fn(() => true) }
             onTypeSelected={ jest.fn() }
@@ -38,10 +39,11 @@ describe('src/components/Policy/AddTriggersDropdown', () => {
 
         expect(screen.queryByText(/Notification/i)).toBeInTheDocument();
         expect(screen.queryByText(/Email/i)).not.toBeInTheDocument();
+        expect(screen.queryByText(/No available trigger actions/i)).not.toBeInTheDocument();
     });
 
-    it('should show only notification in beta & prod', async () => {
-        mockInsightsIsStableAndIsProd(false, true);
+    it('should show only notification in stage', async () => {
+        mockInsights(false, true);
         render(<AddTriggersDropdown
             isTypeEnabled={ jest.fn(() => true) }
             onTypeSelected={ jest.fn() }
@@ -59,48 +61,29 @@ describe('src/components/Policy/AddTriggersDropdown', () => {
 
         expect(screen.queryByText(/Notification/i)).toBeInTheDocument();
         expect(screen.queryByText(/Email/i)).not.toBeInTheDocument();
+        expect(screen.queryByText(/No available trigger actions/i)).not.toBeInTheDocument();
     });
 
-    it('should show only notification in stable & non-prod', async () => {
-        mockInsightsIsStableAndIsProd(true, false);
+    it('should show nothing in fedramp prod', async () => {
+        mockInsights(true, false);
         render(<AddTriggersDropdown
             isTypeEnabled={ jest.fn(() => true) }
             onTypeSelected={ jest.fn() }
         />);
 
-        act(() => {
-            fireEvent(
-                screen.getByText('Add trigger actions'),
-                new MouseEvent('click', {
-                    bubbles: true,
-                    cancelable: true
-                })
-            );
-        });
-
-        expect(screen.queryByText(/Notification/i)).toBeInTheDocument();
-        expect(screen.queryByText(/Email/i)).not.toBeInTheDocument();
+        expect(screen.queryByText(/No available trigger actions/i)).toBeInTheDocument();
+        expect(screen.queryByText(/Add trigger actions/i)).not.toBeInTheDocument();
     });
 
-    it('should show notification in beta & non-prod', async () => {
-        mockInsightsIsStableAndIsProd(false, false);
+    it('should show nothing in fedramp stage', async () => {
+        mockInsights(true, true);
         render(<AddTriggersDropdown
             isTypeEnabled={ jest.fn(() => true) }
             onTypeSelected={ jest.fn() }
         />);
 
-        act(() => {
-            fireEvent(
-                screen.getByText('Add trigger actions'),
-                new MouseEvent('click', {
-                    bubbles: true,
-                    cancelable: true
-                })
-            );
-        });
-
-        expect(screen.queryByText(/Notification/i)).toBeInTheDocument();
-        expect(screen.queryByText(/Email/i)).not.toBeInTheDocument();
+        expect(screen.queryByText(/No available trigger actions/i)).toBeInTheDocument();
+        expect(screen.queryByText(/Add trigger actions/i)).not.toBeInTheDocument();
     });
 
     it('should disable type if isTypeEnabled returns false', () => {
