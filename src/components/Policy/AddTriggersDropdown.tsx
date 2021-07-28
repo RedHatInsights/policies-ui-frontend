@@ -1,7 +1,7 @@
-import { Button, ButtonVariant, Dropdown, DropdownItem, TextContent, TextVariants, Text } from '@patternfly/react-core';
+import { Button, ButtonVariant, Dropdown, DropdownItem, Text, TextContent, TextVariants } from '@patternfly/react-core';
 import { Toggle } from '@patternfly/react-core/dist/js/components/Dropdown/Toggle';
 import { AngleDownIcon } from '@patternfly/react-icons';
-import { global_spacer_md, global_palette_black_600 } from '@patternfly/react-tokens';
+import { global_palette_black_600, global_spacer_md } from '@patternfly/react-tokens';
 import {
     Environments,
     getInsights,
