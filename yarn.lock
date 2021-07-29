@@ -1880,10 +1880,10 @@
     "@scalprum/react-core" "0.1.1"
     sanitize-html "^2.3.2"
 
-"@redhat-cloud-services/insights-common-typescript@4.9.0":
-  version "4.9.0"
-  resolved "https://registry.yarnpkg.com/@redhat-cloud-services/insights-common-typescript/-/insights-common-typescript-4.9.0.tgz#073acdfd97879f91038524e9d911368cecd3c232"
-  integrity sha512-sStDPjoeHK9XzxWQCGrG0Wd+K9U6tt7YoYHk/T8ZOm1bWyy/t47eF2zcqUsGxfkIbfqKw8Qr4nCB3Me8Fekynw==
+"@redhat-cloud-services/insights-common-typescript@4.10.0":
+  version "4.10.0"
+  resolved "https://registry.yarnpkg.com/@redhat-cloud-services/insights-common-typescript/-/insights-common-typescript-4.10.0.tgz#d271fd8297d58f62a85ece6831382ef44993e7f1"
+  integrity sha512-jztXCaFmI1BZuEGVvt+7do7F2LphxnMkahAUzbD/0OvPH2SqvzLl/mXQqMeY8wOy9Au6ZMtGUw2gAXSKL6shbQ==
   dependencies:
     camelcase "5.3.1"
     react-string-format "0.1.0"
@@ -6934,10 +6934,10 @@ inquirer@^6.2.2:
     strip-ansi "^5.1.0"
     through "^2.3.6"
 
-insights-common-typescript-dev@0.1.14:
-  version "0.1.14"
-  resolved "https://registry.yarnpkg.com/insights-common-typescript-dev/-/insights-common-typescript-dev-0.1.14.tgz#bf5536ca636f43bd81614fd68a43a907fd766bdc"
-  integrity sha512-ok+s2AbAq6X6k3/sRNCF2blmKd3RzsVcsj3RQhw2L1tE9Xci/iBBqkrRotgTQTf/jrCZFUrq/Tfs0yb2Z3waEg==
+insights-common-typescript-dev@0.1.17:
+  version "0.1.17"
+  resolved "https://registry.yarnpkg.com/insights-common-typescript-dev/-/insights-common-typescript-dev-0.1.17.tgz#abf3325ff68d9d47fb42562d52348577220763ef"
+  integrity sha512-Xthl8fnL2vrlzbFB2Bg5kzXgNSpqRTDixfuI6ZRuOq5RzMl1JM7yUDr153+Mgc9/C7aVDLXLJCxiXYpjOCrAOw==
 
 internal-ip@^4.3.0:
   version "4.3.0"
