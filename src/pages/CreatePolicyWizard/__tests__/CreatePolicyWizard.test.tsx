@@ -1,12 +1,11 @@
 import { addSuccessNotification } from '@redhat-cloud-services/insights-common-typescript';
 import { act, render, screen } from '@testing-library/react';
-import { Link } from 'react-router-dom';
-import fetchMock, { UNMATCHED } from 'fetch-mock';
-import { suppressValidateError, validateSchemaResponseInterceptor } from 'openapi2typescript/react-fetching-library';
+import fetchMock from 'fetch-mock';
+import { suppressValidateError } from 'openapi2typescript/react-fetching-library';
 import * as React from 'react';
-import { ClientContextProvider, createClient } from 'react-fetching-library';
-import { AppWrapper, appWrapperCleanup, appWrapperSetup } from '../../../../test/AppWrapper';
+import { Link } from 'react-router-dom';
 
+import { AppWrapper, appWrapperCleanup, appWrapperSetup } from '../../../../test/AppWrapper';
 import { PolicyWizardProps } from '../../../components/Policy/PolicyWizard';
 import { useFacts } from '../../../hooks/useFacts';
 import { CreatePolicyWizard } from '../CreatePolicyWizard';
@@ -32,24 +31,6 @@ const configurePolicyWizard = (implementation: React.FunctionComponent<PolicyWiz
 
 describe('src/pages/ListPage/CreatePolicyWizard', () => {
 
-    const AppWrapper = (props) => {
-        const client = createClient({
-            responseInterceptors: [
-                validateSchemaResponseInterceptor
-            ]
-        });
-
-        // eslint-disable-next-line testing-library/no-node-access
-        return <ClientContextProvider client={ client }>{ props.children }</ClientContextProvider>;
-    }});
-
-    // const failIfNoHttpCallMatched = () => {
-    //     const calls = fetchMock.calls(UNMATCHED).filter(c => c.isUnmatched);
-    //     if (calls.length > 0) {
-    //         throw new Error(`Found ${ calls.length } unmatched calls, maybe you forgot to mock? : ${calls.map(c => c.request?.url || c['0'])}`);
-    //     }
-    // };
-
     beforeEach(() => {
         appWrapperSetup();
         (useFacts as jest.Mock).mockImplementation(() => []);
@@ -58,7 +39,7 @@ describe('src/pages/ListPage/CreatePolicyWizard', () => {
 
     afterEach(() => {
         appWrapperCleanup();
-        });
+    });
 
     it('PolicyWizard is rendered if isOpen is true', async () => {
         configurePolicyWizard(() => {
@@ -256,9 +237,9 @@ describe('src/pages/ListPage/CreatePolicyWizard', () => {
                 });
                 expect(result.created).toBe(true);
             });
+            screen.debug(document.body, 99999);
+            expect(screen.queryByText('my foo')).toBeInTheDocument();
 
-            expect(screen.queryByText('my foo'));
-        
         });
 
         it('Adds a success notification when a policy is edited', async () => {
@@ -462,4 +443,4 @@ describe('src/pages/ListPage/CreatePolicyWizard', () => {
                 });
             });
         });
-    });
+    });});
