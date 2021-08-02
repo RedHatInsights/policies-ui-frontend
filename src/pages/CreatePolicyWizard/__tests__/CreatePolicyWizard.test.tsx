@@ -3,7 +3,6 @@ import { act, render, screen } from '@testing-library/react';
 import fetchMock from 'fetch-mock';
 import { suppressValidateError } from 'openapi2typescript/react-fetching-library';
 import * as React from 'react';
-import { Link } from 'react-router-dom';
 
 import { AppWrapper, appWrapperCleanup, appWrapperSetup } from '../../../../test/AppWrapper';
 import { PolicyWizardProps } from '../../../components/Policy/PolicyWizard';
@@ -237,8 +236,8 @@ describe('src/pages/ListPage/CreatePolicyWizard', () => {
                 });
                 expect(result.created).toBe(true);
             });
-            screen.debug(document.body, 99999);
-            expect(screen.queryByText('my foo')).toBeInTheDocument();
+
+            expect(screen.queryByText(/hello world/i)).toBeInTheDocument();
 
         });
 
