@@ -69,7 +69,7 @@ export const useToolbarActions = (params: Params) => {
                     `policies-${format(new Date(Date.now()), 'y-dd-MM')}.${exporter.type}`
                 );
             } else {
-                addDangerNotification('Unable to download policies', 'We were unable to download the policies for exporting');
+                addDangerNotification('Couldn\'t download export', 'Reinitiate this export to try again.');
             }
         });
     }, [ exportAllPoliciesQuery ]);

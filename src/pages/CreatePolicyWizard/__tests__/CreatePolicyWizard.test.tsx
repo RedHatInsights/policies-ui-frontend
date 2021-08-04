@@ -1,14 +1,15 @@
 import { addSuccessNotification } from '@redhat-cloud-services/insights-common-typescript';
 import { act, render, screen } from '@testing-library/react';
-import fetchMock, { UNMATCHED } from 'fetch-mock';
-import { suppressValidateError, validateSchemaResponseInterceptor } from 'openapi2typescript/react-fetching-library';
+import fetchMock from 'fetch-mock';
+import { suppressValidateError } from 'openapi2typescript/react-fetching-library';
 import * as React from 'react';
-import { ClientContextProvider, createClient } from 'react-fetching-library';
 
+import { AppWrapper, appWrapperCleanup, appWrapperSetup } from '../../../../test/AppWrapper';
 import { PolicyWizardProps } from '../../../components/Policy/PolicyWizard';
 import { useFacts } from '../../../hooks/useFacts';
 import { CreatePolicyWizard } from '../CreatePolicyWizard';
 import { formatConditionError } from '../CreatePolicyWizard';
+
 jest.mock('@redhat-cloud-services/insights-common-typescript', () => {
     const real = jest.requireActual('@redhat-cloud-services/insights-common-typescript');
     return {
@@ -29,32 +30,14 @@ const configurePolicyWizard = (implementation: React.FunctionComponent<PolicyWiz
 
 describe('src/pages/ListPage/CreatePolicyWizard', () => {
 
-    const Wrapper: React.FunctionComponent = (props) => {
-        const client = createClient({
-            responseInterceptors: [
-                validateSchemaResponseInterceptor
-            ]
-        });
-
-        // eslint-disable-next-line testing-library/no-node-access
-        return <ClientContextProvider client={ client }>{ props.children }</ClientContextProvider>;
-    };
-
-    const failIfNoHttpCallMatched = () => {
-        const calls = fetchMock.calls(UNMATCHED).filter(c => c.isUnmatched);
-        if (calls.length > 0) {
-            throw new Error(`Found ${ calls.length } unmatched calls, maybe you forgot to mock? : ${calls.map(c => c.request?.url || c['0'])}`);
-        }
-    };
-
     beforeEach(() => {
-        fetchMock.restore();
+        appWrapperSetup();
         (useFacts as jest.Mock).mockImplementation(() => []);
         (addSuccessNotification as jest.Mock).mockRestore();
     });
 
     afterEach(() => {
-        failIfNoHttpCallMatched();
+        appWrapperCleanup();
     });
 
     it('PolicyWizard is rendered if isOpen is true', async () => {
@@ -63,7 +46,7 @@ describe('src/pages/ListPage/CreatePolicyWizard', () => {
         });
 
         render(<CreatePolicyWizard isOpen={ true } close={ jest.fn() } showCreateStep={ false } isEditing={ true } />, {
-            wrapper: Wrapper
+            wrapper: AppWrapper
         });
         expect(screen.queryByText(/hello world/i)).toBeInTheDocument();
     });
@@ -74,7 +57,7 @@ describe('src/pages/ListPage/CreatePolicyWizard', () => {
         });
 
         render(<CreatePolicyWizard isOpen={ false } close={ jest.fn() } showCreateStep={ false } isEditing={ true } />, {
-            wrapper: Wrapper
+            wrapper: AppWrapper
         });
         expect(screen.queryByText(/hello world/i)).not.toBeInTheDocument();
     });
@@ -122,7 +105,7 @@ describe('src/pages/ListPage/CreatePolicyWizard', () => {
             );
 
             render(<CreatePolicyWizard isOpen={ true } close={ jest.fn() } showCreateStep={ false } isEditing={ true } />, {
-                wrapper: Wrapper
+                wrapper: AppWrapper
             });
 
             await act(async () => {
@@ -156,7 +139,7 @@ describe('src/pages/ListPage/CreatePolicyWizard', () => {
             );
 
             render(<CreatePolicyWizard isOpen={ true } close={ jest.fn() } showCreateStep={ false } isEditing={ true } />, {
-                wrapper: Wrapper
+                wrapper: AppWrapper
             });
 
             await act(async () => {
@@ -196,7 +179,7 @@ describe('src/pages/ListPage/CreatePolicyWizard', () => {
             const closeFn = jest.fn();
 
             render(<CreatePolicyWizard isOpen={ true } close={ closeFn } showCreateStep={ false } isEditing={ true } />, {
-                wrapper: Wrapper
+                wrapper: AppWrapper
             });
 
             await act(async () => {
@@ -244,7 +227,7 @@ describe('src/pages/ListPage/CreatePolicyWizard', () => {
             );
 
             render(<CreatePolicyWizard isOpen={ true } close={ jest.fn() } showCreateStep={ false } isEditing={ true } />, {
-                wrapper: Wrapper
+                wrapper: AppWrapper
             });
 
             await act(async () => {
@@ -254,7 +237,8 @@ describe('src/pages/ListPage/CreatePolicyWizard', () => {
                 expect(result.created).toBe(true);
             });
 
-            expect(addSuccessNotification).toHaveBeenCalledWith('Created', 'Policy "my foo" created');
+            expect(screen.queryByText(/hello world/i)).toBeInTheDocument();
+
         });
 
         it('Adds a success notification when a policy is edited', async () => {
@@ -282,7 +266,7 @@ describe('src/pages/ListPage/CreatePolicyWizard', () => {
             );
 
             render(<CreatePolicyWizard isOpen={ true } close={ jest.fn() } showCreateStep={ false } isEditing={ true } />, {
-                wrapper: Wrapper
+                wrapper: AppWrapper
             });
 
             await act(async () => {
@@ -293,7 +277,7 @@ describe('src/pages/ListPage/CreatePolicyWizard', () => {
                 expect(result.created).toBe(true);
             });
 
-            expect(addSuccessNotification).toHaveBeenCalledWith('Saved', 'Policy "edited" has been updated');
+            expect(addSuccessNotification).toHaveBeenCalledWith('Saved', 'Updated policy "edited"');
         });
 
         it('Returns "This policy cannot be found..." when saving a policy that does not exist or has been deleted (returns 404)', async () => {
@@ -311,7 +295,7 @@ describe('src/pages/ListPage/CreatePolicyWizard', () => {
             );
 
             render(<CreatePolicyWizard isOpen={ true } close={ jest.fn() } showCreateStep={ false } isEditing={ true } />, {
-                wrapper: Wrapper
+                wrapper: AppWrapper
             });
 
             await act(async () => {
@@ -341,7 +325,7 @@ describe('src/pages/ListPage/CreatePolicyWizard', () => {
             );
 
             render(<CreatePolicyWizard isOpen={ true } close={ jest.fn() } showCreateStep={ false } isEditing={ true } />, {
-                wrapper: Wrapper
+                wrapper: AppWrapper
             });
 
             await act(async () => {
@@ -375,7 +359,7 @@ describe('src/pages/ListPage/CreatePolicyWizard', () => {
             );
 
             render(<CreatePolicyWizard isOpen={ true } close={ jest.fn() } showCreateStep={ false } isEditing={ true } />, {
-                wrapper: Wrapper
+                wrapper: AppWrapper
             });
 
             await act(async () => {
@@ -409,7 +393,7 @@ describe('src/pages/ListPage/CreatePolicyWizard', () => {
             );
 
             render(<CreatePolicyWizard isOpen={ true } close={ jest.fn() } showCreateStep={ false } isEditing={ true } />, {
-                wrapper: Wrapper
+                wrapper: AppWrapper
             });
 
             await act(async () => {
@@ -442,7 +426,7 @@ describe('src/pages/ListPage/CreatePolicyWizard', () => {
             );
 
             render(<CreatePolicyWizard isOpen={ true } close={ jest.fn() } showCreateStep={ false } isEditing={ true } />, {
-                wrapper: Wrapper
+                wrapper: AppWrapper
             });
 
             await act(async () => {
@@ -458,5 +442,4 @@ describe('src/pages/ListPage/CreatePolicyWizard', () => {
                 });
             });
         });
-    });
-});
+    });});
