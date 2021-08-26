@@ -107,7 +107,7 @@ const MutableMessages = {
                 noDescription: '--',
                 notFound: {
                     title: 'No matching policies found',
-                    content: 'No policies match the selected filter and search terms.'
+                    content: 'To continue, edit your filter settings and search again.'
                 }
             },
             actions: {
