@@ -164,6 +164,7 @@ describe('src/components/Trigger/TableToolbar', () => {
                     chips: [
                         {
                             name: 'foo-bar',
+                            value: 'foo-bar',
                             isRead: true
                         }
                     ]
@@ -178,7 +179,8 @@ describe('src/components/Trigger/TableToolbar', () => {
                 chips: [
                     {
                         name: 'foo-bar',
-                        isRead: true
+                        isRead: true,
+                        value: 'foo-bar'
                     }
                 ]
             }
