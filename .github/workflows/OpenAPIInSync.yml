@@ -1,6 +1,11 @@
-name: openapi.json in sync
+name: openapi.json in sync (prod)
 
-on: [push, pull_request]
+on:
+  pull_request:
+    branches:
+      - prod
+      - prod-stable
+      - prod-beta
 
 jobs:
   build:
@@ -20,23 +25,5 @@ jobs:
             ${{ runner.os }}-yarn-
       - name: Install
         run: yarn install
-      - name: Download openapi.json from RedHatInsights/policies-backend-ui@master into ./openapi.json
-        uses: dawidd6/action-download-artifact@v2
-        with:
-          github_token: ${{secrets.GITHUB_TOKEN}}
-          workflow: main.yml
-          branch: master
-          name: openapi.json
-          path: ./
-          repo: RedHatInsights/policies-ui-backend
-      - name: Generate types from openapi.json
-        run: yarn schema:policies:generate -i openapi.json && rm openapi.json
-      - name: Check differences
-        run: >
-          [[ -z $(git status --porcelain) ]] ||
-          (
-            echo "openapi.json types are out of sync, see https://github.com/RedHatInsights/policies-ui-frontend#generating-types-from-openapi-file" &&
-            git status &&
-            git diff &&
-            false
-          )
+      - name: Run schema check with prod
+        run: yarn ci:schema
