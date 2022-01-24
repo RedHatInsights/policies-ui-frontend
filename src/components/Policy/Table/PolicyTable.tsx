@@ -282,6 +282,7 @@ export const PolicyTable: React.FunctionComponent<PolicyTableProps> = (props) =>
                 onSelect={  !props.error && onSelect && !usesRadioSelect ? onSelectHandler : undefined }
                 sortBy={ sortBy }
                 canSelectAll={ false }
+                isStickyHeader={ true }
             >
                 <TableHeader />
                 <TableBody />

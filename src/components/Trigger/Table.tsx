@@ -117,6 +117,7 @@ export const TriggerTable: React.FunctionComponent<TriggerTableProps> = (props) 
                 cells={ cells }
                 onSort={ onSortHandler }
                 sortBy={ sortBy }
+                isStickyHeader={ true }
             >
                 <TableHeader />
                 <TableBody />
