@@ -118,7 +118,7 @@ export const CreatePolicyWizard: React.FunctionComponent<CreatePolicyWizardProps
 
             return {
                 created: false,
-                error: `Invalid name (Code: ${res.status})`
+                error: (res.payload?.value as any).msg
             };
         });
     }, [ validateNameParamQuery.query ]);
