@@ -14,9 +14,6 @@ const { config: webpackConfig, plugins } = config({
 
 updateTsLoaderRule(webpackConfig.module.rules);
 
-// For some reason karma doesn't like when we have this cacheGroups with priorities
-webpackConfig.optimization.splitChunks.cacheGroups = {};
-
 const browsers = () => {
     const browserList = [ 'Chrome', 'Firefox' ];
     if (isCi) {
