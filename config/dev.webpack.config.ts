@@ -24,7 +24,8 @@ const { config: webpackConfig, plugins } = config({
     deployment: process.env.BETA ? 'beta/apps' : 'apps',
     appUrl: process.env.BETA ? '/beta/insights/policies' : '/insights/policies',
     env: env(),
-    routes: routes()
+    routes: routes(),
+    useChromeTemplate: true
 });
 
 webpackConfig.devtool = 'eval-cheap-module-source-map';
