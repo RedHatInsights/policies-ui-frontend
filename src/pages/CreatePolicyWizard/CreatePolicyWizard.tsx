@@ -116,9 +116,25 @@ export const CreatePolicyWizard: React.FunctionComponent<CreatePolicyWizardProps
                 };
             }
 
+            if (res.status === HttpStatus.CONFLICT) {
+                return {
+                    created: false,
+                    error: 'This policy name already exists. Please input a unique policy name.'
+                };
+            }
+
+            const message = (res.payload?.value as any).msg;
+
+            if (message) {
+                return {
+                    created: false,
+                    error: message
+                };
+            }
+
             return {
                 created: false,
-                error: (res.payload?.value as any).msg
+                error: `Invalid name found (Code: ${res.status})`
             };
         });
     }, [ validateNameParamQuery.query ]);
