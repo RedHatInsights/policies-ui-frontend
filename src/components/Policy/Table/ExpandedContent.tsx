@@ -21,22 +21,26 @@ interface ExpandedPolicyContentProps extends OuiaComponentProps {
 }
 
 const blockPadding = style({
-    margin: 12
+    marginLeft: 24
 });
 
 const descriptionBlockClassName = style({
     maxWidth: 800,
-    marginBottom: 12
+    marginBottom: 12,
+    marginLeft: 24,
+    marginTop: 24
 });
 
 const dateBlockClassName = style({
+    marginLeft: 24,
     marginBottom: 12
 });
 
 const conditionsAndActionsBlockClassName = style({
     backgroundColor: global_BackgroundColor_light_300.var,
     ...padding(18, 14),
-    margin: 5
+    marginLeft: 24,
+    marginBottom: 24
 });
 
 export const ExpandedContent: React.FunctionComponent<ExpandedPolicyContentProps> = (props) => {
