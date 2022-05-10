@@ -36,7 +36,12 @@ export const usePolicyPage = (filters: PolicyFilters, defaultPerPage: number, so
                 isActive.includes('Enabled') ? 'true' : 'false');
         }
 
-        return Page.of(currentPage, itemsPerPage, filter, sort);
+        const overrideSort = sort ? Sort.by(
+            sort.column === 'is_enabled' ? 'lastTriggered' : sort.column,
+            sort.direction
+        ) : undefined;
+
+        return Page.of(currentPage, itemsPerPage, filter, overrideSort);
     }, [ currentPage, itemsPerPage, sort, filters ]);
 
     const changePage = React.useCallback((event, page: number) => {
