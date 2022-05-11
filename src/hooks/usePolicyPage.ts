@@ -37,7 +37,7 @@ export const usePolicyPage = (filters: PolicyFilters, defaultPerPage: number, so
         }
 
         const overrideSort = sort ? Sort.by(
-            sort.column === 'is_enabled' ? 'lastTriggered' : sort.column,
+            sort.column === 'is_enabled' ? 'last_triggered' : sort.column,
             sort.direction
         ) : undefined;
 
