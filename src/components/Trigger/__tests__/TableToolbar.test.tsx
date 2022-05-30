@@ -22,6 +22,8 @@ describe('src/components/Trigger/TableToolbar', () => {
             } else if (mockedControl.bottomProps === undefined) {
                 mockedControl.bottomProps = props;
             }
+
+            return null;
         });
 
         return mockedControl as any;

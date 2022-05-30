@@ -123,7 +123,7 @@ const TriggerDetailSectionInternal: React.ForwardRefRenderFunction<TriggerDetail
     }
 
     return (
-        <Section ouiaId="trigger-detail-section">
+        <Section>
             { getTriggers.hasTriggers === false ? (
                 <PolicyDetailTriggerEmptyState />
             ) : (
