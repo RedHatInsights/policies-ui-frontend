@@ -1,4 +1,4 @@
-import { addDangerNotification, exporterTypeFromString } from '@redhat-cloud-services/insights-common-typescript';
+import { addDangerNotification, exporterTypeFromString, toUtc } from '@redhat-cloud-services/insights-common-typescript';
 import { format } from 'date-fns';
 import inBrowserDownload from 'in-browser-download';
 import * as React from 'react';
@@ -66,7 +66,7 @@ export const useToolbarActions = (params: Params) => {
             if (response.payload?.type === 'PagedResponseOfPolicy') {
                 inBrowserDownload(
                     exporter.export(response.payload.value.data),
-                    `policies-${format(new Date(Date.now()), 'y-dd-MM')}.${exporter.type}`
+                    `policies-${format(toUtc(new Date(Date.now())), 'y-dd-MM')}.${exporter.type}`
                 );
             } else {
                 addDangerNotification('Couldn\'t download export', 'Reinitiate this export to try again.');

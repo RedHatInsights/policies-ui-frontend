@@ -3,11 +3,10 @@ import userEvent from '@testing-library/user-event';
 import * as React from 'react';
 
 import { appWrapperCleanup, appWrapperSetup, getConfiguredAppWrapper } from '../../../../test/AppWrapper';
-import { linkTo } from '../../../Routes';
 import { ErrorPage } from '../Page';
 
 jest.mock('@redhat-cloud-services/frontend-components', () => {
-
+    const actualFC = jest.requireActual('@redhat-cloud-services/frontend-components');
     const Children: React.FunctionComponent = (props) => {
         // eslint-disable-next-line testing-library/no-node-access
         return <span>{ props.children }</span>;
@@ -18,6 +17,7 @@ jest.mock('@redhat-cloud-services/frontend-components', () => {
     };
 
     return {
+        ...actualFC,
         Main: Children,
         PageHeader: Children,
         PageHeaderTitle: Title
@@ -39,7 +39,7 @@ describe('src/pages/Error/Page', () => {
         appWrapperCleanup();
     });
 
-    it('Goes to list page when clicking the button', () => {
+    it('Goes back page when clicking the button', () => {
         const getLocation = jest.fn();
         const AppWrapper = getConfiguredAppWrapper({
             getLocation,
@@ -57,8 +57,8 @@ describe('src/pages/Error/Page', () => {
         });
 
         userEvent.click(screen.getByRole('button', {
-            name: /policy/i
+            name: /details/i
         }));
-        expect(getLocation().pathname).toEqual(linkTo.listPage());
+        expect(getLocation().pathname).toEqual('/');
     });
 });
