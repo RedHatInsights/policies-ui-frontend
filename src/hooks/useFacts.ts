@@ -5,13 +5,13 @@ import { Fact } from '../types/Fact';
 
 export const useFacts = () => {
     const [ facts, setFacts ] = useState<Fact[]>();
-    const { payload: factsPayload } = useGetFactsQuery(true);
+    const { data, status } = useGetFactsQuery();
 
     useEffect(() => {
-        if (factsPayload?.status === 200) {
-            setFacts(factsPayload.value);
+        if (status === 'success') {
+            setFacts(data);
         }
-    }, [ factsPayload, setFacts ]);
+    }, [ data, status, setFacts ]);
 
     return facts;
 };

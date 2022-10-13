@@ -1,5 +1,7 @@
 import { addSuccessNotification } from '@redhat-cloud-services/insights-common-typescript';
 import { act, render, screen } from '@testing-library/react';
+import axios from 'axios';
+import MockAdapter from 'axios-mock-adapter';
 import fetchMock from 'fetch-mock';
 import { suppressValidateError } from 'openapi2typescript/react-fetching-library';
 import * as React from 'react';
@@ -23,13 +25,39 @@ jest.mock('../../../components/Policy/PolicyWizard', () => ({
 }));
 jest.mock('../../../hooks/useFacts');
 
+const mockCreatePolicy = (mockAdapter: MockAdapter) =>
+    mockAdapter
+    .onPost(new RegExp('^/api/policies/v1.0/policies'))
+    .reply(201, {
+        id: '1234',
+        name: 'foo',
+        mtime: '1970-01-01T00:00:00.001Z',
+        ctime: '1970-01-01T00:00:00.001Z',
+        actions: '',
+        conditions: '',
+        isEnabled: false,
+        description: ''
+    });
+
+const POLICY_UPDATE_ID = 'someid';
+
+const mockUpdatePolicy = (mockAdapter: MockAdapter, shouldFailWithCode?: number) =>
+    mockAdapter
+    .onPut(new RegExp(`^/api/policies/v1.0/policies/${POLICY_UPDATE_ID}`))
+    .reply(shouldFailWithCode ?? 200, shouldFailWithCode ? undefined : {
+        id: 'foo',
+        name: 'foobar',
+        actions: '',
+        conditions: '',
+        isEnabled: false
+    });
+
 const configurePolicyWizard = (implementation: React.FunctionComponent<PolicyWizardProps>) => {
     const mock = jest.requireMock('../../../components/Policy/PolicyWizard').PolicyWizard;
     mock.mockImplementation(implementation);
 };
 
 describe('src/pages/ListPage/CreatePolicyWizard', () => {
-
     beforeEach(() => {
         appWrapperSetup();
         (useFacts as jest.Mock).mockImplementation(() => []);
@@ -89,20 +117,8 @@ describe('src/pages/ListPage/CreatePolicyWizard', () => {
                 trigger.mockImplementation(props.onSave);
                 return <>hello world</>;
             });
-            fetchMock.post(
-                '/api/policies/v1.0/policies?alsoStore=true',
-                {
-                    headers: {},
-                    status: 201,
-                    body: {
-                        id: 'foo',
-                        name: 'foobar',
-                        actions: '',
-                        conditions: '',
-                        isEnabled: false
-                    }
-                }
-            );
+            const mockAdapter = new MockAdapter(axios);
+            mockCreatePolicy(mockAdapter);
 
             render(<CreatePolicyWizard isOpen={ true } close={ jest.fn() } showCreateStep={ false } isEditing={ true } />, {
                 wrapper: AppWrapper
@@ -123,20 +139,9 @@ describe('src/pages/ListPage/CreatePolicyWizard', () => {
                 trigger.mockImplementation(props.onSave);
                 return <>hello world</>;
             });
-            fetchMock.put(
-                '/api/policies/v1.0/policies/abcd',
-                {
-                    headers: {},
-                    status: 200,
-                    body: {
-                        id: 'foo',
-                        name: 'foobar',
-                        actions: '',
-                        conditions: '',
-                        isEnabled: false
-                    }
-                }
-            );
+
+            const mockAdapter = new MockAdapter(axios);
+            mockUpdatePolicy(mockAdapter);
 
             render(<CreatePolicyWizard isOpen={ true } close={ jest.fn() } showCreateStep={ false } isEditing={ true } />, {
                 wrapper: AppWrapper
@@ -144,7 +149,7 @@ describe('src/pages/ListPage/CreatePolicyWizard', () => {
 
             await act(async () => {
                 const result = await trigger({
-                    id: 'abcd'
+                    id: POLICY_UPDATE_ID
                 });
                 expect(result).toEqual({
                     created: true
@@ -158,23 +163,9 @@ describe('src/pages/ListPage/CreatePolicyWizard', () => {
                 trigger.mockImplementation(props.onSave);
                 return <>hello world</>;
             });
-            fetchMock.post(
-                '/api/policies/v1.0/policies?alsoStore=true',
-                {
-                    headers: {},
-                    status: 201,
-                    body: {
-                        id: '1234',
-                        name: 'foo',
-                        mtime: '1970-01-01T00:00:00.001Z',
-                        ctime: '1970-01-01T00:00:00.001Z',
-                        actions: '',
-                        conditions: '',
-                        isEnabled: false,
-                        description: ''
-                    }
-                }
-            );
+
+            const mockAdapter = new MockAdapter(axios);
+            mockCreatePolicy(mockAdapter);
 
             const closeFn = jest.fn();
 
@@ -208,23 +199,8 @@ describe('src/pages/ListPage/CreatePolicyWizard', () => {
                 trigger.mockImplementation(props.onSave);
                 return <>hello world</>;
             });
-            fetchMock.post(
-                '/api/policies/v1.0/policies?alsoStore=true',
-                {
-                    headers: {},
-                    status: 201,
-                    body: {
-                        id: '1234',
-                        name: 'foo',
-                        mtime: '1970-01-01T00:00:00.001Z',
-                        ctime: '1970-01-01T00:00:00.001Z',
-                        actions: '',
-                        conditions: '',
-                        isEnabled: false,
-                        description: ''
-                    }
-                }
-            );
+            const mockAdapter = new MockAdapter(axios);
+            mockCreatePolicy(mockAdapter);
 
             render(<CreatePolicyWizard isOpen={ true } close={ jest.fn() } showCreateStep={ false } isEditing={ true } />, {
                 wrapper: AppWrapper
@@ -247,23 +223,9 @@ describe('src/pages/ListPage/CreatePolicyWizard', () => {
                 trigger.mockImplementation(props.onSave);
                 return <>hello world</>;
             });
-            fetchMock.put(
-                '/api/policies/v1.0/policies/some-id',
-                {
-                    headers: {},
-                    status: 200,
-                    body: {
-                        id: '1234',
-                        name: 'foo',
-                        mtime: '1970-01-01T00:00:00.001Z',
-                        ctime: '1970-01-01T00:00:00.001Z',
-                        actions: '',
-                        conditions: '',
-                        isEnabled: false,
-                        description: ''
-                    }
-                }
-            );
+
+            const mockAdapter = new MockAdapter(axios);
+            mockUpdatePolicy(mockAdapter);
 
             render(<CreatePolicyWizard isOpen={ true } close={ jest.fn() } showCreateStep={ false } isEditing={ true } />, {
                 wrapper: AppWrapper
@@ -271,7 +233,7 @@ describe('src/pages/ListPage/CreatePolicyWizard', () => {
 
             await act(async () => {
                 const result = await trigger({
-                    id: 'some-id',
+                    id: POLICY_UPDATE_ID,
                     name: 'edited'
                 });
                 expect(result.created).toBe(true);
@@ -286,13 +248,8 @@ describe('src/pages/ListPage/CreatePolicyWizard', () => {
                 trigger.mockImplementation(props.onSave);
                 return <>hello world</>;
             });
-            fetchMock.put(
-                '/api/policies/v1.0/policies/abcd',
-                {
-                    headers: {},
-                    status: 404
-                }
-            );
+            const mockAdapter = new MockAdapter(axios);
+            mockUpdatePolicy(mockAdapter, 404);
 
             render(<CreatePolicyWizard isOpen={ true } close={ jest.fn() } showCreateStep={ false } isEditing={ true } />, {
                 wrapper: AppWrapper
@@ -300,7 +257,7 @@ describe('src/pages/ListPage/CreatePolicyWizard', () => {
 
             await act(async () => {
                 const result = await trigger({
-                    id: 'abcd'
+                    id: POLICY_UPDATE_ID
                 });
                 expect(result).toEqual({
                     created: false,
@@ -316,13 +273,9 @@ describe('src/pages/ListPage/CreatePolicyWizard', () => {
                 trigger.mockImplementation(props.onSave);
                 return <>hello world</>;
             });
-            fetchMock.put(
-                '/api/policies/v1.0/policies/abcd',
-                {
-                    headers: {},
-                    status: 555
-                }
-            );
+
+            const mockAdapter = new MockAdapter(axios);
+            mockUpdatePolicy(mockAdapter, 555);
 
             render(<CreatePolicyWizard isOpen={ true } close={ jest.fn() } showCreateStep={ false } isEditing={ true } />, {
                 wrapper: AppWrapper
@@ -330,7 +283,7 @@ describe('src/pages/ListPage/CreatePolicyWizard', () => {
 
             await act(async () => {
                 const result = await trigger({
-                    id: 'abcd'
+                    id: POLICY_UPDATE_ID
                 });
                 expect(result).toEqual({
                     created: false,
@@ -364,12 +317,12 @@ describe('src/pages/ListPage/CreatePolicyWizard', () => {
 
             await act(async () => {
                 const result = await trigger({
-                    id: 'abcd'
+                    id: POLICY_UPDATE_ID
                 });
                 expect(result).toEqual({
                     isValid: true,
                     policy: {
-                        id: 'abcd'
+                        id: POLICY_UPDATE_ID
                     }
                 });
             });
@@ -398,13 +351,13 @@ describe('src/pages/ListPage/CreatePolicyWizard', () => {
 
             await act(async () => {
                 const result = await trigger({
-                    id: 'abcd'
+                    id: POLICY_UPDATE_ID
                 });
                 expect(result).toEqual({
                     isValid: false,
                     error: 'this is an error from the server',
                     policy: {
-                        id: 'abcd'
+                        id: POLICY_UPDATE_ID
                     }
                 });
             });
@@ -431,13 +384,13 @@ describe('src/pages/ListPage/CreatePolicyWizard', () => {
 
             await act(async () => {
                 const result = await trigger({
-                    id: 'abcd'
+                    id: POLICY_UPDATE_ID
                 });
                 expect(result).toEqual({
                     isValid: false,
                     error: 'Unknown Error when trying to validate: (Code 500)',
                     policy: {
-                        id: 'abcd'
+                        id: POLICY_UPDATE_ID
                     }
                 });
             });

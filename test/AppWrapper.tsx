@@ -14,10 +14,12 @@ import { MemoryRouterProps, useLocation } from 'react-router';
 import { MemoryRouter as Router } from 'react-router-dom';
 
 import { AppContext } from '../src/app/AppContext';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 let setup = false;
 let client;
 let store;
+let queryClient;
 
 export const appWrapperSetup = () => {
     if (setup) {
@@ -30,6 +32,7 @@ export const appWrapperSetup = () => {
         responseInterceptors: [ validateSchemaResponseInterceptor ]
     });
     store = initStore().getStore();
+    queryClient = new QueryClient();
 };
 
 export const appWrapperCleanup = () => {
@@ -43,6 +46,7 @@ export const appWrapperCleanup = () => {
         restoreStore();
         client = undefined;
         store = undefined;
+        queryClient = undefined;
         fetchMock.restore();
     }
 };
@@ -86,20 +90,22 @@ export const AppWrapper: React.FunctionComponent<Config> = (props) => {
     }
 
     return (
-        <Provider store={ store }>
-            <Router { ...props.router } >
-                <ClientContextProvider client={ client }>
-                    <AppContext.Provider value={ props.appContext || defaultAppContextSettings }>
-                        <InternalWrapper { ...props }>
-                            <NotificationsPortal />
-                            <Route { ...props.route } >
-                                { props.children }
-                            </Route>
-                        </InternalWrapper>
-                    </AppContext.Provider>
-                </ClientContextProvider>
-            </Router>
-        </Provider>
+        <QueryClientProvider client={ queryClient }>
+            <Provider store={ store }>
+                <Router { ...props.router } >
+                    <ClientContextProvider client={ client }>
+                        <AppContext.Provider value={ props.appContext || defaultAppContextSettings }>
+                            <InternalWrapper { ...props }>
+                                <NotificationsPortal />
+                                <Route { ...props.route } >
+                                    { props.children }
+                                </Route>
+                            </InternalWrapper>
+                        </AppContext.Provider>
+                    </ClientContextProvider>
+                </Router>
+            </Provider>
+        </QueryClientProvider>
     );
 };
 

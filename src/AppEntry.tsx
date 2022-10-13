@@ -3,6 +3,7 @@ import {
     getBaseName,
     getInsights
 } from '@redhat-cloud-services/insights-common-typescript';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { validateSchemaResponseInterceptor } from 'openapi2typescript/react-fetching-library';
 import React from 'react';
 import { ClientContextProvider } from 'react-fetching-library';
@@ -23,6 +24,8 @@ const AppEntry: React.FunctionComponent<AppEntryProps> = (props) => {
         responseInterceptors: [ validateSchemaResponseInterceptor ]
     }), []);
 
+    const queryClient = React.useMemo(() => new QueryClient(), []);
+
     const store = React.useMemo(() => {
         resetStore();
         if (props.logger) {
@@ -34,13 +37,15 @@ const AppEntry: React.FunctionComponent<AppEntryProps> = (props) => {
     }, [ props.logger ]);
 
     return (
-        <Provider store={ store }>
-            <Router basename={ getBaseName(window.location.pathname) }>
-                <ClientContextProvider client={ client }>
-                    <App />
-                </ClientContextProvider>
-            </Router>
-        </Provider>
+        <QueryClientProvider client={ queryClient }>
+            <Provider store={ store }>
+                <Router basename={ getBaseName(window.location.pathname) }>
+                    <ClientContextProvider client={ client }>
+                        <App />
+                    </ClientContextProvider>
+                </Router>
+            </Provider>
+        </QueryClientProvider>
     );
 };
 

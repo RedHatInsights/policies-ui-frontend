@@ -13,6 +13,8 @@ import { ServerPolicyRequest, Uuid } from '../../../types/Policy/Policy';
 import { PolicyDetail } from '../PolicyDetail';
 import Policy = Schemas.Policy;
 import { within } from '@testing-library/dom';
+import axios from 'axios';
+import MockAdapter from 'axios-mock-adapter';
 import { suppressValidateError } from 'openapi2typescript/react-fetching-library';
 
 jest.mock('../../../hooks/useFacts');
@@ -143,26 +145,17 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
         });
     };
 
-    const fetchMockSavePolicy = (edit: boolean, updatePolicy: Partial<ServerPolicyRequest>) => {
+    const fetchMockSavePolicy = (mockAdapter: MockAdapter, edit: boolean, updatePolicy: Partial<ServerPolicyRequest>) => {
         const policy = { ...mockPolicy, ...updatePolicy };
 
         if (edit) {
-            fetchMock.putOnce(Operations.PutPoliciesByPolicyId.actionCreator({
-                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                policyId: policy.id!,
-                body: policy
-            }).endpoint, {
-                status: 200,
-                body: policy
-            });
+            mockAdapter
+            .onPut(new RegExp(`^/api/policies/v1.0/policies/${policy.id}`))
+            .replyOnce(200, policy);
         } else {
-            fetchMock.postOnce(Operations.PostPolicies.actionCreator({
-                alsoStore: true,
-                body: mockPolicy
-            }).endpoint, {
-                status: 201,
-                body: policy
-            });
+            mockAdapter
+            .onPost(new RegExp('^/api/policies/v1.0/policies'))
+            .replyOnce(201, policy);
         }
     };
 
@@ -350,7 +343,8 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
         fetchMockSetup();
         fetcMockValidateName(undefined);
         fetchMockValidateCondition();
-        fetchMockSavePolicy(false, {
+        const mockAdapter = new MockAdapter(axios);
+        fetchMockSavePolicy(mockAdapter, false, {
             id: 'bar-123'
         });
         fetchMockSetup({
@@ -393,7 +387,8 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
         fetchMockSetup();
         fetcMockValidateName('foo');
         fetchMockValidateCondition();
-        fetchMockSavePolicy(true, {
+        const mockAdapter = new MockAdapter(axios);
+        fetchMockSavePolicy(mockAdapter, true, {
             name: 'my new name'
         });
 

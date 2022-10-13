@@ -44,21 +44,25 @@ export const CreatePolicyWizard: React.FunctionComponent<CreatePolicyWizardProps
     const validateNameParamQuery = useValidatePolicyNameParametrizedQuery();
     const facts = useFacts();
 
-    const onSave = (policy: NewPolicy): Promise<CreatePolicyResponse> => {
-        return saveMutation.mutate(policy).then((res) => {
-            if (res.payload?.type === 'Policy') {
-                if (policy.id === undefined) {
-                    addSuccessNotification(`Created policy "${policy.name}"`, <span> From the Policies list, open
-                        <Link to={ linkTo.policyDetail(res.payload.value.id as string) }>{ policy.name }</Link>.</span>);
-                } else {
-                    addSuccessNotification('Saved', `Updated policy "${policy.name}"`);
-                }
+    const onSave = async (policy: NewPolicy): Promise<CreatePolicyResponse> => {
+        try {
+            const response = await saveMutation.mutateAsync(policy);
+            if (!policy.id) {
+                addSuccessNotification(
+                    `Created policy "${policy.name}"`,
+                    <span> From the Policies list, open <Link to={ linkTo.policyDetail(response.id as string) }>{ policy.name }</Link>.</span>
+                );
+            } else {
+                addSuccessNotification('Saved', `Updated policy "${policy.name}"`);
+            }
 
-                props.close && props.close(res.payload.value);
-                return {
-                    created: true
-                };
-            } else if (res.status === HttpStatus.NOT_FOUND) {
+            props.close && props.close(response);
+            return {
+                created: true
+            };
+        } catch (e: any) {
+            const status = e.response.status;
+            if (status === HttpStatus.NOT_FOUND) {
                 if (policy.id !== undefined) {
                     return {
                         created: false,
@@ -67,19 +71,15 @@ export const CreatePolicyWizard: React.FunctionComponent<CreatePolicyWizardProps
                 }
             }
 
-            let msg = `Unknown Error when trying to ${
+            const msg = `Unknown Error when trying to ${
                 policy.id === undefined ? 'create' : 'update'
-            } the policy: (Code ${res.status})`;
-
-            if (res.payload?.type === 'Msg') {
-                msg = res.payload.value.msg ?? msg;
-            }
+            } the policy: (Code ${status})`;
 
             return {
                 created: false,
-                error: msg
+                error: e.response.data?.msg ?? msg
             };
-        });
+        }
     };
 
     const onVerify = (policy: Partial<Policy>): Promise<VerifyPolicyResponse> => {
@@ -139,7 +139,7 @@ export const CreatePolicyWizard: React.FunctionComponent<CreatePolicyWizardProps
         });
     }, [ validateNameParamQuery.query ]);
 
-    const isLoading = saveMutation.loading || verifyMutation.loading || validateNameParamQuery.loading;
+    const isLoading = saveMutation.isLoading || verifyMutation.loading || validateNameParamQuery.loading;
 
     return (
         <>
