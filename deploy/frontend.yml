@@ -1,0 +1,40 @@
+apiVersion: v1
+kind: Template
+metadata:
+  name: policies-ui-frontend
+objects:
+  - apiVersion: cloud.redhat.com/v1alpha1
+    kind: Frontend
+    metadata:
+      name: policies
+    spec:
+      envName: ${ENV_NAME}
+      title: Policies
+      deploymentRepo: https://github.com/RedHatInsights/policies-ui-frontend
+      API:
+        versions:
+          - v1
+      frontend:
+        paths:
+          - /apps/policies
+      image: ${IMAGE}:${IMAGE_TAG}
+      navItems:
+        - appId: policies
+          title: Policies
+          href: /insights/policies
+      module:
+        manifestLocation: /apps/policies/fed-mods.json
+        modules:
+          - id: policies
+            module: ./RootApp
+            routes:
+              - pathname: /insights/policies
+              - pathname: /ansible/policies
+        moduleID: policies
+parameters:
+  - name: ENV_NAME
+    required: true
+  - name: IMAGE_TAG
+    required: true
+  - name: IMAGE
+    value: quay.io/cloudservices/policies-ui-frontend
