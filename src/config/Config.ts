@@ -1,5 +1,6 @@
 import { getInsights, localUrl } from '@redhat-cloud-services/insights-common-typescript';
 import { DeepReadonly } from 'ts-essentials';
+
 import { ActionType } from '../types/Policy';
 
 const apiVersion = 'v1.0';
