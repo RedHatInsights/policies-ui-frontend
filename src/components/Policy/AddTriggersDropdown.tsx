@@ -1,7 +1,6 @@
-import { Button, ButtonVariant, Dropdown, DropdownItem, Text, TextContent, TextVariants } from '@patternfly/react-core';
+import { Button, ButtonVariant, Dropdown, DropdownItem } from '@patternfly/react-core';
 import { Toggle } from '@patternfly/react-core/dist/js/components/Dropdown/Toggle';
 import { AngleDownIcon } from '@patternfly/react-icons';
-import { global_palette_black_600, global_spacer_md } from '@patternfly/react-tokens';
 import {
     Environments,
     getInsights,
@@ -11,6 +10,7 @@ import {
 import * as React from 'react';
 import { style } from 'typestyle';
 
+import Config from '../../config/Config';
 import { Messages } from '../../properties/Messages';
 import { ActionType } from '../../types/Policy/Actions';
 import { getOuiaProps } from '../../utils/getOuiaProps';
@@ -22,15 +22,6 @@ interface AddTriggersDropdownProps extends OuiaComponentProps {
 
 const dropdownClassName = style({
     marginBottom: 16
-});
-
-const fedrampContent = style({
-    textAlign: 'center',
-    paddingTop: global_spacer_md.value
-});
-
-const fedrampContentText = style({
-    color: global_palette_black_600.value
 });
 
 export const AddTriggersDropdown: React.FunctionComponent<AddTriggersDropdownProps> = (props) => {
@@ -46,20 +37,9 @@ export const AddTriggersDropdown: React.FunctionComponent<AddTriggersDropdownPro
         return Environments.govProd.includes(env) || Environments.govStage.includes(env);
     }, []);
 
-    if (isFedramp) {
-        return <TextContent className={ fedrampContent }>
-            <Text component={ TextVariants.h3 }>No available trigger actions</Text>
-            <Text component={ TextVariants.p } className={ fedrampContentText }>
-                Your organization&apos;s instance of Insights currently has no allowed actions.<br />
-                Notifications cannot be sent out of this instance due to FedRamp requirements.
-            </Text>
-            <Text component={ TextVariants.p } className={ fedrampContentText }>
-                Triggered policies can be viewed in the Insights UI on the Policies page.
-            </Text>
-        </TextContent>;
-    }
+    const allowedActions = isFedramp ? Config.allowedActions.fedramp : Config.allowedActions.normal;
 
-    const items = [ ActionType.NOTIFICATION ]
+    const items = allowedActions
     .map(type =>
         <DropdownItem
             key={ type }
