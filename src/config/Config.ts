@@ -1,6 +1,8 @@
 import { getInsights, localUrl } from '@redhat-cloud-services/insights-common-typescript';
 import { DeepReadonly } from 'ts-essentials';
 
+import { ActionType } from '../types/Policy';
+
 const apiVersion = 'v1.0';
 const apiBaseUrl = `/api/policies/${apiVersion}`;
 
@@ -9,6 +11,14 @@ export const withBaseUrl = (path: string) => `${apiBaseUrl}${path}`;
 const Config = {
     appId: 'policies',
     defaultElementsPerPage: 20,
+    allowedActions: {
+        normal: [
+            ActionType.NOTIFICATION
+        ],
+        fedramp: [
+            ActionType.NOTIFICATION
+        ]
+    },
     apis: {
         version: apiVersion,
         urls: {

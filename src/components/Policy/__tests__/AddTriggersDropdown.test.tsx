@@ -64,26 +64,48 @@ describe('src/components/Policy/AddTriggersDropdown', () => {
         expect(screen.queryByText(/No available trigger actions/i)).not.toBeInTheDocument();
     });
 
-    it('should show nothing in fedramp prod', async () => {
+    it('should show only notification in fedramp prod', async () => {
         mockInsights(true, false);
         render(<AddTriggersDropdown
             isTypeEnabled={ jest.fn(() => true) }
             onTypeSelected={ jest.fn() }
         />);
 
-        expect(screen.queryByText(/No available trigger actions/i)).toBeInTheDocument();
-        expect(screen.queryByText(/Add trigger actions/i)).not.toBeInTheDocument();
+        act(() => {
+            fireEvent(
+                screen.getByText('Add trigger actions'),
+                new MouseEvent('click', {
+                    bubbles: true,
+                    cancelable: true
+                })
+            );
+        });
+
+        expect(screen.queryByText(/Notification/i)).toBeInTheDocument();
+        expect(screen.queryByText(/Email/i)).not.toBeInTheDocument();
+        expect(screen.queryByText(/No available trigger actions/i)).not.toBeInTheDocument();
     });
 
-    it('should show nothing in fedramp stage', async () => {
+    it('should show only notification in fedramp stage', async () => {
         mockInsights(true, true);
         render(<AddTriggersDropdown
             isTypeEnabled={ jest.fn(() => true) }
             onTypeSelected={ jest.fn() }
         />);
 
-        expect(screen.queryByText(/No available trigger actions/i)).toBeInTheDocument();
-        expect(screen.queryByText(/Add trigger actions/i)).not.toBeInTheDocument();
+        act(() => {
+            fireEvent(
+                screen.getByText('Add trigger actions'),
+                new MouseEvent('click', {
+                    bubbles: true,
+                    cancelable: true
+                })
+            );
+        });
+
+        expect(screen.queryByText(/Notification/i)).toBeInTheDocument();
+        expect(screen.queryByText(/Email/i)).not.toBeInTheDocument();
+        expect(screen.queryByText(/No available trigger actions/i)).not.toBeInTheDocument();
     });
 
     it('should disable type if isTypeEnabled returns false', () => {
