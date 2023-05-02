@@ -2,6 +2,7 @@ import { PageSection } from '@patternfly/react-core';
 import { ErrorState, Main, PageHeader, PageHeaderTitle, Section } from '@redhat-cloud-services/frontend-components';
 import AsynComponent from '@redhat-cloud-services/frontend-components/AsyncComponent';
 import { getInsights, InsightsEmailOptIn, Page, useSort } from '@redhat-cloud-services/insights-common-typescript';
+import axios from 'axios';
 import * as React from 'react';
 import { useContext } from 'react';
 import { Helmet } from 'react-helmet';
@@ -55,11 +56,27 @@ const getPoliciesFromPayload = (payload: ReturnType<typeof useGetListPagePolicie
     return undefined;
 };
 
+const INVENTORY_TOTAL_FETCH_URL = '/api/inventory/v1/hosts';
+
 const ListPage: React.FunctionComponent<unknown> = () => {
 
     const [ policyWizardState, setPolicyWizardState ] = React.useState<PolicyWizardState>({
         isOpen: false
     });
+
+    const [ hasSystems, setHasSystems ] = React.useState(true);
+
+    React.useEffect(() => {
+        try {
+            axios
+            .get(`${INVENTORY_TOTAL_FETCH_URL}?page=1&per_page=1`)
+            .then(({ data }) => {
+                setHasSystems(data.total > 0);
+            });
+        } catch (e) {
+            console.log(e);
+        }
+    }, [ hasSystems ]);
 
     const changePolicyEnabledMutation = useMassChangePolicyEnabledMutation();
     const policyFilters = usePolicyFilter();
@@ -194,7 +211,7 @@ const ListPage: React.FunctionComponent<unknown> = () => {
                 </PageSection>
             )}
             <Main>
-                { getPoliciesQuery.hasPolicies === false ? (
+                { getPoliciesQuery.hasPolicies === false || !hasSystems ? (
                     <AsynComponent
                         appName="dashboard"
                         module="./AppZeroState"
