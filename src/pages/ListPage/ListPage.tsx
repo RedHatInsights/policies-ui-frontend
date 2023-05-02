@@ -1,5 +1,6 @@
 import { PageSection } from '@patternfly/react-core';
-import { Main, PageHeader, PageHeaderTitle, Section } from '@redhat-cloud-services/frontend-components';
+import { ErrorState, Main, PageHeader, PageHeaderTitle, Section } from '@redhat-cloud-services/frontend-components';
+import AsynComponent from '@redhat-cloud-services/frontend-components/AsyncComponent';
 import { getInsights, InsightsEmailOptIn, Page, useSort } from '@redhat-cloud-services/insights-common-typescript';
 import * as React from 'react';
 import { useContext } from 'react';
@@ -20,7 +21,6 @@ import { ActionType, Policy } from '../../types/Policy';
 import { NewPolicy } from '../../types/Policy/Policy';
 import { CreatePolicyWizard } from '../CreatePolicyWizard/CreatePolicyWizard';
 import { DeletePolicy } from './DeletePolicy';
-import { ListPageEmptyState } from './EmptyState';
 import { useListPageDelete } from './hooks/useListPageDelete';
 import { useTableActionResolverCallback } from './hooks/useTableActionResolverCallback';
 import { useToolbarActions } from './hooks/useToolbarActions';
@@ -195,8 +195,12 @@ const ListPage: React.FunctionComponent<unknown> = () => {
             )}
             <Main>
                 { getPoliciesQuery.hasPolicies === false ? (
-                    <ListPageEmptyState
-                        createPolicy={ canWritePolicies ? toolbarActions.createCustomPolicy : undefined }
+                    <AsynComponent
+                        appName="dashboard"
+                        module="./AppZeroState"
+                        scope="dashboard"
+                        ErrorComponent={ <ErrorState /> }
+                        app="Policies"
                     />
                 ) : (
                     <Section>
