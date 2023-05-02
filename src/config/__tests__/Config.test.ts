@@ -8,11 +8,11 @@ describe('src/config/Config', () => {
         expect(withBaseUrl('/foo/bar')).toBe('/api/policies/v1.0/foo/bar');
     });
 
-    it('localUrl does prepend beta to path if running on beta', () => {
-        expect(localUrl('/foo/bar', true)).toBe('/beta/foo/bar');
+    it('localUrl does prepend preview to path if running on beta', () => {
+        expect(localUrl('/foo/bar', true)).toBe('/preview/foo/bar');
     });
 
-    it('localUrl does not prepend beta to path when not in beta', () => {
+    it('localUrl does not prepend preview to path when not in beta', () => {
         expect(localUrl('/baz/bar', false)).toBe('/baz/bar');
     });
 });

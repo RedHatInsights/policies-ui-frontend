@@ -188,7 +188,7 @@ describe('src/pages/ListPage', () => {
             wrapper: getConfiguredAppWrapper({
                 router: {
                     initialEntries: [
-                        '/beta/policies/list'
+                        '/preview/policies/list'
                     ]
                 },
                 getLocation

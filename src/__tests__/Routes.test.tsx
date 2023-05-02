@@ -46,7 +46,7 @@ describe('src/Routes', () => {
             wrapper: Wrapper
         });
 
-        expect(data.location.pathname).toBe('/list');
+        expect(data.location.pathname).toBe('/policies/list');
         expect(screen.getByText('ListPage')).toBeVisible();
     });
 
@@ -57,7 +57,7 @@ describe('src/Routes', () => {
             wrapper: Wrapper
         });
 
-        expect(data.location.pathname).toBe('/list');
+        expect(data.location.pathname).toBe('/policies/list');
         expect(screen.getByText('ListPage')).toBeVisible();
     });
 
@@ -68,7 +68,7 @@ describe('src/Routes', () => {
             wrapper: Wrapper
         });
 
-        expect(data.location.pathname).toBe('/list');
+        expect(data.location.pathname).toBe('/policies/list');
         expect(screen.getByText('ListPage')).toBeVisible();
     });
 });

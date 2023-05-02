@@ -22,7 +22,7 @@ const { config: webpackConfig, plugins } = config({
     useFileHash: false,
     useProxy: true,
     deployment: process.env.BETA ? 'beta/apps' : 'apps',
-    appUrl: process.env.BETA ? '/beta/insights/policies' : '/insights/policies',
+    appUrl: process.env.BETA ? [ '/beta/insights/policies', '/preview/insights/policies' ] : '/insights/policies',
     env: env(),
     routes: routes(),
     useChromeTemplate: true

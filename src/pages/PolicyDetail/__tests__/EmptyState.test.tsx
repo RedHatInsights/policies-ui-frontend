@@ -33,6 +33,6 @@ describe('src/pages/PolicyDetail/EmptyState', () => {
         });
 
         await userEvent.click(screen.getByRole('button'));
-        expect(getLocation().pathname).toBe('/list');
+        expect(getLocation().pathname).toBe('/policies/list');
     });
 });

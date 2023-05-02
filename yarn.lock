@@ -1800,17 +1800,18 @@
     commander ">=2.20.0"
     react-content-loader ">=3.4.1"
 
-"@redhat-cloud-services/frontend-components-utilities@3.2.3":
-  version "3.2.3"
-  resolved "https://registry.yarnpkg.com/@redhat-cloud-services/frontend-components-utilities/-/frontend-components-utilities-3.2.3.tgz#786cd0f980d5afd1b40f0844f3c676a8aa50e94c"
-  integrity sha512-ek5zlIB2TetmQB7GZX3OHOUmOSPerDwazf8JcPpQgcOkQhkG8AaMFxakq4Sf6g7XbmPPJ4lYTLs0QASTFAwXSw==
+"@redhat-cloud-services/frontend-components-utilities@3.5.0":
+  version "3.5.0"
+  resolved "https://registry.yarnpkg.com/@redhat-cloud-services/frontend-components-utilities/-/frontend-components-utilities-3.5.0.tgz#663b1984638bce0a46c705259737428418ecb35b"
+  integrity sha512-+psPuT+5hpOP0vF6wjmJNUfLSgObtTBKSCtT7Ju9XfmWnmiKLc6Er1iias2Othy4WP+5EaLlH22Rd1wk8ut8HA==
   dependencies:
-    "@sentry/browser" "^5.4.0"
+    "@redhat-cloud-services/types" "^0.0.17"
+    "@sentry/browser" "^5.30.0"
     awesome-debounce-promise "^2.1.0"
-    axios "^0.21.1"
-    commander ">=2.20.0"
+    axios "^0.27.2"
+    commander "^2.20.3"
     mkdirp "^1.0.4"
-    react-content-loader ">=3.4.1"
+    react-content-loader "^6.2.0"
 
 "@redhat-cloud-services/frontend-components-utilities@>=3.0.0":
   version "3.0.3"
@@ -1834,10 +1835,10 @@
     "@scalprum/react-core" "^0.1.7"
     sanitize-html "^2.3.2"
 
-"@redhat-cloud-services/insights-common-typescript@4.11.0":
-  version "4.11.0"
-  resolved "https://registry.yarnpkg.com/@redhat-cloud-services/insights-common-typescript/-/insights-common-typescript-4.11.0.tgz#b38d0486c6cc30dc9b8453f70ebbf5248af74a9f"
-  integrity sha512-cl4kB/Turm6z3QRkgHpyW+GUomjEm83qJVJcJRr0Zeay8xpq0ufSOnhlJSOUIGNpwQ5dTAMFLqjOb0MVN7KrgQ==
+"@redhat-cloud-services/insights-common-typescript@4.13.0":
+  version "4.13.0"
+  resolved "https://registry.yarnpkg.com/@redhat-cloud-services/insights-common-typescript/-/insights-common-typescript-4.13.0.tgz#366e9061086ca35275a2f21598673d15dfccddd4"
+  integrity sha512-yPi86IPUkruTNb/jJ579zuY+Xz49K/KkEjrD5VwIrZ4zhd156Zfvt8lQE42NX7WrpnHRvhGM0HlPiZzOvvbazw==
   dependencies:
     camelcase "5.3.1"
     react-string-format "0.1.0"
@@ -1854,6 +1855,11 @@
   resolved "https://registry.yarnpkg.com/@redhat-cloud-services/types/-/types-0.0.1.tgz#8c80b37d23aa2e7f54194926dea19fb890fc015d"
   integrity sha512-UgHgLf8LkqaD9PXjiVyYycMRlbvmVdJyoJfersCUwnzDMgp+DEoYlLQAa9kn/s4c1JvSt5MM+hEN+DRvwtCQGA==
 
+"@redhat-cloud-services/types@^0.0.17":
+  version "0.0.17"
+  resolved "https://registry.yarnpkg.com/@redhat-cloud-services/types/-/types-0.0.17.tgz#00d4642ffb3885e7ca6790d626f5ca5909e73af9"
+  integrity sha512-3V9mmarS3jD5fBksMwh+XCEAMUIzqSOxDkH6OcIVu6w/gaBBOWHh34Jwn4CxKlu+WStxVV/rxm3oFGpsWqljvg==
+
 "@scalprum/core@^0.1.1", "@scalprum/core@^0.1.2":
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/@scalprum/core/-/core-0.1.2.tgz#500bfd4d601a3718bc9b188a0eda8361a17c9034"
@@ -1867,6 +1873,16 @@
     "@scalprum/core" "^0.1.2"
     lodash "^4.17.0"
 
+"@sentry/browser@^5.30.0":
+  version "5.30.0"
+  resolved "https://registry.yarnpkg.com/@sentry/browser/-/browser-5.30.0.tgz#c28f49d551db3172080caef9f18791a7fd39e3b3"
+  integrity sha512-rOb58ZNVJWh1VuMuBG1mL9r54nZqKeaIlwSlvzJfc89vyfd7n6tQ1UXMN383QBz/MS5H5z44Hy5eE+7pCrYAfw==
+  dependencies:
+    "@sentry/core" "5.30.0"
+    "@sentry/types" "5.30.0"
+    "@sentry/utils" "5.30.0"
+    tslib "^1.9.3"
+
 "@sentry/browser@^5.4.0":
   version "5.7.1"
   resolved "https://registry.yarnpkg.com/@sentry/browser/-/browser-5.7.1.tgz#1f8435e2a325d7a09f830065ebce40a2b3c708a4"
@@ -1875,6 +1891,17 @@
     "@sentry/core" "5.7.1"
     "@sentry/types" "5.7.1"
     "@sentry/utils" "5.7.1"
+    tslib "^1.9.3"
+
+"@sentry/core@5.30.0":
+  version "5.30.0"
+  resolved "https://registry.yarnpkg.com/@sentry/core/-/core-5.30.0.tgz#6b203664f69e75106ee8b5a2fe1d717379b331f3"
+  integrity sha512-TmfrII8w1PQZSZgPpUESqjB+jC6MvZJZdLtE/0hZ+SrnKhW3x5WlYLvTXZpcWePYBku7rl2wn1RZu6uT0qCTeg==
+  dependencies:
+    "@sentry/hub" "5.30.0"
+    "@sentry/minimal" "5.30.0"
+    "@sentry/types" "5.30.0"
+    "@sentry/utils" "5.30.0"
     tslib "^1.9.3"
 
 "@sentry/core@5.7.1":
@@ -1888,6 +1915,15 @@
     "@sentry/utils" "5.7.1"
     tslib "^1.9.3"
 
+"@sentry/hub@5.30.0":
+  version "5.30.0"
+  resolved "https://registry.yarnpkg.com/@sentry/hub/-/hub-5.30.0.tgz#2453be9b9cb903404366e198bd30c7ca74cdc100"
+  integrity sha512-2tYrGnzb1gKz2EkMDQcfLrDTvmGcQPuWxLnJKXJvYTQDGLlEvi2tWz1VIHjunmOvJrB5aIQLhm+dcMRwFZDCqQ==
+  dependencies:
+    "@sentry/types" "5.30.0"
+    "@sentry/utils" "5.30.0"
+    tslib "^1.9.3"
+
 "@sentry/hub@5.7.1":
   version "5.7.1"
   resolved "https://registry.yarnpkg.com/@sentry/hub/-/hub-5.7.1.tgz#a52acd9fead7f3779d96e9965c6978aecc8b9cad"
@@ -1895,6 +1931,15 @@
   dependencies:
     "@sentry/types" "5.7.1"
     "@sentry/utils" "5.7.1"
+    tslib "^1.9.3"
+
+"@sentry/minimal@5.30.0":
+  version "5.30.0"
+  resolved "https://registry.yarnpkg.com/@sentry/minimal/-/minimal-5.30.0.tgz#ce3d3a6a273428e0084adcb800bc12e72d34637b"
+  integrity sha512-BwWb/owZKtkDX+Sc4zCSTNcvZUq7YcH3uAVlmh/gtR9rmUvbzAA3ewLuB3myi4wWRAMEtny6+J/FN/x+2wn9Xw==
+  dependencies:
+    "@sentry/hub" "5.30.0"
+    "@sentry/types" "5.30.0"
     tslib "^1.9.3"
 
 "@sentry/minimal@5.7.1":
@@ -1906,10 +1951,23 @@
     "@sentry/types" "5.7.1"
     tslib "^1.9.3"
 
+"@sentry/types@5.30.0":
+  version "5.30.0"
+  resolved "https://registry.yarnpkg.com/@sentry/types/-/types-5.30.0.tgz#19709bbe12a1a0115bc790b8942917da5636f402"
+  integrity sha512-R8xOqlSTZ+htqrfteCWU5Nk0CDN5ApUTvrlvBuiH1DyP6czDZ4ktbZB0hAgBlVcK0U+qpD3ag3Tqqpa5Q67rPw==
+
 "@sentry/types@5.7.1":
   version "5.7.1"
   resolved "https://registry.yarnpkg.com/@sentry/types/-/types-5.7.1.tgz#4c4c1d4d891b6b8c2c3c7b367d306a8b1350f090"
   integrity sha512-tbUnTYlSliXvnou5D4C8Zr+7/wJrHLbpYX1YkLXuIJRU0NSi81bHMroAuHWILcQKWhVjaV/HZzr7Y/hhWtbXVQ==
+
+"@sentry/utils@5.30.0":
+  version "5.30.0"
+  resolved "https://registry.yarnpkg.com/@sentry/utils/-/utils-5.30.0.tgz#9a5bd7ccff85ccfe7856d493bffa64cabc41e980"
+  integrity sha512-zaYmoH0NWWtvnJjC9/CBseXMtKHm/tm40sz3YfJRxeQjyzRqNQPgivpd9R/oDJCYj999mzdW382p/qi2ypjLww==
+  dependencies:
+    "@sentry/types" "5.30.0"
+    tslib "^1.9.3"
 
 "@sentry/utils@5.7.1":
   version "5.7.1"
@@ -3296,6 +3354,14 @@ axios@^0.25.0:
   dependencies:
     follow-redirects "^1.14.7"
 
+axios@^0.27.2:
+  version "0.27.2"
+  resolved "https://registry.yarnpkg.com/axios/-/axios-0.27.2.tgz#207658cc8621606e586c85db4b41a750e756d972"
+  integrity sha512-t+yRIyySRTp/wua5xEr+z1q60QmLq8ABsS5O9Me1AsE5dfKqgnCFzwiCZZ/cGNd1lq4/7akDWMxdhVlucjmnOQ==
+  dependencies:
+    follow-redirects "^1.14.9"
+    form-data "^4.0.0"
+
 babel-core@7.0.0-bridge.0:
   version "7.0.0-bridge.0"
   resolved "https://registry.yarnpkg.com/babel-core/-/babel-core-7.0.0-bridge.0.tgz#95a492ddd90f9b4e9a4a1da14eb335b87b634ece"
@@ -4050,7 +4116,7 @@ commander@7.2.0, commander@>=2.20.0, commander@^7.0.0:
   resolved "https://registry.yarnpkg.com/commander/-/commander-7.2.0.tgz#a36cb57d0b501ce108e4d20559a150a391d97ab7"
   integrity sha512-QrWXB+ZQSVPmIWIhtEO9H+gwHaMGYiF5ChvoJ+K9ZGHG/sVsa6yiesAD1GC/x46sET00Xlwo1u49RVVVzvcSkw==
 
-commander@^2.20.0:
+commander@^2.20.0, commander@^2.20.3:
   version "2.20.3"
   resolved "https://registry.yarnpkg.com/commander/-/commander-2.20.3.tgz#fd485e84c03eb4881c20722ba48035e8531aeb33"
   integrity sha512-GpVkmM8vF2vQUkj2LvZmD35JxeJOLCwJ9cUkugyk2nuhbv3+mJvpLYYt+0+USMxE+oj+ey/lJEnhZw75x/OMcQ==
@@ -5620,6 +5686,11 @@ follow-redirects@^1.14.7:
   resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.14.9.tgz#dd4ea157de7bfaf9ea9b3fbd85aa16951f78d8d7"
   integrity sha512-MQDfihBQYMcyy5dhRDJUHcw7lb2Pv/TuE6xP1vyraLukNDHKbDxDNaOE3NbCAdKQApno+GPRyo1YAp89yCjK4w==
 
+follow-redirects@^1.14.9:
+  version "1.15.2"
+  resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.15.2.tgz#b460864144ba63f2681096f274c4e57026da2c13"
+  integrity sha512-VQLG33o04KaQ8uYi2tVNbdrWp1QWxNNea+nmIB4EVM28v0hmP17z7aG1+wAkNzVq4KeXTq3221ye5qTJP91JwA==
+
 for-in@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/for-in/-/for-in-1.0.2.tgz#81068d295a8142ec0ac726c6e2200c30fb6d5e80"
@@ -5634,6 +5705,15 @@ form-data@^3.0.0:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/form-data/-/form-data-3.0.1.tgz#ebd53791b78356a99af9a300d4282c4d5eb9755f"
   integrity sha512-RHkBKtLWUVwd7SqRIvCZMEvAMoGUp0XU+seQiZejj0COz3RI3hWP4sCv3gZWWLjJTd7rGwcsF5eKZGii0r/hbg==
+  dependencies:
+    asynckit "^0.4.0"
+    combined-stream "^1.0.8"
+    mime-types "^2.1.12"
+
+form-data@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/form-data/-/form-data-4.0.0.tgz#93919daeaf361ee529584b9b31664dc12c9fa452"
+  integrity sha512-ETEklSGi5t0QMZuiXoA/Q6vcnxcLQP5vdugSpuAyi6SVGi2clPPp+xgEhuMaHC+zGgn31Kd235W35f7Hykkaww==
   dependencies:
     asynckit "^0.4.0"
     combined-stream "^1.0.8"
@@ -9206,6 +9286,11 @@ react-content-loader@>=3.4.1:
   version "5.0.4"
   resolved "https://registry.yarnpkg.com/react-content-loader/-/react-content-loader-5.0.4.tgz#1493491d2f6b309d281d84144a655417ea734486"
   integrity sha512-hxv4Td1kQxFOmIUbBZ2S3HGZ/jJr28aJvM+8fndm9TmNOE7tSde7WSTL6R68aTS6qE0BA3ptcWIErrP704pQSw==
+
+react-content-loader@^6.2.0:
+  version "6.2.1"
+  resolved "https://registry.yarnpkg.com/react-content-loader/-/react-content-loader-6.2.1.tgz#8feb733c2d2495002e1b216f13707f2b5f2a8ead"
+  integrity sha512-6ONbFX+Hi3SHuP66JB8CPvJn372pj+qwltJV0J8z/8MFrq98I1cbFdZuhDWeQXu3CFxiiDTXJn7DFxx2ZvrO7g==
 
 react-dom@17.0.2:
   version "17.0.2"
