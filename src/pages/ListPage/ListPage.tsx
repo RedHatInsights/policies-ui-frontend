@@ -220,8 +220,8 @@ const ListPage: React.FunctionComponent<unknown> = () => {
                         ErrorComponent={ <ErrorState /> }
                         app="Policies"
                     />
+                ) : getPoliciesQuery.hasPolicies === false ?
 
-                ) : getPoliciesQuery.hasPolicies === false && hasSystems  ?
                     (
                         <ListPageEmptyState
                             createPolicy={ canWritePolicies ? toolbarActions.createCustomPolicy : undefined }
