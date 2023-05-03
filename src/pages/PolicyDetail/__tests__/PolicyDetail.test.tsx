@@ -494,7 +494,7 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
         userEvent.click(screen.getByText(/remove/i));
 
         await waitForAsyncEvents();
-        userEvent.click(screen.getByText('Remove'));
+        userEvent.click(screen.getByText('Delete'));
 
         await waitForAsyncEvents();
         expect(getLocation().pathname).toEqual(linkTo.listPage());

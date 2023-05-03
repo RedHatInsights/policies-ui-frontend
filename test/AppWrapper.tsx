@@ -91,7 +91,7 @@ const InternalWrapper: React.FunctionComponent<Config> = (props) => {
     const location = useLocation();
 
     (getInsights().chrome.isBeta as jest.Mock).mockImplementation(() => {
-        return location.pathname.startsWith('/beta/');
+        return location.pathname.startsWith('/preview/');
     });
 
     if (props.getLocation) {

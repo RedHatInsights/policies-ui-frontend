@@ -13,8 +13,8 @@ interface Path {
 }
 
 export const linkTo = {
-    listPage: () => '/list',
-    policyDetail: (policyId: string) => `/policy/${policyId}`
+    listPage: () => '/policies/list',
+    policyDetail: (policyId: string) => `/policies/policy/${policyId}`
 };
 
 const pathRoutes: Path[] = [

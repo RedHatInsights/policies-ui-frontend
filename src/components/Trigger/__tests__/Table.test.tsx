@@ -237,9 +237,9 @@ describe('src/components/Trigger/Table', () => {
             ] }
         />);
         // eslint-disable-next-line testing-library/no-node-access
-        expect(screen.getByText('my-hostname-foo').closest('a')).toHaveAttribute('href', '/beta/insights/inventory/foo-id/');
+        expect(screen.getByText('my-hostname-foo').closest('a')).toHaveAttribute('href', '/preview/insights/inventory/foo-id/');
         // eslint-disable-next-line testing-library/no-node-access
-        expect(screen.getByText('my-hostname-bar').closest('a')).toHaveAttribute('href', '/beta/insights/inventory/meep/');
+        expect(screen.getByText('my-hostname-bar').closest('a')).toHaveAttribute('href', '/preview/insights/inventory/meep/');
         expect(screen.getByText('28 May 2020 21:20:36 UTC')).toBeInTheDocument();
         expect(screen.getByText('27 May 2020 19:16:30 UTC')).toBeInTheDocument();
     });
