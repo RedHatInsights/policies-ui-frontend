@@ -1,6 +1,8 @@
 import { PageSection } from '@patternfly/react-core';
-import { Main, PageHeader, PageHeaderTitle, Section } from '@redhat-cloud-services/frontend-components';
+import { ErrorState, Main, PageHeader, PageHeaderTitle, Section } from '@redhat-cloud-services/frontend-components';
+import AsynComponent from '@redhat-cloud-services/frontend-components/AsyncComponent';
 import { getInsights, InsightsEmailOptIn, Page, useSort } from '@redhat-cloud-services/insights-common-typescript';
+import axios from 'axios';
 import * as React from 'react';
 import { useContext } from 'react';
 import { Helmet } from 'react-helmet';
@@ -55,11 +57,27 @@ const getPoliciesFromPayload = (payload: ReturnType<typeof useGetListPagePolicie
     return undefined;
 };
 
+const INVENTORY_TOTAL_FETCH_URL = '/api/inventory/v1/hosts';
+
 const ListPage: React.FunctionComponent<unknown> = () => {
 
     const [ policyWizardState, setPolicyWizardState ] = React.useState<PolicyWizardState>({
         isOpen: false
     });
+
+    const [ hasSystems, setHasSystems ] = React.useState(true);
+
+    React.useEffect(() => {
+        try {
+            axios
+            .get(`${INVENTORY_TOTAL_FETCH_URL}?page=1&per_page=1`)
+            .then(({ data }) => {
+                setHasSystems(data.total > 0);
+            });
+        } catch (e) {
+            console.log(e);
+        }
+    }, [ setHasSystems ]);
 
     const changePolicyEnabledMutation = useMassChangePolicyEnabledMutation();
     const policyFilters = usePolicyFilter();
@@ -194,48 +212,58 @@ const ListPage: React.FunctionComponent<unknown> = () => {
                 </PageSection>
             )}
             <Main>
-                { getPoliciesQuery.hasPolicies === false ? (
-                    <ListPageEmptyState
-                        createPolicy={ canWritePolicies ? toolbarActions.createCustomPolicy : undefined }
+                { !hasSystems ? (
+                    <AsynComponent
+                        appName="dashboard"
+                        module="./AppZeroState"
+                        scope="dashboard"
+                        ErrorComponent={ <ErrorState /> }
+                        app="Policies"
                     />
-                ) : (
-                    <Section>
-                        <PolicyToolbar
-                            ouiaId="main-toolbar"
-                            onCreatePolicy={ canWritePolicies ? toolbarActions.createCustomPolicy : undefined }
-                            onDeletePolicy={ canWritePolicies ? toolbarActions.onDeletePolicies : undefined }
-                            onEnablePolicy={ canWritePolicies ? toolbarActions.onEnablePolicies : undefined }
-                            onDisablePolicy={ canWritePolicies ? toolbarActions.onDisablePolicies : undefined }
-                            onPaginationChanged={ policyPage.changePage }
-                            onPaginationSizeChanged={ policyPage.changeItemsPerPage }
-                            onSelectionChanged={ policyRows.onSelectionChanged }
-                            selectedCount={ policyRows.selectionCount }
-                            page={ policyPage.page.index }
-                            pageCount={ policyRows.rows.length }
-                            perPage={ policyPage.page.size }
-                            showPerPageOptions={ true }
-                            filters={ policyFilters.filters }
-                            setFilters= { policyFilters.setFilters }
-                            clearFilters={ policyFilters.clearFilter }
-                            count={ getPoliciesQueryCount }
-                            onExport={ toolbarActions.onExport }
-                            showBottomPagination={ true }
-                        >
-                            <PolicyTable
-                                ouiaId="main-table"
-                                policies={ policyRows.rows }
-                                onCollapse={ policyRows.onCollapse }
-                                onSelect={ policyRows.onSelect }
-                                actionResolver={ tableActionsResolver }
-                                loading={ isLoading }
-                                error={ policyTableErrorValue }
-                                onSort={ sort.onSort }
-                                sortBy={ sort.sortBy }
-                                linkToDetailPolicy={ true }
-                            />
-                        </PolicyToolbar>
-                    </Section>
-                )}
+                ) : getPoliciesQuery.hasPolicies === false ?
+                    (
+                        <ListPageEmptyState
+                            createPolicy={ canWritePolicies ? toolbarActions.createCustomPolicy : undefined }
+                        />
+                    )
+                    : (
+                        <Section>
+                            <PolicyToolbar
+                                ouiaId="main-toolbar"
+                                onCreatePolicy={ canWritePolicies ? toolbarActions.createCustomPolicy : undefined }
+                                onDeletePolicy={ canWritePolicies ? toolbarActions.onDeletePolicies : undefined }
+                                onEnablePolicy={ canWritePolicies ? toolbarActions.onEnablePolicies : undefined }
+                                onDisablePolicy={ canWritePolicies ? toolbarActions.onDisablePolicies : undefined }
+                                onPaginationChanged={ policyPage.changePage }
+                                onPaginationSizeChanged={ policyPage.changeItemsPerPage }
+                                onSelectionChanged={ policyRows.onSelectionChanged }
+                                selectedCount={ policyRows.selectionCount }
+                                page={ policyPage.page.index }
+                                pageCount={ policyRows.rows.length }
+                                perPage={ policyPage.page.size }
+                                showPerPageOptions={ true }
+                                filters={ policyFilters.filters }
+                                setFilters= { policyFilters.setFilters }
+                                clearFilters={ policyFilters.clearFilter }
+                                count={ getPoliciesQueryCount }
+                                onExport={ toolbarActions.onExport }
+                                showBottomPagination={ true }
+                            >
+                                <PolicyTable
+                                    ouiaId="main-table"
+                                    policies={ policyRows.rows }
+                                    onCollapse={ policyRows.onCollapse }
+                                    onSelect={ policyRows.onSelect }
+                                    actionResolver={ tableActionsResolver }
+                                    loading={ isLoading }
+                                    error={ policyTableErrorValue }
+                                    onSort={ sort.onSort }
+                                    sortBy={ sort.sortBy }
+                                    linkToDetailPolicy={ true }
+                                />
+                            </PolicyToolbar>
+                        </Section>
+                    )}
             </Main>
             { policyWizardState.isOpen && <CreatePolicyWizard
                 isOpen={ policyWizardState.isOpen }
