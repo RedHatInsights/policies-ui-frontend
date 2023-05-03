@@ -4,6 +4,8 @@ import {
     initStore,
     restoreStore
 } from '@redhat-cloud-services/insights-common-typescript';
+import axios from 'axios';
+import MockAdapter from 'axios-mock-adapter';
 import fetchMock from 'fetch-mock';
 import { validateSchemaResponseInterceptor } from 'openapi2typescript/react-fetching-library';
 import * as React from 'react';
@@ -14,6 +16,14 @@ import { MemoryRouterProps, useLocation } from 'react-router';
 import { MemoryRouter as Router } from 'react-router-dom';
 
 import { AppContext } from '../src/app/AppContext';
+
+jest.mock('@redhat-cloud-services/frontend-components/AsyncComponent', () => {
+    const AsyncComponentDummyComponent: React.FunctionComponent = () => {
+        return <div>AsyncComponent</div>;
+    };
+
+    return AsyncComponentDummyComponent;
+});
 
 let setup = false;
 let client;
@@ -30,6 +40,17 @@ export const appWrapperSetup = () => {
         responseInterceptors: [ validateSchemaResponseInterceptor ]
     });
     store = initStore().getStore();
+
+    const mock = new MockAdapter(axios);
+    mock.onGet('/api/inventory/v1/hosts?page=1&per_page=1').reply(200,
+        {
+            total: 5,
+            count: 0,
+            page: 1,
+            per_page: 1,
+            results: []
+        }
+    );
 };
 
 export const appWrapperCleanup = () => {

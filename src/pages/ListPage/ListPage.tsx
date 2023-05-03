@@ -220,7 +220,6 @@ const ListPage: React.FunctionComponent<unknown> = () => {
                         ErrorComponent={ <ErrorState /> }
                         app="Policies"
                     />
-
                 ) : getPoliciesQuery.hasPolicies === false ?
                     (
                         <ListPageEmptyState

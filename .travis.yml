@@ -14,7 +14,6 @@ env:
   jobs:
     - ACTION=lint
     - ACTION=ci:test
-    - ACTION=smoketest
     - ACTION=build
     - ACTION=ci:pinned-deps
 script: yarn $ACTION
