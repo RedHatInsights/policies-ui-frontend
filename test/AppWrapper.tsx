@@ -45,7 +45,7 @@ export const appWrapperSetup = () => {
     mock.onGet('/api/inventory/v1/hosts?page=1&per_page=1').reply(200,
         {
             total: 5,
-            count: 0,
+            count: 10,
             page: 1,
             per_page: 1,
             results: []

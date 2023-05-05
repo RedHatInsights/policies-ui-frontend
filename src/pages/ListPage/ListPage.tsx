@@ -194,94 +194,99 @@ const ListPage: React.FunctionComponent<unknown> = () => {
 
     return (
         <>
-            <Helmet>
-                <title>Policies | Red Hat Insights</title>
-            </Helmet>
-            <PageHeader>
-                <PageHeaderTitle title={ Messages.pages.listPage.title } />
-            </PageHeader>
-            { !appContext.userSettings.isSubscribedForNotifications &&
-            policyRows.rows.find(p => p.actions.find(a => a.type === ActionType.NOTIFICATION)) && (
-                <PageSection className={ emailOptinPageClassName }>
-                    <InsightsEmailOptIn
-                        ouiaId="list-email-required"
-                        content={ Messages.pages.listPage.emailOptIn }
-                        insights={ getInsights() }
-                        bundle="rhel"
-                    />
-                </PageSection>
-            )}
-            <Main>
-                { !hasSystems ? (
-                    <AsynComponent
-                        appName="dashboard"
-                        module="./AppZeroState"
-                        scope="dashboard"
-                        ErrorComponent={ <ErrorState /> }
-                        app="Policies"
-                    />
-                ) : getPoliciesQuery.hasPolicies === false ?
-                    (
-                        <ListPageEmptyState
-                            createPolicy={ canWritePolicies ? toolbarActions.createCustomPolicy : undefined }
-                        />
-                    )
-                    : (
-                        <Section>
-                            <PolicyToolbar
-                                ouiaId="main-toolbar"
-                                onCreatePolicy={ canWritePolicies ? toolbarActions.createCustomPolicy : undefined }
-                                onDeletePolicy={ canWritePolicies ? toolbarActions.onDeletePolicies : undefined }
-                                onEnablePolicy={ canWritePolicies ? toolbarActions.onEnablePolicies : undefined }
-                                onDisablePolicy={ canWritePolicies ? toolbarActions.onDisablePolicies : undefined }
-                                onPaginationChanged={ policyPage.changePage }
-                                onPaginationSizeChanged={ policyPage.changeItemsPerPage }
-                                onSelectionChanged={ policyRows.onSelectionChanged }
-                                selectedCount={ policyRows.selectionCount }
-                                page={ policyPage.page.index }
-                                pageCount={ policyRows.rows.length }
-                                perPage={ policyPage.page.size }
-                                showPerPageOptions={ true }
-                                filters={ policyFilters.filters }
-                                setFilters= { policyFilters.setFilters }
-                                clearFilters={ policyFilters.clearFilter }
-                                count={ getPoliciesQueryCount }
-                                onExport={ toolbarActions.onExport }
-                                showBottomPagination={ true }
-                            >
-                                <PolicyTable
-                                    ouiaId="main-table"
-                                    policies={ policyRows.rows }
-                                    onCollapse={ policyRows.onCollapse }
-                                    onSelect={ policyRows.onSelect }
-                                    actionResolver={ tableActionsResolver }
-                                    loading={ isLoading }
-                                    error={ policyTableErrorValue }
-                                    onSort={ sort.onSort }
-                                    sortBy={ sort.sortBy }
-                                    linkToDetailPolicy={ true }
-                                />
-                            </PolicyToolbar>
-                        </Section>
+            {!hasSystems ?
+                <AsynComponent
+                    appName="dashboard"
+                    module="./AppZeroState"
+                    scope="dashboard"
+                    ErrorComponent={ <ErrorState /> }
+                    app="Policies"
+                />
+                :
+                <>
+                    <Helmet>
+                        <title>Policies | Red Hat Insights</title>
+                    </Helmet>
+                    <PageHeader>
+                        <PageHeaderTitle title={ Messages.pages.listPage.title } />
+                    </PageHeader>
+                    { !appContext.userSettings.isSubscribedForNotifications &&
+                        policyRows.rows.find(p => p.actions.find(a => a.type === ActionType.NOTIFICATION)) && (
+                        <PageSection className={ emailOptinPageClassName }>
+                            <InsightsEmailOptIn
+                                ouiaId="list-email-required"
+                                content={ Messages.pages.listPage.emailOptIn }
+                                insights={ getInsights() }
+                                bundle="rhel"
+                            />
+                        </PageSection>
                     )}
-            </Main>
-            { policyWizardState.isOpen && <CreatePolicyWizard
-                isOpen={ policyWizardState.isOpen }
-                close={ closePolicyWizard }
-                initialValue={ policyWizardState.template }
-                showCreateStep={ policyWizardState.showCreateStep }
-                policiesExist={ getPoliciesQuery.hasPolicies === true }
-                isEditing={ policyWizardState.isEditing }
-            /> }
-            { policyToDelete.isOpen && <DeletePolicy
-                onClose={ listPageDelete.onCloseDeletePolicy }
-                onDeleted={ listPageDelete.onDeleted }
-                loading={ policyRows.loadingSelected }
-                count={ policyToDelete.count }
-                getPolicies={ policyRows.getSelected }
-                policy={ policyToDelete.policy }
-            />
+                    <Main>
+                        {getPoliciesQuery.hasPolicies === false ?
+                            (
+                                <ListPageEmptyState
+                                    createPolicy={ canWritePolicies ? toolbarActions.createCustomPolicy : undefined }
+                                />
+                            )
+                            : (
+                                <Section>
+                                    <PolicyToolbar
+                                        ouiaId="main-toolbar"
+                                        onCreatePolicy={ canWritePolicies ? toolbarActions.createCustomPolicy : undefined }
+                                        onDeletePolicy={ canWritePolicies ? toolbarActions.onDeletePolicies : undefined }
+                                        onEnablePolicy={ canWritePolicies ? toolbarActions.onEnablePolicies : undefined }
+                                        onDisablePolicy={ canWritePolicies ? toolbarActions.onDisablePolicies : undefined }
+                                        onPaginationChanged={ policyPage.changePage }
+                                        onPaginationSizeChanged={ policyPage.changeItemsPerPage }
+                                        onSelectionChanged={ policyRows.onSelectionChanged }
+                                        selectedCount={ policyRows.selectionCount }
+                                        page={ policyPage.page.index }
+                                        pageCount={ policyRows.rows.length }
+                                        perPage={ policyPage.page.size }
+                                        showPerPageOptions={ true }
+                                        filters={ policyFilters.filters }
+                                        setFilters= { policyFilters.setFilters }
+                                        clearFilters={ policyFilters.clearFilter }
+                                        count={ getPoliciesQueryCount }
+                                        onExport={ toolbarActions.onExport }
+                                        showBottomPagination={ true }
+                                    >
+                                        <PolicyTable
+                                            ouiaId="main-table"
+                                            policies={ policyRows.rows }
+                                            onCollapse={ policyRows.onCollapse }
+                                            onSelect={ policyRows.onSelect }
+                                            actionResolver={ tableActionsResolver }
+                                            loading={ isLoading }
+                                            error={ policyTableErrorValue }
+                                            onSort={ sort.onSort }
+                                            sortBy={ sort.sortBy }
+                                            linkToDetailPolicy={ true }
+                                        />
+                                    </PolicyToolbar>
+                                </Section>
+                            )}
+                    </Main>
+                    { policyWizardState.isOpen && <CreatePolicyWizard
+                        isOpen={ policyWizardState.isOpen }
+                        close={ closePolicyWizard }
+                        initialValue={ policyWizardState.template }
+                        showCreateStep={ policyWizardState.showCreateStep }
+                        policiesExist={ getPoliciesQuery.hasPolicies === true }
+                        isEditing={ policyWizardState.isEditing }
+                    /> }
+                    { policyToDelete.isOpen && <DeletePolicy
+                        onClose={ listPageDelete.onCloseDeletePolicy }
+                        onDeleted={ listPageDelete.onDeleted }
+                        loading={ policyRows.loadingSelected }
+                        count={ policyToDelete.count }
+                        getPolicies={ policyRows.getSelected }
+                        policy={ policyToDelete.policy }
+                    />
+                    }
+                </>
             }
+
         </>
     );
 };
