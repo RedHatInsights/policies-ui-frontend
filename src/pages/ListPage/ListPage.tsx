@@ -196,6 +196,7 @@ const ListPage: React.FunctionComponent<unknown> = () => {
         <>
             {!hasSystems ?
                 <AsynComponent
+                    appId="policies_zero_state"
                     appName="dashboard"
                     module="./AppZeroState"
                     scope="dashboard"
