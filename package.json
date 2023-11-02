@@ -45,7 +45,7 @@
         "redux-promise-middleware": "5.1.1",
         "typestyle": "2.1.0",
         "yup": "0.32.9",
-        "zod": "1.11.11"
+        "zod": "3.22.3"
     },
     "devDependencies": {
         "@babel/core": "7.14.8",
