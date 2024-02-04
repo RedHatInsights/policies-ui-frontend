@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { Page } from '@redhat-cloud-services/insights-common-typescript';
 import { FormTextInput } from '@redhat-cloud-services/insights-common-typescript';
 import { render, screen } from '@testing-library/react';

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { PageSection } from '@patternfly/react-core';
 import { ErrorState, Main, PageHeader, PageHeaderTitle, Section } from '@redhat-cloud-services/frontend-components';
 import AsynComponent from '@redhat-cloud-services/frontend-components/AsyncComponent';

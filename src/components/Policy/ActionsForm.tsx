@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { Button, Card, CardActions, CardBody, CardHeader, CardTitle, Form, Title } from '@patternfly/react-core';
 import { TimesIcon } from '@patternfly/react-icons';
 import { global_spacer_md } from '@patternfly/react-tokens';

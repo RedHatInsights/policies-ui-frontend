@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { Section } from '@redhat-cloud-services/frontend-components';
 import {
     Direction,

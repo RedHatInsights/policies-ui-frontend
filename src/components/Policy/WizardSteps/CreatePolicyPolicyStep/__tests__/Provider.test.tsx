@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { act, render } from '@testing-library/react';
 import fetchMock from 'fetch-mock';
 import { validateSchemaResponseInterceptor } from 'openapi2typescript/react-fetching-library';

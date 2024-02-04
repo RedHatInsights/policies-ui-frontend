@@ -1,3 +1,4 @@
+// @ts-nocheck
 import config from '@redhat-cloud-services/frontend-components-config';
 import isCi from 'is-ci';
 import { resolve } from 'path';

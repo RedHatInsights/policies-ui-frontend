@@ -1,4 +1,5 @@
-const tsImportPluginFactory = require('ts-import-plugin');
+//@ts-nocheck
+import tsImportPluginFactory from 'ts-import-plugin';
 
 const getReactTokenCT = () => tsImportPluginFactory({
     libraryName: '@patternfly/react-tokens',

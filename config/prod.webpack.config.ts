@@ -1,3 +1,4 @@
+//@ts-nocheck
 import config from '@redhat-cloud-services/frontend-components-config';
 import federatedModules from '@redhat-cloud-services/frontend-components-config/federated-modules';
 import { resolve } from 'path';

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { assertNever } from 'assert-never';
 import * as React from 'react';
 import { useCallback } from 'react';

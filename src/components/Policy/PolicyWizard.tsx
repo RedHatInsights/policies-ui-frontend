@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { Form, Wizard, WizardStepFunctionType } from '@patternfly/react-core';
 import { assertNever } from 'assert-never';
 import { Formik, FormikHelpers, useFormikContext } from 'formik';

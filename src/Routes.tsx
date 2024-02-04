@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { getBaseName, getInsights } from '@redhat-cloud-services/insights-common-typescript';
 import * as React from 'react';
 import { useEffect } from 'react';

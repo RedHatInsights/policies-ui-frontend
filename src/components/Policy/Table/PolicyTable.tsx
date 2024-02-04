@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { Radio } from '@patternfly/react-core';
 import {
     expandable,

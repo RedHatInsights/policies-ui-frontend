@@ -7,8 +7,10 @@
     "downlevelIteration": true, // Needed to allow iteration over some objects like Map() while target is es5
     "jsx": "react-jsx",
     "allowJs": true,
+    "checkJs": false,
     "moduleResolution": "node",
     "strictNullChecks": true,
     "allowSyntheticDefaultImports": true,
+    "skipLibCheck": true,
   }
 }

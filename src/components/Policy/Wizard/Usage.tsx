@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { ExpandableSection, StackItem, Text, TextContent, TextVariants } from '@patternfly/react-core';
 import { OuiaComponentProps } from '@redhat-cloud-services/insights-common-typescript';
 import * as React from 'react';

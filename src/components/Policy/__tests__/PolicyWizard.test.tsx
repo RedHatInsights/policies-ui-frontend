@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { act, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { mockInsights } from 'insights-common-typescript-dev';

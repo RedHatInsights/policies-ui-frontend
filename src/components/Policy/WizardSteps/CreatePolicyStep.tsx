@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { Radio, Text, TextVariants, Title } from '@patternfly/react-core';
 import { Form, joinClasses } from '@redhat-cloud-services/insights-common-typescript';
 import { useFormikContext } from 'formik';

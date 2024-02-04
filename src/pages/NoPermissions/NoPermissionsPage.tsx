@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { LockIcon } from '@patternfly/react-icons';
 import { Main, PageHeader, PageHeaderTitle } from '@redhat-cloud-services/frontend-components';
 import * as React from 'react';

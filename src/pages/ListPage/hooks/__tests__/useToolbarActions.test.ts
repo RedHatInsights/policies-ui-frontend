@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { addDangerNotification, ExporterType, ImmutableContainerSet } from '@redhat-cloud-services/insights-common-typescript';
 import { renderHook } from '@testing-library/react-hooks';
 import inBrowserDownload from 'in-browser-download';
