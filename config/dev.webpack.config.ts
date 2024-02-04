@@ -1,42 +1,30 @@
-import config from '@redhat-cloud-services/frontend-components-config';
-import federatedModules from '@redhat-cloud-services/frontend-components-config/federated-modules';
-import { resolve } from 'path';
+/* eslint-disable @typescript-eslint/no-var-requires */
+const { resolve } = require('path');
 
-import { apiRoutes } from './api-routes';
-import { updateTsLoaderRule } from './common.webpack.config';
+// import { updateTsLoaderRule } from './common.webpack.config';
+const { updateTsLoaderRule } = require('./common.webpack.config');
 
-const env = () => {
-    const type = process.env.USE_PROD ? 'prod' : 'stage';
-    const stable = process.env.BETA ? 'beta' : 'stable';
-    return `${type}-${stable}`;
-};
-
-const routes = () => {
-    return process.env.USE_CUSTOM_ROUTES ? apiRoutes : undefined;
-};
+const config = require('@redhat-cloud-services/frontend-components-config');
 
 const { config: webpackConfig, plugins } = config({
     rootFolder: resolve(__dirname, '../'),
     debug: true,
     https: true,
-    useFileHash: false,
     useProxy: true,
     deployment: process.env.BETA ? 'beta/apps' : 'apps',
     appUrl: process.env.BETA ? [ '/beta/insights/policies', '/preview/insights/policies' ] : '/insights/policies',
-    env: env(),
-    routes: routes(),
-    useChromeTemplate: true
+    env: process.env.BETA ? 'stage:beta' : 'stage-stable'
 });
 
-webpackConfig.devtool = 'eval-cheap-module-source-map';
-
 plugins.push(
-    federatedModules(
+    require('@redhat-cloud-services/frontend-components-config/federated-modules')(
         {
             root: resolve(__dirname, '../'),
-            debug: true,
-            useFileHash: false,
-            exclude: [ 'react-router-dom' ]
+            shared: [
+                {
+                    'react-router-dom': { singleton: true, requiredVersion: '*' }
+                }
+            ]
         }
     )
 );
