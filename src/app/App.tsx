@@ -1,5 +1,5 @@
 // @ts-nocheck
-import './App.scss';
+// import './App.scss';
 
 import { NotificationsPortal } from '@redhat-cloud-services/frontend-components-notifications';
 import { AppSkeleton } from '@redhat-cloud-services/insights-common-typescript';

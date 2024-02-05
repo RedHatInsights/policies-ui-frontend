@@ -5,7 +5,7 @@
     "module": "es6",
     "target": "es5",
     "downlevelIteration": true, // Needed to allow iteration over some objects like Map() while target is es5
-    "jsx": "react",
+    "jsx": "react-jsx",
     "allowJs": true,
     "checkJs": false,
     "moduleResolution": "node",

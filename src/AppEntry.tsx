@@ -11,7 +11,7 @@ import { Provider } from 'react-redux';
 import { BrowserRouter as Router } from 'react-router-dom';
 import * as Redux from 'redux';
 
-import App from './app/App';
+// import App from './app/App';
 import { createStore, resetStore } from './store/Store';
 
 interface AppEntryProps {
@@ -35,13 +35,15 @@ const AppEntry: React.FunctionComponent<AppEntryProps> = (props) => {
     }, [ props.logger ]);
 
     return (
-        <Provider store={ store }>
-            <Router basename={ getBaseName(window.location.pathname) }>
-                <ClientContextProvider client={ client }>
-                    <App />
-                </ClientContextProvider>
-            </Router>
-        </Provider>
+        // <Provider store={ store }>
+        //     <Router basename={ getBaseName(window.location.pathname) }>
+        //         <ClientContextProvider client={ client }>
+        //             {/* <App /> */}
+        //             
+        //         </ClientContextProvider>
+        //     </Router>
+        // </Provider>
+        <>Hello from AppEntry</>
     );
 };
 
