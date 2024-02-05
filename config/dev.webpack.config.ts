@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 // @ts-nocheck
-import { resolve } from 'path';
+const { resolve } = require('path');
 
-import { updateTsLoaderRule } from './common.webpack.config';
+const { updateTsLoaderRule } = require('./common.webpack.config');
 
-import config from '@redhat-cloud-services/frontend-components-config';
+const config = require('@redhat-cloud-services/frontend-components-config');
 
 const { config: webpackConfig, plugins } = config({
     rootFolder: resolve(__dirname, '../'),
