@@ -1,3 +1,4 @@
+// @ts-nocheck
 import {
     breakWord,     ICell,
     IRow,

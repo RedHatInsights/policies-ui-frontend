@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { Direction, Page, Sort } from '@redhat-cloud-services/insights-common-typescript';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';

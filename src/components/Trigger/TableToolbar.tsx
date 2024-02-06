@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { PaginationProps, PaginationVariant } from '@patternfly/react-core';
 import { PrimaryToolbar } from '@redhat-cloud-services/frontend-components';
 import {

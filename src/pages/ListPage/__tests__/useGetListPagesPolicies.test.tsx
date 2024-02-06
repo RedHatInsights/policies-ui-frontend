@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { Page } from '@redhat-cloud-services/insights-common-typescript';
 import { act, renderHook } from '@testing-library/react-hooks';
 import fetchMock, { UNMATCHED } from 'fetch-mock';

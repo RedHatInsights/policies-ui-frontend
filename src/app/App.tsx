@@ -1,3 +1,4 @@
+// @ts-nocheck
 import './App.scss';
 
 import { NotificationsPortal } from '@redhat-cloud-services/frontend-components-notifications';

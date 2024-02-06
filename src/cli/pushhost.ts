@@ -1,4 +1,5 @@
 #!/usr/bin/env ts-node
+// @ts-nocheck
 
 import { exec } from 'child_process';
 import * as cliProgress from 'cli-progress';

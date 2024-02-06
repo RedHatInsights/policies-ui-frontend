@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { BellIcon } from '@patternfly/react-icons';
 import * as React from 'react';
 

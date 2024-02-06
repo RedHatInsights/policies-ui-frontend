@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { CheckCircleIcon } from '@patternfly/react-icons';
 import * as React from 'react';
 

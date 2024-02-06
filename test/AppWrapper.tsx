@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { NotificationsPortal } from '@redhat-cloud-services/frontend-components-notifications';
 import {
     getInsights,

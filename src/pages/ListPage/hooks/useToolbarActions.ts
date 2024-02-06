@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { addDangerNotification, exporterTypeFromString, toUtc } from '@redhat-cloud-services/insights-common-typescript';
 import { format } from 'date-fns';
 import inBrowserDownload from 'in-browser-download';

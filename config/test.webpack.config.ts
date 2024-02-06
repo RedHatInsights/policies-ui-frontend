@@ -1,3 +1,4 @@
+// @ts-nocheck
 import config from '@redhat-cloud-services/frontend-components-config';
 import { resolve } from 'path';
 

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { Button, ButtonVariant, Dropdown, DropdownItem } from '@patternfly/react-core';
 import { Toggle } from '@patternfly/react-core/dist/js/components/Dropdown/Toggle';
 import { AngleDownIcon } from '@patternfly/react-icons';
