@@ -1,25 +1,16 @@
 {
   "compilerOptions": {
-    "target": "es6",
-    "isolatedModules": true,
+    "module": "es6",
+    "target": "es5",
     "allowJs": true,
     "checkJs": false,
     "jsx": "react",
-    "outDir": "./build",
-    "removeComments": true,
-    "pretty": true,
+    "outDir": "./dist/",
     "skipLibCheck": true,
-    "strict": true,
     "moduleResolution": "node",
-    "esModuleInterop": true,
-    "noImplicitAny": false,
-    "sourceMap": true
+    "noImplicitAny": true,
+    "downlevelIteration": true, // Needed to allow iteration over some objects like Map() while target is es5
+    "strictNullChecks": true,
+    "allowSyntheticDefaultImports": true,
   },
-  "include": [
-    "./src/**/*"
-  ],
-  "exclude": [
-    "./node_modules/*",
-    "**/*.js"
-  ]
 }
