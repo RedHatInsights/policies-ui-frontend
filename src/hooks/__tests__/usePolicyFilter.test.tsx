@@ -1,5 +1,6 @@
 import { act, renderHook } from '@testing-library/react-hooks';
-import { MemoryRouter, useLocation } from 'react-router-dom';
+import { MemoryRouter } from 'react-router-dom';
+import { useLocation } from 'react-router-dom-v5-compat';
 
 import { PolicyFilterColumn } from '../../types/Policy/Filters';
 import { usePolicyFilter } from '../usePolicyFilter';

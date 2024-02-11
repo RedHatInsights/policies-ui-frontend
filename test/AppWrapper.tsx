@@ -12,8 +12,8 @@ import * as React from 'react';
 import { ClientContextProvider, createClient } from 'react-fetching-library';
 import { Provider } from 'react-redux';
 import { RouteProps } from 'react-router';
-import { CompatRoute } from 'react-router-dom-v5-compat';
-import { MemoryRouterProps, useLocation } from 'react-router';
+import { CompatRoute, useLocation } from 'react-router-dom-v5-compat';
+import { MemoryRouterProps } from 'react-router';
 import { MemoryRouter as Router } from 'react-router-dom';
 
 import { AppContext } from '../src/app/AppContext';
