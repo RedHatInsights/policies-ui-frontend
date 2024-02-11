@@ -11,7 +11,8 @@ import { validateSchemaResponseInterceptor } from 'openapi2typescript/react-fetc
 import * as React from 'react';
 import { ClientContextProvider, createClient } from 'react-fetching-library';
 import { Provider } from 'react-redux';
-import { Route, RouteProps } from 'react-router';
+import { RouteProps } from 'react-router';
+import { CompatRoute } from 'react-router-dom-v5-compat';
 import { MemoryRouterProps, useLocation } from 'react-router';
 import { MemoryRouter as Router } from 'react-router-dom';
 
@@ -113,9 +114,9 @@ export const AppWrapper: React.FunctionComponent<Config> = (props) => {
                     <AppContext.Provider value={ props.appContext || defaultAppContextSettings }>
                         <InternalWrapper { ...props }>
                             <NotificationsPortal />
-                            <Route { ...props.route } >
+                            <CompatRoute { ...props.route } >
                                 { props.children }
-                            </Route>
+                            </CompatRoute>
                         </InternalWrapper>
                     </AppContext.Provider>
                 </ClientContextProvider>
