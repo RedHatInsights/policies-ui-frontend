@@ -20,7 +20,7 @@ const getWrapper = (path: string) => {
             <MemoryRouter initialEntries={ [ path ] }>
                 <Route
                     path="*"
-                    render={ ({ location }) => {
+                    children={ ({ location }) => {
                         data.location = location;
                         return null;
                     } }

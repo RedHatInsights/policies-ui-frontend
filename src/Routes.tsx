@@ -87,7 +87,7 @@ export const Routes: React.FunctionComponent<unknown> = () => {
                     path={ path }
                 />
             ))}
-            <Redirect to={ linkTo.listPage() } />
+            <Route render={() => <Redirect to={ linkTo.listPage() } />} />
         </Switch>
     );
 };
