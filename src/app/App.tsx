@@ -5,7 +5,7 @@ import { AppSkeleton } from '@redhat-cloud-services/insights-common-typescript';
 import * as React from 'react';
 
 import { NoPermissionsPage } from '../pages/NoPermissions/NoPermissionsPage';
-import { Routes } from '../Routes';
+import { InsightsRoutes } from '../InsightsRoutes';
 import { AppContext } from './AppContext';
 import { useApp } from './useApp';
 
@@ -27,7 +27,7 @@ const App: React.FunctionComponent = () => {
             { rbac.canReadPolicies ? (
                 <>
                     <NotificationsPortal />
-                    <Routes />
+                    <InsightsRoutes />
                 </>
             ) : (
                 <NoPermissionsPage />

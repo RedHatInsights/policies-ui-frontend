@@ -5,7 +5,7 @@ import { format } from 'react-string-format';
 
 import { EmptyStateSection } from '../../components/Policy/EmptyState/Section';
 import { Messages } from '../../properties/Messages';
-import { linkTo } from '../../Routes';
+import { linkTo } from '../../InsightsRoutes';
 
 interface ListPageEmptyStateProps {
     policyId: string;

@@ -8,7 +8,7 @@ import { useState } from 'react';
 import { appWrapperCleanup, appWrapperSetup, getConfiguredAppWrapper } from '../../../../test/AppWrapper';
 import { waitForAsyncEvents } from '../../../../test/TestUtils';
 import { Operations } from '../../../generated/Openapi';
-import { linkTo } from '../../../Routes';
+import { linkTo } from '../../../InsightsRoutes';
 import ListPage from '../ListPage';
 
 jest.mock('@redhat-cloud-services/insights-common-typescript', () => {

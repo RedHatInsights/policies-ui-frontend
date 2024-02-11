@@ -1,8 +1,8 @@
 import { getBaseName, getInsights } from '@redhat-cloud-services/insights-common-typescript';
 import * as React from 'react';
 import { useEffect } from 'react';
-import { matchPath, Redirect, RouteProps, Switch } from 'react-router';
-import { CompatRoute, useNavigate, useLocation } from 'react-router-dom-v5-compat';
+import { matchPath, Redirect, RouteProps } from 'react-router';
+import { Routes, Route, useNavigate, useLocation } from 'react-router-dom-v5-compat';
 
 import { ErrorPage } from './pages/Error/Page';
 import ListPage from './pages/ListPage/ListPage';
@@ -31,10 +31,10 @@ const pathRoutes: Path[] = [
 
 type InsightsRouteProps = RouteProps;
 
-const InsightsRoute: React.FunctionComponent<InsightsRouteProps> = (props: InsightsRouteProps) => {
+const InsightsRoute: React.FunctionComponent<InsightsRouteProps> = (children) => {
     return (
         <ErrorPage>
-            <CompatRoute { ...props } />
+            {children}
         </ErrorPage>
     );
 };
@@ -48,7 +48,7 @@ const relativePath = (base: string, pathname: string) => {
     return relative;
 };
 
-export const Routes: React.FunctionComponent<unknown> = () => {
+export const InsightsRoutes: React.FunctionComponent<unknown> = () => {
     const insights = getInsights();
     const navigate = useNavigate();
     const location = useLocation();
@@ -78,15 +78,15 @@ export const Routes: React.FunctionComponent<unknown> = () => {
     }, [ insights.chrome.on, location, navigate ]);
 
     return (
-        <Switch>
+        <Routes>
             { pathRoutes.map(pathRoute => (
-                <InsightsRoute
+                <Route
                     key={ pathRoute.path }
-                    component={ pathRoute.component }
+                    component={ <InsightsRoute > {pathRoute.component} </InsightsRoute> }
                     path={ pathRoute.path }
                 />
             ))}
             <Redirect to={ linkTo.listPage() } />
-        </Switch>
+        </Routes>
     );
 };

@@ -3,7 +3,7 @@ import * as React from 'react';
 import { Route } from 'react-router';
 import { MemoryRouter } from 'react-router-dom';
 
-import { Routes } from '../Routes';
+import { InsightsRoutes } from '../InsightsRoutes';
 
 jest.mock('../pages/ListPage/ListPage', () => {
     const ListPageDummyComponent: React.FunctionComponent = () => {
@@ -42,7 +42,7 @@ describe('src/Routes', () => {
     it('Should render the ListPage on /', async () => {
         jest.useFakeTimers();
         const { Wrapper, data } = getWrapper('/');
-        render(<Routes />, {
+        render(<InsightsRoutes />, {
             wrapper: Wrapper
         });
 
@@ -53,7 +53,7 @@ describe('src/Routes', () => {
     it('Should render the ListPage on /list', async () => {
         jest.useFakeTimers();
         const { Wrapper, data } = getWrapper('/');
-        render(<Routes />, {
+        render(<InsightsRoutes />, {
             wrapper: Wrapper
         });
 
@@ -64,7 +64,7 @@ describe('src/Routes', () => {
     it('Should render the ListPage on /random-stuff', async () => {
         jest.useFakeTimers();
         const { Wrapper, data } = getWrapper('/random-stuff');
-        render(<Routes />, {
+        render(<InsightsRoutes />, {
             wrapper: Wrapper
         });
 

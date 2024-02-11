@@ -19,7 +19,7 @@ import { AppContext } from '../../app/AppContext';
 import { ExpandedContent } from '../../components/Policy/Table/ExpandedContent';
 import { usePolicyToDelete } from '../../hooks/usePolicyToDelete';
 import { Messages } from '../../properties/Messages';
-import { linkTo } from '../../Routes';
+import { linkTo } from '../../InsightsRoutes';
 import { useGetPolicyParametrizedQuery } from '../../services/useGetPolicy';
 import { useMassChangePolicyEnabledMutation } from '../../services/useMassChangePolicyEnabled';
 import { Policy } from '../../types/Policy';
