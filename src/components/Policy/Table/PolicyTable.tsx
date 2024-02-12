@@ -18,7 +18,7 @@ import {
     Sort } from '@redhat-cloud-services/insights-common-typescript';
 import { assertNever } from 'assert-never';
 import * as React from 'react';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom-v5-compat';
 import { style } from 'typestyle';
 
 import { Messages } from '../../../properties/Messages';
