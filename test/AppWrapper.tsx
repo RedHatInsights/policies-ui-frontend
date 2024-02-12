@@ -14,7 +14,7 @@ import { Provider } from 'react-redux';
 import { RouteProps } from 'react-router';
 import { MemoryRouterProps } from 'react-router';
 import { MemoryRouter as Router } from 'react-router-dom';
-import { CompatRoute, useLocation } from 'react-router-dom-v5-compat';
+import { Route, useLocation } from 'react-router-dom-v5-compat';
 
 import { AppContext } from '../src/app/AppContext';
 
@@ -115,9 +115,9 @@ export const AppWrapper: React.FunctionComponent<Config> = (props) => {
                     <AppContext.Provider value={ props.appContext || defaultAppContextSettings }>
                         <InternalWrapper { ...props }>
                             <NotificationsPortal />
-                            <CompatRoute { ...props.route } >
+                            <Route { ...props.route } >
                                 { props.children }
-                            </CompatRoute>
+                            </Route>
                         </InternalWrapper>
                     </AppContext.Provider>
                 </ClientContextProvider>
