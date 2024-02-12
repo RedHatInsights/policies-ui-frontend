@@ -50,7 +50,7 @@ const relativePath = (base: string, pathname: string) => {
     return relative;
 };
 
-export const Routes: React.FunctionComponent<unknown> = () => {
+export const InsightsRoutes: React.FunctionComponent<unknown> = () => {
     const insights = getInsights();
     const navigate = useNavigate();
     const location = useLocation();

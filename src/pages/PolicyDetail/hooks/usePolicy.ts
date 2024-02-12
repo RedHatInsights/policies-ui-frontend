@@ -6,7 +6,7 @@ import { unstable_batchedUpdates } from 'react-dom';
 import { useNavigate, useParams } from 'react-router-dom-v5-compat';
 import { usePrevious } from 'react-use';
 
-import { linkTo } from '../../../Routes';
+import { linkTo } from '../../../InsightsRoutes';
 import { Policy } from '../../../types/Policy';
 import { Uuid } from '../../../types/Policy/Policy';
 

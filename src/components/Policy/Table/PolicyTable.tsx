@@ -21,8 +21,8 @@ import * as React from 'react';
 import { Link } from 'react-router-dom-v5-compat';
 import { style } from 'typestyle';
 
+import { linkTo } from '../../../InsightsRoutes';
 import { Messages } from '../../../properties/Messages';
-import { linkTo } from '../../../Routes';
 import { Policy } from '../../../types/Policy';
 import { getOuiaProps } from '../../../utils/getOuiaProps';
 import { EmptyStateSection, EmptyStateSectionProps } from '../EmptyState/Section';

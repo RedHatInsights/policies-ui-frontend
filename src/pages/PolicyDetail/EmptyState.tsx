@@ -4,8 +4,8 @@ import { useNavigate } from 'react-router-dom-v5-compat';
 import { format } from 'react-string-format';
 
 import { EmptyStateSection } from '../../components/Policy/EmptyState/Section';
+import { linkTo } from '../../InsightsRoutes';
 import { Messages } from '../../properties/Messages';
-import { linkTo } from '../../Routes';
 
 interface ListPageEmptyStateProps {
     policyId: string;
