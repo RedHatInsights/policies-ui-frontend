@@ -3,7 +3,8 @@ import { useEffect } from 'react';
 // This seems to be stable enough:
 // https://github.com/facebook/react/issues/14259#issuecomment-505918440
 import { unstable_batchedUpdates } from 'react-dom';
-import { useHistory, useParams } from 'react-router';
+import { useHistory } from 'react-router';
+import { useParams } from 'react-router-dom-v5-compat';
 import { usePrevious } from 'react-use';
 
 import { linkTo } from '../../../Routes';
