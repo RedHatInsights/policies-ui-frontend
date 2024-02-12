@@ -12,7 +12,7 @@ import { addDangerNotification, BreadcrumbLinkItem, Section } from '@redhat-clou
 import * as React from 'react';
 import { useContext } from 'react';
 import { Helmet } from 'react-helmet';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom-v5-compat';
 import { style } from 'typestyle';
 
 import { AppContext } from '../../app/AppContext';
@@ -47,7 +47,7 @@ export const PolicyDetail: React.FunctionComponent = () => {
 
     const appContext = useContext(AppContext);
     const { canReadPolicies, canWritePolicies } = appContext.rbac;
-    const history = useHistory();
+    const navigate = useNavigate();
 
     const policyToDelete = usePolicyToDelete();
 
@@ -90,11 +90,11 @@ export const PolicyDetail: React.FunctionComponent = () => {
         const close = policyToDelete.close;
 
         if (deleted) {
-            history.push(linkTo.listPage());
+            navigate(linkTo.listPage());
         } else {
             close();
         }
-    }, [ history, policyToDelete.close ]);
+    }, [ navigate, policyToDelete.close ]);
 
     const statusChanged = React.useCallback((newStatus: boolean) => {
         if (policy) {

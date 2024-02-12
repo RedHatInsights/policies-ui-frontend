@@ -1,6 +1,6 @@
 import { fetchRBAC, Rbac, waitForInsights } from '@redhat-cloud-services/insights-common-typescript';
 import { useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom-v5-compat';
 
 import Config from '../config/Config';
 import { AppContext } from './AppContext';
@@ -8,7 +8,7 @@ import { useUserSettings } from './useUserSettings';
 
 export const useApp = (): Omit<AppContext, 'rbac'> & Partial<Pick<AppContext, 'rbac'>> => {
 
-    const history = useHistory();
+    const navigate = useNavigate();
     const [ rbac, setRbac ] = useState<Rbac | undefined>(undefined);
     const userSettings = useUserSettings(15 * 60 * 1000);
 
@@ -20,7 +20,7 @@ export const useApp = (): Omit<AppContext, 'rbac'> & Partial<Pick<AppContext, 'r
                 (insights.chrome as any).hideGlobalFilter();
             }
         });
-    }, [ history ]);
+    }, [ navigate ]);
 
     useEffect(() => {
         waitForInsights().then(insights => {

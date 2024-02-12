@@ -3,8 +3,7 @@ import { useEffect } from 'react';
 // This seems to be stable enough:
 // https://github.com/facebook/react/issues/14259#issuecomment-505918440
 import { unstable_batchedUpdates } from 'react-dom';
-import { useHistory } from 'react-router';
-import { useParams } from 'react-router-dom-v5-compat';
+import { useNavigate, useParams } from 'react-router-dom-v5-compat';
 import { usePrevious } from 'react-use';
 
 import { linkTo } from '../../../Routes';
@@ -17,16 +16,16 @@ export const usePolicy = () => {
         policyId: string;
     }>();
     const prevPolicyIdFromUrl = usePrevious(policyIdFromUrl);
-    const history = useHistory();
+    const navigate = useNavigate();
     const [ policy, setPolicyInternal ] = React.useState<Policy>();
     const policyId = policy?.id || policyIdFromUrl;
 
     const batchPolicyUpdate = React.useCallback((newPolicyId: Uuid, newPolicy: Policy | undefined) => {
         unstable_batchedUpdates(() => {
             setPolicyInternal(newPolicy);
-            history.push(linkTo.policyDetail(newPolicyId));
+            navigate(linkTo.policyDetail(newPolicyId));
         });
-    }, [ history, setPolicyInternal ]);
+    }, [ navigate, setPolicyInternal ]);
 
     const setPolicy = React.useCallback((policy: Policy) => {
         if (policyIdFromUrl !== policy.id) {
@@ -42,7 +41,7 @@ export const usePolicy = () => {
                 setPolicyInternal(undefined);
             }
         }
-    }, [ policyIdFromUrl, prevPolicyIdFromUrl, batchPolicyUpdate, history, policy, policyId ]);
+    }, [ policyIdFromUrl, prevPolicyIdFromUrl, batchPolicyUpdate, navigate, policy, policyId ]);
 
     return {
         policyId,
