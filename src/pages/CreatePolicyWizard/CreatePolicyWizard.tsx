@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom-v5-compat';
 import { PolicyWizard } from '../../components/Policy/PolicyWizard';
 import { CreatePolicyResponse, VerifyPolicyResponse } from '../../components/Policy/PolicyWizardTypes';
 import { useFacts } from '../../hooks/useFacts';
-import { linkTo } from '../../Routes';
+import { linkTo } from '../../InsightsRoutes';
 import { useSavePolicyMutation } from '../../services/useSavePolicy';
 import { useValidatePolicyNameParametrizedQuery } from '../../services/useValidatePolicyName';
 import { useVerifyPolicyMutation } from '../../services/useVerifyPolicy';

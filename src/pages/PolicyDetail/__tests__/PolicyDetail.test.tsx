@@ -8,7 +8,7 @@ import * as React from 'react';
 import { appWrapperCleanup, appWrapperSetup, getConfiguredAppWrapper } from '../../../../test/AppWrapper';
 import { waitForAsyncEvents } from '../../../../test/TestUtils';
 import { Operations, Schemas } from '../../../generated/Openapi';
-import { linkTo } from '../../../Routes';
+import { linkTo } from '../../../InsightsRoutes';
 import { ServerPolicyRequest, Uuid } from '../../../types/Policy/Policy';
 import { PolicyDetail } from '../PolicyDetail';
 import Policy = Schemas.Policy;

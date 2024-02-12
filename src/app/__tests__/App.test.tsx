@@ -15,7 +15,7 @@ jest.mock('@redhat-cloud-services/insights-common-typescript', () => {
     };
 });
 jest.mock('../../services/useUserSettingsEmailQuery');
-jest.mock('../../Routes', () => {
+jest.mock('../../InsightsRoutes', () => {
     const MockedRoutes: React.FunctionComponent = () => <div data-testid="content" />;
     return {
         Routes: MockedRoutes
