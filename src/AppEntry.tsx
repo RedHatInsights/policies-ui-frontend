@@ -8,6 +8,7 @@ import React from 'react';
 import { ClientContextProvider } from 'react-fetching-library';
 import { Provider } from 'react-redux';
 import { BrowserRouter as Router } from 'react-router-dom';
+import { CompatRouter } from 'react-router-dom-v5-compat';
 import * as Redux from 'redux';
 
 import App from './app/App';
@@ -36,9 +37,11 @@ const AppEntry: React.FunctionComponent<AppEntryProps> = (props) => {
     return (
         <Provider store={ store }>
             <Router basename={ getBaseName(window.location.pathname) }>
-                <ClientContextProvider client={ client }>
-                    <App />
-                </ClientContextProvider>
+                <CompatRouter>
+                    <ClientContextProvider client={ client }>
+                        <App />
+                    </ClientContextProvider>
+                </CompatRouter>
             </Router>
         </Provider>
     );
