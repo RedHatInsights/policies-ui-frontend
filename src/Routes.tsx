@@ -1,7 +1,7 @@
 import { getBaseName, getInsights } from '@redhat-cloud-services/insights-common-typescript';
 import * as React from 'react';
 import { useEffect } from 'react';
-import { matchPath, Redirect, Route, RouteProps, Switch, useHistory } from 'react-router';
+import { matchPath, Redirect, Route, Switch, useHistory } from 'react-router';
 
 import { ErrorPage } from './pages/Error/Page';
 import ListPage from './pages/ListPage/ListPage';
@@ -28,12 +28,14 @@ const pathRoutes: Path[] = [
     }
 ];
 
-type InsightsRouteProps = RouteProps;
+type InsightsElementProps = {
+    component: React.ComponentType;
+};
 
-const InsightsRoute: React.FunctionComponent<InsightsRouteProps> = (props: InsightsRouteProps) => {
+const InsightsElement: React.FunctionComponent<InsightsElementProps> = ({ component: PathRouteComponent }) => {
     return (
         <ErrorPage>
-            <Route { ...props } />
+            <PathRouteComponent />
         </ErrorPage>
     );
 };
@@ -78,14 +80,14 @@ export const Routes: React.FunctionComponent<unknown> = () => {
 
     return (
         <Switch>
-            { pathRoutes.map(pathRoute => (
-                <InsightsRoute
-                    key={ pathRoute.path }
-                    component={ pathRoute.component }
-                    path={ pathRoute.path }
+            { pathRoutes.map(({ path, component }) => (
+                <Route
+                    key={ path }
+                    render={ () => <InsightsElement component={ component } /> }
+                    path={ path }
                 />
             ))}
-            <Redirect to={ linkTo.listPage() } />
+            <Route render={ () => <Redirect to={ linkTo.listPage() } /> } />
         </Switch>
     );
 };
