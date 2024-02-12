@@ -28,12 +28,14 @@ const pathRoutes: Path[] = [
     }
 ];
 
-type InsightsRouteProps = RouteProps;
+type InsightsElementProps = {
+    component: React.ComponentType;
+};
 
-const InsightsRoute: React.FunctionComponent<InsightsRouteProps> = (props: InsightsRouteProps) => {
+const InsightsElement: React.FunctionComponent<InsightsElementProps> = ({component: PathRouteComponent}) => {
     return (
         <ErrorPage>
-            <Route { ...props } />
+            <PathRouteComponent />
         </ErrorPage>
     );
 };
@@ -78,11 +80,11 @@ export const Routes: React.FunctionComponent<unknown> = () => {
 
     return (
         <Switch>
-            { pathRoutes.map(pathRoute => (
-                <InsightsRoute
-                    key={ pathRoute.path }
-                    component={ pathRoute.component }
-                    path={ pathRoute.path }
+            { pathRoutes.map(({ path, component }) => (
+                <Route
+                    key={ path }
+                    render={() => <InsightsElement component={ component } /> }
+                    path={ path }
                 />
             ))}
             <Redirect to={ linkTo.listPage() } />
