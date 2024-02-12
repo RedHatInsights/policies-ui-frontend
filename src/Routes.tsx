@@ -1,7 +1,8 @@
 import { getBaseName, getInsights } from '@redhat-cloud-services/insights-common-typescript';
 import * as React from 'react';
 import { useEffect } from 'react';
-import { matchPath, Redirect, Route, Switch, useHistory } from 'react-router';
+import { matchPath, Redirect, Switch, useHistory } from 'react-router';
+import { CompatRoute } from 'react-router-dom-v5-compat';
 
 import { ErrorPage } from './pages/Error/Page';
 import ListPage from './pages/ListPage/ListPage';
@@ -73,7 +74,6 @@ export const Routes: React.FunctionComponent<unknown> = () => {
                         break;
                     }
                 }
-
             });
         }
     }, [ insights.chrome.on, history ]);
@@ -81,13 +81,13 @@ export const Routes: React.FunctionComponent<unknown> = () => {
     return (
         <Switch>
             { pathRoutes.map(({ path, component }) => (
-                <Route
+                <CompatRoute
                     key={ path }
                     render={ () => <InsightsElement component={ component } /> }
                     path={ path }
                 />
             ))}
-            <Route render={ () => <Redirect to={ linkTo.listPage() } /> } />
+            <CompatRoute render={ () => <Redirect to={ linkTo.listPage() } /> } />
         </Switch>
     );
 };
