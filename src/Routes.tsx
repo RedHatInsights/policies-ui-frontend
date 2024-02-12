@@ -1,8 +1,8 @@
 import { getBaseName, getInsights } from '@redhat-cloud-services/insights-common-typescript';
 import * as React from 'react';
 import { useEffect } from 'react';
-import { matchPath, Redirect, Switch, useHistory } from 'react-router';
-import { CompatRoute } from 'react-router-dom-v5-compat';
+import { matchPath, Redirect, Switch } from 'react-router';
+import { CompatRoute, useLocation, useNavigate } from 'react-router-dom-v5-compat';
 
 import { ErrorPage } from './pages/Error/Page';
 import ListPage from './pages/ListPage/ListPage';
@@ -52,7 +52,8 @@ const relativePath = (base: string, pathname: string) => {
 
 export const Routes: React.FunctionComponent<unknown> = () => {
     const insights = getInsights();
-    const history = useHistory();
+    const navigate = useNavigate();
+    const location = useLocation();
 
     useEffect(() => {
         const on = insights.chrome.on;
@@ -67,8 +68,8 @@ export const Routes: React.FunctionComponent<unknown> = () => {
                         path: route.path,
                         exact: true
                     })) {
-                        if (history.location.pathname !== relative) {
-                            history.push(relative);
+                        if (location.pathname !== relative) {
+                            navigate(relative);
                         }
 
                         break;
@@ -76,7 +77,7 @@ export const Routes: React.FunctionComponent<unknown> = () => {
                 }
             });
         }
-    }, [ insights.chrome.on, history ]);
+    }, [ insights.chrome.on, location, navigate ]);
 
     return (
         <Switch>
