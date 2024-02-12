@@ -18,15 +18,14 @@ const getWrapper = (path: string) => {
     const Wrapper: React.FunctionComponent = (props) => {
         return (
             <MemoryRouter initialEntries={ [ path ] }>
-                <Route
-                    path="*"
-                    children={ ({ location }) => {
+                <Route path="*">
+                    {({ location }) => {
                         data.location = location;
                         return null;
-                    } }
-                />
+                    }}
+                </Route>
                 {/* eslint-disable-next-line testing-library/no-node-access */}
-                <div id="root">{ props.children }</div>
+                <div id="root">{props.children}</div>
             </MemoryRouter>
         );
     };
@@ -38,7 +37,6 @@ const getWrapper = (path: string) => {
 };
 
 describe('src/Routes', () => {
-
     it('Should render the ListPage on /', async () => {
         jest.useFakeTimers();
         const { Wrapper, data } = getWrapper('/');

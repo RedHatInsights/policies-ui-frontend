@@ -1,7 +1,7 @@
 import { getBaseName, getInsights } from '@redhat-cloud-services/insights-common-typescript';
 import * as React from 'react';
 import { useEffect } from 'react';
-import { matchPath, Redirect, Route, RouteProps, Switch, useHistory } from 'react-router';
+import { matchPath, Redirect, Route, Switch, useHistory } from 'react-router';
 
 import { ErrorPage } from './pages/Error/Page';
 import ListPage from './pages/ListPage/ListPage';
@@ -32,7 +32,7 @@ type InsightsElementProps = {
     component: React.ComponentType;
 };
 
-const InsightsElement: React.FunctionComponent<InsightsElementProps> = ({component: PathRouteComponent}) => {
+const InsightsElement: React.FunctionComponent<InsightsElementProps> = ({ component: PathRouteComponent }) => {
     return (
         <ErrorPage>
             <PathRouteComponent />
@@ -83,11 +83,11 @@ export const Routes: React.FunctionComponent<unknown> = () => {
             { pathRoutes.map(({ path, component }) => (
                 <Route
                     key={ path }
-                    render={() => <InsightsElement component={ component } /> }
+                    render={ () => <InsightsElement component={ component } /> }
                     path={ path }
                 />
             ))}
-            <Route render={() => <Redirect to={ linkTo.listPage() } />} />
+            <Route render={ () => <Redirect to={ linkTo.listPage() } /> } />
         </Switch>
     );
 };
