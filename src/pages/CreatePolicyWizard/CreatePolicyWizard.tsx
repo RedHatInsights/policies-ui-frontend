@@ -1,7 +1,7 @@
 import { addSuccessNotification } from '@redhat-cloud-services/insights-common-typescript';
 import * as HttpStatus from 'http-status-codes';
 import * as React from 'react';
-import { Link } from 'react-router-dom-v5-compat';
+import { Link } from 'react-router-dom';
 
 import { PolicyWizard } from '../../components/Policy/PolicyWizard';
 import { CreatePolicyResponse, VerifyPolicyResponse } from '../../components/Policy/PolicyWizardTypes';

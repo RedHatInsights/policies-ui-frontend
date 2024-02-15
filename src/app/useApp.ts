@@ -1,6 +1,6 @@
 import { fetchRBAC, Rbac, waitForInsights } from '@redhat-cloud-services/insights-common-typescript';
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom-v5-compat';
+import { useNavigate } from 'react-router-dom';
 
 import Config from '../config/Config';
 import { AppContext } from './AppContext';

@@ -1,6 +1,6 @@
 import { UnknownIcon } from '@patternfly/react-icons';
 import * as React from 'react';
-import { useNavigate } from 'react-router-dom-v5-compat';
+import { useNavigate } from 'react-router-dom';
 import { format } from 'react-string-format';
 
 import { EmptyStateSection } from '../../components/Policy/EmptyState/Section';
