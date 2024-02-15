@@ -18,7 +18,7 @@ import {
     Sort } from '@redhat-cloud-services/insights-common-typescript';
 import { assertNever } from 'assert-never';
 import * as React from 'react';
-import { Link } from 'react-router-dom-v5-compat';
+import { Link } from 'react-router-dom';
 import { style } from 'typestyle';
 
 import { linkTo } from '../../../InsightsRoutes';

@@ -11,10 +11,8 @@ import { validateSchemaResponseInterceptor } from 'openapi2typescript/react-fetc
 import * as React from 'react';
 import { ClientContextProvider, createClient } from 'react-fetching-library';
 import { Provider } from 'react-redux';
-import { RouteProps } from 'react-router';
-import { MemoryRouterProps } from 'react-router';
-import { MemoryRouter as Router } from 'react-router-dom';
-import { Route, useLocation } from 'react-router-dom-v5-compat';
+import { MemoryRouterProps, RouteProps } from 'react-router';
+import { MemoryRouter as Router, Route, useLocation } from 'react-router-dom';
 
 import { AppContext } from '../src/app/AppContext';
 

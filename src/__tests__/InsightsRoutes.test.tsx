@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import * as React from 'react';
 import { MemoryRouter } from 'react-router-dom';
-import { Route } from 'react-router-dom-v5-compat';
+import { Route } from 'react-router-dom';
 
 import { InsightsRoutes } from '../InsightsRoutes';
 
