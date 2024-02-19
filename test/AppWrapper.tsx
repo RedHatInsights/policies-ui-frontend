@@ -12,7 +12,7 @@ import * as React from 'react';
 import { ClientContextProvider, createClient } from 'react-fetching-library';
 import { Provider } from 'react-redux';
 import { MemoryRouterProps, RouteProps } from 'react-router';
-import { MemoryRouter as Router, Route, useLocation } from 'react-router-dom';
+import { MemoryRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
 
 import { AppContext } from '../src/app/AppContext';
 
@@ -113,9 +113,9 @@ export const AppWrapper: React.FunctionComponent<Config> = (props) => {
                     <AppContext.Provider value={ props.appContext || defaultAppContextSettings }>
                         <InternalWrapper { ...props }>
                             <NotificationsPortal />
-                            <Route { ...props.route } >
-                                { props.children }
-                            </Route>
+                            <Routes>
+                                <Route { ...props.route } element={ <>{props.children}</> } />
+                            </Routes>
                         </InternalWrapper>
                     </AppContext.Provider>
                 </ClientContextProvider>
