@@ -70,7 +70,7 @@ export const PolicyDetail: React.FunctionComponent = () => {
         if (policyId !== policy?.id) {
             query(policyId as string).then(processGetPolicyResponse);
         }
-    }, [ policyId, getPolicyQuery.query, policy, setPolicy, processGetPolicyResponse ]);
+    }, [ policyId ]);
 
     const closePolicyWizard = React.useCallback((policy: Policy | undefined) => {
         const close = wizardState.close;
@@ -79,7 +79,7 @@ export const PolicyDetail: React.FunctionComponent = () => {
         }
 
         close();
-    }, [ setPolicy, wizardState.close ]);
+    }, [ wizardState.close ]);
 
     const deletePolicy = React.useCallback(() => {
         const open = policyToDelete.open;
@@ -102,7 +102,7 @@ export const PolicyDetail: React.FunctionComponent = () => {
         if (policy) {
             setPolicy({ ...policy, isEnabled: newStatus });
         }
-    }, [ policy, setPolicy ]);
+    }, [ policy ]);
 
     const onChangeStatus = React.useCallback(newStatus => {
         const mutate = changePolicyEnabled.mutate;
