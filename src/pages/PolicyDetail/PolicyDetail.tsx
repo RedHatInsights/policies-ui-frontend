@@ -42,8 +42,10 @@ const recentTriggerVersionTitleClassname = style({
 
 type PolicyQueryResponse = ReturnType<ReturnType<typeof useGetPolicyParametrizedQuery>['query']> extends Promise<infer U> ? U : never
 
+interface UsePolicyType {policyId: string | undefined, policy: Policy | undefined, setPolicy: (policy: Policy) => void}
+
 export const PolicyDetail: React.FunctionComponent = () => {
-    const { policyId, policy, setPolicy } = usePolicy();
+    const { policyId, policy, setPolicy }: UsePolicyType = usePolicy();
 
     const appContext = useContext(AppContext);
     const { canReadPolicies, canWritePolicies } = appContext.rbac;
@@ -66,7 +68,7 @@ export const PolicyDetail: React.FunctionComponent = () => {
     React.useEffect(() => {
         const query = getPolicyQuery.query;
         if (policyId !== policy?.id) {
-            query(policyId).then(processGetPolicyResponse);
+            query(policyId as string).then(processGetPolicyResponse);
         }
     }, [ policyId, getPolicyQuery.query, policy, setPolicy, processGetPolicyResponse ]);
 
@@ -105,11 +107,11 @@ export const PolicyDetail: React.FunctionComponent = () => {
     const onChangeStatus = React.useCallback(newStatus => {
         const mutate = changePolicyEnabled.mutate;
         mutate({
-            policyIds: [ policyId ],
+            policyIds: [ policyId as string ],
             shouldBeEnabled: newStatus
         }).then((result) => {
             if (result.payload?.status === 200) {
-                if (result.payload.value.includes(policyId)) {
+                if (result.payload.value.includes(policyId as string)) {
                     statusChanged(newStatus);
                 } else {
                     addDangerNotification(
@@ -145,7 +147,7 @@ export const PolicyDetail: React.FunctionComponent = () => {
             return <PolicyDetailErrorState
                 action={ () => {
                     triggerDetailRef.current?.refresh();
-                    getPolicyQuery.query(policyId).then(processGetPolicyResponse);
+                    getPolicyQuery.query(policyId as string).then(processGetPolicyResponse);
                 } }
                 error={ error }
             />;
@@ -209,7 +211,7 @@ export const PolicyDetail: React.FunctionComponent = () => {
                     <Title headingLevel="h2" size="lg">Recent trigger history</Title>
                 </div>
                 <TriggerDetailSection
-                    policyId={ policyId }
+                    policyId={ policyId as string }
                     ref={ triggerDetailRef }
                 />
             </Main>
