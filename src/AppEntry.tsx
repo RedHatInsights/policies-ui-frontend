@@ -6,7 +6,6 @@ import { validateSchemaResponseInterceptor } from 'openapi2typescript/react-fetc
 import React from 'react';
 import { ClientContextProvider } from 'react-fetching-library';
 import { Provider } from 'react-redux';
-// import { BrowserRouter as Router } from 'react-router-dom';
 import * as Redux from 'redux';
 
 import App from './app/App';
@@ -16,7 +15,7 @@ interface AppEntryProps {
     logger?: Redux.Middleware;
 }
 
-const AppEntry: React.FunctionComponent<AppEntryProps> = (props) => {
+const AppEntry: React.FunctionComponent<AppEntryProps> = () => {
 
     const client = createFetchingClient(getInsights, {
         responseInterceptors: [ validateSchemaResponseInterceptor ]
