@@ -1,7 +1,6 @@
 import { getBaseName, getInsights } from '@redhat-cloud-services/insights-common-typescript';
 import * as React from 'react';
 import { useEffect } from 'react';
-// check me please
 import { matchPath } from 'react-router';
 import { Navigate, Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 
@@ -15,8 +14,8 @@ interface Path {
 }
 
 export const linkTo = {
-    listPage: () => '/policies/list',
-    policyDetail: (policyId: string) => `/policies/policy/${policyId}`
+    listPage: () => 'list',
+    policyDetail: (policyId: string) => `policy/${policyId}`
 };
 
 const pathRoutes: Path[] = [
@@ -89,7 +88,7 @@ export const InsightsRoutes: React.FunctionComponent<unknown> = () => {
                     path={ path }
                 />
             ))}
-            <Route element={ <Navigate to={ linkTo.listPage() } /> } />
+            <Route path={ '*' } element={ <Navigate to={ linkTo.listPage() } /> } />
         </Routes>
     );
 };
