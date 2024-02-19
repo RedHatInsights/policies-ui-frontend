@@ -12,13 +12,13 @@ import {
     TableHeader
 } from '@patternfly/react-table';
 import { SkeletonTable } from '@redhat-cloud-services/frontend-components';
+import InsightsLink from '@redhat-cloud-services/frontend-components/InsightsLink';
 import {
     Direction,
     OuiaComponentProps,
     Sort } from '@redhat-cloud-services/insights-common-typescript';
 import { assertNever } from 'assert-never';
 import * as React from 'react';
-import { Link } from 'react-router-dom';
 import { style } from 'typestyle';
 
 import { linkTo } from '../../../InsightsRoutes';
@@ -83,7 +83,7 @@ const policiesToRows = (policies: PolicyRow[] | undefined, columnsToShow: ValidC
                             return (
                                 <>
                                     { linksToDetail ? (
-                                        <Link to={ linkTo.policyDetail(policy.id) }>{ policy.name }</Link>
+                                        <InsightsLink to={ '/' + linkTo.policyDetail(policy.id) }>{ policy.name }</InsightsLink>
                                     ) : policy.name }
                                 </>
                             );
