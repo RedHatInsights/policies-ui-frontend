@@ -6,6 +6,7 @@ import inBrowserDownload from 'in-browser-download';
 import * as React from 'react';
 
 import { appWrapperCleanup, appWrapperSetup, getConfiguredAppWrapper } from '../../../../test/AppWrapper';
+// I believe this should be removed:
 import { waitForAsyncEvents } from '../../../../test/TestUtils';
 import { Operations, Schemas } from '../../../generated/Openapi';
 import { linkTo } from '../../../InsightsRoutes';
@@ -855,6 +856,8 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
         });
 
         await waitForAsyncEvents();
+        await screen.findByText(/try again/i);
+
         const finishLoading = jest.fn();
         fetchMockSetup({
             policyLoading: finishLoading

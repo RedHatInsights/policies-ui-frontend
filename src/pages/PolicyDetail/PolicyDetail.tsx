@@ -128,6 +128,8 @@ export const PolicyDetail: React.FunctionComponent = () => {
         });
     }, [ policyId, changePolicyEnabled.mutate, statusChanged ]);
 
+    console.log("Made it yey PolicyDetail");
+
     if (!canReadPolicies) {
         return <NoPermissionsPage />;
     }

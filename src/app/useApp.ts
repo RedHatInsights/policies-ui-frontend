@@ -14,7 +14,6 @@ export const useApp = (): Omit<AppContext, 'rbac'> & Partial<Pick<AppContext, 'r
     const chrome = useChrome();
 
     useEffect(() => {
-        chrome.identifyApp(Config.appId);
         if (chrome.hasOwnProperty('hideGlobalFilter') && (chrome as any).hideGlobalFilter) {
             (chrome as any).hideGlobalFilter();
         }
@@ -24,7 +23,7 @@ export const useApp = (): Omit<AppContext, 'rbac'> & Partial<Pick<AppContext, 'r
         chrome.auth.getUser().then(() => {
             fetchRBAC(Config.appId).then(setRbac);
         });
-    }, []);
+    }, [ chrome.auth ]);
 
     return {
         rbac: rbac ? {

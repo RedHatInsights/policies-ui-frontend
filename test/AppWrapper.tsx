@@ -106,6 +106,9 @@ export const AppWrapper: React.FunctionComponent<Config> = (props) => {
         throw new Error('appWrapperSetup has not been called, you need to call it on the beforeEach');
     }
 
+    console.log(props, "AppWrapper -> props");
+    console.log(props.route, "AppWrapper -> props.route");
+
     return (
         <Provider store={ store }>
             <Router { ...props.router } >
@@ -114,7 +117,7 @@ export const AppWrapper: React.FunctionComponent<Config> = (props) => {
                         <InternalWrapper { ...props }>
                             <NotificationsPortal />
                             <Routes>
-                                <Route { ...props.route } element={ <>{props.children}</> } />
+                                <Route path={ props.route?.path || '/' } { ...props.route } element={ <>{props.children}</> } />
                             </Routes>
                         </InternalWrapper>
                     </AppContext.Provider>
