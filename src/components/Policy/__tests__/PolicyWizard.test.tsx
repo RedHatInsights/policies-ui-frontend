@@ -23,6 +23,7 @@ describe('src/components/Policy/PolicyWizard', () => {
         jest.useFakeTimers();
         render(
             <PolicyWizard
+                data-ouia-component-id={ 'pendo-policy-wizard' }
                 initialValue={ {} }
                 onClose={ jest.fn() }
                 onSave={ jest.fn() }
@@ -47,6 +48,7 @@ describe('src/components/Policy/PolicyWizard', () => {
         jest.useFakeTimers();
         render(
             <PolicyWizard
+                data-ouia-component-id={ 'pendo-policy-wizard' }
                 initialValue={ {} }
                 onClose={ jest.fn() }
                 onSave={ jest.fn() }
@@ -71,6 +73,7 @@ describe('src/components/Policy/PolicyWizard', () => {
         jest.useFakeTimers();
         render(
             <PolicyWizard
+                data-ouia-component-id={ 'pendo-policy-wizard' }
                 initialValue={ {} }
                 onClose={ jest.fn() }
                 onSave={ jest.fn() }
@@ -98,6 +101,7 @@ describe('src/components/Policy/PolicyWizard', () => {
         jest.useFakeTimers();
         render(
             <PolicyWizard
+                data-ouia-component-id={ 'pendo-policy-wizard' }
                 initialValue={ {} }
                 onClose={ jest.fn() }
                 onSave={ jest.fn() }
@@ -133,6 +137,7 @@ describe('src/components/Policy/PolicyWizard', () => {
             jest.useFakeTimers();
             render(
                 <PolicyWizard
+                    data-ouia-component-id={ 'pendo-policy-wizard' }
                     initialValue={ {} }
                     onClose={ jest.fn() }
                     onSave={ jest.fn() }
@@ -155,6 +160,7 @@ describe('src/components/Policy/PolicyWizard', () => {
             jest.useFakeTimers();
             render(
                 <PolicyWizard
+                    data-ouia-component-id={ 'pendo-policy-wizard' }
                     initialValue={ {} }
                     onClose={ jest.fn() }
                     onSave={ jest.fn() }
@@ -182,6 +188,7 @@ describe('src/components/Policy/PolicyWizard', () => {
             const onValidateName = jest.fn(() => Promise.resolve({ created: false }));
             render(
                 <PolicyWizard
+                    data-ouia-component-id={ 'pendo-policy-wizard' }
                     initialValue={ {} }
                     onClose={ jest.fn() }
                     onSave={ jest.fn() }
@@ -215,6 +222,7 @@ describe('src/components/Policy/PolicyWizard', () => {
             const onValidateName = jest.fn(() => Promise.resolve({ created: false }));
             render(
                 <PolicyWizard
+                    data-ouia-component-id={ 'pendo-policy-wizard' }
                     initialValue={ {} }
                     onClose={ jest.fn() }
                     onSave={ jest.fn() }
@@ -252,6 +260,7 @@ describe('src/components/Policy/PolicyWizard', () => {
             const onValidateName = jest.fn(() => Promise.resolve({ created: false, error: 'invalid name' }));
             render(
                 <PolicyWizard
+                    data-ouia-component-id={ 'pendo-policy-wizard' }
                     initialValue={ {} }
                     onClose={ jest.fn() }
                     onSave={ jest.fn() }
