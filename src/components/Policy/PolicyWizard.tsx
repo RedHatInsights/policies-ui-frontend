@@ -146,6 +146,7 @@ const FormikBinding: React.FunctionComponent<FormikBindingProps> = (props) => {
         <Form>
             <WizardContext.Provider value={ wizardContext }>
                 <Wizard
+                    data-ouia-component-id={ 'pendo-policy-wizard' }
                     isOpen={ true }
                     onSave={ onSave }
                     onClose={ props.onClose }
