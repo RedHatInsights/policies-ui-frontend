@@ -42,7 +42,7 @@ export const appWrapperSetup = () => {
     store = initStore().getStore();
 
     const mock = new MockAdapter(axios);
-    mock.onGet('/api/inventory/v1/hosts?page=1&per_page=1').reply(200,
+    mock.onGet('/api/inventory/v1/hosts?filter[system_profile][operating_system][RHEL][version][gte]=0&page=1&per_page=1').reply(200,
         {
             total: 5,
             count: 10,
