@@ -13,9 +13,6 @@ const App: React.FunctionComponent = () => {
 
     const { rbac, userSettings } = useApp();
 
-    // console.log(rbac, "App -> useApp.rbac");
-    // console.log(userSettings, "App -> useApp.userSettings");
-
     if (!rbac) {
         return (
             <AppSkeleton />

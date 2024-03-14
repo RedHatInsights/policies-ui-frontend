@@ -14,6 +14,7 @@ describe('src/pages/PolicyDetail/Skeleton', () => {
         appWrapperCleanup();
     });
 
+    // check this link
     it('Renders breadcrumb policies with link to listPage', () => {
         render(<PolicyDetailSkeleton />, {
             wrapper: AppWrapper

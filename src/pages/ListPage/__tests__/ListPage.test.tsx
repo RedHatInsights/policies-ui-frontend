@@ -113,7 +113,7 @@ describe('src/pages/ListPage', () => {
         render(<ListPage />, {
             wrapper: getConfiguredAppWrapper({
                 router: {
-                    initialEntries: [ linkTo.listPage() ]
+                    initialEntries: [ `/${linkTo.listPage()}` ]
                 },
                 route: {
                     path: linkTo.listPage()
@@ -160,6 +160,7 @@ describe('src/pages/ListPage', () => {
         expect(screen.getByText('Policy 4')).toBeVisible();
     });
 
+    // check these links !!
     it('Policy name is a link in stable too"', async () => {
         fetchMockSetup();
         const getLocation = jest.fn();
@@ -167,7 +168,7 @@ describe('src/pages/ListPage', () => {
             wrapper: getConfiguredAppWrapper({
                 router: {
                     initialEntries: [
-                        '/policies/list'
+                        `/${linkTo.listPage()}`
                     ]
                 },
                 getLocation
@@ -178,7 +179,7 @@ describe('src/pages/ListPage', () => {
         userEvent.click(screen.getByText('Policy 1'));
         await waitForAsyncEvents();
 
-        expect(getLocation().pathname).not.toEqual('/policies/list');
+        expect(getLocation().pathname).not.toEqual(`/${linkTo.listPage()}`);
     });
 
     it('Policy name is a link in beta"', async () => {
@@ -188,6 +189,7 @@ describe('src/pages/ListPage', () => {
             wrapper: getConfiguredAppWrapper({
                 router: {
                     initialEntries: [
+                        // problem ??? need to check
                         '/preview/policies/list'
                     ]
                 },
@@ -199,7 +201,7 @@ describe('src/pages/ListPage', () => {
         userEvent.click(screen.getByText('Policy 1'));
         await waitForAsyncEvents();
 
-        expect(getLocation().pathname).not.toEqual('/policies/list');
+        expect(getLocation().pathname).not.toEqual(`/${linkTo.listPage()}`);
     });
 
     it('Nothing is sorted by default', async () => {

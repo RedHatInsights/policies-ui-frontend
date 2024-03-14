@@ -1817,20 +1817,7 @@
     commander ">=2.20.0"
     react-content-loader ">=3.4.1"
 
-"@redhat-cloud-services/frontend-components-utilities@3.5.0":
-  version "3.5.0"
-  resolved "https://registry.yarnpkg.com/@redhat-cloud-services/frontend-components-utilities/-/frontend-components-utilities-3.5.0.tgz#663b1984638bce0a46c705259737428418ecb35b"
-  integrity sha512-+psPuT+5hpOP0vF6wjmJNUfLSgObtTBKSCtT7Ju9XfmWnmiKLc6Er1iias2Othy4WP+5EaLlH22Rd1wk8ut8HA==
-  dependencies:
-    "@redhat-cloud-services/types" "^0.0.17"
-    "@sentry/browser" "^5.30.0"
-    awesome-debounce-promise "^2.1.0"
-    axios "^0.27.2"
-    commander "^2.20.3"
-    mkdirp "^1.0.4"
-    react-content-loader "^6.2.0"
-
-"@redhat-cloud-services/frontend-components-utilities@^3.2.25":
+"@redhat-cloud-services/frontend-components-utilities@3.7.6", "@redhat-cloud-services/frontend-components-utilities@^3.2.25":
   version "3.7.6"
   resolved "https://registry.yarnpkg.com/@redhat-cloud-services/frontend-components-utilities/-/frontend-components-utilities-3.7.6.tgz#aeb19b2847b4accd4b144241e030c4060bae1e85"
   integrity sha512-qXevUW8Clj1AoBLwfZAmS+oFJCWKZaMp8O33cyUhkoGjrwkQaL5eJg28zjLVa1uQhdJAvAdwTNtE+Gt3hJTC1g==
@@ -1868,11 +1855,6 @@
   integrity sha512-6nKT+X3DcHCAz+KSkaRz8BwjcCbeu3Q78iux7CEF+dP1FFem8eVvlnC34niy5u+Ol6BlyIoTXUJrF3kYaIc1zA==
   dependencies:
     axios "^0.21.1"
-
-"@redhat-cloud-services/types@^0.0.17":
-  version "0.0.17"
-  resolved "https://registry.yarnpkg.com/@redhat-cloud-services/types/-/types-0.0.17.tgz#00d4642ffb3885e7ca6790d626f5ca5909e73af9"
-  integrity sha512-3V9mmarS3jD5fBksMwh+XCEAMUIzqSOxDkH6OcIVu6w/gaBBOWHh34Jwn4CxKlu+WStxVV/rxm3oFGpsWqljvg==
 
 "@redhat-cloud-services/types@^0.0.24":
   version "0.0.24"

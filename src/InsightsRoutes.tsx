@@ -13,6 +13,7 @@ interface Path {
     component: React.ComponentType;
 }
 
+// When changing this to be absolute paths, the PolicyDetail tests pass!!
 export const linkTo = {
     listPage: () => 'list',
     policyDetail: (policyId: string) => `policy/${policyId}`

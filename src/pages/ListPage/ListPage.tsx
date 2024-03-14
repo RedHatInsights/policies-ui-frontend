@@ -6,6 +6,7 @@ import axios from 'axios';
 import * as React from 'react';
 import { useContext } from 'react';
 import { Helmet } from 'react-helmet';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { usePrevious } from 'react-use';
 import { style } from 'typestyle';
 
@@ -191,6 +192,11 @@ const ListPage: React.FunctionComponent<unknown> = () => {
             getPoliciesQueryReload
         ]
     );
+
+    // const navigate = useNavigate();
+    const location = useLocation();
+
+    console.log(location, "location - ListPage %%%%%");
 
     return (
         <>

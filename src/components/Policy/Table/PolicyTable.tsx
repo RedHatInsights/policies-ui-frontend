@@ -83,7 +83,7 @@ const policiesToRows = (policies: PolicyRow[] | undefined, columnsToShow: ValidC
                             return (
                                 <>
                                     { linksToDetail ? (
-                                        <InsightsLink to={ '/' + linkTo.policyDetail(policy.id) }>{ policy.name }</InsightsLink>
+                                        <InsightsLink app='policies' to={ '/' + linkTo.policyDetail(policy.id) }>{ policy.name }</InsightsLink>
                                     ) : policy.name }
                                 </>
                             );

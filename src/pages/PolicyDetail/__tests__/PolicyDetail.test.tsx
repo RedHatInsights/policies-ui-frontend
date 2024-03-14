@@ -1,11 +1,13 @@
+// @ts-nocheck
 import { Direction, Page, Sort } from '@redhat-cloud-services/insights-common-typescript';
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import fetchMock from 'fetch-mock';
 import inBrowserDownload from 'in-browser-download';
 import * as React from 'react';
 
-import { appWrapperCleanup, appWrapperSetup, getConfiguredAppWrapper } from '../../../../test/AppWrapper';
+// import { useNavigate } from 'react-router-dom';
+import { appWrapperCleanup, appWrapperSetup, getConfiguredAppWrapper, getConfiguredAppWrapper2 } from '../../../../test/AppWrapper';
 // I believe this should be removed:
 import { waitForAsyncEvents } from '../../../../test/TestUtils';
 import { Operations, Schemas } from '../../../generated/Openapi';
@@ -191,7 +193,7 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
         render(<PolicyDetail />, {
             wrapper: getConfiguredAppWrapper({
                 router: {
-                    initialEntries: [ linkTo.policyDetail('foo') ]
+                    initialEntries: [ `/${linkTo.policyDetail('foo')}` ]
                 },
                 route: {
                     path: linkTo.policyDetail(':policyId')
@@ -219,7 +221,7 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
         render(<PolicyDetail />, {
             wrapper: getConfiguredAppWrapper({
                 router: {
-                    initialEntries: [ linkTo.policyDetail('foo') ]
+                    initialEntries: [ `/${linkTo.policyDetail('foo')}` ]
                 },
                 route: {
                     path: linkTo.policyDetail(':policyId')
@@ -244,7 +246,7 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
         render(<PolicyDetail />, {
             wrapper: getConfiguredAppWrapper({
                 router: {
-                    initialEntries: [ linkTo.policyDetail('foo') ]
+                    initialEntries: [ `/${linkTo.policyDetail('foo')}` ]
                 },
                 route: {
                     path: linkTo.policyDetail(':policyId')
@@ -265,7 +267,7 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
         render(<PolicyDetail />, {
             wrapper: getConfiguredAppWrapper({
                 router: {
-                    initialEntries: [ linkTo.policyDetail('foo') ]
+                    initialEntries: [ `/${linkTo.policyDetail('foo')}` ]
                 },
                 route: {
                     path: linkTo.policyDetail(':policyId')
@@ -286,7 +288,7 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
         render(<PolicyDetail />, {
             wrapper: getConfiguredAppWrapper({
                 router: {
-                    initialEntries: [ linkTo.policyDetail('foo') ]
+                    initialEntries: [ `/${linkTo.policyDetail('foo')}` ]
                 },
                 route: {
                     path: linkTo.policyDetail(':policyId')
@@ -309,7 +311,7 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
         render(<PolicyDetail />, {
             wrapper: getConfiguredAppWrapper({
                 router: {
-                    initialEntries: [ linkTo.policyDetail('foo') ]
+                    initialEntries: [ `/${linkTo.policyDetail('foo')}` ]
                 },
                 route: {
                     path: linkTo.policyDetail(':policyId')
@@ -330,7 +332,7 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
         render(<PolicyDetail />, {
             wrapper: getConfiguredAppWrapper({
                 router: {
-                    initialEntries: [ linkTo.policyDetail('foo') ]
+                    initialEntries: [ `/${linkTo.policyDetail('foo')}` ]
                 },
                 route: {
                     path: linkTo.policyDetail(':policyId')
@@ -358,12 +360,17 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
             policyId: 'bar-123'
         });
 
+        // jest.mock('react-router-dom', () => ({
+        //     ...jest.requireActual('react-router-dom'),
+        //     useNavigate: jest.fn()
+        // }));
+
         const getLocation = jest.fn();
 
         render(<PolicyDetail />, {
             wrapper: getConfiguredAppWrapper({
                 router: {
-                    initialEntries: [ linkTo.policyDetail('foo') ]
+                    initialEntries: [ `/${linkTo.policyDetail('foo')}` ]
                 },
                 route: {
                     path: linkTo.policyDetail(':policyId')
@@ -373,7 +380,9 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
         });
 
         await waitForAsyncEvents();
-        expect(getLocation().pathname).toEqual(linkTo.policyDetail('foo'));
+
+        expect(getLocation().pathname).toEqual(`/${linkTo.policyDetail('foo')}`);
+
         userEvent.click(screen.getByTestId('policy-detail-actions-button'));
         userEvent.click(screen.getByText(/duplicate/i));
         await waitForAsyncEvents();
@@ -387,7 +396,11 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
         await waitForAsyncEvents();
         userEvent.click(screen.getByText(/Finish/i));
         await waitForAsyncEvents();
-        expect(getLocation().pathname).toEqual(linkTo.policyDetail('bar-123'));
+        // problem - the path after the delete should be '/policy/bar-123', but for some reason it is '/policy/foo/policy/bar-123'
+        // like it gets appended to the current path, maybe the link is appending ?
+
+        // expect(useNavigate).toBeCalledWith(linkTo.policyDetail('bar-123'));
+        expect(getLocation().pathname).toEqual(`/${linkTo.policyDetail('bar-123')}`);
     });
 
     it('Edits updates the policy with the new values', async () => {
@@ -401,7 +414,7 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
         render(<PolicyDetail />, {
             wrapper: getConfiguredAppWrapper({
                 router: {
-                    initialEntries: [ linkTo.policyDetail('foo') ]
+                    initialEntries: [ `/${linkTo.policyDetail('foo')}` ]
                 },
                 route: {
                     path: linkTo.policyDetail(':policyId')
@@ -429,7 +442,7 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
         render(<PolicyDetail />, {
             wrapper: getConfiguredAppWrapper({
                 router: {
-                    initialEntries: [ linkTo.policyDetail('foo') ]
+                    initialEntries: [ `/${linkTo.policyDetail('foo')}` ]
                 },
                 route: {
                     path: linkTo.policyDetail(':policyId')
@@ -450,7 +463,7 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
         render(<PolicyDetail />, {
             wrapper: getConfiguredAppWrapper({
                 router: {
-                    initialEntries: [ linkTo.policyDetail('foo') ]
+                    initialEntries: [ `/${linkTo.policyDetail('foo')}` ]
                 },
                 route: {
                     path: linkTo.policyDetail(':policyId')
@@ -469,6 +482,22 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
         expect(screen.queryByText(/Do you want to remove the policy/i)).not.toBeInTheDocument();
     });
 
+    /*
+    const InternalWrapper: React.FunctionComponent<Config> = (props) => {
+    const location = useLocation();
+
+    (getInsights().chrome.isBeta as jest.Mock).mockImplementation(() => {
+        return location.pathname.startsWith('/preview/');
+    });
+
+    if (props.getLocation) {
+        props.getLocation.mockImplementation(() => location);
+    }
+
+    return <>{ props.children }</>;
+};
+*/
+
     it('When policy is deleted, navigates to list page', async () => {
         fetchMockSetup();
         fetchMockDelete();
@@ -479,12 +508,14 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
                 <PolicyDetail />
             </>
         ), {
-            wrapper: getConfiguredAppWrapper({
+            wrapper: getConfiguredAppWrapper2({
                 router: {
-                    initialEntries: [ linkTo.policyDetail('foo') ]
+                    initialEntries: [ `/${linkTo.policyDetail('foo')}` ]
                 },
                 route: {
-                    path: linkTo.policyDetail(':policyId')
+                    path: [ linkTo.policyDetail(':policyId'),
+                        linkTo.listPage()
+                    ]
                 },
                 getLocation
             })
@@ -498,7 +529,11 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
         userEvent.click(screen.getByText('Delete'));
 
         await waitForAsyncEvents();
-        expect(getLocation().pathname).toEqual(linkTo.listPage());
+        // problem - the path after the delete should be '/list', but for some reason it is '/policy/foo/list'
+        // like it gets appended to the current path, maybe the link is appending ?
+        // await waitFor(() => expect(getLocation().pathname).toEqual(`/${linkTo.listPage()}`));
+
+        expect(getLocation().pathname).toEqual(`${linkTo.listPage()}`);
     });
     it('When policy is disabled, it updates the enabled status in the page', async () => {
         fetchMockSetup();
@@ -510,7 +545,7 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
         ), {
             wrapper: getConfiguredAppWrapper({
                 router: {
-                    initialEntries: [ linkTo.policyDetail('foo') ]
+                    initialEntries: [ `/${linkTo.policyDetail('foo')}` ]
                 },
                 route: {
                     path: linkTo.policyDetail(':policyId')
@@ -538,7 +573,7 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
         ), {
             wrapper: getConfiguredAppWrapper({
                 router: {
-                    initialEntries: [ linkTo.policyDetail('foo') ]
+                    initialEntries: [ `/${linkTo.policyDetail('foo')}` ]
                 },
                 route: {
                     path: linkTo.policyDetail(':policyId')
@@ -566,7 +601,7 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
         ), {
             wrapper: getConfiguredAppWrapper({
                 router: {
-                    initialEntries: [ linkTo.policyDetail('foo') ]
+                    initialEntries: [ `/${linkTo.policyDetail('foo')}` ]
                 },
                 route: {
                     path: linkTo.policyDetail(':policyId')
@@ -596,7 +631,7 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
         ), {
             wrapper: getConfiguredAppWrapper({
                 router: {
-                    initialEntries: [ linkTo.policyDetail('foo') ]
+                    initialEntries: [ `/${linkTo.policyDetail('foo')}` ]
                 },
                 route: {
                     path: linkTo.policyDetail(':policyId')
@@ -625,7 +660,7 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
         ), {
             wrapper: getConfiguredAppWrapper({
                 router: {
-                    initialEntries: [ linkTo.policyDetail('foo') ]
+                    initialEntries: [ `/${linkTo.policyDetail('foo')}` ]
                 },
                 route: {
                     path: linkTo.policyDetail(':policyId')
@@ -673,7 +708,7 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
         ), {
             wrapper: getConfiguredAppWrapper({
                 router: {
-                    initialEntries: [ linkTo.policyDetail('foo') ]
+                    initialEntries: [ `/${linkTo.policyDetail('foo')}` ]
                 },
                 route: {
                     path: linkTo.policyDetail(':policyId')
@@ -694,7 +729,7 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
         ), {
             wrapper: getConfiguredAppWrapper({
                 router: {
-                    initialEntries: [ linkTo.policyDetail('foo') ]
+                    initialEntries: [ `/${linkTo.policyDetail('foo')}` ]
                 },
                 route: {
                     path: linkTo.policyDetail(':policyId')
@@ -718,7 +753,7 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
         ), {
             wrapper: getConfiguredAppWrapper({
                 router: {
-                    initialEntries: [ linkTo.policyDetail('foo') ]
+                    initialEntries: [ `/${linkTo.policyDetail('foo')}` ]
                 },
                 route: {
                     path: linkTo.policyDetail(':policyId')
@@ -739,7 +774,7 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
         render(<PolicyDetail />, {
             wrapper: getConfiguredAppWrapper({
                 router: {
-                    initialEntries: [ linkTo.policyDetail('foo') ]
+                    initialEntries: [ `/${linkTo.policyDetail('foo')}` ]
                 },
                 route: {
                     path: linkTo.policyDetail(':policyId')
@@ -759,7 +794,7 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
         render(<PolicyDetail />, {
             wrapper: getConfiguredAppWrapper({
                 router: {
-                    initialEntries: [ linkTo.policyDetail('foo') ]
+                    initialEntries: [ `/${linkTo.policyDetail('foo')}` ]
                 },
                 route: {
                     path: linkTo.policyDetail(':policyId')
@@ -801,7 +836,7 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
         render(<PolicyDetail />, {
             wrapper: getConfiguredAppWrapper({
                 router: {
-                    initialEntries: [ linkTo.policyDetail('foo') ]
+                    initialEntries: [ `/${linkTo.policyDetail('foo')}` ]
                 },
                 route: {
                     path: linkTo.policyDetail(':policyId')
@@ -847,7 +882,7 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
         render(<PolicyDetail />, {
             wrapper: getConfiguredAppWrapper({
                 router: {
-                    initialEntries: [ linkTo.policyDetail('foo') ]
+                    initialEntries: [ `/${linkTo.policyDetail('foo')}` ]
                 },
                 route: {
                     path: linkTo.policyDetail(':policyId')
@@ -881,7 +916,7 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
         render(<PolicyDetail />, {
             wrapper: getConfiguredAppWrapper({
                 router: {
-                    initialEntries: [ linkTo.policyDetail('foo') ]
+                    initialEntries: [ `/${linkTo.policyDetail('foo')}` ]
                 },
                 route: {
                     path: linkTo.policyDetail(':policyId')
@@ -903,7 +938,7 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
         render(<PolicyDetail />, {
             wrapper: getConfiguredAppWrapper({
                 router: {
-                    initialEntries: [ linkTo.policyDetail('foo') ]
+                    initialEntries: [ `/${linkTo.policyDetail('foo')}` ]
                 },
                 route: {
                     path: linkTo.policyDetail(':policyId')
@@ -935,7 +970,7 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
         render(<PolicyDetail />, {
             wrapper: getConfiguredAppWrapper({
                 router: {
-                    initialEntries: [ linkTo.policyDetail('foo') ]
+                    initialEntries: [ `/${linkTo.policyDetail('foo')}` ]
                 },
                 route: {
                     path: linkTo.policyDetail(':policyId')

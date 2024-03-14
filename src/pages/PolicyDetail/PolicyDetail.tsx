@@ -8,11 +8,11 @@ import {
     Title
 } from '@patternfly/react-core';
 import { Main, PageHeader, PageHeaderTitle } from '@redhat-cloud-services/frontend-components';
+import { default as useNavigate } from '@redhat-cloud-services/frontend-components-utilities/useInsightsNavigate';
 import { addDangerNotification, BreadcrumbLinkItem, Section } from '@redhat-cloud-services/insights-common-typescript';
 import * as React from 'react';
 import { useContext } from 'react';
 import { Helmet } from 'react-helmet';
-import { useNavigate } from 'react-router-dom';
 import { style } from 'typestyle';
 
 import { AppContext } from '../../app/AppContext';
@@ -49,6 +49,7 @@ export const PolicyDetail: React.FunctionComponent = () => {
 
     const appContext = useContext(AppContext);
     const { canReadPolicies, canWritePolicies } = appContext.rbac;
+    // @ts-ignore
     const navigate = useNavigate();
 
     const policyToDelete = usePolicyToDelete();
@@ -92,11 +93,16 @@ export const PolicyDetail: React.FunctionComponent = () => {
         const close = policyToDelete.close;
 
         if (deleted) {
-            navigate(linkTo.listPage());
+            console.log(navigate, 'navigate PolicyDetail - onCloseDeletePolicy');
+            navigate(`/${linkTo.listPage()}`);
+            // navigate(`/insights/policies/${linkTo.listPage()}`); // list
+            // redirect(linkTo.listPage());
+            // console.log(navigate, "navigate PolicyDetail - onCloseDeletePolicy");
         } else {
             close();
         }
     }, [ navigate, policyToDelete.close ]);
+    // }, [ /*navigate, */policyToDelete.close ]);
 
     const statusChanged = React.useCallback((newStatus: boolean) => {
         if (policy) {
@@ -127,8 +133,6 @@ export const PolicyDetail: React.FunctionComponent = () => {
             }
         });
     }, [ policyId, changePolicyEnabled.mutate, statusChanged ]);
-
-    console.log("Made it yey PolicyDetail");
 
     if (!canReadPolicies) {
         return <NoPermissionsPage />;

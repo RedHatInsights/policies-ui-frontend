@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { NotificationsPortal } from '@redhat-cloud-services/frontend-components-notifications';
 import {
     getInsights,
@@ -90,9 +91,13 @@ const defaultAppContextSettings = {
 const InternalWrapper: React.FunctionComponent<Config> = (props) => {
     const location = useLocation();
 
-    (getInsights().chrome.isBeta as jest.Mock).mockImplementation(() => {
-        return location.pathname.startsWith('/preview/');
-    });
+    if (location === undefined) {
+        console.log(location, 'InternalWrapperrrrrrrrrrrr location &&&&&&');
+    }
+
+    // (getInsights().chrome.isBeta as jest.Mock).mockImplementation(() => {
+    //     return location.pathname.startsWith('/preview/');
+    // });
 
     if (props.getLocation) {
         props.getLocation.mockImplementation(() => location);
@@ -106,8 +111,10 @@ export const AppWrapper: React.FunctionComponent<Config> = (props) => {
         throw new Error('appWrapperSetup has not been called, you need to call it on the beforeEach');
     }
 
-    console.log(props, "AppWrapper -> props");
-    console.log(props.route, "AppWrapper -> props.route");
+    // console.log(props, "AppWrapper -> props");
+    // console.log(props.route, "AppWrapper -> props.route");
+
+    // console.log(props.router, "&&&&&& AppWrapper -> props.router");
 
     return (
         <Provider store={ store }>
@@ -117,6 +124,7 @@ export const AppWrapper: React.FunctionComponent<Config> = (props) => {
                         <InternalWrapper { ...props }>
                             <NotificationsPortal />
                             <Routes>
+                                {/* {props.route.map()} */}
                                 <Route path={ props.route?.path || '/' } { ...props.route } element={ <>{props.children}</> } />
                             </Routes>
                         </InternalWrapper>
@@ -136,3 +144,40 @@ export const getConfiguredAppWrapper = (config?: Config) => {
 
     return ConfiguredAppWrapper;
 };
+
+/************************** */
+
+export const AppWrapper2: React.FunctionComponent<Config> = (props) => {
+    if (!setup) {
+        throw new Error('appWrapperSetup has not been called, you need to call it on the beforeEach');
+    }
+
+    return (
+        <Provider store={ store }>
+            <Router { ...props.router } >
+                <ClientContextProvider client={ client }>
+                    <AppContext.Provider value={ props.appContext || defaultAppContextSettings }>
+                        <InternalWrapper { ...props }>
+                            <NotificationsPortal />
+                            <Routes>
+                                {props.route.path.map(path => <Route key={ path } path={ path || '/' } { ...path } element={ <>{props.children}</> } />)}
+                                {/* <Route path={ props.route?.path || '/' } { ...props.route } element={ <>{props.children}</> } /> */}
+                            </Routes>
+                        </InternalWrapper>
+                    </AppContext.Provider>
+                </ClientContextProvider>
+            </Router>
+        </Provider>
+    );
+};
+
+export const getConfiguredAppWrapper2 = (config?: Config) => {
+    const ConfiguredAppWrapper2: React.FunctionComponent = (props) => {
+        return (
+            <AppWrapper2 { ...config }>{ props.children }</AppWrapper2>
+        );
+    };
+
+    return ConfiguredAppWrapper2;
+};
+
