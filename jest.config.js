@@ -23,6 +23,7 @@ module.exports = {
     ],
     moduleNameMapper: {
         '\\.(svg)$': 'identity-obj-proxy',
-        '\\.(css|scss)$': 'identity-obj-proxy'
+        '\\.(css|scss)$': 'identity-obj-proxy',
+        '^axios$': require.resolve('axios')
     }
 };
