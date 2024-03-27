@@ -13,7 +13,7 @@ import { BreadcrumbLinkItem, Section } from '@redhat-cloud-services/insights-com
 import * as React from 'react';
 import { style } from 'typestyle';
 
-import { linkTo } from '../../Routes';
+import { linkTo } from '../../InsightsRoutes';
 
 const skeletonClassName = style({
     width: 200

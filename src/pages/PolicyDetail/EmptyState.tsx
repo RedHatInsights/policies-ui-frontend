@@ -1,11 +1,11 @@
 import { UnknownIcon } from '@patternfly/react-icons';
 import * as React from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { format } from 'react-string-format';
 
 import { EmptyStateSection } from '../../components/Policy/EmptyState/Section';
+import { linkTo } from '../../InsightsRoutes';
 import { Messages } from '../../properties/Messages';
-import { linkTo } from '../../Routes';
 
 interface ListPageEmptyStateProps {
     policyId: string;
@@ -13,11 +13,11 @@ interface ListPageEmptyStateProps {
 
 export const PolicyDetailEmptyState: React.FunctionComponent<ListPageEmptyStateProps> = (props) => {
 
-    const history = useHistory();
+    const navigate = useNavigate();
 
     const goBack = React.useCallback(() => {
-        history.push(linkTo.listPage());
-    }, [ history ]);
+        navigate(linkTo.listPage());
+    }, [ navigate ]);
 
     return <EmptyStateSection
         icon={ UnknownIcon }

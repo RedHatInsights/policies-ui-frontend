@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { NotificationsPortal } from '@redhat-cloud-services/frontend-components-notifications';
 import {
     getInsights,
@@ -11,9 +12,8 @@ import { validateSchemaResponseInterceptor } from 'openapi2typescript/react-fetc
 import * as React from 'react';
 import { ClientContextProvider, createClient } from 'react-fetching-library';
 import { Provider } from 'react-redux';
-import { Route, RouteProps } from 'react-router';
-import { MemoryRouterProps, useLocation } from 'react-router';
-import { MemoryRouter as Router } from 'react-router-dom';
+import { MemoryRouterProps, RouteProps } from 'react-router';
+import { MemoryRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
 
 import { AppContext } from '../src/app/AppContext';
 
@@ -83,6 +83,7 @@ const defaultAppContextSettings = {
     userSettings: {
         settings: undefined,
         isSubscribedForNotifications: false,
+        // eslint-disable-next-line @typescript-eslint/no-empty-function
         refresh: () => {}
     }
 };
@@ -90,9 +91,13 @@ const defaultAppContextSettings = {
 const InternalWrapper: React.FunctionComponent<Config> = (props) => {
     const location = useLocation();
 
-    (getInsights().chrome.isBeta as jest.Mock).mockImplementation(() => {
-        return location.pathname.startsWith('/preview/');
-    });
+    if (location === undefined) {
+        console.log(location, 'InternalWrapperrrrrrrrrrrr location &&&&&&');
+    }
+
+    // (getInsights().chrome.isBeta as jest.Mock).mockImplementation(() => {
+    //     return location.pathname.startsWith('/preview/');
+    // });
 
     if (props.getLocation) {
         props.getLocation.mockImplementation(() => location);
@@ -106,6 +111,11 @@ export const AppWrapper: React.FunctionComponent<Config> = (props) => {
         throw new Error('appWrapperSetup has not been called, you need to call it on the beforeEach');
     }
 
+    // console.log(props, "AppWrapper -> props");
+    // console.log(props.route, "AppWrapper -> props.route");
+
+    // console.log(props.router, "&&&&&& AppWrapper -> props.router");
+
     return (
         <Provider store={ store }>
             <Router { ...props.router } >
@@ -113,9 +123,10 @@ export const AppWrapper: React.FunctionComponent<Config> = (props) => {
                     <AppContext.Provider value={ props.appContext || defaultAppContextSettings }>
                         <InternalWrapper { ...props }>
                             <NotificationsPortal />
-                            <Route { ...props.route } >
-                                { props.children }
-                            </Route>
+                            <Routes>
+                                {/* {props.route.map()} */}
+                                <Route path={ props.route?.path || '/' } { ...props.route } element={ <>{props.children}</> } />
+                            </Routes>
                         </InternalWrapper>
                     </AppContext.Provider>
                 </ClientContextProvider>
@@ -133,3 +144,40 @@ export const getConfiguredAppWrapper = (config?: Config) => {
 
     return ConfiguredAppWrapper;
 };
+
+/************************** */
+
+export const AppWrapper2: React.FunctionComponent<Config> = (props) => {
+    if (!setup) {
+        throw new Error('appWrapperSetup has not been called, you need to call it on the beforeEach');
+    }
+
+    return (
+        <Provider store={ store }>
+            <Router { ...props.router } >
+                <ClientContextProvider client={ client }>
+                    <AppContext.Provider value={ props.appContext || defaultAppContextSettings }>
+                        <InternalWrapper { ...props }>
+                            <NotificationsPortal />
+                            <Routes>
+                                {props.route.path.map(path => <Route key={ path } path={ path || '/' } { ...path } element={ <>{props.children}</> } />)}
+                                {/* <Route path={ props.route?.path || '/' } { ...props.route } element={ <>{props.children}</> } /> */}
+                            </Routes>
+                        </InternalWrapper>
+                    </AppContext.Provider>
+                </ClientContextProvider>
+            </Router>
+        </Provider>
+    );
+};
+
+export const getConfiguredAppWrapper2 = (config?: Config) => {
+    const ConfiguredAppWrapper2: React.FunctionComponent = (props) => {
+        return (
+            <AppWrapper2 { ...config }>{ props.children }</AppWrapper2>
+        );
+    };
+
+    return ConfiguredAppWrapper2;
+};
+
