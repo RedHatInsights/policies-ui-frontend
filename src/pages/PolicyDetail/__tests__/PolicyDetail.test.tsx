@@ -922,7 +922,7 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
         await waitForAsyncEvents();
     });
 
-    it('Title should be "{ name of policy } - Policies | Red Hat Insights"', async () => {
+    it('Title should be "{ name of policy } - Policies - Operations | RHEL"', async () => {
         fetchMockSetup({
             policy: {
                 ...mockPolicy,
@@ -941,6 +941,6 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
         });
 
         await waitForAsyncEvents();
-        expect(document.title).toEqual('My Cool policy - Policies | Red Hat Insights');
+        expect(document.title).toEqual('My Cool policy - Policies - Operations | RHEL');
     });
 });
