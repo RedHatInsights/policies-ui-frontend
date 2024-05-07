@@ -207,7 +207,7 @@ const ListPage: React.FunctionComponent<unknown> = () => {
                 :
                 <>
                     <Helmet>
-                        <title>Policies - Operations | RHEL</title>
+                        <title>Policies - Operations</title>
                     </Helmet>
                     <PageHeader>
                         <PageHeaderTitle title={ Messages.pages.listPage.title } />

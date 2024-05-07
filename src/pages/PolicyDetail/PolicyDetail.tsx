@@ -157,7 +157,7 @@ export const PolicyDetail: React.FunctionComponent = () => {
     return (
         <>
             <Helmet>
-                <title>{ policy.name } - Policies - Operations | RHEL</title>
+                <title>{ policy.name } - Policies - Operations</title>
             </Helmet>
             <PageHeader>
                 <Stack>

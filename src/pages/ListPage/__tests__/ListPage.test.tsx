@@ -391,6 +391,6 @@ describe('src/pages/ListPage', () => {
         });
 
         await waitForAsyncEvents();
-        expect(document.title).toEqual('Policies - Operations | RHEL');
+        expect(document.title).toEqual('Policies - Operations');
     });
 });
