@@ -391,6 +391,6 @@ describe('src/pages/ListPage', () => {
         });
 
         await waitForAsyncEvents();
-        expect(document.title).toEqual('Policies | Red Hat Insights');
+        expect(document.title).toEqual('Policies - Operations');
     });
 });
