@@ -1,7 +1,8 @@
 import { getBaseName, getInsights } from '@redhat-cloud-services/insights-common-typescript';
 import * as React from 'react';
 import { useEffect } from 'react';
-import { matchPath, Redirect, Route, Switch, useHistory } from 'react-router';
+import { matchPath } from 'react-router';
+import { Navigate, Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 
 import { ErrorPage } from './pages/Error/Page';
 import ListPage from './pages/ListPage/ListPage';
@@ -12,9 +13,10 @@ interface Path {
     component: React.ComponentType;
 }
 
+// When changing this to be absolute paths, the PolicyDetail tests pass!!
 export const linkTo = {
-    listPage: () => '/policies/list',
-    policyDetail: (policyId: string) => `/policies/policy/${policyId}`
+    listPage: () => 'list',
+    policyDetail: (policyId: string) => `policy/${policyId}`
 };
 
 const pathRoutes: Path[] = [
@@ -49,9 +51,10 @@ const relativePath = (base: string, pathname: string) => {
     return relative;
 };
 
-export const Routes: React.FunctionComponent<unknown> = () => {
+export const InsightsRoutes: React.FunctionComponent<unknown> = () => {
     const insights = getInsights();
-    const history = useHistory();
+    const navigate = useNavigate();
+    const location = useLocation();
 
     useEffect(() => {
         const on = insights.chrome.on;
@@ -62,32 +65,31 @@ export const Routes: React.FunctionComponent<unknown> = () => {
                 const relative = relativePath(base, pathname);
 
                 for (const route of pathRoutes) {
-                    if (matchPath(relative, {
+                    if (matchPath({
                         path: route.path,
-                        exact: true
-                    })) {
-                        if (history.location.pathname !== relative) {
-                            history.push(relative);
+                        end: true
+                    }, relative)) {
+                        if (location.pathname !== relative) {
+                            navigate(relative);
                         }
 
                         break;
                     }
                 }
-
             });
         }
-    }, [ insights.chrome.on, history ]);
+    }, [ insights.chrome.on, location, navigate ]);
 
     return (
-        <Switch>
+        <Routes>
             { pathRoutes.map(({ path, component }) => (
                 <Route
                     key={ path }
-                    render={ () => <InsightsElement component={ component } /> }
+                    element={ <InsightsElement component={ component } /> }
                     path={ path }
                 />
             ))}
-            <Route render={ () => <Redirect to={ linkTo.listPage() } /> } />
-        </Switch>
+            <Route path={ '*' } element={ <Navigate to={ linkTo.listPage() } /> } />
+        </Routes>
     );
 };

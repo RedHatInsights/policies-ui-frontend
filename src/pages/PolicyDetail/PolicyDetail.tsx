@@ -8,18 +8,18 @@ import {
     Title
 } from '@patternfly/react-core';
 import { Main, PageHeader, PageHeaderTitle } from '@redhat-cloud-services/frontend-components';
+import { default as useNavigate } from '@redhat-cloud-services/frontend-components-utilities/useInsightsNavigate';
 import { addDangerNotification, BreadcrumbLinkItem, Section } from '@redhat-cloud-services/insights-common-typescript';
 import * as React from 'react';
 import { useContext } from 'react';
 import { Helmet } from 'react-helmet';
-import { useHistory } from 'react-router-dom';
 import { style } from 'typestyle';
 
 import { AppContext } from '../../app/AppContext';
 import { ExpandedContent } from '../../components/Policy/Table/ExpandedContent';
 import { usePolicyToDelete } from '../../hooks/usePolicyToDelete';
+import { linkTo } from '../../InsightsRoutes';
 import { Messages } from '../../properties/Messages';
-import { linkTo } from '../../Routes';
 import { useGetPolicyParametrizedQuery } from '../../services/useGetPolicy';
 import { useMassChangePolicyEnabledMutation } from '../../services/useMassChangePolicyEnabled';
 import { Policy } from '../../types/Policy';
@@ -42,12 +42,15 @@ const recentTriggerVersionTitleClassname = style({
 
 type PolicyQueryResponse = ReturnType<ReturnType<typeof useGetPolicyParametrizedQuery>['query']> extends Promise<infer U> ? U : never
 
+interface UsePolicyType {policyId: string | undefined, policy: Policy | undefined, setPolicy: (policy: Policy) => void}
+
 export const PolicyDetail: React.FunctionComponent = () => {
-    const { policyId, policy, setPolicy } = usePolicy();
+    const { policyId, policy, setPolicy }: UsePolicyType = usePolicy();
 
     const appContext = useContext(AppContext);
     const { canReadPolicies, canWritePolicies } = appContext.rbac;
-    const history = useHistory();
+    // @ts-ignore
+    const navigate = useNavigate();
 
     const policyToDelete = usePolicyToDelete();
 
@@ -66,9 +69,9 @@ export const PolicyDetail: React.FunctionComponent = () => {
     React.useEffect(() => {
         const query = getPolicyQuery.query;
         if (policyId !== policy?.id) {
-            query(policyId).then(processGetPolicyResponse);
+            query(policyId as string).then(processGetPolicyResponse);
         }
-    }, [ policyId, getPolicyQuery.query, policy, setPolicy, processGetPolicyResponse ]);
+    }, [ policyId ]);
 
     const closePolicyWizard = React.useCallback((policy: Policy | undefined) => {
         const close = wizardState.close;
@@ -77,7 +80,7 @@ export const PolicyDetail: React.FunctionComponent = () => {
         }
 
         close();
-    }, [ setPolicy, wizardState.close ]);
+    }, [ wizardState.close ]);
 
     const deletePolicy = React.useCallback(() => {
         const open = policyToDelete.open;
@@ -90,26 +93,31 @@ export const PolicyDetail: React.FunctionComponent = () => {
         const close = policyToDelete.close;
 
         if (deleted) {
-            history.push(linkTo.listPage());
+            console.log(navigate, 'navigate PolicyDetail - onCloseDeletePolicy');
+            navigate(`/${linkTo.listPage()}`);
+            // navigate(`/insights/policies/${linkTo.listPage()}`); // list
+            // redirect(linkTo.listPage());
+            // console.log(navigate, "navigate PolicyDetail - onCloseDeletePolicy");
         } else {
             close();
         }
-    }, [ history, policyToDelete.close ]);
+    }, [ navigate, policyToDelete.close ]);
+    // }, [ /*navigate, */policyToDelete.close ]);
 
     const statusChanged = React.useCallback((newStatus: boolean) => {
         if (policy) {
             setPolicy({ ...policy, isEnabled: newStatus });
         }
-    }, [ policy, setPolicy ]);
+    }, [ policy ]);
 
     const onChangeStatus = React.useCallback(newStatus => {
         const mutate = changePolicyEnabled.mutate;
         mutate({
-            policyIds: [ policyId ],
+            policyIds: [ policyId as string ],
             shouldBeEnabled: newStatus
         }).then((result) => {
             if (result.payload?.status === 200) {
-                if (result.payload.value.includes(policyId)) {
+                if (result.payload.value.includes(policyId as string)) {
                     statusChanged(newStatus);
                 } else {
                     addDangerNotification(
@@ -145,7 +153,7 @@ export const PolicyDetail: React.FunctionComponent = () => {
             return <PolicyDetailErrorState
                 action={ () => {
                     triggerDetailRef.current?.refresh();
-                    getPolicyQuery.query(policyId).then(processGetPolicyResponse);
+                    getPolicyQuery.query(policyId as string).then(processGetPolicyResponse);
                 } }
                 error={ error }
             />;
@@ -209,7 +217,7 @@ export const PolicyDetail: React.FunctionComponent = () => {
                     <Title headingLevel="h2" size="lg">Recent trigger history</Title>
                 </div>
                 <TriggerDetailSection
-                    policyId={ policyId }
+                    policyId={ policyId as string }
                     ref={ triggerDetailRef }
                 />
             </Main>

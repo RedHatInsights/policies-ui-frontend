@@ -1,6 +1,6 @@
-import { fetchRBAC, Rbac, waitForInsights } from '@redhat-cloud-services/insights-common-typescript';
+import useChrome from '@redhat-cloud-services/frontend-components/useChrome';
+import { fetchRBAC, Rbac } from '@redhat-cloud-services/insights-common-typescript';
 import { useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
 
 import Config from '../config/Config';
 import { AppContext } from './AppContext';
@@ -8,27 +8,22 @@ import { useUserSettings } from './useUserSettings';
 
 export const useApp = (): Omit<AppContext, 'rbac'> & Partial<Pick<AppContext, 'rbac'>> => {
 
-    const history = useHistory();
     const [ rbac, setRbac ] = useState<Rbac | undefined>(undefined);
     const userSettings = useUserSettings(15 * 60 * 1000);
 
-    useEffect(() => {
-        waitForInsights().then((insights) => {
-            insights.chrome.init();
-            insights.chrome.identifyApp(Config.appId);
-            if (insights.chrome.hasOwnProperty('hideGlobalFilter') && (insights.chrome as any).hideGlobalFilter) {
-                (insights.chrome as any).hideGlobalFilter();
-            }
-        });
-    }, [ history ]);
+    const chrome = useChrome();
 
     useEffect(() => {
-        waitForInsights().then(insights => {
-            insights.chrome.auth.getUser().then(() => {
-                fetchRBAC(Config.appId).then(setRbac);
-            });
-        });
+        if (chrome.hasOwnProperty('hideGlobalFilter') && (chrome as any).hideGlobalFilter) {
+            (chrome as any).hideGlobalFilter();
+        }
     }, []);
+
+    useEffect(() => {
+        chrome.auth.getUser().then(() => {
+            fetchRBAC(Config.appId).then(setRbac);
+        });
+    }, [ chrome.auth ]);
 
     return {
         rbac: rbac ? {

@@ -14,12 +14,13 @@ describe('src/pages/PolicyDetail/Skeleton', () => {
         appWrapperCleanup();
     });
 
+    // check this link
     it('Renders breadcrumb policies with link to listPage', () => {
         render(<PolicyDetailSkeleton />, {
             wrapper: AppWrapper
         });
 
-        expect(screen.getByText(/Policies/i)).toHaveAttribute('href', '/policies/list');
+        expect(screen.getByText(/Policies/i)).toHaveAttribute('href', '/list');
     });
 
     it('Renders Kebab button', () => {
