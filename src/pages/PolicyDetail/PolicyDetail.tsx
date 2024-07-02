@@ -7,7 +7,7 @@ import {
     StackItem,
     Title
 } from '@patternfly/react-core';
-import { Main, PageHeader, PageHeaderTitle } from '@redhat-cloud-services/frontend-components';
+import { PageHeader, PageHeaderTitle } from '@redhat-cloud-services/frontend-components';
 import { addDangerNotification, BreadcrumbLinkItem, Section } from '@redhat-cloud-services/insights-common-typescript';
 import * as React from 'react';
 import { useContext } from 'react';
@@ -191,7 +191,7 @@ export const PolicyDetail: React.FunctionComponent = () => {
                     </StackItem>
                 </Stack>
             </PageHeader>
-            <Main>
+            <section className="pf-v5-l-page__main-section pf-v5-c-page__main-section">
                 <Section ouiaId="policy-detail" style={ { paddingBottom: '4px' } }>
                     <PolicyDetailIsEnabled
                         isEnabled={ policy.isEnabled }
@@ -212,7 +212,7 @@ export const PolicyDetail: React.FunctionComponent = () => {
                     policyId={ policyId }
                     ref={ triggerDetailRef }
                 />
-            </Main>
+            </section>
             { wizardState.data.isOpen && <CreatePolicyWizard
                 isOpen={ true }
                 close={ closePolicyWizard }

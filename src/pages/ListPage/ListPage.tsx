@@ -1,5 +1,5 @@
 import { PageSection } from '@patternfly/react-core';
-import { ErrorState, Main, PageHeader, PageHeaderTitle, Section } from '@redhat-cloud-services/frontend-components';
+import { ErrorState, PageHeader, PageHeaderTitle, Section } from '@redhat-cloud-services/frontend-components';
 import AsynComponent from '@redhat-cloud-services/frontend-components/AsyncComponent';
 import { getInsights, InsightsEmailOptIn, Page, useSort } from '@redhat-cloud-services/insights-common-typescript';
 import axios from 'axios';
@@ -223,7 +223,7 @@ const ListPage: React.FunctionComponent<unknown> = () => {
                             />
                         </PageSection>
                     )}
-                    <Main>
+                    <section className="pf-v5-l-page__main-section pf-v5-c-page__main-section">
                         {getPoliciesQuery.hasPolicies === false ?
                             (
                                 <ListPageEmptyState
@@ -268,7 +268,7 @@ const ListPage: React.FunctionComponent<unknown> = () => {
                                     </PolicyToolbar>
                                 </Section>
                             )}
-                    </Main>
+                    </section>
                     { policyWizardState.isOpen && <CreatePolicyWizard
                         isOpen={ policyWizardState.isOpen }
                         close={ closePolicyWizard }
