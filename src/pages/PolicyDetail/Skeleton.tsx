@@ -8,7 +8,7 @@ import {
     Stack,
     StackItem } from '@patternfly/react-core';
 import { EllipsisVIcon } from '@patternfly/react-icons';
-import { Main, PageHeader, PageHeaderTitle, Spinner } from '@redhat-cloud-services/frontend-components';
+import { PageHeader, PageHeaderTitle, Spinner } from '@redhat-cloud-services/frontend-components';
 import { BreadcrumbLinkItem, Section } from '@redhat-cloud-services/insights-common-typescript';
 import * as React from 'react';
 import { style } from 'typestyle';
@@ -46,13 +46,13 @@ export const PolicyDetailSkeleton: React.FunctionComponent = () => {
                     </StackItem>
                 </Stack>
             </PageHeader>
-            <Main>
+            <section className="pf-v5-l-page__main-section pf-v5-c-page__main-section">
                 <Section ouiaId="loading-spinner">
                     <Bullseye>
                         <Spinner centered />
                     </Bullseye>
                 </Section>
-            </Main>
+            </section>
         </>
     );
 };
