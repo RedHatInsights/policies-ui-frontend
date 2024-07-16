@@ -1,13 +1,9 @@
 import { ErrorBoundary } from '@redhat-cloud-services/frontend-components';
 import * as React from 'react';
-import { RouteComponentProps, withRouter } from 'react-router-dom';
 
 import { Messages } from '../../properties/Messages';
 
-type ErrorPageProps = RouteComponentProps<any>;
-
-export const ErrorPageInternal: React.FunctionComponent<ErrorPageProps> = (props) => {
-
+export const ErrorPage: React.FunctionComponent = (props) => {
     return (
         <ErrorBoundary
             headerTitle={ Messages.pages.error.title }
@@ -18,5 +14,3 @@ export const ErrorPageInternal: React.FunctionComponent<ErrorPageProps> = (props
         </ErrorBoundary>
     );
 };
-
-export const ErrorPage = withRouter(ErrorPageInternal);
