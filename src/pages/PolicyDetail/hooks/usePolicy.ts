@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 // This seems to be stable enough:
 // https://github.com/facebook/react/issues/14259#issuecomment-505918440
 import { unstable_batchedUpdates } from 'react-dom';
-import { useHistory, useParams } from 'react-router-dom';
+import { useHistory, useLocation, useParams } from 'react-router-dom';
 import { usePrevious } from 'react-use';
 
 import { linkTo } from '../../../Routes';
@@ -17,6 +17,7 @@ export const usePolicy = () => {
     }>();
     const prevPolicyIdFromUrl = usePrevious(policyIdFromUrl);
     const history = useHistory();
+    const location = useLocation();
     const [ policy, setPolicyInternal ] = React.useState<Policy>();
     const policyId = policy?.id || policyIdFromUrl;
 
@@ -41,7 +42,7 @@ export const usePolicy = () => {
                 setPolicyInternal(undefined);
             }
         }
-    }, [ policyIdFromUrl, prevPolicyIdFromUrl, batchPolicyUpdate, history, policy, policyId ]);
+    }, [ policyIdFromUrl, prevPolicyIdFromUrl, batchPolicyUpdate, location, policy, policyId ]);
 
     return {
         policyId,
