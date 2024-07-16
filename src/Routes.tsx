@@ -1,7 +1,7 @@
 import { getBaseName, getInsights } from '@redhat-cloud-services/insights-common-typescript';
 import * as React from 'react';
 import { useEffect } from 'react';
-import { matchPath, Redirect, Route, Switch, useHistory } from 'react-router';
+import { matchPath, Redirect, Route, Switch, useHistory } from 'react-router-dom';
 
 import { ErrorPage } from './pages/Error/Page';
 import ListPage from './pages/ListPage/ListPage';

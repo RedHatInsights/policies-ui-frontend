@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import * as React from 'react';
-import { Route } from 'react-router';
+import { Route } from 'react-router-dom';
 import { MemoryRouter } from 'react-router-dom';
 
 import { Routes } from '../Routes';
