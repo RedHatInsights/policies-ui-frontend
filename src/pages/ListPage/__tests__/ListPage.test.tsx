@@ -181,27 +181,6 @@ describe('src/pages/ListPage', () => {
         expect(getLocation().pathname).not.toEqual('/policies/list');
     });
 
-    it('Policy name is a link in beta"', async () => {
-        fetchMockSetup();
-        const getLocation = jest.fn();
-        render(<ListPage />, {
-            wrapper: getConfiguredAppWrapper({
-                router: {
-                    initialEntries: [
-                        '/preview/policies/list'
-                    ]
-                },
-                getLocation
-            })
-        });
-
-        await waitForAsyncEvents();
-        userEvent.click(screen.getByText('Policy 1'));
-        await waitForAsyncEvents();
-
-        expect(getLocation().pathname).not.toEqual('/policies/list');
-    });
-
     it('Nothing is sorted by default', async () => {
         fetchMockSetup();
         render(<ListPage />, {

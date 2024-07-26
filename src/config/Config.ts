@@ -1,4 +1,3 @@
-import { getInsights, localUrl } from '@redhat-cloud-services/insights-common-typescript';
 import { DeepReadonly } from 'ts-essentials';
 
 import { ActionType } from '../types/Policy';
@@ -29,8 +28,8 @@ const Config = {
         }
     },
     pages: {
-        emailPreferences: () => localUrl('/user-preferences/notifications/insights', getInsights().chrome.isBeta()),
-        notifications: () => localUrl('/settings/notifications/rhel', getInsights().chrome.isBeta()),
+        emailPreferences: () => '/user-preferences/notifications/insights',
+        notifications: () => '/settings/notifications/rhel',
         // eslint-disable-next-line max-len
         factsDocumentation: 'https://access.redhat.com/documentation/en-us/red_hat_insights/1-latest/html/monitoring_and_reacting_to_configuration_changes_using_policies/policies-appendix_intro-policies#your-module-heading_policies-appendix'
     }

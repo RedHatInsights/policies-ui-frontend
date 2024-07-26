@@ -5,7 +5,6 @@ import { resolve } from 'path';
 import { updateTsLoaderRule } from './common.webpack.config';
 
 const { config: webpackConfig, plugins } = config({
-    ...(process.env.BETA === 'true' && { deployment: 'beta/apps' }),
     rootFolder: resolve(__dirname, '../')
 });
 

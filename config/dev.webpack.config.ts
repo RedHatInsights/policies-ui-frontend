@@ -7,8 +7,7 @@ import { updateTsLoaderRule } from './common.webpack.config';
 
 const env = () => {
     const type = process.env.USE_PROD ? 'prod' : 'stage';
-    const stable = process.env.BETA ? 'beta' : 'stable';
-    return `${type}-${stable}`;
+    return `${type}-stable`;
 };
 
 const routes = () => {
@@ -21,8 +20,8 @@ const { config: webpackConfig, plugins } = config({
     https: true,
     useFileHash: false,
     useProxy: true,
-    deployment: process.env.BETA ? 'beta/apps' : 'apps',
-    appUrl: process.env.BETA ? [ '/beta/insights/policies', '/preview/insights/policies' ] : '/insights/policies',
+    deployment: 'apps',
+    appUrl: '/insights/policies',
     env: env(),
     routes: routes(),
     useChromeTemplate: true

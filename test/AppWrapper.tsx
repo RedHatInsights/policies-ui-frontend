@@ -90,9 +90,7 @@ const defaultAppContextSettings = {
 const InternalWrapper: React.FunctionComponent<Config> = (props) => {
     const location = useLocation();
 
-    (getInsights().chrome.isBeta as jest.Mock).mockImplementation(() => {
-        return location.pathname.startsWith('/preview/');
-    });
+    (getInsights().chrome.isBeta as jest.Mock).mockImplementation(() => false);
 
     if (props.getLocation) {
         props.getLocation.mockImplementation(() => location);
