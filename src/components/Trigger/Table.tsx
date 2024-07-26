@@ -10,8 +10,6 @@ import {
 import { SkeletonTable } from '@redhat-cloud-services/frontend-components';
 import {
     Direction,
-    getInsights,
-    localUrl,
     OuiaComponentProps,
     Sort,
     toUtc } from '@redhat-cloud-services/insights-common-typescript';
@@ -45,7 +43,7 @@ const cells: ICell[] = [
 
 const dateFormatString = 'dd MMM yyyy HH:mm:ss';
 
-const linkToHost = (id: string) => localUrl(`/insights/inventory/${id}/`, getInsights().chrome.isBeta());
+const linkToHost = (id: string) => `/insights/inventory/${id}/`;
 
 export const TriggerTable: React.FunctionComponent<TriggerTableProps> = (props) => {
 

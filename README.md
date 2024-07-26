@@ -49,12 +49,7 @@ Deployments come from the `.travis/custom_release.sh` file. Push to certain bran
 
 ### Pushing to master
 
-Anytime a build of the master branch happens, Travis builds and pushes a new commit to the ci-beta & qa-beta branch in your build repo. Pull requests on master will not be deployed until they are merged, but they will be built to assure linting, snapshots, etc. are working as expected.
-
-master -> qa-beta & ci-beta
-prod-beta -> prod-beta
-master-stable -> qa-stable & ci-stable
-prod-stable -> prod-stable
+Every new commit on master builds and pushes a new image to quay.io. It is automatically deployed in the stage environment.
 
 ### Testing - jest
 
