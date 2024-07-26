@@ -129,7 +129,6 @@
         "build": "webpack --config config/prod.webpack.config.ts",
         "ci:test": "yarn test --coverage --forceExit --maxWorkers=4 --detectOpenHandles && curl -s https://codecov.io/bash | bash",
         "ci:schema": "bash ./.travis/schema-check.sh",
-        "ci:pinned-deps": "bash ./.travis/pinned-deps.sh",
         "test": "jest --verbose",
         "smoketest": "karma start ./config/karma.conf.ts",
         "lint": "npm-run-all lint:*",

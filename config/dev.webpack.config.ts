@@ -17,10 +17,7 @@ const routes = () => {
 const { config: webpackConfig, plugins } = config({
     rootFolder: resolve(__dirname, '../'),
     debug: true,
-    https: true,
-    useFileHash: false,
     useProxy: true,
-    deployment: 'apps',
     appUrl: '/insights/policies',
     env: env(),
     routes: routes(),
