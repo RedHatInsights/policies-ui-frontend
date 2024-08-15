@@ -99,7 +99,7 @@
         "identity-obj-proxy": "3.0.0",
         "insights-common-typescript-dev": "0.1.19",
         "is-ci": "2.0.0",
-        "jest": "26.6.3",
+        "jest": "27.5.1",
         "jest-mock": "26.1.0",
         "karma": "^6.4.3",
         "karma-chrome-launcher": "3.1.0",
@@ -119,7 +119,7 @@
         "stylelint-scss": "3.19.0",
         "ts-essentials": "3.0.5",
         "ts-import-plugin": "1.6.7",
-        "ts-jest": "26.5.6",
+        "ts-jest": "27.1.5",
         "ts-node": "10.0.0",
         "typescript": "4.6.2",
         "webpack": "5.64.0",
@@ -129,7 +129,7 @@
         "build": "webpack --config config/prod.webpack.config.ts",
         "ci:test": "yarn test --coverage --forceExit --maxWorkers=4 --detectOpenHandles && curl -s https://codecov.io/bash | bash",
         "ci:schema": "bash ./.travis/schema-check.sh",
-        "test": "jest --verbose",
+        "test": "TZ=UTC jest --verbose --no-cache",
         "smoketest": "karma start ./config/karma.conf.ts",
         "lint": "npm-run-all lint:*",
         "lint:ts": "eslint --ext js,ts,tsx config src",
@@ -154,8 +154,5 @@
     },
     "insights": {
         "appname": "policies"
-    },
-    "jest": {
-        "test": "TZ=UTC jest --verbose --no-cache"
     }
 }
