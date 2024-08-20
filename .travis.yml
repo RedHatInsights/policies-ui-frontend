@@ -7,23 +7,9 @@ cache:
   yarn: true
 env:
   global:
-    - REPO="git@github.com:RedHatInsights/policies-ui-frontend-build"
-    - REPO_DIR="policies-ui-frontend-build"
     - BRANCH=${TRAVIS_PULL_REQUEST_BRANCH:-$TRAVIS_BRANCH}
     - NODE_OPTIONS="--max-old-space-size=4096 --max_old_space_size=4096"
   jobs:
     - ACTION=lint
     - ACTION=ci:test
-    - ACTION=build
 script: yarn $ACTION
-jobs:
-  include:
-    - stage: Build & Deploy
-      if: type = push
-      script: yarn build:prod && curl -sSL https://raw.githubusercontent.com/RedHatInsights/insights-frontend-builder-common/master/src/bootstrap.sh | bash -s
-notifications:
-  irc:
-    channels:
-      - chat.freenode.net#policies-ui-travis
-    on_success: change
-    on_failure: change
