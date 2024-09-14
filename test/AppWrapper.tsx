@@ -11,7 +11,7 @@ import { validateSchemaResponseInterceptor } from 'openapi2typescript/react-fetc
 import * as React from 'react';
 import { ClientContextProvider, createClient } from 'react-fetching-library';
 import { Provider } from 'react-redux';
-import { MemoryRouter as Router, MemoryRouterProps, Route, RouteProps, useLocation } from 'react-router-dom';
+import { MemoryRouter as Router, MemoryRouterProps, Route, RouteProps, Routes, useLocation } from 'react-router-dom';
 
 import { AppContext } from '../src/app/AppContext';
 
@@ -81,7 +81,7 @@ const defaultAppContextSettings = {
     userSettings: {
         settings: undefined,
         isSubscribedForNotifications: false,
-        refresh: () => {}
+        refresh: jest.fn()
     }
 };
 
@@ -109,9 +109,9 @@ export const AppWrapper: React.FunctionComponent<Config> = (props) => {
                     <AppContext.Provider value={ props.appContext || defaultAppContextSettings }>
                         <InternalWrapper { ...props }>
                             <NotificationsPortal />
-                            <Route { ...props.route } >
-                                { props.children }
-                            </Route>
+                            <Routes>
+                                <Route path="/" element={ props.children } { ...props.route } />
+                            </Routes>
                         </InternalWrapper>
                     </AppContext.Provider>
                 </ClientContextProvider>

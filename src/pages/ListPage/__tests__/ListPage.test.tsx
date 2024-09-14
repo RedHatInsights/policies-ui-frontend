@@ -148,8 +148,9 @@ describe('src/pages/ListPage', () => {
 
     it('Renders policies data"', async () => {
         fetchMockSetup();
+        const getLocation = jest.fn();
         render(<ListPage />, {
-            wrapper: getConfiguredAppWrapper()
+            wrapper: getConfiguredAppWrapper({ getLocation })
         });
 
         await waitForAsyncEvents();
@@ -167,9 +168,10 @@ describe('src/pages/ListPage', () => {
             wrapper: getConfiguredAppWrapper({
                 router: {
                     initialEntries: [
-                        '/policies/list'
+                        '/insights/policies/policies/list'
                     ]
                 },
+                route: { path: '/insights/policies/policies/list' },
                 getLocation
             })
         });
@@ -178,7 +180,7 @@ describe('src/pages/ListPage', () => {
         userEvent.click(screen.getByText('Policy 1'));
         await waitForAsyncEvents();
 
-        expect(getLocation().pathname).not.toEqual('/policies/list');
+        expect(getLocation().pathname).not.toEqual('/insights/policies/policies/list');
     });
 
     it('Nothing is sorted by default', async () => {

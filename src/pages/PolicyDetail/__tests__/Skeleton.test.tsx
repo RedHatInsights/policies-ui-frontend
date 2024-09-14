@@ -19,7 +19,7 @@ describe('src/pages/PolicyDetail/Skeleton', () => {
             wrapper: AppWrapper
         });
 
-        expect(screen.getByText(/Policies/i)).toHaveAttribute('href', '/policies/list');
+        expect(screen.getByText(/Policies/i)).toHaveAttribute('href', '/insights/policies/policies/list');
     });
 
     it('Renders Kebab button', () => {

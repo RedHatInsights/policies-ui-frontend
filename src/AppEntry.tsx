@@ -1,13 +1,11 @@
 import {
     createFetchingClient,
-    getBaseName,
     getInsights
 } from '@redhat-cloud-services/insights-common-typescript';
 import { validateSchemaResponseInterceptor } from 'openapi2typescript/react-fetching-library';
 import React from 'react';
 import { ClientContextProvider } from 'react-fetching-library';
 import { Provider } from 'react-redux';
-import { BrowserRouter as Router } from 'react-router-dom';
 import * as Redux from 'redux';
 
 import App from './app/App';
@@ -35,11 +33,9 @@ const AppEntry: React.FunctionComponent<AppEntryProps> = (props) => {
 
     return (
         <Provider store={ store }>
-            <Router basename={ getBaseName(window.location.pathname) }>
-                <ClientContextProvider client={ client }>
-                    <App />
-                </ClientContextProvider>
-            </Router>
+            <ClientContextProvider client={ client }>
+                <App />
+            </ClientContextProvider>
         </Provider>
     );
 };

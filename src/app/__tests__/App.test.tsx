@@ -18,7 +18,7 @@ jest.mock('../../services/useUserSettingsEmailQuery');
 jest.mock('../../Routes', () => {
     const MockedRoutes: React.FunctionComponent = () => <div data-testid="content" />;
     return {
-        Routes: MockedRoutes
+        PoliciesRoutes: MockedRoutes
     };
 });
 
