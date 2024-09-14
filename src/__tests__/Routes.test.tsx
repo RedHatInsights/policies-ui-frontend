@@ -1,9 +1,9 @@
 import { render, screen } from '@testing-library/react';
 import * as React from 'react';
-import { Route } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { MemoryRouter } from 'react-router-dom';
 
-import { Routes } from '../Routes';
+import { PoliciesRoutes } from '../Routes';
 
 jest.mock('../pages/ListPage/ListPage', () => {
     const ListPageDummyComponent: React.FunctionComponent = () => {
@@ -13,60 +13,69 @@ jest.mock('../pages/ListPage/ListPage', () => {
     return ListPageDummyComponent;
 });
 
-const getWrapper = (path: string) => {
-    const data = {} as any;
+const LocationProvider = (props) => {
+    const location = useLocation();
+
+    if (props.getLocation) {
+        props.getLocation.mockImplementation(() => location);
+    }
+
+    // eslint-disable-next-line testing-library/no-node-access
+    return <>{ props.children }</>;
+};
+
+const getWrapper = (path: string, getLocation: () => jest.Mock) => {
     const Wrapper: React.FunctionComponent = (props) => {
         return (
             <MemoryRouter initialEntries={ [ path ] }>
-                <Route path="*">
-                    {({ location }) => {
-                        data.location = location;
-                        return null;
-                    }}
-                </Route>
-                {/* eslint-disable-next-line testing-library/no-node-access */}
-                <div id="root">{props.children}</div>
+                <LocationProvider getLocation={ getLocation }>
+                    {/* eslint-disable-next-line testing-library/no-node-access */}
+                    <div id="root">{props.children}</div>
+                </LocationProvider>
             </MemoryRouter>
         );
     };
 
-    return {
-        Wrapper,
-        data
-    };
+    return Wrapper;
 };
 
 describe('src/Routes', () => {
     it('Should render the ListPage on /', async () => {
         jest.useFakeTimers();
-        const { Wrapper, data } = getWrapper('/');
-        render(<Routes />, {
+        const getLocation = jest.fn();
+
+        const Wrapper = getWrapper('/', getLocation);
+        render(<PoliciesRoutes />, {
             wrapper: Wrapper
         });
 
-        expect(data.location.pathname).toBe('/policies/list');
+        expect(getLocation().pathname).toBe('/policies/list');
         expect(screen.getByText('ListPage')).toBeVisible();
     });
 
     it('Should render the ListPage on /list', async () => {
         jest.useFakeTimers();
-        const { Wrapper, data } = getWrapper('/');
-        render(<Routes />, {
+        const getLocation = jest.fn();
+
+        const Wrapper = getWrapper('/', getLocation);
+        render(<PoliciesRoutes />, {
             wrapper: Wrapper
         });
 
-        expect(data.location.pathname).toBe('/policies/list');
+        expect(getLocation().pathname).toBe('/policies/list');
         expect(screen.getByText('ListPage')).toBeVisible();
     });
 
     it('Should render the ListPage on /random-stuff', async () => {
         jest.useFakeTimers();
-        const { Wrapper, data } = getWrapper('/random-stuff');
-        render(<Routes />, {
+        const getLocation = jest.fn();
+
+        const Wrapper = getWrapper('/random-stuff', getLocation);
+        render(<PoliciesRoutes />, {
             wrapper: Wrapper
         });
 
-        expect(data.location.pathname).toBe('/policies/list');
+        expect(getLocation().pathname).toBe('/policies/list');
         expect(screen.getByText('ListPage')).toBeVisible();
     });
 });

@@ -12,7 +12,7 @@ import { addDangerNotification, BreadcrumbLinkItem, Section } from '@redhat-clou
 import * as React from 'react';
 import { useContext } from 'react';
 import { Helmet } from 'react-helmet';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { style } from 'typestyle';
 
 import { AppContext } from '../../app/AppContext';
@@ -47,7 +47,7 @@ export const PolicyDetail: React.FunctionComponent = () => {
 
     const appContext = useContext(AppContext);
     const { canReadPolicies, canWritePolicies } = appContext.rbac;
-    const history = useHistory();
+    const navigate = useNavigate();
 
     const policyToDelete = usePolicyToDelete();
 
@@ -68,7 +68,8 @@ export const PolicyDetail: React.FunctionComponent = () => {
         if (policyId !== policy?.id) {
             query(policyId).then(processGetPolicyResponse);
         }
-    }, [ policyId, getPolicyQuery.query, policy, setPolicy, processGetPolicyResponse ]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     const closePolicyWizard = React.useCallback((policy: Policy | undefined) => {
         const close = wizardState.close;
@@ -90,11 +91,11 @@ export const PolicyDetail: React.FunctionComponent = () => {
         const close = policyToDelete.close;
 
         if (deleted) {
-            history.push(linkTo.listPage());
+            navigate(linkTo.listPage());
         } else {
             close();
         }
-    }, [ history, policyToDelete.close ]);
+    }, [ navigate, policyToDelete.close ]);
 
     const statusChanged = React.useCallback((newStatus: boolean) => {
         if (policy) {

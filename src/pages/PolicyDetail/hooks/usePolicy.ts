@@ -3,30 +3,32 @@ import { useEffect } from 'react';
 // This seems to be stable enough:
 // https://github.com/facebook/react/issues/14259#issuecomment-505918440
 import { unstable_batchedUpdates } from 'react-dom';
-import { useHistory, useLocation, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { usePrevious } from 'react-use';
 
 import { linkTo } from '../../../Routes';
 import { Policy } from '../../../types/Policy';
 import { Uuid } from '../../../types/Policy/Policy';
 
-export const usePolicy = () => {
+type PolicyDetailUrlParams = {
+    policyId: string;
+};
 
-    const { policyId: policyIdFromUrl } = useParams<{
-        policyId: string;
-    }>();
+export const usePolicy = () => {
+    const { policyId: policyIdFromUrl } = useParams<keyof PolicyDetailUrlParams>() as PolicyDetailUrlParams;
+
     const prevPolicyIdFromUrl = usePrevious(policyIdFromUrl);
-    const history = useHistory();
+    const navigate = useNavigate();
     const location = useLocation();
     const [ policy, setPolicyInternal ] = React.useState<Policy>();
-    const policyId = policy?.id || policyIdFromUrl;
+    const policyId = policy?.id ?? policyIdFromUrl;
 
     const batchPolicyUpdate = React.useCallback((newPolicyId: Uuid, newPolicy: Policy | undefined) => {
         unstable_batchedUpdates(() => {
             setPolicyInternal(newPolicy);
-            history.push(linkTo.policyDetail(newPolicyId));
+            navigate(linkTo.policyDetail(newPolicyId));
         });
-    }, [ history, setPolicyInternal ]);
+    }, [ navigate, setPolicyInternal ]);
 
     const setPolicy = React.useCallback((policy: Policy) => {
         if (policyIdFromUrl !== policy.id) {
