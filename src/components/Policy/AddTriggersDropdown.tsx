@@ -1,5 +1,12 @@
-import { Button, ButtonVariant, Dropdown, DropdownItem } from '@patternfly/react-core';
-import { Toggle } from '@patternfly/react-core/dist/js/components/Dropdown/Toggle';
+import {
+    Button,
+    ButtonVariant
+} from '@patternfly/react-core';
+import {
+    Dropdown,
+    DropdownItem,
+    DropdownToggle
+} from '@patternfly/react-core/deprecated';
 import { AngleDownIcon } from '@patternfly/react-icons';
 import {
     Environments,
@@ -55,9 +62,13 @@ export const AddTriggersDropdown: React.FunctionComponent<AddTriggersDropdownPro
             dropdownItems={ items }
             isPlain
             className={ dropdownClassName }
-            toggle={ <Toggle isPlain onToggle={ open => setOpen(open) } id="add-action-toggle">
-                <Button component="a" variant={ ButtonVariant.link } isInline> Add trigger actions <AngleDownIcon /> </Button>
-            </Toggle> }
+            toggle={ (
+                <DropdownToggle isPlain onToggle={ (_event, open) => setOpen(open) } id="add-action-toggle">
+                    <Button component="a" variant={ ButtonVariant.link } isInline>
+                        Add trigger actions <AngleDownIcon />
+                    </Button>
+                </DropdownToggle>
+            ) }
             { ...getOuiaProps('Policy/Wizard/AddTrigger', props) }
         />
     );

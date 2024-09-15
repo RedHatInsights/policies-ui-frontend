@@ -1,4 +1,6 @@
-import { WizardStep } from '@patternfly/react-core';
+import {
+    WizardStep
+} from '@patternfly/react-core/deprecated';
 import * as React from 'react';
 import { DeepPartial, DeepReadonly } from 'ts-essentials';
 import * as Yup from 'yup';

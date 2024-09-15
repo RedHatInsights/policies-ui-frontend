@@ -18,9 +18,9 @@ type CreateCustomPolicyFormType = NewPolicy & {
     isValid?: boolean;
 };
 
-const smallVerticalMargin = 'pf-u-mb-sm'; //SpacingMarginBottomSm
-const titleSmall = 'pf-c-title pf-m-sm'; //TitleMedium
-const radioButton = 'pf-c-radio';//Radio
+const smallVerticalMargin = 'pf-v5-u-mb-sm'; //SpacingMarginBottomSm
+const titleSmall = 'pf-v5-c-title pf-m-sm'; //TitleMedium
+const radioButton = 'pf-v5-c-radio';//Radio
 
 export const useCreatePolicyStep = () => {
     const context = React.useContext(CreatePolicyStepContext);
@@ -96,8 +96,8 @@ export const CreatePolicyStep: React.FunctionComponent = () => {
 
     return (
         <>
-            <Form ouiaId="create-policy-step" className="pf-c-form">
-                <div className="pf-c-form__group">
+            <Form ouiaId="create-policy-step" className="pf-v5-c-form">
+                <div className="pf-v5-c-form__group">
                     <Title headingLevel="h4" size="xl" className={ smallVerticalMargin }>{ Messages.wizards.policy.createPolicy.title }</Title>
                     <Text className={ joinClasses(smallVerticalMargin, titleSmall) } component={ TextVariants.h6 }>Define a new policy:</Text>
                     <Radio

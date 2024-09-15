@@ -1,21 +1,26 @@
+import { SkeletonTable } from '@patternfly/react-component-groups';
 import { Radio } from '@patternfly/react-core';
 import {
     expandable,
-    IActions, IActionsResolver,
+    IActions,
+    IActionsResolver,
     ICell,
-    IRow, IRowData,
+    IRow,
+    IRowData,
     ISortBy,
     sortable,
-    SortByDirection,
+    SortByDirection
+} from '@patternfly/react-table';
+import {
     Table,
     TableBody,
     TableHeader
-} from '@patternfly/react-table';
-import { SkeletonTable } from '@redhat-cloud-services/frontend-components';
+} from '@patternfly/react-table/deprecated';
 import {
     Direction,
     OuiaComponentProps,
-    Sort } from '@redhat-cloud-services/insights-common-typescript';
+    Sort
+} from '@redhat-cloud-services/insights-common-typescript';
 import { assertNever } from 'assert-never';
 import * as React from 'react';
 import { Link } from 'react-router-dom';
@@ -253,10 +258,8 @@ export const PolicyTable: React.FunctionComponent<PolicyTableProps> = (props) =>
     if (props.loading) {
         return (
             <SkeletonTable
-                rowSize={ props.loadingRowCount || 10 }
-                columns={ columns }
-                paddingColumnSize={ columnOffset }
-                sortBy={ sortBy }
+                rows={ props.loadingRowCount || 10 }
+                columns={ columns.map(column => column.title as string) }
             />
         );
     }

@@ -1,4 +1,10 @@
-import { Form, Wizard, WizardStepFunctionType } from '@patternfly/react-core';
+import {
+    Form
+} from '@patternfly/react-core';
+import {
+    Wizard,
+    WizardStepFunctionType
+} from '@patternfly/react-core/deprecated';
 import { assertNever } from 'assert-never';
 import { Formik, FormikHelpers, useFormikContext } from 'formik';
 import * as React from 'react';

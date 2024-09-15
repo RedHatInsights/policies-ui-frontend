@@ -1,13 +1,20 @@
+import { SkeletonTable } from '@patternfly/react-component-groups';
 import {
-    breakWord,     ICell,
+    breakWord,
+    ICell,
     IRow,
-    ISortBy, nowrap, sortable,     SortByDirection,
+    ISortBy,
+    nowrap,
+    sortable,
+    SortByDirection,
+    TableText,
+    wrappable
+} from '@patternfly/react-table';
+import {
     Table,
     TableBody,
-    TableHeader,
-    TableText,
-    wrappable } from '@patternfly/react-table';
-import { SkeletonTable } from '@redhat-cloud-services/frontend-components';
+    TableHeader
+} from '@patternfly/react-table/deprecated';
 import {
     Direction,
     OuiaComponentProps,
@@ -93,10 +100,8 @@ export const TriggerTable: React.FunctionComponent<TriggerTableProps> = (props) 
     if (props.loading) {
         return (
             <SkeletonTable
-                testID="trigger-table-loading"
-                rowSize={ 10 }
-                columns={ cells }
-                sortBy={ sortBy }
+                rows={ 10 }
+                columns={ cells.map(column => column.title as string) }
             />
         );
     }
