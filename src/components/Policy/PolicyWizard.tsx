@@ -281,7 +281,7 @@ export const PolicyWizard: React.FunctionComponent<PolicyWizardProps> = (props: 
         }
     };
 
-    const onValidateForm = (policy: PartialPolicy) => {
+    const onValidateForm = async (policy: PartialPolicy) => {
         const transformedPolicy = PolicyFormSchema.cast(policy) as Partial<Policy>;
         switch (wizardAction.type) {
             case WizardActionType.SAVE:
@@ -295,7 +295,7 @@ export const PolicyWizard: React.FunctionComponent<PolicyWizardProps> = (props: 
                 });
                 break;
             case WizardActionType.VALIDATE_NAME:
-                props.onValidateName(transformedPolicy).then(response => {
+                await props.onValidateName(transformedPolicy).then(response => {
                     setCreateResponse(response);
                     resolveAction(!response.error);
                 });

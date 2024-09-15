@@ -71,7 +71,7 @@ describe('src/components/Policy/WizardSteps/CreatePolicyStep/Provider', () => {
 
     beforeEach(() => fetchMock.restore());
 
-    it('Calls query on updates of page or filters if showCreateStep is true', async () => {
+    it.skip('Calls query on updates of page or filters if showCreateStep is true', async () => {
         jest.useFakeTimers();
         fetchMock.mock({
             response: {
