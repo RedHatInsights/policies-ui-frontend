@@ -12,7 +12,11 @@ plugins.push(
     federatedModules(
         {
             root: resolve(__dirname, '../'),
-            exclude: [ 'react-router-dom' ]
+            shared: [
+                {
+                    'react-router-dom': { singleton: true, requiredVersion: '*' }
+                }
+            ]
         }
     )
 );
