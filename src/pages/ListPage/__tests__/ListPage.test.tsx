@@ -19,11 +19,11 @@ jest.mock('@redhat-cloud-services/insights-common-typescript', () => {
     };
 });
 jest.mock('../../../hooks/useFacts');
-jest.mock('@redhat-cloud-services/frontend-components', () => {
+jest.mock('@patternfly/react-component-groups', () => {
     const MockedSkeletonTable = () => <div>Loading Policies</div>;
 
     return {
-        ...jest.requireActual('@redhat-cloud-services/frontend-components') as Record<string, any>,
+        ...jest.requireActual('@patternfly/react-component-groups') as Record<string, any>,
         SkeletonTable: MockedSkeletonTable
     };
 });

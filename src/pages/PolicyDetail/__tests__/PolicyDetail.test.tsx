@@ -17,11 +17,11 @@ import { suppressValidateError } from 'openapi2typescript/react-fetching-library
 
 jest.mock('../../../hooks/useFacts');
 jest.mock('in-browser-download', () => jest.fn());
-jest.mock('@redhat-cloud-services/frontend-components', () => {
+jest.mock('@patternfly/react-component-groups', () => {
     const MockedSkeletonTable = () => <div>Loading Triggers</div>;
 
     return {
-        ...jest.requireActual('@redhat-cloud-services/frontend-components') as Record<string, any>,
+        ...jest.requireActual('@patternfly/react-component-groups') as Record<string, any>,
         SkeletonTable: MockedSkeletonTable
     };
 });
