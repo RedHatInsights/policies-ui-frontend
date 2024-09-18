@@ -31,13 +31,15 @@ export const ConditionFieldWithFormik: React.FunctionComponent<ConditionFieldWit
                 onSelect={ onSelect }
             />
             { hint && <Text component={ TextVariants.small }>{ hint }</Text> }
-            <FormHelperText>
-                <HelperText>
-                    <HelperTextItem variant='error'>
-                        {meta.error}
-                    </HelperTextItem>
-                </HelperText>
-            </FormHelperText>
+            {isValid ||
+                <FormHelperText>
+                    <HelperText>
+                        <HelperTextItem variant='error'>
+                            {meta.error}
+                        </HelperTextItem>
+                    </HelperText>
+                </FormHelperText>
+            }
         </FormGroup>
     );
 };
