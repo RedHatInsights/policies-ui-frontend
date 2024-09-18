@@ -41,7 +41,7 @@ describe('src/components/Policy/PolicyWizard', () => {
 
         const title = screen.getByRole('heading', { name: /Create a policy/i });
         expect(title).toBeInTheDocument();
-        expect(title.id.startsWith('pf-v5-wizard-title-')).toBeTruthy();
+        expect(title.id.startsWith('pf-wizard-title-')).toBeTruthy();
     });
 
     it('Title is "Edit a policy" when editing', async () => {
@@ -66,7 +66,7 @@ describe('src/components/Policy/PolicyWizard', () => {
 
         const title = screen.getByRole('heading', { name: /Edit a policy/i });
         expect(title).toBeInTheDocument();
-        expect(title.id.startsWith('pf-v5-wizard-title-')).toBeTruthy();
+        expect(title.id.startsWith('pf-wizard-title-')).toBeTruthy();
     });
 
     it('First step is "Create policy" when showCreateStep is true', async () => {
