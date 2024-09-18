@@ -81,7 +81,7 @@ export const PolicyWizardFooter: React.FunctionComponent<PolicyWizardFooterProps
                             { !props.isLoading && props.error && (
                                 <Split className={ loadingClassName }>
                                     <SplitItem>
-                                        <Icon className={ exclamationClassName } color={ global_danger_color_100.value }>
+                                        <Icon className={ exclamationClassName } style={ { color: global_danger_color_100.value } }>
                                             <ExclamationCircleIcon />
                                         </Icon>
                                     </SplitItem>

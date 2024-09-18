@@ -79,7 +79,7 @@ const ConditionStatus: React.FunctionComponent<ConditionStatusProps> = (props) =
         return (
             <Split>
                 <SplitItem>
-                    <Icon className={ elementClassName } color={ global_success_color_200.value }>
+                    <Icon className={ elementClassName } style={ { color: global_success_color_200.value } }>
                         <CheckCircleIcon />
                     </Icon>
                 </SplitItem>
@@ -98,7 +98,7 @@ const ConditionStatus: React.FunctionComponent<ConditionStatusProps> = (props) =
                 <StackItem>
                     <Split>
                         <SplitItem>
-                            <Icon className={ elementClassName } color={ global_danger_color_100.value }>
+                            <Icon className={ elementClassName } style={ { color: global_danger_color_100.value } }>
                                 <ExclamationCircleIcon />
                             </Icon>
                         </SplitItem>
