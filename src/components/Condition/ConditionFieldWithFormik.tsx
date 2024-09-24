@@ -1,4 +1,4 @@
-import { FormGroup, Text, TextVariants } from '@patternfly/react-core';
+import { FormGroup, FormHelperText, HelperText, HelperTextItem, Text, TextVariants } from '@patternfly/react-core';
 import { useField } from 'formik';
 import * as React from 'react';
 
@@ -9,7 +9,7 @@ type ConditionFieldWithFormikProp = Omit<ConditionFieldProps, 'onSelect' | 'valu
     hint?: string;
 };
 
-export const ConditionFieldWithForkmik: React.FunctionComponent<ConditionFieldWithFormikProp> = (props) => {
+export const ConditionFieldWithFormik: React.FunctionComponent<ConditionFieldWithFormikProp> = (props) => {
     const { hint, ...otherProps } = props;
     const [ field, meta, { setValue }] = useField({ ...otherProps });
     const isValid = !meta.error || !meta.touched;
@@ -21,9 +21,7 @@ export const ConditionFieldWithForkmik: React.FunctionComponent<ConditionFieldWi
     return (
         <FormGroup
             fieldId={ props.id }
-            helperTextInvalid={ meta.error }
             isRequired={ props.isRequired }
-            validated={ (isValid) ? 'default' : 'error' }
             label={ props.label }
         >
             <ConditionField
@@ -33,6 +31,15 @@ export const ConditionFieldWithForkmik: React.FunctionComponent<ConditionFieldWi
                 onSelect={ onSelect }
             />
             { hint && <Text component={ TextVariants.small }>{ hint }</Text> }
+            {isValid ||
+                <FormHelperText>
+                    <HelperText>
+                        <HelperTextItem variant='error'>
+                            {meta.error}
+                        </HelperTextItem>
+                    </HelperText>
+                </FormHelperText>
+            }
         </FormGroup>
     );
 };

@@ -1,9 +1,14 @@
 import {
     Button,
-    ButtonVariant, Split,
-    SplitItem,     WizardContextConsumer,
-    WizardFooter } from '@patternfly/react-core';
-import { Spinner } from '@patternfly/react-core';
+    ButtonVariant,
+    Split,
+    SplitItem
+} from '@patternfly/react-core';
+import { Icon, Spinner } from '@patternfly/react-core';
+import {
+    WizardContextConsumer,
+    WizardFooter
+} from '@patternfly/react-core/deprecated';
 import { ExclamationCircleIcon } from '@patternfly/react-icons';
 import { global_danger_color_100 } from '@patternfly/react-tokens';
 import * as React from 'react';
@@ -76,7 +81,9 @@ export const PolicyWizardFooter: React.FunctionComponent<PolicyWizardFooterProps
                             { !props.isLoading && props.error && (
                                 <Split className={ loadingClassName }>
                                     <SplitItem>
-                                        <ExclamationCircleIcon className={ exclamationClassName } color={ global_danger_color_100.value } />
+                                        <Icon className={ exclamationClassName } style={ { color: global_danger_color_100.value } }>
+                                            <ExclamationCircleIcon />
+                                        </Icon>
                                     </SplitItem>
                                     <SplitItem>{ props.error }</SplitItem>
                                 </Split>

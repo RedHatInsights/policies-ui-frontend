@@ -94,7 +94,7 @@ describe('src/components/Policy/PolicyWizard', () => {
         });
 
         expect(title).toBeInTheDocument();
-        expect(title.className.includes('pf-c-title')).toBeTruthy();
+        expect(title.className.includes('pf-v5-c-title')).toBeTruthy();
     });
 
     it('First step is "Policy Details" when showCreateStep is false and "Create Policy" does not appear', async () => {
@@ -128,7 +128,7 @@ describe('src/components/Policy/PolicyWizard', () => {
         });
 
         expect(policyDetailsTitle).toBeInTheDocument();
-        expect(policyDetailsTitle.className.includes('pf-c-title')).toBeTruthy();
+        expect(policyDetailsTitle.className.includes('pf-v5-c-title')).toBeTruthy();
 
     });
 

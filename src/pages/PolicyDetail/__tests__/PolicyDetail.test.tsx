@@ -12,16 +12,15 @@ import { linkTo } from '../../../Routes';
 import { ServerPolicyRequest, Uuid } from '../../../types/Policy/Policy';
 import { PolicyDetail } from '../PolicyDetail';
 import Policy = Schemas.Policy;
-import { within } from '@testing-library/dom';
 import { suppressValidateError } from 'openapi2typescript/react-fetching-library';
 
 jest.mock('../../../hooks/useFacts');
 jest.mock('in-browser-download', () => jest.fn());
-jest.mock('@redhat-cloud-services/frontend-components', () => {
+jest.mock('@patternfly/react-component-groups', () => {
     const MockedSkeletonTable = () => <div>Loading Triggers</div>;
 
     return {
-        ...jest.requireActual('@redhat-cloud-services/frontend-components') as Record<string, any>,
+        ...jest.requireActual('@patternfly/react-component-groups') as Record<string, any>,
         SkeletonTable: MockedSkeletonTable
     };
 });
@@ -652,7 +651,7 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
             noSort: true
         });
 
-        userEvent.click(within(screen.getByTestId('trigger-toolbar-export-container')).getByRole('button'));
+        userEvent.click(screen.getByLabelText('Export'));
         userEvent.click(screen.getByText(/Export to JSON/i));
 
         await waitForAsyncEvents();
@@ -767,8 +766,8 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
         });
 
         await waitForAsyncEvents();
-        userEvent.click(screen.getByLabelText ('Items per page', {
-            selector: '.pf-m-compact *'
+        userEvent.click(screen.getByText ('1 - 4', {
+            selector: '#options-menu-top-toggle *'
         }));
 
         await waitForAsyncEvents();
@@ -781,8 +780,8 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
         expect(fetchMock.calls(/limit=10/)).toHaveLength(1);
 
         await waitForAsyncEvents();
-        userEvent.click(screen.getByLabelText ('Items per page', {
-            selector: '.pf-m-compact *'
+        userEvent.click(screen.getByText ('1 - 4', {
+            selector: '#options-menu-top-toggle *'
         }));
 
         await waitForAsyncEvents();
@@ -809,8 +808,8 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
         });
 
         await waitForAsyncEvents();
-        userEvent.click(screen.getByLabelText ('Items per page', {
-            selector: '.pf-m-bottom *'
+        userEvent.click(screen.getByText ('1 - 4', {
+            selector: '#options-menu-bottom-toggle *'
         }));
 
         await waitForAsyncEvents();
@@ -823,8 +822,8 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
         expect(fetchMock.calls(/limit=10/)).toHaveLength(1);
 
         await waitForAsyncEvents();
-        userEvent.click(screen.getByLabelText ('Items per page', {
-            selector: '.pf-m-bottom *'
+        userEvent.click(screen.getByText ('1 - 4', {
+            selector: '#options-menu-bottom-toggle *'
         }));
 
         await waitForAsyncEvents();

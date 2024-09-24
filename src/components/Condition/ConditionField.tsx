@@ -1,4 +1,8 @@
-import { Select, SelectOption, SelectVariant } from '@patternfly/react-core';
+import {
+    Select,
+    SelectOption,
+    SelectVariant
+} from '@patternfly/react-core/deprecated';
 import { OuiaComponentProps } from '@redhat-cloud-services/insights-common-typescript';
 import * as React from 'react';
 import { ChangeEvent } from 'react';

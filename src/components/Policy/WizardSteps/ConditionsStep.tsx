@@ -1,7 +1,9 @@
 import {
     Button,
     ButtonVariant,
-    Spinner, Split,
+    Icon,
+    Spinner,
+    Split,
     SplitItem,
     Stack,
     StackItem,
@@ -16,7 +18,7 @@ import { style } from 'typestyle';
 
 import { Messages } from '../../../properties/Messages';
 import { PolicyFormConditions } from '../../../schemas/CreatePolicy/PolicySchema';
-import { ConditionFieldWithForkmik } from '../../Condition/ConditionFieldWithFormik';
+import { ConditionFieldWithFormik } from '../../Condition/ConditionFieldWithFormik';
 import { PartialPolicy, WizardActionType, WizardContext, WizardStepExtended } from '../PolicyWizardTypes';
 import Usage from '../Wizard/Usage';
 
@@ -77,7 +79,9 @@ const ConditionStatus: React.FunctionComponent<ConditionStatusProps> = (props) =
         return (
             <Split>
                 <SplitItem>
-                    <CheckCircleIcon className={ elementClassName } color={ global_success_color_200.value } />
+                    <Icon className={ elementClassName } style={ { color: global_success_color_200.value } }>
+                        <CheckCircleIcon />
+                    </Icon>
                 </SplitItem>
                 <SplitItem>
                     <div className={ joinClasses(elementClassName, fontGreenColor, fontWeightBold) }>
@@ -94,7 +98,9 @@ const ConditionStatus: React.FunctionComponent<ConditionStatusProps> = (props) =
                 <StackItem>
                     <Split>
                         <SplitItem>
-                            <ExclamationCircleIcon className={ elementClassName } color={ global_danger_color_100.value } />
+                            <Icon className={ elementClassName } style={ { color: global_danger_color_100.value } }>
+                                <ExclamationCircleIcon />
+                            </Icon>
                         </SplitItem>
                         <SplitItem>
                             <div className={ joinClasses(elementClassName, fontRedColor, fontWeightBold) }>
@@ -127,7 +133,7 @@ const ConditionsStep: React.FunctionComponent = () => {
         <Form ouiaId="condition-step">
             <Title className={ titleClassName } headingLevel="h4" size="xl">{ Messages.wizards.policy.conditions.title }</Title>
             { Messages.wizards.policy.conditions.summaryDesc }
-            <ConditionFieldWithForkmik ouiaId="conditions" label="Condition text"
+            <ConditionFieldWithFormik ouiaId="conditions" label="Condition text"
                 id="conditions" name="conditions" facts={ context.facts || [] }
                 hint={ Messages.wizards.policy.conditions.hint }
             />

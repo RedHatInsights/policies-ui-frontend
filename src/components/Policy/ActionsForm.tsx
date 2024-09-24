@@ -1,4 +1,4 @@
-import { Button, Card, CardActions, CardBody, CardHeader, CardTitle, Form, Title } from '@patternfly/react-core';
+import { Button, Card, CardBody, CardHeader, CardTitle, Form, Title } from '@patternfly/react-core';
 import { TimesIcon } from '@patternfly/react-icons';
 import { global_spacer_md } from '@patternfly/react-tokens';
 import { assertNever } from 'assert-never';
@@ -18,7 +18,7 @@ const formClassName = style({
 
 const cardClassName = style({
     backgroundColor: 'white',
-    border: '1px var(--pf-global--BorderColor--200) solid',
+    border: '1px var(--pf-v5-global--BorderColor--200) solid',
     boxShadow: 'none'
 });
 
@@ -50,12 +50,16 @@ export const ActionsForm: React.FunctionComponent<ActionsFormProps> = (props) =>
             { props.actions?.map((action, index) => (
                 <React.Fragment key={ index }>
                     <Card className={ cardClassName }>
-                        <CardHeader data-codemods="true">
-                            <CardActions>
+                        <CardHeader data-codemods="true" actions={ {
+                            actions: <>
                                 <Button variant="plain" aria-label="Action" onClick={ props.arrayHelpers.handleRemove(index) }>
                                     <TimesIcon />
                                 </Button>
-                            </CardActions>
+                            </>,
+                            hasNoOffset: false,
+                            className: undefined
+                        } }>
+
                             <CardTitle>
                                 <>
                                     <ActionIcon actionType={ action?.type } />
@@ -65,10 +69,10 @@ export const ActionsForm: React.FunctionComponent<ActionsFormProps> = (props) =>
                                 </>
                             </CardTitle>
                         </CardHeader>
-                        { /* Adding this pf-c-form class is a hack (i think).
+                        { /* Adding this pf-v5-c-form class is a hack (i think).
                         It looks like We should not use Card inside the Form as it breaks the layout.
                         */ }
-                        <CardBody className="pf-c-form">
+                        <CardBody className="pf-v5-c-form">
                             <ActionForm
                                 ouiaId={ `actions-form.${index.toString()}` }
                                 isReadOnly={ props.isReadOnly }

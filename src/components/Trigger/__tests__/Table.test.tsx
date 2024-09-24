@@ -27,6 +27,10 @@ describe('src/components/Trigger/Table', () => {
                 }
             ] }
             onSort={ onSort }
+            sortBy={ {
+                column: 'system',
+                direction: Direction.ASCENDING
+            } }
         />);
 
         expect(onSort).toHaveBeenCalledTimes(0);
@@ -52,13 +56,17 @@ describe('src/components/Trigger/Table', () => {
                 }
             ] }
             onSort={ onSort }
+            sortBy={ {
+                column: 'system',
+                direction: Direction.ASCENDING
+            } }
         />);
 
         expect(onSort).toHaveBeenCalledTimes(0);
         await userEvent.click(screen.getByText(/system/i, {
             selector: 'button span'
         }));
-        expect(onSort).toHaveBeenCalledWith(1, 'name', Direction.ASCENDING);
+        expect(onSort).toHaveBeenCalledWith(1, 'name', Direction.DESCENDING);
     });
 
     it('When no sort is provided, nothing is sorted', async () => {

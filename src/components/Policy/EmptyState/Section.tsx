@@ -8,7 +8,7 @@ import { style } from 'typestyle';
 import { getOuiaProps } from '../../../utils/getOuiaProps';
 
 const emptyStateClassName = style({
-    paddingTop: calc(`${ global_spacer_3xl.value } - var(--pf-c-page__main-section--PaddingTop)`)
+    paddingTop: calc(`${ global_spacer_3xl.value } - var(--pf-v5-c-page__main-section--PaddingTop)`)
 });
 
 export interface EmptyStateSectionProps extends OuiaComponentProps {
