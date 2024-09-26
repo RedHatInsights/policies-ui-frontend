@@ -12,7 +12,7 @@ Policies frontend for Red Hat Insights
 ## Running locally
 1. Make sure you are connected to the Red Hat VPN
 2. Install dependencies with `yarn install`
-3. Run development server with `yarn start`
+3. Run development server with `yarn start:proxy`
 4. Local version of the app will be available at URL printed out to the console (https://stage.foo.redhat.com:1337/insights/policies/)
 
 ## Testing
