@@ -1,0 +1,51 @@
+version: 2
+updates:
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    labels:
+      - "dependencies"
+    open-pull-requests-limit: 10
+    commit-message:
+      prefix: "chore(deps):"
+    groups:
+      redhat-cloud-services:
+        patterns:
+          - "@redhat-cloud-services/*"
+        exclude-patterns:
+          - "@redhat-cloud-services/*-client"
+      patternfly:
+        patterns:
+          - "@patternfly/*"
+        exclude-patterns:
+          - "@patternfly/react-charts"
+      babel:
+        patterns:
+          - "@babel/*"
+          - "babel-*"
+      rollup:
+        patterns:
+          - "rollup"
+          - "@rollup/plugin*"
+          - "rollup-plugin*"
+      lint:
+        patterns:
+          - "eslint"
+          - "eslint-*"
+          - "stylelint*"
+      clients:
+        patterns:
+          - "@redhat-cloud-services/*-client"
+      jest:
+        patterns:
+          - "jest*"
+      react:
+        patterns:
+          - "react"
+          - "react-dom"
+          - "react-redux"
+      webpack:
+        patterns:
+          - "webpack"
+          - "webpack-bundle-analyzer"
