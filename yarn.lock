@@ -2183,12 +2183,13 @@
     axios "^1.7.2"
     tslib "^2.6.2"
 
-"@redhat-cloud-services/rbac-client@1.0.100":
-  version "1.0.100"
-  resolved "https://registry.yarnpkg.com/@redhat-cloud-services/rbac-client/-/rbac-client-1.0.100.tgz#89958b1b4fd46e3596a56b2ad63f0803244d3308"
-  integrity sha512-6nKT+X3DcHCAz+KSkaRz8BwjcCbeu3Q78iux7CEF+dP1FFem8eVvlnC34niy5u+Ol6BlyIoTXUJrF3kYaIc1zA==
+"@redhat-cloud-services/rbac-client@1.4.5":
+  version "1.4.5"
+  resolved "https://registry.yarnpkg.com/@redhat-cloud-services/rbac-client/-/rbac-client-1.4.5.tgz#280f30c6745c1b3f627d78e9e0030860324463ef"
+  integrity sha512-7kryZfzEYuw1V7c8bO5esXnfeYQO4Skz1XhluJ2whZNji8HcVbwDjBsQxy0+ndaSVirh5d86fufb00vK6fyUjw==
   dependencies:
-    axios "^0.21.1"
+    axios "^0.27.2"
+    tslib "^2.6.2"
 
 "@redhat-cloud-services/rbac-client@^1.0.111 || 2.x":
   version "2.2.2"
