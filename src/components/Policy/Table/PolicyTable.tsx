@@ -225,7 +225,7 @@ export const PolicyTable: React.FunctionComponent<PolicyTableProps> = (props) =>
         }
     }, [ policies, onSelect ]);
 
-    const sortBy = React.useMemo<ISortBy | undefined>(() => {
+    const sortBy = React.useMemo<ISortBy>(() => {
         if (props.sortBy) {
             return {
                 index: indexForColumn(props.sortBy.column, columns, namedColumns, columnOffset),
@@ -233,7 +233,9 @@ export const PolicyTable: React.FunctionComponent<PolicyTableProps> = (props) =>
             };
         }
 
-        return undefined;
+        return {
+            defaultDirection: 'asc'
+        };
     }, [ props.sortBy, columns, namedColumns, columnOffset ]);
 
     const actionResolver = React.useMemo(() => props.error || props.loading ? undefined : props.actionResolver || undefined,
