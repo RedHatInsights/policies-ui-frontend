@@ -1972,26 +1972,26 @@
     uuid "^8.3.2"
     yup "^0.32.11"
 
-"@patternfly/patternfly@^5.4.0":
-  version "5.4.0"
-  resolved "https://registry.yarnpkg.com/@patternfly/patternfly/-/patternfly-5.4.0.tgz#97dc2006ba2d495ed84d2f8d7269b6e19a9f834f"
-  integrity sha512-9B33M4N0/KDyss6NpCwAhz18za7R+sXYiFrUObhGoJ1Cmg06SeScVrEAjT4yJwAClWUlKh604Af9wE4D7IF8Lg==
+"@patternfly/patternfly@^5.4.1":
+  version "5.4.1"
+  resolved "https://registry.yarnpkg.com/@patternfly/patternfly/-/patternfly-5.4.1.tgz#54911a5f774a86b5ec74808e1ffed84e7af502aa"
+  integrity sha512-0+KxsQJrFzOMANALW82BHAO7bSm9tEbG1RrOlGT23ME1CaBoetGSMRLymutvojn/b/EKfJIr5rLzQa+14Lvg2g==
 
-"@patternfly/react-component-groups@^5.0.0", "@patternfly/react-component-groups@^5.2.0":
-  version "5.2.0"
-  resolved "https://registry.yarnpkg.com/@patternfly/react-component-groups/-/react-component-groups-5.2.0.tgz#7c12e0cb65f068d644d0b35e4b88290b8b371ec4"
-  integrity sha512-kb57OOVJ9L5fbY/kiil8awPWuJVops8Rz1ZNFtkEb72mF3lhmRadYNheLBeaD8T9GE1dOaVJRMMf133ZSKN87g==
+"@patternfly/react-component-groups@^5.0.0", "@patternfly/react-component-groups@^5.4.0":
+  version "5.4.0"
+  resolved "https://registry.yarnpkg.com/@patternfly/react-component-groups/-/react-component-groups-5.4.0.tgz#d52309f676ea8e6b7896dcc95bcbfc33110b7abe"
+  integrity sha512-faRrjz/D4saTjNgQa2p8tSlEXeeyBMGK9eGqdOKc5DG0smP1e+lN7dXDYNPARpKXj9fmaUltzux+w/7NLwxUhw==
   dependencies:
-    "@patternfly/react-core" "^5.1.1"
-    "@patternfly/react-icons" "^5.1.1"
-    "@patternfly/react-table" "^5.1.1"
-    clsx "^2.0.0"
+    "@patternfly/react-core" "^5.3.3"
+    "@patternfly/react-icons" "^5.4.0"
+    "@patternfly/react-table" "^5.3.3"
+    clsx "^2.1.1"
     react-jss "^10.10.0"
 
-"@patternfly/react-core@^5.1.1", "@patternfly/react-core@^5.4.0":
-  version "5.4.0"
-  resolved "https://registry.yarnpkg.com/@patternfly/react-core/-/react-core-5.4.0.tgz#b4fd5a4deead2c741d44cb2cbd0b8f348e326322"
-  integrity sha512-Tz2Y9V4G2pnwrylc/4/FyxIRFvxiA8BEBIG6UBwXxrstnJmJaHgAIy6QJdJmERzVx3GVDz6/rM0PnMqa5R6auQ==
+"@patternfly/react-core@^5.3.3", "@patternfly/react-core@^5.4.0", "@patternfly/react-core@^5.4.1":
+  version "5.4.1"
+  resolved "https://registry.yarnpkg.com/@patternfly/react-core/-/react-core-5.4.1.tgz#b7f2699a289f8fed32f085e0866f7f9fa5ca74ec"
+  integrity sha512-PJjwN4OCR7jTdWKi0RzuFdtlSQ8gBR+0REczuDHHPW8ky0bs1cIcqGsn5p/b6OgPlztl3UaXqRYLsroiEMasOw==
   dependencies:
     "@patternfly/react-icons" "^5.4.0"
     "@patternfly/react-styles" "^5.4.0"
@@ -2000,7 +2000,7 @@
     react-dropzone "^14.2.3"
     tslib "^2.6.3"
 
-"@patternfly/react-icons@^5.1.1", "@patternfly/react-icons@^5.4.0":
+"@patternfly/react-icons@^5.4.0":
   version "5.4.0"
   resolved "https://registry.yarnpkg.com/@patternfly/react-icons/-/react-icons-5.4.0.tgz#bc6aebfdce79a2fb1b50ffdc7fd7d171c719c25b"
   integrity sha512-2M3qN/naultvRHeG2laJMmoIroFCGAyfwTVrnCjSkG6/KnRoXV0+dqd+Xrh7xzpzvIJB1klvifC0oX42cEkDrA==
@@ -2010,12 +2010,12 @@
   resolved "https://registry.yarnpkg.com/@patternfly/react-styles/-/react-styles-5.4.0.tgz#2460bdfa71a411f2213dd348ba35fce411bb6acc"
   integrity sha512-4ZE0s6LkX/0KsN0FOeogrDoj18m+BPA73YKnabZGB4SDRzrBNeBh2a6bSt546ZseEjkoJ+S81kOG0G8YckPQYg==
 
-"@patternfly/react-table@^5.1.1", "@patternfly/react-table@^5.4.0":
-  version "5.4.0"
-  resolved "https://registry.yarnpkg.com/@patternfly/react-table/-/react-table-5.4.0.tgz#b91e9d91003f8ba53e248f8d5e36817bc760335b"
-  integrity sha512-HkXxVEPeI6nRVSUSHb5BungF41IfjB8W2VqaA3SX+6fGxQAW0e/Hb58ctUdPR2VJ/S2YZFcIcqCCWQtQEf+xKA==
+"@patternfly/react-table@^5.3.3", "@patternfly/react-table@^5.4.0":
+  version "5.4.1"
+  resolved "https://registry.yarnpkg.com/@patternfly/react-table/-/react-table-5.4.1.tgz#56b42793ca9568295e8c2fdcff9e448e7e205d6e"
+  integrity sha512-T05djy6YPqjbGWjpnwUs9oqup8oqqIOBnDOcThnHukgzlwnZvLNywgdoMR5XAKxTcIx/iBE1cu8ieETlITOGLw==
   dependencies:
-    "@patternfly/react-core" "^5.4.0"
+    "@patternfly/react-core" "^5.4.1"
     "@patternfly/react-icons" "^5.4.0"
     "@patternfly/react-styles" "^5.4.0"
     "@patternfly/react-tokens" "^5.4.0"
@@ -4531,7 +4531,7 @@ clone@^1.0.2:
   resolved "https://registry.yarnpkg.com/clone/-/clone-1.0.4.tgz#da309cc263df15994c688ca902179ca3c7cd7c7e"
   integrity sha1-2jCcwmPfFZlMaIypAheco8fNfH4=
 
-clsx@^2.0.0:
+clsx@^2.1.1:
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/clsx/-/clsx-2.1.1.tgz#eed397c9fd8bd882bfb18deab7102049a2f32999"
   integrity sha512-eYm0QWBtUrBWZWG0d386OGAw16Z995PiOVo2B7bjWSbHedGl5e0ZWaq65kOGgUSNesEIDkB9ISbTg/JK9dhCZA==
