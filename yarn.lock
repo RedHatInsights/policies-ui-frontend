@@ -2175,20 +2175,22 @@
     camelcase "5.3.1"
     react-string-format "0.1.0"
 
-"@redhat-cloud-services/javascript-clients-shared@^1.2.2":
-  version "1.2.4"
-  resolved "https://registry.yarnpkg.com/@redhat-cloud-services/javascript-clients-shared/-/javascript-clients-shared-1.2.4.tgz#b357e6cb4350e156c591da230c64d51353c6b0b7"
-  integrity sha512-afD1wZZMdwfSLDKt2hOkrlUtdl4lslOJJvYoGJu7m+Ivymt/5RYR29FxNxbrRNqQaIyGPzmpTdPb7olJZCEN/A==
+"@redhat-cloud-services/javascript-clients-shared@^1.2.2", "@redhat-cloud-services/javascript-clients-shared@^1.2.6":
+  version "1.2.6"
+  resolved "https://registry.yarnpkg.com/@redhat-cloud-services/javascript-clients-shared/-/javascript-clients-shared-1.2.6.tgz#a84f706e763595b1b43b144ea8b16a5c75a2d3c2"
+  integrity sha512-GESm6Rxo/G+rX4Ui7+JTDneAKWk1HkYKeA/BZIvPZb1TCEFvR9YJUDH8yVuiJ0S0rfHvXpyPqRjB52cq4fQq+g==
   dependencies:
     axios "^1.7.2"
     tslib "^2.6.2"
 
-"@redhat-cloud-services/rbac-client@1.0.100":
-  version "1.0.100"
-  resolved "https://registry.yarnpkg.com/@redhat-cloud-services/rbac-client/-/rbac-client-1.0.100.tgz#89958b1b4fd46e3596a56b2ad63f0803244d3308"
-  integrity sha512-6nKT+X3DcHCAz+KSkaRz8BwjcCbeu3Q78iux7CEF+dP1FFem8eVvlnC34niy5u+Ol6BlyIoTXUJrF3kYaIc1zA==
+"@redhat-cloud-services/rbac-client@3.0.1":
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/@redhat-cloud-services/rbac-client/-/rbac-client-3.0.1.tgz#0732e2abba324149ab41b1134ab9f2c80efb6d6c"
+  integrity sha512-wCLoi/jk8dO99zfZUrWSRCMcGNzUrZst3Pl8/bOHRj6YHehyBeqL+Jz4pqobKY04UGKOgXVQLHbHYaGiu10BqA==
   dependencies:
-    axios "^0.21.1"
+    "@redhat-cloud-services/javascript-clients-shared" "^1.2.6"
+    axios "^1.7.2"
+    tslib "^2.6.2"
 
 "@redhat-cloud-services/rbac-client@^1.0.111 || 2.x":
   version "2.2.2"
@@ -11686,20 +11688,10 @@ tslib@^1.8.1, tslib@^1.9.0, tslib@^1.9.3:
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-1.10.0.tgz#c3c19f95973fb0a62973fb09d90d961ee43e5c8a"
   integrity sha512-qOebF53frne81cf0S9B41ByenJ3/IuH8yJKngAX35CmiZySA0khhkovshKK+jGCaMnVomla7gVlIcc3EvKPbTQ==
 
-tslib@^2.0.0, tslib@^2.4.0, tslib@^2.6.2, tslib@^2.6.3:
+tslib@^2.0.0, tslib@^2.0.3, tslib@^2.1.0, tslib@^2.4.0, tslib@^2.6.2, tslib@^2.6.3:
   version "2.7.0"
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-2.7.0.tgz#d9b40c5c40ab59e8738f297df3087bf1a2690c01"
   integrity sha512-gLXCKdN1/j47AiHiOkJN69hJmcbGTHI0ImLmbYLHykhgeN0jVGola9yVjFgzCUklsZQMW55o+dW7IXv3RCXDzA==
-
-tslib@^2.0.3:
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/tslib/-/tslib-2.1.0.tgz#da60860f1c2ecaa5703ab7d39bc05b6bf988b97a"
-  integrity sha512-hcVC3wYEziELGGmEEXue7D75zbwIIVUMWAVbHItGPx0ziyXxrOMQx4rQEVEV45Ut/1IotuEvwqPopzIOkDMf0A==
-
-tslib@^2.1.0:
-  version "2.3.0"
-  resolved "https://registry.yarnpkg.com/tslib/-/tslib-2.3.0.tgz#803b8cdab3e12ba581a4ca41c8839bbb0dacb09e"
-  integrity sha512-N82ooyxVNm6h1riLCoyS9e3fuJ3AMG2zIZs2Gd1ATcSFjSA23Q0fzjjZeh0jbJvWVDZ0cJT8yaNNaaXHzueNjg==
 
 tsutils@^3.21.0:
   version "3.21.0"
