@@ -3,7 +3,7 @@
   "version": "1.1.0",
   "private": false,
   "dependencies": {
-    "@babel/runtime": "7.14.8",
+    "@babel/runtime": "7.25.6",
     "@patternfly/patternfly": "^5.4.0",
     "@patternfly/react-component-groups": "^5.2.0",
     "@patternfly/react-core": "^5.4.0",
