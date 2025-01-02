@@ -1,4 +1,5 @@
-import { PageSection } from '@patternfly/react-core';
+import { Flex, Icon, PageSection, Popover, Text, TextContent, TextVariants } from '@patternfly/react-core';
+import { ExternalLinkAltIcon, OutlinedQuestionCircleIcon } from '@patternfly/react-icons';
 import { ErrorState, PageHeader, PageHeaderTitle, Section } from '@redhat-cloud-services/frontend-components';
 import AsynComponent from '@redhat-cloud-services/frontend-components/AsyncComponent';
 import { getInsights, InsightsEmailOptIn, Page, useSort } from '@redhat-cloud-services/insights-common-typescript';
@@ -210,7 +211,45 @@ const ListPage: React.FunctionComponent<unknown> = () => {
                         <title>Policies - Operations</title>
                     </Helmet>
                     <PageHeader>
-                        <PageHeaderTitle title={ Messages.pages.listPage.title } />
+                        <PageHeaderTitle title={ (
+                            <React.Fragment>
+                                {Messages.pages.listPage.title}
+                                <Popover
+                                    headerContent="About policies"
+                                    bodyContent={ (
+                                        <TextContent>
+                                            <Flex direction={ { default: 'column' } }>
+                                                <Text component={ TextVariants.p }>
+                                                    Policies evaluate system configurations in your environment,
+                                                    detect inventory changes and can send notifications when changes occur.
+                                                </Text>
+                                                <Text component={ TextVariants.p }>
+                                                    <a
+                                                        rel="noreferrer"
+                                                        target="_blank"
+                                                        href={ 'https://docs.redhat.com/en/documentation/red_hat_insights/1-latest/html/' +
+                                                            'monitoring_and_reacting_to_configuration_changes_using_policies' }
+                                                    >
+                                                        Monitoring and Reacting to Configuration Changes Using Policies
+                                                        <Icon className="pf-v5-u-ml-xs">
+                                                            <ExternalLinkAltIcon />
+                                                        </Icon>
+                                                    </a>
+                                                </Text>
+                                            </Flex>
+                                        </TextContent>
+                                    ) }
+                                >
+                                    <Icon>
+                                        <OutlinedQuestionCircleIcon
+                                            className="pf-v5-u-ml-sm"
+                                            color="var(--pf-v5-global--secondary-color--100)"
+                                            style={ { verticalAlign: '0', fontSize: 16, cursor: 'pointer' } }
+                                        />
+                                    </Icon>
+                                </Popover>
+                            </React.Fragment>
+                        ) } />
                     </PageHeader>
                     { !appContext.userSettings.isSubscribedForNotifications &&
                         policyRows.rows.find(p => p.actions.find(a => a.type === ActionType.NOTIFICATION)) && (
