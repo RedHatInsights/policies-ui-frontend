@@ -221,7 +221,7 @@ const ListPage: React.FunctionComponent<unknown> = () => {
                                             <Flex direction={ { default: 'column' } }>
                                                 <Text component={ TextVariants.p }>
                                                     Policies evaluate system configurations in your environment,
-                                                    detect inventory changes and can send notifications when changes occur.
+                                                    detect inventory changes, and can send notifications when changes occur.
                                                 </Text>
                                                 <Text component={ TextVariants.p }>
                                                     <a
