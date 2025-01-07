@@ -23,7 +23,7 @@
     "classnames": "2.5.1",
     "csstips": "1.2.0",
     "csx": "10.0.2",
-    "date-fns": "2.9.0",
+    "date-fns": "2.30.0",
     "env-cmd": "10.1.0",
     "formik": "^2.4.6",
     "http-status-codes": "1.4.0",
