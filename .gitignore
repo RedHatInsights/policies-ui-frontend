@@ -25,3 +25,6 @@ yalc.lock
 # local config
 .push-host.env
 .env
+
+# Sentry Config File
+.env.sentry-build-plugin
