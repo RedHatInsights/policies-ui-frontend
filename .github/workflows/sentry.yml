@@ -21,7 +21,7 @@ jobs:
           ref: ${{ github.event.inputs.commit_hash || 'refs/heads/master' }}
 
       - name: Install dependencies
-        run: npm ci
+        run: yarn install
 
       - name: Build
         env:
@@ -30,4 +30,4 @@ jobs:
           SENTRY_AUTH_TOKEN: ${{ github.event.inputs.commit_hash && secrets.SENTRY_AUTH_TOKEN }}
           SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
           SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
-        run: npm run build --if-present
+        run: yarn build --if-present
