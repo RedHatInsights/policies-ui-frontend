@@ -18,7 +18,7 @@
     "@sentry/webpack-plugin": "^3.1.1",
     "antlr4ts": "0.5.0-alpha.4",
     "assert-never": "1.2.1",
-    "axios": "^1.7.7",
+    "axios": "^1.8.3",
     "babel-plugin-transform-imports": "2.0.0",
     "classnames": "2.5.1",
     "csstips": "1.2.0",
