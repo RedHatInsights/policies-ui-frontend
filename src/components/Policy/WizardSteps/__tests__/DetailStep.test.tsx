@@ -1,3 +1,5 @@
+import '@testing-library/jest-dom';
+
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { Formik } from 'formik';
@@ -27,7 +29,7 @@ describe('src/components/Policy/WizardSteps/DetailStep', () => {
         expect(lotsOfCharacters.length).toBe(150);
 
         const input = screen.getByLabelText(/name/i);
-        userEvent.type(input, lotsOfCharacters);
+        await userEvent.type(input, lotsOfCharacters);
         await waitForAsyncEvents();
 
         expect(input).toHaveValue(lotsOfCharacters);
@@ -45,7 +47,7 @@ describe('src/components/Policy/WizardSteps/DetailStep', () => {
         expect(lessCharacters.length).toBeLessThan(150);
 
         const input = screen.getByLabelText(/name/i);
-        userEvent.type(input, lessCharacters);
+        await userEvent.type(input, lessCharacters);
         await waitForAsyncEvents();
 
         expect(input).toHaveValue(lessCharacters);
@@ -64,7 +66,7 @@ describe('src/components/Policy/WizardSteps/DetailStep', () => {
         expect(aLotMoreOfCharacters.length).toBeGreaterThan(150);
 
         const input = screen.getByLabelText(/name/i);
-        userEvent.type(input, aLotMoreOfCharacters);
+        await userEvent.type(input, aLotMoreOfCharacters);
         await waitForAsyncEvents();
 
         expect(input).toHaveValue('Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula get dolor. ' +

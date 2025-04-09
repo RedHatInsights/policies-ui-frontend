@@ -49,6 +49,7 @@ module.exports = function(config) {
         // preprocess matching files before serving them to the browser
         // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
         preprocessors: {
+            // eslint-disable-next-line @typescript-eslint/naming-convention
             'test/SmokeTest.tsx': [ 'webpack' ]
         },
 

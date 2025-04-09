@@ -1,4 +1,6 @@
-import { act, render, screen } from '@testing-library/react';
+import '@testing-library/jest-dom';
+
+import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { mockInsights } from 'insights-common-typescript-dev';
 import * as React from 'react';
@@ -20,7 +22,6 @@ describe('src/components/Policy/PolicyWizard', () => {
     });
 
     it('Title is "Create a Policy" when not editing', async () => {
-        jest.useFakeTimers();
         render(
             <PolicyWizard
                 data-ouia-component-id={ 'pendo-policy-wizard' }
@@ -35,17 +36,13 @@ describe('src/components/Policy/PolicyWizard', () => {
             />
         );
 
-        await act(async () => {
-            await jest.runAllTimers();
-        });
-
+        await jest.runAllTimers();
         const title = screen.getByRole('heading', { name: /Create a policy/i });
         expect(title).toBeInTheDocument();
         expect(title.id.startsWith('pf-wizard-title-')).toBeTruthy();
     });
 
     it('Title is "Edit a policy" when editing', async () => {
-        jest.useFakeTimers();
         render(
             <PolicyWizard
                 data-ouia-component-id={ 'pendo-policy-wizard' }
@@ -60,17 +57,13 @@ describe('src/components/Policy/PolicyWizard', () => {
             />
         );
 
-        await act(async () => {
-            await jest.runAllTimers();
-        });
-
+        await jest.runAllTimers();
         const title = screen.getByRole('heading', { name: /Edit a policy/i });
         expect(title).toBeInTheDocument();
         expect(title.id.startsWith('pf-wizard-title-')).toBeTruthy();
     });
 
     it('First step is "Create policy" when showCreateStep is true', async () => {
-        jest.useFakeTimers();
         render(
             <PolicyWizard
                 data-ouia-component-id={ 'pendo-policy-wizard' }
@@ -85,10 +78,7 @@ describe('src/components/Policy/PolicyWizard', () => {
             />
         );
 
-        await act(async () => {
-            await jest.runAllTimers();
-        });
-
+        await jest.runAllTimers();
         const title = screen.getByText('Create Policy', {
             selector: 'h4'
         });
@@ -98,7 +88,6 @@ describe('src/components/Policy/PolicyWizard', () => {
     });
 
     it('First step is "Policy Details" when showCreateStep is false and "Create Policy" does not appear', async () => {
-        jest.useFakeTimers();
         render(
             <PolicyWizard
                 data-ouia-component-id={ 'pendo-policy-wizard' }
@@ -113,10 +102,7 @@ describe('src/components/Policy/PolicyWizard', () => {
             />
         );
 
-        await act(async () => {
-            await jest.runAllTimers();
-        });
-
+        await jest.runAllTimers();
         const createPolicyTitle = screen.queryByText('Create Policy', {
             selector: 'h4'
         });
@@ -134,7 +120,6 @@ describe('src/components/Policy/PolicyWizard', () => {
 
     describe('Policy Details', () => {
         it('Next is disabled when no name is set', async () => {
-            jest.useFakeTimers();
             render(
                 <PolicyWizard
                     data-ouia-component-id={ 'pendo-policy-wizard' }
@@ -149,15 +134,12 @@ describe('src/components/Policy/PolicyWizard', () => {
                 />
             );
 
-            await act(async () => {
-                await jest.runAllTimers();
+            await waitFor(() => {
+                expect(screen.getByText(/next/i)).toBeDisabled();
             });
-
-            expect(screen.getByText(/next/i)).toBeDisabled();
         });
 
         it('Next is enabled when name is set', async () => {
-            jest.useFakeTimers();
             render(
                 <PolicyWizard
                     data-ouia-component-id={ 'pendo-policy-wizard' }
@@ -172,19 +154,13 @@ describe('src/components/Policy/PolicyWizard', () => {
                 />
             );
 
-            await act(async () => {
-                await jest.runAllTimers();
+            await userEvent.type(screen.getByLabelText(/name/i), 'foo');
+            await waitFor(() => {
+                expect(screen.getByText(/next/i)).toBeEnabled();
             });
-
-            await act(async () => {
-                await userEvent.type(screen.getByLabelText(/name/i), 'foo');
-            });
-
-            expect(screen.getByText(/next/i)).toBeEnabled();
         });
 
         it('Next will trigger a call to onValidateName', async () => {
-            jest.useFakeTimers();
             const onValidateName = jest.fn(() => Promise.resolve({ created: false }));
             render(
                 <PolicyWizard
@@ -200,25 +176,13 @@ describe('src/components/Policy/PolicyWizard', () => {
                 />
             );
 
-            await act(async () => {
-                await jest.runAllTimers();
-            });
-
-            expect(onValidateName).toBeCalledTimes(0);
-
-            await act(async () => {
-                await userEvent.type(screen.getByLabelText(/name/i), 'foo');
-            });
-
-            await act(async () => {
-                await userEvent.click(screen.getByText(/next/i));
-            });
-
-            expect(onValidateName).toBeCalledTimes(1);
+            expect(onValidateName).toHaveBeenCalledTimes(0);
+            await userEvent.type(screen.getByLabelText(/name/i), 'foo');
+            await userEvent.click(screen.getByText(/next/i));
+            expect(onValidateName).toHaveBeenCalledTimes(2);
         });
 
         it('Next will move to next page if validate response does not have an error', async () => {
-            jest.useFakeTimers();
             const onValidateName = jest.fn(() => Promise.resolve({ created: false }));
             render(
                 <PolicyWizard
@@ -234,29 +198,17 @@ describe('src/components/Policy/PolicyWizard', () => {
                 />
             );
 
-            await act(async () => {
-                await jest.runAllTimers();
-            });
-
-            expect(onValidateName).toBeCalledTimes(0);
-
-            await act(async () => {
-                await userEvent.type(screen.getByLabelText(/name/i), 'foo');
-            });
-
-            await act(async () => {
-                await userEvent.click(screen.getByText(/next/i));
-            });
-
+            expect(onValidateName).toHaveBeenCalledTimes(0);
+            await userEvent.type(screen.getByLabelText(/name/i), 'foo');
+            await userEvent.click(screen.getByText(/next/i));
             const policyDetailsTitle = screen.queryByText('Policy Details', {
                 selector: 'h4'
             });
             expect(policyDetailsTitle).not.toBeInTheDocument();
-            expect(onValidateName).toBeCalledTimes(1);
+            expect(onValidateName).toHaveBeenCalledTimes(2);
         });
 
         it('Next will not move to next page if validate response has an error', async () => {
-            jest.useFakeTimers();
             const onValidateName = jest.fn(() => Promise.resolve({ created: false, error: 'invalid name' }));
             render(
                 <PolicyWizard
@@ -272,25 +224,15 @@ describe('src/components/Policy/PolicyWizard', () => {
                 />
             );
 
-            await act(async () => {
-                await jest.runAllTimers();
-            });
-
-            expect(onValidateName).toBeCalledTimes(0);
-
-            await act(async () => {
-                await userEvent.type(screen.getByLabelText(/name/i), 'foo');
-            });
-
-            await act(async () => {
-                await userEvent.click(screen.getByText(/next/i));
-            });
+            expect(onValidateName).toHaveBeenCalledTimes(0);
+            await userEvent.type(screen.getByLabelText(/name/i), 'foo');
+            await userEvent.click(screen.getByText(/next/i));
 
             const policyDetailsTitle = screen.queryByText('Policy Details', {
                 selector: 'h4'
             });
             expect(policyDetailsTitle).toBeInTheDocument();
-            expect(onValidateName).toBeCalledTimes(1);
+            expect(onValidateName).toHaveBeenCalledTimes(2);
         });
     });
 

@@ -1,4 +1,6 @@
-import { act, render, screen } from '@testing-library/react';
+import '@testing-library/jest-dom';
+
+import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import * as React from 'react';
 
@@ -71,9 +73,7 @@ describe('src/components/Condition/ConditionVisitor', () => {
             />
         );
 
-        await act(async () => {
-            await userEvent.click(screen.getByLabelText('Options menu'));
-        });
+        await userEvent.click(screen.getByLabelText('Options menu'));
 
         expect(screen.getByText('foo.fact')).toBeInTheDocument();
         expect(screen.getByText('bar.fact')).toBeInTheDocument();
@@ -92,7 +92,7 @@ describe('src/components/Condition/ConditionVisitor', () => {
             />
         );
 
-        userEvent.click(screen.getByLabelText(/Options menu/i));
+        await userEvent.click(screen.getByLabelText(/Options menu/i));
 
         expect(screen.getByText('foo.fact')).toBeInTheDocument();
         expect(screen.queryByText('bar.fact')).not.toBeInTheDocument();
@@ -111,9 +111,7 @@ describe('src/components/Condition/ConditionVisitor', () => {
             />
         );
 
-        await act(async () => {
-            await userEvent.type(screen.getByLabelText('Condition writer'), 'fact');
-        });
+        await userEvent.type(screen.getByLabelText('Condition writer'), 'fact');
         expect(screen.getByText('foo.fact')).toBeInTheDocument();
     });
 
@@ -129,9 +127,7 @@ describe('src/components/Condition/ConditionVisitor', () => {
             />
         );
 
-        await act(async () => {
-            await userEvent.type(screen.getByLabelText('Condition writer'), 'fact');
-        });
+        await userEvent.type(screen.getByLabelText('Condition writer'), 'fact');
         expect(screen.getByText('foo.fact')).toBeInTheDocument();
         expect(screen.getByText('bar.fact')).toBeInTheDocument();
         expect(screen.queryByText('baz')).not.toBeInTheDocument();
@@ -150,14 +146,8 @@ describe('src/components/Condition/ConditionVisitor', () => {
             />
         );
 
-        await act(async () => {
-            await userEvent.type(screen.getByLabelText('Condition writer'), 'fact');
-        });
-
-        await act(async () => {
-            userEvent.click(screen.getByText(/foo.fact/));
-        });
-
+        await userEvent.type(screen.getByLabelText('Condition writer'), 'fact');
+        await userEvent.click(screen.getByText(/foo.fact/));
         expect(onSelect).toHaveBeenCalledWith('foo.fact');
     });
 
@@ -173,14 +163,8 @@ describe('src/components/Condition/ConditionVisitor', () => {
             />
         );
 
-        await act(async () => {
-            await userEvent.type(screen.getByLabelText('Condition writer'), 'fact');
-        });
-
-        await act(async () => {
-            await userEvent.click(screen.getByText(/foo.fact/));
-        });
-
+        await userEvent.type(screen.getByLabelText('Condition writer'), 'fact');
+        await userEvent.click(screen.getByText(/foo.fact/));
         expect((screen.getByLabelText('Condition writer') as HTMLInputElement).value).toEqual('foo.fact');
         expect(screen.queryByRole('listbox')).not.toBeInTheDocument();
     });
@@ -197,11 +181,8 @@ describe('src/components/Condition/ConditionVisitor', () => {
                 onSelect={ onSelect }
             />
         );
-        await act(async () => {
-            await userEvent.type(screen.getByLabelText('Condition writer'), 'fact');
-            await userEvent.click(screen.getByLabelText('Clear all'));
-        });
-
+        await userEvent.type(screen.getByLabelText('Condition writer'), 'fact');
+        await userEvent.click(screen.getByLabelText('Clear all'));
         expect(onSelect).toHaveBeenCalledWith('');
     });
 
@@ -217,11 +198,9 @@ describe('src/components/Condition/ConditionVisitor', () => {
                 onSelect={ onSelect }
             />
         );
-        await act(async () => {
-            await userEvent.type(screen.getByLabelText('Condition writer'), 'asdsagfdgdfsgad asdf as sdf sa fsd');
-            await userEvent.click(screen.getByLabelText('Clear all'));
-        });
 
+        await userEvent.type(screen.getByLabelText('Condition writer'), 'asdsagfdgdfsgad asdf as sdf sa fsd');
+        await userEvent.click(screen.getByLabelText('Clear all'));
         expect(onSelect).toHaveBeenCalledWith('');
         expect(screen.getByText('foo.fact')).toBeInTheDocument();
         expect(screen.getByText('bar.fact')).toBeInTheDocument();
@@ -240,7 +219,7 @@ describe('src/components/Condition/ConditionVisitor', () => {
             />
         );
 
-        userEvent.type(screen.getByLabelText('Condition writer'), 'facts.arch = "x86_64"');
+        await userEvent.type(screen.getByLabelText('Condition writer'), 'facts.arch = "x86_64"');
         await waitForAsyncEvents();
 
         expect(screen.getByDisplayValue('facts.arch = "x86_64"')).toBeInTheDocument();

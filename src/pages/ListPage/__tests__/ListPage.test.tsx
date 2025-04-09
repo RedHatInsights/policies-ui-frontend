@@ -1,4 +1,6 @@
-import { render, screen } from '@testing-library/react';
+import '@testing-library/jest-dom';
+
+import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import fetchMock  from 'fetch-mock';
 import { suppressValidateError } from 'openapi2typescript/react-fetching-library';
@@ -177,7 +179,7 @@ describe('src/pages/ListPage', () => {
         });
 
         await waitForAsyncEvents();
-        userEvent.click(screen.getByText('Policy 1'));
+        await userEvent.click(screen.getByText('Policy 1'));
         await waitForAsyncEvents();
 
         expect(getLocation().pathname).not.toEqual('/insights/policies/policies/list');
@@ -248,7 +250,7 @@ describe('src/pages/ListPage', () => {
         });
 
         await waitForAsyncEvents();
-        userEvent.click(screen.getByText('Reload page'));
+        await userEvent.click(screen.getByText('Reload page'));
         await waitForAsyncEvents();
 
         expect(window.location.reload).toHaveBeenCalledTimes(1);
@@ -300,10 +302,12 @@ describe('src/pages/ListPage', () => {
         await waitForAsyncEvents();
         fetchMockSetup();
 
-        userEvent.click(screen.getByText('Try again'));
+        await userEvent.click(screen.getByText('Try again'));
 
         await waitForAsyncEvents();
-        expect(screen.getByText('Policy 1')).toBeVisible();
+        await waitFor(() => {
+            expect(screen.getByText('Policy 1')).toBeVisible();
+        });
     });
 
     it('Clicking on the expanded button shows the description', async () => {
@@ -313,7 +317,7 @@ describe('src/pages/ListPage', () => {
         });
 
         await waitForAsyncEvents();
-        userEvent.click(screen.getAllByLabelText('Details')[0]);
+        await userEvent.click(screen.getAllByLabelText('Details')[0]);
 
         await waitForAsyncEvents();
         expect(screen.getByText('Description for policy 1')).toBeVisible();
@@ -326,11 +330,12 @@ describe('src/pages/ListPage', () => {
         });
 
         await waitForAsyncEvents();
-        screen.getAllByLabelText('Details').forEach((e => {
-            userEvent.click(e);
-        }));
+        const expandButtons = screen.getAllByLabelText('Details');
+        for (const button of expandButtons) {
+            await userEvent.click(button);
 
-        await waitForAsyncEvents();
+        }
+
         expect(screen.getByText('Description for policy 1')).toBeVisible();
         expect(screen.getByText('Description for policy 2')).toBeVisible();
         expect(screen.getByText('Description for policy 3')).toBeVisible();
@@ -344,7 +349,7 @@ describe('src/pages/ListPage', () => {
         });
 
         await waitForAsyncEvents();
-        userEvent.click(screen.getByText('Create policy'));
+        await userEvent.click(screen.getByText('Create policy'));
 
         await waitForAsyncEvents();
         expect(screen.getByText('Create a policy')).toBeInTheDocument();
@@ -357,10 +362,10 @@ describe('src/pages/ListPage', () => {
         });
 
         await waitForAsyncEvents();
-        userEvent.click(screen.getByText('Create policy'));
+        await userEvent.click(screen.getByText('Create policy'));
 
         await waitForAsyncEvents();
-        userEvent.click(screen.getByText('Cancel'));
+        await userEvent.click(screen.getByText('Cancel'));
 
         expect(screen.queryByText('Create a policy')).not.toBeInTheDocument();
     });

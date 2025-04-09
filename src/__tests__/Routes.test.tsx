@@ -1,3 +1,5 @@
+import '@testing-library/jest-dom';
+
 import { render, screen } from '@testing-library/react';
 import * as React from 'react';
 import { useLocation } from 'react-router-dom';
@@ -6,7 +8,7 @@ import { MemoryRouter } from 'react-router-dom';
 import { PoliciesRoutes } from '../Routes';
 
 jest.mock('../pages/ListPage/ListPage', () => {
-    const ListPageDummyComponent: React.FunctionComponent = () => {
+    const ListPageDummyComponent: React.FunctionComponent<{children: React.ReactNode}> = () => {
         return <div>ListPage</div>;
     };
 

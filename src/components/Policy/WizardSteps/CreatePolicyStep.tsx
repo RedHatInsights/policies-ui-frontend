@@ -63,7 +63,9 @@ export const useCreatePolicyStep = () => {
         setMaxStep(0);
 
         setFieldValue('isValid', !!copiedPolicy);
-        validate && validateField('isValid');
+        if (validate) {
+            validateField('isValid');
+        }
     }, [ copyPolicy, copiedPolicy, validate, validateField, setFieldValue, setValues, setVerifyResponse ]);
 
     React.useEffect(() => {

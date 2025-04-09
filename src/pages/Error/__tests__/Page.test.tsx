@@ -39,7 +39,7 @@ describe('src/pages/Error/Page', () => {
         appWrapperCleanup();
     });
 
-    it('Goes back page when clicking the button', () => {
+    it('Goes back page when clicking the button', async () => {
         const getLocation = jest.fn();
         const AppWrapper = getConfiguredAppWrapper({
             getLocation,
@@ -56,7 +56,7 @@ describe('src/pages/Error/Page', () => {
             wrapper: AppWrapper
         });
 
-        userEvent.click(screen.getByRole('button', {
+        await userEvent.click(screen.getByRole('button', {
             name: /details/i
         }));
         expect(getLocation().pathname).toEqual('/');
