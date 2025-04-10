@@ -16,6 +16,6 @@ describe('src/utils/exporters/Trigger/Factory', () => {
     });
 
     it('Wrong type throws exception', () => {
-        expect(() => triggerExporterFactory('foo' as any)).toThrowError();
+        expect(() => triggerExporterFactory('foo' as any)).toThrow();
     });
 });

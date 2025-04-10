@@ -82,6 +82,7 @@ export const TriggerTableToolbar: React.FunctionComponent<TriggerTableToolbarPro
             onSelect: (_event, type: string) => {
                 onExport(exporterTypeFromString(type));
             },
+            // eslint-disable-next-line @typescript-eslint/naming-convention
             'data-testid': 'trigger-toolbar-export-container'
         };
     }, [ props.onExport ]);

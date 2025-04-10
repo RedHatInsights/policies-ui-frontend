@@ -90,7 +90,7 @@ describe('src/utils/PolicyAdapter', () => {
             actions: 'ABC',
             mtime: '2014-01-01T23:28:56.782Z'
         };
-        expect(() => toPolicy(sp)).toThrowError();
+        expect(() => toPolicy(sp)).toThrow();
     });
 
     it('toPolicy parses 0 lastTriggered as undefined', () => {
@@ -396,7 +396,7 @@ describe('src/utils/PolicyAdapter', () => {
 
     it('fromServerActions fails with wrong action', () => {
         const actions = 'notification;1337:notification';
-        expect(() => fromServerActions(actions)).toThrowError();
+        expect(() => fromServerActions(actions)).toThrow();
     });
 
     it('fromServerActions does not fail with empty actions', () => {
@@ -456,6 +456,6 @@ describe('src/utils/PolicyAdapter', () => {
     it('toServerActions throws with unknown type (at runtime)', () => {
         expect(() => toServerAction([{
             type: 'foobared' as ActionType
-        }])).toThrowError();
+        }])).toThrow();
     });
 });

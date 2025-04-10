@@ -1,3 +1,5 @@
+import '@testing-library/jest-dom';
+
 import { fetchRBAC, Rbac } from '@redhat-cloud-services/insights-common-typescript';
 import { act, render, screen } from '@testing-library/react';
 import * as React from 'react';

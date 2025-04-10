@@ -16,6 +16,6 @@ describe('src/utils/exporters/Policy/Factory', () => {
     });
 
     it('Wrong type throws exception', () => {
-        expect(() => policyExporterFactory('foo' as any)).toThrowError();
+        expect(() => policyExporterFactory('foo' as any)).toThrow();
     });
 });

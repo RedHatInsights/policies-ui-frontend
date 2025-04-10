@@ -1,3 +1,6 @@
+/* eslint-disable testing-library/no-unnecessary-act */
+import '@testing-library/jest-dom';
+
 import { act, fireEvent, render, screen } from '@testing-library/react';
 import * as React from 'react';
 
@@ -37,7 +40,7 @@ describe('src/components/Policy/AddTriggersDropdown', () => {
             );
         });
 
-        expect(screen.queryByText(/Notification/i)).toBeInTheDocument();
+        expect(screen.getByText(/Notification/i)).toBeInTheDocument();
         expect(screen.queryByText(/Email/i)).not.toBeInTheDocument();
         expect(screen.queryByText(/No available trigger actions/i)).not.toBeInTheDocument();
     });
@@ -59,7 +62,7 @@ describe('src/components/Policy/AddTriggersDropdown', () => {
             );
         });
 
-        expect(screen.queryByText(/Notification/i)).toBeInTheDocument();
+        expect(screen.getByText(/Notification/i)).toBeInTheDocument();
         expect(screen.queryByText(/Email/i)).not.toBeInTheDocument();
         expect(screen.queryByText(/No available trigger actions/i)).not.toBeInTheDocument();
     });
@@ -81,7 +84,7 @@ describe('src/components/Policy/AddTriggersDropdown', () => {
             );
         });
 
-        expect(screen.queryByText(/Notification/i)).toBeInTheDocument();
+        expect(screen.getByText(/Notification/i)).toBeInTheDocument();
         expect(screen.queryByText(/Email/i)).not.toBeInTheDocument();
         expect(screen.queryByText(/No available trigger actions/i)).not.toBeInTheDocument();
     });
@@ -103,7 +106,7 @@ describe('src/components/Policy/AddTriggersDropdown', () => {
             );
         });
 
-        expect(screen.queryByText(/Notification/i)).toBeInTheDocument();
+        expect(screen.getByText(/Notification/i)).toBeInTheDocument();
         expect(screen.queryByText(/Email/i)).not.toBeInTheDocument();
         expect(screen.queryByText(/No available trigger actions/i)).not.toBeInTheDocument();
     });

@@ -88,19 +88,19 @@ describe('src/components/Policy/WizardSteps/CreatePolicyStep/Provider', () => {
             await jest.runAllTimers();
         });
 
-        expect(query).toBeCalledTimes(0);
+        expect(query).toHaveBeenCalledTimes(0);
 
         await act(async () => {
             setCurrentPage(undefined, 5);
             jest.runAllTimers();
         });
-        expect(query).toBeCalledTimes(1);
+        expect(query).toHaveBeenCalledTimes(1);
 
         await act(async () => {
             setFilters[PolicyFilterColumn.NAME]('foo');
             jest.runAllTimers();
         });
-        expect(query).toBeCalledTimes(3); // filter change triggers a page set
+        expect(query).toHaveBeenCalledTimes(3); // filter change triggers a page set
 
         await act(async () => {
             setCurrentPage(undefined, 3);
@@ -108,14 +108,14 @@ describe('src/components/Policy/WizardSteps/CreatePolicyStep/Provider', () => {
             jest.runAllTimers();
         });
 
-        expect(query).toBeCalledTimes(6);
+        expect(query).toHaveBeenCalledTimes(6);
 
         await act(async () => {
             setFilters[PolicyFilterColumn.NAME]('bar');
             jest.runAllTimers();
         });
 
-        expect(query).toBeCalledTimes(6);
+        expect(query).toHaveBeenCalledTimes(6);
     });
 
     it('Never calls query on updates of page or filters if showCreateStep is false', async () => {
@@ -156,6 +156,6 @@ describe('src/components/Policy/WizardSteps/CreatePolicyStep/Provider', () => {
             jest.runAllTimers();
         });
 
-        expect(query).toBeCalledTimes(0);
+        expect(query).toHaveBeenCalledTimes(0);
     });
 });

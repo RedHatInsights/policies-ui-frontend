@@ -1,3 +1,5 @@
+import '@testing-library/jest-dom';
+
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import * as React from 'react';
@@ -19,7 +21,7 @@ describe('src/pages/PolicyDetail/Actions', () => {
         expect(screen.getByRole('button')).toBeVisible();
     });
 
-    it('Shows menu with disable when isEnabled is true', () => {
+    it('Shows menu with disable when isEnabled is true', async () => {
         render(<PolicyDetailActions
             edit={ jest.fn() }
             duplicate={ jest.fn() }
@@ -30,7 +32,7 @@ describe('src/pages/PolicyDetail/Actions', () => {
             loadingEnabledChange={ false }
         />);
 
-        userEvent.click(screen.getByRole('button'));
+        await userEvent.click(screen.getByRole('button'));
 
         expect(screen.queryByText(/enable/i)).not.toBeInTheDocument();
         expect(screen.getByText(/disable/i)).toBeVisible();
@@ -39,7 +41,7 @@ describe('src/pages/PolicyDetail/Actions', () => {
         expect(screen.getByText(/remove/i)).toBeVisible();
     });
 
-    it('Shows menu with enable when isEnabled is false', () => {
+    it('Shows menu with enable when isEnabled is false', async() => {
         render(<PolicyDetailActions
             edit={ jest.fn() }
             duplicate={ jest.fn() }
@@ -50,7 +52,7 @@ describe('src/pages/PolicyDetail/Actions', () => {
             loadingEnabledChange={ false }
         />);
 
-        userEvent.click(screen.getByRole('button'));
+        await userEvent.click(screen.getByRole('button'));
 
         expect(screen.queryByText(/disable/i)).not.toBeInTheDocument();
         expect(screen.getByText(/enable/i)).toBeVisible();
@@ -59,7 +61,7 @@ describe('src/pages/PolicyDetail/Actions', () => {
         expect(screen.getByText(/remove/i)).toBeVisible();
     });
 
-    it('Calls changeEnabled with true when clicking enable', () => {
+    it('Calls changeEnabled with true when clicking enable', async () => {
         const changeEnabled = jest.fn();
         render(<PolicyDetailActions
             edit={ jest.fn() }
@@ -71,12 +73,12 @@ describe('src/pages/PolicyDetail/Actions', () => {
             loadingEnabledChange={ false }
         />);
 
-        userEvent.click(screen.getByRole('button'));
-        userEvent.click(screen.getByText(/enable/i));
+        await userEvent.click(screen.getByRole('button'));
+        await userEvent.click(screen.getByText(/enable/i));
         expect(changeEnabled).toHaveBeenCalledWith(true);
     });
 
-    it('Calls changeEnabled with false when clicking disable', () => {
+    it('Calls changeEnabled with false when clicking disable', async () => {
         const changeEnabled = jest.fn();
         render(<PolicyDetailActions
             edit={ jest.fn() }
@@ -88,12 +90,12 @@ describe('src/pages/PolicyDetail/Actions', () => {
             loadingEnabledChange={ false }
         />);
 
-        userEvent.click(screen.getByRole('button'));
-        userEvent.click(screen.getByText(/disable/i));
+        await userEvent.click(screen.getByRole('button'));
+        await userEvent.click(screen.getByText(/disable/i));
         expect(changeEnabled).toHaveBeenCalledWith(false);
     });
 
-    it('enable button is disabled when loadingEnabledChange', () => {
+    it('enable button is disabled when loadingEnabledChange', async () => {
         render(<PolicyDetailActions
             edit={ jest.fn() }
             duplicate={ jest.fn() }
@@ -104,11 +106,11 @@ describe('src/pages/PolicyDetail/Actions', () => {
             loadingEnabledChange={ true }
         />);
 
-        userEvent.click(screen.getByRole('button'));
+        await userEvent.click(screen.getByRole('button'));
         expect(screen.getByText(/enable/i)).toHaveAttribute('aria-disabled', 'true');
     });
 
-    it('disable button is disabled when loadingEnabledChange', () => {
+    it('disable button is disabled when loadingEnabledChange', async () => {
         render(<PolicyDetailActions
             edit={ jest.fn() }
             duplicate={ jest.fn() }
@@ -119,11 +121,11 @@ describe('src/pages/PolicyDetail/Actions', () => {
             loadingEnabledChange={ true }
         />);
 
-        userEvent.click(screen.getByRole('button'));
+        await userEvent.click(screen.getByRole('button'));
         expect(screen.getByText(/disable/i)).toHaveAttribute('aria-disabled', 'true');
     });
 
-    it('Calls edit when clicking', () => {
+    it('Calls edit when clicking', async () => {
         const edit = jest.fn();
         render(<PolicyDetailActions
             edit={ edit }
@@ -135,12 +137,12 @@ describe('src/pages/PolicyDetail/Actions', () => {
             loadingEnabledChange={ false }
         />);
 
-        userEvent.click(screen.getByRole('button'));
-        userEvent.click(screen.getByText(/edit/i));
+        await userEvent.click(screen.getByRole('button'));
+        await userEvent.click(screen.getByText(/edit/i));
         expect(edit).toHaveBeenCalled();
     });
 
-    it('Calls duplicate when clicking', () => {
+    it('Calls duplicate when clicking', async () => {
         const duplicate = jest.fn();
         render(<PolicyDetailActions
             edit={ jest.fn() }
@@ -152,12 +154,12 @@ describe('src/pages/PolicyDetail/Actions', () => {
             loadingEnabledChange={ false }
         />);
 
-        userEvent.click(screen.getByRole('button'));
-        userEvent.click(screen.getByText(/duplicate/i));
+        await userEvent.click(screen.getByRole('button'));
+        await userEvent.click(screen.getByText(/duplicate/i));
         expect(duplicate).toHaveBeenCalled();
     });
 
-    it('Calls remove when clicking', () => {
+    it('Calls remove when clicking', async () => {
         const deleteFn = jest.fn();
         render(<PolicyDetailActions
             edit={ jest.fn() }
@@ -169,8 +171,8 @@ describe('src/pages/PolicyDetail/Actions', () => {
             loadingEnabledChange={ false }
         />);
 
-        userEvent.click(screen.getByRole('button'));
-        userEvent.click(screen.getByText(/remove/i));
+        await userEvent.click(screen.getByRole('button'));
+        await userEvent.click(screen.getByText(/remove/i));
         expect(deleteFn).toHaveBeenCalled();
     });
 });

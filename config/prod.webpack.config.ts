@@ -14,6 +14,7 @@ plugins.push(
             root: resolve(__dirname, '../'),
             shared: [
                 {
+                    // eslint-disable-next-line @typescript-eslint/naming-convention
                     'react-router-dom': { singleton: true, requiredVersion: '*' }
                 }
             ]

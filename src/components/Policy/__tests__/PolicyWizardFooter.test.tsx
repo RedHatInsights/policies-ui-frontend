@@ -1,3 +1,5 @@
+import '@testing-library/jest-dom';
+
 import {
     WizardContextProvider as PFWizardContextProvider,
     WizardContextType
@@ -22,7 +24,7 @@ describe('src/components/Policy/PolicyWizardFooter', () => {
         hideCancelButton?: boolean;
     };
 
-    const ifNotUndefined = <T extends any>(value: T | undefined,  whenUndefined: T) => value === undefined ? whenUndefined : value;
+    const ifNotUndefined = <T, >(value: T | undefined,  whenUndefined: T) => value === undefined ? whenUndefined : value;
 
     const policyWizardContext: WizardContext = {
         triggerAction: jest.fn(),
@@ -43,7 +45,7 @@ describe('src/components/Policy/PolicyWizardFooter', () => {
         setMaxStep: jest.fn()
     };
 
-    const getWrapper = (values?: Values): React.ComponentType => {
+    const getWrapper = (values?: Values): React.JSXElementConstructor<{children: React.ReactNode}> => {
         const pfContext: WizardContextType = {
             goToStepById: jest.fn(),
             goToStepByName: jest.fn(),
@@ -116,7 +118,7 @@ describe('src/components/Policy/PolicyWizardFooter', () => {
             wrapper: Wrapper
         });
 
-        expect(screen.queryByText(/I am a bug/i)).toBeInTheDocument();
+        expect(screen.getByText(/I am a bug/i)).toBeInTheDocument();
     });
 
     it('Error is hidden when set and loading', () => {

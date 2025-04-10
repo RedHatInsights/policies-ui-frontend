@@ -54,7 +54,10 @@ export const CreatePolicyWizard: React.FunctionComponent<CreatePolicyWizardProps
                     addSuccessNotification('Saved', `Updated policy "${policy.name}"`);
                 }
 
-                props.close && props.close(res.payload.value);
+                if (props.close) {
+                    props.close(res.payload.value);
+                }
+
                 return {
                     created: true
                 };

@@ -28,3 +28,5 @@ yalc.lock
 
 # Sentry Config File
 .env.sentry-build-plugin
+
+.cache/

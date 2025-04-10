@@ -1,3 +1,5 @@
+import '@testing-library/jest-dom';
+
 import { Direction, Page, Sort } from '@redhat-cloud-services/insights-common-typescript';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
@@ -292,14 +294,14 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
             })
         });
 
-        await waitForAsyncEvents();
         fetchMockSetup({
             policyStatus: 200
         });
-        userEvent.click(screen.getByRole('button'));
+        await waitForAsyncEvents();
+        await userEvent.click(screen.getByRole('button'));
 
         await waitForAsyncEvents();
-        screen.getAllByText(/Not arch x86/i).forEach(e => expect(e).toBeInTheDocument());
+        screen.getAllByText(/Not arch x86/i).forEach(async e => expect(e).toBeInTheDocument());
     });
 
     it('Click on edit brings up edit wizard', async () => {
@@ -316,8 +318,8 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
         });
 
         await waitForAsyncEvents();
-        userEvent.click(screen.getByTestId('policy-detail-actions-button'));
-        userEvent.click(screen.getByText(/edit/i));
+        await userEvent.click(screen.getByTestId('policy-detail-actions-button'));
+        await userEvent.click(screen.getByText(/edit/i));
 
         await waitForAsyncEvents();
         expect(screen.getByText(/Edit a policy/i)).toBeVisible();
@@ -337,8 +339,8 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
         });
 
         await waitForAsyncEvents();
-        userEvent.click(screen.getByTestId('policy-detail-actions-button'));
-        userEvent.click(screen.getByText(/duplicate/i));
+        await userEvent.click(screen.getByTestId('policy-detail-actions-button'));
+        await userEvent.click(screen.getByText(/duplicate/i));
 
         await waitForAsyncEvents();
         expect(screen.getByText(/Create a policy/i)).toBeVisible();
@@ -372,20 +374,20 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
 
         await waitForAsyncEvents();
         expect(getLocation().pathname).toEqual(linkTo.policyDetail('foo'));
-        userEvent.click(screen.getByTestId('policy-detail-actions-button'));
-        userEvent.click(screen.getByText(/duplicate/i));
+        await userEvent.click(screen.getByTestId('policy-detail-actions-button'));
+        await userEvent.click(screen.getByText(/duplicate/i));
         await waitForAsyncEvents();
-        userEvent.click(screen.getByText(/Next/i));
+        await userEvent.click(screen.getByText(/Next/i));
         await waitForAsyncEvents();
         await waitFor(() => screen.findByText(/Validate/i));
-        userEvent.click(screen.getByText(/Validate/i));
+        await userEvent.click(screen.getByText(/Validate/i));
         await waitForAsyncEvents();
-        userEvent.click(screen.getByText(/Next/i));
+        await userEvent.click(screen.getByText(/Next/i));
         await waitForAsyncEvents();
-        userEvent.click(screen.getByText(/Next/i));
+        await userEvent.click(screen.getByText(/Next/i));
         await waitForAsyncEvents();
         await waitFor(() => screen.findByText(/Finish/i));
-        userEvent.click(screen.getByText(/Finish/i));
+        await userEvent.click(screen.getByText(/Finish/i));
         await waitForAsyncEvents();
         await waitFor(() => expect(getLocation().pathname).toEqual(linkTo.policyDetail('bar-123')));
     });
@@ -410,18 +412,18 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
         });
 
         await waitForAsyncEvents();
-        userEvent.click(screen.getByTestId('policy-detail-actions-button'));
-        userEvent.click(screen.getByText(/edit/i));
+        await userEvent.click(screen.getByTestId('policy-detail-actions-button'));
+        await userEvent.click(screen.getByText(/edit/i));
         await waitForAsyncEvents();
-        userEvent.click(screen.getByText(/Next/i));
+        await userEvent.click(screen.getByText(/Next/i));
         await waitForAsyncEvents();
-        userEvent.click(screen.getByText(/Next/i));
+        await userEvent.click(screen.getByText(/Next/i));
         await waitForAsyncEvents();
-        userEvent.click(screen.getByText(/Next/i));
+        await userEvent.click(screen.getByText(/Next/i));
         await waitForAsyncEvents();
-        userEvent.click(screen.getByText(/Finish/i));
+        await userEvent.click(screen.getByText(/Finish/i));
         await waitForAsyncEvents();
-        screen.getAllByText('my new name').forEach(e => expect(e).toBeVisible());
+        screen.getAllByText('my new name').forEach(async e => expect(e).toBeVisible());
     });
 
     it('Click on remove brings up the remove dialog', async () => {
@@ -438,8 +440,8 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
         });
 
         await waitForAsyncEvents();
-        userEvent.click(screen.getByTestId('policy-detail-actions-button'));
-        userEvent.click(screen.getByText(/remove/i));
+        await userEvent.click(screen.getByTestId('policy-detail-actions-button'));
+        await userEvent.click(screen.getByText(/remove/i));
 
         await waitForAsyncEvents();
         expect(screen.getByText(/Do you want to remove the policy/i)).toBeVisible();
@@ -459,11 +461,11 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
         });
 
         await waitForAsyncEvents();
-        userEvent.click(screen.getByTestId('policy-detail-actions-button'));
-        userEvent.click(screen.getByText(/remove/i));
+        await userEvent.click(screen.getByTestId('policy-detail-actions-button'));
+        await userEvent.click(screen.getByText(/remove/i));
 
         await waitForAsyncEvents();
-        userEvent.click(screen.getByText('Cancel'));
+        await userEvent.click(screen.getByText('Cancel'));
 
         await waitForAsyncEvents();
         expect(screen.queryByText(/Do you want to remove the policy/i)).not.toBeInTheDocument();
@@ -491,11 +493,11 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
         });
 
         await waitForAsyncEvents();
-        userEvent.click(screen.getByTestId('policy-detail-actions-button'));
-        userEvent.click(screen.getByText(/remove/i));
+        await userEvent.click(screen.getByTestId('policy-detail-actions-button'));
+        await userEvent.click(screen.getByText(/remove/i));
 
         await waitForAsyncEvents();
-        userEvent.click(screen.getByText('Delete'));
+        await userEvent.click(screen.getByText('Delete'));
 
         await waitForAsyncEvents();
         expect(getLocation().pathname).toEqual(linkTo.listPage());
@@ -519,8 +521,8 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
         });
 
         await waitForAsyncEvents();
-        userEvent.click(screen.getByTestId('policy-detail-actions-button'));
-        userEvent.click(screen.getByText(/disable/i));
+        await userEvent.click(screen.getByTestId('policy-detail-actions-button'));
+        await userEvent.click(screen.getByText(/disable/i));
 
         await waitForAsyncEvents();
         expect(screen.getByText('Disabled')).toBeVisible();
@@ -547,8 +549,8 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
         });
 
         await waitForAsyncEvents();
-        userEvent.click(screen.getByTestId('policy-detail-actions-button'));
-        userEvent.click(screen.getByText(/enable/i));
+        await userEvent.click(screen.getByTestId('policy-detail-actions-button'));
+        await userEvent.click(screen.getByText(/enable/i));
 
         await waitForAsyncEvents();
         expect(screen.getByText('Enabled')).toBeVisible();
@@ -574,11 +576,12 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
             })
         });
 
-        await waitForAsyncEvents();
-        userEvent.click(screen.getByTestId('policy-detail-actions-button'));
-        userEvent.click(screen.getByText(/enable/i));
+        await waitFor(() => {
+            screen.getByTestId('policy-detail-actions-button');
+        });
+        await userEvent.click(screen.getByTestId('policy-detail-actions-button'));
+        await userEvent.click(screen.getByText(/enable/i));
 
-        await waitForAsyncEvents();
         expect(screen.getByText('Disabled')).toBeVisible();
         expect(screen.getByText(/It may have been removed by another user/i)).toBeVisible();
     });
@@ -605,8 +608,8 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
         });
 
         await waitForAsyncEvents();
-        userEvent.click(screen.getByTestId('policy-detail-actions-button'));
-        userEvent.click(screen.getByText(/enable/i));
+        await userEvent.click(screen.getByTestId('policy-detail-actions-button'));
+        await userEvent.click(screen.getByText(/enable/i));
 
         await waitForAsyncEvents();
         expect(screen.getByText('Disabled')).toBeVisible();
@@ -653,8 +656,8 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
             noSort: true
         });
 
-        userEvent.click(screen.getByLabelText('Export'));
-        userEvent.click(screen.getByText(/Export to JSON/i));
+        await userEvent.click(screen.getByLabelText('Export'));
+        await userEvent.click(screen.getByText(/Export to JSON/i));
 
         await waitForAsyncEvents();
         expect(inBrowserDownload.mock.calls[0][1]).toEqual('policy-foo-triggers-2020-05-11.json');
@@ -768,7 +771,7 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
         });
 
         await waitForAsyncEvents();
-        userEvent.click(screen.getByText ('1 - 4', {
+        await userEvent.click(screen.getByText ('1 - 4', {
             selector: '#options-menu-top-toggle *'
         }));
 
@@ -776,13 +779,13 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
         fetchMockSetup({
             triggerLimit: 10
         });
-        userEvent.click(screen.getByText(/10 per page/i));
+        await userEvent.click(screen.getByText(/10 per page/i));
 
         await waitForAsyncEvents();
         expect(fetchMock.calls(/limit=10/)).toHaveLength(1);
 
         await waitForAsyncEvents();
-        userEvent.click(screen.getByText ('1 - 4', {
+        await userEvent.click(screen.getByText ('1 - 4', {
             selector: '#options-menu-top-toggle *'
         }));
 
@@ -790,7 +793,7 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
         fetchMockSetup({
             triggerLimit: 100
         });
-        userEvent.click(screen.getByText(/100 per page/i));
+        await userEvent.click(screen.getByText(/100 per page/i));
 
         await waitForAsyncEvents();
         expect(fetchMock.calls(/limit=100/)).toHaveLength(1);
@@ -810,7 +813,7 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
         });
 
         await waitForAsyncEvents();
-        userEvent.click(screen.getByText ('1 - 4', {
+        await userEvent.click(screen.getByText ('1 - 4', {
             selector: '#options-menu-bottom-toggle *'
         }));
 
@@ -818,13 +821,13 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
         fetchMockSetup({
             triggerLimit: 10
         });
-        userEvent.click(screen.getByText(/10 per page/i));
+        await userEvent.click(screen.getByText(/10 per page/i));
 
         await waitForAsyncEvents();
         expect(fetchMock.calls(/limit=10/)).toHaveLength(1);
 
         await waitForAsyncEvents();
-        userEvent.click(screen.getByText ('1 - 4', {
+        await userEvent.click(screen.getByText ('1 - 4', {
             selector: '#options-menu-bottom-toggle *'
         }));
 
@@ -832,7 +835,7 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
         fetchMockSetup({
             triggerLimit: 100
         });
-        userEvent.click(screen.getByText(/100 per page/i));
+        await userEvent.click(screen.getByText(/100 per page/i));
 
         await waitForAsyncEvents();
         expect(fetchMock.calls(/limit=100/)).toHaveLength(1);
@@ -860,7 +863,7 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
         fetchMockSetup({
             policyLoading: finishLoading
         });
-        userEvent.click(screen.getByText(/try again/i));
+        await userEvent.click(screen.getByText(/try again/i));
 
         await waitForAsyncEvents();
         expect(screen.getByTestId('policy-loading')).toBeInTheDocument();
@@ -914,7 +917,7 @@ describe('src/Pages/PolicyDetail/PolicyDetail', () => {
         fetchMockSetup({
             triggerLoading: finishLoading
         });
-        userEvent.click(screen.getByText(/try again/i));
+        await userEvent.click(screen.getByText(/try again/i));
         await waitForAsyncEvents();
 
         expect(screen.getByText('Loading Triggers')).toBeInTheDocument();

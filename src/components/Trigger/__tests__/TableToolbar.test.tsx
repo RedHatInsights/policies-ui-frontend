@@ -217,7 +217,7 @@ describe('src/components/Trigger/TableToolbar', () => {
                     category: 'Wrong'
                 }
             ]);
-        }).toThrowError(/Unexpected filter column label found: Wrong/i);
+        }).toThrow(/Unexpected filter column label found: Wrong/i);
         expect(clearFn).not.toHaveBeenCalled();
     });
 
@@ -269,6 +269,7 @@ describe('src/components/Trigger/TableToolbar', () => {
         expect(control.topProps.exportConfig).toEqual({
             extraItems: [ ],
             onSelect: onSelectMockFn,
+            // eslint-disable-next-line @typescript-eslint/naming-convention
             'data-testid': 'trigger-toolbar-export-container'
         });
 

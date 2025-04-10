@@ -167,6 +167,7 @@ describe('src/hooks/usePolicyPage', () => {
 
         expect(result.current.page.index).toBe(5);
 
+        // eslint-disable-next-line testing-library/no-unnecessary-act
         act(() => {
             rerender(filters2);
         });

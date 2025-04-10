@@ -27,19 +27,19 @@ describe('src/app/useUserSettings', () => {
 
         await waitForAsyncEventsHooks();
 
-        expect(refresh).toBeCalledTimes(0);
+        expect(refresh).toHaveBeenCalledTimes(0);
 
         await act(async () => {
             await jest.advanceTimersByTime(1200);
         });
 
-        expect(refresh).toBeCalledTimes(1);
+        expect(refresh).toHaveBeenCalledTimes(1);
 
         await act(async () => {
             await jest.advanceTimersByTime(1200);
         });
 
-        expect(refresh).toBeCalledTimes(2);
+        expect(refresh).toHaveBeenCalledTimes(2);
     });
 
     it('isSubscribedForNotifications is false when useUserSettingsEmailQuery.payload is falsy', async () => {

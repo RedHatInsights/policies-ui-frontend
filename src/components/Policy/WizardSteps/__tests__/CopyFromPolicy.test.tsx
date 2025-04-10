@@ -43,7 +43,7 @@ describe('src/components/Policy/WizardSteps/CopyFromPolicy', () => {
             { ...result.current }
         />);
 
-        expect(queryMock).toBeCalledTimes(1);
+        expect(queryMock).toHaveBeenCalledTimes(1);
     });
 
     it('On render, it does not run the query if payload is defined', async () => {

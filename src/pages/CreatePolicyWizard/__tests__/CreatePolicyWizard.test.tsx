@@ -1,3 +1,5 @@
+import '@testing-library/jest-dom';
+
 import { addSuccessNotification } from '@redhat-cloud-services/insights-common-typescript';
 import { act, render, screen } from '@testing-library/react';
 import fetchMock from 'fetch-mock';
@@ -48,7 +50,7 @@ describe('src/pages/ListPage/CreatePolicyWizard', () => {
         render(<CreatePolicyWizard isOpen={ true } close={ jest.fn() } showCreateStep={ false } isEditing={ true } />, {
             wrapper: AppWrapper
         });
-        expect(screen.queryByText(/hello world/i)).toBeInTheDocument();
+        expect(screen.getByText(/hello world/i)).toBeInTheDocument();
     });
 
     it('PolicyWizard is not rendered if isOpen is false', async () => {
@@ -237,7 +239,7 @@ describe('src/pages/ListPage/CreatePolicyWizard', () => {
                 expect(result.created).toBe(true);
             });
 
-            expect(screen.queryByText(/hello world/i)).toBeInTheDocument();
+            expect(screen.getByText(/hello world/i)).toBeInTheDocument();
 
         });
 
