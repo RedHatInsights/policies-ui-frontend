@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/RedHatInsights/policies-ui-frontend.svg?branch=master)](https://travis-ci.com/RedHatInsights/policies-ui-frontend)
+[![Build Status](https://img.shields.io/github/actions/workflow/status/RedhatInsights/policies-ui-frontend/test.yml?branch=master)](https://github.com/RedHatInsights/policies-ui-frontend/actions/workflows/test.yml)
 
 # policies-ui-frontend
 Policies frontend for Red Hat Insights
