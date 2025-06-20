@@ -33,6 +33,8 @@ spec:
     value: |
       #!/bin/bash
       set -ex
+      dnf install npm
+      npm install --global yarn
       yarn install --immutable
       yarn verify
       npm-run-all build lint test
