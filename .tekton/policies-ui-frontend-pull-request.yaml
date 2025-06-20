@@ -59,7 +59,7 @@ spec:
         - ReadWriteOnce
         resources:
           requests:
-            storage: 1Gi
+            storage: 3Gi
       status: {}
   - name: git-auth
     secret:
