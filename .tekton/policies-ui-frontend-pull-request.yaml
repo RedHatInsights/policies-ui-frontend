@@ -32,7 +32,7 @@ spec:
     value: build-tools/Dockerfile
   - name: path-context
     value: .
-- name: unit-tests-script
+  - name: unit-tests-script
     value: |
       #!/bin/bash
       set -ex
