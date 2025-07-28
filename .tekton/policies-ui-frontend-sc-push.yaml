@@ -31,7 +31,7 @@ spec:
   pipelineRef:
     name: docker-build-oci-ta
   taskRunTemplate:
-    serviceAccountName: build-pipeline-access-requests-frontend-sc
+    serviceAccountName: build-pipeline-policies-ui-frontend-sc
   workspaces:
   - name: workspace
     volumeClaimTemplate:
