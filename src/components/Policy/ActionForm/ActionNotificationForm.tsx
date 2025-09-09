@@ -28,7 +28,8 @@ export const ActionNotificationForm: React.FunctionComponent<ActionFormProps> = 
             { !appContext.userSettings.isSubscribedForNotifications && (
                 <InsightsEmailOptIn
                     ouiaId="action-email.wizard-email-required"
-                    content={ isLightspeedEnabled ? Messages.wizards.policy.actions.emailOptInLightspeed : Messages.wizards.policy.actions.emailOptIn }
+                    content={ isLightspeedEnabled ? Messages.wizards.policy.actions.emailOptInLightspeed
+                        : Messages.wizards.policy.actions.emailOptIn }
                     bundle="rhel"
                     insights={ getInsights() }
                 />

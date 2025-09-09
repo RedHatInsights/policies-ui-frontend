@@ -24,29 +24,32 @@ const padLeftClassName = style({
 const TextItemExtension: React.FunctionComponent = () => {
     const isLightspeedEnabled = useFeatureFlag('platform.lightspeed-rebrand');
     return (
-            <TextContent className={ padLeftClassName } >
-                <Text component={ TextVariants.p }>{ isLightspeedEnabled ? Messages.wizards.policy.hints.hintParagraph1Lightspeed : Messages.wizards.policy.hints.hintParagraph1 }</Text>
-                <Text
-                    component={ TextVariants.a }
-                    className={ linkMarginClassName }
-                    href={ Config.pages.factsDocumentation }
-                    target="_blank"
-                    rel='noopener noreferrer'
-                >
-                    { Messages.wizards.policy.hints.hintLinkTitle }
-                </Text>
-                <Text component={ TextVariants.h5 } className="lg">{ Messages.wizards.policy.hints.hintSyntaxExamplesSection }</Text>
-                <Text >{ Messages.wizards.policy.hints.hintQuestion1 }</Text>
-                <Text component={ TextVariants.p } className={ codeClass }><i>{ Messages.wizards.policy.hints.hintQuestion1Ans }</i></Text>
-                <Text >{ Messages.wizards.policy.hints.hintQuestion2 }</Text>
-                <Text component={ TextVariants.p } className={ codeClass }><i>{ Messages.wizards.policy.hints.hintQuestion2Ans }</i></Text>
-                <Text >{ Messages.wizards.policy.hints.hintQuestion3 }</Text>
-                <Text component={ TextVariants.p } className={ codeClass }><i>{ Messages.wizards.policy.hints.hintQuestion3Ans }</i></Text>
-                <Text >{ Messages.wizards.policy.hints.hintQuestion4 }</Text>
-                <Text component={ TextVariants.p } className={ codeClass }><i>{ Messages.wizards.policy.hints.hintQuestion4Ans }</i></Text>
-            </TextContent>
-        );
+        <TextContent className={ padLeftClassName } >
+            <Text component={ TextVariants.p }>
+                { isLightspeedEnabled ? Messages.wizards.policy.hints.hintParagraph1Lightspeed : Messages.wizards.policy.hints.hintParagraph1 }
+            </Text>
+            <Text
+                component={ TextVariants.a }
+                className={ linkMarginClassName }
+                href={ Config.pages.factsDocumentation }
+                target="_blank"
+                rel='noopener noreferrer'
+            >
+                { Messages.wizards.policy.hints.hintLinkTitle }
+            </Text>
+            <Text component={ TextVariants.h5 } className="lg">{ Messages.wizards.policy.hints.hintSyntaxExamplesSection }</Text>
+            <Text >{ Messages.wizards.policy.hints.hintQuestion1 }</Text>
+            <Text component={ TextVariants.p } className={ codeClass }><i>{ Messages.wizards.policy.hints.hintQuestion1Ans }</i></Text>
+            <Text >{ Messages.wizards.policy.hints.hintQuestion2 }</Text>
+            <Text component={ TextVariants.p } className={ codeClass }><i>{ Messages.wizards.policy.hints.hintQuestion2Ans }</i></Text>
+            <Text >{ Messages.wizards.policy.hints.hintQuestion3 }</Text>
+            <Text component={ TextVariants.p } className={ codeClass }><i>{ Messages.wizards.policy.hints.hintQuestion3Ans }</i></Text>
+            <Text >{ Messages.wizards.policy.hints.hintQuestion4 }</Text>
+            <Text component={ TextVariants.p } className={ codeClass }><i>{ Messages.wizards.policy.hints.hintQuestion4Ans }</i></Text>
+        </TextContent>
+    );
 };
+
 const Usage: React.FunctionComponent<OuiaComponentProps> = (props) => {
     return (
         <>
