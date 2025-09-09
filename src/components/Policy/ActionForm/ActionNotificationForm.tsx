@@ -6,7 +6,7 @@ import { format } from 'react-string-format';
 
 import { AppContext } from '../../../app/AppContext';
 import Config from '../../../config/Config';
-import { Messages } from '../../../properties/Messages';
+import { Messages, useFeatureFlag } from '../../../properties/Messages';
 import { getOuiaProps } from '../../../utils/getOuiaProps';
 import { ActionFormProps } from './ActionFormProps';
 
@@ -14,7 +14,7 @@ export const ActionNotificationForm: React.FunctionComponent<ActionFormProps> = 
 
     const hooksUrl = React.useMemo(() => Config.pages.notifications(), []);
     const appContext = useContext(AppContext);
-
+    const isLightspeedEnabled = useFeatureFlag('platform.lightspeed-rebrand');
     return (
         <div { ...getOuiaProps('Policy/Action/Hook', props) }>
             <Text>
@@ -28,7 +28,7 @@ export const ActionNotificationForm: React.FunctionComponent<ActionFormProps> = 
             { !appContext.userSettings.isSubscribedForNotifications && (
                 <InsightsEmailOptIn
                     ouiaId="action-email.wizard-email-required"
-                    content={ Messages.wizards.policy.actions.emailOptIn }
+                    content={ isLightspeedEnabled ? Messages.wizards.policy.actions.emailOptInLightspeed : Messages.wizards.policy.actions.emailOptIn }
                     bundle="rhel"
                     insights={ getInsights() }
                 />
