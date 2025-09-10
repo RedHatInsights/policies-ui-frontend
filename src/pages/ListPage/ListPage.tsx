@@ -16,7 +16,7 @@ import { PolicyToolbar } from '../../components/Policy/TableToolbar/PolicyTableT
 import Config from '../../config/Config';
 import { usePolicyFilter, usePolicyPage, usePolicyRows } from '../../hooks';
 import { usePolicyToDelete } from '../../hooks/usePolicyToDelete';
-import { Messages } from '../../properties/Messages';
+import { Messages, useFeatureFlag } from '../../properties/Messages';
 import { useGetPoliciesQuery } from '../../services/useGetPolicies';
 import { useMassChangePolicyEnabledMutation } from '../../services/useMassChangePolicyEnabled';
 import { ActionType, Policy } from '../../types/Policy';
@@ -193,6 +193,7 @@ const ListPage: React.FunctionComponent<unknown> = () => {
             getPoliciesQueryReload
         ]
     );
+    const isLightspeedEnabled = useFeatureFlag('platform.lightspeed-rebrand');
 
     return (
         <>
@@ -256,7 +257,7 @@ const ListPage: React.FunctionComponent<unknown> = () => {
                         <PageSection className={ emailOptinPageClassName }>
                             <InsightsEmailOptIn
                                 ouiaId="list-email-required"
-                                content={ Messages.pages.listPage.emailOptIn }
+                                content={ isLightspeedEnabled ? Messages.pages.listPage.emailOptInLightspeed : Messages.pages.listPage.emailOptIn }
                                 insights={ getInsights() }
                                 bundle="rhel"
                             />

@@ -1,6 +1,10 @@
 import { DeepReadonly } from 'ts-essentials';
 
+import { useFeatureFlag } from '../hooks/useFeatureFlag';
 import { ActionType } from '../types/Policy/Actions';
+
+// Re-export useFeatureFlag for convenience
+export { useFeatureFlag };
 
 const actionTypeToText: Record<ActionType, string> = {
     [ActionType.NOTIFICATION]: 'Notification'
@@ -28,6 +32,9 @@ const MutableMessages = {
             emailOptIn: 'One or more of your policies has a notification which may send an email. You can configure these notifications in the ' +
                 '{0} for your organization. In order to receive emails from Insights, opt in to email notifications in your ' +
                 'user preferences.',
+            emailOptInLightspeed: 'One or more of your policies has a notification which may send an email. You can configure ' +
+                'these notifications in the {0} for your organization. In order to receive emails from Red Hat Lightspeed, ' +
+                'opt in to email notifications in your user preferences.',
             emptyState: {
                 title: 'No Policies',
                 text: [
@@ -133,7 +140,9 @@ const MutableMessages = {
             actions: {
                 title: 'Trigger actions',
                 emailOptIn: 'The notification for this policy sends an email from Red Hat Insights.' +
-                    ' To receive emails from Insights, opt in to email notifications in your user preferences.'
+                    ' To receive emails from Insights, opt in to email notifications in your user preferences.',
+                emailOptInLightspeed: 'The notification for this policy sends an email from Red Hat Lightspeed.' +
+                    ' To receive emails from Red Hat Lightspeed, opt in to email notifications in your user preferences.'
             },
             conditions: {
                 title: 'Conditions',
@@ -146,6 +155,8 @@ const MutableMessages = {
             hints: {
                 hintTitle: 'What conditions can I define?',
                 hintParagraph1: 'You can write a condition for any combination of system facts that apply to your Insights inventory systems.',
+                hintParagraph1Lightspeed: 'You can write a condition for any combination of system facts that apply to ' +
+                    'your Red Hat Lightspeed inventory systems.',
                 hintLinkTitle: 'Review available system facts',
                 // hintLinkTitleValue: '', // set this later.
                 hintSyntaxExamplesSection: 'Syntax examples',
