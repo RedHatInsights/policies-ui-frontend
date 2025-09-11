@@ -4,7 +4,7 @@ import * as React from 'react';
 import { style } from 'typestyle';
 
 import Config from '../../../config/Config';
-import { Messages }  from '../../../properties/Messages';
+import { Messages, useFeatureFlag }  from '../../../properties/Messages';
 import { getOuiaProps } from '../../../utils/getOuiaProps';
 
 const codeClass = style({
@@ -21,33 +21,35 @@ const padLeftClassName = style({
 
 // build the text as we expect it to look but this is manual and not automatic
 // We'll need to revisit this later.
-class TextItemExtension extends React.Component {
-    render() {
-        return (
-            <TextContent className={ padLeftClassName } >
-                <Text component={ TextVariants.p }>{ Messages.wizards.policy.hints.hintParagraph1 }</Text>
-                <Text
-                    component={ TextVariants.a }
-                    className={ linkMarginClassName }
-                    href={ Config.pages.factsDocumentation }
-                    target="_blank"
-                    rel='noopener noreferrer'
-                >
-                    { Messages.wizards.policy.hints.hintLinkTitle }
-                </Text>
-                <Text component={ TextVariants.h5 } className="lg">{ Messages.wizards.policy.hints.hintSyntaxExamplesSection }</Text>
-                <Text >{ Messages.wizards.policy.hints.hintQuestion1 }</Text>
-                <Text component={ TextVariants.p } className={ codeClass }><i>{ Messages.wizards.policy.hints.hintQuestion1Ans }</i></Text>
-                <Text >{ Messages.wizards.policy.hints.hintQuestion2 }</Text>
-                <Text component={ TextVariants.p } className={ codeClass }><i>{ Messages.wizards.policy.hints.hintQuestion2Ans }</i></Text>
-                <Text >{ Messages.wizards.policy.hints.hintQuestion3 }</Text>
-                <Text component={ TextVariants.p } className={ codeClass }><i>{ Messages.wizards.policy.hints.hintQuestion3Ans }</i></Text>
-                <Text >{ Messages.wizards.policy.hints.hintQuestion4 }</Text>
-                <Text component={ TextVariants.p } className={ codeClass }><i>{ Messages.wizards.policy.hints.hintQuestion4Ans }</i></Text>
-            </TextContent>
-        );
-    }
-}
+const TextItemExtension: React.FunctionComponent = () => {
+    const isLightspeedEnabled = useFeatureFlag('platform.lightspeed-rebrand');
+    return (
+        <TextContent className={ padLeftClassName } >
+            <Text component={ TextVariants.p }>
+                { isLightspeedEnabled ? Messages.wizards.policy.hints.hintParagraph1Lightspeed : Messages.wizards.policy.hints.hintParagraph1 }
+            </Text>
+            <Text
+                component={ TextVariants.a }
+                className={ linkMarginClassName }
+                href={ Config.pages.factsDocumentation }
+                target="_blank"
+                rel='noopener noreferrer'
+            >
+                { Messages.wizards.policy.hints.hintLinkTitle }
+            </Text>
+            <Text component={ TextVariants.h5 } className="lg">{ Messages.wizards.policy.hints.hintSyntaxExamplesSection }</Text>
+            <Text >{ Messages.wizards.policy.hints.hintQuestion1 }</Text>
+            <Text component={ TextVariants.p } className={ codeClass }><i>{ Messages.wizards.policy.hints.hintQuestion1Ans }</i></Text>
+            <Text >{ Messages.wizards.policy.hints.hintQuestion2 }</Text>
+            <Text component={ TextVariants.p } className={ codeClass }><i>{ Messages.wizards.policy.hints.hintQuestion2Ans }</i></Text>
+            <Text >{ Messages.wizards.policy.hints.hintQuestion3 }</Text>
+            <Text component={ TextVariants.p } className={ codeClass }><i>{ Messages.wizards.policy.hints.hintQuestion3Ans }</i></Text>
+            <Text >{ Messages.wizards.policy.hints.hintQuestion4 }</Text>
+            <Text component={ TextVariants.p } className={ codeClass }><i>{ Messages.wizards.policy.hints.hintQuestion4Ans }</i></Text>
+        </TextContent>
+    );
+};
+
 const Usage: React.FunctionComponent<OuiaComponentProps> = (props) => {
     return (
         <>
