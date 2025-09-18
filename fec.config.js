@@ -48,5 +48,6 @@ module.exports = {
                 `/src/AppEntry`
             )
         }
-    }
+    },
+    frontendCRDPath: 'deploy/frontend.yml'
 };
