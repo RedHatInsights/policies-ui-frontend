@@ -1,4 +1,4 @@
-import { Flex, Icon, PageSection, Popover, Text, TextContent, TextVariants } from '@patternfly/react-core';
+import { Alert, Flex, Icon, PageSection, Popover, Text, TextContent, TextVariants } from '@patternfly/react-core';
 import { ExternalLinkAltIcon, OutlinedQuestionCircleIcon } from '@patternfly/react-icons';
 import { ErrorState, PageHeader, PageHeaderTitle, Section } from '@redhat-cloud-services/frontend-components';
 import AsynComponent from '@redhat-cloud-services/frontend-components/AsyncComponent';
@@ -252,6 +252,18 @@ const ListPage: React.FunctionComponent<unknown> = () => {
                             </React.Fragment>
                         ) } />
                     </PageHeader>
+                    <PageSection>
+                        <Alert
+                            variant="warning"
+                            title="Application Decommissioning Notice"
+                            isInline
+                        >
+                            <p>
+                                This application will be decommissioned on <strong>December 12th, 2025</strong>. 
+                                Please ensure you have exported any necessary data and transitioned to alternative solutions before this date.
+                            </p>
+                        </Alert>
+                    </PageSection>
                     { !appContext.userSettings.isSubscribedForNotifications &&
                         policyRows.rows.find(p => p.actions.find(a => a.type === ActionType.NOTIFICATION)) && (
                         <PageSection className={ emailOptinPageClassName }>
