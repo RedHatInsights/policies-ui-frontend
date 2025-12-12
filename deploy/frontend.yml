@@ -19,47 +19,7 @@ objects:
         paths:
           - /apps/policies
       image: ${IMAGE}:${IMAGE_TAG}
-      feoConfigEnabled: true
-      serviceTiles:
-        - id: policies
-          section: operations
-          group: rhel
-          title: Policies
-          href: /insights/policies
-          description: Monitor your Red Hat Enterprise Linux inventory systems against set parameters to detect deviation or misalignment.
-          icon: InsightsIcon
-      searchEntries:
-        - id: RHEL.policies
-          title: Policies
-          href: /insights/policies
-          description: Monitor your Red Hat Enterprise Linux inventory systems against set parameters to detect deviation or misalignment.
-          alt_title:
-            - policies
-            - facts
-            - conditions
-            - trigger
-            - notifications
-            - alerts
-            - insights
-            - notify
-            - integration
-            - conditions
-            - events
-            - raise alerts on system configuration changes
-      bundleSegments:
-        - segmentId: operations
-          bundleId: insights
-          position: 200
-          navItems:
-            - id: operations
-              title: Operations
-              expandable: true
-              routes:
-                - id: policies
-                  title: Policies
-                  href: /insights/policies
-                  icon: InsightsIcon
-                  product: Red Hat Insights
+      feoConfigEnabled: false
       module:
         manifestLocation: /apps/policies/fed-mods.json
         analytics:
