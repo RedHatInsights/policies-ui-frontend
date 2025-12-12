@@ -1,4 +1,5 @@
-apiVersion: v1
+# yaml-language-server: $schema=https://raw.githubusercontent.com/RedHatInsights/frontend-components/refs/heads/master/packages/config-utils/src/feo/spec/frontend-crd.schema.json
+apiVersion: template.openshift.io/v1
 kind: Template
 metadata:
   name: policies-ui-frontend
@@ -18,19 +19,21 @@ objects:
         paths:
           - /apps/policies
       image: ${IMAGE}:${IMAGE_TAG}
-      navItems:
-        - appId: policies
-          title: Policies
-          href: /insights/policies
+      feoConfigEnabled: false
       module:
         manifestLocation: /apps/policies/fed-mods.json
+        analytics:
+          APIKey: "apRCg9V6oMXCcnTingqRYW6m1er4hkCW"
+        config:
+          supportCaseData:
+            product: Red Hat Insights
+            version: Policies
         modules:
           - id: policies
             module: ./RootApp
             routes:
               - pathname: /insights/policies
               - pathname: /ansible/policies
-        moduleID: policies
 parameters:
   - name: ENV_NAME
     required: true
